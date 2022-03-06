@@ -4,18 +4,20 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.IdRes;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.IdRes;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+
+import com.fastaccess.helper.PrefHelper;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.navigation.NavigationView;
+import androidx.core.view.GravityCompat;
+import androidx.viewpager.widget.ViewPager;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -62,12 +64,10 @@ import net.grandcentrix.thirtyinch.TiActivity;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Optional;
+import butterknife.internal.DebouncingOnClickListener;
 import es.dmoral.toasty.Toasty;
 import io.reactivex.Observable;
+import com.tencent.mmkv.MMKV;
 
 
 /**
@@ -77,11 +77,11 @@ import io.reactivex.Observable;
 public abstract class BaseActivity<V extends BaseMvp.FAView, P extends BasePresenter<V>> extends TiActivity<P, V> implements BaseMvp.FAView {
 
     @State boolean isProgressShowing;
-    @Nullable @BindView(R.id.toolbar) protected Toolbar toolbar;
-    @Nullable @BindView(R.id.appbar) protected AppBarLayout appbar;
-    @Nullable @BindView(R.id.drawer) protected DrawerLayout drawer;
-    @Nullable @BindView(R.id.extrasNav) public NavigationView extraNav;
-    @Nullable @BindView(R.id.drawerViewPager) ViewPager drawerViewPager;
+    @Nullable protected Toolbar toolbar;
+    @Nullable protected AppBarLayout appbar;
+    @Nullable protected DrawerLayout drawer;
+    @Nullable public NavigationView extraNav;
+    @Nullable ViewPager drawerViewPager;
     @State String schemeUrl;
 
     @State Bundle presenterStateBundle = new Bundle();
@@ -99,7 +99,7 @@ public abstract class BaseActivity<V extends BaseMvp.FAView, P extends BasePrese
 
     protected abstract boolean isSecured();
 
-    @Override protected void onSaveInstanceState(Bundle outState) {
+    @Override protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         StateSaver.saveInstanceState(this, outState);
         getPresenter().onSaveInstanceState(presenterStateBundle);
@@ -112,10 +112,32 @@ public abstract class BaseActivity<V extends BaseMvp.FAView, P extends BasePrese
         super.onCreate(savedInstanceState);
         if (layout() != 0) {
             setContentView(layout());
-            ButterKnife.bind(this);
+            butterknife.ButterKnife.bind(this);
+            View itemView = getWindow().getDecorView();
+            this.toolbar = itemView.findViewById((R.id.toolbar));
+            this.appbar = itemView.findViewById((R.id.appbar));
+            this.drawer = itemView.findViewById((R.id.drawer));
+            this.extraNav = itemView.findViewById((R.id.extrasNav));
+            this.drawerViewPager = itemView.findViewById((R.id.drawerViewPager));
+            View view = itemView.findViewById(R.id.logout);
+            BaseActivity<V, P> target = this;
+            if (view != null) {
+                view.setOnClickListener(new DebouncingOnClickListener() {
+                    @Override
+                    public void doClick(View p0) {
+                        target.onLogoutClicked();
+                    }
+                });
+            }
         }
         if (savedInstanceState == null) {
-            getPresenter().onCheckGitHubStatus();
+            long now = System.currentTimeMillis() / 1000;
+            long old = PrefHelper.getLong("github_status_check");
+            if ((now - old) >= 600) {
+                // 10m check
+                getPresenter().onCheckGitHubStatus();
+                PrefHelper.set("github_status_check", now);
+            }
             if (getIntent() != null) {
                 schemeUrl = getIntent().getStringExtra(BundleConstant.SCHEME_URL);
             }
@@ -277,7 +299,7 @@ public abstract class BaseActivity<V extends BaseMvp.FAView, P extends BasePrese
         }
     }
 
-    @Optional @OnClick(R.id.logout) void onLogoutClicked() {
+    void onLogoutClicked() {
         closeDrawer();
         onLogoutPressed();
     }
@@ -544,9 +566,7 @@ public abstract class BaseActivity<V extends BaseMvp.FAView, P extends BasePrese
             FragmentsPagerAdapter adapter = (FragmentsPagerAdapter) drawerViewPager.getAdapter();
             if (adapter != null) {
                 MainDrawerFragment fragment = (MainDrawerFragment) adapter.instantiateItem(drawerViewPager, 0);
-                if (fragment != null) {
-                    return fragment.getMenu();
-                }
+                return fragment.getMenu();
             }
         }
         return null;

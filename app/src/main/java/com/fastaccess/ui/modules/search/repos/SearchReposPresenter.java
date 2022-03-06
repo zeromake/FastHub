@@ -1,7 +1,7 @@
 package com.fastaccess.ui.modules.search.repos;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.View;
 
 import com.fastaccess.R;
@@ -53,8 +53,8 @@ class SearchReposPresenter extends BasePresenter<SearchReposMvp.View> implements
                 response -> {
                     lastPage = response.getLast();
                     sendToView(view -> {
-                        view.onNotifyAdapter(response.isIncompleteResults() ? null : response.getItems(), page);
-                        if (!response.isIncompleteResults()) {
+                        view.onNotifyAdapter(response.getIncompleteResults() ? null : response.getItems(), page);
+                        if (!response.getIncompleteResults()) {
                             view.onSetTabCount(response.getTotalCount());
                         } else {
                             view.onSetTabCount(0);

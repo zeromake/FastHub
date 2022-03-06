@@ -1,9 +1,9 @@
 package com.fastaccess.ui.widgets.recyclerview;
 
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +31,7 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder implemen
         this(itemView, null);
     }
 
-    public BaseViewHolder(@NonNull View itemView, @Nullable BaseRecyclerAdapter adapter) {
+    public BaseViewHolder(@NonNull View itemView, @Nullable BaseRecyclerAdapter<?, ?, ?> adapter) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         this.adapter = adapter;
@@ -41,7 +41,7 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder implemen
 
     @SuppressWarnings("unchecked") @Override public void onClick(View v) {
         if (adapter != null && adapter.getListener() != null) {
-            int position = getAdapterPosition();
+            int position = getAbsoluteAdapterPosition();
             if (position != RecyclerView.NO_POSITION && position < adapter.getItemCount())
                 adapter.getListener().onItemClick(position, v, adapter.getItem(position));
         }
@@ -49,7 +49,7 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder implemen
 
     @SuppressWarnings("unchecked") @Override public boolean onLongClick(View v) {
         if (adapter != null && adapter.getListener() != null) {
-            int position = getAdapterPosition();
+            int position = getAbsoluteAdapterPosition();
             if (position != RecyclerView.NO_POSITION && position < adapter.getItemCount())
                 adapter.getListener().onItemLongClick(position, v, adapter.getItem(position));
         }

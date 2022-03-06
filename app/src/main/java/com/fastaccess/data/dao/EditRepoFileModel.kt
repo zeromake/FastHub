@@ -3,8 +3,6 @@ package com.fastaccess.data.dao
 import android.os.Parcel
 import com.fastaccess.helper.KotlinParcelable
 import com.fastaccess.helper.parcelableCreator
-import com.fastaccess.helper.readBoolean
-import com.fastaccess.helper.writeBoolean
 
 /**
  * Created by Hashemsergani on 01/09/2017.
@@ -18,14 +16,14 @@ data class EditRepoFileModel(val login: String,
                              val fileName: String?,
                              val isEdit: Boolean) : KotlinParcelable {
     constructor(parcel: Parcel) : this(
+            parcel.readString()!!,
+            parcel.readString()!!,
+            parcel.readString(),
+            parcel.readString()!!,
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
-            parcel.readString(),
-            parcel.readString(),
-            parcel.readString(),
-            parcel.readString(),
-            parcel.readBoolean())
+            parcel.readByte().toInt() == 1 )
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
         writeString(login)
@@ -35,7 +33,7 @@ data class EditRepoFileModel(val login: String,
         writeString(sha)
         writeString(contentUrl)
         writeString(fileName)
-        writeBoolean(isEdit)
+        writeByte(if(isEdit) 1 else 0)
     }
 
     companion object {

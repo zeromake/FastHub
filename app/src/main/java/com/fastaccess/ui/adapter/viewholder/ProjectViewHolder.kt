@@ -8,7 +8,7 @@ import com.fastaccess.helper.ParseDateFormat
 import com.fastaccess.ui.widgets.FontTextView
 import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter
 import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
-import github.RepoProjectsOpenQuery
+import com.fastaccess.github.RepoProjectsOpenQuery
 
 /**
  * Created by kosh on 09/09/2017.
@@ -20,14 +20,14 @@ class ProjectViewHolder(view: View, adapter: BaseRecyclerAdapter<*, *, *>) : Bas
     @BindView(R.id.date) lateinit var date: FontTextView
 
     override fun bind(t: RepoProjectsOpenQuery.Node) {
-        title.text = t.name()
-        if (t.body().isNullOrBlank()) {
+        title.text = t.name
+        if (t.body.isNullOrBlank()) {
             description.visibility = View.GONE
         } else {
             description.visibility = View.VISIBLE
-            description.text = t.body()
+            description.text = t.body
         }
-        date.text = ParseDateFormat.getTimeAgo(t.createdAt().toString())
+        date.text = ParseDateFormat.getTimeAgo(t.createdAt.toString())
     }
 
     companion object {

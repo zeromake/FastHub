@@ -2,7 +2,7 @@ package com.fastaccess.data.dao.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.fastaccess.App;
@@ -25,13 +25,12 @@ import io.requery.Entity;
 import io.requery.Key;
 import io.requery.Nullable;
 import io.requery.Persistable;
-import lombok.NoArgsConstructor;
 
 /**
  * Created by Kosh on 16 Mar 2017, 7:29 PM
  */
 
-@Entity @NoArgsConstructor public abstract class AbstractEvent implements Parcelable {
+@Entity public abstract class AbstractEvent implements Parcelable {
     @Key long id;
     EventsType type;
     Date createdAt;
@@ -40,9 +39,10 @@ import lombok.NoArgsConstructor;
     @Convert(PayloadConverter.class) PayloadModel payload;
     @SerializedName("public") boolean publicEvent;
     @Nullable String login;
+    public AbstractEvent() {}
 
     @NonNull
-    public static Disposable save(@android.support.annotation.Nullable List<Event> events, @android.support.annotation.Nullable String user) {
+    public static Disposable save(@androidx.annotation.Nullable List<Event> events, @androidx.annotation.Nullable String user) {
         return RxHelper.getSingle(Single.fromPublisher(s -> {
             try {
                 Login login = Login.getUser();

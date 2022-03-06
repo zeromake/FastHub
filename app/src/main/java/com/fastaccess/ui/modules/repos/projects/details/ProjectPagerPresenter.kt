@@ -47,12 +47,14 @@ class ProjectPagerPresenter : BasePresenter<ProjectPagerMvp.View>(), ProjectPage
                             return@flatMap Observable.just(it.items)
                         }
                         return@flatMap Observable.just(listOf<ProjectColumnModel>())
-                    },
-                    { t ->
-                        columns.clear()
-                        columns.addAll(t)
-                        sendToView { it.onInitPager(columns) }
-                    })
+                    }
+            ) { t ->
+                columns.clear()
+                if (t != null) {
+                    columns.addAll(t)
+                }
+                sendToView { it.onInitPager(columns) }
+            }
         } else {
             makeRestCall(RestProvider.getProjectsService(isEnterprise).getProjectColumns(projectId)
                     .flatMap {
@@ -60,21 +62,23 @@ class ProjectPagerPresenter : BasePresenter<ProjectPagerMvp.View>(), ProjectPage
                             return@flatMap Observable.just(it.items)
                         }
                         return@flatMap Observable.just(listOf<ProjectColumnModel>())
-                    },
-                    { t ->
-                        columns.clear()
-                        columns.addAll(t)
-                        sendToView { it.onInitPager(columns) }
-                    })
+                    }
+            ) { t ->
+                columns.clear()
+                if (t != null) {
+                    columns.addAll(t)
+                }
+                sendToView { it.onInitPager(columns) }
+            }
         }
     }
 
     override fun onActivityCreated(intent: Intent?) {
         intent?.let {
-            it.extras?.let {
+            it.extras?.let {it ->
                 projectId = it.getLong(BundleConstant.ID)
                 repoId = it.getString(BundleConstant.ITEM)
-                login = it.getString(BundleConstant.EXTRA)
+                login = it.getString(BundleConstant.EXTRA)!!
             }
         }
         if (columns.isEmpty()) {

@@ -1,5 +1,6 @@
 package com.fastaccess.provider.rest.interceptors
 
+import com.fastaccess.exception.AuthNullOrBlankException
 import com.fastaccess.helper.Logger
 import com.fastaccess.helper.PrefGetter
 import com.fastaccess.provider.scheme.LinkParserHelper
@@ -24,14 +25,21 @@ class AuthenticationInterceptor : Interceptor {
     @Throws(IOException::class) override fun intercept(chain: Interceptor.Chain): Response {
         val original = chain.request()
         val builder = original.newBuilder()
-        val isEnterprise = LinkParserHelper.isEnterprise(original.url().host())
+        val isEnterprise = LinkParserHelper.isEnterprise(original.url.host)
         val authToken = if (token.isNullOrBlank()) if (isEnterprise) PrefGetter.getEnterpriseToken() else PrefGetter.getToken() else token
         val otpCode = if (otp.isNullOrBlank()) if (isEnterprise) PrefGetter.getEnterpriseOtpCode() else PrefGetter.getOtpCode() else otp
+
+        var hasAuth = false
         if (!authToken.isNullOrBlank()) {
-            builder.header("Authorization", if (authToken!!.startsWith("Basic")) authToken else "token " + authToken)
+            builder.header("Authorization", if (authToken.startsWith("Basic")) authToken else "token $authToken")
+            hasAuth = true
         }
         if (!otpCode.isNullOrBlank()) {
-            builder.addHeader("X-GitHub-OTP", otpCode!!.trim())
+            builder.addHeader("X-GitHub-OTP", otpCode.trim())
+            hasAuth = true
+        }
+        if (!hasAuth && original.url.host == "api.github.com" && original.url.pathSegments.last() == "user") {
+            throw AuthNullOrBlankException()
         }
         if (!isScrapping) builder.addHeader("User-Agent", "FastHub")
         val request = builder.build()

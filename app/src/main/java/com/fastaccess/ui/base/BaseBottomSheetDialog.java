@@ -3,12 +3,12 @@ package com.fastaccess.ui.base;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.BottomSheetDialogFragment;
-import android.support.v7.view.ContextThemeWrapper;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import androidx.appcompat.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +18,8 @@ import android.view.ViewTreeObserver;
 import com.evernote.android.state.StateSaver;
 import com.fastaccess.R;
 import com.fastaccess.helper.ViewHelper;
+
+import java.util.Objects;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -53,7 +55,7 @@ import butterknife.Unbinder;
         super.onViewCreated(view, savedInstanceState);
     }
 
-    @Override public void onSaveInstanceState(Bundle outState) {
+    @Override public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         StateSaver.saveInstanceState(this, outState);
     }
@@ -66,27 +68,25 @@ import butterknife.Unbinder;
     }
 
     @Nullable @Override public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final Context contextThemeWrapper = new ContextThemeWrapper(getContext(), getContext().getTheme());
+        final Context contextThemeWrapper = new ContextThemeWrapper(getContext(), requireContext().getTheme());
         LayoutInflater themeAwareInflater = inflater.cloneInContext(contextThemeWrapper);
         View view = themeAwareInflater.inflate(layoutRes(), container, false);
         unbinder = ButterKnife.bind(this, view);
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override public void onGlobalLayout() {
                 view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                View parent = getDialog().findViewById(R.id.design_bottom_sheet);
+                View parent = Objects.requireNonNull(getDialog()).findViewById(R.id.design_bottom_sheet);
                 if (parent != null) {
                     bottomSheetBehavior = BottomSheetBehavior.from(parent);
-                    if (bottomSheetBehavior != null) {
-                        bottomSheetBehavior.setBottomSheetCallback(bottomSheetCallback);
-                        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                    }
+                    bottomSheetBehavior.addBottomSheetCallback(bottomSheetCallback);
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 }
             }
         });
         return view;
     }
 
-    @Override public void setupDialog(Dialog dialog, int style) {
+    @Override public void setupDialog(@NonNull Dialog dialog, int style) {
         super.setupDialog(dialog, style);
     }
 
@@ -98,7 +98,7 @@ import butterknife.Unbinder;
     @NonNull @Override public Dialog onCreateDialog(Bundle savedInstanceState) {
         final Dialog dialog = super.onCreateDialog(savedInstanceState);
         dialog.setOnShowListener(dialogInterface -> {
-            if (ViewHelper.isTablet(getActivity())) {
+            if (ViewHelper.isTablet(requireActivity())) {
                 if (dialog.getWindow() != null) {
                     dialog.getWindow().setLayout(
                             ViewGroup.LayoutParams.WRAP_CONTENT,

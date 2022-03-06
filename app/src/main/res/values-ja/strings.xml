@@ -415,7 +415,7 @@
     <string name="projects">プロジェクト</string>
     <string name="no_projects">プロジェクトがありません</string>
     <string name="no_cards">カードがありません</string>
-    <string name="card_added_by">%s %s によって追加されました</string>
+    <string name="card_added_by" formatted="false">%s %s によって追加されました</string>
     <string name="too_large_changes">変更箇所が多すぎて表示できません。ブラウザを使ってご覧ください。</string>
     <string name="project">Project</string>
     <string name="please_read">お読みください！</string>

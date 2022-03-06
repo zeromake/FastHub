@@ -4,11 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import com.fastaccess.BuildConfig
 import com.fastaccess.R
 import com.fastaccess.helper.*
-import com.fastaccess.provider.fabric.FabricProvider
 import com.fastaccess.ui.base.BaseActivity
 import com.fastaccess.ui.base.mvp.BaseMvp
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
@@ -39,15 +38,15 @@ class DonateActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FAView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val bundle: Bundle = intent.extras
-        val productKey = bundle.getString(BundleConstant.EXTRA)
+        val bundle: Bundle = intent.extras!!
+        val productKey = bundle.getString(BundleConstant.EXTRA)!!
         val price = bundle.getLong(BundleConstant.EXTRA_FOUR, 0)
         val priceText = bundle.getString(BundleConstant.EXTRA_FIVE)
         subscription = RxHelper.getSingle<Purchase>(RxBillingService.getInstance(this, BuildConfig.DEBUG)
-                .purchase(ProductType.IN_APP, productKey, "inapp:com.fastaccess.github:" + productKey))
-                .subscribe({ _: Purchase?, throwable: Throwable? ->
+                .purchase(ProductType.IN_APP, productKey, "inapp:com.fastaccess.github:$productKey"))
+                .subscribe { _: Purchase?, throwable: Throwable? ->
                     if (throwable == null) {
-                        FabricProvider.logPurchase(productKey, price, priceText)
+//                        FabricProvider.logPurchase(productKey, price, priceText)
                         showMessage(R.string.success, R.string.success_purchase_message)
                         enableProduct(productKey, applicationContext)
                         val intent = Intent()
@@ -70,7 +69,7 @@ class DonateActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FAView
                         throwable.printStackTrace()
                     }
                     finish()
-                })
+                }
     }
 
     override fun onDestroy() {

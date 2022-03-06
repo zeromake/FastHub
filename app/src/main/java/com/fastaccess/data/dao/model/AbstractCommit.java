@@ -2,7 +2,7 @@ package com.fastaccess.data.dao.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.fastaccess.App;
 import com.fastaccess.data.dao.CommitFileListModel;
@@ -32,7 +32,6 @@ import io.requery.Key;
 import io.requery.Nullable;
 import io.requery.Persistable;
 import io.requery.Table;
-import lombok.NoArgsConstructor;
 
 import static com.fastaccess.data.dao.model.Commit.ID;
 import static com.fastaccess.data.dao.model.Commit.LOGIN;
@@ -40,7 +39,7 @@ import static com.fastaccess.data.dao.model.Commit.PULL_REQUEST_NUMBER;
 import static com.fastaccess.data.dao.model.Commit.REPO_ID;
 import static com.fastaccess.data.dao.model.Commit.SHA;
 
-@Entity @NoArgsConstructor @Table(name = "commit_table")
+@Entity @Table(name = "commit_table")
 public abstract class AbstractCommit implements Parcelable {
     @Key @Generated long id;
     String url;
@@ -171,6 +170,9 @@ public abstract class AbstractCommit implements Parcelable {
         dest.writeParcelable(this.user, flags);
         dest.writeInt(this.commentCount);
     }
+
+
+    public AbstractCommit() {}
 
     protected AbstractCommit(Parcel in) {
         this.id = in.readLong();

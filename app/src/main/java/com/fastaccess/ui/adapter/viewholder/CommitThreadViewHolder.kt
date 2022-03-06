@@ -54,7 +54,7 @@ class CommitThreadViewHolder private constructor(view: View,
                     } else {
                         " "
                     })
-                    .url(it.commitId.substring(0, 7))
+                    .url(it.commitId?.substring(0, 7)!!)
             it.comments?.let {
                 if (!it.isEmpty()) commitComments.adapter = CommitCommentsAdapter(it, this, onToggleView)
             }

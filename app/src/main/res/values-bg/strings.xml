@@ -426,7 +426,7 @@
     <string name="projects">Проекти</string>
     <string name="no_projects">Няма проекти</string>
     <string name="no_cards">Няма карти</string>
-    <string name="card_added_by">Добавено от %s %s</string>
+    <string name="card_added_by" formatted="false">Добавено от %s %s</string>
     <string name="too_large_changes">Има твърде много разлики, за да бъдат показани всички. Моля, използвай браузър.</string>
     <string name="project">Проекти</string>
     <string name="please_read">МОЛЯ ПРОЧЕТИ!</string>

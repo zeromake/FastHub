@@ -3,11 +3,11 @@ package com.fastaccess.ui.base;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.v7.view.ContextThemeWrapper;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.appcompat.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +36,7 @@ public abstract class BaseFragment<V extends BaseMvp.FAView, P extends BasePrese
 
     protected abstract void onFragmentCreated(@NonNull View view, @Nullable Bundle savedInstanceState);
 
-    @Override public void onAttach(Context context) {
+    @Override public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof BaseMvp.FAView) {
             callback = (BaseMvp.FAView) context;
@@ -48,7 +48,7 @@ public abstract class BaseFragment<V extends BaseMvp.FAView, P extends BasePrese
         callback = null;
     }
 
-    @Override public void onSaveInstanceState(Bundle outState) {
+    @Override public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         StateSaver.saveInstanceState(this, outState);
         getPresenter().onSaveInstanceState(outState);
@@ -64,7 +64,7 @@ public abstract class BaseFragment<V extends BaseMvp.FAView, P extends BasePrese
     }
 
     @SuppressLint("RestrictedApi") @Nullable @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (fragmentLayout() != 0) {
             final Context contextThemeWrapper = new ContextThemeWrapper(getContext(), getContext().getTheme());
             LayoutInflater themeAwareInflater = inflater.cloneInContext(contextThemeWrapper);

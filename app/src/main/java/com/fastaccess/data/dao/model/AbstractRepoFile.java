@@ -2,7 +2,7 @@ package com.fastaccess.data.dao.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.fastaccess.App;
 import com.fastaccess.data.dao.types.FilesType;
@@ -17,7 +17,7 @@ import io.requery.Generated;
 import io.requery.Key;
 import io.requery.Persistable;
 import io.requery.reactivex.ReactiveEntityStore;
-import lombok.NoArgsConstructor;
+
 
 import static com.fastaccess.data.dao.model.RepoFile.LOGIN;
 import static com.fastaccess.data.dao.model.RepoFile.REPO_ID;
@@ -28,7 +28,7 @@ import static com.fastaccess.data.dao.model.RepoFile.TYPE;
  * Created by Kosh on 16 Mar 2017, 7:53 PM
  */
 
-@Entity @NoArgsConstructor public abstract class AbstractRepoFile implements Parcelable {
+@Entity public abstract class AbstractRepoFile implements Parcelable {
     @Key @Generated long id;
     String name;
     String path;
@@ -42,6 +42,8 @@ import static com.fastaccess.data.dao.model.RepoFile.TYPE;
     String repoId;
     String login;
 
+    public AbstractRepoFile() {
+    }
 
     public Single<RepoFile> save(RepoFile entity) {
         return RxHelper.getSingle(App.getInstance().getDataStore().insert(entity));

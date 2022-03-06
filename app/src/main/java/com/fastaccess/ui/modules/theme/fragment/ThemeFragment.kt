@@ -5,8 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
-import android.support.v7.widget.Toolbar
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.appcompat.widget.Toolbar
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
@@ -37,7 +37,7 @@ class ThemeFragment : BaseFragment<ThemeFragmentMvp.View, ThemeFragmentPresenter
     private var theme: Int = 0
     private var themeListener: ThemeFragmentMvp.ThemeListener? = null
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         themeListener = context as ThemeFragmentMvp.ThemeListener
     }
@@ -61,7 +61,7 @@ class ThemeFragment : BaseFragment<ThemeFragmentMvp.View, ThemeFragmentPresenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        theme = arguments!!.getInt(BundleConstant.ITEM)
+        theme = requireArguments().getInt(BundleConstant.ITEM)
         val contextThemeWrapper = ContextThemeWrapper(activity, theme)
         primaryDarkColor = ViewHelper.getPrimaryDarkColor(contextThemeWrapper)
         val localInflater = inflater.cloneInContext(contextThemeWrapper)

@@ -3,28 +3,29 @@ package com.fastaccess.data.dao.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.fastaccess.App;
 
 import java.util.Date;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import io.reactivex.Observable;
 import io.requery.Column;
 import io.requery.Entity;
 import io.requery.Generated;
 import io.requery.Key;
-import lombok.NoArgsConstructor;
 
 /**
  * Created by Kosh on 11.11.17.
  */
-@Entity @NoArgsConstructor public class AbstractFastHubNotification implements Parcelable {
+@Entity public class AbstractFastHubNotification implements Parcelable {
 
     public enum NotificationType {
         UPDATE, GUIDE, PURCHASE, REPORT_ISSUE, PROMOTION, STAR_REPO
     }
+
+    public AbstractFastHubNotification() {}
 
     @Generated @Key long id;
     @io.requery.Nullable @Column(name = "notification_date") Date date;
@@ -33,15 +34,16 @@ import lombok.NoArgsConstructor;
     @io.requery.Nullable String title;
     @io.requery.Nullable NotificationType type;
 
-    public static void update(@Nonnull FastHubNotification notification) {
+    public static void update(@NonNull FastHubNotification notification) {
         App.getInstance().getDataStore().toBlocking().update(notification);
     }
 
-    public static void save(@Nonnull FastHubNotification notification) {
+    public static void save(@NonNull FastHubNotification notification) {
         App.getInstance().getDataStore().toBlocking().insert(notification);
     }
 
-    @Nullable public static FastHubNotification getLatest() {
+    @Nullable
+    public static FastHubNotification getLatest() {
         return App.getInstance().getDataStore().toBlocking()
                 .select(FastHubNotification.class)
                 .where(FastHubNotification.READ.eq(false))
@@ -51,7 +53,8 @@ import lombok.NoArgsConstructor;
                 .firstOrNull();
     }
 
-    @Nonnull public static Observable<FastHubNotification> getNotifications() {
+    @Nullable
+    public static Observable<FastHubNotification> getNotifications() {
         return App.getInstance().getDataStore()
                 .select(FastHubNotification.class)
                 .orderBy(FastHubNotification.DATE.desc())

@@ -2,8 +2,8 @@ package com.fastaccess.data.dao.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.fastaccess.App;
 import com.fastaccess.helper.RxHelper;
@@ -20,7 +20,6 @@ import io.requery.Key;
 import io.requery.Persistable;
 import io.requery.Table;
 import io.requery.Transient;
-import lombok.NoArgsConstructor;
 
 import static com.fastaccess.data.dao.model.User.FOLLOWER_NAME;
 import static com.fastaccess.data.dao.model.User.FOLLOWING_NAME;
@@ -31,7 +30,7 @@ import static com.fastaccess.data.dao.model.User.LOGIN;
  * Created by Kosh on 16 Mar 2017, 7:55 PM
  */
 
-@Entity @NoArgsConstructor @Table(name = "user_table")
+@Entity @Table(name = "user_table")
 public abstract class AbstractUser implements Parcelable {
     @Key long id;
     String login;
@@ -70,6 +69,8 @@ public abstract class AbstractUser implements Parcelable {
     String repoId;
     String description;
     @Transient boolean hasOrganizationProjects;
+
+    public AbstractUser() {}
 
     public void save(User entity) {
         if (getUser(entity.getId()) != null) {

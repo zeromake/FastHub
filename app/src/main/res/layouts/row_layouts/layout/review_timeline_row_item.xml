@@ -22,7 +22,7 @@
         android:scaleType="centerCrop"
         tools:src="@drawable/ic_issue_opened"/>
 
-    <android.support.design.internal.ForegroundLinearLayout
+    <com.google.android.material.internal.ForegroundLinearLayout
         android:id="@+id/reviewHolder"
         style="?timeLineBackground"
         android:layout_width="match_parent"
@@ -78,5 +78,5 @@
                 tools:text="For a divided large loaf, add some champaign and cinnamon."
                 tools:visibility="visible"/>
         </LinearLayout>
-    </android.support.design.internal.ForegroundLinearLayout>
+    </com.google.android.material.internal.ForegroundLinearLayout>
 </com.fastaccess.ui.widgets.ForegroundRelativeLayout>

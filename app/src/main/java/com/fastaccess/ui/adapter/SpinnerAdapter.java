@@ -1,7 +1,7 @@
 package com.fastaccess.ui.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +19,8 @@ import butterknife.ButterKnife;
 
 public class SpinnerAdapter<O> extends BaseAdapter {
 
-    private List<O> data;
-    private Context context;
+    private final List<O> data;
+    private final Context context;
 
     public SpinnerAdapter(@NonNull Context context, @NonNull List<O> branches) {
         this.data = branches;
@@ -65,10 +65,10 @@ public class SpinnerAdapter<O> extends BaseAdapter {
     }
 
     static class ViewHolder {
-        @BindView(android.R.id.text1) TextView title;
+        TextView title;
 
         ViewHolder(View view) {
-            ButterKnife.bind(this, view);
+            this.title = view.findViewById(android.R.id.text1);
         }
     }
 }

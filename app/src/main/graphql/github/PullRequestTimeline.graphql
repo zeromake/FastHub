@@ -16,6 +16,17 @@ query PullRequestTimeline($owner: String!, $name: String!, $number: Int!, $page:
           }
         }
       }
+      timelineItems(first: 30 after: $page) {
+        edges {
+          cursor
+        }
+        pageInfo {
+          hasNextPage
+          startCursor
+          endCursor
+        }
+        totalCount
+      }
       timeline(first: 30 after: $page) {
         edges {
           cursor
@@ -62,7 +73,7 @@ query PullRequestTimeline($owner: String!, $name: String!, $number: Int!, $page:
                   reactionGroups {
                     viewerHasReacted
                     content
-                    users {
+                    reactors {
                       totalCount
                     }
                   }
@@ -108,7 +119,7 @@ query PullRequestTimeline($owner: String!, $name: String!, $number: Int!, $page:
                   reactionGroups {
                     viewerHasReacted
                     content
-                    users {
+                    reactors {
                       totalCount
                     }
                   }
@@ -135,22 +146,19 @@ query PullRequestTimeline($owner: String!, $name: String!, $number: Int!, $page:
             reactionGroups {
               viewerHasReacted
               content
-              users {
+              reactors {
                 totalCount
               }
             }
           }
           ... on ClosedEvent {
+            id
+            url
             createdAt
             actor {
               login
               avatarUrl
               url
-            }
-            commit {
-              oid
-              url
-              messageHeadline
             }
           }
           ... on ReopenedEvent {
@@ -193,7 +201,6 @@ query PullRequestTimeline($owner: String!, $name: String!, $number: Int!, $page:
               oid
             }
             subject {
-              __typename
               ... on Issue {
                 title
                 number
@@ -212,10 +219,27 @@ query PullRequestTimeline($owner: String!, $name: String!, $number: Int!, $page:
               avatarUrl
               url
             }
-            user {
-              avatarUrl
-              login
-              url
+            assignee {
+              ...on User {
+                avatarUrl
+                login
+                url
+              }
+              ... on Bot {
+                avatarUrl
+                login
+                url
+              }
+              ... on Mannequin {
+                avatarUrl
+                login
+                url
+              }
+              ... on Organization {
+                avatarUrl
+                login
+                url
+              }
             }
           }
           ... on UnassignedEvent {
@@ -443,10 +467,20 @@ query PullRequestTimeline($owner: String!, $name: String!, $number: Int!, $page:
               login
               url
             }
-            subject {
-              avatarUrl
-              login
-              url
+            requestedReviewer {
+              ... on User {
+                login
+                name
+                url
+              }
+              ... on Team {
+                name
+                url
+              }
+              ... on Mannequin {
+                login
+                url
+              }
             }
           }
           ... on ReviewRequestRemovedEvent {
@@ -457,16 +491,29 @@ query PullRequestTimeline($owner: String!, $name: String!, $number: Int!, $page:
               login
               url
             }
-            subject {
-              avatarUrl
-              login
-              url
+            requestedReviewer {
+              ... on User {
+                avatarUrl
+                login
+                name
+                url
+              }
+              ... on Team {
+                avatarUrl
+                name
+                url
+              }
+              ... on Mannequin {
+                avatarUrl
+                login
+                url
+              }
             }
           }
           ... on ReviewDismissedEvent {
             id
             createdAt
-            messageHtml
+            dismissalMessageHTML
             previousReviewState
             review {
               id
@@ -500,7 +547,7 @@ query PullRequestTimeline($owner: String!, $name: String!, $number: Int!, $page:
                     reactionGroups {
                       viewerHasReacted
                       content
-                      users {
+                      reactors {
                         totalCount
                       }
                     }

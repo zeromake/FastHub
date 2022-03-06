@@ -37,21 +37,21 @@ class BranchesPresenter : BasePresenter<BranchesMvp.View>(), BranchesMvp.Present
                 .getTags(login, repoId, page) else RestProvider.getRepoService(isEnterprise)
                 .getBranches(login, repoId, page)
         return makeRestCall(observable
-                .flatMap({ t: Pageable<BranchesModel>? ->
+                .flatMap { t: Pageable<BranchesModel>? ->
                     val list = ArrayList<BranchesModel>()
                     if (t != null) {
                         lastPage = t.last
-                        t.items.onEach {
+                        t.items?.onEach {
                             it.isTag = !isBranch
                             list.add(it)
                         }
                     }
                     return@flatMap Observable.just(list)
-                }), { items -> sendToView { v -> v.onNotifyAdapter(items, page) } })
+                }) { items -> sendToView { v -> v.onNotifyAdapter(items, page) } }
     }
 
     override fun onItemClick(position: Int, v: View?, item: BranchesModel?) {
-        sendToView({ it.onBranchSelected(item) })
+        sendToView { it.onBranchSelected(item) }
     }
 
     override fun onItemLongClick(position: Int, v: View?, item: BranchesModel?) {}

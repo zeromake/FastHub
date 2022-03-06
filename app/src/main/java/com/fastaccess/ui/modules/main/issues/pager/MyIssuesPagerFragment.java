@@ -1,10 +1,10 @@
 package com.fastaccess.ui.modules.main.issues.pager;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import com.google.android.material.tabs.TabLayout;
+import androidx.viewpager.widget.ViewPager;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.PopupMenu;
@@ -49,7 +49,7 @@ public class MyIssuesPagerFragment extends BaseFragment<MyIssuesPagerMvp.View, M
 
     @Override protected void onFragmentCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         FragmentsPagerAdapter adapter = new FragmentsPagerAdapter(getChildFragmentManager(),
-                FragmentPagerAdapterModel.buildForMyIssues(getContext()));
+                FragmentPagerAdapterModel.buildForMyIssues(requireContext()));
         pager.setAdapter(adapter);
         //noinspection deprecation
         tabs.setTabsFromPagerAdapter(adapter);

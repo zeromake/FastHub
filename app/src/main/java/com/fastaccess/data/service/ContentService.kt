@@ -1,8 +1,11 @@
 package com.fastaccess.data.service
 
+import com.fastaccess.BuildConfig
 import com.fastaccess.data.dao.CommitRequestModel
 import com.fastaccess.data.dao.GitCommitModel
 import com.fastaccess.data.dao.GitHubStatusModel
+import com.fastaccess.data.dao.GithubStatusComponentsModel
+import com.fastaccess.data.dao.converters.GithubStatusComponentsConverter
 import io.reactivex.Observable
 import retrofit2.http.*
 
@@ -25,6 +28,6 @@ interface ContentService {
                    @Query("branch") branch: String,
                    @Body body: CommitRequestModel): Observable<GitCommitModel>
 
-    @GET("api/last-message.json")
-    fun checkStatus(): Observable<GitHubStatusModel>
+    @GET(BuildConfig.GITHUB_STATUS_COMPONENTS_PATH)
+    fun checkStatus(): Observable<GithubStatusComponentsModel>
 }

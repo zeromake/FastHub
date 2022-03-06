@@ -2,7 +2,7 @@ package com.fastaccess.ui.modules.main.drawer
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.NavigationView
+import com.google.android.material.navigation.NavigationView
 import android.view.MenuItem
 import android.view.View
 import com.fastaccess.R
@@ -45,11 +45,11 @@ class MainDrawerFragment : BaseFragment<MainMvp.View, BasePresenter<MainMvp.View
         if (item.isChecked) return false
         mainNav.postDelayed({
             if (!activity.isFinishing()) {
-                when {
-                    item.itemId == R.id.navToRepo -> activity.onNavToRepoClicked()
-                    item.itemId == R.id.gists -> GistsListActivity.startActivity(activity)
-                    item.itemId == R.id.pinnedMenu -> PinnedReposActivity.startActivity(activity)
-                    item.itemId == R.id.mainView -> {
+                when (item.itemId) {
+                    R.id.navToRepo -> activity.onNavToRepoClicked()
+                    R.id.gists -> GistsListActivity.startActivity(activity)
+                    R.id.pinnedMenu -> PinnedReposActivity.startActivity(activity)
+                    R.id.mainView -> {
                         if (activity !is MainActivity) {
                             val intent = Intent(activity, MainActivity::class.java)
                             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -57,17 +57,17 @@ class MainDrawerFragment : BaseFragment<MainMvp.View, BasePresenter<MainMvp.View
                             activity.finish()
                         }
                     }
-                    item.itemId == R.id.profile -> userModel?.let {
+                    R.id.profile -> userModel?.let {
                         UserPagerActivity.startActivity(activity, it.login, false, PrefGetter.isEnterprise(), 0)
                     }
-                    item.itemId == R.id.settings -> activity.onOpenSettings()
-                    item.itemId == R.id.about -> activity.startActivity(Intent(activity, FastHubAboutActivity::class.java))
-                    item.itemId == R.id.orgs -> activity.onOpenOrgsDialog()
-                    item.itemId == R.id.notifications -> activity.startActivity(Intent(activity, NotificationActivity::class.java))
-                    item.itemId == R.id.trending -> activity.startActivity(Intent(activity, TrendingActivity::class.java))
-                    item.itemId == R.id.reportBug -> activity.startActivity(CreateIssueActivity.startForResult(activity))
-                    item.itemId == R.id.faq -> activity.startActivity(Intent(activity, PlayStoreWarningActivity::class.java))
-                    item.itemId == R.id.restorePurchase -> activity.startActivity(Intent(activity, CheckPurchaseActivity::class.java))
+                    R.id.settings -> activity.onOpenSettings()
+                    R.id.about -> activity.startActivity(Intent(activity, FastHubAboutActivity::class.java))
+                    R.id.orgs -> activity.onOpenOrgsDialog()
+                    R.id.notifications -> activity.startActivity(Intent(activity, NotificationActivity::class.java))
+                    R.id.trending -> activity.startActivity(Intent(activity, TrendingActivity::class.java))
+                    R.id.reportBug -> activity.startActivity(CreateIssueActivity.startForResult(activity))
+                    R.id.faq -> activity.startActivity(Intent(activity, PlayStoreWarningActivity::class.java))
+                    R.id.restorePurchase -> activity.startActivity(Intent(activity, CheckPurchaseActivity::class.java))
                 }
             }
         }, 250)

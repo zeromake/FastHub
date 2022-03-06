@@ -4,9 +4,9 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.annotation.StringRes
-import android.support.transition.TransitionManager
-import android.support.v4.app.FragmentManager
+import androidx.annotation.StringRes
+import androidx.transition.TransitionManager
+import androidx.fragment.app.FragmentManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -202,7 +202,7 @@ class EditorActivity : BaseActivity<EditorMvp.View, EditorPresenter>(), EditorMv
     private fun onCreate() {
         val intent = intent
         if (intent != null && intent.extras != null) {
-            val bundle = intent.extras
+            val bundle = intent.extras!!
             extraType = bundle.getString(BundleConstant.EXTRA_TYPE)
             reviewComment = bundle.getParcelable(BundleConstant.REVIEW_EXTRA)
             itemId = bundle.getString(BundleConstant.ID)

@@ -427,7 +427,7 @@
     <string name="projects">Projetos</string>
     <string name="no_projects">Sem Projetos</string>
     <string name="no_cards">Sem Cartões</string>
-    <string name="card_added_by">Adicionado por %s %s</string>
+    <string name="card_added_by" formatted="false">Adicionado por %s %s</string>
     <string name="too_large_changes">Muitas diferenças para exibir. Por favor, veja-os via navegador</string>
     <string name="project">Projeto</string>
     <string name="please_read">POR FAVOR LEIA!</string>

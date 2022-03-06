@@ -73,13 +73,13 @@ class SearchUserActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FA
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
-            val args = intent.extras
-            username = args.getString(USERNAME)
+            val args = intent.extras!!
+            username = args.getString(USERNAME)!!
             if (InputHelper.isEmpty(username)) {
                 finish()
                 return
             }
-            searchTerm = args.getString(SEARCH_TERM)
+            searchTerm = args.getString(SEARCH_TERM)!!
             supportFragmentManager.beginTransaction()
                     .replace(R.id.containerFragment, SearchReposFragment.newInstance(), "SearchReposFragment")
                     .commit()
@@ -96,8 +96,8 @@ class SearchUserActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FA
     private fun getFragment() = AppHelper.getFragmentByTag(supportFragmentManager, "SearchReposFragment") as? SearchReposFragment?
 
     companion object {
-        val USERNAME = "username"
-        val SEARCH_TERM = "search"
+        const val USERNAME = "username"
+        const val SEARCH_TERM = "search"
 
         fun getIntent(context: Context, username: String, searchTerm: String?): Intent {
             val intent = Intent(context, SearchUserActivity::class.java)

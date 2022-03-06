@@ -1,6 +1,8 @@
 package com.fastaccess.ui.adapter.viewholder;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
+
+import android.content.res.Resources;
 import android.text.format.Formatter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +15,6 @@ import com.fastaccess.ui.widgets.ForegroundImageView;
 import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter;
 import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder;
 
-import butterknife.BindString;
-import butterknife.BindView;
 
 /**
  * Created by Kosh on 15 Feb 2017, 10:29 PM
@@ -22,11 +22,11 @@ import butterknife.BindView;
 
 public class RepoFilesViewHolder extends BaseViewHolder<RepoFile> {
 
-    @BindView(R.id.contentTypeImage) ForegroundImageView contentTypeImage;
-    @BindView(R.id.title) FontTextView title;
-    @BindView(R.id.size) FontTextView size;
-    @BindView(R.id.menu) ForegroundImageView menu;
-    @BindString(R.string.file) String file;
+    ForegroundImageView contentTypeImage;
+    FontTextView title;
+    FontTextView size;
+    ForegroundImageView menu;
+    String file;
 
     @Override public void onClick(View v) {
         if (v.getId() == R.id.contentTypeImage) {
@@ -36,13 +36,20 @@ public class RepoFilesViewHolder extends BaseViewHolder<RepoFile> {
         }
     }
 
-    private RepoFilesViewHolder(@NonNull View itemView, @NonNull BaseRecyclerAdapter adapter) {
+    private RepoFilesViewHolder(@NonNull View itemView, @NonNull BaseRecyclerAdapter<?,?,?> adapter) {
         super(itemView, adapter);
+        this.contentTypeImage = itemView.findViewById((R.id.contentTypeImage));
+        this.title = itemView.findViewById((R.id.title));
+        this.size = itemView.findViewById((R.id.size));
+        this.menu = itemView.findViewById((R.id.menu));
+        Resources $res = itemView.getContext().getResources();
+        this.file = $res.getString(R.string.file);
+
         menu.setOnClickListener(this);
         contentTypeImage.setOnClickListener(this);
     }
 
-    public static RepoFilesViewHolder newInstance(ViewGroup viewGroup, BaseRecyclerAdapter adapter) {
+    public static RepoFilesViewHolder newInstance(ViewGroup viewGroup, BaseRecyclerAdapter<?,?,?> adapter) {
         return new RepoFilesViewHolder(getView(viewGroup, R.layout.repo_files_row_item), adapter);
     }
 

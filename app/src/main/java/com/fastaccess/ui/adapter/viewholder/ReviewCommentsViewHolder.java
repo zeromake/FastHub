@@ -1,10 +1,10 @@
 package com.fastaccess.ui.adapter.viewholder;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.transition.ChangeBounds;
-import android.support.transition.TransitionManager;
-import android.support.v7.widget.AppCompatImageView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.transition.ChangeBounds;
+import androidx.transition.TransitionManager;
+import androidx.appcompat.widget.AppCompatImageView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,37 +30,36 @@ import com.fastaccess.ui.widgets.FontTextView;
 import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter;
 import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder;
 
-import butterknife.BindView;
 
 public class ReviewCommentsViewHolder extends BaseViewHolder<ReviewCommentModel> {
 
-    @BindView(R.id.avatarView) AvatarLayout avatarView;
-    @BindView(R.id.name) FontTextView name;
-    @BindView(R.id.date) FontTextView date;
-    @BindView(R.id.comment) FontTextView comment;
-    @BindView(R.id.toggle) AppCompatImageView toggle;
-    @BindView(R.id.toggleHolder) LinearLayout toggleHolder;
-    @BindView(R.id.thumbsUp) FontTextView thumbsUp;
-    @BindView(R.id.thumbsDown) FontTextView thumbsDown;
-    @BindView(R.id.laugh) FontTextView laugh;
-    @BindView(R.id.hurray) FontTextView hurray;
-    @BindView(R.id.sad) FontTextView sad;
-    @BindView(R.id.heart) FontTextView heart;
-    @BindView(R.id.commentMenu) ImageView commentMenu;
-    @BindView(R.id.commentOptions) RelativeLayout commentOptions;
-    @BindView(R.id.owner) FontTextView owner;
-    @BindView(R.id.reactionsList) View reactionsList;
-    @BindView(R.id.thumbsUpReaction) FontTextView thumbsUpReaction;
-    @BindView(R.id.thumbsDownReaction) FontTextView thumbsDownReaction;
-    @BindView(R.id.laughReaction) FontTextView laughReaction;
-    @BindView(R.id.hurrayReaction) FontTextView hurrayReaction;
-    @BindView(R.id.sadReaction) FontTextView sadReaction;
-    @BindView(R.id.heartReaction) FontTextView heartReaction;
-    private OnToggleView onToggleView;
-    private ReactionsCallback reactionsCallback;
-    private ViewGroup viewGroup;
-    private String repoOwner;
-    private String poster;
+    AvatarLayout avatarView;
+    FontTextView name;
+    FontTextView date;
+    FontTextView comment;
+    AppCompatImageView toggle;
+    LinearLayout toggleHolder;
+    FontTextView thumbsUp;
+    FontTextView thumbsDown;
+    FontTextView laugh;
+    FontTextView hurray;
+    FontTextView sad;
+    FontTextView heart;
+    ImageView commentMenu;
+    RelativeLayout commentOptions;
+    FontTextView owner;
+    View reactionsList;
+    FontTextView thumbsUpReaction;
+    FontTextView thumbsDownReaction;
+    FontTextView laughReaction;
+    FontTextView hurrayReaction;
+    FontTextView sadReaction;
+    FontTextView heartReaction;
+    private final OnToggleView onToggleView;
+    private final ReactionsCallback reactionsCallback;
+    private final ViewGroup viewGroup;
+    private final String repoOwner;
+    private final String poster;
 
     @Override public void onClick(View v) {
         if (v.getId() == R.id.toggle || v.getId() == R.id.toggleHolder) {
@@ -75,10 +74,32 @@ public class ReviewCommentsViewHolder extends BaseViewHolder<ReviewCommentModel>
         }
     }
 
-    private ReviewCommentsViewHolder(@NonNull View itemView, ViewGroup viewGroup, @Nullable BaseRecyclerAdapter adapter,
+    private ReviewCommentsViewHolder(@NonNull View itemView, ViewGroup viewGroup, @Nullable BaseRecyclerAdapter<?, ?, ?> adapter,
                                      @NonNull OnToggleView onToggleView, @NonNull ReactionsCallback reactionsCallback,
                                      String repoOwner, String poster) {
         super(itemView, adapter);
+        this.avatarView = itemView.findViewById((R.id.avatarView));
+        this.name = itemView.findViewById((R.id.name));
+        this.date = itemView.findViewById((R.id.date));
+        this.comment = itemView.findViewById((R.id.comment));
+        this.toggle = itemView.findViewById((R.id.toggle));
+        this.toggleHolder = itemView.findViewById((R.id.toggleHolder));
+        this.thumbsUp = itemView.findViewById((R.id.thumbsUp));
+        this.thumbsDown = itemView.findViewById((R.id.thumbsDown));
+        this.laugh = itemView.findViewById((R.id.laugh));
+        this.hurray = itemView.findViewById((R.id.hurray));
+        this.sad = itemView.findViewById((R.id.sad));
+        this.heart = itemView.findViewById((R.id.heart));
+        this.commentMenu = itemView.findViewById((R.id.commentMenu));
+        this.commentOptions = itemView.findViewById((R.id.commentOptions));
+        this.owner = itemView.findViewById((R.id.owner));
+        this.reactionsList = itemView.findViewById((R.id.reactionsList));
+        this.thumbsUpReaction = itemView.findViewById((R.id.thumbsUpReaction));
+        this.thumbsDownReaction = itemView.findViewById((R.id.thumbsDownReaction));
+        this.laughReaction = itemView.findViewById((R.id.laughReaction));
+        this.hurrayReaction = itemView.findViewById((R.id.hurrayReaction));
+        this.sadReaction = itemView.findViewById((R.id.sadReaction));
+        this.heartReaction = itemView.findViewById((R.id.heartReaction));
         if (adapter != null && adapter.getRowWidth() == 0) {
             itemView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
                 @Override public boolean onPreDraw() {
@@ -124,7 +145,7 @@ public class ReviewCommentsViewHolder extends BaseViewHolder<ReviewCommentModel>
         heartReaction.setOnLongClickListener(this);
     }
 
-    public static ReviewCommentsViewHolder newInstance(ViewGroup viewGroup, BaseRecyclerAdapter adapter,
+    public static ReviewCommentsViewHolder newInstance(ViewGroup viewGroup, BaseRecyclerAdapter<?, ?, ?> adapter,
                                                        @NonNull OnToggleView onToggleView, @NonNull ReactionsCallback reactionsCallback,
                                                        String repoOwner, String poster) {
         return new ReviewCommentsViewHolder(getView(viewGroup, R.layout.review_comments_row_item),

@@ -2,8 +2,8 @@ package com.fastaccess.ui.modules.repos.projects.columns
 
 import android.content.Context
 import android.os.Bundle
-import android.support.annotation.StringRes
-import android.support.v4.widget.SwipeRefreshLayout
+import androidx.annotation.StringRes
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import android.view.View
 import butterknife.BindView
 import butterknife.OnClick
@@ -46,7 +46,7 @@ class ProjectColumnFragment : BaseFragment<ProjectColumnMvp.View, ProjectColumnP
     private var pageCallback: ProjectPagerMvp.DeletePageListener? = null
 
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         pageCallback = when {
             parentFragment is ProjectPagerMvp.DeletePageListener -> parentFragment as ProjectPagerMvp.DeletePageListener
@@ -70,7 +70,7 @@ class ProjectColumnFragment : BaseFragment<ProjectColumnMvp.View, ProjectColumnP
     @OnClick(R.id.deleteColumn) fun onDeleteColumn() {
         if (canEdit()) {
             MessageDialogView.newInstance(getString(R.string.delete), getString(R.string.confirm_message),
-                    false, MessageDialogView.getYesNoBundle(context!!))
+                    false, MessageDialogView.getYesNoBundle(requireContext()))
                     .show(childFragmentManager, MessageDialogView.TAG)
         }
     }
@@ -164,7 +164,7 @@ class ProjectColumnFragment : BaseFragment<ProjectColumnMvp.View, ProjectColumnP
             presenter.onEditOrDeleteColumn(text, getColumn())
         } else {
             if (position == -1) {
-                presenter.createCard(text, getColumn().id)
+                presenter.createCard(text, getColumn().id!!)
             } else {
                 presenter.editCard(text, adapter.getItem(position), position)
             }
@@ -200,11 +200,11 @@ class ProjectColumnFragment : BaseFragment<ProjectColumnMvp.View, ProjectColumnP
         super.hideProgress()
     }
 
-    override fun isOwner(): Boolean = arguments!!.getBoolean(BundleConstant.EXTRA)
+    override fun isOwner(): Boolean = requireArguments().getBoolean(BundleConstant.EXTRA)
 
     override fun onDeleteCard(position: Int) {
         if (canEdit()) {
-            val yesNoBundle = MessageDialogView.getYesNoBundle(context!!)
+            val yesNoBundle = MessageDialogView.getYesNoBundle(requireContext())
             yesNoBundle.putInt(BundleConstant.ID, position)
             MessageDialogView.newInstance(getString(R.string.delete), getString(R.string.confirm_message),
                     false, yesNoBundle).show(childFragmentManager, MessageDialogView.TAG)
@@ -238,12 +238,12 @@ class ProjectColumnFragment : BaseFragment<ProjectColumnMvp.View, ProjectColumnP
         stateLayout.showReload(adapter.itemCount)
     }
 
-    private fun getColumn(): ProjectColumnModel = arguments!!.getParcelable(BundleConstant.ITEM)
+    private fun getColumn(): ProjectColumnModel = requireArguments().getParcelable(BundleConstant.ITEM)!!
 
     private fun canEdit(): Boolean = if (PrefGetter.isProEnabled() || PrefGetter.isAllFeaturesUnlocked()) {
         true
     } else {
-        PremiumActivity.startActivity(context!!)
+        PremiumActivity.startActivity(requireContext())
         false
     }
 

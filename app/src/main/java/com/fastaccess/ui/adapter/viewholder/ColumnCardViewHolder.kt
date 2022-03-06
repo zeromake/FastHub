@@ -1,5 +1,6 @@
 package com.fastaccess.ui.adapter.viewholder
 
+import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -25,13 +26,14 @@ class ColumnCardViewHolder private constructor(item: View, adapter: BaseRecycler
         editCard.setOnClickListener(this)
     }
 
+    @SuppressLint("StringFormatMatches")
     override fun bind(t: ProjectCardModel) {
         title.text = if (t.note.isNullOrBlank()) {
-            val issue = PullsIssuesParser.getForIssue(t.contentUrl)
+            val issue = PullsIssuesParser.getForIssue(t.contentUrl!!)
             if (issue != null) {
                 "${issue.login}/${issue.repoId}/${issue.number}"
             } else {
-                val pr = PullsIssuesParser.getForPullRequest(t.contentUrl)
+                val pr = PullsIssuesParser.getForPullRequest(t.contentUrl!!)
                 if (pr != null) {
                     "${pr.login}/${pr.repoId}/${pr.number}"
                 } else {

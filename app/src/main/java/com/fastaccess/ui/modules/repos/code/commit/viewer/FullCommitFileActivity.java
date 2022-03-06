@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -104,7 +104,7 @@ public class FullCommitFileActivity extends BaseActivity {
         textView.setText(DiffLineSpan.getSpannable(commitFileModel.getPatch(),
                 ViewHelper.getPatchAdditionColor(this),
                 ViewHelper.getPatchDeletionColor(this),
-                ViewHelper.getPatchRefColor(this)));
+                ViewHelper.getPatchRefColor(this), false));
     }
 
     @Override public boolean onCreateOptionsMenu(Menu menu) {

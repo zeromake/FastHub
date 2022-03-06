@@ -450,37 +450,10 @@
     <string name="projects">Proyectos</string>
     <string name="no_projects">No hay proyectos</string>
     <string name="no_cards">No hay cartas</string>
-    <string name="card_added_by">Agregado por %s %s</string>
-    <string name="too_large_changes">Muchas diferencias para mostrar. Por favor, ver via navegador web</string>
+    <string name="card_added_by" formatted="false">Agregado por %s %s</string>
+    <string name="too_large_changes">Muchas diferencias para mostrar. Por favor, ver vía navegador web</string>
     <string name="project">Proyecto</string>
     <string name="please_read">POR FAVOR, LEER!</string>
-    <string name="fasthub_faq_description">
-        <![CDATA[
-        <h5>• ¿Por qué no puedo ver mis <b>Organizaciones</b> <i>Publicas</i> o <i>Privadas</i>?</h5>
-        <p>Abre https://github.com/settings/applications y busca FastHub, ábrelo, ve hacia abajo hasta "Organization access" y clickea el botón "Grant".
-        Alternativamente, puedes iniciar sesión usando un <b>Access Token</b> lo cual es más fácil.</p>
-
-        <h5>• Intenté iniciar sesión con un Access Token y un One-Time Password (OTP) pero no tuve suerte. ¿Qué anda mal?</h5>
-        <p>No puedes iniciar sesión usando un Access Token y OTP al mismo tiempo. Debido a la limitada vida de esas contraseñas, tendrás que repetir el inicio de sesión cada pocos segundos.</p>
-
-        <h5>• ¿Por qué no se muestran las Wikis de mis repositorios Privados y de Empresas?</h5>
-        <p>Como FastHub desecha las Wiki de GitHub, la aplicación no puede obtener los token necesarios por los repositorios privados.</p>
-
-        <h5>• Inicié sesión con mi cuenta de Empresa. ¿Por qué no puedo interactuar con otra cosa que no sea de esta cuenta?</h5>
-        <p>Bueno, lógicamente, no puedes acceder a nada por fuera de tu Empresa. FastHub intenta solicitar tantos permisos como le es posible, pero no puede hacer nada más al respecto en
-        la mayoría de los casos, ya que tus credenciales no están en el servidor de GitHub. Pero en <b>algunos</b> casos tu token OAuth de la cuenta de GitHub puede hacer el trabajo.</p>
-
-        <h5>• ¿Por qué tengo problemas editando Issues y Pull Requests?</h5>
-        <p> Si no puedes editar Issues y PRs en un repositorio de una organización Publica, por favor, contacta a tu organización para darle acceso a FastHub.
-        Alternativamente, puedes iniciar sesión con un Access Token.</p>
-
-        <h5>• Estoy teniendo problemas! / Quiero sugerirles cosas!</h5>
-        <p>Ve a https://github.com/k0shk0sh/FastHub/issues/new y crea un nuevo issue por cualquier 'bug' o solicitud de característica.
-        Pedimos que busques por issues similares antes de abrir uno nuevo. Cualquier ticket duplicado será etiquetado y borrado inmediatamente.</p>
-
-        <h5>• Cómo puedo obtener un PROMO CODE?</h5>
-        <p>Este programa ya no existe.</p>
-    ]]></string>
     <string name="faq">FAQ</string>
     <string name="comments_added_successfully">Comentario agregado con éxito</string>
     <string name="clear_search_keywords">Limpiar el historial de búsqueda</string>

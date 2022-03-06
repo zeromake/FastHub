@@ -1,10 +1,10 @@
 package com.fastaccess.ui.modules.repos.code.releases;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.v4.widget.SwipeRefreshLayout;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.View;
 
 import com.annimon.stream.Collectors;
@@ -28,6 +28,7 @@ import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 
@@ -180,8 +181,8 @@ public class RepoReleasesFragment extends BaseFragment<RepoReleasesMvp.View, Rep
     }
 
     @Override public void onItemSelected(SimpleUrlsModel item) {
-        if (ActivityHelper.checkAndRequestReadWritePermission(getActivity())) {
-            RestProvider.downloadFile(getContext(), item.getUrl());
+        if (ActivityHelper.checkAndRequestReadWritePermission(requireActivity())) {
+            RestProvider.downloadFile(requireContext(), Objects.requireNonNull(item.getUrl()));
         }
     }
 

@@ -1,7 +1,7 @@
 package com.fastaccess.ui.modules.repos.extras.license
 
 import android.os.Bundle
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -47,8 +47,8 @@ class RepoLicenseBottomSheet : BaseMvpBottomSheetDialogFragment<RepoLicenseMvp.V
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arguments?.let {
-            val login = it.getString(BundleConstant.EXTRA)
-            val repo = it.getString(BundleConstant.ID)
+            val login = it.getString(BundleConstant.EXTRA)!!
+            val repo = it.getString(BundleConstant.ID)!!
             val licenseTitle = arguments?.getString(BundleConstant.EXTRA_TWO)
             licenseName.text = licenseTitle
             if (content.isNullOrBlank() && !presenter.isApiCalled) {

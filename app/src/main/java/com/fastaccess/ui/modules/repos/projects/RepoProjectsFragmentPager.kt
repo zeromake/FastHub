@@ -1,7 +1,7 @@
 package com.fastaccess.ui.modules.repos.projects
 
 import android.os.Bundle
-import android.support.design.widget.TabLayout
+import com.google.android.material.tabs.TabLayout
 import android.view.View
 import butterknife.BindView
 import com.fastaccess.R
@@ -21,10 +21,13 @@ import com.fastaccess.ui.widgets.ViewPagerView
 /**
  * Created by kosh on 09/09/2017.
  */
-class RepoProjectsFragmentPager : BaseFragment<BaseMvp.FAView, BasePresenter<BaseMvp.FAView>>(), RepoPagerMvp.TabsBadgeListener {
+class RepoProjectsFragmentPager : BaseFragment<BaseMvp.FAView, BasePresenter<BaseMvp.FAView>>(),
+    RepoPagerMvp.TabsBadgeListener {
 
-    @BindView(R.id.tabs) lateinit var tabs: TabLayout
-    @BindView(R.id.pager) lateinit var pager: ViewPagerView
+    @BindView(R.id.tabs)
+    lateinit var tabs: TabLayout
+    @BindView(R.id.pager)
+    lateinit var pager: ViewPagerView
     private var counts: HashSet<TabsCountStateModel>? = null
 
     override fun fragmentLayout(): Int = R.layout.centered_tabbed_viewpager
@@ -37,8 +40,13 @@ class RepoProjectsFragmentPager : BaseFragment<BaseMvp.FAView, BasePresenter<Bas
     }
 
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
-        pager.adapter = FragmentsPagerAdapter(childFragmentManager, FragmentPagerAdapterModel.buildForRepoProjects(context!!,
-                arguments!!.getString(BundleConstant.ID), arguments!!.getString(BundleConstant.EXTRA)))
+        val args = requireArguments()
+        pager.adapter = FragmentsPagerAdapter(
+            childFragmentManager, FragmentPagerAdapterModel.buildForRepoProjects(
+                requireContext(),
+                args.getString(BundleConstant.ID), args.getString(BundleConstant.EXTRA)!!
+            )
+        )
         tabs.setupWithViewPager(pager)
         if (savedInstanceState != null) {
             @Suppress("UNCHECKED_CAST")
@@ -64,11 +72,11 @@ class RepoProjectsFragmentPager : BaseFragment<BaseMvp.FAView, BasePresenter<Bas
     private fun updateCount(model: TabsCountStateModel) {
         val tv = ViewHelper.getTabTextView(tabs, model.tabIndex)
         tv.text = SpannableBuilder.builder()
-                .append(if (model.tabIndex == 0) getString(R.string.opened) else getString(R.string.closed))
-                .append("   ")
-                .append("(")
-                .bold(model.count.toString())
-                .append(")")
+            .append(if (model.tabIndex == 0) getString(R.string.opened) else getString(R.string.closed))
+            .append("   ")
+            .append("(")
+            .bold(model.count.toString())
+            .append(")")
     }
 
     companion object {
@@ -76,9 +84,9 @@ class RepoProjectsFragmentPager : BaseFragment<BaseMvp.FAView, BasePresenter<Bas
         fun newInstance(login: String, repoId: String? = null): RepoProjectsFragmentPager {
             val fragment = RepoProjectsFragmentPager()
             fragment.arguments = Bundler.start()
-                    .put(BundleConstant.ID, repoId)
-                    .put(BundleConstant.EXTRA, login)
-                    .end()
+                .put(BundleConstant.ID, repoId)
+                .put(BundleConstant.EXTRA, login)
+                .end()
             return fragment
         }
     }

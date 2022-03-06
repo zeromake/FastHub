@@ -5,7 +5,7 @@ import com.fastaccess.data.dao.types.IssueState
 import com.fastaccess.provider.rest.loadmore.OnLoadMore
 import com.fastaccess.ui.base.mvp.BaseMvp
 import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
-import github.RepoProjectsOpenQuery
+import com.fastaccess.github.RepoProjectsOpenQuery
 import java.util.*
 
 /**

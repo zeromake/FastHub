@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,7 +23,7 @@ class EmojiLoader {
     static List<Emoji> loadEmojis(InputStream stream) throws IOException {
         try {
             JSONArray emojisJSON = new JSONArray(inputStreamToString(stream));
-            List<Emoji> emojis = new ArrayList<Emoji>(emojisJSON.length());
+            List<Emoji> emojis = new ArrayList<>(emojisJSON.length());
             for (int i = 0; i < emojisJSON.length(); i++) {
                 Emoji emoji = buildEmojiFromJSON(emojisJSON.getJSONObject(i));
                 if (emoji != null) {
@@ -38,7 +39,7 @@ class EmojiLoader {
 
     private static String inputStreamToString(InputStream stream) throws IOException {
         StringBuilder sb = new StringBuilder();
-        InputStreamReader isr = new InputStreamReader(stream, "UTF-8");
+        InputStreamReader isr = new InputStreamReader(stream, StandardCharsets.UTF_8);
         BufferedReader br = new BufferedReader(isr);
         String read;
         while ((read = br.readLine()) != null) {
@@ -52,7 +53,7 @@ class EmojiLoader {
         if (!json.has("emoji")) {
             return null;
         }
-        byte[] bytes = json.getString("emoji").getBytes("UTF-8");
+        byte[] bytes = json.getString("emoji").getBytes(StandardCharsets.UTF_8);
         String description = null;
         if (json.has("description")) {
             description = json.getString("description");
@@ -67,7 +68,7 @@ class EmojiLoader {
     }
 
     private static List<String> jsonArrayToStringList(JSONArray array) {
-        List<String> strings = new ArrayList<String>(array.length());
+        List<String> strings = new ArrayList<>(array.length());
         try {
             for (int i = 0; i < array.length(); i++) {
                 strings.add(array.getString(i));

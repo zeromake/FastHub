@@ -35,8 +35,8 @@ class FileCommitHistoryActivity : BaseActivity<BaseMvp.FAView, BasePresenter<Bas
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null && intent != null) {
-            repoId = intent.extras.getString(BundleConstant.ID)
-            login = intent.extras.getString(BundleConstant.EXTRA)
+            repoId = intent.extras?.getString(BundleConstant.ID)
+            login = intent.extras?.getString(BundleConstant.EXTRA)
             supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.container, RepoCommitsFragment.newInstance(intent.extras!!), RepoCommitsFragment::class.java.simpleName)
@@ -44,11 +44,11 @@ class FileCommitHistoryActivity : BaseActivity<BaseMvp.FAView, BasePresenter<Bas
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == android.R.id.home) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
             repoId?.let {
                 val intent = RepoPagerActivity.createIntent(this, it, login!!)
-                val bundle = intent.extras
+                val bundle = intent.extras!!
                 bundle.putBoolean(BundleConstant.IS_ENTERPRISE, isEnterprise)
                 intent.putExtras(bundle)
                 startActivity(intent)

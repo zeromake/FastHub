@@ -1,6 +1,6 @@
 package com.fastaccess.ui.adapter.viewholder;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -18,13 +18,14 @@ import butterknife.BindView;
 
 public class RepoFilePathsViewHolder extends BaseViewHolder<RepoFile> {
 
-    @BindView(R.id.pathName) FontTextView pathName;
+    FontTextView pathName;
 
-    private RepoFilePathsViewHolder(@NonNull View itemView, @NonNull BaseRecyclerAdapter baseAdapter) {
+    private RepoFilePathsViewHolder(@NonNull View itemView, @NonNull BaseRecyclerAdapter<?,?,?> baseAdapter) {
         super(itemView, baseAdapter);
+        this.pathName = itemView.findViewById(R.id.pathName);
     }
 
-    public static RepoFilePathsViewHolder newInstance(ViewGroup viewGroup, BaseRecyclerAdapter adapter) {
+    public static RepoFilePathsViewHolder newInstance(ViewGroup viewGroup, BaseRecyclerAdapter<?,?,?> adapter) {
         return new RepoFilePathsViewHolder(getView(viewGroup, R.layout.file_path_row_item), adapter);
     }
 

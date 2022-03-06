@@ -2,6 +2,22 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
 
+    <!-- auto color generate start -->
+    <color name="themebluish_base_card_background">#182A44</color>
+    <color name="themebluish_base_icon_color">#eee</color>
+    <color name="themebluish_base_android_textcolorprimary">#eee</color>
+    <color name="themebluish_base_android_textcolorsecondary">#9E9E9E</color>
+    <color name="themebluish_base_android_textcolortertiary">#ffe0e0e0</color>
+    <color name="toolbarstylebluish_colorcontrolhighlight">#42ffffff</color>
+    <color name="timelinebackgroundbluish_android_backgroundtint">#182A44</color>
+    <color name="commentboxdarkbluish_android_backgroundtint">#182A44</color>
+    <color name="dialogthemebluish_card_background">#182A44</color>
+    <color name="dialogthemebluish_icon_color">#eee</color>
+    <color name="apptheme_aboutactivity_bluish_mal_color_primary">#eee</color>
+    <color name="apptheme_aboutactivity_bluish_mal_color_secondary">#ffe0e0e0</color>
+    <color name="apptheme_aboutactivity_bluish_mal_card_background">#182A44</color>
+    <!-- auto color generate end -->
+
     <color name="bluish_background">#111C2C</color>
     <color name="bluish_primary">#FF2A456B</color>
     <color name="bluish_primary_dark">#213755</color>
@@ -12,10 +28,10 @@
 
     <style name="ThemeBluish" parent="ThemeBluish.Base"/>
 
-    <style name="ThemeBluish.Base" parent="Theme.AppCompat.NoActionBar">
-        <item name="card_background">#182A44</item>
+    <style name="ThemeBluish.Base" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="card_background">@color/themebluish_base_card_background</item>
         <item name="comment_box_style">@style/CommentBoxDarkBluish</item>
-        <item name="icon_color">#eee</item>
+        <item name="icon_color">@color/themebluish_base_icon_color</item>
         <item name="timeLineBackground">@style/TimeLineBackgroundBluish</item>
         <item name="patch_addition">@color/dark_patch_addition_color</item>
         <item name="patch_deletion">@color/dark_patch_deletion_color</item>
@@ -30,9 +46,9 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
-        <item name="android:textColorPrimary">#eee</item>
-        <item name="android:textColorSecondary">#9E9E9E</item>
-        <item name="android:textColorTertiary">#ffe0e0e0</item>
+        <item name="android:textColorPrimary">@color/themebluish_base_android_textcolorprimary</item>
+        <item name="android:textColorSecondary">@color/themebluish_base_android_textcolorsecondary</item>
+        <item name="android:textColorTertiary">@color/themebluish_base_android_textcolortertiary</item>
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
         <item name="android:windowAllowReturnTransitionOverlap">true</item>
         <item name="android:colorEdgeEffect">?colorPrimary</item>
@@ -46,7 +62,7 @@
         <item name="android:popupMenuStyle">@style/PopupMenuBluish</item>
     </style>
 
-    <style name="PopupMenuBluish" parent="Widget.AppCompat.PopupMenu">
+    <style name="PopupMenuBluish" parent="Widget.MaterialComponents.PopupMenu">
         <item name="android:popupBackground">@color/bluishWindowBackground</item>
     </style>
 
@@ -128,31 +144,31 @@
     <style name="ToolbarStyleBluish">
         <item name="android:textColorPrimary">@color/white</item>
         <item name="colorControlNormal">@color/white</item>
-        <item name="colorControlHighlight">#42ffffff</item>
+        <item name="colorControlHighlight">@color/toolbarstylebluish_colorcontrolhighlight</item>
         <item name="popupTheme">@style/PopupThemeBluish</item>
     </style>
 
-    <style name="PopupThemeBluish" parent="ThemeOverlay.AppCompat">
+    <style name="PopupThemeBluish" parent="ThemeOverlay.MaterialComponents">
         <item name="android:colorBackground">@color/bluishWindowBackground</item>
     </style>
 
     <style name="TimeLineBackgroundBluish">
         <item name="android:background">@drawable/ic_timeline_arrow_left</item>
-        <item name="android:backgroundTint">#182A44</item>
+        <item name="android:backgroundTint">@color/timelinebackgroundbluish_android_backgroundtint</item>
     </style>
 
     <style name="CommentBoxDarkBluish">
         <item name="android:background">@drawable/ic_edittext</item>
-        <item name="android:backgroundTint">#182A44</item>
+        <item name="android:backgroundTint">@color/commentboxdarkbluish_android_backgroundtint</item>
     </style>
 
-    <style name="DialogThemeBluish" parent="Theme.AppCompat.Dialog.Alert">
+    <style name="DialogThemeBluish" parent="Theme.MaterialComponents.Dialog.Alert">
         <item name="android:toolbarStyle">@style/ToolbarStyleBluish</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="card_background">#182A44</item>
+        <item name="card_background">@color/dialogthemebluish_card_background</item>
         <item name="comment_box_style">@style/CommentBoxDarkBluish</item>
-        <item name="icon_color">#eee</item>
+        <item name="icon_color">@color/dialogthemebluish_icon_color</item>
         <item name="timeLineBackground">@style/TimeLineBackgroundBluish</item>
         <item name="patch_addition">@color/dark_patch_addition_color</item>
         <item name="patch_deletion">@color/dark_patch_deletion_color</item>
@@ -230,9 +246,9 @@
         <item name="colorPrimaryDark">@color/bluish_primary_dark</item>
         <item name="colorAccent">@color/bluish_accent</item>
         <item name="mal_lightActionBar">false</item>
-        <item name="mal_color_primary">#eee</item>
-        <item name="mal_color_secondary">#ffe0e0e0</item>
-        <item name="mal_card_background">#182A44</item>
+        <item name="mal_color_primary">@color/apptheme_aboutactivity_bluish_mal_color_primary</item>
+        <item name="mal_color_secondary">@color/apptheme_aboutactivity_bluish_mal_color_secondary</item>
+        <item name="mal_card_background">@color/apptheme_aboutactivity_bluish_mal_card_background</item>
     </style>
 
 </resources>

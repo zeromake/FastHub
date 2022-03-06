@@ -1,7 +1,7 @@
 package com.fastaccess.provider.timeline.handler;
 
 import android.graphics.Color;
-import android.support.annotation.ColorInt;
+import androidx.annotation.ColorInt;
 import android.text.SpannableStringBuilder;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
@@ -14,19 +14,22 @@ import net.nightwhistler.htmlspanner.handlers.PreHandler;
 import org.htmlcleaner.ContentNode;
 import org.htmlcleaner.TagNode;
 
-import lombok.AllArgsConstructor;
-
 import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
 
 /**
  * Created by Kosh on 22 Apr 2017, 1:07 PM
  */
 
-@AllArgsConstructor public class PreTagHandler extends PreHandler {
+public class PreTagHandler extends PreHandler {
 
     @ColorInt private final int color;
     private final boolean isPre;
-    @PrefGetter.ThemeType private int theme;
+    @PrefGetter.ThemeType private final int theme;
+    public PreTagHandler(int color, boolean isPre, int theme) {
+        this.color = color;
+        this.isPre = isPre;
+        this.theme = theme;
+    }
 
     private void getPlainText(StringBuffer buffer, Object node) {
         if (node instanceof ContentNode) {

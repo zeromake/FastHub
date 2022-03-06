@@ -1,13 +1,15 @@
 package com.fastaccess.ui.modules.trending
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.os.Handler
-import android.support.annotation.ColorInt
-import android.support.design.widget.NavigationView
-import android.support.v4.widget.DrawerLayout
+import android.os.Looper
+import androidx.annotation.ColorInt
+import com.google.android.material.navigation.NavigationView
+import androidx.drawerlayout.widget.DrawerLayout
 import android.text.Editable
 import android.view.Gravity
 import android.view.Menu
@@ -27,6 +29,7 @@ import com.fastaccess.ui.base.BaseActivity
 import com.fastaccess.ui.modules.main.MainActivity
 import com.fastaccess.ui.modules.trending.fragment.TrendingFragment
 import com.fastaccess.ui.widgets.FontEditText
+import java.util.*
 
 
 /**
@@ -105,15 +108,15 @@ class TrendingActivity : BaseActivity<TrendingMvp.View, TrendingPresenter>(), Tr
         super.onCreate(savedInstanceState)
         navMenu.itemIconTintList = null
         trendingFragment = supportFragmentManager.findFragmentById(R.id.trendingFragment) as TrendingFragment?
-        navMenu.setNavigationItemSelectedListener({ item ->
+        navMenu.setNavigationItemSelectedListener { item ->
             closeDrawerLayout()
             onItemClicked(item)
-        })
+        }
         setupIntent(savedInstanceState)
         if (savedInstanceState == null) {
             presenter.onLoadLanguage()
         } else {
-            Handler().postDelayed({
+            Handler(Looper.getMainLooper()).postDelayed({
                 Logger.e(searchEditText.text)
                 if (InputHelper.isEmpty(searchEditText)) { //searchEditText.text is always empty even tho there is a text in it !!!!!!!
                     presenter.onLoadLanguage()
@@ -130,19 +133,20 @@ class TrendingActivity : BaseActivity<TrendingMvp.View, TrendingPresenter>(), Tr
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
+    @SuppressLint("RtlHardcoded")
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
             R.id.menu -> {
-                drawerLayout.openDrawer(Gravity.END)
+                drawerLayout.openDrawer(Gravity.RIGHT)
                 true
             }
             R.id.share -> {
-                var lang: String = when (selectedTitle) {
+                val lang: String = when (selectedTitle) {
                     TrendingModel.DEFAULT_LANG -> ""
                     else -> selectedTitle
                 }
                 ActivityHelper.shareUrl(this, "${LinkParserHelper.PROTOCOL_HTTPS}://${LinkParserHelper.HOST_DEFAULT}" +
-                        "/trending/${lang.replace(" ".toRegex(), "-").toLowerCase()}")
+                        "/trending/${lang.replace(" ".toRegex(), "-").lowercase(Locale.getDefault())}")
                 return true
             }
             android.R.id.home -> {
@@ -158,7 +162,7 @@ class TrendingActivity : BaseActivity<TrendingMvp.View, TrendingPresenter>(), Tr
         navMenu.menu.add(R.id.languageGroup, title.hashCode(), Menu.NONE, title)
                 .setCheckable(true)
                 .setIcon(createOvalShape(color))
-                .isChecked = title.toLowerCase() == selectedTitle.toLowerCase()
+                .isChecked = title.lowercase(Locale.getDefault()) == selectedTitle.lowercase(Locale.getDefault())
     }
 
     override fun onClearMenu() {
@@ -172,8 +176,9 @@ class TrendingActivity : BaseActivity<TrendingMvp.View, TrendingPresenter>(), Tr
         return true
     }
 
+    @SuppressLint("RtlHardcoded")
     private fun closeDrawerLayout() {
-        drawerLayout.closeDrawer(Gravity.END)
+        drawerLayout.closeDrawer(Gravity.RIGHT)
     }
 
     private fun setValues() {
@@ -196,15 +201,15 @@ class TrendingActivity : BaseActivity<TrendingMvp.View, TrendingPresenter>(), Tr
             if (intent != null && intent.extras != null) {
                 val bundle = intent.extras
                 if (bundle != null) {
-                    val lang: String = bundle.getString(BundleConstant.EXTRA)
+                    val lang: String = bundle.getString(BundleConstant.EXTRA)!!
                     val query: String? = bundle.getString(BundleConstant.EXTRA_TWO)
-                    if (!lang.isEmpty()) {
+                    if (lang.isNotEmpty()) {
                         selectedTitle = lang
                     }
                     if (query.isNullOrEmpty()) {
                         daily.isSelected = true
                     } else {
-                        when (query?.toLowerCase()) {
+                        when (query.lowercase(Locale.getDefault())) {
                             "daily" -> daily.isSelected = true
                             "weekly" -> weekly.isSelected = true
                             "monthly" -> monthly.isSelected = true

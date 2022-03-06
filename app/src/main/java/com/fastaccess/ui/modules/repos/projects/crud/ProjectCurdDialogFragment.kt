@@ -3,8 +3,8 @@ package com.fastaccess.ui.modules.repos.projects.crud
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.FragmentManager
-import android.support.v7.widget.Toolbar
+import androidx.fragment.app.FragmentManager
+import androidx.appcompat.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -66,8 +66,8 @@ class ProjectCurdDialogFragment : BaseDialogFragment<BaseMvp.FAView, BasePresent
         toolbar.menu.findItem(R.id.submit)?.setIcon(R.drawable.ic_done)
         toolbar.setNavigationIcon(R.drawable.ic_clear)
         toolbar.setNavigationOnClickListener { dismiss() }
-        val position: Int = arguments!!.getInt(BundleConstant.ID, -1)
-        val isCard: Boolean = arguments!!.getBoolean(BundleConstant.EXTRA)
+        val position: Int = requireArguments().getInt(BundleConstant.ID, -1)
+        val isCard: Boolean = requireArguments().getBoolean(BundleConstant.EXTRA)
         if (savedInstanceState == null) {
             editText.setText(arguments?.getString(BundleConstant.ITEM) ?: "")
         }

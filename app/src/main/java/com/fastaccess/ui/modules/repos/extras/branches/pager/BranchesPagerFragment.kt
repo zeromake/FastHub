@@ -2,9 +2,9 @@ package com.fastaccess.ui.modules.repos.extras.branches.pager
 
 import android.content.Context
 import android.os.Bundle
-import android.support.design.widget.TabLayout
-import android.support.v4.view.ViewPager
-import android.support.v7.widget.Toolbar
+import com.google.android.material.tabs.TabLayout
+import androidx.viewpager.widget.ViewPager
+import androidx.appcompat.widget.Toolbar
 import android.view.View
 import butterknife.BindView
 import com.fastaccess.R
@@ -57,9 +57,9 @@ class BranchesPagerFragment : BaseDialogFragment<BaseMvp.FAView, BasePresenter<B
         tabs.setPadding(0, 0, 0, 0)
         tabs.tabMode = TabLayout.MODE_FIXED
         arguments?.let {
-            val login = it.getString(BundleConstant.EXTRA)
-            val repoId = it.getString(BundleConstant.ID)
-            pager.adapter = FragmentsPagerAdapter(childFragmentManager, FragmentPagerAdapterModel.buildForBranches(context!!, repoId, login))
+            val login = it.getString(BundleConstant.EXTRA)!!
+            val repoId = it.getString(BundleConstant.ID)!!
+            pager.adapter = FragmentsPagerAdapter(childFragmentManager, FragmentPagerAdapterModel.buildForBranches(requireContext(), repoId, login))
             tabs.setupWithViewPager(pager)
         }
     }

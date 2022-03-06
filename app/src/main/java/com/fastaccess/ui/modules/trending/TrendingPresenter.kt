@@ -5,6 +5,7 @@ import com.fastaccess.helper.RxHelper
 import com.fastaccess.provider.colors.ColorsProvider
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 import io.reactivex.Observable
+import java.util.*
 
 /**
  * Created by Kosh on 30 May 2017, 10:55 PM
@@ -14,7 +15,7 @@ class TrendingPresenter : BasePresenter<TrendingMvp.View>(), TrendingMvp.Present
     override fun onFilterLanguage(key: String) {
         manageObservable(RxHelper.getObservable(Observable.fromIterable(ColorsProvider.languages()))
                 .doOnSubscribe { sendToView { it.onClearMenu() } }
-                .filter { it.toLowerCase().contains(key.toLowerCase()) }
+                .filter { it.lowercase(Locale.getDefault()).contains(key.lowercase(Locale.getDefault())) }
                 .doOnNext { sendWithColor(it) })
     }
 

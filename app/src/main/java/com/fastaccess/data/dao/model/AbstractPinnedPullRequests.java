@@ -1,7 +1,7 @@
 package com.fastaccess.data.dao.model;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.fastaccess.App;
 import com.fastaccess.data.dao.converters.PullRequestConverter;
@@ -16,7 +16,6 @@ import io.requery.Convert;
 import io.requery.Entity;
 import io.requery.Generated;
 import io.requery.Key;
-import lombok.NoArgsConstructor;
 
 import static com.fastaccess.data.dao.model.PinnedPullRequests.ENTRY_COUNT;
 import static com.fastaccess.data.dao.model.PinnedPullRequests.ID;
@@ -26,13 +25,16 @@ import static com.fastaccess.data.dao.model.PinnedPullRequests.LOGIN;
  * Created by Hashemsergani on 14.10.17.
  */
 
-@Entity @NoArgsConstructor public class AbstractPinnedPullRequests {
+@Entity public class AbstractPinnedPullRequests {
 
     @Key @Generated long id;
     @io.requery.Nullable int entryCount;
     @io.requery.Nullable String login;
     @io.requery.Nullable @Convert(PullRequestConverter.class) PullRequest pullRequest;
     @io.requery.Nullable long pullRequestId;
+
+    public AbstractPinnedPullRequests() {
+    }
 
     public static void pinUpin(@NonNull PullRequest pullRequest) {
         PinnedPullRequests pinnedPullRequests = get(pullRequest.getId());

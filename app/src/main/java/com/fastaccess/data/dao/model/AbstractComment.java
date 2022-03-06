@@ -2,7 +2,7 @@ package com.fastaccess.data.dao.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.fastaccess.App;
 import com.fastaccess.data.dao.ReactionsModel;
@@ -21,7 +21,6 @@ import io.requery.Convert;
 import io.requery.Entity;
 import io.requery.Key;
 import io.requery.Persistable;
-import lombok.NoArgsConstructor;
 
 import static com.fastaccess.data.dao.model.Comment.COMMIT_ID;
 import static com.fastaccess.data.dao.model.Comment.GIST_ID;
@@ -35,7 +34,7 @@ import static com.fastaccess.data.dao.model.Comment.UPDATED_AT;
 /**
  * Created by Kosh on 16 Mar 2017, 7:24 PM
  */
-@Entity @NoArgsConstructor public abstract class AbstractComment implements Parcelable {
+@Entity public abstract class AbstractComment implements Parcelable {
     @Key long id;
     @Column(name = "user_column") @Convert(UserConverter.class) User user;
     String url;
@@ -55,6 +54,8 @@ import static com.fastaccess.data.dao.model.Comment.UPDATED_AT;
     String pullRequestId;
     @Convert(ReactionsConverter.class) ReactionsModel reactions;
     String authorAssociation;
+
+    public AbstractComment() {}
 
     public static Disposable saveForGist(@NonNull List<Comment> models, @NonNull String gistId) {
         return RxHelper.getSingle(Single.fromPublisher(s -> {

@@ -1,7 +1,7 @@
 package com.fastaccess.ui.adapter;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * Created by Kosh on 11 Nov 2016, 2:07 PM
  */
 
-public class NotificationsAdapter extends BaseRecyclerAdapter<GroupedNotificationModel, BaseViewHolder,
+public class NotificationsAdapter extends BaseRecyclerAdapter<GroupedNotificationModel, BaseViewHolder<?>,
         BaseViewHolder.OnItemClickListener<GroupedNotificationModel>> {
     private boolean showUnreadState;
     private boolean hideClear;

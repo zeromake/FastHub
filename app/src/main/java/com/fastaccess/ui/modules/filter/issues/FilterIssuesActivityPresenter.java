@@ -1,6 +1,6 @@
 package com.fastaccess.ui.modules.filter.issues;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.fastaccess.data.dao.LabelModel;
 import com.fastaccess.data.dao.MilestoneModel;
@@ -13,17 +13,31 @@ import com.fastaccess.ui.base.mvp.presenter.BasePresenter;
 import java.util.ArrayList;
 
 import io.reactivex.Observable;
-import lombok.Getter;
 
 /**
  * Created by Kosh on 09 Apr 2017, 6:22 PM
  */
 
-@Getter public class FilterIssuesActivityPresenter extends BasePresenter<FilterIssuesActivityMvp.View> implements FilterIssuesActivityMvp.Presenter {
+public class FilterIssuesActivityPresenter extends BasePresenter<FilterIssuesActivityMvp.View> implements FilterIssuesActivityMvp.Presenter {
 
     @com.evernote.android.state.State @NonNull ArrayList<LabelModel> labels = new ArrayList<>();
     @com.evernote.android.state.State @NonNull ArrayList<MilestoneModel> milestones = new ArrayList<>();
     @com.evernote.android.state.State @NonNull ArrayList<User> assignees = new ArrayList<>();
+
+    @NonNull
+    public ArrayList<LabelModel> getLabels() {
+        return labels;
+    }
+
+    @NonNull
+    public ArrayList<MilestoneModel> getMilestones() {
+        return milestones;
+    }
+
+    @NonNull
+    public ArrayList<User> getAssignees() {
+        return assignees;
+    }
 
     @Override public void onStart(@NonNull String login, @NonNull String repoId) {
         Observable<Pageable<MilestoneModel>> observable = RestProvider.getRepoService(isEnterprise()).getLabels(login, repoId)

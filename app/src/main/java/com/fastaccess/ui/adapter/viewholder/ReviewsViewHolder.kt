@@ -22,11 +22,10 @@ class ReviewsViewHolder private constructor(itemView: View,
                                             adapter: BaseRecyclerAdapter<*, *, *>?,
                                             val viewGroup: ViewGroup)
     : BaseViewHolder<TimelineModel>(itemView, adapter) {
-
-    @BindView(R.id.stateImage) lateinit var stateImage: ForegroundImageView
-    @BindView(R.id.avatarLayout) lateinit var avatarLayout: AvatarLayout
-    @BindView(R.id.stateText) lateinit var stateText: FontTextView
-    @BindView(R.id.body) lateinit var body: FontTextView
+    val stateImage: ForegroundImageView = itemView.findViewById(R.id.stateImage)
+    val avatarLayout: AvatarLayout = itemView.findViewById(R.id.avatarLayout)
+    val stateText: FontTextView = itemView.findViewById(R.id.stateText)
+    val body: FontTextView = itemView.findViewById(R.id.body)
 
     init {
         itemView.setOnLongClickListener(null)
@@ -39,12 +38,12 @@ class ReviewsViewHolder private constructor(itemView: View,
             stateImage.setImageResource(R.drawable.ic_eye)
             avatarLayout.setUrl(it.user?.avatarUrl, it.user?.login, false, false)
             stateText.text = SpannableBuilder.builder().bold(if (it.user != null) {
-                it.user.login
+                it.user?.login!!
             } else {
                 ""
-            }).append(" ${review.state.replace("_", " ")} ").append(ParseDateFormat.getTimeAgo(it.submittedAt))
+            }).append(" ${review.state?.replace("_", " ")} ").append(ParseDateFormat.getTimeAgo(it.submittedAt))
             if (!it.bodyHtml.isNullOrBlank()) {
-                HtmlHelper.htmlIntoTextView(body, it.bodyHtml, viewGroup.width)
+                HtmlHelper.htmlIntoTextView(body, it.bodyHtml!!, viewGroup.width)
                 body.visibility = View.VISIBLE
             } else {
                 body.text = ""
@@ -55,7 +54,7 @@ class ReviewsViewHolder private constructor(itemView: View,
 
     companion object {
         fun newInstance(viewGroup: ViewGroup, adapter: BaseRecyclerAdapter<*, *, *>): ReviewsViewHolder {
-            return ReviewsViewHolder(BaseViewHolder.getView(viewGroup, R.layout.review_timeline_row_item), adapter, viewGroup)
+            return ReviewsViewHolder(getView(viewGroup, R.layout.review_timeline_row_item), adapter, viewGroup)
         }
     }
 

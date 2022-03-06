@@ -14,7 +14,7 @@ public class CodeSpan extends ReplacementSpan {
 
     private float radius = 10;
 
-    private Drawable drawable;
+    private final Drawable drawable;
     private float padding;
     private int width;
     private int textColor;

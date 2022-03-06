@@ -96,8 +96,7 @@ public class GitHubContributionsView extends View {
      * The tone depends on the number of contributions for a day.
      * Supported formats See {@link Color#parseColor(String)}
      *
-     * @param baseColor
-     *         base color supported formats
+     * @param baseColor base color supported formats
      */
     public void setBaseColor(String baseColor) {
         try {
@@ -112,8 +111,7 @@ public class GitHubContributionsView extends View {
      * Set a base color for blocks.
      * The tone depends on the number of contributions for a day.
      *
-     * @param color
-     *         resource color
+     * @param color resource color
      */
     public void setBaseColor(int color) {
         this.baseColor = color;
@@ -124,8 +122,7 @@ public class GitHubContributionsView extends View {
      * Set a base empty color for blocks without contributions.
      * Supported formats See {@link Color#parseColor(String)}
      *
-     * @param baseColor
-     *         base color supported formats
+     * @param baseColor base color supported formats
      */
     public void setBaseEmptyColor(String baseColor) {
         try {
@@ -139,8 +136,7 @@ public class GitHubContributionsView extends View {
     /**
      * Set a base empty color for blocks without contributions.
      *
-     * @param color
-     *         resource color
+     * @param color resource color
      */
     public void setBaseEmptyColor(int color) {
         this.baseEmptyColor = color;
@@ -150,8 +146,7 @@ public class GitHubContributionsView extends View {
     /**
      * Sets the background color for this contributions view.
      *
-     * @param backgroundBaseColor
-     *         the color of the background
+     * @param backgroundBaseColor the color of the background
      */
     public void setBackgroundBaseColor(String backgroundBaseColor) {
         try {
@@ -165,8 +160,7 @@ public class GitHubContributionsView extends View {
     /**
      * Sets the background color for this contributions view.
      *
-     * @param backgroundBaseColor
-     *         the color of the background
+     * @param backgroundBaseColor the color of the background
      */
     public void setBackgroundBaseColor(int backgroundBaseColor) {
         this.backgroundBaseColor = backgroundBaseColor;
@@ -177,8 +171,7 @@ public class GitHubContributionsView extends View {
      * Set a text color for month names.
      * Supported formats See {@link Color#parseColor(String)}
      *
-     * @param textColor
-     *         text color supported formats
+     * @param textColor text color supported formats
      */
     public void setTextColor(String textColor) {
         try {
@@ -192,8 +185,7 @@ public class GitHubContributionsView extends View {
     /**
      * Set a text color for month names.
      *
-     * @param textColor
-     *         resource color
+     * @param textColor resource color
      */
     public void setTextColor(int textColor) {
         this.textColor = textColor;
@@ -206,8 +198,7 @@ public class GitHubContributionsView extends View {
      * You can set maximum 53 weeks (1 year = 52.14 weeks).
      * By default is 53 (52 weeks and the current week).
      *
-     * @param lastWeeks
-     *         number of week (2..53)
+     * @param lastWeeks number of week (2..53)
      */
     public void setLastWeeks(int lastWeeks) {
         if (lastWeeks >= 2 && lastWeeks <= 53) {
@@ -222,8 +213,7 @@ public class GitHubContributionsView extends View {
      * Set if you want to see the name of the months
      * If you send true, the component height increase
      *
-     * @param displayMonth
-     *         true or false
+     * @param displayMonth true or false
      */
     public void displayMonth(boolean displayMonth) {
         this.displayMonth = displayMonth;
@@ -233,8 +223,7 @@ public class GitHubContributionsView extends View {
     /**
      * Load and show contributions information for a user / organization
      *
-     * @param username
-     *         also, can be an organization
+     * @param username also, can be an organization
      */
     private void loadUserName(String username) {
         this.username = username;
@@ -254,7 +243,8 @@ public class GitHubContributionsView extends View {
         invalidate();
     }
 
-    @Override protected void onDraw(Canvas canvas) {
+    @Override
+    protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (bitmap != null) {
             canvas.drawBitmap(bitmap, matrix, paint);
@@ -378,9 +368,14 @@ public class GitHubContributionsView extends View {
     }
 
     public List<ContributionsDay> getLastContributions(List<ContributionsDay> contributions) {
-        int lastWeekDays = contributions.size() % 7;
+        int size = contributions.size();
+        int lastWeekDays = size % 7;
         int lastDays = (lastWeekDays > 0) ? lastWeekDays + (lastWeeks - 1) * 7 : lastWeeks * 7;
-        return contributions.subList(contributions.size() - lastDays, contributions.size());
+        if (size < lastDays) {
+            // 不需要过滤
+            return contributions;
+        }
+        return contributions.subList(size - lastDays, size);
     }
 }
 

@@ -2,7 +2,7 @@ package com.fastaccess.data.dao.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.LongStream;
@@ -31,7 +31,6 @@ import io.requery.Convert;
 import io.requery.Entity;
 import io.requery.Key;
 import io.requery.Persistable;
-import lombok.NoArgsConstructor;
 
 import static com.fastaccess.data.dao.model.Gist.ID;
 import static com.fastaccess.data.dao.model.Gist.OWNER_NAME;
@@ -40,7 +39,7 @@ import static com.fastaccess.data.dao.model.Gist.OWNER_NAME;
  * Created by Kosh on 16 Mar 2017, 7:32 PM
  */
 
-@Entity() @NoArgsConstructor public abstract class AbstractGist implements Parcelable {
+@Entity() public abstract class AbstractGist implements Parcelable {
     @SerializedName("nooope") @Key long id;
     String url;
     String forksUrl;
@@ -60,6 +59,8 @@ import static com.fastaccess.data.dao.model.Gist.OWNER_NAME;
     @Convert(GitHubFilesConverter.class) GithubFileModel files;
     @Column(name = "user_column") @Convert(UserConverter.class) User user;
     @Convert(UserConverter.class) User owner;
+
+    public AbstractGist() {}
 
     public static Disposable save(@NonNull List<Gist> models, @NonNull String ownerName) {
         return RxHelper.getSingle(Single.fromPublisher(s -> {

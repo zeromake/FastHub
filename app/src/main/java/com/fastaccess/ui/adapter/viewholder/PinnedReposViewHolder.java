@@ -1,8 +1,11 @@
 package com.fastaccess.ui.adapter.viewholder;
 
+import android.content.Context;
+import android.content.res.Resources;
+import androidx.core.content.ContextCompat;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -22,9 +25,6 @@ import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder;
 
 import java.text.NumberFormat;
 
-import butterknife.BindColor;
-import butterknife.BindString;
-import butterknife.BindView;
 
 /**
  * Created by Kosh on 11 Nov 2016, 2:08 PM
@@ -32,19 +32,33 @@ import butterknife.BindView;
 
 public class PinnedReposViewHolder extends BaseViewHolder<PinnedRepos> {
 
-    @BindView(R.id.title) FontTextView title;
-    @Nullable @BindView(R.id.avatarLayout) AvatarLayout avatarLayout;
-    @Nullable @BindView(R.id.date) FontTextView date;
-    @Nullable @BindView(R.id.stars) FontTextView stars;
-    @Nullable @BindView(R.id.forks) FontTextView forks;
-    @Nullable @BindView(R.id.language) FontTextView language;
-    @BindString(R.string.forked) String forked;
-    @BindString(R.string.private_repo) String privateRepo;
-    @BindColor(R.color.material_indigo_700) int forkColor;
-    @BindColor(R.color.material_grey_700) int privateColor;
+    FontTextView title;
+    @Nullable AvatarLayout avatarLayout;
+    @Nullable FontTextView date;
+    @Nullable FontTextView stars;
+    @Nullable FontTextView forks;
+    @Nullable FontTextView language;
+    String forked;
+    String privateRepo;
+    int forkColor;
+    int privateColor;
 
     private PinnedReposViewHolder(@NonNull View itemView, @Nullable BaseRecyclerAdapter adapter) {
         super(itemView, adapter);
+        this.title = itemView.findViewById(R.id.title);
+        this.avatarLayout = itemView.findViewById(R.id.avatarLayout);
+        this.date = itemView.findViewById(R.id.date);
+        this.stars = itemView.findViewById(R.id.stars);
+        this.forks = itemView.findViewById(R.id.forks);
+        this.language = itemView.findViewById(R.id.language);
+
+        Context $$context = itemView.getContext();
+        Resources $$res = $$context.getResources();
+
+        this.forked = $$res.getString(R.string.forked);
+        this.privateRepo = $$res.getString(R.string.private_repo);
+        this.forkColor = ContextCompat.getColor($$context, R.color.material_indigo_700);
+        this.privateColor = ContextCompat.getColor($$context, R.color.material_grey_700);
     }
 
     public static PinnedReposViewHolder newInstance(ViewGroup viewGroup, BaseRecyclerAdapter adapter, boolean singleLine) {

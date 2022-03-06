@@ -1,13 +1,14 @@
 package com.fastaccess.ui.adapter.viewholder;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.fastaccess.R;
 import com.fastaccess.data.dao.TeamsModel;
 import com.fastaccess.helper.InputHelper;
+import com.fastaccess.ui.adapter.TeamsAdapter;
 import com.fastaccess.ui.widgets.FontTextView;
 import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter;
 import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder;
@@ -20,14 +21,16 @@ import butterknife.BindView;
 
 public class TeamsViewHolder extends BaseViewHolder<TeamsModel> {
 
-    @BindView(R.id.title) FontTextView title;
-    @BindView(R.id.date) FontTextView date;
+    FontTextView title;
+    FontTextView date;
 
-    private TeamsViewHolder(@NonNull View itemView, @Nullable BaseRecyclerAdapter adapter) {
+    private TeamsViewHolder(@NonNull View itemView, @Nullable BaseRecyclerAdapter<?, ?, ?> adapter) {
         super(itemView, adapter);
+        this.title = itemView.findViewById((R.id.title));
+        this.date = itemView.findViewById((R.id.date));
     }
 
-    public static TeamsViewHolder newInstance(@NonNull ViewGroup viewGroup, @NonNull BaseRecyclerAdapter adapter) {
+    public static TeamsViewHolder newInstance(@NonNull ViewGroup viewGroup, @NonNull BaseRecyclerAdapter<?, ?, ?> adapter) {
         return new TeamsViewHolder(getView(viewGroup, R.layout.feeds_row_no_image_item), adapter);
     }
 

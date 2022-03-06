@@ -1,9 +1,9 @@
 package com.fastaccess.ui.modules.gists.gist.files;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.View;
 
 import com.evernote.android.state.State;
@@ -84,7 +84,7 @@ public class GistFilesListFragment extends BaseFragment<GistFilesListMvp.View, G
 
     @Override public void onOpenFile(@NonNull FilesListModel item, int position) {
         if (canOpen(item) && !isOwner) {
-            CodeViewerActivity.startActivity(getContext(), item.getRawUrl(), item.getRawUrl());
+            CodeViewerActivity.startActivity(requireContext(), item.getRawUrl(), item.getRawUrl());
         } else if (isOwner && canOpen(item)) {
             onEditFile(item, position);
         }

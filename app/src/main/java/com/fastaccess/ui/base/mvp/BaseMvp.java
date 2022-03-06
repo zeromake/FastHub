@@ -1,9 +1,9 @@
 package com.fastaccess.ui.base.mvp;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
 import com.fastaccess.ui.widgets.dialog.MessageDialogView;
 
@@ -20,7 +20,7 @@ import io.reactivex.functions.Consumer;
 
 public interface BaseMvp {
 
-    interface FAView extends TiView, MessageDialogView.MessageDialogViewActionCallback, OnScrollTopListener {
+    public interface FAView extends TiView, MessageDialogView.MessageDialogViewActionCallback, OnScrollTopListener {
 
         @CallOnMainThread void showProgress(@StringRes int resId);
 
@@ -49,7 +49,7 @@ public interface BaseMvp {
         void onOpenUrlInBrowser();
     }
 
-    interface FAPresenter {
+    public interface FAPresenter {
 
         void onSaveInstanceState(Bundle outState);
 
@@ -74,7 +74,7 @@ public interface BaseMvp {
         void onCheckGitHubStatus();
     }
 
-    interface PaginationListener<P> {
+     public interface PaginationListener<P> {
         int getCurrentPage();
 
         int getPreviousTotal();
@@ -86,7 +86,7 @@ public interface BaseMvp {
         boolean onCallApi(int page, @Nullable P parameter);
     }
 
-    interface OnScrollTopListener {
+    public interface OnScrollTopListener {
         void onScrollTop(int index);
     }
 }

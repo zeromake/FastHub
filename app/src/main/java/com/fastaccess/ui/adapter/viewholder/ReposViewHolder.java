@@ -1,8 +1,12 @@
 package com.fastaccess.ui.adapter.viewholder;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+
 import android.text.format.Formatter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,37 +26,46 @@ import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder;
 
 import java.text.NumberFormat;
 
-import butterknife.BindColor;
-import butterknife.BindString;
-import butterknife.BindView;
-
 /**
  * Created by Kosh on 11 Nov 2016, 2:08 PM
  */
 
 public class ReposViewHolder extends BaseViewHolder<Repo> {
 
-    @BindView(R.id.title) FontTextView title;
-    @BindView(R.id.date) FontTextView date;
-    @BindView(R.id.stars) FontTextView stars;
-    @BindView(R.id.forks) FontTextView forks;
-    @BindView(R.id.language) FontTextView language;
-    @BindView(R.id.size) FontTextView size;
-    @Nullable @BindView(R.id.avatarLayout) AvatarLayout avatarLayout;
-    @BindString(R.string.forked) String forked;
-    @BindString(R.string.private_repo) String privateRepo;
-    @BindColor(R.color.material_indigo_700) int forkColor;
-    @BindColor(R.color.material_grey_700) int privateColor;
-    private boolean isStarred;
-    private boolean withImage;
+    FontTextView title;
+    FontTextView date;
+    FontTextView stars;
+    FontTextView forks;
+    FontTextView language;
+    FontTextView size;
+    @Nullable AvatarLayout avatarLayout;
+    String forked;
+    String privateRepo;
+    int forkColor;
+    int privateColor;
+    private final boolean isStarred;
+    private final boolean withImage;
 
-    private ReposViewHolder(@NonNull View itemView, @Nullable BaseRecyclerAdapter adapter, boolean isStarred, boolean withImage) {
+    private ReposViewHolder(@NonNull View itemView, @Nullable BaseRecyclerAdapter<?,?,?> adapter, boolean isStarred, boolean withImage) {
         super(itemView, adapter);
+        Context context = itemView.getContext();
+        Resources res = context.getResources();
+        this.title = itemView.findViewById((R.id.title));
+        this.date = itemView.findViewById((R.id.date));
+        this.stars = itemView.findViewById((R.id.stars));
+        this.forks = itemView.findViewById((R.id.forks));
+        this.language = itemView.findViewById((R.id.language));
+        this.size = itemView.findViewById((R.id.size));
+        this.avatarLayout = itemView.findViewById((R.id.avatarLayout));
+        this.forkColor = ContextCompat.getColor(context, R.color.material_indigo_700);
+        this.privateColor = ContextCompat.getColor(context, R.color.material_grey_700);
+        this.forked = res.getString(R.string.forked);
+        this.privateRepo = res.getString(R.string.private_repo);
         this.isStarred = isStarred;
         this.withImage = withImage;
     }
 
-    public static ReposViewHolder newInstance(ViewGroup viewGroup, BaseRecyclerAdapter adapter, boolean isStarred, boolean withImage) {
+    public static ReposViewHolder newInstance(ViewGroup viewGroup, BaseRecyclerAdapter<?,?,?> adapter, boolean isStarred, boolean withImage) {
         if (withImage) {
             return new ReposViewHolder(getView(viewGroup, R.layout.repos_row_item), adapter, isStarred, true);
         } else {

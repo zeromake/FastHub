@@ -11,10 +11,10 @@ import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -106,7 +106,7 @@ public class AppHelper {
     }
 
     public static void updateAppLanguage(@NonNull Context context) {
-        String lang = PrefGetter.getAppLanguage();
+        String lang = PrefGetter.getAppLanguage(context.getResources());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             updateResources(context, lang);
         }
@@ -167,7 +167,7 @@ public class AppHelper {
     }
 
     private static boolean isInstalledFromPlaySore(@NonNull Context context) {
-        final String ipn = context.getPackageManager().getInstallerPackageName(BuildConfig.APPLICATION_ID);
+        final String ipn = context.getPackageManager().getInstallerPackageName(BuildConfig.GITHUB_APP_ID);
         return !InputHelper.isEmpty(ipn);
     }
 

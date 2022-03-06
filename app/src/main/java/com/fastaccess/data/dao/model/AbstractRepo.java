@@ -2,7 +2,7 @@ package com.fastaccess.data.dao.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.fastaccess.App;
 import com.fastaccess.data.dao.LicenseModel;
@@ -29,7 +29,6 @@ import io.requery.Entity;
 import io.requery.Key;
 import io.requery.Nullable;
 import io.requery.Persistable;
-import lombok.NoArgsConstructor;
 
 import static com.fastaccess.data.dao.model.Repo.FULL_NAME;
 import static com.fastaccess.data.dao.model.Repo.ID;
@@ -42,7 +41,7 @@ import static com.fastaccess.data.dao.model.Repo.UPDATED_AT;
  * Created by Kosh on 16 Mar 2017, 7:54 PM
  */
 
-@Entity @NoArgsConstructor public abstract class AbstractRepo implements Parcelable {
+@Entity public abstract class AbstractRepo implements Parcelable {
     @Key long id;
     String name;
     String fullName;
@@ -121,6 +120,9 @@ import static com.fastaccess.data.dao.model.Repo.UPDATED_AT;
     String starredUser;
     String reposOwner;
     @Nullable boolean hasProjects;
+
+    public AbstractRepo() {
+    }
 
     public Disposable save(Repo entity) {
         return Single.create(e -> {

@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import com.fastaccess.ui.adapter.viewholder.ProjectViewHolder
 import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter
 import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
-import github.RepoProjectsOpenQuery
+import com.fastaccess.github.RepoProjectsOpenQuery
 
 /**
  * Created by kosh on 09/09/2017.

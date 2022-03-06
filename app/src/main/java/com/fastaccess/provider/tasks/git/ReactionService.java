@@ -5,9 +5,9 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 
 import com.fastaccess.R;
 import com.fastaccess.data.dao.PostReactionModel;
@@ -17,6 +17,8 @@ import com.fastaccess.helper.Bundler;
 import com.fastaccess.helper.InputHelper;
 import com.fastaccess.helper.RxHelper;
 import com.fastaccess.provider.rest.RestProvider;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by Kosh on 29 Mar 2017, 9:59 PM
@@ -69,14 +71,14 @@ public class ReactionService extends IntentService {
     }
 
     private void post(@NonNull ReactionTypes reactionType, @NonNull String login, @NonNull String repo, long commentId, boolean isEnterprise) {
-        RxHelper.safeObservable(RestProvider.getReactionsService(isEnterprise)
+        Disposable task = RxHelper.safeObservable(RestProvider.getReactionsService(isEnterprise)
                 .postIssueCommentReaction(new PostReactionModel(reactionType.getContent()), login, repo, commentId))
                 .doOnSubscribe(disposable -> showNotification(getNotification(reactionType), (int) commentId))
                 .subscribe(response -> hideNotification((int) commentId), throwable -> hideNotification((int) commentId));
     }
 
     private void postCommit(@NonNull ReactionTypes reactionType, @NonNull String login, @NonNull String repo, long commentId, boolean isEnterprise) {
-        RxHelper.safeObservable(RestProvider.getReactionsService(isEnterprise)
+        Disposable task = RxHelper.safeObservable(RestProvider.getReactionsService(isEnterprise)
                 .postCommitReaction(new PostReactionModel(reactionType.getContent()), login, repo, commentId))
                 .doOnSubscribe(disposable -> showNotification(getNotification(reactionType), (int) commentId))
                 .subscribe(response -> hideNotification((int) commentId), throwable -> hideNotification((int) commentId));

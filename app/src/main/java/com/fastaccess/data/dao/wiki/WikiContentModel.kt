@@ -16,7 +16,7 @@ data class WikiContentModel(val content: String? = null, private val footer: Str
     constructor(source: Parcel) : this(
             source.readString(),
             source.readString(),
-            source.createTypedArrayList(WikiSideBarModel.CREATOR)
+        source.createTypedArrayList(WikiSideBarModel.CREATOR) as ArrayList<WikiSideBarModel>
     )
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {

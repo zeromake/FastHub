@@ -3,7 +3,7 @@ package com.fastaccess.ui.modules.repos.projects.details
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.view.ViewPager
+import androidx.viewpager.widget.ViewPager
 import android.view.MenuItem
 import android.view.View
 import butterknife.BindView
@@ -74,8 +74,8 @@ class ProjectPagerActivity : BaseActivity<ProjectPagerMvp.View, ProjectPagerPres
 
     override fun isTransparent(): Boolean = true
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
             android.R.id.home -> {
                 val repoId = presenter.repoId
                 if (repoId != null && !repoId.isNullOrBlank()) {

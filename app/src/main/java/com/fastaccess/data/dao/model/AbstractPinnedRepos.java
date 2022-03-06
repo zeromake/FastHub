@@ -1,8 +1,8 @@
 package com.fastaccess.data.dao.model;
 
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.fastaccess.App;
 import com.fastaccess.data.dao.converters.RepoConverter;
@@ -21,7 +21,6 @@ import io.requery.Entity;
 import io.requery.Generated;
 import io.requery.Key;
 import io.requery.Persistable;
-import lombok.NoArgsConstructor;
 
 import static com.fastaccess.data.dao.model.PinnedRepos.ENTRY_COUNT;
 import static com.fastaccess.data.dao.model.PinnedRepos.ID;
@@ -32,12 +31,15 @@ import static com.fastaccess.data.dao.model.PinnedRepos.REPO_FULL_NAME;
  * Created by Kosh on 25 Mar 2017, 7:29 PM
  */
 
-@Entity @NoArgsConstructor public abstract class AbstractPinnedRepos implements Parcelable {
+@Entity public abstract class AbstractPinnedRepos implements Parcelable {
     @Key @Generated long id;
     @Column(unique = false) String repoFullName;
     @Convert(RepoConverter.class) Repo pinnedRepo;
     @io.requery.Nullable int entryCount;
     @io.requery.Nullable String login;
+
+    public AbstractPinnedRepos() {
+    }
 
     public static Single<PinnedRepos> update(@NonNull PinnedRepos entity) {
         return RxHelper.getSingle(App.getInstance().getDataStore().update(entity));

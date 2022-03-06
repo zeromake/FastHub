@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.NavigationView
-import android.support.v4.widget.DrawerLayout
+import com.google.android.material.navigation.NavigationView
+import androidx.drawerlayout.widget.DrawerLayout
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
@@ -24,6 +24,7 @@ import com.fastaccess.ui.base.BaseActivity
 import com.fastaccess.ui.modules.repos.RepoPagerActivity
 import com.fastaccess.ui.widgets.StateLayout
 import com.prettifier.pretty.PrettifyWebView
+import java.util.*
 
 /**
  * Created by Kosh on 13 Jun 2017, 8:35 PM
@@ -100,7 +101,8 @@ class WikiActivity : BaseActivity<WikiMvp.View, WikiPresenter>(), WikiMvp.View {
         this.selectedTitle = item.title.toString()
         setTaskName("${presenter.login}/${presenter.repoId} - Wiki - $selectedTitle")
         closeDrawerLayout()
-        wiki.sidebar.first { it.title?.toLowerCase() == item.title.toString().toLowerCase() }
+        wiki.sidebar.first { it.title?.lowercase(Locale.getDefault()) == item.title.toString()
+            .lowercase(Locale.getDefault()) }
                 .let { presenter.onSidebarClicked(it) }
     }
 
@@ -114,8 +116,8 @@ class WikiActivity : BaseActivity<WikiMvp.View, WikiPresenter>(), WikiMvp.View {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.menu -> {
                 drawerLayout.openDrawer(Gravity.END)
                 return true

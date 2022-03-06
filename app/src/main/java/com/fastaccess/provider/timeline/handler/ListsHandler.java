@@ -1,7 +1,7 @@
 package com.fastaccess.provider.timeline.handler;
 
 import android.graphics.drawable.Drawable;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.SpannableStringBuilder;
 
 import com.fastaccess.helper.Logger;
@@ -11,18 +11,19 @@ import net.nightwhistler.htmlspanner.TagNodeHandler;
 
 import org.htmlcleaner.TagNode;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor @AllArgsConstructor public class ListsHandler extends TagNodeHandler {
+public class ListsHandler extends TagNodeHandler {
 
-    @Nullable private Drawable checked;
-    @Nullable private Drawable unchecked;
+    @Nullable private final Drawable checked;
+    @Nullable private final Drawable unchecked;
+
+    public ListsHandler(@Nullable Drawable checked, @Nullable Drawable unchecked) {
+        this.checked = checked;
+        this.unchecked = unchecked;
+    }
 
     private int getMyIndex(TagNode node) {
-        if (node.getParent() == null) {
-            return -1;
-        } else {
+        if (node.getParent() != null) {
             int i = 1;
             for (Object child : node.getParent().getChildren()) {
                 if (child == node) {
@@ -35,8 +36,8 @@ import lombok.NoArgsConstructor;
                     }
                 }
             }
-            return -1;
         }
+        return -1;
     }
 
     private String getParentName(TagNode node) {

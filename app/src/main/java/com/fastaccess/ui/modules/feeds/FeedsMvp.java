@@ -2,9 +2,9 @@ package com.fastaccess.ui.modules.feeds;
 
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.fastaccess.data.dao.GitCommitModel;
 import com.fastaccess.data.dao.SimpleUrlsModel;
@@ -23,7 +23,7 @@ import java.util.List;
 
 public interface FeedsMvp {
     interface View extends BaseMvp.FAView, SwipeRefreshLayout.OnRefreshListener,
-            android.view.View.OnClickListener, ListDialogView.onSimpleItemSelection<Parcelable> {
+            android.view.View.OnClickListener, ListDialogView.OnSimpleItemSelection<Parcelable> {
 
         void onNotifyAdapter(@Nullable List<Event> events, int page);
 

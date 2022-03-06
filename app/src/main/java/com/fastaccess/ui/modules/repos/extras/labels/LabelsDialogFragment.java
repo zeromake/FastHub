@@ -2,10 +2,10 @@ package com.fastaccess.ui.modules.repos.extras.labels;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.v4.widget.SwipeRefreshLayout;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.View;
 
 import com.evernote.android.state.State;
@@ -66,7 +66,7 @@ public class LabelsDialogFragment extends BaseDialogFragment<LabelsMvp.View, Lab
         }
     }
 
-    @Override public void onAttach(Context context) {
+    @Override public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (getParentFragment() instanceof LabelsMvp.SelectedLabelsListener) {
             callback = (LabelsMvp.SelectedLabelsListener) getParentFragment();

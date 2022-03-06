@@ -5,14 +5,16 @@ import com.fastaccess.helper.RxHelper;
 import com.fastaccess.provider.gson.ToGsonProvider;
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter;
 
-import lombok.Getter;
-
 /**
  * Created by Kosh on 28 May 2017, 10:53 AM
  */
 
-@Getter public class ChangelogPresenter extends BasePresenter<ChangelogMvp.View> implements ChangelogMvp.Presenter {
+public class ChangelogPresenter extends BasePresenter<ChangelogMvp.View> implements ChangelogMvp.Presenter {
     private String html;
+
+    public String getHtml() {
+        return html;
+    }
 
     @Override public void onLoadChangelog() {
         manageDisposable(RxHelper.getObservable(ToGsonProvider.getChangelog(App.getInstance()))

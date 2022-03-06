@@ -1,8 +1,9 @@
 package com.fastaccess.ui.adapter;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatImageView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -13,8 +14,6 @@ import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter;
 import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder;
 
 import java.util.List;
-
-import butterknife.BindView;
 
 /**
  * Created by Kosh on 09 Apr 2017, 10:55 AM
@@ -37,11 +36,13 @@ public class BranchesAdapter extends BaseRecyclerAdapter<BranchesModel, Branches
 
 
     static class BranchesViewHolder extends BaseViewHolder<BranchesModel> {
-        @Nullable @BindView(R.id.image) AppCompatImageView image;
-        @BindView(android.R.id.text1) TextView title;
+        @Nullable AppCompatImageView image;
+        TextView title;
 
         BranchesViewHolder(@NonNull View itemView, @Nullable BaseRecyclerAdapter adapter) {
             super(itemView, adapter);
+            this.image = itemView.findViewById(R.id.image);
+            this.title = itemView.findViewById(android.R.id.text1);
         }
 
         @Override public void bind(@NonNull BranchesModel branchesModel) {

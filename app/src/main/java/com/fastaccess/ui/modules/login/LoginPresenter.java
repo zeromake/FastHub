@@ -2,8 +2,8 @@ package com.fastaccess.ui.modules.login;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.fastaccess.BuildConfig;
 import com.fastaccess.R;
@@ -18,9 +18,11 @@ import com.fastaccess.provider.rest.RestProvider;
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import okhttp3.Credentials;
 import retrofit2.HttpException;
+import retrofit2.Response;
 
 /**
  * Created by Kosh on 09 Nov 2016, 9:43 PM
@@ -38,19 +40,18 @@ public class LoginPresenter extends BasePresenter<LoginMvp.View> implements Logi
 
     @Override public void onError(@NonNull Throwable throwable) {
         if (RestProvider.getErrorCode(throwable) == 401 && throwable instanceof HttpException) {
-            retrofit2.Response response = ((HttpException) throwable).response();
+            Response<?> response = ((HttpException) throwable).response();
             if (response != null && response.headers() != null) {
                 String twoFaToken = response.headers().get("X-GitHub-OTP");
                 if (twoFaToken != null) {
                     sendToView(LoginMvp.View::onRequire2Fa);
-                    return;
                 } else {
                     sendToView(view -> view.showMessage(R.string.error, R.string.failed_login));
-                    return;
                 }
+                return;
             }
         }
-        sendToView(view -> view.showErrorMessage(throwable.getMessage()));
+        sendToView(view -> view.showErrorMessage(Objects.requireNonNull(throwable.getMessage())));
     }
 
     @Override public void onTokenResponse(@Nullable AccessTokenModel modelResponse) {
@@ -74,7 +75,7 @@ public class LoginPresenter extends BasePresenter<LoginMvp.View> implements Logi
                 .appendQueryParameter("client_id", GithubConfigHelper.getClientId())
                 .appendQueryParameter("redirect_uri", GithubConfigHelper.getRedirectUrl())
                 .appendQueryParameter("scope", "user,repo,gist,notifications,read:org")
-                .appendQueryParameter("state", BuildConfig.APPLICATION_ID)
+                .appendQueryParameter("state", BuildConfig.GITHUB_APP_ID)
                 .build();
     }
 
@@ -86,7 +87,7 @@ public class LoginPresenter extends BasePresenter<LoginMvp.View> implements Logi
                 if (!InputHelper.isEmpty(tokenCode)) {
                     makeRestCall(LoginProvider.getLoginRestService().getAccessToken(tokenCode,
                             GithubConfigHelper.getClientId(), GithubConfigHelper.getSecret(),
-                            BuildConfig.APPLICATION_ID, GithubConfigHelper.getRedirectUrl()),
+                            BuildConfig.GITHUB_APP_ID, GithubConfigHelper.getRedirectUrl()),
                             this::onTokenResponse);
                 } else {
                     sendToView(view -> view.showMessage(R.string.error, R.string.error));
@@ -119,7 +120,7 @@ public class LoginPresenter extends BasePresenter<LoginMvp.View> implements Logi
                 if (isBasicAuth && !isEnterprise()) {
                     AuthModel authModel = new AuthModel();
                     authModel.setScopes(Arrays.asList("user", "repo", "gist", "notifications", "read:org"));
-                    authModel.setNote(BuildConfig.APPLICATION_ID);
+                    authModel.setNote(BuildConfig.GITHUB_APP_ID);
                     authModel.setClientSecret(GithubConfigHelper.getSecret());
                     authModel.setClientId(GithubConfigHelper.getClientId());
                     authModel.setNoteUrl(GithubConfigHelper.getRedirectUrl());

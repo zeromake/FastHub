@@ -438,7 +438,7 @@ APP
     <string name="projects">專案</string>
     <string name="no_projects">沒有專案</string>
     <string name="no_cards">沒有卡</string>
-    <string name="card_added_by">由 %s 新增</string>
+    <string name="card_added_by" formatted="false">由 %s 新增</string>
     <string name="too_large_changes">差異太多無法顯示。請於瀏覽器檢視它們</string>
     <string name="project">專案</string>
     <string name="please_read">請閱讀！</string>

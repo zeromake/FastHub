@@ -22,13 +22,12 @@ import io.requery.Entity;
 import io.requery.Key;
 import io.requery.Nullable;
 import io.requery.Persistable;
-import lombok.NoArgsConstructor;
 
 /**
  * Created by Kosh on 16 Mar 2017, 7:37 PM
  */
 
-@Entity @NoArgsConstructor public abstract class AbstractNotification implements Parcelable {
+@Entity public abstract class AbstractNotification implements Parcelable {
     @Key long id;
     @Convert(RepoConverter.class) Repo repository;
     @Convert(NotificationSubjectConverter.class) NotificationSubjectModel subject;
@@ -38,6 +37,9 @@ import lombok.NoArgsConstructor;
     Date updatedAt;
     Date lastReadAt;
     @Nullable boolean isSubscribed;
+
+    public AbstractNotification() {
+    }
 
     public Disposable save(Notification entity) {
         return RxHelper.getSingle(Single.fromPublisher(s -> {
@@ -72,7 +74,7 @@ import lombok.NoArgsConstructor;
         })).subscribe(o -> {/*do nothing*/}, Throwable::printStackTrace);
     }
 
-    public static Disposable save(@android.support.annotation.Nullable List<Notification> models) {
+    public static Disposable save(@androidx.annotation.Nullable List<Notification> models) {
         if (models == null || models.isEmpty()) {
             return Observable.empty().subscribe();
         }
@@ -92,7 +94,7 @@ import lombok.NoArgsConstructor;
         })).subscribe(o -> {/*do nothing*/}, Throwable::printStackTrace);
     }
 
-    public static Single<Boolean> saveAsSingle(@android.support.annotation.Nullable List<Notification> models) {
+    public static Single<Boolean> saveAsSingle(@androidx.annotation.Nullable List<Notification> models) {
         if (models == null || models.isEmpty()) {
             return Single.just(true);
         }

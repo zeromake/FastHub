@@ -1,6 +1,6 @@
 package com.fastaccess.ui.adapter;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.ViewGroup;
 
 import com.fastaccess.data.dao.model.User;
@@ -16,8 +16,8 @@ import java.util.ArrayList;
 
 public class UsersAdapter extends BaseRecyclerAdapter<User, UsersViewHolder, BaseViewHolder.OnItemClickListener<User>> {
 
-    private boolean isContributor;
-    private boolean isFilter;
+    private final boolean isContributor;
+    private final boolean isFilter;
 
     public UsersAdapter(@NonNull ArrayList<User> list) {
         this(list, false);

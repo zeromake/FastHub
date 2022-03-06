@@ -1,6 +1,8 @@
 package com.fastaccess.ui.adapter;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
+
+import android.annotation.SuppressLint;
 import android.view.ViewGroup;
 
 import com.fastaccess.data.dao.SearchCodeModel;
@@ -21,7 +23,6 @@ public class SearchCodeAdapter extends BaseRecyclerAdapter<SearchCodeModel, Sear
 
     public SearchCodeAdapter(@NonNull List<SearchCodeModel> data) {
         super(data);
-        this.showRepoName = showRepoName;
     }
 
     @Override protected SearchCodeViewHolder viewHolder(ViewGroup parent, int viewType) {
@@ -32,6 +33,7 @@ public class SearchCodeAdapter extends BaseRecyclerAdapter<SearchCodeModel, Sear
         holder.bind(getItem(position), showRepoName);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void showRepoName(boolean showRepoName) {
         this.showRepoName = showRepoName;
         notifyDataSetChanged();

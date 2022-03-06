@@ -461,7 +461,7 @@ CaptainTF @ Github 提议：
     <string name="projects">项目</string>
     <string name="no_projects">无项目</string>
     <string name="no_cards">无卡片</string>
-    <string name="card_added_by">%s 于 %s 新增</string>
+    <string name="card_added_by" formatted="false">%s 于 %s 新增</string>
     <string name="too_large_changes">更改内容过多. 请在浏览器中查看.</string>
     <string name="project">项目</string>
     <string name="faq">常见问题</string>
@@ -505,4 +505,5 @@ CaptainTF @ Github 提议：
     <string name="user_unblocked">已取消阻止该用户</string>
     <string name="clear_image_cache">清除图片缓存</string>
     <string name="restart_app_message">请重启应用</string>
+    <string name="auth_null_or_blank">没有找到上次的认证信息</string>
 </resources>

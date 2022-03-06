@@ -1,7 +1,7 @@
 package com.fastaccess.ui.adapter;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.view.ViewGroup;
 
 import com.fastaccess.R;
@@ -26,7 +26,7 @@ import java.util.List;
  * Created by Kosh on 13 Dec 2016, 1:44 AM
  */
 
-public class IssuesTimelineAdapter extends BaseRecyclerAdapter<TimelineModel, BaseViewHolder,
+public class IssuesTimelineAdapter extends BaseRecyclerAdapter<TimelineModel, BaseViewHolder<?>,
         BaseViewHolder.OnItemClickListener<TimelineModel>> {
 
     private final OnToggleView onToggleView;

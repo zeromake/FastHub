@@ -12,15 +12,17 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.customtabs.CustomTabsIntent;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.ShareCompat;
-import android.support.v4.util.Pair;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.core.app.ShareCompat;
+import androidx.core.util.Pair;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -49,6 +51,7 @@ public class ActivityHelper {
 
     public static void startCustomTab(@NonNull Activity context, @NonNull Uri url) {
         String packageNameToUse = CustomTabsHelper.getPackageNameToUse(context);
+//        Log.e("CustomTab", packageNameToUse);
         if (packageNameToUse != null) {
             CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
                     .setToolbarColor(ViewHelper.getPrimaryColor(context))
@@ -73,21 +76,34 @@ public class ActivityHelper {
         openChooser(context, url, false);
     }
 
+    public static void safeOpenChooser(@NonNull Context context, @NonNull Intent intent ) {
+        if(intent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(intent);
+        }
+    }
+
+    public static void safeOpenChooser(@NonNull Activity context, @NonNull Intent intent ) {
+        if(intent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(intent);
+        }
+    }
+
     private static void openChooser(@NonNull Context context, @NonNull Uri url, boolean fromCustomTab) {
         Intent i = new Intent(Intent.ACTION_VIEW, url);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Intent finalIntent = chooserIntent(context, i, url);
         if (finalIntent != null) {
             try {
-                context.startActivity(finalIntent);
+                safeOpenChooser(context, finalIntent);
             } catch (ActivityNotFoundException ignored) {
             }
         } else {
             if (!fromCustomTab) {
-                Activity activity = ActivityHelper.getActivity(context);
+                 Activity activity = ActivityHelper.getActivity(context);
                 if (activity == null) {
                     try {
-                        context.startActivity(i);
+                        assert activity != null;
+                        safeOpenChooser(activity, i);
                     } catch (ActivityNotFoundException ignored) {
                     }
                     return;
@@ -95,7 +111,7 @@ public class ActivityHelper {
                 startCustomTab(activity, url);
             } else {
                 try {
-                    context.startActivity(i);
+                    safeOpenChooser(context, i);
                 } catch (ActivityNotFoundException ignored) {
                 }
             }
@@ -175,7 +191,7 @@ public class ActivityHelper {
     @SuppressWarnings("RestrictedApi")
     @Nullable public static Fragment getVisibleFragment(@NonNull FragmentManager manager) {
         List<Fragment> fragments = manager.getFragments();
-        if (fragments != null && !fragments.isEmpty()) {
+        if (!fragments.isEmpty()) {
             for (Fragment fragment : fragments) {
                 if (fragment != null && fragment.isVisible() &&
                         !(fragment instanceof MainDrawerFragment || fragment instanceof AccountDrawerFragment)) {
@@ -244,7 +260,7 @@ public class ActivityHelper {
             return lastIntent;
         }
         Intent chooserIntent = Intent.createChooser(lastIntent, null);
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, chooserIntents.toArray(new Intent[chooserIntents.size()]));
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, chooserIntents.toArray(new Intent[0]));
         return chooserIntent;
     }
 

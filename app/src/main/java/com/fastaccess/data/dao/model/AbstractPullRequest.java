@@ -3,7 +3,7 @@ package com.fastaccess.data.dao.model;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.fastaccess.App;
 import com.fastaccess.R;
@@ -37,7 +37,6 @@ import io.requery.Convert;
 import io.requery.Entity;
 import io.requery.Key;
 import io.requery.Persistable;
-import lombok.NoArgsConstructor;
 
 import static com.fastaccess.data.dao.model.PullRequest.ID;
 import static com.fastaccess.data.dao.model.PullRequest.LOGIN;
@@ -50,7 +49,7 @@ import static com.fastaccess.data.dao.model.PullRequest.UPDATED_AT;
  * Created by Kosh on 16 Mar 2017, 7:39 PM
  */
 
-@Entity @NoArgsConstructor public abstract class AbstractPullRequest implements Parcelable {
+@Entity public abstract class AbstractPullRequest implements Parcelable {
     @Key long id;
     String url;
     String body;
@@ -91,6 +90,9 @@ import static com.fastaccess.data.dao.model.PullRequest.UPDATED_AT;
     @Convert(CommitConverter.class) Commit head;
     @Convert(PullRequestConverter.class) PullRequest pullRequest;
     @Convert(ReactionsConverter.class) ReactionsModel reactions;
+
+    public AbstractPullRequest() {
+    }
 
     public Single<PullRequest> save(PullRequest entity) {
         return RxHelper.getSingle(App.getInstance().getDataStore()

@@ -1,6 +1,7 @@
 package com.fastaccess.provider.rest
 
-import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo3.ApolloClient
+import com.apollographql.apollo3.network.okHttpClient
 import com.fastaccess.BuildConfig
 import com.fastaccess.helper.PrefGetter
 import com.fastaccess.provider.scheme.LinkParserHelper
@@ -11,7 +12,7 @@ import com.fastaccess.provider.scheme.LinkParserHelper
 
 object ApolloProdivder {
 
-    fun getApollo(enterprise: Boolean) = ApolloClient.builder()
+    fun getApollo(enterprise: Boolean) = ApolloClient.Builder()
             .serverUrl("${if (enterprise && PrefGetter.isEnterprise()) {
                 "${LinkParserHelper.getEndpoint(PrefGetter.getEnterpriseUrl())}/"
             } else {
@@ -19,5 +20,4 @@ object ApolloProdivder {
             }}graphql")
             .okHttpClient(RestProvider.provideOkHttpClient())
             .build()
-
 }

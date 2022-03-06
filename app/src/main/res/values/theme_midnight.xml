@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- auto color generate start -->
+    <color name="thememidnight_base_card_background">#171F27</color>
+    <color name="thememidnight_base_icon_color">#eee</color>
+    <color name="thememidnight_base_colorprimary">#171F27</color>
+    <color name="thememidnight_base_colorprimarydark">#0A0F14</color>
+    <color name="thememidnight_base_coloraccent">#2196F3</color>
+    <color name="thememidnight_base_android_textcolorprimary">#fff</color>
+    <color name="thememidnight_base_android_textcolorsecondary">#9E9E9E</color>
+    <color name="thememidnight_base_android_textcolortertiary">#ffe0e0e0</color>
+    <color name="toolbarstylemidnight_colorcontrolhighlight">#42ffffff</color>
+    <color name="timelinebackgroundmidnight_android_backgroundtint">#171F27</color>
+    <color name="commentboxmidnight_android_backgroundtint">#171F27</color>
+    <color name="dialogthememidnight_card_background">#171F27</color>
+    <color name="dialogthememidnight_icon_color">#eee</color>
+    <color name="dialogthememidnight_colorprimary">#171F27</color>
+    <color name="dialogthememidnight_colorprimarydark">#0A0F14</color>
+    <color name="dialogthememidnight_coloraccent">#2196F3</color>
+    <color name="apptheme_aboutactivity_midnight_colorprimary">#171F27</color>
+    <color name="apptheme_aboutactivity_midnight_colorprimarydark">#0A0F14</color>
+    <color name="apptheme_aboutactivity_midnight_coloraccent">#2196F3</color>
+    <color name="apptheme_aboutactivity_midnight_mal_color_primary">#eee</color>
+    <color name="apptheme_aboutactivity_midnight_mal_color_secondary">#ffe0e0e0</color>
+    <color name="apptheme_aboutactivity_midnight_mal_card_background">#171F27</color>
+    <!-- auto color generate end -->
+
     <color name="midnightWindowBackground">#1F2933</color>
     <color name="midnightDivider">#10FFFFFF</color>
     <color name="midnight_patch_addition_color">@color/material_green_900</color>
@@ -9,27 +34,27 @@
 
     <style name="ThemeMidnight" parent="ThemeMidnight.Base"/>
 
-    <style name="ThemeMidnight.Base" parent="Theme.AppCompat.NoActionBar">
-        <item name="card_background">#171F27</item>
+    <style name="ThemeMidnight.Base" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="card_background">@color/thememidnight_base_card_background</item>
         <item name="comment_box_style">@style/CommentBoxMidnight</item>
-        <item name="icon_color">#eee</item>
+        <item name="icon_color">@color/thememidnight_base_icon_color</item>
         <item name="timeLineBackground">@style/TimeLineBackgroundMidnight</item>
         <item name="patch_addition">@color/midnight_patch_addition_color</item>
         <item name="patch_deletion">@color/midnight_patch_deletion_color</item>
         <item name="patch_ref">@color/midnight_patch_ref_color</item>
         <item name="dividerColor">@color/midnightDivider</item>
         <item name="android:windowBackground">@color/midnightWindowBackground</item>
-        <item name="colorPrimary">#171F27</item>
-        <item name="colorPrimaryDark">#0A0F14</item>
-        <item name="colorAccent">#2196F3</item>
+        <item name="colorPrimary">@color/thememidnight_base_colorprimary</item>
+        <item name="colorPrimaryDark">@color/thememidnight_base_colorprimarydark</item>
+        <item name="colorAccent">@color/thememidnight_base_coloraccent</item>
         <item name="colorControlNormal">?colorAccent</item>
         <item name="actionModeBackground">?colorPrimary</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
-        <item name="android:textColorPrimary">#fff</item>
-        <item name="android:textColorSecondary">#9E9E9E</item>
-        <item name="android:textColorTertiary">#ffe0e0e0</item>
+        <item name="android:textColorPrimary">@color/thememidnight_base_android_textcolorprimary</item>
+        <item name="android:textColorSecondary">@color/thememidnight_base_android_textcolorsecondary</item>
+        <item name="android:textColorTertiary">@color/thememidnight_base_android_textcolortertiary</item>
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
         <item name="android:windowAllowReturnTransitionOverlap">true</item>
         <item name="android:colorEdgeEffect">?colorPrimary</item>
@@ -44,7 +69,7 @@
         <item name="android:spinnerDropDownItemStyle">@style/PopupMenuMidnight</item>
     </style>
 
-    <style name="PopupMenuMidnight" parent="Widget.AppCompat.PopupMenu">
+    <style name="PopupMenuMidnight" parent="Widget.MaterialComponents.PopupMenu">
         <item name="android:popupBackground">@color/midnightWindowBackground</item>
     </style>
 
@@ -126,35 +151,35 @@
     <style name="ToolbarStyleMidnight">
         <item name="android:textColorPrimary">@color/white</item>
         <item name="colorControlNormal">@color/white</item>
-        <item name="colorControlHighlight">#42ffffff</item>
+        <item name="colorControlHighlight">@color/toolbarstylemidnight_colorcontrolhighlight</item>
         <item name="popupTheme">@style/PopupThemeMidnight</item>
     </style>
 
-    <style name="PopupThemeMidnight" parent="ThemeOverlay.AppCompat">
+    <style name="PopupThemeMidnight" parent="ThemeOverlay.MaterialComponents">
         <item name="android:colorBackground">@color/midnightWindowBackground</item>
     </style>
 
     <style name="TimeLineBackgroundMidnight">
         <item name="android:background">@drawable/ic_timeline_arrow_left</item>
-        <item name="android:backgroundTint">#171F27</item>
+        <item name="android:backgroundTint">@color/timelinebackgroundmidnight_android_backgroundtint</item>
     </style>
 
     <style name="CommentBoxMidnight">
         <item name="android:background">@drawable/ic_edittext</item>
-        <item name="android:backgroundTint">#171F27</item>
+        <item name="android:backgroundTint">@color/commentboxmidnight_android_backgroundtint</item>
     </style>
 
-    <style name="DialogThemeMidnight" parent="Theme.AppCompat.Dialog.Alert">
+    <style name="DialogThemeMidnight" parent="Theme.MaterialComponents.Dialog.Alert">
         <item name="android:toolbarStyle">@style/ToolbarStyleMidnight</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="card_background">#171F27</item>
+        <item name="card_background">@color/dialogthememidnight_card_background</item>
         <item name="comment_box_style">@style/CommentBoxMidnight</item>
-        <item name="icon_color">#eee</item>
+        <item name="icon_color">@color/dialogthememidnight_icon_color</item>
         <item name="timeLineBackground">@style/TimeLineBackgroundMidnight</item>
-        <item name="colorPrimary">#171F27</item>
-        <item name="colorPrimaryDark">#0A0F14</item>
-        <item name="colorAccent">#2196F3</item>
+        <item name="colorPrimary">@color/dialogthememidnight_colorprimary</item>
+        <item name="colorPrimaryDark">@color/dialogthememidnight_colorprimarydark</item>
+        <item name="colorAccent">@color/dialogthememidnight_coloraccent</item>
         <item name="android:windowBackground">@color/midnightWindowBackground</item>
     </style>
 
@@ -220,13 +245,13 @@
 
     <style name="AppTheme.AboutActivity.Midnight" parent="ThemeMidnight">
         <item name="mal_popupOverlay">@style/Theme.Mal.Dark.PopupOverlay</item>
-        <item name="colorPrimary">#171F27</item>
-        <item name="colorPrimaryDark">#0A0F14</item>
-        <item name="colorAccent">#2196F3</item>
+        <item name="colorPrimary">@color/apptheme_aboutactivity_midnight_colorprimary</item>
+        <item name="colorPrimaryDark">@color/apptheme_aboutactivity_midnight_colorprimarydark</item>
+        <item name="colorAccent">@color/apptheme_aboutactivity_midnight_coloraccent</item>
         <item name="mal_lightActionBar">false</item>
-        <item name="mal_color_primary">#eee</item>
-        <item name="mal_color_secondary">#ffe0e0e0</item>
-        <item name="mal_card_background">#171F27</item>
+        <item name="mal_color_primary">@color/apptheme_aboutactivity_midnight_mal_color_primary</item>
+        <item name="mal_color_secondary">@color/apptheme_aboutactivity_midnight_mal_color_secondary</item>
+        <item name="mal_card_background">@color/apptheme_aboutactivity_midnight_mal_card_background</item>
     </style>
 
 </resources>

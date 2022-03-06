@@ -1,7 +1,7 @@
 package com.fastaccess.ui.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +14,13 @@ import com.fastaccess.ui.widgets.ForegroundImageView;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * Created by JediB on 5/12/2017.
  */
 
 public class SettingsAdapter extends BaseAdapter {
 
-    private ArrayList<SettingsModel> settings;
+    private final ArrayList<SettingsModel> settings;
     private final LayoutInflater inflater;
 
     public SettingsAdapter(@NonNull Context context, @NonNull ArrayList<SettingsModel> settings) {
@@ -61,10 +58,14 @@ public class SettingsAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-        @BindView(R.id.iconItemImage) ForegroundImageView image;
-        @BindView(R.id.iconItemTitle) FontTextView title;
-        @BindView(R.id.iconItemSummary) FontTextView summary;
+        ForegroundImageView image;
+        FontTextView title;
+        FontTextView summary;
 
-        ViewHolder(View view) {ButterKnife.bind(this, view);}
+        ViewHolder(View view) {
+            this.image = view.findViewById(R.id.iconItemImage);
+            this.title = view.findViewById(R.id.iconItemTitle);
+            this.summary = view.findViewById(R.id.iconItemSummary);
+        }
     }
 }

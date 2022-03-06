@@ -1,9 +1,9 @@
 package com.fastaccess.provider.timeline;
 
-import android.support.annotation.IdRes;
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.IdRes;
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.fastaccess.data.dao.PostReactionModel;
 import com.fastaccess.data.dao.ReactionsModel;
@@ -38,9 +38,9 @@ public class ReactionsProvider {
     })
     @Retention(RetentionPolicy.SOURCE) public @interface ReactionType {}
 
-    private Map<Long, ReactionsModel> reactionsMap = new LinkedHashMap<>();
+    private final Map<Long, ReactionsModel> reactionsMap = new LinkedHashMap<>();
 
-    @Nullable public Observable onHandleReaction(@IdRes int viewId, long idOrNumber, @Nullable String login,
+    @Nullable public Observable<?> onHandleReaction(@IdRes int viewId, long idOrNumber, @Nullable String login,
                                                  @Nullable String repoId, @ReactionType int reactionType, boolean isEnterprise) {
         if (!InputHelper.isEmpty(login) && !InputHelper.isEmpty(repoId)) {
             if (!isPreviouslyReacted(idOrNumber, viewId)) {

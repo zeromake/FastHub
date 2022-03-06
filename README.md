@@ -197,3 +197,27 @@ Designer website [Cookicons](https://cookicons.co/).
 [Google+](https://plus.google.com/+KevinAguilarC) | [Twitter](https://twitter.com/kevttob)  
 Designer at [Kevin Aguilar](http://kevaguilar.com/).  
 Laus Deo Semper
+
+
+## Fork Change & Plan List
+
+- [x] fix: trending html dom selector
+- [x] feat: upgrade gradle to 7.4
+- [x] feat: build.gradle migration build.gradle.kts
+- [x] feat: requery upgrade to 1.6.1
+- [x] feat: aboutlibraries upgrade to 10.0.0
+- [x] fix: lombok plugin remove use kotlin
+- [x] feat: use tencent/mmkv replace `SharedPreferences`
+- [x] fix: webview onPageFinished measure view height
+- [x] fix: setGithubContent html tag duplicate
+- [x] feat: graphql upgrade to apollo3
+- [x] feat: partial code butterknife convert to findViewById
+- [x] feat: partial code file convert to kotlin
+- [x] feat: partial code Stream convert to kotlin `List|Sequence`
+- [ ] fix: migration code favorite page cannot be viewed
+- [ ] fix: top navigation back button event change to system back button consistent
+- [ ] feat: add history page
+- [ ] feat: remake search page support `star` sorted and code search page
+- [ ] fix: gist public page request is http 500
+- [ ] feat: support actions page
+- [ ] feat: main timeline pages support grouping aggregation

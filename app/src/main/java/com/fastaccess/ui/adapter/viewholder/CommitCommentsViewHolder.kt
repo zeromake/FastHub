@@ -1,12 +1,11 @@
 package com.fastaccess.ui.adapter.viewholder
 
-import android.support.transition.ChangeBounds
-import android.support.transition.TransitionManager
+import androidx.transition.ChangeBounds
+import androidx.transition.TransitionManager
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.TextView
-import butterknife.BindView
 import com.fastaccess.R
 import com.fastaccess.data.dao.model.Comment
 import com.fastaccess.helper.InputHelper
@@ -21,20 +20,32 @@ import com.fastaccess.ui.widgets.FontTextView
 import com.fastaccess.ui.widgets.ForegroundImageView
 import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter
 import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
+import java.util.*
 
 /**
  * Created by kosh on 15/08/2017.
  */
-class CommitCommentsViewHolder private constructor(view: View, adapter: BaseRecyclerAdapter<*, *, *>,
-                                                   val viewGroup: ViewGroup, val onToggleView: OnToggleView)
-    : BaseViewHolder<Comment>(view, adapter) {
+class CommitCommentsViewHolder private constructor(
+    view: View, adapter: BaseRecyclerAdapter<*, *, *>,
+    val viewGroup: ViewGroup, val onToggleView: OnToggleView
+) : BaseViewHolder<Comment>(view, adapter) {
+
+    val avatar: AvatarLayout = view.findViewById(R.id.avatarView)
+    val name: FontTextView = view.findViewById(R.id.name)
+    val date: FontTextView = view.findViewById(R.id.date)
+    val toggle: ForegroundImageView = view.findViewById(R.id.toggle)
+    val commentMenu: ForegroundImageView = view.findViewById(R.id.commentMenu)
+    val comment: FontTextView = view.findViewById(R.id.comment)
+    val commentOptions: View = view.findViewById(R.id.commentOptions)
+    val owner: TextView = view.findViewById(R.id.owner)
 
     init {
-        if (adapter.getRowWidth() == 0) {
-            itemView.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
+        if (adapter.rowWidth == 0) {
+            itemView.viewTreeObserver.addOnPreDrawListener(object :
+                ViewTreeObserver.OnPreDrawListener {
                 override fun onPreDraw(): Boolean {
                     itemView.viewTreeObserver.removeOnPreDrawListener(this)
-                    adapter.setRowWidth(itemView.width - ViewHelper.dpToPx(itemView.context, 48f))
+                    adapter.rowWidth = itemView.width - ViewHelper.dpToPx(itemView.context, 48f)
                     return false
                 }
             })
@@ -48,18 +59,10 @@ class CommitCommentsViewHolder private constructor(view: View, adapter: BaseRecy
         commentOptions.visibility = View.GONE
     }
 
-    @BindView(R.id.avatarView) lateinit var avatar: AvatarLayout
-    @BindView(R.id.name) lateinit var name: FontTextView
-    @BindView(R.id.date) lateinit var date: FontTextView
-    @BindView(R.id.toggle) lateinit var toggle: ForegroundImageView
-    @BindView(R.id.commentMenu) lateinit var commentMenu: ForegroundImageView
-    @BindView(R.id.comment) lateinit var comment: FontTextView
-    @BindView(R.id.commentOptions) lateinit var commentOptions: View
-    @BindView(R.id.owner) lateinit var owner: TextView
 
     override fun onClick(v: View) {
         if (v.id == R.id.toggle || v.id == R.id.toggleHolder) {
-            val position = adapterPosition
+            val position = absoluteAdapterPosition
             onToggleView.onToggle(position.toLong(), !onToggleView.isCollapsed(position.toLong()))
             onToggle(onToggleView.isCollapsed(position.toLong()), true)
         } else {
@@ -70,14 +73,19 @@ class CommitCommentsViewHolder private constructor(view: View, adapter: BaseRecy
     override fun bind(t: Comment) {
         val author3 = t.user
         if (author3 != null) {
-            avatar.setUrl(author3.avatarUrl, author3.login, false, LinkParserHelper.isEnterprise(author3.url))
+            avatar.setUrl(
+                author3.avatarUrl,
+                author3.login,
+                false,
+                LinkParserHelper.isEnterprise(author3.url)
+            )
             name.text = author3.login
         } else {
             avatar.setUrl(null, null, false, false)
             name.text = ""
         }
         if (!InputHelper.isEmpty(t.body)) {
-            val width = adapter?.getRowWidth() ?: 0
+            val width = adapter?.rowWidth ?: 0
             if (width > 0) {
                 MarkDownProvider.setMdText(comment, t.body, width)
             } else {
@@ -87,18 +95,17 @@ class CommitCommentsViewHolder private constructor(view: View, adapter: BaseRecy
             comment.text = ""
         }
         if (t.authorAssociation != null && !"none".equals(t.authorAssociation, ignoreCase = true)) {
-            owner.text = t.authorAssociation.toLowerCase()
+            owner.text = t.authorAssociation.lowercase(Locale.getDefault())
             owner.visibility = View.VISIBLE
         } else {
             owner.visibility = View.GONE
         }
         if (t.createdAt == t.updatedAt) {
-            date.text = String.format("%s %s", ParseDateFormat.getTimeAgo(t.updatedAt), itemView
-                    .resources.getString(R.string.edited))
+            date.text = "${ParseDateFormat.getTimeAgo(t.updatedAt)} ${itemView.resources.getString(R.string.edited)}"
         } else {
             date.text = ParseDateFormat.getTimeAgo(t.createdAt)
         }
-        onToggle(onToggleView.isCollapsed(adapterPosition.toLong()), false)
+        onToggle(onToggleView.isCollapsed(absoluteAdapterPosition.toLong()), false)
     }
 
     private fun onToggle(expanded: Boolean, animate: Boolean) {
@@ -114,8 +121,17 @@ class CommitCommentsViewHolder private constructor(view: View, adapter: BaseRecy
     }
 
     companion object {
-        fun newInstance(parent: ViewGroup, adapter: BaseRecyclerAdapter<*, *, *>, onToggleView: OnToggleView): CommitCommentsViewHolder {
-            return CommitCommentsViewHolder(getView(parent, R.layout.comments_row_item), adapter, parent, onToggleView)
+        fun newInstance(
+            parent: ViewGroup,
+            adapter: BaseRecyclerAdapter<*, *, *>,
+            onToggleView: OnToggleView
+        ): CommitCommentsViewHolder {
+            return CommitCommentsViewHolder(
+                getView(parent, R.layout.comments_row_item),
+                adapter,
+                parent,
+                onToggleView
+            )
         }
     }
 }

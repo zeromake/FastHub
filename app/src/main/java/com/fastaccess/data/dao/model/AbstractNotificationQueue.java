@@ -3,28 +3,31 @@ package com.fastaccess.data.dao.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.Nullable;
+
 import com.fastaccess.App;
 import com.fastaccess.helper.RxHelper;
 
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.Nullable;
 
 import io.reactivex.Observable;
 import io.requery.BlockingEntityStore;
 import io.requery.Entity;
 import io.requery.Key;
 import io.requery.Persistable;
-import lombok.NoArgsConstructor;
 
 /**
  * Created by Kosh on 03.11.17.
  */
 
-@Entity @NoArgsConstructor public abstract class AbstractNotificationQueue implements Parcelable {
+@Entity public abstract class AbstractNotificationQueue implements Parcelable {
     @Key long notificationId;
-    Date date;
+    Date updateAt;
+
+    public AbstractNotificationQueue() {
+    }
 
     public static boolean exists(long notificationId) {
         return App.getInstance().getDataStore().toBlocking().select(NotificationQueue.class)
@@ -43,7 +46,7 @@ import lombok.NoArgsConstructor;
                 for (Notification entity : models) {
                     NotificationQueue notificationQueue = new NotificationQueue();
                     notificationQueue.setNotificationId(entity.getId());
-                    notificationQueue.setDate(entity.getUpdatedAt());
+                    notificationQueue.setUpdateAt(entity.getUpdatedAt());
                     dataStore.insert(notificationQueue);
                 }
                 s.onNext(true);
@@ -59,13 +62,13 @@ import lombok.NoArgsConstructor;
 
     @Override public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(this.notificationId);
-        dest.writeLong(this.date != null ? this.date.getTime() : -1);
+        dest.writeLong(this.updateAt != null ? this.updateAt.getTime() : -1);
     }
 
     protected AbstractNotificationQueue(Parcel in) {
         this.notificationId = in.readLong();
         long tmpDate = in.readLong();
-        this.date = tmpDate == -1 ? null : new Date(tmpDate);
+        this.updateAt = tmpDate == -1 ? null : new Date(tmpDate);
     }
 
     public static final Parcelable.Creator<NotificationQueue> CREATOR = new Parcelable.Creator<NotificationQueue>() {

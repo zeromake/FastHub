@@ -2,7 +2,7 @@ package com.fastaccess.data.dao.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.fastaccess.App;
 import com.fastaccess.helper.PrefGetter;
@@ -15,13 +15,12 @@ import io.requery.Column;
 import io.requery.Entity;
 import io.requery.Key;
 import io.requery.Nullable;
-import lombok.NoArgsConstructor;
 
 /**
  * Created by Kosh on 16 Mar 2017, 7:36 PM
  */
 
-@Entity @NoArgsConstructor public abstract class AbstractLogin implements Parcelable {
+@Entity public abstract class AbstractLogin implements Parcelable {
     @Key long id;
     @Column String login;
     String avatarUrl;
@@ -58,6 +57,7 @@ import lombok.NoArgsConstructor;
     @Nullable boolean isEnterprise;
     @Nullable String otpCode;
     @Nullable String enterpriseUrl;
+    public AbstractLogin() {}
 
     public Observable<Login> update(Login login) {
         return RxHelper.safeObservable(App.getInstance().getDataStore().update(login)
@@ -65,7 +65,7 @@ import lombok.NoArgsConstructor;
     }
 
     public void save(Login entity) {
-        App.getInstance().getDataStore()
+        Login l = App.getInstance().getDataStore()
                 .delete(Login.class)
                 .where(Login.LOGIN.eq(entity.getLogin()))
                 .get()

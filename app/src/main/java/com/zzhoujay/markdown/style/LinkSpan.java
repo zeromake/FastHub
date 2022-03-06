@@ -9,7 +9,7 @@ import android.text.style.URLSpan;
  */
 public class LinkSpan extends URLSpan {
 
-    private int color;
+    private final int color;
 
     public LinkSpan(String url, int color) {
         super(url);

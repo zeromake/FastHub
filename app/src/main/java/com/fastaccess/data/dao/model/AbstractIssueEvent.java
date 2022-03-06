@@ -2,7 +2,7 @@ package com.fastaccess.data.dao.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.fastaccess.App;
 import com.fastaccess.data.dao.LabelModel;
@@ -29,7 +29,6 @@ import io.requery.Entity;
 import io.requery.Key;
 import io.requery.Persistable;
 import io.requery.Transient;
-import lombok.NoArgsConstructor;
 
 import static com.fastaccess.data.dao.model.IssueEvent.CREATED_AT;
 import static com.fastaccess.data.dao.model.IssueEvent.ISSUE_ID;
@@ -40,7 +39,7 @@ import static com.fastaccess.data.dao.model.IssueEvent.REPO_ID;
  * Created by Kosh on 16 Mar 2017, 7:33 PM
  */
 
-@Entity @NoArgsConstructor public abstract class AbstractIssueEvent implements Parcelable {
+@Entity public abstract class AbstractIssueEvent implements Parcelable {
 
     @Key long id;
     String url;
@@ -62,6 +61,8 @@ import static com.fastaccess.data.dao.model.IssueEvent.REPO_ID;
     String login;
     @Transient List<LabelModel> labels;
     @Transient Issue issue;
+
+    public AbstractIssueEvent() {}
 
     public static Disposable save(@NonNull List<IssueEvent> models, @NonNull String repoId,
                                   @NonNull String login, @NonNull String issueId) {

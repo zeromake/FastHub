@@ -4,8 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.widget.SwipeRefreshLayout
+import androidx.fragment.app.Fragment
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -92,7 +92,7 @@ class FullScreenFileChangeActivity : BaseActivity<FullScreenFileChangeMvp.View, 
         fastScroller.attachRecyclerView(recycler)
         presenter.onLoad(intent)
         presenter.model?.let { model ->
-            title = Uri.parse(model.commitFileModel.filename).lastPathSegment
+            title = Uri.parse(model.commitFileModel?.filename).lastPathSegment
             addition.text = model.commitFileModel?.additions.toString()
             deletion.text = model.commitFileModel?.deletions.toString()
             changes.text = model.commitFileModel?.changes.toString()
@@ -105,8 +105,8 @@ class FullScreenFileChangeActivity : BaseActivity<FullScreenFileChangeMvp.View, 
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
             R.id.submit -> {
                 sendResult()
                 true
@@ -116,7 +116,7 @@ class FullScreenFileChangeActivity : BaseActivity<FullScreenFileChangeMvp.View, 
     }
 
     override fun onItemClick(position: Int, v: View, item: CommitLinesModel) {
-        if (item.text.startsWith("@@")) return
+        if (item.text?.startsWith("@@")!!) return
         val commit = presenter.model?.commitFileModel ?: return
         if (PrefGetter.isProEnabled()) {
             AddReviewDialogFragment.newInstance(item, Bundler.start()

@@ -2,7 +2,7 @@ package com.fastaccess.data.dao.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.fastaccess.App;
 import com.fastaccess.data.dao.ReleasesAssetsListModel;
@@ -24,7 +24,7 @@ import io.requery.Entity;
 import io.requery.Key;
 import io.requery.Persistable;
 import io.requery.Table;
-import lombok.NoArgsConstructor;
+
 
 import static com.fastaccess.data.dao.model.Release.CREATED_AT;
 import static com.fastaccess.data.dao.model.Release.ID;
@@ -35,7 +35,7 @@ import static com.fastaccess.data.dao.model.Release.REPO_ID;
  * Created by Kosh on 16 Mar 2017, 7:40 PM
  */
 
-@Entity @NoArgsConstructor @Table(name = "release_table")
+@Entity @Table(name = "release_table")
 public abstract class AbstractRelease implements Parcelable {
     @Key long id;
     String url;
@@ -56,6 +56,9 @@ public abstract class AbstractRelease implements Parcelable {
     @SerializedName("zipball_url") String zipBallUrl;
     @Convert(UserConverter.class) User author;
     @Convert(ReleasesAssetsConverter.class) ReleasesAssetsListModel assets;
+
+    public AbstractRelease() {
+    }
 
     public static Disposable save(@NonNull List<Release> models, @NonNull String repoId, @NonNull String login) {
         return RxHelper.getSingle(Single.fromPublisher(s -> {

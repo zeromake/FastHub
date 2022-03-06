@@ -1,7 +1,7 @@
 package com.fastaccess.ui.modules.gists.gist.files;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.View;
 
 import com.fastaccess.R;
@@ -11,7 +11,6 @@ import com.fastaccess.ui.base.mvp.presenter.BasePresenter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import lombok.Getter;
 
 /**
  * Created by Kosh on 13 Nov 2016, 1:35 PM
@@ -19,7 +18,11 @@ import lombok.Getter;
 
 public class GistFilesListPresenter extends BasePresenter<GistFilesListMvp.View> implements GistFilesListMvp.Presenter {
     private ArrayList<FilesListModel> listModels;
-    @Getter private HashMap<String, FilesListModel> filesMap = new HashMap<>();
+    private final HashMap<String, FilesListModel> filesMap = new HashMap<>();
+
+    public HashMap<String, FilesListModel> getFilesMap() {
+        return filesMap;
+    }
 
     @Override public void onItemClick(int position, View v, FilesListModel item) {
         if (getView() != null) {

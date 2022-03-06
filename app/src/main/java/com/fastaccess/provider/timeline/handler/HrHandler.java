@@ -8,17 +8,22 @@ import net.nightwhistler.htmlspanner.spans.CenterSpan;
 
 import org.htmlcleaner.TagNode;
 
-import lombok.AllArgsConstructor;
 
 /**
  * Created by kosh on 30/07/2017.
  */
 
-@AllArgsConstructor public class HrHandler extends TagNodeHandler {
+public class HrHandler extends TagNodeHandler {
 
     private final int color;
     private final int width;
     private final boolean isHeader;
+
+    public HrHandler(int color, int width, boolean isHeader) {
+        this.color = color;
+        this.width = width;
+        this.isHeader = isHeader;
+    }
 
     @Override public void handleTagNode(TagNode tagNode, SpannableStringBuilder spannableStringBuilder, int i, int i1) {
         spannableStringBuilder.append("\n");
@@ -29,5 +34,4 @@ import lombok.AllArgsConstructor;
         builder.append("\n");
         spannableStringBuilder.append(builder);
     }
-
 }

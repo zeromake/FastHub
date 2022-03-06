@@ -21,7 +21,7 @@ class WikiPresenter : BasePresenter<WikiMvp.View>(), WikiMvp.Presenter {
 
     override fun onActivityCreated(intent: Intent?) {
         if (intent != null) {
-            val bundle = intent.extras
+            val bundle = intent.extras!!
             repoId = bundle.getString(BundleConstant.ID)
             login = bundle.getString(BundleConstant.EXTRA)
             val page = bundle.getString(BundleConstant.EXTRA_TWO)

@@ -418,7 +418,7 @@
     <string name="projects">프로젝트</string>
     <string name="no_projects">프로젝트 없음</string>
     <string name="no_cards">카드 없음</string>
-    <string name="card_added_by">%s %s가 추가함</string>
+    <string name="card_added_by" formatted="false">%s %s가 추가함</string>
     <string name="too_large_changes">변경사항이 너무 많습니다. 브라우저로 보세요</string>
     <string name="project">프로젝트</string>
     <string name="please_read">꼭 읽어주세요</string>

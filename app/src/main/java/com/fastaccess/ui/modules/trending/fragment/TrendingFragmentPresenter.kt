@@ -12,6 +12,8 @@ import io.reactivex.disposables.Disposable
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Created by Kosh on 30 May 2017, 11:04 PM
@@ -35,13 +37,13 @@ class TrendingFragmentPresenter : BasePresenter<TrendingFragmentMvp.View>(), Tre
     }
 
     override fun onCallApi(lang: String, since: String) {
-        var l = when (lang) {
+        val l = when (lang) {
             TrendingModel.DEFAULT_LANG -> ""
             else -> lang
         }
         disposel?.let { if (!it.isDisposed) it.dispose() }
         disposel = RxHelper.getObservable(JsoupProvider.getTrendingService().getTrending(
-                (if (!InputHelper.isEmpty(l)) l.replace(" ".toRegex(), "-") else "").toLowerCase(), since))
+            (if (!InputHelper.isEmpty(l)) l.replace(" ".toRegex(), "-") else "").lowercase(Locale.getDefault()), since))
                 .flatMap { s -> RxHelper.getObservable(getTrendingObservable(s)) }
                 .doOnSubscribe {
                     sendToView {
@@ -50,7 +52,7 @@ class TrendingFragmentPresenter : BasePresenter<TrendingFragmentMvp.View>(), Tre
                     }
                 }
                 .subscribe({ response -> sendToView { view -> view.onNotifyAdapter(response) } },
-                        { throwable -> onError(throwable) }, { sendToView({ it.hideProgress() }) })
+                        { throwable -> onError(throwable) }) { sendToView { it.hideProgress() } }
         manageDisposable(disposel)
     }
 
@@ -61,20 +63,20 @@ class TrendingFragmentPresenter : BasePresenter<TrendingFragmentMvp.View>(), Tre
             val repoList = document.select(".Box")
             if (repoList.isNotEmpty()) {
                 val list: Elements? = repoList.select(".Box-row")
-                list?.let {
+                list?.let { it ->
                     if (list.isNotEmpty()) {
-                        it.onEach {
-                            val title = it.select("h1 > a").text()
-                            val description = it.select("p").text()
-                            val stars = it.select(".f6 > a[href*=/stargazers]").text()
-                            val forks = it.select(".f6 > a[href*=/network]").text()
-                            var todayStars = it.select(".f6 > span.float-right").text()
+                        it.onEach { element ->
+                            val title = element.select("h1 > a").text()
+                            val description = element.select("p").text()
+                            val stars = element.select(".f6 > a[href*=/stargazers]").text()
+                            val forks = element.select(".f6 > a[href*=/network]").text()
+                            var todayStars = element.select(".f6 > span.float-right").text()
                             if (todayStars.isNullOrBlank()) {
-                                todayStars = it.select(".f6 > span.float-sm-right").text()
+                                todayStars = element.select(".f6 > span.float-sm-right").text()
                             }
-                            var language = it.select(".f6 .mr-3 > span[itemprop=programmingLanguage]").text()
+                            var language = element.select(".f6 .mr-3 > span[itemprop=programmingLanguage]").text()
                             if (language.isNullOrBlank()) {
-                                language = it.select(".f6 span[itemprop=programmingLanguage]").text()
+                                language = element.select(".f6 span[itemprop=programmingLanguage]").text()
                             }
                             s.onNext(TrendingModel(title, description, language, stars, forks, todayStars))
                         }

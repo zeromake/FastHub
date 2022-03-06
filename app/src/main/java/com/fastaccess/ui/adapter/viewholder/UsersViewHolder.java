@@ -1,7 +1,7 @@
 package com.fastaccess.ui.adapter.viewholder;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -13,7 +13,6 @@ import com.fastaccess.ui.widgets.FontTextView;
 import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter;
 import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder;
 
-import butterknife.BindView;
 
 /**
  * Created by Kosh on 11 Nov 2016, 2:08 PM
@@ -21,17 +20,20 @@ import butterknife.BindView;
 
 public class UsersViewHolder extends BaseViewHolder<User> {
 
-    @BindView(R.id.avatarLayout) AvatarLayout avatar;
-    @BindView(R.id.title) FontTextView title;
-    @BindView(R.id.date) FontTextView date;
-    private boolean isFilter;
+    AvatarLayout avatar;
+    FontTextView title;
+    FontTextView date;
+    private final boolean isFilter;
 
-    private UsersViewHolder(@NonNull View itemView, @Nullable BaseRecyclerAdapter adapter, boolean isFilter) {
+    private UsersViewHolder(@NonNull View itemView, @Nullable BaseRecyclerAdapter<?, ?, ?> adapter, boolean isFilter) {
         super(itemView, adapter);
         this.isFilter = isFilter;
+        this.avatar = itemView.findViewById(R.id.avatarLayout);
+        this.title = itemView.findViewById(R.id.title);
+        this.date = itemView.findViewById(R.id.date);
     }
 
-    public static UsersViewHolder newInstance(@NonNull ViewGroup parent, @Nullable BaseRecyclerAdapter adapter, boolean isFilter) {
+    public static UsersViewHolder newInstance(@NonNull ViewGroup parent, @Nullable BaseRecyclerAdapter<?, ?, ?> adapter, boolean isFilter) {
         return new UsersViewHolder(getView(parent, isFilter ? R.layout.users_small_row_item : R.layout.feeds_row_item), adapter, isFilter);
     }
 

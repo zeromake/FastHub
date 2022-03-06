@@ -2,7 +2,7 @@ package com.fastaccess.data.dao.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.fastaccess.App;
 import com.fastaccess.helper.RxHelper;
@@ -11,19 +11,22 @@ import io.requery.Column;
 import io.requery.Entity;
 import io.requery.Generated;
 import io.requery.Key;
-import lombok.NoArgsConstructor;
+
 import io.reactivex.Observable;import io.reactivex.Single;
 
 /**
  * Created by Kosh on 06 Dec 2016, 10:42 PM
  */
 
-@Entity @NoArgsConstructor public abstract class AbstractViewerFile implements Parcelable {
+@Entity public abstract class AbstractViewerFile implements Parcelable {
     @Key @Generated long id;
     boolean markdown;
     String content;
     @Column(unique = true) String fullUrl;
     boolean repo;
+
+    public AbstractViewerFile() {
+    }
 
     public Single<ViewerFile> save(ViewerFile modelEntity) {
         return RxHelper.getSingle(App.getInstance().getDataStore()

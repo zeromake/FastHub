@@ -1,7 +1,7 @@
 package com.fastaccess.data.dao.model;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.fastaccess.App;
 import com.fastaccess.data.dao.converters.GistConverter;
@@ -13,7 +13,6 @@ import io.requery.Convert;
 import io.requery.Entity;
 import io.requery.Generated;
 import io.requery.Key;
-import lombok.NoArgsConstructor;
 
 import static com.fastaccess.data.dao.model.PinnedGists.ENTRY_COUNT;
 import static com.fastaccess.data.dao.model.PinnedGists.ID;
@@ -23,13 +22,16 @@ import static com.fastaccess.data.dao.model.PinnedGists.LOGIN;
  * Created by Hashemsergani on 14.10.17.
  */
 
-@Entity @NoArgsConstructor public class AbstractPinnedGists {
+@Entity public class AbstractPinnedGists {
 
     @Key @Generated long id;
     @io.requery.Nullable int entryCount;
     @io.requery.Nullable String login;
     @io.requery.Nullable @Convert(GistConverter.class) Gist gist;
     @io.requery.Nullable long gistId;
+
+    public AbstractPinnedGists() {
+    }
 
     public static void pinUpin(@NonNull Gist gist) {
         PinnedGists pinnedIssues = get(gist.getGistId().hashCode());

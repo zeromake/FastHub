@@ -7,6 +7,7 @@ import com.fastaccess.provider.emoji.Emoji
 import com.fastaccess.ui.adapter.viewholder.EmojiViewHolder
 import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter
 import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
+import java.util.*
 
 /**
  * Created by kosh on 17/08/2017.
@@ -30,14 +31,13 @@ class EmojiAdapter(listener: BaseViewHolder.OnItemClickListener<Emoji>)
                 if (copiedList.isEmpty()) {
                     copiedList.addAll(data)
                 }
-                val text = constraint.toString().toLowerCase()
+                val text = constraint.toString().lowercase(Locale.getDefault())
                 val filteredResults: List<Emoji> = if (text.isNotBlank()) {
                     val data = data.filter {
                         text in it.tags || it.description.contains(text) ||
                                 it.unicode.contains(text) || text in it.aliases
                     }
-                    if (data.isNotEmpty()) data
-                    else copiedList
+                    data.ifEmpty { copiedList }
                 } else {
                     copiedList
                 }

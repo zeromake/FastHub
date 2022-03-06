@@ -3,8 +3,8 @@ package com.fastaccess.ui.modules.repos.issues.issue.details.timeline;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.View;
 import android.widget.PopupMenu;
 
@@ -35,20 +35,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
-import lombok.Getter;
 
 /**
  * Created by Kosh on 31 Mar 2017, 7:17 PM
  */
 
-@Getter public class IssueTimelinePresenter extends BasePresenter<IssueTimelineMvp.View> implements IssueTimelineMvp.Presenter {
-    private ArrayList<TimelineModel> timeline = new ArrayList<>();
+public class IssueTimelinePresenter extends BasePresenter<IssueTimelineMvp.View> implements IssueTimelineMvp.Presenter {
+    private final ArrayList<TimelineModel> timeline = new ArrayList<>();
     private ReactionsProvider reactionsProvider;
     private int page;
     private int previousTotal;
     private int lastPage = Integer.MAX_VALUE;
     @com.evernote.android.state.State boolean isCollaborator;
     private long commentId;
+
+    public ArrayList<TimelineModel> getTimeline() {
+        return timeline;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public int getLastPage() {
+        return lastPage;
+    }
+
+    public boolean isCollaborator() {
+        return isCollaborator;
+    }
+
+    public long getCommentId() {
+        return commentId;
+    }
 
     @Override public boolean isPreviouslyReacted(long commentId, int vId) {
         return getReactionsProvider().isPreviouslyReacted(commentId, vId);

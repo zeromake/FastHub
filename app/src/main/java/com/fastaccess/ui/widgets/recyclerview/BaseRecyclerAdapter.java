@@ -1,10 +1,10 @@
 package com.fastaccess.ui.widgets.recyclerview;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,12 +17,12 @@ import java.util.List;
 /**
  * Created by Kosh on 17 May 2016, 7:10 PM
  */
-public abstract class BaseRecyclerAdapter<M, VH extends BaseViewHolder,
+public abstract class BaseRecyclerAdapter<M, VH extends BaseViewHolder<?>,
         P extends BaseViewHolder.OnItemClickListener<M>> extends RecyclerView.Adapter<VH> {
 
     private final static int PROGRESS_TYPE = 2017;
 
-    @NonNull private List<M> data;
+    @NonNull private final List<M> data;
     @Nullable private P listener;
     private int lastKnowingPosition = -1;
     private boolean enableAnimation = PrefGetter.isRVAnimationEnabled();

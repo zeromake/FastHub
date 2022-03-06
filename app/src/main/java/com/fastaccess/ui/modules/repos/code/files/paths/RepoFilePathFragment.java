@@ -5,10 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.annimon.stream.Objects;
@@ -213,13 +213,13 @@ public class RepoFilePathFragment extends BaseFragment<RepoFilePathMvp.View, Rep
         adapter = new RepoFilePathsAdapter(getPresenter().getPaths());
         adapter.setListener(getPresenter());
         recycler.setAdapter(adapter);
-        branches.setText(ref);
         if (savedInstanceState == null) {
             getPresenter().onFragmentCreated(getArguments());
         } else if (getPresenter().getPaths().isEmpty() && !getPresenter().isApiCalled()) {
             getPresenter().onFragmentCreated(getArguments());
         }
-        branches.setText(getPresenter().getDefaultBranch());
+        ref = getPresenter().getDefaultBranch();
+        branches.setText(ref);
         if (Login.getUser().getLogin().equalsIgnoreCase(getPresenter().login) || (repoCallback != null && repoCallback.isCollaborator())) {
             addFile.setVisibility(View.VISIBLE);
         }
@@ -257,6 +257,7 @@ public class RepoFilePathFragment extends BaseFragment<RepoFilePathMvp.View, Rep
         if (repoFilesView == null) {
             repoFilesView = (RepoFilesFragment) getChildFragmentManager().findFragmentById(R.id.filesFragment);
         }
+        assert repoFilesView != null;
         return repoFilesView;
     }
 

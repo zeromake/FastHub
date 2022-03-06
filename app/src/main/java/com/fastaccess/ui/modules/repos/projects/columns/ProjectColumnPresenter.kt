@@ -39,10 +39,10 @@ class ProjectColumnPresenter : BasePresenter<ProjectColumnMvp.View>(), ProjectCo
                         R.id.edit -> sendToView { it.onEditCard(item.note, position) }
                         R.id.delete -> sendToView { it.onDeleteCard(position) }
                         R.id.share -> if (!item.contentUrl.isNullOrBlank()) {
-                            ActivityHelper.shareUrl(v.context, item.contentUrl)
+                            ActivityHelper.shareUrl(v.context, item.contentUrl!!)
                         }
                         R.id.copy -> if (!item.contentUrl.isNullOrBlank()) {
-                            AppHelper.copyToClipboard(v.context, item.contentUrl)
+                            AppHelper.copyToClipboard(v.context, item.contentUrl!!)
                         }
                     }
                     return@setOnMenuItemClickListener true
@@ -51,7 +51,7 @@ class ProjectColumnPresenter : BasePresenter<ProjectColumnMvp.View>(), ProjectCo
             }
         } else {
             if (!item.contentUrl.isNullOrBlank()) {
-                SchemeParser.launchUri(v.context, item.contentUrl)
+                SchemeParser.launchUri(v.context, item.contentUrl!!)
             }
         }
     }
@@ -78,22 +78,22 @@ class ProjectColumnPresenter : BasePresenter<ProjectColumnMvp.View>(), ProjectCo
             sendToView { view -> view.getLoadMore().reset() }
         }
         if (page > lastPage || lastPage == 0) {
-            sendToView({ it.hideProgress() })
+            sendToView { it.hideProgress() }
             return false
         }
         currentPage = page
-        makeRestCall(RestProvider.getProjectsService(isEnterprise).getProjectCards(parameter!!, page),
-                { response ->
-                    lastPage = response.last
-                    Logger.e(response.items as List<Any>?)
-                    sendToView({ it.onNotifyAdapter(response.items, page) })
-                })
+        makeRestCall(RestProvider.getProjectsService(isEnterprise).getProjectCards(parameter!!, page)
+        ) { response ->
+            lastPage = response.last
+            Logger.e(response.items as List<Any>?)
+            sendToView { it.onNotifyAdapter(response.items, page) }
+        }
         return true
     }
 
     override fun onEditOrDeleteColumn(text: String?, column: ProjectColumnModel) {
         if (text.isNullOrBlank()) {
-            manageDisposable(RxHelper.getObservable(RestProvider.getProjectsService(isEnterprise).deleteColumn(column.id))
+            manageDisposable(RxHelper.getObservable(RestProvider.getProjectsService(isEnterprise).deleteColumn(column.id!!))
                     .doOnSubscribe {
                         showBlockingProgress()
                     }
@@ -110,7 +110,7 @@ class ProjectColumnPresenter : BasePresenter<ProjectColumnMvp.View>(), ProjectCo
         } else {
             val body = ProjectColumnModel()
             body.name = text
-            manageDisposable(RxHelper.getObservable(RestProvider.getProjectsService(isEnterprise).updateColumn(column.id, body))
+            manageDisposable(RxHelper.getObservable(RestProvider.getProjectsService(isEnterprise).updateColumn(column.id!!, body))
                     .doOnSubscribe {
                         showBlockingProgress()
                     }
@@ -124,11 +124,11 @@ class ProjectColumnPresenter : BasePresenter<ProjectColumnMvp.View>(), ProjectCo
     }
 
     override fun onDeleteCard(position: Int, card: ProjectCardModel) {
-        manageDisposable(RxHelper.getObservable(RestProvider.getProjectsService(isEnterprise).deleteCard(card.id.toLong()))
+        manageDisposable(RxHelper.getObservable(RestProvider.getProjectsService(isEnterprise).deleteCard(card.id?.toLong()!!))
                 .doOnSubscribe {
                     showBlockingProgress()
                 }
-                .subscribe({
+                .subscribe({ it ->
                     if (it.code() == 204) {
                         sendToView { it.onRemoveCard(position) }
                     } else {
@@ -158,7 +158,7 @@ class ProjectColumnPresenter : BasePresenter<ProjectColumnMvp.View>(), ProjectCo
     override fun editCard(text: String, card: ProjectCardModel, position: Int) {
         val body = ProjectCardModel()
         body.note = text
-        manageDisposable(RxHelper.getObservable(RestProvider.getProjectsService(isEnterprise).updateCard(card.id.toLong(), body))
+        manageDisposable(RxHelper.getObservable(RestProvider.getProjectsService(isEnterprise).updateCard(card.id?.toLong()!!, body))
                 .doOnSubscribe {
                     showBlockingProgress()
                 }
@@ -171,10 +171,10 @@ class ProjectColumnPresenter : BasePresenter<ProjectColumnMvp.View>(), ProjectCo
     }
 
     private fun showBlockingProgress() {
-        sendToView({ v -> v.showBlockingProgress() })
+        sendToView { v -> v.showBlockingProgress() }
     }
 
     private fun hideBlockingProgress() {
-        sendToView({ v -> v.hideBlockingProgress() })
+        sendToView { v -> v.hideBlockingProgress() }
     }
 }

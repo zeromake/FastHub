@@ -1,9 +1,9 @@
 package com.fastaccess.helper;
 
-import android.support.annotation.IntRange;
-import android.support.design.widget.TextInputLayout;
-import android.support.test.espresso.UiController;
-import android.support.test.espresso.ViewAction;
+import androidx.annotation.IntRange;
+import com.google.android.material.textfield.TextInputLayout;
+import androidx.test.espresso.UiController;
+import androidx.test.espresso.ViewAction;
 import android.view.View;
 
 import org.hamcrest.Description;
@@ -12,7 +12,7 @@ import org.hamcrest.TypeSafeMatcher;
 
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
 
-import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 
 /**
  * Created by Kosh on 05 May 2017, 9:23 PM

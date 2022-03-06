@@ -1,8 +1,8 @@
 package com.fastaccess.ui.modules.profile.overview;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.fastaccess.data.dao.model.User;
 import com.fastaccess.ui.base.mvp.BaseMvp;
@@ -12,7 +12,7 @@ import com.fastaccess.ui.widgets.contributions.GitHubContributionsView;
 import java.util.ArrayList;
 import java.util.List;
 
-import github.GetPinnedReposQuery;
+import com.fastaccess.github.GetPinnedReposQuery;
 
 /**
  * Created by Kosh on 03 Dec 2016, 9:15 AM
@@ -56,7 +56,8 @@ public interface ProfileOverviewMvp {
 
         @NonNull ArrayList<ContributionsDay> getContributions();
 
-        @NonNull ArrayList<GetPinnedReposQuery.Node> getNodes();
+        @NonNull
+        List<GetPinnedReposQuery.Node> getNodes();
 
         @NonNull String getLogin();
     }

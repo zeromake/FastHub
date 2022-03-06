@@ -1,7 +1,7 @@
 package com.fastaccess.data.dao.model;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.fastaccess.App;
 import com.fastaccess.data.dao.converters.IssueConverter;
@@ -16,7 +16,6 @@ import io.requery.Convert;
 import io.requery.Entity;
 import io.requery.Generated;
 import io.requery.Key;
-import lombok.NoArgsConstructor;
 
 import static com.fastaccess.data.dao.model.PinnedIssues.ENTRY_COUNT;
 import static com.fastaccess.data.dao.model.PinnedIssues.ID;
@@ -26,13 +25,16 @@ import static com.fastaccess.data.dao.model.PinnedIssues.LOGIN;
  * Created by Hashemsergani on 14.10.17.
  */
 
-@Entity @NoArgsConstructor public class AbstractPinnedIssues {
+@Entity public class AbstractPinnedIssues {
 
     @Key @Generated long id;
     @io.requery.Nullable int entryCount;
     @io.requery.Nullable String login;
     @io.requery.Nullable @Convert(IssueConverter.class) Issue issue;
     @io.requery.Nullable long issueId;
+
+    public AbstractPinnedIssues() {
+    }
 
     public static void pinUpin(@NonNull Issue issue) {
         PinnedIssues pinnedIssues = get(issue.getId());

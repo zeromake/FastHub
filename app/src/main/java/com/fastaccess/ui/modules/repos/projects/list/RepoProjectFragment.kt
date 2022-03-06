@@ -2,8 +2,8 @@ package com.fastaccess.ui.modules.repos.projects.list
 
 import android.content.Context
 import android.os.Bundle
-import android.support.annotation.StringRes
-import android.support.v4.widget.SwipeRefreshLayout
+import androidx.annotation.StringRes
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import android.view.View
 import butterknife.BindView
 import com.fastaccess.R
@@ -17,7 +17,7 @@ import com.fastaccess.ui.modules.repos.RepoPagerMvp
 import com.fastaccess.ui.widgets.StateLayout
 import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
 import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
-import github.RepoProjectsOpenQuery
+import com.fastaccess.github.RepoProjectsOpenQuery
 
 /**
  * Created by kosh on 09/09/2017.
@@ -33,7 +33,7 @@ class RepoProjectFragment : BaseFragment<RepoProjectMvp.View, RepoProjectPresent
     private val adapter by lazy { ProjectsAdapter(presenter.getProjects()) }
     private var badgeListener: RepoPagerMvp.TabsBadgeListener? = null
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         if (parentFragment is RepoPagerMvp.TabsBadgeListener) {
             badgeListener = parentFragment as RepoPagerMvp.TabsBadgeListener
@@ -129,7 +129,7 @@ class RepoProjectFragment : BaseFragment<RepoProjectMvp.View, RepoProjectPresent
         stateLayout.showReload(adapter.itemCount)
     }
 
-    private fun getState(): IssueState = arguments!!.getSerializable(BundleConstant.EXTRA_TYPE) as IssueState
+    private fun getState(): IssueState = requireArguments().getSerializable(BundleConstant.EXTRA_TYPE) as IssueState
 
     companion object {
         fun newInstance(login: String, repoId: String? = null, state: IssueState): RepoProjectFragment {

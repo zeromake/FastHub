@@ -2,7 +2,7 @@ package com.fastaccess.data.dao.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.fastaccess.App;
 import com.fastaccess.data.dao.LabelListModel;
@@ -31,7 +31,6 @@ import io.requery.Convert;
 import io.requery.Entity;
 import io.requery.Key;
 import io.requery.Persistable;
-import lombok.NoArgsConstructor;
 
 import static com.fastaccess.data.dao.model.Issue.ID;
 import static com.fastaccess.data.dao.model.Issue.LOGIN;
@@ -43,7 +42,7 @@ import static com.fastaccess.data.dao.model.Issue.UPDATED_AT;
 /**
  * Created by Kosh on 16 Mar 2017, 7:34 PM
  */
-@Entity @NoArgsConstructor public abstract class AbstractIssue implements Parcelable {
+@Entity public abstract class AbstractIssue implements Parcelable {
     @Key long id;
     String url;
     String body;
@@ -69,6 +68,8 @@ import static com.fastaccess.data.dao.model.Issue.UPDATED_AT;
     @Convert(PullRequestConverter.class) PullRequest pullRequest;
     @Convert(UserConverter.class) User closedBy;
     @Convert(ReactionsConverter.class) ReactionsModel reactions;
+
+    public AbstractIssue() {}
 
     public Single<Issue> save(Issue entity) {
         return RxHelper.getSingle(App.getInstance().getDataStore()

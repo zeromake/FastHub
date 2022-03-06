@@ -1,6 +1,6 @@
 package com.fastaccess.provider.rest.converters;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 
@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
-import lombok.AllArgsConstructor;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
@@ -19,11 +18,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * call that supports String & Gson and always uses json as its request body
  */
-@AllArgsConstructor
 public class GithubResponseConverter extends Converter.Factory {
-    private Gson gson;
+    private final Gson gson;
 
-    @Override public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
+    public GithubResponseConverter(Gson gson) {
+        this.gson = gson;
+    }
+
+    @Override public Converter<ResponseBody, ?> responseBodyConverter(@NonNull Type type, @NonNull Annotation[] annotations, @NonNull Retrofit retrofit) {
         try {
             if (type == String.class) {
                 return new StringResponseConverter();
@@ -34,8 +36,8 @@ public class GithubResponseConverter extends Converter.Factory {
         }
     }
 
-    @Override public Converter<?, RequestBody> requestBodyConverter(Type type, Annotation[] parameterAnnotations,
-                                                                    Annotation[] methodAnnotations, Retrofit retrofit) {
+    @Override public Converter<?, RequestBody> requestBodyConverter(@NonNull Type type, @NonNull Annotation[] parameterAnnotations,
+                                                                    @NonNull Annotation[] methodAnnotations, @NonNull Retrofit retrofit) {
         return GsonConverterFactory.create(gson).requestBodyConverter(type, parameterAnnotations, methodAnnotations, retrofit);
     }
 

@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.os.Build;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.fastaccess.App;
 import com.fastaccess.BuildConfig;
@@ -14,6 +16,8 @@ import com.fastaccess.R;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.Locale;
+
 
 /**
  * Created by Kosh on 10 Nov 2016, 3:43 PM
@@ -346,9 +350,19 @@ public class PrefGetter {
         return BLUE;
     }
 
-    @NonNull public static String getAppLanguage() {
+    public static String getSystemLanguage(Resources res) {
+        Locale locale;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            locale = res.getConfiguration().getLocales().get(0);
+        } else {
+            locale = res.getConfiguration().locale;
+        }
+        return locale.getLanguage();
+    }
+
+    @NonNull public static String getAppLanguage(Resources res) {
         String appLanguage = PrefHelper.getString(APP_LANGUAGE);
-        return appLanguage == null ? "en" : appLanguage;
+        return appLanguage == null ? getSystemLanguage(res) : appLanguage;
     }
 
     public static void setAppLangauge(@Nullable String language) {

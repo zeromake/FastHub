@@ -4,8 +4,8 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -13,7 +13,7 @@ import com.fastaccess.App;
 import com.fastaccess.BuildConfig;
 import com.fastaccess.R;
 import com.fastaccess.data.dao.GitHubErrorResponse;
-import com.fastaccess.data.dao.GitHubStatusModel;
+import com.fastaccess.data.dao.GithubStatusComponentsModel;
 import com.fastaccess.data.service.ContentService;
 import com.fastaccess.data.service.GistService;
 import com.fastaccess.data.service.IssueService;
@@ -55,7 +55,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 public class RestProvider {
 
-    public static final int PAGE_SIZE = 30;
+    public static final int PAGE_SIZE = 10;
 
     private static OkHttpClient okHttpClient;
     public final static Gson gson = new GsonBuilder()
@@ -206,9 +206,9 @@ public class RestProvider {
         return null;
     }
 
-    @NonNull public static Observable<GitHubStatusModel> gitHubStatus() {
+    @NonNull public static Observable<GithubStatusComponentsModel> gitHubStatus() {
         return new Retrofit.Builder()
-                .baseUrl("https://status.github.com/")
+                .baseUrl(BuildConfig.GITHUB_STATUS_URL)
                 .client(provideOkHttpClient())
                 .addConverterFactory(new GithubResponseConverter(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

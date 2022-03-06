@@ -2,11 +2,10 @@ package com.fastaccess.ui.adapter.viewholder
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.text.style.BackgroundColorSpan
 import android.view.View
 import android.view.ViewGroup
-import butterknife.BindView
 import com.fastaccess.R
 import com.fastaccess.data.dao.timeline.PullRequestTimelineModel
 import com.fastaccess.helper.ParseDateFormat
@@ -21,8 +20,8 @@ import com.fastaccess.ui.widgets.SpannableBuilder
 import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter
 import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
 import com.zzhoujay.markdown.style.CodeSpan
-import github.PullRequestTimelineQuery
-import github.type.StatusState
+import com.fastaccess.github.PullRequestTimelineQuery
+import com.fastaccess.github.type.StatusState
 
 /**
  * Created by kosh on 03/08/2017.
@@ -31,35 +30,35 @@ import github.type.StatusState
 class PullRequestEventViewHolder private constructor(view: View, adapter: BaseRecyclerAdapter<*, *, *>) :
         BaseViewHolder<PullRequestTimelineModel>(view, adapter) {
 
-    @BindView(R.id.stateImage) lateinit var stateImage: ForegroundImageView
-    @BindView(R.id.avatarLayout) lateinit var avatarLayout: AvatarLayout
-    @BindView(R.id.stateText) lateinit var stateText: FontTextView
-    @BindView(R.id.commitStatus) lateinit var commitStatus: ForegroundImageView
+    val stateImage: ForegroundImageView = view.findViewById(R.id.stateImage)
+    val avatarLayout: AvatarLayout = view.findViewById(R.id.avatarLayout)
+    val stateText: FontTextView = view.findViewById(R.id.stateText)
+    val commitStatus: ForegroundImageView = view.findViewById(R.id.commitStatus)
 
     override fun bind(t: PullRequestTimelineModel) {
         val node = t.node
         commitStatus.visibility = View.GONE
         if (node != null) {
             when {
-                node.asAssignedEvent() != null -> assignedEvent(node.asAssignedEvent()!!)
-                node.asBaseRefForcePushedEvent() != null -> forcePushEvent(node.asBaseRefForcePushedEvent()!!)
-                node.asClosedEvent() != null -> closedEvent(node.asClosedEvent()!!)
-                node.asCommit() != null -> commitEvent(node.asCommit()!!)
-                node.asDemilestonedEvent() != null -> demilestonedEvent(node.asDemilestonedEvent()!!)
-                node.asDeployedEvent() != null -> deployedEvent(node.asDeployedEvent()!!)
-                node.asHeadRefDeletedEvent() != null -> refDeletedEvent(node.asHeadRefDeletedEvent()!!)
-                node.asHeadRefForcePushedEvent() != null -> refForPushedEvent(node.asHeadRefForcePushedEvent()!!)
-                node.asHeadRefRestoredEvent() != null -> headRefRestoredEvent(node.asHeadRefRestoredEvent()!!)
-                node.asLabeledEvent() != null -> labeledEvent(node.asLabeledEvent()!!)
-                node.asLockedEvent() != null -> lockEvent(node.asLockedEvent()!!)
-                node.asMergedEvent() != null -> mergedEvent(node.asMergedEvent()!!)
-                node.asMilestonedEvent() != null -> milestoneEvent(node.asMilestonedEvent()!!)
-                node.asReferencedEvent() != null -> referenceEvent(node.asReferencedEvent()!!)
-                node.asRenamedTitleEvent() != null -> renamedEvent(node.asRenamedTitleEvent()!!)
-                node.asReopenedEvent() != null -> reopenedEvent(node.asReopenedEvent()!!)
-                node.asUnassignedEvent() != null -> unassignedEvent(node.asUnassignedEvent()!!)
-                node.asUnlabeledEvent() != null -> unlabeledEvent(node.asUnlabeledEvent()!!)
-                node.asUnlockedEvent() != null -> unlockedEvent(node.asUnlockedEvent()!!)
+                node.onAssignedEvent != null -> assignedEvent(node.onAssignedEvent)
+                node.onBaseRefForcePushedEvent != null -> forcePushEvent(node.onBaseRefForcePushedEvent)
+                node.onClosedEvent != null -> closedEvent(node.onClosedEvent)
+                node.onCommit != null -> commitEvent(node.onCommit)
+                node.onDemilestonedEvent != null -> demilestonedEvent(node.onDemilestonedEvent)
+                node.onDeployedEvent != null -> deployedEvent(node.onDeployedEvent)
+                node.onHeadRefDeletedEvent != null -> refDeletedEvent(node.onHeadRefDeletedEvent)
+                node.onHeadRefForcePushedEvent != null -> refForPushedEvent(node.onHeadRefForcePushedEvent)
+                node.onHeadRefRestoredEvent != null -> headRefRestoredEvent(node.onHeadRefRestoredEvent)
+                node.onLabeledEvent != null -> labeledEvent(node.onLabeledEvent)
+                node.onLockedEvent != null -> lockEvent(node.onLockedEvent)
+                node.onMergedEvent != null -> mergedEvent(node.onMergedEvent)
+                node.onMilestonedEvent != null -> milestoneEvent(node.onMilestonedEvent)
+                node.onReferencedEvent != null -> referenceEvent(node.onReferencedEvent)
+                node.onRenamedTitleEvent != null -> renamedEvent(node.onRenamedTitleEvent)
+                node.onReopenedEvent != null -> reopenedEvent(node.onReopenedEvent)
+                node.onUnassignedEvent != null -> unassignedEvent(node.onUnassignedEvent)
+                node.onUnlabeledEvent != null -> unlabeledEvent(node.onUnlabeledEvent)
+                node.onUnlockedEvent != null -> unlockedEvent(node.onUnlockedEvent)
                 else -> reset()
             }
         } else {
@@ -73,277 +72,277 @@ class PullRequestEventViewHolder private constructor(view: View, adapter: BaseRe
     }
 
     @SuppressLint("SetTextI18n")
-    private fun unlockedEvent(event: PullRequestTimelineQuery.AsUnlockedEvent) {
-        event.actor()?.let {
+    private fun unlockedEvent(event: PullRequestTimelineQuery.OnUnlockedEvent) {
+        event.actor?.let {
             stateText.text = SpannableBuilder.builder()
-                    .bold(it.login())
+                    .bold(it.login)
                     .append(" ")
                     .append("unlocked this conversation")
                     .append(" ")
-                    .append(ParseDateFormat.getTimeAgo((event.createdAt().toString())))
+                    .append(ParseDateFormat.getTimeAgo((event.createdAt.toString())))
             stateImage.setImageResource(R.drawable.ic_lock)
-            avatarLayout.setUrl(it.avatarUrl().toString(), it.login(), false, LinkParserHelper.isEnterprise(it.url().toString()))
+            avatarLayout.setUrl(it.avatarUrl.toString(), it.login, false, LinkParserHelper.isEnterprise(it.url.toString()))
         }
     }
 
-    private fun unlabeledEvent(event: PullRequestTimelineQuery.AsUnlabeledEvent) {
-        event.actor()?.let {
-            val color = Color.parseColor("#" + event.label().color())
+    private fun unlabeledEvent(event: PullRequestTimelineQuery.OnUnlabeledEvent) {
+        event.actor?.let {
+            val color = Color.parseColor("#" + event.label.color)
             stateText.text = SpannableBuilder.builder()
-                    .bold(it.login())
+                    .bold(it.login)
                     .append(" ")
                     .append("removed")
                     .append(" ")
-                    .append(event.label().name(), CodeSpan(color, ViewHelper.generateTextColor(color), 5.0f))
+                    .append(event.label.name, CodeSpan(color, ViewHelper.generateTextColor(color), 5.0f))
                     .append(" ")
-                    .append(ParseDateFormat.getTimeAgo((event.createdAt().toString())))
+                    .append(ParseDateFormat.getTimeAgo((event.createdAt.toString())))
             stateImage.setImageResource(R.drawable.ic_label)
-            avatarLayout.setUrl(it.avatarUrl().toString(), it.login(), false, LinkParserHelper.isEnterprise(it.url().toString()))
+            avatarLayout.setUrl(it.avatarUrl.toString(), it.login, false, LinkParserHelper.isEnterprise(it.url.toString()))
         }
     }
 
-    private fun unassignedEvent(event: PullRequestTimelineQuery.AsUnassignedEvent) {
-        event.actor()?.let {
+    private fun unassignedEvent(event: PullRequestTimelineQuery.OnUnassignedEvent) {
+        event.actor?.let {
             stateText.text = SpannableBuilder.builder()
-                    .bold(it.login())
+                    .bold(it.login)
                     .append(" ")
                     .append("unassigned") //TODO add "removed their assignment" for self
                     .append(" ")
-                    .append(event.user()?.login())
+                    .append(event.user?.login)
                     .append(" ")
-                    .append(ParseDateFormat.getTimeAgo((event.createdAt().toString())))
+                    .append(ParseDateFormat.getTimeAgo((event.createdAt.toString())))
             stateImage.setImageResource(R.drawable.ic_profile)
-            avatarLayout.setUrl(it.avatarUrl().toString(), it.login(), false, LinkParserHelper.isEnterprise(it.url().toString()))
+            avatarLayout.setUrl(it.avatarUrl.toString(), it.login, false, LinkParserHelper.isEnterprise(it.url.toString()))
         }
     }
 
-    private fun reopenedEvent(event: PullRequestTimelineQuery.AsReopenedEvent) {
-        event.actor()?.let {
+    private fun reopenedEvent(event: PullRequestTimelineQuery.OnReopenedEvent) {
+        event.actor?.let {
             stateText.text = SpannableBuilder.builder()
-                    .bold(it.login())
+                    .bold(it.login)
                     .append(" ")
                     .append("reopened this")
                     .append(" ")
-                    .append(ParseDateFormat.getTimeAgo((event.createdAt().toString())))
+                    .append(ParseDateFormat.getTimeAgo((event.createdAt.toString())))
             stateImage.setImageResource(R.drawable.ic_issue_opened)
-            avatarLayout.setUrl(it.avatarUrl().toString(), it.login(), false, LinkParserHelper.isEnterprise(it.url().toString()))
+            avatarLayout.setUrl(it.avatarUrl.toString(), it.login, false, LinkParserHelper.isEnterprise(it.url.toString()))
         }
     }
 
-    private fun renamedEvent(event: PullRequestTimelineQuery.AsRenamedTitleEvent) {
-        event.actor()?.let {
+    private fun renamedEvent(event: PullRequestTimelineQuery.OnRenamedTitleEvent) {
+        event.actor?.let {
             stateText.text = SpannableBuilder.builder()
-                    .bold(it.login())
+                    .bold(it.login)
                     .append(" ")
-                    .append("changed the title from").append(" ").append(event.previousTitle())
-                    .append(" ").append("to").append(" ").bold(event.currentTitle())
+                    .append("changed the title from").append(" ").append(event.previousTitle)
+                    .append(" ").append("to").append(" ").bold(event.currentTitle)
                     .append(" ")
-                    .append(ParseDateFormat.getTimeAgo((event.createdAt().toString())))
+                    .append(ParseDateFormat.getTimeAgo((event.createdAt.toString())))
             stateImage.setImageResource(R.drawable.ic_edit)
-            avatarLayout.setUrl(it.avatarUrl().toString(), it.login(), false, LinkParserHelper.isEnterprise(it.url().toString()))
+            avatarLayout.setUrl(it.avatarUrl.toString(), it.login, false, LinkParserHelper.isEnterprise(it.url.toString()))
         }
     }
 
-    private fun referenceEvent(event: PullRequestTimelineQuery.AsReferencedEvent) {
-        event.actor()?.let {
+    private fun referenceEvent(event: PullRequestTimelineQuery.OnReferencedEvent) {
+        event.actor?.let {
             stateText.text = SpannableBuilder.builder()
-                    .bold(it.login())
+                    .bold(it.login)
                     .append(" ")
                     .append("referenced in")
                     .append(" ")
                     .append("from").append(" ")
-                    .url(if (event.commit() != null) {
-                        substring(event.commit()?.oid()?.toString())
-                    } else if (event.subject().asIssue() != null) {
+                    .url(if (event.commit != null) {
+                        substring(event.commit.oid.toString())
+                    } else if (event.subject.onIssue != null) {
                         if (event.isCrossRepository) {
-                            "${event.commitRepository().nameWithOwner()} ${event.subject().asIssue()?.title()}#${event.subject().asIssue()?.number()}"
+                            "${event.commitRepository.nameWithOwner} ${event.subject.onIssue.title}#${event.subject.onIssue.number}"
                         } else {
-                            "${event.subject().asIssue()?.title()}#${event.subject().asIssue()?.number()}"
+                            "${event.subject.onIssue.title}#${event.subject.onIssue.number}"
                         }
-                    } else if (event.subject().asPullRequest() != null) {
+                    } else if (event.subject.onPullRequest != null) {
                         if (event.isCrossRepository) {
-                            "${event.commitRepository().nameWithOwner()} ${event.subject().asPullRequest()?.title()}" +
-                                    "#${event.subject().asPullRequest()?.number()}"
+                            "${event.commitRepository.nameWithOwner} ${event.subject.onPullRequest.title}" +
+                                    "#${event.subject.onPullRequest.number}"
                         } else {
-                            "${event.subject().asPullRequest()?.title()}#${event.subject().asPullRequest()?.number()}"
+                            "${event.subject.onPullRequest.title}#${event.subject.onPullRequest.number}"
                         }
                     } else {
-                        event.commitRepository().nameWithOwner()
+                        event.commitRepository.nameWithOwner
                     })
                     .append(" ")
-                    .append(ParseDateFormat.getTimeAgo((event.createdAt().toString())))
+                    .append(ParseDateFormat.getTimeAgo((event.createdAt.toString())))
             stateImage.setImageResource(R.drawable.ic_push)
-            avatarLayout.setUrl(it.avatarUrl().toString(), it.login(), false, LinkParserHelper.isEnterprise(it.url().toString()))
+            avatarLayout.setUrl(it.avatarUrl.toString(), it.login, false, LinkParserHelper.isEnterprise(it.url.toString()))
         }
     }
 
-    private fun milestoneEvent(event: PullRequestTimelineQuery.AsMilestonedEvent) {
-        event.actor()?.let {
+    private fun milestoneEvent(event: PullRequestTimelineQuery.OnMilestonedEvent) {
+        event.actor?.let {
             stateText.text = SpannableBuilder.builder()
-                    .bold(it.login())
+                    .bold(it.login)
                     .append(" ")
                     .append("added this to the")
                     .append(" ")
-                    .append(event.milestoneTitle()).append(" ").append("milestone")
+                    .append(event.milestoneTitle).append(" ").append("milestone")
                     .append(" ")
-                    .append(ParseDateFormat.getTimeAgo((event.createdAt().toString())))
+                    .append(ParseDateFormat.getTimeAgo((event.createdAt.toString())))
             stateImage.setImageResource(R.drawable.ic_milestone)
-            avatarLayout.setUrl(it.avatarUrl().toString(), it.login(), false, LinkParserHelper.isEnterprise(it.url().toString()))
+            avatarLayout.setUrl(it.avatarUrl.toString(), it.login, false, LinkParserHelper.isEnterprise(it.url.toString()))
         }
     }
 
-    private fun mergedEvent(event: PullRequestTimelineQuery.AsMergedEvent) {
-        event.actor()?.let {
+    private fun mergedEvent(event: PullRequestTimelineQuery.OnMergedEvent) {
+        event.actor?.let {
             stateText.text = SpannableBuilder.builder()
-                    .bold(it.login())
+                    .bold(it.login)
                     .append(" ")
                     .append("merged commit")
                     .append(" ")
-                    .url(substring(event.commit()?.oid()?.toString()))
+                    .url(substring(event.commit?.oid?.toString()))
                     .append(" ")
                     .append("into")
                     .append(" ")
-                    .append(event.actor())
+                    .append(event.actor)
                     .append(":")
-                    .append(event.mergeRefName(), BackgroundColorSpan(HtmlHelper.getWindowBackground(PrefGetter.getThemeType())))
+                    .append(event.mergeRefName, BackgroundColorSpan(HtmlHelper.getWindowBackground(PrefGetter.getThemeType())))
                     .append(" ")
-                    .append(ParseDateFormat.getTimeAgo((event.createdAt().toString())))
+                    .append(ParseDateFormat.getTimeAgo((event.createdAt.toString())))
             stateImage.setImageResource(R.drawable.ic_merge)
-            avatarLayout.setUrl(it.avatarUrl().toString(), it.login(), false, LinkParserHelper.isEnterprise(it.url().toString()))
+            avatarLayout.setUrl(it.avatarUrl.toString(), it.login, false, LinkParserHelper.isEnterprise(it.url.toString()))
         }
     }
 
-    private fun lockEvent(event: PullRequestTimelineQuery.AsLockedEvent) {
-        event.actor()?.let {
+    private fun lockEvent(event: PullRequestTimelineQuery.OnLockedEvent) {
+        event.actor?.let {
             stateText.text = SpannableBuilder.builder()
-                    .bold(it.login())
+                    .bold(it.login)
                     .append(" ")
                     .append("locked and limited conversation to collaborators")
                     .append(" ")
-                    .append(ParseDateFormat.getTimeAgo((event.createdAt().toString())))
+                    .append(ParseDateFormat.getTimeAgo((event.createdAt.toString())))
             stateImage.setImageResource(R.drawable.ic_lock)
-            avatarLayout.setUrl(it.avatarUrl().toString(), it.login(), false, LinkParserHelper.isEnterprise(it.url().toString()))
+            avatarLayout.setUrl(it.avatarUrl.toString(), it.login, false, LinkParserHelper.isEnterprise(it.url.toString()))
         }
     }
 
-    private fun labeledEvent(event: PullRequestTimelineQuery.AsLabeledEvent) {
-        event.actor()?.let {
-            val color = Color.parseColor("#" + event.label().color())
+    private fun labeledEvent(event: PullRequestTimelineQuery.OnLabeledEvent) {
+        event.actor?.let {
+            val color = Color.parseColor("#" + event.label.color)
             stateText.text = SpannableBuilder.builder()
-                    .bold(it.login())
+                    .bold(it.login)
                     .append(" ")
                     .append("labeled")
                     .append(" ")
-                    .append(event.label().name(), CodeSpan(color, ViewHelper.generateTextColor(color), 5.0f))
+                    .append(event.label.name, CodeSpan(color, ViewHelper.generateTextColor(color), 5.0f))
                     .append(" ")
-                    .append(ParseDateFormat.getTimeAgo((event.createdAt().toString())))
+                    .append(ParseDateFormat.getTimeAgo((event.createdAt.toString())))
             stateImage.setImageResource(R.drawable.ic_label)
-            avatarLayout.setUrl(it.avatarUrl().toString(), it.login(), false, LinkParserHelper.isEnterprise(it.url().toString()))
+            avatarLayout.setUrl(it.avatarUrl.toString(), it.login, false, LinkParserHelper.isEnterprise(it.url.toString()))
         }
     }
 
-    private fun headRefRestoredEvent(event: PullRequestTimelineQuery.AsHeadRefRestoredEvent) {
-        event.actor()?.let {
+    private fun headRefRestoredEvent(event: PullRequestTimelineQuery.OnHeadRefRestoredEvent) {
+        event.actor?.let {
             stateText.text = SpannableBuilder.builder()
-                    .bold(it.login())
+                    .bold(it.login)
                     .append(" ")
                     .append("restored the")
                     .append(" ")
-                    .append(it.login())
+                    .append(it.login)
                     .append(":")
-                    .append(event.pullRequest().headRefName(), BackgroundColorSpan(HtmlHelper.getWindowBackground(PrefGetter.getThemeType())))
+                    .append(event.pullRequest.headRefName, BackgroundColorSpan(HtmlHelper.getWindowBackground(PrefGetter.getThemeType())))
                     .append(" ")
                     .append("branch")
                     .append(" ")
-                    .append(ParseDateFormat.getTimeAgo((event.createdAt().toString())))
+                    .append(ParseDateFormat.getTimeAgo((event.createdAt.toString())))
             stateImage.setImageResource(R.drawable.ic_push)
-            avatarLayout.setUrl(it.avatarUrl().toString(), it.login(), false, LinkParserHelper.isEnterprise(it.url().toString()))
+            avatarLayout.setUrl(it.avatarUrl.toString(), it.login, false, LinkParserHelper.isEnterprise(it.url.toString()))
         }
     }
 
-    private fun refForPushedEvent(event: PullRequestTimelineQuery.AsHeadRefForcePushedEvent) {
-        event.actor()?.let {
+    private fun refForPushedEvent(event: PullRequestTimelineQuery.OnHeadRefForcePushedEvent) {
+        event.actor?.let {
             stateText.text = SpannableBuilder.builder()
-                    .bold(it.login())
+                    .bold(it.login)
                     .append(" ")
                     .append("reference force pushed to", BackgroundColorSpan(HtmlHelper.getWindowBackground(PrefGetter.getThemeType())))
                     .append(" ")
-                    .url(substring(event.afterCommit().oid().toString()))
+                    .url(substring(event.afterCommit?.oid.toString()))
                     .append(" ")
-                    .append(ParseDateFormat.getTimeAgo((event.createdAt().toString())))
+                    .append(ParseDateFormat.getTimeAgo((event.createdAt.toString())))
             stateImage.setImageResource(R.drawable.ic_push)
-            avatarLayout.setUrl(it.avatarUrl().toString(), it.login(), false, LinkParserHelper.isEnterprise(it.url().toString()))
+            avatarLayout.setUrl(it.avatarUrl.toString(), it.login, false, LinkParserHelper.isEnterprise(it.url.toString()))
         }
     }
 
-    private fun refDeletedEvent(event: PullRequestTimelineQuery.AsHeadRefDeletedEvent) {
-        event.actor()?.let {
+    private fun refDeletedEvent(event: PullRequestTimelineQuery.OnHeadRefDeletedEvent) {
+        event.actor?.let {
             stateText.text = SpannableBuilder.builder()
-                    .bold(it.login())
+                    .bold(it.login)
                     .append(" ")
                     .append("deleted the")
                     .append(" ")
-                    .append(it.login())
+                    .append(it.login)
                     .append(":")
-                    .append(substring(event.headRefName()), BackgroundColorSpan(HtmlHelper.getWindowBackground(PrefGetter.getThemeType())))
+                    .append(substring(event.headRefName), BackgroundColorSpan(HtmlHelper.getWindowBackground(PrefGetter.getThemeType())))
                     .append(" ")
                     .append("branch")
                     .append(" ")
-                    .append(ParseDateFormat.getTimeAgo((event.createdAt().toString())))
+                    .append(ParseDateFormat.getTimeAgo((event.createdAt.toString())))
             stateImage.setImageResource(R.drawable.ic_trash)
-            avatarLayout.setUrl(it.avatarUrl().toString(), it.login(), false, LinkParserHelper.isEnterprise(it.url().toString()))
+            avatarLayout.setUrl(it.avatarUrl.toString(), it.login, false, LinkParserHelper.isEnterprise(it.url.toString()))
         }
     }
 
-    private fun deployedEvent(event: PullRequestTimelineQuery.AsDeployedEvent) {
-        event.actor()?.let {
+    private fun deployedEvent(event: PullRequestTimelineQuery.OnDeployedEvent) {
+        event.actor?.let {
             stateText.text = SpannableBuilder.builder()
-                    .bold(it.login())
+                    .bold(it.login)
                     .append(" ")
                     .append("made a deployment", BackgroundColorSpan(HtmlHelper.getWindowBackground(PrefGetter.getThemeType())))
                     .append(" ")
-                    .append(event.deployment().latestStatus()?.state()?.name)
+                    .append(event.deployment.latestStatus?.state?.rawValue)
                     .append(" ")
-                    .append(ParseDateFormat.getTimeAgo((event.createdAt().toString())))
+                    .append(ParseDateFormat.getTimeAgo((event.createdAt.toString())))
             stateImage.setImageResource(R.drawable.ic_push)
-            avatarLayout.setUrl(it.avatarUrl().toString(), it.login(), false, LinkParserHelper.isEnterprise(it.url().toString()))
+            avatarLayout.setUrl(it.avatarUrl.toString(), it.login, false, LinkParserHelper.isEnterprise(it.url.toString()))
         }
     }
 
-    private fun demilestonedEvent(event: PullRequestTimelineQuery.AsDemilestonedEvent) {
-        event.actor()?.let {
+    private fun demilestonedEvent(event: PullRequestTimelineQuery.OnDemilestonedEvent) {
+        event.actor?.let {
             stateText.text = SpannableBuilder.builder()
-                    .bold(it.login())
+                    .bold(it.login)
                     .append(" ")
                     .append("removed this from the")
                     .append(" ")
-                    .append(event.milestoneTitle()).append(" ").append("milestone")
+                    .append(event.milestoneTitle).append(" ").append("milestone")
                     .append(" ")
-                    .append(ParseDateFormat.getTimeAgo((event.createdAt().toString())))
+                    .append(ParseDateFormat.getTimeAgo((event.createdAt.toString())))
             stateImage.setImageResource(R.drawable.ic_milestone)
-            avatarLayout.setUrl(it.avatarUrl().toString(), it.login(), false, LinkParserHelper.isEnterprise(it.url().toString()))
+            avatarLayout.setUrl(it.avatarUrl.toString(), it.login, false, LinkParserHelper.isEnterprise(it.url.toString()))
         }
     }
 
-    private fun commitEvent(event: PullRequestTimelineQuery.AsCommit) {
-        event.author()?.let {
+    private fun commitEvent(event: PullRequestTimelineQuery.OnCommit) {
+        event.author?.let {
             stateText.text = SpannableBuilder.builder()//Review[k0shk0sh] We may want to suppress more then 3 or 4 commits. since it will clog the it
-                    .bold(if (it.user() == null) it.name() else it.user()?.login())
+                    .bold(if (it.user == null) it.name!! else it.user.login)
                     .append(" ")
                     .append("committed")
                     .append(" ")
-                    .append(event.messageHeadline())
+                    .append(event.messageHeadline)
                     .append(" ")
-                    .url(substring(event.oid().toString()))
+                    .url(substring(event.oid.toString()))
                     .append(" ")
-                    .append(ParseDateFormat.getTimeAgo((event.committedDate().toString())))
+                    .append(ParseDateFormat.getTimeAgo((event.committedDate.toString())))
             stateImage.setImageResource(R.drawable.ic_push)
-            avatarLayout.setUrl(it.user()?.avatarUrl().toString(), it.user()?.login(), false,
-                    LinkParserHelper.isEnterprise(it.user()?.url().toString()))
-            event.status()?.let {
+            avatarLayout.setUrl(it.user?.avatarUrl.toString(), it.user?.login, false,
+                    LinkParserHelper.isEnterprise(it.user?.url.toString()))
+            event.status?.let {status1 ->
                 commitStatus.visibility = View.VISIBLE
                 val context = commitStatus.context
-                commitStatus.tintDrawableColor(when (it.state()) {
+                commitStatus.tintDrawableColor(when (status1.state) {
                     StatusState.ERROR -> ContextCompat.getColor(context, R.color.material_red_700)
                     StatusState.FAILURE -> ContextCompat.getColor(context, R.color.material_deep_orange_700)
                     StatusState.SUCCESS -> ContextCompat.getColor(context, R.color.material_green_700)
@@ -353,48 +352,48 @@ class PullRequestEventViewHolder private constructor(view: View, adapter: BaseRe
         }
     }
 
-    private fun closedEvent(event: PullRequestTimelineQuery.AsClosedEvent) {
-        event.actor()?.let {
+    private fun closedEvent(event: PullRequestTimelineQuery.OnClosedEvent) {
+        event.actor?.let {
             stateText.text = SpannableBuilder.builder()
-                    .bold(it.login())
+                    .bold(it.login)
                     .append(" ")
                     .append("closed this in")
                     .append(" ")
-                    .url(substring(event.commit()?.oid()?.toString()))
+                    .url(substring(event.id))
                     .append(" ")
-                    .append(ParseDateFormat.getTimeAgo((event.createdAt().toString())))
+                    .append(ParseDateFormat.getTimeAgo((event.createdAt.toString())))
             stateImage.setImageResource(R.drawable.ic_merge)
-            avatarLayout.setUrl(it.avatarUrl().toString(), it.login(), false, LinkParserHelper.isEnterprise(it.url().toString()))
+            avatarLayout.setUrl(it.avatarUrl.toString(), it.login, false, LinkParserHelper.isEnterprise(it.url.toString()))
         }
     }
 
-    private fun forcePushEvent(event: PullRequestTimelineQuery.AsBaseRefForcePushedEvent) {
-        event.actor()?.let {
+    private fun forcePushEvent(event: PullRequestTimelineQuery.OnBaseRefForcePushedEvent) {
+        event.actor?.let {
             stateText.text = SpannableBuilder.builder()
-                    .bold(it.login())
+                    .bold(it.login)
                     .append(" ")
                     .append("force pushed to", BackgroundColorSpan(HtmlHelper.getWindowBackground(PrefGetter.getThemeType())))
                     .append(" ")
-                    .url(substring(event.afterCommit().oid().toString()))
+                    .url(substring(event.afterCommit?.oid.toString()))
                     .append(" ")
-                    .append(ParseDateFormat.getTimeAgo((event.createdAt().toString())))
+                    .append(ParseDateFormat.getTimeAgo((event.createdAt.toString())))
             stateImage.setImageResource(R.drawable.ic_push)
-            avatarLayout.setUrl(it.avatarUrl().toString(), it.login(), false, LinkParserHelper.isEnterprise(it.url().toString()))
+            avatarLayout.setUrl(it.avatarUrl.toString(), it.login, false, LinkParserHelper.isEnterprise(it.url.toString()))
         }
     }
 
-    private fun assignedEvent(event: PullRequestTimelineQuery.AsAssignedEvent) {
-        event.actor()?.let {
+    private fun assignedEvent(event: PullRequestTimelineQuery.OnAssignedEvent) {
+        event.actor?.let {
             stateText.text = SpannableBuilder.builder()
-                    .bold(it.login())
+                    .bold(it.login)
                     .append(" ")
-                    .append("assigned") //TODO add "self-assigned" for self
+                    .append("assigned")
                     .append(" ")
-                    .append(event.user()?.login())
+                    .append(event.assignee?.onUser?.login)// TODO add "self-assigned" for self
                     .append(" ")
-                    .append(ParseDateFormat.getTimeAgo((event.createdAt().toString())))
+                    .append(ParseDateFormat.getTimeAgo((event.createdAt.toString())))
             stateImage.setImageResource(R.drawable.ic_profile)
-            avatarLayout.setUrl(it.avatarUrl().toString(), it.login(), false, LinkParserHelper.isEnterprise(it.url().toString()))
+            avatarLayout.setUrl(it.avatarUrl.toString(), it.login, false, LinkParserHelper.isEnterprise(it.url.toString()))
         }
     }
 

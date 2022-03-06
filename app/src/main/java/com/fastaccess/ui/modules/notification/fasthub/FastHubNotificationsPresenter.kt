@@ -12,11 +12,12 @@ class FastHubNotificationsPresenter : BasePresenter<FastHubNotificationsMvp.View
     override fun getData(): List<FastHubNotification> = data
 
     override fun load() {
-        manageObservable(FastHubNotification.getNotifications()
-                .toList()
-                .toObservable()
-                .doOnNext {
-                    sendToView({ v -> v.notifyAdapter(it) })
+        manageObservable(
+            FastHubNotification.getNotifications()
+                ?.toList()
+                ?.toObservable()
+                ?.doOnNext {
+                    sendToView { v -> v.notifyAdapter(it) }
                 })
     }
 }

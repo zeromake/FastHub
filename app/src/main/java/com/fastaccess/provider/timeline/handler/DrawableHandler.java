@@ -15,7 +15,6 @@ import net.nightwhistler.htmlspanner.spans.CenterSpan;
 
 import org.htmlcleaner.TagNode;
 
-import lombok.AllArgsConstructor;
 
 import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
 
@@ -23,12 +22,16 @@ import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
  * Created by Kosh on 22 Apr 2017, 1:09 PM
  */
 
-@AllArgsConstructor public class DrawableHandler extends TagNodeHandler {
+public class DrawableHandler extends TagNodeHandler {
 
-    private TextView textView;
-    private int width;
+    private final TextView textView;
+    private final int width;
+    public DrawableHandler(TextView textView, int width) {
+        this.textView = textView;
+        this.width = width;
+    }
 
-    @SuppressWarnings("ConstantConditions") private boolean isNull() {
+    private boolean isNull() {
         return textView == null;
     }
 

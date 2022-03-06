@@ -1,15 +1,18 @@
 package com.fastaccess.ui.modules.main;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.GravityCompat;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.fragment.app.FragmentManager;
+import androidx.core.view.GravityCompat;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.evernote.android.state.State;
@@ -30,8 +33,6 @@ import com.fastaccess.ui.modules.search.SearchActivity;
 import com.fastaccess.ui.modules.settings.SlackBottomSheetDialog;
 import com.fastaccess.ui.modules.user.UserPagerActivity;
 
-import butterknife.BindView;
-import butterknife.OnClick;
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
 import shortbread.Shortcut;
 
@@ -40,10 +41,9 @@ import static com.fastaccess.helper.AppHelper.getFragmentByTag;
 public class MainActivity extends BaseActivity<MainMvp.View, MainPresenter> implements MainMvp.View {
 
     @State @MainMvp.NavigationType int navType = MainMvp.FEEDS;
-    @BindView(R.id.bottomNavigation) BottomNavigation bottomNavigation;
-    @BindView(R.id.fab) FloatingActionButton fab;
-
-    @OnClick(R.id.fab) void onFilter() {}
+    BottomNavigation bottomNavigation;
+    FloatingActionButton fab;
+    void onFilter() {}
 
     @NonNull @Override public MainPresenter providePresenter() {
         return new MainPresenter();
@@ -72,6 +72,11 @@ public class MainActivity extends BaseActivity<MainMvp.View, MainPresenter> impl
                 new SlackBottomSheetDialog().show(getSupportFragmentManager(), SlackBottomSheetDialog.TAG);
             }
         }
+        View root = getWindow().getDecorView();
+        bottomNavigation = root.findViewById(R.id.bottomNavigation);
+        fab = root.findViewById(R.id.fab);
+        fab.setOnClickListener(it -> this.onFilter());
+
         getPresenter().setEnterprise(PrefGetter.isEnterprise());
         selectHome(false);
         hideShowShadow(navType == MainMvp.FEEDS);
@@ -172,9 +177,11 @@ public class MainActivity extends BaseActivity<MainMvp.View, MainPresenter> impl
         }
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Shortcut(id = "myIssues", icon = R.drawable.ic_app_shortcut_issues, shortLabelRes = R.string.issues, rank = 2, action = "myIssues")
     public void myIssues() {}//do nothing
 
+    @SuppressLint("NonConstantResourceId")
     @Shortcut(id = "myPulls", icon = R.drawable.ic_app_shortcut_pull_requests, shortLabelRes = R.string.pull_requests, rank = 3, action = "myPulls")
     public void myPulls() {}//do nothing
 

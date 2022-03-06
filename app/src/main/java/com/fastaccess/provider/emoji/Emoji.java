@@ -1,6 +1,8 @@
 package com.fastaccess.provider.emoji;
 
-import java.io.UnsupportedEncodingException;
+import androidx.annotation.NonNull;
+
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -17,9 +19,9 @@ public class Emoji {
     private final boolean supportsFitzpatrick;
     private final List<String> aliases;
     private final List<String> tags;
-    private String unicode;
-    private String htmlDec;
-    private String htmlHex;
+    private final String unicode;
+    private final String htmlDec;
+    private final String htmlHex;
 
     /**
      * Constructor for the Emoji.
@@ -48,22 +50,18 @@ public class Emoji {
         this.tags = Collections.unmodifiableList(tags);
 
         int count = 0;
-        try {
-            this.unicode = new String(bytes, "UTF-8");
-            int stringLength = getUnicode().length();
-            String[] pointCodes = new String[stringLength];
-            String[] pointCodesHex = new String[stringLength];
-            for (int offset = 0; offset < stringLength; ) {
-                final int codePoint = getUnicode().codePointAt(offset);
-                pointCodes[count] = String.format(Locale.getDefault(), "&#%d;", codePoint);
-                pointCodesHex[count++] = String.format("&#x%x;", codePoint);
-                offset += Character.charCount(codePoint);
-            }
-            this.htmlDec = stringJoin(pointCodes, count);
-            this.htmlHex = stringJoin(pointCodesHex, count);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        this.unicode = new String(bytes, StandardCharsets.UTF_8);
+        int stringLength = getUnicode().length();
+        String[] pointCodes = new String[stringLength];
+        String[] pointCodesHex = new String[stringLength];
+        for (int offset = 0; offset < stringLength; ) {
+            final int codePoint = getUnicode().codePointAt(offset);
+            pointCodes[count] = String.format(Locale.getDefault(), "&#%d;", codePoint);
+            pointCodesHex[count++] = String.format("&#x%x;", codePoint);
+            offset += Character.charCount(codePoint);
         }
+        this.htmlDec = stringJoin(pointCodes, count);
+        this.htmlHex = stringJoin(pointCodesHex, count);
     }
 
     /**
@@ -74,10 +72,10 @@ public class Emoji {
      * @return concatenated String
      */
     private String stringJoin(String[] array, int count) {
-        String joined = "";
+        StringBuilder joined = new StringBuilder();
         for (int i = 0; i < count; i++)
-            joined += array[i];
-        return joined;
+            joined.append(array[i]);
+        return joined.toString();
     }
 
     /**
@@ -177,7 +175,7 @@ public class Emoji {
 
     @Override
     public boolean equals(Object other) {
-        return !(other == null || !(other instanceof Emoji)) &&
+        return other instanceof Emoji &&
                 ((Emoji) other).getUnicode().equals(getUnicode());
     }
 
@@ -202,6 +200,7 @@ public class Emoji {
      *
      * @return the string representation
      */
+    @NonNull
     @Override
     public String toString() {
         return "Emoji{" +

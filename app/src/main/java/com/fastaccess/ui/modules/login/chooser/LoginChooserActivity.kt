@@ -3,12 +3,10 @@ package com.fastaccess.ui.modules.login.chooser
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.CoordinatorLayout
-import android.support.transition.TransitionManager
 import android.view.View
 import android.widget.RelativeLayout
-import butterknife.BindView
-import butterknife.OnClick
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.transition.TransitionManager
 import com.fastaccess.BuildConfig
 import com.fastaccess.R
 import com.fastaccess.data.dao.model.Login
@@ -19,8 +17,10 @@ import com.fastaccess.ui.base.BaseActivity
 import com.fastaccess.ui.modules.login.LoginActivity
 import com.fastaccess.ui.modules.main.premium.PremiumActivity
 import com.fastaccess.ui.modules.settings.LanguageBottomSheetDialog
+import com.fastaccess.ui.widgets.FontTextView
 import com.fastaccess.ui.widgets.dialog.MessageDialogView
 import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
+import com.fastaccess.utils.setOnThrottleClickListener
 import io.reactivex.functions.Action
 import java.util.*
 
@@ -28,13 +28,14 @@ import java.util.*
  * Created by Kosh on 28 Apr 2017, 9:03 PM
  */
 
-class LoginChooserActivity : BaseActivity<LoginChooserMvp.View, LoginChooserPresenter>(), LoginChooserMvp.View {
+class LoginChooserActivity : BaseActivity<LoginChooserMvp.View, LoginChooserPresenter>(),
+    LoginChooserMvp.View {
 
-    @BindView(R.id.language_selector) lateinit var language_selector: RelativeLayout
-    @BindView(R.id.recycler) lateinit var recycler: DynamicRecyclerView
-    @BindView(R.id.multiAccLayout) lateinit var multiAccLayout: View
-    @BindView(R.id.viewGroup) lateinit var viewGroup: CoordinatorLayout
-    @BindView(R.id.toggleImage) lateinit var toggleImage: View
+    private lateinit var languageSelector: RelativeLayout
+    lateinit var recycler: DynamicRecyclerView
+    private lateinit var multiAccLayout: View
+    lateinit var viewGroup: CoordinatorLayout
+    private lateinit var toggleImage: View
 
     private val adapter = LoginAdapter()
 
@@ -48,26 +49,50 @@ class LoginChooserActivity : BaseActivity<LoginChooserMvp.View, LoginChooserPres
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val root = window.decorView
+        languageSelector = root.findViewById(R.id.language_selector)
+        recycler = root.findViewById(R.id.recycler)
+        multiAccLayout = root.findViewById(R.id.multiAccLayout)
+        viewGroup = root.findViewById(R.id.viewGroup)
+        toggleImage = root.findViewById(R.id.toggleImage)
+        root.findViewById<View>(R.id.basicAuth).setOnThrottleClickListener {
+            this.onBasicAuthClicked()
+        }
+        root.findViewById<View>(R.id.accessToken).setOnThrottleClickListener {
+            this.onAccessTokenClicked()
+        }
+        root.findViewById<View>(R.id.enterprise).setOnThrottleClickListener {
+            this.onEnterpriseClicked()
+        }
+        root.findViewById<View>(R.id.browserLogin).setOnThrottleClickListener {
+            this.onOpenBrowser()
+        }
+        root.findViewById<FontTextView>(R.id.language_selector_clicker).setOnThrottleClickListener {
+            this.onChangeLanguage()
+        }
+        root.findViewById<View>(R.id.toggle).setOnThrottleClickListener {
+            this.onToggle()
+        }
         adapter.listener = this
         recycler.adapter = adapter
         val languages = resources.getStringArray(R.array.languages_array_values)
         if (Locale.getDefault().language in languages) {
-            val language = PrefGetter.getAppLanguage()
+            val language = PrefGetter.getAppLanguage(resources)
             PrefGetter.setAppLangauge(Locale.getDefault().language)
-            if (!BuildConfig.DEBUG) language_selector.visibility = View.GONE
+            if (!BuildConfig.DEBUG) languageSelector.visibility = View.GONE
             if (Locale.getDefault().language != language) recreate()
         }
     }
 
-    @OnClick(R.id.basicAuth) fun onBasicAuthClicked() {
+    private fun onBasicAuthClicked() {
         LoginActivity.start(this, true)
     }
 
-    @OnClick(R.id.accessToken) fun onAccessTokenClicked() {
+    internal fun onAccessTokenClicked() {
         LoginActivity.start(this, false)
     }
 
-    @OnClick(R.id.enterprise) internal fun onEnterpriseClicked() {
+    internal fun onEnterpriseClicked() {
         if (Login.hasNormalLogin()) {
             if (PrefGetter.isAllFeaturesUnlocked() || PrefGetter.isEnterpriseEnabled()) {
                 LoginActivity.start(this, true, true)
@@ -75,30 +100,32 @@ class LoginChooserActivity : BaseActivity<LoginChooserMvp.View, LoginChooserPres
                 startActivity(Intent(this, PremiumActivity::class.java))
             }
         } else {
-            MessageDialogView.newInstance(getString(R.string.warning), getString(R.string.enterprise_login_warning),
-                    false, Bundler.start().put("hide_buttons", true).end())
-                    .show(supportFragmentManager, MessageDialogView.TAG)
+            MessageDialogView.newInstance(
+                getString(R.string.warning), getString(R.string.enterprise_login_warning),
+                false, Bundler.start().put("hide_buttons", true).end()
+            )
+                .show(supportFragmentManager, MessageDialogView.TAG)
         }
     }
 
-    @OnClick(R.id.browserLogin) internal fun onOpenBrowser() {
+    private fun onOpenBrowser() {
         LoginActivity.startOAuth(this)
     }
 
-    @OnClick(R.id.language_selector_clicker) fun onChangeLanguage() {
+    internal fun onChangeLanguage() {
         showLanguage()
     }
 
-    @OnClick(R.id.toggle) internal fun onToggle() {
+    internal fun onToggle() {
         TransitionManager.beginDelayedTransition(viewGroup)
         val isVisible = recycler.visibility == View.VISIBLE
         recycler.visibility = if (isVisible) View.GONE else View.VISIBLE
         toggleImage.rotation = if (!isVisible) 180f else 0f
     }
 
-    override fun onLanguageChanged(action: Action) {
+    override fun onLanguageChanged(action: Action?) {
         try {
-            action.run()
+            action?.run()
             recreate()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -122,9 +149,10 @@ class LoginChooserActivity : BaseActivity<LoginChooserMvp.View, LoginChooserPres
 
     override fun onItemClick(position: Int, v: View, item: Login) {
         presenter.manageViewDisposable(Login.onMultipleLogin(item, item.isIsEnterprise, false)
-                .doOnSubscribe { showProgress(0) }
-                .doOnComplete { this.hideProgress() }
-                .subscribe({ onRestartApp() }, ::println))
+            .doOnSubscribe { showProgress(0) }
+            .doOnComplete { this.hideProgress() }
+            .subscribe({ onRestartApp() }, ::println)
+        )
     }
 
     override fun onItemLongClick(position: Int, v: View, item: Login) {}

@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import com.fastaccess.ui.adapter.viewholder.ProfilePinnedReposViewHolder
 import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter
 import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
-import github.GetPinnedReposQuery
+import com.fastaccess.github.GetPinnedReposQuery
 import java.text.NumberFormat
 
 /**
@@ -14,7 +14,7 @@ import java.text.NumberFormat
 class ProfilePinnedReposAdapter(data: List<GetPinnedReposQuery.Node>) : BaseRecyclerAdapter<GetPinnedReposQuery.Node,
         ProfilePinnedReposViewHolder, BaseViewHolder.OnItemClickListener<GetPinnedReposQuery.Node>>(data) {
 
-    private val numberFormat = NumberFormat.getNumberInstance()!!
+    private val numberFormat = NumberFormat.getNumberInstance()
 
     override fun viewHolder(parent: ViewGroup, viewType: Int): ProfilePinnedReposViewHolder {
         return ProfilePinnedReposViewHolder.newInstance(parent, this)
