@@ -22,11 +22,11 @@ class PlayStoreWarningActivity : BaseActivity<BaseMvp.FAView, BasePresenter<Base
 
     override fun layout(): Int = R.layout.playstore_review_layout_warning
 
-    override fun isTransparent(): Boolean = true
+    override val isTransparent: Boolean = true
 
     override fun canBack(): Boolean = false
 
-    override fun isSecured(): Boolean = true
+    override val isSecured: Boolean = true
 
     override fun providePresenter(): BasePresenter<BaseMvp.FAView> = BasePresenter()
 

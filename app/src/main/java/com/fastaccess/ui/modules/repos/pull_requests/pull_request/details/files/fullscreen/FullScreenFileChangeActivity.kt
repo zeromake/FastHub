@@ -46,11 +46,11 @@ class FullScreenFileChangeActivity : BaseActivity<FullScreenFileChangeMvp.View, 
 
     override fun layout(): Int = R.layout.full_screen_file_changes_layout
 
-    override fun isTransparent(): Boolean = false
+    override val isTransparent: Boolean = false
 
     override fun canBack(): Boolean = true
 
-    override fun isSecured(): Boolean = false
+    override val isSecured: Boolean = false
 
     override fun providePresenter(): FullScreenFileChangePresenter = FullScreenFileChangePresenter()
 
@@ -99,9 +99,9 @@ class FullScreenFileChangeActivity : BaseActivity<FullScreenFileChangeMvp.View, 
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.done_menu, menu)
-        menu?.findItem(R.id.submit)?.setIcon(R.drawable.ic_done)
+        menu.findItem(R.id.submit)?.setIcon(R.drawable.ic_done)
         return super.onCreateOptionsMenu(menu)
     }
 

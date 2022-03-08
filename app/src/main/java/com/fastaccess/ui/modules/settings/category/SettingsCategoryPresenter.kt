@@ -7,4 +7,4 @@ import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
 /**
  * Created by JediB on 5/12/2017.
  */
-class SettingsCategoryPresenter : BasePresenter<FAView?>(), FAPresenter
+class SettingsCategoryPresenter : BasePresenter<FAView>(), FAPresenter

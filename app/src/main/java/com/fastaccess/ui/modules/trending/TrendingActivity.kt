@@ -96,11 +96,11 @@ class TrendingActivity : BaseActivity<TrendingMvp.View, TrendingPresenter>(), Tr
 
     override fun layout(): Int = R.layout.trending_activity_layout
 
-    override fun isTransparent(): Boolean = true
+    override val isTransparent: Boolean = true
 
     override fun canBack(): Boolean = true
 
-    override fun isSecured(): Boolean = false
+    override val isSecured: Boolean = false
 
     override fun providePresenter(): TrendingPresenter = TrendingPresenter()
 
@@ -128,7 +128,7 @@ class TrendingActivity : BaseActivity<TrendingMvp.View, TrendingPresenter>(), Tr
         onSelectTrending()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.trending_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }

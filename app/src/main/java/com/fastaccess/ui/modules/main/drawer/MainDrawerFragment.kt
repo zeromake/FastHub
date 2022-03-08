@@ -2,15 +2,18 @@ package com.fastaccess.ui.modules.main.drawer
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
 import com.google.android.material.navigation.NavigationView
 import android.view.MenuItem
 import android.view.View
 import com.fastaccess.R
 import com.fastaccess.data.dao.model.Login
+import com.fastaccess.databinding.MainNavFragmentLayoutBinding
 import com.fastaccess.helper.PrefGetter
 import com.fastaccess.ui.base.BaseActivity
 import com.fastaccess.ui.base.BaseFragment
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
+import com.fastaccess.ui.delegate.viewBinding
 import com.fastaccess.ui.modules.about.FastHubAboutActivity
 import com.fastaccess.ui.modules.gists.GistsListActivity
 import com.fastaccess.ui.modules.main.MainActivity
@@ -26,19 +29,20 @@ import com.fastaccess.ui.modules.user.UserPagerActivity
 /**
  * Created by Kosh on 25.03.18.
  */
-class MainDrawerFragment : BaseFragment<MainMvp.View, BasePresenter<MainMvp.View>>(), NavigationView.OnNavigationItemSelectedListener {
-    private lateinit var mainNav: NavigationView
+class MainDrawerFragment(private val onDrawerMenuCreated: OnDrawerMenuCreatedListener) :
+    BaseFragment<MainMvp.View, BasePresenter<MainMvp.View>>(),
+    NavigationView.OnNavigationItemSelectedListener {
+    interface OnDrawerMenuCreatedListener {
+        fun onDrawerCreated(menu: Menu)
+    }
 
+    private val binding: MainNavFragmentLayoutBinding by viewBinding()
+    private val mainNav: NavigationView by lazy { this.binding.mainNav }
     private val userModel by lazy { Login.getUser() }
 
     override fun fragmentLayout() = R.layout.main_nav_fragment_layout
 
     override fun providePresenter() = BasePresenter<MainMvp.View>()
-
-    override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
-        mainNav = view.findViewById(R.id.mainNav)
-        mainNav.setNavigationItemSelectedListener(this)
-    }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val activity = activity as? BaseActivity<*, *>? ?: return false
@@ -59,21 +63,59 @@ class MainDrawerFragment : BaseFragment<MainMvp.View, BasePresenter<MainMvp.View
                         }
                     }
                     R.id.profile -> userModel?.let {
-                        UserPagerActivity.startActivity(activity, it.login, false, PrefGetter.isEnterprise, 0)
+                        UserPagerActivity.startActivity(
+                            activity,
+                            it.login,
+                            false,
+                            PrefGetter.isEnterprise,
+                            0
+                        )
                     }
                     R.id.settings -> activity.onOpenSettings()
-                    R.id.about -> activity.startActivity(Intent(activity, FastHubAboutActivity::class.java))
+                    R.id.about -> activity.startActivity(
+                        Intent(
+                            activity,
+                            FastHubAboutActivity::class.java
+                        )
+                    )
                     R.id.orgs -> activity.onOpenOrgsDialog()
-                    R.id.notifications -> activity.startActivity(Intent(activity, NotificationActivity::class.java))
-                    R.id.trending -> activity.startActivity(Intent(activity, TrendingActivity::class.java))
-                    R.id.reportBug -> activity.startActivity(CreateIssueActivity.startForResult(activity))
-                    R.id.faq -> activity.startActivity(Intent(activity, PlayStoreWarningActivity::class.java))
-                    R.id.restorePurchase -> activity.startActivity(Intent(activity, CheckPurchaseActivity::class.java))
+                    R.id.notifications -> activity.startActivity(
+                        Intent(
+                            activity,
+                            NotificationActivity::class.java
+                        )
+                    )
+                    R.id.trending -> activity.startActivity(
+                        Intent(
+                            activity,
+                            TrendingActivity::class.java
+                        )
+                    )
+                    R.id.reportBug -> activity.startActivity(
+                        CreateIssueActivity.startForResult(
+                            activity
+                        )
+                    )
+                    R.id.faq -> activity.startActivity(
+                        Intent(
+                            activity,
+                            PlayStoreWarningActivity::class.java
+                        )
+                    )
+                    R.id.restorePurchase -> activity.startActivity(
+                        Intent(
+                            activity,
+                            CheckPurchaseActivity::class.java
+                        )
+                    )
                 }
             }
         }, 250)
         return true
     }
 
-    fun getMenu() = mainNav.menu
+    override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
+        mainNav.setNavigationItemSelectedListener(this)
+        this.onDrawerMenuCreated.onDrawerCreated(mainNav.menu)
+    }
 }

@@ -29,11 +29,12 @@ class ProjectPagerActivity : BaseActivity<ProjectPagerMvp.View, ProjectPagerPres
 
     @BindView(R.id.pager) lateinit var pager: ViewPager
     @BindView(R.id.loading) lateinit var loading: LottieAnimationView
-    @State var isProgressShowing = false
+    @State
+    override var isProgressShowing = false
 
     override fun canBack(): Boolean = true
 
-    override fun isSecured(): Boolean = false
+    override val isSecured: Boolean = false
 
     override fun providePresenter(): ProjectPagerPresenter = ProjectPagerPresenter()
 
@@ -72,7 +73,7 @@ class ProjectPagerActivity : BaseActivity<ProjectPagerMvp.View, ProjectPagerPres
 
     override fun layout(): Int = R.layout.projects_activity_layout
 
-    override fun isTransparent(): Boolean = true
+    override val isTransparent: Boolean = true
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {

@@ -65,17 +65,11 @@ class UserPagerActivity : BaseActivity<UserPagerMvp.View?, UserPagerPresenter?>(
         return R.layout.tabbed_pager_layout
     }
 
-    override fun isTransparent(): Boolean {
-        return true
-    }
+    override val isTransparent: Boolean  =true
 
-    override fun canBack(): Boolean {
-        return true
-    }
+    override fun canBack(): Boolean = true
 
-    override fun isSecured(): Boolean {
-        return false
-    }
+    override val isSecured: Boolean = false
 
     override fun providePresenter(): UserPagerPresenter {
         return UserPagerPresenter()

@@ -26,11 +26,11 @@ class FileCommitHistoryActivity : BaseActivity<BaseMvp.FAView, BasePresenter<Bas
 
     override fun providePresenter(): BasePresenter<BaseMvp.FAView> = BasePresenter()
 
-    override fun isTransparent(): Boolean = true
+    override val isTransparent: Boolean = true
 
     override fun canBack(): Boolean = true
 
-    override fun isSecured(): Boolean = false
+    override val isSecured: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

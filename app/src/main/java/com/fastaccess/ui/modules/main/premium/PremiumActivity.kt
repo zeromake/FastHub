@@ -45,13 +45,13 @@ class PremiumActivity : BaseActivity<PremiumMvp.View, PremiumPresenter>(), Premi
 
     override fun layout(): Int = R.layout.pro_features_layout
 
-    override fun isTransparent(): Boolean = true
+    override val isTransparent: Boolean = true
 
     override fun providePresenter(): PremiumPresenter = PremiumPresenter()
 
     override fun canBack(): Boolean = false
 
-    override fun isSecured(): Boolean = true
+    override val isSecured: Boolean = true
 
     @OnClick(R.id.buyAll) fun onBuyAll() {
         if (!isGoogleSupported()) return

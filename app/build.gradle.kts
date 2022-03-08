@@ -51,12 +51,17 @@ android {
     }
     sourceSets {
         getByName("main") {
-            res.srcDirs("src/main/res/",
+            res.srcDirs(
+                "src/main/res/",
                 "src/main/res/layouts/main_layouts",
                 "src/main/res/layouts/row_layouts",
                 "src/main/res/layouts/other_layouts",
-                "src/main/res/translations")
+                "src/main/res/translations"
+            )
         }
+    }
+    viewBinding {
+        enable = true
     }
 }
 

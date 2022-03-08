@@ -8,6 +8,7 @@ import com.fastaccess.R
 import android.os.Bundle
 import com.evernote.android.state.State
 import com.fastaccess.helper.BundleConstant
+import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 
 class SettingsCategoryActivity : BaseActivity<FAView, SettingsCategoryPresenter>(),
     SettingsCallback {
@@ -25,17 +26,12 @@ class SettingsCategoryActivity : BaseActivity<FAView, SettingsCategoryPresenter>
         return R.layout.activity_settings_category
     }
 
-    override fun isTransparent(): Boolean {
-        return false
-    }
-
+    override val isTransparent: Boolean  = false
     override fun canBack(): Boolean {
         return true
     }
+    override val isSecured: Boolean = false
 
-    override fun isSecured(): Boolean {
-        return false
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

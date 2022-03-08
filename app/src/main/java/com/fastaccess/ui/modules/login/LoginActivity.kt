@@ -161,17 +161,13 @@ open class LoginActivity : BaseActivity<LoginMvp.View?, LoginPresenter?>(), Logi
         return R.layout.login_form_layout
     }
 
-    override fun isTransparent(): Boolean {
-        return true
-    }
+    override val isTransparent = true
 
     override fun canBack(): Boolean {
         return false
     }
 
-    override fun isSecured(): Boolean {
-        return true
-    }
+    override val isSecured = true
 
     override fun providePresenter(): LoginPresenter {
         return LoginPresenter()

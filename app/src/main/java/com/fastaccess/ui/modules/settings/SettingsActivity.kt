@@ -26,17 +26,13 @@ class SettingsActivity : BaseActivity<FAView, BasePresenter<FAView>>(), Language
         return R.layout.activity_settings
     }
 
-    override fun isTransparent(): Boolean {
-        return false
-    }
+    override val isTransparent: Boolean = false
 
     override fun canBack(): Boolean {
         return true
     }
 
-    override fun isSecured(): Boolean {
-        return false
-    }
+    override val isSecured: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

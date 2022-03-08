@@ -17,13 +17,11 @@ import com.fastaccess.ui.widgets.ViewPagerView
  * Created by Kosh on 09 Jul 2017, 3:50 PM
  */
 class MainNavDrawer(val view: BaseActivity<*, *>, private val extraNav: NavigationView?) {
-
-
     init {
         setupView()
         val viewpager = view.findViewById<ViewPagerView>(R.id.drawerViewPager)
         viewpager?.let {
-            it.adapter = FragmentsPagerAdapter(view.getSupportFragmentManager(), FragmentPagerAdapterModel.buildForDrawer(view))
+            it.adapter = FragmentsPagerAdapter(view.supportFragmentManager, FragmentPagerAdapterModel.buildForDrawer(view, view))
             view.findViewById<TabLayout>(R.id.drawerTabLayout)?.setupWithViewPager(it)
         }
     }

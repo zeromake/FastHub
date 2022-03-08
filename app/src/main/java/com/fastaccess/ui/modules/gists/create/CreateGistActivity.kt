@@ -85,17 +85,13 @@ class CreateGistActivity : BaseActivity<CreateGistMvp.View?, CreateGistPresenter
         return R.layout.create_gist_layout
     }
 
-    override fun isTransparent(): Boolean {
-        return false
-    }
+    override val isTransparent=false
 
     override fun canBack(): Boolean {
         return true
     }
 
-    override fun isSecured(): Boolean {
-        return false
-    }
+    override var isSecured = false
 
     override fun providePresenter(): CreateGistPresenter {
         return CreateGistPresenter()

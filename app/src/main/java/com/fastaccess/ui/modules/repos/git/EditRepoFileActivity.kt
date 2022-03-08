@@ -38,11 +38,11 @@ class EditRepoFileActivity : BaseActivity<EditRepoFileMvp.View, EditRepoFilePres
 
     override fun layout(): Int = R.layout.edit_repo_file_layout
 
-    override fun isTransparent(): Boolean = false
+    override val isTransparent: Boolean = false
 
     override fun canBack(): Boolean = true
 
-    override fun isSecured(): Boolean = true
+    override val isSecured: Boolean = true
 
     override fun providePresenter(): EditRepoFilePresenter = EditRepoFilePresenter()
 

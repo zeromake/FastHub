@@ -62,13 +62,13 @@ class SearchUserActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FA
 
     override fun layout(): Int = R.layout.activity_search_user
 
-    override fun isTransparent(): Boolean = false
+    override val isTransparent: Boolean = false
 
     override fun canBack(): Boolean = true
 
     override fun providePresenter(): BasePresenter<BaseMvp.FAView> = BasePresenter()
 
-    override fun isSecured(): Boolean = false
+    override val isSecured: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

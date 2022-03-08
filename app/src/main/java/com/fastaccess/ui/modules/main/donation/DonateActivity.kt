@@ -28,11 +28,11 @@ class DonateActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FAView
 
     override fun layout(): Int = 0
 
-    override fun isTransparent(): Boolean = true
+    override val isTransparent: Boolean = true
 
     override fun canBack(): Boolean = false
 
-    override fun isSecured(): Boolean = true
+    override val isSecured: Boolean = true
 
     override fun providePresenter(): BasePresenter<BaseMvp.FAView> = BasePresenter()
 

@@ -26,11 +26,11 @@ class OrgProjectActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FA
 
     override fun layout(): Int = R.layout.activity_fragment_layout
 
-    override fun isTransparent(): Boolean = true
+    override val isTransparent: Boolean = true
 
     override fun canBack(): Boolean = true
 
-    override fun isSecured(): Boolean = false
+    override val isSecured: Boolean = false
 
     override fun providePresenter(): BasePresenter<BaseMvp.FAView> = BasePresenter()
 

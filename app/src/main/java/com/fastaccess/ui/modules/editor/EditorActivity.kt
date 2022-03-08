@@ -36,7 +36,6 @@ import java.util.*
  */
 
 class EditorActivity : BaseActivity<EditorMvp.View, EditorPresenter>(), EditorMvp.View {
-
     private var participants: ArrayList<String>? = null
     private val sentFromFastHub: String by lazy {
         "\n\n_" + getString(R.string.sent_from_fasthub, AppHelper.getDeviceName(), "",
@@ -61,11 +60,11 @@ class EditorActivity : BaseActivity<EditorMvp.View, EditorPresenter>(), EditorMv
 
     override fun layout(): Int = R.layout.editor_layout
 
-    override fun isTransparent(): Boolean = false
+    override val isTransparent: Boolean = false
 
     override fun canBack(): Boolean = true
 
-    override fun isSecured(): Boolean = false
+    override val isSecured: Boolean = false
 
     override fun providePresenter(): EditorPresenter = EditorPresenter()
 

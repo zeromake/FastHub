@@ -41,11 +41,11 @@ class LoginChooserActivity : BaseActivity<LoginChooserMvp.View, LoginChooserPres
 
     override fun layout(): Int = R.layout.login_chooser_layout
 
-    override fun isTransparent(): Boolean = true
+    override val isTransparent: Boolean = true
 
     override fun canBack(): Boolean = false
 
-    override fun isSecured(): Boolean = true
+    override val isSecured: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

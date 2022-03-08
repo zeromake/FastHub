@@ -36,11 +36,11 @@ class ThemeActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FAView>
 
     override fun layout(): Int = R.layout.theme_viewpager
 
-    override fun isTransparent(): Boolean = false
+    override val isTransparent: Boolean = false
 
     override fun canBack(): Boolean = true
 
-    override fun isSecured(): Boolean = false
+    override val isSecured: Boolean = false
 
     override fun providePresenter(): BasePresenter<BaseMvp.FAView> {
         return BasePresenter()

@@ -1,5 +1,6 @@
 package com.fastaccess.ui.modules.repos.wiki
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -42,7 +43,7 @@ class WikiActivity : BaseActivity<WikiMvp.View, WikiPresenter>(), WikiMvp.View {
 
     override fun layout(): Int = R.layout.wiki_activity_layout
 
-    override fun isTransparent(): Boolean = true
+    override val isTransparent: Boolean = true
 
     override fun providePresenter(): WikiPresenter = WikiPresenter()
 
@@ -73,13 +74,15 @@ class WikiActivity : BaseActivity<WikiMvp.View, WikiPresenter>(), WikiMvp.View {
         wiki.sidebar.onEach {
             navMenu.menu.add(R.id.languageGroup, it.title?.hashCode()!!, Menu.NONE, it.title)
                     .setCheckable(true)
-                    .isChecked = it.title.toLowerCase() == selectedTitle.toLowerCase()
+                    .isChecked = it.title.lowercase(Locale.getDefault()) == selectedTitle.lowercase(
+                Locale.getDefault()
+            )
         }
     }
 
     override fun canBack(): Boolean = true
 
-    override fun isSecured(): Boolean = false
+    override val isSecured: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,20 +109,22 @@ class WikiActivity : BaseActivity<WikiMvp.View, WikiPresenter>(), WikiMvp.View {
                 .let { presenter.onSidebarClicked(it) }
     }
 
+    @SuppressLint("RtlHardcoded")
     private fun closeDrawerLayout() {
-        drawerLayout.closeDrawer(Gravity.END)
+        drawerLayout.closeDrawer(Gravity.RIGHT)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.trending_menu, menu)
-        menu?.findItem(R.id.menu)?.setIcon(R.drawable.ic_menu)
+        menu.findItem(R.id.menu)?.setIcon(R.drawable.ic_menu)
         return super.onCreateOptionsMenu(menu)
     }
 
+    @SuppressLint("RtlHardcoded")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu -> {
-                drawerLayout.openDrawer(Gravity.END)
+                drawerLayout.openDrawer(Gravity.RIGHT)
                 return true
             }
             R.id.share -> {

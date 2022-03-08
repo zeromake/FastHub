@@ -41,7 +41,7 @@ public abstract class BaseMvpBottomSheetDialogFragment<V extends BaseMvp.FAView,
 
     @LayoutRes protected abstract int fragmentLayout();
 
-    @Override public void onAttach(Context context) {
+    @Override public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof BaseMvp.FAView) {
             callback = (BaseMvp.FAView) context;
@@ -53,7 +53,7 @@ public abstract class BaseMvpBottomSheetDialogFragment<V extends BaseMvp.FAView,
         callback = null;
     }
 
-    @Override public void onSaveInstanceState(Bundle outState) {
+    @Override public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         StateSaver.saveInstanceState(this, outState);
         getPresenter().onSaveInstanceState(outState);
@@ -70,9 +70,9 @@ public abstract class BaseMvpBottomSheetDialogFragment<V extends BaseMvp.FAView,
     }
 
     @SuppressLint("RestrictedApi") @Nullable @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (fragmentLayout() != 0) {
-            final Context contextThemeWrapper = new ContextThemeWrapper(getContext(), getContext().getTheme());
+            final Context contextThemeWrapper = new ContextThemeWrapper(getContext(), requireContext().getTheme());
             LayoutInflater themeAwareInflater = inflater.cloneInContext(contextThemeWrapper);
             View view = themeAwareInflater.inflate(fragmentLayout(), container, false);
             unbinder = ButterKnife.bind(this, view);
@@ -141,10 +141,10 @@ public abstract class BaseMvpBottomSheetDialogFragment<V extends BaseMvp.FAView,
     }
 
     @NonNull @Override public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final BottomSheetDialog dialog = new BottomSheetDialog(getContext(), getTheme());
+        final BottomSheetDialog dialog = new BottomSheetDialog(requireContext(), getTheme());
         if (dialog.getWindow() != null) dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setOnShowListener(dialogInterface -> {
-            if (ViewHelper.isTablet(getActivity())) {
+            if (ViewHelper.isTablet(requireActivity())) {
                 if (dialog.getWindow() != null) {
                     dialog.getWindow().setLayout(
                             ViewGroup.LayoutParams.WRAP_CONTENT,

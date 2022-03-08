@@ -27,11 +27,11 @@ class ThemeCodeActivity : BaseActivity<ThemeCodeMvp.View, ThemeCodePresenter>(),
 
     override fun layout(): Int = R.layout.theme_code_layout
 
-    override fun isTransparent(): Boolean = false
+    override val isTransparent: Boolean = false
 
     override fun canBack(): Boolean = true
 
-    override fun isSecured(): Boolean = false
+    override val isSecured: Boolean = false
 
     override fun providePresenter(): ThemeCodePresenter = ThemeCodePresenter()
 
