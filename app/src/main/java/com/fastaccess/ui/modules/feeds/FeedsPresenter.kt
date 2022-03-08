@@ -71,13 +71,13 @@ class FeedsPresenter : BasePresenter<FeedsMvp.View?>(), FeedsMvp.Presenter {
                             user,
                             ignoreCase = true
                         )
-                    ) PrefGetter.isEnterprise() else isEnterprise
+                    ) PrefGetter.isEnterprise else isEnterprise
                 ).getUserEvents(
                     user!!, page
                 )
             }
         } else {
-            RestProvider.getUserService(PrefGetter.isEnterprise())
+            RestProvider.getUserService(PrefGetter.isEnterprise)
                 .getReceivedEvents(login.login, page)
         }
         makeRestCall(observable) { response ->

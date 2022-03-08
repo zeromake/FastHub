@@ -1,6 +1,5 @@
 package com.prettifier.pretty
 
-import android.R
 import android.webkit.WebView
 import androidx.core.view.NestedScrollingChild
 import androidx.core.view.NestedScrollingChildHelper
@@ -12,6 +11,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import androidx.core.view.ViewCompat
+import android.R
 
 open class NestedWebView : WebView, NestedScrollingChild {
     private var mLastY = 0

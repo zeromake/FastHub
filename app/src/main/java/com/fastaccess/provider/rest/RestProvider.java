@@ -4,12 +4,11 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import android.text.TextUtils;
-import android.widget.Toast;
 
-import com.fastaccess.App;
+import android.text.TextUtils;
 import com.fastaccess.BuildConfig;
 import com.fastaccess.R;
 import com.fastaccess.data.dao.GitHubErrorResponse;
@@ -27,6 +26,7 @@ import com.fastaccess.data.service.ReviewService;
 import com.fastaccess.data.service.SearchService;
 import com.fastaccess.data.service.SlackService;
 import com.fastaccess.data.service.UserRestService;
+import com.fastaccess.helper.FileHelper;
 import com.fastaccess.helper.InputHelper;
 import com.fastaccess.helper.PrefGetter;
 import com.fastaccess.provider.rest.converters.GithubResponseConverter;
@@ -98,21 +98,14 @@ public class RestProvider {
         DownloadManager.Request request = new DownloadManager.Request(uri);
         String authToken = isEnterprise ? PrefGetter.getEnterpriseToken() : PrefGetter.getToken();
         if (!TextUtils.isEmpty(authToken)) {
+            assert authToken != null;
             request.addRequestHeader("Authorization", authToken.startsWith("Basic") ? authToken : "token " + authToken);
         }
-        File direct = new File(Environment.getExternalStorageDirectory() + File.separator + context.getString(R.string.app_name));
-        if (!direct.isDirectory() || !direct.exists()) {
-            boolean isCreated = direct.mkdirs();
-            if (!isCreated) {
-                Toast.makeText(App.getInstance(), "Unable to create directory to download file", Toast.LENGTH_SHORT).show();
-                return;
-            }
-        }
         String fileName = new File(url).getName();
-        request.setDestinationInExternalPublicDir(context.getString(R.string.app_name), fileName);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, context.getString(R.string.app_name) + "/" + fileName);
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);
         request.setTitle(fileName);
         request.setDescription(context.getString(R.string.downloading_file));
-        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         if (downloadManager != null) {
             downloadManager.enqueue(request);
@@ -127,43 +120,53 @@ public class RestProvider {
         return -1;
     }
 
-    @NonNull public static UserRestService getUserService(boolean enterprise) {
+    @NonNull
+    public static UserRestService getUserService(boolean enterprise) {
         return provideRetrofit(enterprise).create(UserRestService.class);
     }
 
-    @NonNull public static GistService getGistService(boolean enterprise) {
+    @NonNull
+    public static GistService getGistService(boolean enterprise) {
         return provideRetrofit(enterprise).create(GistService.class);
     }
 
-    @NonNull public static RepoService getRepoService(boolean enterprise) {
+    @NonNull
+    public static RepoService getRepoService(boolean enterprise) {
         return provideRetrofit(enterprise).create(RepoService.class);
     }
 
-    @NonNull public static IssueService getIssueService(boolean enterprise) {
+    @NonNull
+    public static IssueService getIssueService(boolean enterprise) {
         return provideRetrofit(enterprise).create(IssueService.class);
     }
 
-    @NonNull public static PullRequestService getPullRequestService(boolean enterprise) {
+    @NonNull
+    public static PullRequestService getPullRequestService(boolean enterprise) {
         return provideRetrofit(enterprise).create(PullRequestService.class);
     }
 
-    @NonNull public static NotificationService getNotificationService(boolean enterprise) {
+    @NonNull
+    public static NotificationService getNotificationService(boolean enterprise) {
         return provideRetrofit(enterprise).create(NotificationService.class);
     }
 
-    @NonNull public static ReactionsService getReactionsService(boolean enterprise) {
+    @NonNull
+    public static ReactionsService getReactionsService(boolean enterprise) {
         return provideRetrofit(enterprise).create(ReactionsService.class);
     }
 
-    @NonNull public static OrganizationService getOrgService(boolean enterprise) {
+    @NonNull
+    public static OrganizationService getOrgService(boolean enterprise) {
         return provideRetrofit(enterprise).create(OrganizationService.class);
     }
 
-    @NonNull public static ReviewService getReviewService(boolean enterprise) {
+    @NonNull
+    public static ReviewService getReviewService(boolean enterprise) {
         return provideRetrofit(enterprise).create(ReviewService.class);
     }
 
-    @NonNull public static UserRestService getContribution() {
+    @NonNull
+    public static UserRestService getContribution() {
         return new Retrofit.Builder()
                 .baseUrl(BuildConfig.REST_URL)
                 .addConverterFactory(new GithubResponseConverter(gson))
@@ -172,11 +175,13 @@ public class RestProvider {
                 .create(UserRestService.class);
     }
 
-    @NonNull public static SearchService getSearchService(boolean enterprise) {
+    @NonNull
+    public static SearchService getSearchService(boolean enterprise) {
         return provideRetrofit(enterprise).create(SearchService.class);
     }
 
-    @NonNull public static SlackService getSlackService() {
+    @NonNull
+    public static SlackService getSlackService() {
         return new Retrofit.Builder()
                 .baseUrl("https://ok13pknpj4.execute-api.eu-central-1.amazonaws.com/prod/")
                 .addConverterFactory(new GithubResponseConverter(gson))
@@ -185,15 +190,18 @@ public class RestProvider {
                 .create(SlackService.class);
     }
 
-    @NonNull public static ContentService getContentService(boolean enterprise) {
+    @NonNull
+    public static ContentService getContentService(boolean enterprise) {
         return provideRetrofit(enterprise).create(ContentService.class);
     }
 
-    @NonNull public static ProjectsService getProjectsService(boolean enterprise) {
+    @NonNull
+    public static ProjectsService getProjectsService(boolean enterprise) {
         return provideRetrofit(enterprise).create(ProjectsService.class);
     }
 
-    @Nullable public static GitHubErrorResponse getErrorResponse(@NonNull Throwable throwable) {
+    @Nullable
+    public static GitHubErrorResponse getErrorResponse(@NonNull Throwable throwable) {
         ResponseBody body = null;
         if (throwable instanceof HttpException) {
             body = ((HttpException) throwable).response().errorBody();
@@ -201,12 +209,14 @@ public class RestProvider {
         if (body != null) {
             try {
                 return gson.fromJson(body.string(), GitHubErrorResponse.class);
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
         return null;
     }
 
-    @NonNull public static Observable<GithubStatusComponentsModel> gitHubStatus() {
+    @NonNull
+    public static Observable<GithubStatusComponentsModel> gitHubStatus() {
         return new Retrofit.Builder()
                 .baseUrl(BuildConfig.GITHUB_STATUS_URL)
                 .client(provideOkHttpClient())

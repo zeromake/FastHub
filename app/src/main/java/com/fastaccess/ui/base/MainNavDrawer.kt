@@ -33,7 +33,7 @@ class MainNavDrawer(val view: BaseActivity<*, *>, private val extraNav: Navigati
         val userModel: Login? = Login.getUser()
         userModel?.let {
             (view.findViewById<View>(R.id.navAvatarLayout) as AvatarLayout).setUrl(it.avatarUrl, null, false,
-                    PrefGetter.isEnterprise())
+                    PrefGetter.isEnterprise)
             (view.findViewById<View>(R.id.navUsername) as TextView).text = it.login
             val navFullName = view.findViewById<FontTextView>(R.id.navFullName)
             when (it.name.isNullOrBlank()) {
@@ -44,7 +44,7 @@ class MainNavDrawer(val view: BaseActivity<*, *>, private val extraNav: Navigati
                 }
             }
             view.findViewById<View>(R.id.donatedIcon).visibility = if (PrefGetter.hasSupported()) View.VISIBLE else View.GONE
-            view.findViewById<View>(R.id.proTextView).visibility = if (PrefGetter.isProEnabled()) View.VISIBLE else View.GONE
+            view.findViewById<View>(R.id.proTextView).visibility = if (PrefGetter.isProEnabled) View.VISIBLE else View.GONE
         }
     }
 }

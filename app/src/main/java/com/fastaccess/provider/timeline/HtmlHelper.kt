@@ -64,7 +64,7 @@ object HtmlHelper {
     }
 
     private fun initHtml(textView: TextView, width: Int): HtmlSpanner {
-        @ThemeType val theme = PrefGetter.getThemeType()
+        @ThemeType val theme = PrefGetter.themeType
         @ColorInt val windowBackground = getWindowBackground(theme)
         val checked = ContextCompat.getDrawable(textView.context, R.drawable.ic_checkbox_small)
         val unchecked =

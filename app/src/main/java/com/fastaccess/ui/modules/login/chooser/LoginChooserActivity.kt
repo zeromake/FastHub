@@ -94,8 +94,8 @@ class LoginChooserActivity : BaseActivity<LoginChooserMvp.View, LoginChooserPres
 
     internal fun onEnterpriseClicked() {
         if (Login.hasNormalLogin()) {
-            if (PrefGetter.isAllFeaturesUnlocked() || PrefGetter.isEnterpriseEnabled()) {
-                LoginActivity.start(this, true, true)
+            if (PrefGetter.isAllFeaturesUnlocked || PrefGetter.isEnterpriseEnabled) {
+                LoginActivity.start(this, isBasicAuth = true, isEnterprise = true)
             } else {
                 startActivity(Intent(this, PremiumActivity::class.java))
             }

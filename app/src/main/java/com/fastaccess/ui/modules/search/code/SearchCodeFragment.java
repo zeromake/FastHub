@@ -46,7 +46,7 @@ public class SearchCodeFragment extends BaseFragment<SearchCodeMvp.View, SearchC
         return new SearchCodeFragment();
     }
 
-    @Override public void onAttach(Context context) {
+    @Override public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof SearchMvp.View) {
             countCallback = (SearchMvp.View) context;

@@ -119,7 +119,7 @@ class ThemeFragment : BaseFragment<ThemeFragmentMvp.View, ThemeFragmentPresenter
 
     private fun applyBluishTheme() {
         if (!isGoogleSupported()) return
-        if (PrefGetter.isBluishEnabled() || PrefGetter.isProEnabled()) {
+        if (PrefGetter.isBluishEnabled || PrefGetter.isProEnabled) {
             setTheme(getString(R.string.bluish_theme))
         } else {
             DonateActivity.start(this, getString(R.string.theme_bluish_purchase))
@@ -128,7 +128,7 @@ class ThemeFragment : BaseFragment<ThemeFragmentMvp.View, ThemeFragmentPresenter
 
     private fun applyAmlodTheme() {
         if (!isGoogleSupported()) return
-        if (PrefGetter.isAmlodEnabled() || PrefGetter.isProEnabled()) {
+        if (PrefGetter.isAmlodEnabled || PrefGetter.isProEnabled) {
             setTheme(getString(R.string.amlod_theme_mode))
         } else {
             DonateActivity.start(this, getString(R.string.amlod_theme_purchase))
@@ -137,10 +137,10 @@ class ThemeFragment : BaseFragment<ThemeFragmentMvp.View, ThemeFragmentPresenter
 
     private fun applyMidnightTheme() {
         if (!isGoogleSupported()) return
-        if (PrefGetter.isProEnabled() || PrefGetter.isAllFeaturesUnlocked()) {
+        if (PrefGetter.isProEnabled || PrefGetter.isAllFeaturesUnlocked) {
             setTheme(getString(R.string.mid_night_blue_theme_mode))
         } else {
-            PremiumActivity.startActivity(context!!)
+            PremiumActivity.startActivity(requireContext())
         }
     }
 
@@ -152,7 +152,7 @@ class ThemeFragment : BaseFragment<ThemeFragmentMvp.View, ThemeFragmentPresenter
     private fun isPremiumTheme(): Boolean = theme != R.style.ThemeLight && theme != R.style.ThemeDark
 
     private fun isGoogleSupported(): Boolean {
-        if (AppHelper.isGoogleAvailable(context!!)) {
+        if (AppHelper.isGoogleAvailable(requireContext())) {
             return true
         }
         showErrorMessage(getString(R.string.common_google_play_services_unsupported_text))

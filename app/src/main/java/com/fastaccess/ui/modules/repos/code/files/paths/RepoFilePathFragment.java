@@ -76,7 +76,7 @@ public class RepoFilePathFragment extends BaseFragment<RepoFilePathMvp.View, Rep
         return view;
     }
 
-    @Override public void onAttach(Context context) {
+    @Override public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (getParentFragment() instanceof RepoPagerMvp.View) {
             repoCallback = (RepoPagerMvp.View) getParentFragment();

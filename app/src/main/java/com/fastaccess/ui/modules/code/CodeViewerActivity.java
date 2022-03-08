@@ -81,7 +81,6 @@ public class CodeViewerActivity extends BaseActivity {
         if (savedInstanceState == null) {
             Intent intent = Objects.requireNonNull(getIntent(), "Intent is null");
             Bundle bundle = Objects.requireNonNull(intent.getExtras());
-            //noinspection ConstantConditions
             url = Objects.requireNonNull(bundle.getString(BundleConstant.EXTRA), "Url is null");
             htmlUrl = bundle.getString(BundleConstant.EXTRA_TWO);
             getSupportFragmentManager()

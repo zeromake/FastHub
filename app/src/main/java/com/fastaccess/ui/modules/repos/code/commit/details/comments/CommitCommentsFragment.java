@@ -64,7 +64,7 @@ public class CommitCommentsFragment extends BaseFragment<CommitCommentsMvp.View,
         return view;
     }
 
-    @SuppressWarnings("unchecked") @Override public void onAttach(Context context) {
+    @SuppressWarnings("unchecked") @Override public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (getParentFragment() instanceof CommentEditorFragment.CommentListener) {
             commentsCallback = (CommentEditorFragment.CommentListener) getParentFragment();

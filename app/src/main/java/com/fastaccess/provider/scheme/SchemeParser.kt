@@ -110,7 +110,7 @@ object SchemeParser {
 
     private fun getIntentForURI(context: Context, data: Uri, showRepoBtn: Boolean): Intent? {
         val authority = data.authority
-        val isEnterprise = PrefGetter.isEnterprise() && isEnterprise(authority ?: data.toString())
+        val isEnterprise = PrefGetter.isEnterprise && isEnterprise(authority ?: data.toString())
         if (HOST_GISTS == data.host || "gist".equals(data.pathSegments[0], ignoreCase = true)) {
             val extension = MimeTypeMap.getFileExtensionFromUrl(data.toString())
             if (!InputHelper.isEmpty(extension) && !MarkDownProvider.isArchive(data.lastPathSegment)) {
@@ -386,7 +386,7 @@ object SchemeParser {
             return null
         }
         val isEnterprise =
-            PrefGetter.isEnterprise() && Uri.parse(getEndpoint(PrefGetter.getEnterpriseUrl())).authority
+            PrefGetter.isEnterprise && Uri.parse(getEndpoint(PrefGetter.enterpriseUrl!!)).authority
                 .equals(uri.authority, ignoreCase = true)
         if (uri.authority == HOST_DEFAULT || uri.authority == API_AUTHORITY || isEnterprise) {
             val segments = uri.pathSegments

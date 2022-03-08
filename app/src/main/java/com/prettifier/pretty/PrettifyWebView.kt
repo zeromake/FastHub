@@ -18,6 +18,7 @@ import com.fastaccess.provider.scheme.SchemeParser
 import com.fastaccess.ui.modules.code.CodeViewerActivity
 import com.prettifier.pretty.callback.MarkDownInterceptorInterface
 import com.prettifier.pretty.helper.GithubHelper
+import com.prettifier.pretty.helper.HtmlHelper
 import com.prettifier.pretty.helper.PrettifyHelper
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
@@ -87,7 +88,7 @@ class PrettifyWebView : NestedWebView {
                 tp.recycle()
             }
         }
-        if (!File(context.cacheDir.path, "WebView").exists()) {
+        if (!File(context.cacheDir.path, "WebView/Default/HTTP Cache/Code Cache/js").exists()) {
             listOf(
                 File(context.cacheDir.path, "WebView/Default/HTTP Cache/Code Cache/js"),
                 File(context.cacheDir.path, "WebView/Default/HTTP Cache/Code Cache/wasm"),
@@ -221,27 +222,20 @@ class PrettifyWebView : NestedWebView {
         }
     }
 
-    fun setGithubContentWithReplace(source: String, baseUrl: String?, replace: Boolean) {
-        setGithubContent(source, baseUrl, false)
+    fun setGithubContentWithReplace(
+        source: String,
+        baseUrl: String?,
+        replace: Boolean,
+        branch: String? = "master"
+    ) {
+        setGithubContent(source, baseUrl, false, branch)
         addJavascriptInterface(MarkDownInterceptorInterface(this, false), "Android")
         val page = GithubHelper.generateContent(
-            context, source, baseUrl, AppHelper.isNightMode(
+            context, source, baseUrl,
+            AppHelper.isNightMode(
                 resources
-            ), false, replace
-        )
-        post { loadDataWithBaseURL("file:///android_asset/md/", page, "text/html", "utf-8", null) }
-    }
-
-    fun setGithubContent(source: String, baseUrl: String?, toggleNestScrolling: Boolean) {
-        setGithubContent(source, baseUrl, toggleNestScrolling, true)
-    }
-
-    fun setWikiContent(source: String, baseUrl: String?) {
-        addJavascriptInterface(MarkDownInterceptorInterface(this, true), "Android")
-        val page = GithubHelper.generateContent(
-            context, source, baseUrl, AppHelper.isNightMode(
-                resources
-            ), AppHelper.isNightMode(resources), true
+            ),
+            false, replace, branch,
         )
         post { loadDataWithBaseURL("file:///android_asset/md/", page, "text/html", "utf-8", null) }
     }
@@ -250,7 +244,33 @@ class PrettifyWebView : NestedWebView {
         source: String,
         baseUrl: String?,
         toggleNestScrolling: Boolean,
-        enableBridge: Boolean
+        branch: String?
+    ) {
+        setGithubContent(source, baseUrl, toggleNestScrolling, true, branch)
+    }
+
+    fun setWikiContent(source: String, baseUrl: String?) {
+        addJavascriptInterface(MarkDownInterceptorInterface(this, true), "Android")
+        val page = GithubHelper.generateContent(
+            context,
+            source,
+            baseUrl,
+            AppHelper.isNightMode(
+                resources
+            ),
+            AppHelper.isNightMode(resources),
+            true,
+            "master",
+        )
+        post { loadDataWithBaseURL("file:///android_asset/md/", page, "text/html", "utf-8", null) }
+    }
+
+    fun setGithubContent(
+        source: String,
+        baseUrl: String?,
+        toggleNestScrolling: Boolean,
+        enableBridge: Boolean,
+        branch: String?,
     ) {
         if (enableBridge) addJavascriptInterface(
             MarkDownInterceptorInterface(
@@ -260,7 +280,8 @@ class PrettifyWebView : NestedWebView {
         )
         val page = GithubHelper.generateContent(
             context, source, baseUrl, AppHelper.isNightMode(resources),
-            AppHelper.isNightMode(resources), false
+            AppHelper.isNightMode(resources), false,
+            branch,
         )
         Log.e("githubContent", page)
         post { loadDataWithBaseURL("file:///android_asset/md/", page, "text/html", "utf-8", null) }
@@ -276,8 +297,21 @@ class PrettifyWebView : NestedWebView {
         val html: String = if (isSvg) {
             url
         } else {
-            "<html><head><style>img{display: inline; height: auto; max-width: 100%;}</style></head><body>" +
-                    "<img src=\"" + url + "\"/></body></html>"
+            """
+${HtmlHelper.HTML_HEADER}
+${HtmlHelper.HEAD_HEADER}
+    <style>
+        .image{
+            display: inline;
+            height: auto;
+            max-width: 100%;
+        }
+    </style>
+${HtmlHelper.HEAD_BOTTOM}
+${HtmlHelper.BODY_HEADER}
+    <img class="image" src="$url"></img>
+${HtmlHelper.BODY_BOTTOM}
+${HtmlHelper.HTML_BOTTOM}"""
         }
         Logger.e(html)
         loadData(html, "text/html", null)
@@ -330,7 +364,7 @@ class PrettifyWebView : NestedWebView {
 
         override fun onPageFinished(view: WebView?, url: String?) {
             super.onPageFinished(view, url)
-            onReadyListener!!.onReady(view!!)
+            onReadyListener?.onReady(view!!)
         }
     }
 
@@ -342,7 +376,7 @@ class PrettifyWebView : NestedWebView {
 
         override fun onPageFinished(view: WebView?, url: String?) {
             super.onPageFinished(view, url)
-            onReadyListener!!.onReady(view!!)
+            onReadyListener?.onReady(view!!)
         }
     }
 

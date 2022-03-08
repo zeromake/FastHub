@@ -8,7 +8,7 @@ import com.fastaccess.data.dao.model.User
 /**
  * Created by Kosh on 08 Dec 2016, 8:59 PM
  */
-class GitCommitModel : Parcelable {
+open class GitCommitModel : Parcelable {
     var sha: String? = null
     var url: String? = null
     var message: String? = null

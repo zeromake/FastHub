@@ -22,12 +22,12 @@ import com.fastaccess.ui.modules.pinned.PinnedReposActivity
 import com.fastaccess.ui.modules.repos.issues.create.CreateIssueActivity
 import com.fastaccess.ui.modules.trending.TrendingActivity
 import com.fastaccess.ui.modules.user.UserPagerActivity
-import kotlinx.android.synthetic.main.main_nav_fragment_layout.*
 
 /**
  * Created by Kosh on 25.03.18.
  */
 class MainDrawerFragment : BaseFragment<MainMvp.View, BasePresenter<MainMvp.View>>(), NavigationView.OnNavigationItemSelectedListener {
+    private lateinit var mainNav: NavigationView
 
     private val userModel by lazy { Login.getUser() }
 
@@ -36,6 +36,7 @@ class MainDrawerFragment : BaseFragment<MainMvp.View, BasePresenter<MainMvp.View
     override fun providePresenter() = BasePresenter<MainMvp.View>()
 
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
+        mainNav = view.findViewById(R.id.mainNav)
         mainNav.setNavigationItemSelectedListener(this)
     }
 
@@ -44,7 +45,7 @@ class MainDrawerFragment : BaseFragment<MainMvp.View, BasePresenter<MainMvp.View
         activity.closeDrawer()
         if (item.isChecked) return false
         mainNav.postDelayed({
-            if (!activity.isFinishing()) {
+            if (!activity.isFinishing) {
                 when (item.itemId) {
                     R.id.navToRepo -> activity.onNavToRepoClicked()
                     R.id.gists -> GistsListActivity.startActivity(activity)
@@ -58,7 +59,7 @@ class MainDrawerFragment : BaseFragment<MainMvp.View, BasePresenter<MainMvp.View
                         }
                     }
                     R.id.profile -> userModel?.let {
-                        UserPagerActivity.startActivity(activity, it.login, false, PrefGetter.isEnterprise(), 0)
+                        UserPagerActivity.startActivity(activity, it.login, false, PrefGetter.isEnterprise, 0)
                     }
                     R.id.settings -> activity.onOpenSettings()
                     R.id.about -> activity.startActivity(Intent(activity, FastHubAboutActivity::class.java))
@@ -74,5 +75,5 @@ class MainDrawerFragment : BaseFragment<MainMvp.View, BasePresenter<MainMvp.View
         return true
     }
 
-    fun getMenu() = mainNav?.menu
+    fun getMenu() = mainNav.menu
 }

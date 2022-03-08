@@ -5,25 +5,22 @@ package com.prettifier.pretty.helper
  */
 object PrettifyHelper {
     private fun getHtmlContent(css: String, text: String, wrap: Boolean, isDark: Boolean): String {
-        return """<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        return """${HtmlHelper.HTML_HEADER}
+${HtmlHelper.HEAD_HEADER}
     <link rel="stylesheet" href="./styles/$css">
-""" + (if (!wrap) """<meta name="viewport" content="width=device-width, height=device-height, initial-scale=.5,user-scalable=yes"/>
-""" else "") + "" +
-                LINE_NO_CSS + "\n" +
-                "    " + (if (wrap) WRAPPED_STYLE else "") + "\n" +
-                "<script src=\"./js/prettify.js\"></script>\n" +
-                "<script src=\"./js/prettify_line_number.js\"></script>\n" +
-                "</head>\n" +
-                "<body style=\"" + (if (isDark && textTooLarge(text)) "color:white;" else "") + "\">\n" +
-                "<pre><code>" + text + "</code></pre>\n" +
-                "<script>" + (if (textTooLarge(text)) "" else "hljs.initHighlightingOnLoad();\nhljs.initLineNumbersOnLoad();") + "</script>\n" +
-                "<script src=\"./js/scrollto.js\"></script>\n" +
-                "</body>\n" +
-                "</html>"
+    ${if (!wrap) HtmlHelper.MEAT_VIEWPORT_PRETTIFY else ""}
+    $LINE_NO_CSS
+    ${if (wrap) WRAPPED_STYLE else ""}
+    <script src="./js/prettify.js"></script>
+    <script src="./js/prettify_line_number.js"></script>
+${HtmlHelper.HEAD_BOTTOM}
+<body${if (isDark && textTooLarge(text)) " style=\"color:white;\"" else ""}>
+<pre><code>$text</code></pre>
+${if (textTooLarge(text)) "" else "<script>\nhljs.initHighlightingOnLoad();\nhljs.initLineNumbersOnLoad();\n</script>"}
+
+<script src="./js/scrollto.js"></script>
+${HtmlHelper.BODY_BOTTOM}
+${HtmlHelper.HTML_BOTTOM}"""
     }
 
     private const val WRAPPED_STYLE = "<style>\n " +
@@ -66,7 +63,7 @@ object PrettifyHelper {
             "</style>"
 
     fun generateContent(source: String, theme: String): String {
-        return getHtmlContent(theme, getFormattedSource(source), false, false)
+        return getHtmlContent(theme, getFormattedSource(source), wrap = false, isDark = false)
     }
 
     fun generateContent(source: String, isDark: Boolean, wrap: Boolean): String {

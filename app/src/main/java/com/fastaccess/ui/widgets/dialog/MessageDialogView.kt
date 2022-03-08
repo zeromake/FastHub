@@ -54,7 +54,8 @@ class MessageDialogView : BaseBottomSheetDialog() {
                 prettifyWebView.visibility = View.VISIBLE
                 prettifyWebView.setGithubContent(msg, null,
                     toggleNestScrolling = false,
-                    enableBridge = false
+                    enableBridge = false,
+                    "",
                 )
                 prettifyWebView.isNestedScrollingEnabled = false
             }

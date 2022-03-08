@@ -97,7 +97,7 @@ class ProjectColumnFragment : BaseFragment<ProjectColumnMvp.View, ProjectColumnP
 
     override fun getLoadMore(): OnLoadMore<Long> {
         if (onLoadMore == null) {
-            onLoadMore = OnLoadMore<Long>(presenter)
+            onLoadMore = OnLoadMore(presenter)
         }
         onLoadMore!!.parameter = getColumn().id
         return onLoadMore!!
@@ -240,7 +240,7 @@ class ProjectColumnFragment : BaseFragment<ProjectColumnMvp.View, ProjectColumnP
 
     private fun getColumn(): ProjectColumnModel = requireArguments().getParcelable(BundleConstant.ITEM)!!
 
-    private fun canEdit(): Boolean = if (PrefGetter.isProEnabled() || PrefGetter.isAllFeaturesUnlocked()) {
+    private fun canEdit(): Boolean = if (PrefGetter.isProEnabled || PrefGetter.isAllFeaturesUnlocked) {
         true
     } else {
         PremiumActivity.startActivity(requireContext())

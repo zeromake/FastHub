@@ -71,7 +71,7 @@ public class PullRequestFilesFragment extends BaseFragment<PullRequestFilesMvp.V
         return view;
     }
 
-    @SuppressWarnings("unchecked") @Override public void onAttach(Context context) {
+    @SuppressWarnings("unchecked") @Override public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (getParentFragment() instanceof IssuePagerMvp.IssuePrCallback) {
             issueCallback = (IssuePagerMvp.IssuePrCallback) getParentFragment();
@@ -248,7 +248,7 @@ public class PullRequestFilesFragment extends BaseFragment<PullRequestFilesMvp.V
 
     @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == FullScreenFileChangeActivity.Companion.getFOR_RESULT_CODE() && data != null) {
+            if (requestCode == FullScreenFileChangeActivity.FOR_RESULT_CODE && data != null) {
                 List<CommentRequestModel> comments = data.getParcelableArrayListExtra(BundleConstant.ITEM);
                 if (comments != null && !comments.isEmpty()) {
                     if (viewCallback != null) {

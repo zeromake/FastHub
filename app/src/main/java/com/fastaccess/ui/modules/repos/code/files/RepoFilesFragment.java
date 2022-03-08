@@ -57,7 +57,7 @@ public class RepoFilesFragment extends BaseFragment<RepoFilesMvp.View, RepoFiles
     private RepoFilePathFragment parentFragment;
     private RepoPagerMvp.View repoCallback;
 
-    @Override public void onAttach(Context context) {
+    @Override public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (getParentFragment() instanceof RepoPagerMvp.View) {
             repoCallback = (RepoPagerMvp.View) getParentFragment();
@@ -96,7 +96,7 @@ public class RepoFilesFragment extends BaseFragment<RepoFilesMvp.View, RepoFiles
                                     .end())
                             .show(getChildFragmentManager(), "MessageDialogView");
                 } else {
-                    CodeViewerActivity.startActivity(getContext(), url, model.getHtmlUrl());
+                    CodeViewerActivity.startActivity(requireContext(), url, model.getHtmlUrl());
                 }
             }
         }

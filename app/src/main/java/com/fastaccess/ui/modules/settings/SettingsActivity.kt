@@ -106,24 +106,29 @@ class SettingsActivity : BaseActivity<FAView, BasePresenter<FAView>>(), Language
                     .put(BundleConstant.EXTRA, settingsModel.title)
                     .end()
             )
-            if (settingsModel.settingsType == SettingsModel.LANGUAGE) {
-                showLanguageList()
-            } else if (settingsModel.settingsType == SettingsModel.THEME) {
-                ActivityHelper.startReveal(
-                    this,
-                    Intent(this, ThemeActivity::class.java),
-                    view!!,
-                    THEME_CHANGE
-                )
-            } else if (settingsModel.settingsType == SettingsModel.CODE_THEME) {
-                ActivityHelper.startReveal(
-                    this,
-                    Intent(this, ThemeCodeActivity::class.java),
-                    view!!,
-                    THEME_CHANGE
-                )
-            } else {
-                ActivityHelper.startReveal(this, intent, view!!)
+            when (settingsModel.settingsType) {
+                SettingsModel.LANGUAGE -> {
+                    showLanguageList()
+                }
+                SettingsModel.THEME -> {
+                    ActivityHelper.startReveal(
+                        this,
+                        Intent(this, ThemeActivity::class.java),
+                        view!!,
+                        THEME_CHANGE
+                    )
+                }
+                SettingsModel.CODE_THEME -> {
+                    ActivityHelper.startReveal(
+                        this,
+                        Intent(this, ThemeCodeActivity::class.java),
+                        view!!,
+                        THEME_CHANGE
+                    )
+                }
+                else -> {
+                    ActivityHelper.startReveal(this, intent, view!!)
+                }
             }
         }
     }
@@ -137,7 +142,7 @@ class SettingsActivity : BaseActivity<FAView, BasePresenter<FAView>>(), Language
     }
 
     override fun providePresenter(): BasePresenter<FAView> {
-        return BasePresenter<FAView>()
+        return BasePresenter()
     }
 
     private fun showLanguageList() {

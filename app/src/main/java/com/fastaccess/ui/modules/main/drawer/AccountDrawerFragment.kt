@@ -2,7 +2,11 @@ package com.fastaccess.ui.modules.main.drawer
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.LinearLayout
 import com.fastaccess.R
 import com.fastaccess.data.dao.model.Login
 import com.fastaccess.data.dao.model.PinnedRepos
@@ -20,7 +24,7 @@ import com.fastaccess.ui.modules.main.premium.PremiumActivity
 import com.fastaccess.ui.modules.pinned.PinnedReposActivity
 import com.fastaccess.ui.modules.user.UserPagerActivity
 import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
-import kotlinx.android.synthetic.main.accounts_menu_layout.*
+import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
 
 /**
  * Created by Kosh on 25.03.18.
@@ -31,15 +35,39 @@ class AccountDrawerFragment : BaseFragment<MainMvp.View, BasePresenter<MainMvp.V
     private val pinnedListAdapter = PinnedReposAdapter(true)
     private val adapter = LoginAdapter(true)
     private val userModel by lazy { Login.getUser() }
+    private lateinit var pinnedList: DynamicRecyclerView
+    private lateinit var accLists: DynamicRecyclerView
+    private lateinit var logout: FrameLayout
+    private lateinit var togglePinned: FrameLayout
+    private lateinit var addAccLayout: FrameLayout
+    private lateinit var repos: FrameLayout
+    private lateinit var starred: FrameLayout
+    private lateinit var toggleAccountsLayout: LinearLayout
 
     override fun fragmentLayout() = R.layout.accounts_menu_layout
 
     override fun providePresenter() = BasePresenter<MainMvp.View>()
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        val root = super.onCreateView(inflater, container, savedInstanceState)!!
+        pinnedList = root.findViewById(R.id.pinnedList)
+        accLists = root.findViewById(R.id.accLists)
+        logout = root.findViewById(R.id.logout)
+        togglePinned = root.findViewById(R.id.togglePinned)
+        addAccLayout = root.findViewById(R.id.addAccLayout)
+        repos = root.findViewById(R.id.repos)
+        toggleAccountsLayout = root.findViewById(R.id.toggleAccountsLayout)
+        starred = root.findViewById(R.id.starred)
+        return root
+    }
+
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
         pinnedListAdapter.listener = this
         pinnedList.adapter = pinnedListAdapter
-
         adapter.listener = object : BaseViewHolder.OnItemClickListener<Login> {
             override fun onItemLongClick(position: Int, v: View?, item: Login?) {}
 
@@ -59,12 +87,12 @@ class AccountDrawerFragment : BaseFragment<MainMvp.View, BasePresenter<MainMvp.V
                 }
             }
         }
-        togglePinned?.setOnClickListener {
+        togglePinned.setOnClickListener {
             postDelayedAndClose { PinnedReposActivity.startActivity(it.context) }
         }
         addAccLayout.setOnClickListener {
             postDelayedAndClose {
-                if (PrefGetter.isProEnabled() || PrefGetter.isEnterpriseEnabled()) {
+                if (PrefGetter.isProEnabled || PrefGetter.isEnterpriseEnabled) {
                     val intent = Intent(it.context, LoginChooserActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                     startActivity(intent)
@@ -75,12 +103,12 @@ class AccountDrawerFragment : BaseFragment<MainMvp.View, BasePresenter<MainMvp.V
         }
         repos.setOnClickListener {
             postDelayedAndClose {
-                UserPagerActivity.startActivity(it.context, userModel.login, false, PrefGetter.isEnterprise(), 2)
+                UserPagerActivity.startActivity(it.context, userModel.login, false, PrefGetter.isEnterprise, 2)
             }
         }
         starred.setOnClickListener {
             postDelayedAndClose {
-                UserPagerActivity.startActivity(it.context, userModel.login, false, PrefGetter.isEnterprise(), 3)
+                UserPagerActivity.startActivity(it.context, userModel.login, false, PrefGetter.isEnterprise, 3)
             }
         }
 

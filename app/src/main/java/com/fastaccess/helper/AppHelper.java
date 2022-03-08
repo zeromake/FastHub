@@ -79,7 +79,7 @@ public class AppHelper {
 
     public static String getFastHubIssueTemplate(boolean enterprise) {
         String brand = (!isEmulator()) ? Build.BRAND : "Android Emulator";
-        String model = (!isEmulator()) ? DeviceNameGetter.getInstance().getDeviceName() : "Android Emulator";
+        String model = (!isEmulator()) ? DeviceNameGetter.instance.getDeviceName() : "Android Emulator";
         StringBuilder builder = new StringBuilder()
                 .append("**FastHub Version: ").append(BuildConfig.VERSION_NAME).append(enterprise ? " Enterprise**" : "**").append("  \n")
                 .append(!isInstalledFromPlaySore(App.getInstance()) ? "**APK Source: Unknown**  \n" : "")
@@ -152,7 +152,7 @@ public class AppHelper {
         if (isEmulator()) {
             return "Android Emulator";
         }
-        return DeviceNameGetter.getInstance().getDeviceName();
+        return DeviceNameGetter.instance.getDeviceName();
     }
 
     public static boolean isEmulator() {

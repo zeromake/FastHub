@@ -51,7 +51,7 @@ public class MilestoneDialogFragment extends BaseFragment<MilestoneMvp.View, Mil
         return fragment;
     }
 
-    @Override public void onAttach(Context context) {
+    @Override public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (getParentFragment() != null && getParentFragment() instanceof MilestoneMvp.OnMilestoneSelected) {
             onMilestoneSelected = (MilestoneMvp.OnMilestoneSelected) getParentFragment();

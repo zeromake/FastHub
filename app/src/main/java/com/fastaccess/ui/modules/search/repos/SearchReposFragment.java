@@ -43,7 +43,7 @@ public class SearchReposFragment extends BaseFragment<SearchReposMvp.View, Searc
         return new SearchReposFragment();
     }
 
-    @Override public void onAttach(Context context) {
+    @Override public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof SearchMvp.View) {
             countCallback = (SearchMvp.View) context;

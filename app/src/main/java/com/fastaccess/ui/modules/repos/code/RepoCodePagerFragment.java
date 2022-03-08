@@ -67,7 +67,7 @@ public class RepoCodePagerFragment extends BaseFragment<RepoCodePagerMvp.View, R
                 return;
             }
             pager.setAdapter(new FragmentsPagerAdapter(getChildFragmentManager(),
-                    FragmentPagerAdapterModel.buildForRepoCode(getContext(), repoId, login, url,
+                    FragmentPagerAdapterModel.buildForRepoCode(requireContext(), repoId, login, url,
                             Objects.toString(defaultBranch, "master"), htmlUrl)));
             tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
             tabs.setupWithViewPager(pager);

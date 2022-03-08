@@ -37,7 +37,7 @@ class AvatarLayout : FrameLayout {
             startActivity(view.context, login!!, isOrg, isEnterprise, -1)
         }
         setBackground()
-        if (PrefGetter.isRectAvatar()) {
+        if (PrefGetter.isRectAvatar) {
             avatar.setShape(ShapedImageView.SHAPE_MODE_ROUND_RECT, 15f)
         }
     }
@@ -88,7 +88,7 @@ class AvatarLayout : FrameLayout {
     }
 
     private fun setBackground() {
-        if (PrefGetter.isRectAvatar()) {
+        if (PrefGetter.isRectAvatar) {
             setBackgroundResource(R.drawable.rect_shape)
         } else {
             setBackgroundResource(R.drawable.circle_shape)

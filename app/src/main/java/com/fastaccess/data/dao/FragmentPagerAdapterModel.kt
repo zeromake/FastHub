@@ -81,7 +81,7 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
     companion object {
         @JvmStatic
         fun buildForProfile(context: Context, login: String): List<FragmentPagerAdapterModel> {
-            return sequenceOf(
+            return listOf(
                 FragmentPagerAdapterModel(context.getString(R.string.overview), newInstance(login)),
                 FragmentPagerAdapterModel(
                     context.getString(R.string.feed),
@@ -107,7 +107,7 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
                     context.getString(R.string.following),
                     ProfileFollowingFragment.newInstance(login)
                 )
-            ).toList()
+            )
         }
 
         @JvmStatic
@@ -117,10 +117,10 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
             defaultBranch: String,
             htmlUrl: String
         ): List<FragmentPagerAdapterModel> {
-            return sequenceOf(
+            return listOf(
                 FragmentPagerAdapterModel(
                     context.getString(R.string.readme),
-                    ViewerFragment.newInstance(url, htmlUrl, true)
+                    ViewerFragment.newInstance(url, htmlUrl, true, defaultBranch)
                 ),
                 FragmentPagerAdapterModel(
                     context.getString(R.string.files), RepoFilePathFragment.newInstance(
@@ -140,12 +140,12 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
                     context.getString(R.string.contributors),
                     RepoContributorsFragment.newInstance(repoId, login)
                 )
-            ).toList()
+            )
         }
 
         @JvmStatic
         fun buildForSearch(context: Context): List<FragmentPagerAdapterModel> {
-            return sequenceOf(
+            return listOf(
                 FragmentPagerAdapterModel(
                     context.getString(R.string.repos),
                     SearchReposFragment.newInstance()
@@ -163,18 +163,16 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
                     SearchCodeFragment.newInstance()
                 )
             )
-                .toList()
         }
 
         @JvmStatic
         fun buildForIssues(context: Context, commentId: Long): List<FragmentPagerAdapterModel> {
-            return sequenceOf(
+            return listOf(
                 FragmentPagerAdapterModel(
                     context.getString(R.string.details),
                     IssueTimelineFragment.newInstance(commentId)
                 )
             )
-                .toList()
         }
 
         @JvmStatic
@@ -185,7 +183,7 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
             val login = pullRequest.login
             val repoId = pullRequest.repoId
             val number = pullRequest.number
-            return sequenceOf(
+            return listOf(
                 FragmentPagerAdapterModel(
                     context.getString(R.string.details),
                     PullRequestTimelineFragment.newInstance()
@@ -199,7 +197,6 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
                     PullRequestFilesFragment.newInstance(repoId, login, number.toLong())
                 )
             )
-                .toList()
         }
 
         @JvmStatic
@@ -207,7 +204,7 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
             context: Context, login: String,
             repoId: String
         ): List<FragmentPagerAdapterModel> {
-            return sequenceOf(
+            return listOf(
                 FragmentPagerAdapterModel(
                     context.getString(R.string.opened),
                     RepoOpenedIssuesFragment.newInstance(repoId, login)
@@ -217,7 +214,6 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
                     RepoClosedIssuesFragment.newInstance(repoId, login)
                 )
             )
-                .toList()
         }
 
         @JvmStatic
@@ -225,7 +221,7 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
             context: Context, login: String,
             repoId: String
         ): List<FragmentPagerAdapterModel> {
-            return sequenceOf(
+            return listOf(
                 FragmentPagerAdapterModel(
                     context.getString(R.string.opened),
                     RepoPullRequestFragment.newInstance(repoId, login, IssueState.open)
@@ -235,7 +231,6 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
                     RepoPullRequestFragment.newInstance(repoId, login, IssueState.closed)
                 )
             )
-                .toList()
         }
 
         @JvmStatic
@@ -243,7 +238,7 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
             val login = commitModel.login
             val repoId = commitModel.repoId
             val sha = commitModel.sha
-            return sequenceOf(
+            return listOf(
                 FragmentPagerAdapterModel(
                     context.getString(R.string.files),
                     CommitFilesFragment.newInstance(commitModel.sha, commitModel.files)
@@ -253,12 +248,11 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
                     CommitCommentsFragment.newInstance(login, repoId, sha)
                 )
             )
-                .toList()
         }
 
         @JvmStatic
         fun buildForGist(context: Context, gistsModel: Gist): List<FragmentPagerAdapterModel> {
-            return sequenceOf(
+            return listOf(
                 FragmentPagerAdapterModel(
                     context.getString(R.string.files), GistFilesListFragment.newInstance(
                         gistsModel
@@ -270,12 +264,11 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
                     GistCommentsFragment.newInstance(gistsModel.gistId)
                 )
             )
-                .toList()
         }
 
         @JvmStatic
         fun buildForNotifications(context: Context): List<FragmentPagerAdapterModel> {
-            return sequenceOf(
+            return listOf(
                 FragmentPagerAdapterModel(
                     context.getString(R.string.unread),
                     UnreadNotificationsFragment()
@@ -289,12 +282,11 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
                     FastHubNotificationsFragment()
                 )
             )
-                .toList()
         }
 
         @JvmStatic
         fun buildForGists(context: Context): List<FragmentPagerAdapterModel> {
-            return sequenceOf(
+            return listOf(
                 FragmentPagerAdapterModel(
                     context.getString(R.string.my_gists), ProfileGistsFragment
                         .newInstance(Login.getUser().login)
@@ -308,12 +300,11 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
                     GistsFragment.newInstance()
                 )
             )
-                .toList()
         }
 
         @JvmStatic
         fun buildForMyIssues(context: Context): List<FragmentPagerAdapterModel> {
-            return sequenceOf(
+            return listOf(
                 FragmentPagerAdapterModel(
                     context.getString(R.string.created),
                     MyIssuesFragment.newInstance(IssueState.open, MyIssuesType.CREATED)
@@ -331,12 +322,11 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
                     MyIssuesFragment.newInstance(IssueState.open, MyIssuesType.PARTICIPATED)
                 )
             )
-                .toList()
         }
 
         @JvmStatic
         fun buildForMyPulls(context: Context): List<FragmentPagerAdapterModel> {
-            return sequenceOf(
+            return listOf(
                 FragmentPagerAdapterModel(
                     context.getString(R.string.created),
                     MyPullRequestFragment.newInstance(IssueState.open, MyIssuesType.CREATED)
@@ -354,7 +344,6 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
                     MyPullRequestFragment.newInstance(IssueState.open, MyIssuesType.REVIEW)
                 )
             )
-                .toList()
         }
 
         @JvmStatic
@@ -363,7 +352,7 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
             login: String,
             isMember: Boolean
         ): List<FragmentPagerAdapterModel> {
-            return sequenceOf(
+            return listOf(
                 FragmentPagerAdapterModel(
                     context.getString(R.string.feeds),
                     if (isMember) FeedsFragment.newInstance(login, true) else null
@@ -386,12 +375,11 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
                 )
             )
                 .filter { fragmentPagerAdapterModel: FragmentPagerAdapterModel -> fragmentPagerAdapterModel.fragment != null }
-                .toList()
         }
 
         @JvmStatic
         fun buildForTeam(context: Context, id: Long): List<FragmentPagerAdapterModel> {
-            return sequenceOf(
+            return listOf(
                 FragmentPagerAdapterModel(
                     context.getString(R.string.members),
                     TeamMembersFragment.newInstance(id)
@@ -401,17 +389,16 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
                     TeamReposFragment.newInstance(id)
                 )
             )
-                .toList()
         }
 
         fun buildForTheme(): List<FragmentPagerAdapterModel> {
-            return sequenceOf(
+            return listOf(
                 FragmentPagerAdapterModel("", newInstance(R.style.ThemeLight)),
                 FragmentPagerAdapterModel("", newInstance(R.style.ThemeDark)),
                 FragmentPagerAdapterModel("", newInstance(R.style.ThemeAmlod)),
-                FragmentPagerAdapterModel("", newInstance(R.style.ThemeBluish))
-            ) //                new FragmentPagerAdapterModel("", ThemeFragment.Companion.newInstance(R.style.ThemeMidnight)))
-                .toList()
+                FragmentPagerAdapterModel("", newInstance(R.style.ThemeBluish)),
+                // FragmentPagerAdapterModel("", newInstance(R.style.ThemeMidnight)),
+            )
         }
 
         fun buildForBranches(

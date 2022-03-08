@@ -17,17 +17,23 @@ object GithubHelper {
     fun generateContent(
         context: Context, source: String,
         baseUrl: String?, dark: Boolean,
-        isWiki: Boolean, replace: Boolean
+        isWiki: Boolean, replace: Boolean,
+        branch: String?,
     ): String {
         return if (baseUrl == null) {
             val content = Jsoup.parse(source).body().html()
             mergeContent(context, content, dark)
         } else {
-            mergeContent(context, parseReadme(source, baseUrl, isWiki), dark)
+            mergeContent(context, parseReadme(source, baseUrl, isWiki, branch), dark)
         }
     }
 
-    private fun parseReadme(source: String, baseUrl: String, isWiki: Boolean): String {
+    private fun parseReadme(
+        source: String,
+        baseUrl: String,
+        isWiki: Boolean,
+        branch: String?
+    ): String {
         val nameParser = NameParser(baseUrl)
         val owner = nameParser.username
         val repoName = nameParser.name
@@ -37,7 +43,7 @@ object GithubHelper {
         builder.append(owner).append("/").append(repoName).append("/")
         val containsMaster = paths.size > 3
         if (!containsMaster) {
-            builder.append("master/")
+            builder.append("${branch}/")
         } else {
             paths.remove("blob")
         }
@@ -48,25 +54,28 @@ object GithubHelper {
                 builder.append(path).append("/")
             }
         }
-        val baseLinkUrl = if (!isWiki) getLinkBaseUrl(baseUrl) else baseUrl
+        val baseLinkUrl = if (!isWiki) getLinkBaseUrl(baseUrl, branch) else baseUrl
         return getParsedHtml(
             source,
             owner,
             repoName,
             if (!isWiki) builder.toString() else baseUrl,
             baseLinkUrl,
-            isWiki
+            isWiki,
+            branch,
         )
     }
 
     private fun getParsedHtml(
         source: String, owner: String?, repoName: String?,
-        builder: String, baseLinkUrl: String, isWiki: Boolean
+        builder: String, baseLinkUrl: String, isWiki: Boolean,
+        branch: String?,
     ): String {
         val document = Jsoup.parse(source, "")
         val imageElements = document.getElementsByTag("img")
         if (!imageElements.isEmpty()) {
             for (element in imageElements) {
+//                val parent = element.parent()
                 val src = element.attr("src")
                 if (!(src.startsWith("http://") || src.startsWith("https://"))) {
                     val finalSrc: String = if (src.startsWith("/$owner/$repoName")) {
@@ -75,6 +84,7 @@ object GithubHelper {
                         "https://raw.githubusercontent.com/$builder$src"
                     }
                     element.attr("src", finalSrc)
+//                    element.attr("href", finalSrc)
                 }
             }
         }
@@ -88,19 +98,29 @@ object GithubHelper {
                 ) {
                     continue
                 }
-                element.attr(
-                    "href",
-                    baseLinkUrl + if (isWiki && href.startsWith("wiki")) href.replaceFirst(
-                        "wiki".toRegex(),
-                        ""
-                    ) else href
-                )
+                val child = element.children().first()
+                if (child != null && child.tagName() == "img") {
+                    element.attr("href", child.attr("src"))
+                    continue
+                }
+                val finalSrc: String =
+                    if (isWiki && href.startsWith("wiki") || href.startsWith("./wiki")) {
+                        baseLinkUrl + href.replaceFirst("wiki".toRegex(), "")
+                    } else {
+                        if (href.startsWith("/$owner/$repoName")) {
+                            "https://raw.githubusercontent.com/$href"
+                        } else {
+                            "https://raw.githubusercontent.com/$builder$href"
+                        }
+                    }
+
+                element.attr("href", finalSrc)
             }
         }
         return document.html()
     }
 
-    private fun getLinkBaseUrl(baseUrl: String): String {
+    private fun getLinkBaseUrl(baseUrl: String, branch: String? = "master"): String {
         val nameParser = NameParser(baseUrl)
         val owner = nameParser.username
         val repoName = nameParser.name
@@ -111,7 +131,7 @@ object GithubHelper {
             .append(repoName).append("/")
         val containsMaster = paths.size > 3 && paths[2].equals("blob", ignoreCase = true)
         if (!containsMaster) {
-            builder.append("blob/master/")
+            builder.append("blob/${branch}/")
         }
         paths.remove(owner)
         paths.remove(repoName)
@@ -124,22 +144,17 @@ object GithubHelper {
     }
 
     private fun mergeContent(context: Context, source: String, dark: Boolean): String {
-        return """<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+        return """${HtmlHelper.HTML_HEADER}
+${HtmlHelper.HEAD_HEADER}
     <link rel="stylesheet" type="text/css" href="${getStyle(dark)}">
-${getCodeStyle(context, dark)}
+    ${getCodeStyle(context, dark)}
     <script src="./intercept-hash.js"></script>
-</head>
-<body>
+${HtmlHelper.HEAD_BOTTOM}
+${HtmlHelper.BODY_HEADER}
 $source
-<script src="./intercept-touch.js"></script>
-</body>
-</html>
-"""
+    <script src="./intercept-touch.js"></script>
+${HtmlHelper.BODY_BOTTOM}
+${HtmlHelper.HTML_BOTTOM}"""
     }
 
     private fun getStyle(dark: Boolean): String {
@@ -153,14 +168,14 @@ $source
             "#" + Integer.toHexString(ViewHelper.getAccentColor(context)).substring(2)
                 .uppercase(Locale.getDefault())
         return """<style>
-body .highlight pre, body pre {
-background-color: $primaryColor !important;
-${if (PrefGetter.getThemeType(context) == PrefGetter.AMLOD) "border: solid 1px $accentColor !important;\n" else ""}}
-</style>"""
+    body .highlight pre, body pre {
+    background-color: $primaryColor !important;
+    ${if (PrefGetter.getThemeType(context) == PrefGetter.AMLOD) "border: solid 1px $accentColor !important;\n" else ""}}
+    </style>"""
     }
 
     private fun getCodeBackgroundColor(context: Context): String {
-        @ThemeType val themeType = PrefGetter.getThemeType()
+        @ThemeType val themeType = PrefGetter.themeType
         return if (themeType == PrefGetter.BLUISH) {
             "#" + Integer.toHexString(ViewHelper.getPrimaryDarkColor(context))
                 .substring(2).uppercase(Locale.getDefault())

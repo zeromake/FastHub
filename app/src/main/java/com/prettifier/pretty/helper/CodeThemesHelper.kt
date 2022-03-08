@@ -2,20 +2,21 @@ package com.prettifier.pretty.helper
 
 import com.fastaccess.App
 import com.fastaccess.helper.PrefGetter
-import com.fastaccess.helper.InputHelper
 import java.io.IOException
 
 /**
  * Created by Kosh on 21 Jun 2017, 1:44 PM
  */
 object CodeThemesHelper {
+    private const val lightTheme = "prettify.css"
+    private const val darkTheme = "prettify_dark.css"
     fun listThemes(): List<String> {
         try {
             val list = App.getInstance().assets.list("highlight/styles/themes")?.asSequence()
                 ?.map { s: String -> "themes/$s" }
                 ?.toMutableList()!!
-            list.add(0, "prettify.css")
-            list.add(1, "prettify_dark.css")
+            list.add(0, lightTheme)
+            list.add(1, darkTheme)
             return list
         } catch (e: IOException) {
             e.printStackTrace()
@@ -24,10 +25,7 @@ object CodeThemesHelper {
     }
 
     fun getTheme(isDark: Boolean): String {
-        val theme = PrefGetter.getCodeTheme()
-        return if (InputHelper.isEmpty(theme) || !exists(theme)) {
-            if (!isDark) "prettify.css" else "prettify_dark.css"
-        } else theme
+        return PrefGetter.codeTheme ?: if (!isDark) lightTheme else darkTheme
     }
 
     private fun exists(theme: String): Boolean {

@@ -26,7 +26,7 @@ class LanguageBottomSheetDialog : BaseBottomSheetDialog() {
     }
 
     lateinit var title: FontTextView
-    lateinit var radioGroup: RadioGroup
+    private lateinit var radioGroup: RadioGroup
     private var listener: LanguageDialogListener? = null
 
     override fun onCreateView(
@@ -95,6 +95,6 @@ class LanguageBottomSheetDialog : BaseBottomSheetDialog() {
     }
 
     companion object {
-        val TAG = LanguageBottomSheetDialog::class.java.simpleName
+        val TAG: String = LanguageBottomSheetDialog::class.java.simpleName
     }
 }

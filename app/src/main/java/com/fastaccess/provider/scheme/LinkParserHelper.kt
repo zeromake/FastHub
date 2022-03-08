@@ -74,8 +74,9 @@ object LinkParserHelper {
     @JvmStatic
     fun isEnterprise(url: String?): Boolean {
         var url1 = url
-        if (InputHelper.isEmpty(url1) || !PrefGetter.isEnterprise()) return false
-        val enterpriseUrl = PrefGetter.getEnterpriseUrl().lowercase(Locale.getDefault())
+        if (InputHelper.isEmpty(url1) || !PrefGetter.isEnterprise) return false
+        val enterpriseUrl = PrefGetter.enterpriseUrl?.lowercase(Locale.getDefault())
+        enterpriseUrl ?: return false
         url1 = url1!!.lowercase(Locale.getDefault())
         return (url1.equals(
             enterpriseUrl,
@@ -132,7 +133,7 @@ object LinkParserHelper {
             val isGist =
                 if (uri == null || uri.pathSegments == null) url1.contains("gist/") else uri.pathSegments[0] == "gist"
             if (isGist) {
-                val enterpriseUrl = PrefGetter.getEnterpriseUrl()
+                val enterpriseUrl = PrefGetter.enterpriseUrl!!
                 if (!url1.contains("$enterpriseUrl/raw/")) {
                     url1 = url1.replace(enterpriseUrl, "$enterpriseUrl/raw")
                 }

@@ -44,7 +44,7 @@ public class SearchIssuesFragment extends BaseFragment<SearchIssuesMvp.View, Sea
         return new SearchIssuesFragment();
     }
 
-    @Override public void onAttach(Context context) {
+    @Override public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof SearchMvp.View) {
             countCallback = (SearchMvp.View) context;

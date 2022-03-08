@@ -46,7 +46,7 @@ public class FilterIssueFragment extends BaseFragment<FilterIssuesMvp.View, Filt
 
     private FilterIssuesActivityMvp.View callback;
 
-    @Override public void onAttach(Context context) {
+    @Override public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         callback = (FilterIssuesActivityMvp.View) context;
     }

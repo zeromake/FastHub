@@ -66,7 +66,7 @@ public abstract class BaseFragment<V extends BaseMvp.FAView, P extends BasePrese
     @SuppressLint("RestrictedApi") @Nullable @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (fragmentLayout() != 0) {
-            final Context contextThemeWrapper = new ContextThemeWrapper(getContext(), getContext().getTheme());
+            final Context contextThemeWrapper = new ContextThemeWrapper(getContext(), requireContext().getTheme());
             LayoutInflater themeAwareInflater = inflater.cloneInContext(contextThemeWrapper);
             View view = themeAwareInflater.inflate(fragmentLayout(), container, false);
             unbinder = ButterKnife.bind(this, view);
@@ -75,7 +75,7 @@ public abstract class BaseFragment<V extends BaseMvp.FAView, P extends BasePrese
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    @Override public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (Login.getUser() != null) {
             onFragmentCreated(view, savedInstanceState);

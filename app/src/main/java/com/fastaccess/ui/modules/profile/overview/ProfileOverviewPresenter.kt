@@ -202,7 +202,7 @@ class ProfileOverviewPresenter : BasePresenter<ProfileOverviewMvp.View?>(),
         gitHubContributionsView: GitHubContributionsView
     ) {
         val filter = gitHubContributionsView.getLastContributions(contributions)
-        if (filter != null && contributions != null) {
+        if (filter != null && contributions != null && contributions.isNotEmpty()) {
             val bitmapObservable =
                 Observable.just(gitHubContributionsView.drawOnCanvas(filter, contributions))
             manageObservable(bitmapObservable

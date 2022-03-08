@@ -64,7 +64,7 @@ public class CommitFilesFragment extends BaseFragment<CommitFilesMvp.View, Commi
         return view;
     }
 
-    @Override public void onAttach(Context context) {
+    @Override public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (getParentFragment() instanceof CommitPagerMvp.View) {
             viewCallback = (CommitPagerMvp.View) getParentFragment();
@@ -103,7 +103,7 @@ public class CommitFilesFragment extends BaseFragment<CommitFilesMvp.View, Commi
 
     @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == FullScreenFileChangeActivity.Companion.getFOR_RESULT_CODE() && data != null) {
+            if (requestCode == FullScreenFileChangeActivity.FOR_RESULT_CODE && data != null) {
                 List<CommentRequestModel> comments = data.getParcelableArrayListExtra(BundleConstant.ITEM);
                 if (comments != null && !comments.isEmpty()) {
                     if (viewCallback != null && !InputHelper.isEmpty(viewCallback.getLogin())) {

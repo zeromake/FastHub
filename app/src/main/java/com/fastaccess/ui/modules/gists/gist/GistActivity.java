@@ -52,9 +52,7 @@ import butterknife.OnClick;
  * Created by Kosh on 12 Nov 2016, 12:18 PM
  */
 
-public class GistActivity extends BaseActivity<GistMvp.View, GistPresenter>
-        implements GistMvp.View {
-
+public class GistActivity extends BaseActivity<GistMvp.View, GistPresenter> implements GistMvp.View {
     @BindView(R.id.avatarLayout) AvatarLayout avatarLayout;
     @BindView(R.id.headerTitle) FontTextView title;
     @BindView(R.id.size) FontTextView size;

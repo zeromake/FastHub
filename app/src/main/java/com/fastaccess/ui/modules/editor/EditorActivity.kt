@@ -129,7 +129,7 @@ class EditorActivity : BaseActivity<EditorMvp.View, EditorPresenter>(), EditorMv
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.submit) {
-            if (PrefGetter.isSentViaEnabled()) {
+            if (PrefGetter.isSentViaEnabled) {
                 val temp = editText.savedText.toString()
                 if (!temp.contains(sentFromFastHub)) {
                     editText.savedText = editText.savedText.toString() + sentFromFastHub

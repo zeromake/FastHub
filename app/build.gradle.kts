@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("kotlin-android-extensions")
+    id("kotlin-parcelize")
     id("com.novoda.build-properties")
 //    id("jacoco-android")
     id("com.apollographql.apollo3").version("3.1.0")
@@ -62,6 +62,11 @@ android {
 
 kapt {
     keepJavacAnnotationProcessors = true
+}
+
+apollo {
+    packageName.set("com.fastaccess.github")
+//    generateKotlinModels.set(false)
 }
 
 dependencies {
@@ -194,6 +199,10 @@ dependencies {
     kapt("com.github.matthiasrobbers:shortbread-compiler:1.0.1")
 
 
+    // bugly
+    implementation("com.tencent.bugly:crashreport:4.0.0")
+
+
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:1.10.19")
     testImplementation("org.assertj:assertj-core:2.5.0")
@@ -202,13 +211,12 @@ dependencies {
     androidTestImplementation("androidx.test:rules:1.4.0")
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.4.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+
+    // 泄漏检测
+    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.8.1")
 }
 
 
-apollo {
-    packageName.set("com.fastaccess.github")
-//    generateKotlinModels.set(false)
-}
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8

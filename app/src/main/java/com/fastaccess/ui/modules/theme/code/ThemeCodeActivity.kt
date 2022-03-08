@@ -43,9 +43,9 @@ class ThemeCodeActivity : BaseActivity<ThemeCodeMvp.View, ThemeCodePresenter>(),
     }
 
     override fun onInitAdapter(list: List<String>) {
-        val adapter = SpinnerAdapter<String>(this, list)
+        val adapter = SpinnerAdapter(this, list)
         spinner.adapter = adapter
-        val themePosition = list.indexOf(PrefGetter.getCodeTheme())
+        val themePosition = list.indexOf(PrefGetter.codeTheme)
         if (themePosition >= 0) spinner.setSelection(themePosition)
     }
 
@@ -63,10 +63,10 @@ class ThemeCodeActivity : BaseActivity<ThemeCodeMvp.View, ThemeCodePresenter>(),
         presenter.onLoadThemes()
     }
 
-    override fun onContentChanged(p: Int) {
-        progress.let {
-            it.progress = p
-            if (p == 100) it.visibility = View.GONE
+    override fun onContentChanged(progress: Int) {
+        this.progress.let {
+            it.progress = progress
+            if (progress == 100) it.visibility = View.GONE
         }
     }
 

@@ -32,11 +32,11 @@ class RepoLicenseBottomSheet : BaseMvpBottomSheetDialogFragment<RepoLicenseMvp.V
 
     override fun onLicenseLoaded(license: String) {
         this.content = license
-        if (!license.isNullOrBlank()) {
+        if (license.isNotBlank()) {
             loader.isIndeterminate = false
             val licenseText = license.replace("<pre>", "<pre style='overflow: hidden;word-wrap:break-word;word-break:break-all;" +
                     "white-space:pre-line;'>")
-            webView.setGithubContent("<div class='markdown-body'>$licenseText</div>", null, false)
+            webView.setGithubContent("<div class='markdown-body'>$licenseText</div>", null, false, "")
         } else {
             hideProgress()
         }

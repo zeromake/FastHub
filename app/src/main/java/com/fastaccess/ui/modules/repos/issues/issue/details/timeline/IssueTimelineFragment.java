@@ -65,7 +65,7 @@ public class IssueTimelineFragment extends BaseFragment<IssueTimelineMvp.View, I
         return fragment;
     }
 
-    @SuppressWarnings("unchecked") @Override public void onAttach(Context context) {
+    @SuppressWarnings("unchecked") @Override public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (getParentFragment() instanceof IssuePagerMvp.IssuePrCallback) {
             issueCallback = (IssuePagerMvp.IssuePrCallback) getParentFragment();

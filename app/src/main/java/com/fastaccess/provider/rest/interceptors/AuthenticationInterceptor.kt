@@ -26,8 +26,8 @@ class AuthenticationInterceptor : Interceptor {
         val original = chain.request()
         val builder = original.newBuilder()
         val isEnterprise = LinkParserHelper.isEnterprise(original.url.host)
-        val authToken = if (token.isNullOrBlank()) if (isEnterprise) PrefGetter.getEnterpriseToken() else PrefGetter.getToken() else token
-        val otpCode = if (otp.isNullOrBlank()) if (isEnterprise) PrefGetter.getEnterpriseOtpCode() else PrefGetter.getOtpCode() else otp
+        val authToken = if (token.isNullOrBlank()) if (isEnterprise) PrefGetter.enterpriseToken else PrefGetter.token else token
+        val otpCode = if (otp.isNullOrBlank()) if (isEnterprise) PrefGetter.enterpriseOtpCode else PrefGetter.otpCode else otp
 
         var hasAuth = false
         if (!authToken.isNullOrBlank()) {

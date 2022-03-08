@@ -54,7 +54,7 @@ public class RepoClosedIssuesFragment extends BaseFragment<RepoIssuesMvp.View, R
         return view;
     }
 
-    @Override public void onAttach(Context context) {
+    @Override public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (getParentFragment() instanceof RepoIssuesPagerMvp.View) {
             pagerCallback = (RepoIssuesPagerMvp.View) getParentFragment();

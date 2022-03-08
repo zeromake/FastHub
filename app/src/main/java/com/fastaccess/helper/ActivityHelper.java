@@ -34,6 +34,7 @@ import com.fastaccess.ui.modules.parser.LinksParserActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
 
@@ -122,7 +123,7 @@ public class ActivityHelper {
         openChooser(context, Uri.parse(url));
     }
 
-    @SafeVarargs public static void start(@NonNull Activity activity, Class cl, Pair<View, String>... sharedElements) {
+    @SafeVarargs public static void start(@NonNull Activity activity, Class<?> cl, Pair<View, String>... sharedElements) {
         Intent intent = new Intent(activity, cl);
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, sharedElements);
         activity.startActivity(intent, options.toBundle());
@@ -130,7 +131,7 @@ public class ActivityHelper {
 
     public static void start(@NonNull Activity activity, Intent intent, @NonNull View sharedElement) {
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,
-                sharedElement, ViewHelper.getTransitionName(sharedElement));
+                sharedElement, Objects.requireNonNull(ViewHelper.getTransitionName(sharedElement)));
         activity.startActivity(intent, options.toBundle());
     }
 
@@ -178,13 +179,13 @@ public class ActivityHelper {
         Activity activity = getActivity(context);
         if (activity == null) throw new IllegalArgumentException("Context given is not an instance of activity " + context.getClass().getName());
         try {
-            ShareCompat.IntentBuilder.from(activity)
+            new ShareCompat.IntentBuilder(activity)
                     .setChooserTitle(context.getString(R.string.share))
                     .setType("text/plain")
                     .setText(url)
                     .startChooser();
         } catch (ActivityNotFoundException e) {
-            Toasty.error(App.getInstance(), e.getMessage(), Toast.LENGTH_LONG).show();
+            Toasty.error(App.getInstance(), Objects.requireNonNull(e.getMessage()), Toast.LENGTH_LONG).show();
         }
     }
 

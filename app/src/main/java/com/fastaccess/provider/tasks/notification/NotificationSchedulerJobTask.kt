@@ -35,7 +35,7 @@ import io.reactivex.schedulers.Schedulers
 class NotificationSchedulerJobTask : JobService() {
     override fun onStartJob(job: JobParameters): Boolean {
         if (!SINGLE_JOB_ID.equals(job.tag, ignoreCase = true)) {
-            if (PrefGetter.getNotificationTaskDuration() == -1) {
+            if (PrefGetter.notificationTaskDuration == -1) {
                 scheduleJob(this, -1, false)
                 finishJob(job)
                 return true
@@ -47,8 +47,8 @@ class NotificationSchedulerJobTask : JobService() {
         } catch (ignored: Exception) {
         }
         if (login != null) {
-            val task = RestProvider.getNotificationService(PrefGetter.isEnterprise())
-                .getNotifications(ParseDateFormat.getLastWeekDate())
+            val task = RestProvider.getNotificationService(PrefGetter.isEnterprise)
+                .getNotifications(ParseDateFormat.lastWeekDate)
                 .subscribeOn(Schedulers.io())
                 .subscribe({ item: Pageable<Notification>? ->
                     AppHelper.cancelAllNotifications(
@@ -97,7 +97,7 @@ class NotificationSchedulerJobTask : JobService() {
             .take(10)
             .flatMap({ notification: Notification ->
                 if (notification.subject != null && notification.subject.latestCommentUrl != null) {
-                    return@flatMap RestProvider.getNotificationService(PrefGetter.isEnterprise())
+                    return@flatMap RestProvider.getNotificationService(PrefGetter.isEnterprise)
                         .getComment(notification.subject.latestCommentUrl!!)
                         .subscribeOn(Schedulers.io())
                 } else {
@@ -285,9 +285,9 @@ class NotificationSchedulerJobTask : JobService() {
             .setColor(accentColor)
             .setGroup(NOTIFICATION_GROUP_ID)
             .setGroupSummary(true)
-        if (PrefGetter.isNotificationSoundEnabled()) {
+        if (PrefGetter.isNotificationSoundEnabled) {
             builder.setDefaults(NotificationCompat.DEFAULT_ALL)
-                .setSound(PrefGetter.getNotificationSound(), AudioManager.STREAM_NOTIFICATION)
+                .setSound(PrefGetter.notificationSound, AudioManager.STREAM_NOTIFICATION)
         }
         return builder.build()
     }
@@ -347,7 +347,7 @@ class NotificationSchedulerJobTask : JobService() {
         private const val NOTIFICATION_GROUP_ID = "FastHub"
         @JvmStatic
         fun scheduleJob(context: Context) {
-            val duration = PrefGetter.getNotificationTaskDuration()
+            val duration = PrefGetter.notificationTaskDuration
             scheduleJob(context, duration, false)
         }
 

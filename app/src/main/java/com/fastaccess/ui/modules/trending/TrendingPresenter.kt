@@ -20,10 +20,10 @@ class TrendingPresenter : BasePresenter<TrendingMvp.View>(), TrendingMvp.Present
     }
 
     private fun sendWithColor(t: String) {
-        val color = ColorsProvider.getColor(t)
+        val color = ColorsProvider.getColor(t)?.color
         if (color != null) {
             try {
-                val lanColor = Color.parseColor(color.color)
+                val lanColor = Color.parseColor(color)
                 sendToView { it.onAppend(t, lanColor) }
             } catch (e: Exception) {
                 e.printStackTrace()

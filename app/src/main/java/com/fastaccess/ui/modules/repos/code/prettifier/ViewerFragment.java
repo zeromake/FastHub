@@ -1,10 +1,14 @@
 package com.fastaccess.ui.modules.repos.code.prettifier;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+
 import com.google.android.material.appbar.AppBarLayout;
+
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,6 +28,8 @@ import com.fastaccess.ui.base.BaseFragment;
 import com.fastaccess.ui.widgets.StateLayout;
 import com.prettifier.pretty.PrettifyWebView;
 
+import java.util.Objects;
+
 import butterknife.BindView;
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
 
@@ -35,29 +41,36 @@ public class ViewerFragment extends BaseFragment<ViewerMvp.View, ViewerPresenter
 
     public static final String TAG = ViewerFragment.class.getSimpleName();
 
-    @BindView(R.id.readmeLoader) ProgressBar loader;
-    @BindView(R.id.webView) PrettifyWebView webView;
-    @BindView(R.id.stateLayout) StateLayout stateLayout;
+    @BindView(R.id.readmeLoader)
+    ProgressBar loader;
+    @BindView(R.id.webView)
+    PrettifyWebView webView;
+    @BindView(R.id.stateLayout)
+    StateLayout stateLayout;
     private AppBarLayout appBarLayout;
     private BottomNavigation bottomNavigation;
     private boolean isAppBarMoving;
     private boolean isAppBarExpanded = true;
     private boolean isAppBarListener;
-    @State boolean isWrap = PrefGetter.isWrapCode();
+    @State
+    boolean isWrap = PrefGetter.isWrapCode();
+    @State
+    String defaultBranch;
 
     public static ViewerFragment newInstance(@NonNull String url, @Nullable String htmlUrl) {
-        return newInstance(url, htmlUrl, false);
+        return newInstance(url, htmlUrl, false, "");
     }
 
     public static ViewerFragment newInstance(@NonNull String url, boolean isRepo) {
-        return newInstance(url, null, isRepo);
+        return newInstance(url, null, isRepo, "");
     }
 
-    public static ViewerFragment newInstance(@NonNull String url, @Nullable String htmlUrl, boolean isRepo) {
+    public static ViewerFragment newInstance(@NonNull String url, @Nullable String htmlUrl, boolean isRepo, String defaultBranch) {
         return newInstance(Bundler.start()
                 .put(BundleConstant.ITEM, url)
-                .put(BundleConstant.EXTRA_TWO, htmlUrl)
                 .put(BundleConstant.EXTRA, isRepo)
+                .put(BundleConstant.EXTRA_TWO, htmlUrl)
+                .put(BundleConstant.EXTRA_THREE, defaultBranch)
                 .end());
     }
 
@@ -67,87 +80,106 @@ public class ViewerFragment extends BaseFragment<ViewerMvp.View, ViewerPresenter
         return fragmentView;
     }
 
-    @Override public void onSetImageUrl(@NonNull String url, boolean isSvg) {
+    @Override
+    public void onSetImageUrl(@NonNull String url, boolean isSvg) {
         webView.loadImage(url, isSvg);
         webView.setOnContentChangedListener(this);
         webView.setVisibility(View.VISIBLE);
-        getActivity().invalidateOptionsMenu();
+        requireActivity().invalidateOptionsMenu();
     }
 
-    @Override public void onSetMdText(@NonNull String text, String baseUrl, boolean replace) {
+    @Override
+    public void onSetMdText(@NonNull String text, String baseUrl, boolean replace, String branch) {
+        Log.e("onSetMdText", defaultBranch);
         webView.setVisibility(View.VISIBLE);
         loader.setIndeterminate(false);
-        webView.setGithubContentWithReplace(text, baseUrl, replace);
+        webView.setGithubContentWithReplace(text, baseUrl, replace, branch);
         webView.setOnContentChangedListener(this);
-        getActivity().invalidateOptionsMenu();
+        requireActivity().invalidateOptionsMenu();
     }
 
-    @Override public void onSetCode(@NonNull String text) {
+    @Override
+    public void onSetCode(@NonNull String text) {
         webView.setVisibility(View.VISIBLE);
         loader.setIndeterminate(false);
         webView.setSource(text, isWrap);
         webView.setOnContentChangedListener(this);
-        getActivity().invalidateOptionsMenu();
+        requireActivity().invalidateOptionsMenu();
     }
 
-    @Override public void onShowError(@NonNull String msg) {
+    @Override
+    public void onShowError(@NonNull String msg) {
         hideProgress();
         showErrorMessage(msg);
     }
 
-    @Override public void onShowError(@StringRes int msg) {
+    @Override
+    public void onShowError(@StringRes int msg) {
         hideProgress();
         onShowError(getString(msg));
     }
 
-    @Override public void onShowMdProgress() {
+    @Override
+    public void onShowMdProgress() {
         loader.setIndeterminate(true);
         loader.setVisibility(View.VISIBLE);
         stateLayout.showProgress();
     }
 
-    @Override public void openUrl(@NonNull String url) {
-        ActivityHelper.startCustomTab(getActivity(), url);
+    @Override
+    public void openUrl(@NonNull String url) {
+        ActivityHelper.startCustomTab(requireActivity(), url);
     }
 
-    @Override public void onViewAsCode() {
+    @Override
+    public void onViewAsCode() {
         getPresenter().onLoadContentAsStream();
     }
 
-    @Override public void showProgress(@StringRes int resId) {
+    @Override
+    public void showProgress(@StringRes int resId) {
         onShowMdProgress();
     }
 
-    @Override public void hideProgress() {
+    @Override
+    public void hideProgress() {
         loader.setVisibility(View.GONE);
         stateLayout.hideProgress();
-        if (!getPresenter().isImage()) stateLayout.showReload(getPresenter().downloadedStream() == null ? 0 : 1);
+        if (!getPresenter().isImage())
+            stateLayout.showReload(getPresenter().downloadedStream() == null ? 0 : 1);
     }
 
-    @Override public void showErrorMessage(@NonNull String msgRes) {
+    @Override
+    public void showErrorMessage(@NonNull String msgRes) {
         hideProgress();
         super.showErrorMessage(msgRes);
     }
 
-    @Override public void showMessage(int titleRes, int msgRes) {
+    @Override
+    public void showMessage(int titleRes, int msgRes) {
         hideProgress();
         super.showMessage(titleRes, msgRes);
     }
 
-    @Override public void showMessage(@NonNull String titleRes, @NonNull String msgRes) {
+    @Override
+    public void showMessage(@NonNull String titleRes, @NonNull String msgRes) {
         hideProgress();
         super.showMessage(titleRes, msgRes);
     }
 
-    @Override protected int fragmentLayout() {
+    @Override
+    protected int fragmentLayout() {
         return R.layout.general_viewer_layout;
     }
 
-    @NonNull @Override public ViewerPresenter providePresenter() {
+    @NonNull
+    @Override
+    public ViewerPresenter providePresenter() {
         return new ViewerPresenter();
     }
 
-    @Override public void onContentChanged(int progress) {
+    @Override
+    public void onContentChanged(int progress) {
         if (loader != null) {
             loader.setProgress(progress);
             if (progress == 100) {
@@ -159,8 +191,9 @@ public class ViewerFragment extends BaseFragment<ViewerMvp.View, ViewerPresenter
         }
     }
 
-    @Override public void onScrollChanged(boolean reachedTop, int scroll) {
-        if (AppHelper.isDeviceAnimationEnabled(getContext())) {
+    @Override
+    public void onScrollChanged(boolean reachedTop, int scroll) {
+        if (AppHelper.isDeviceAnimationEnabled(requireActivity())) {
             if (getPresenter().isRepo() && appBarLayout != null && bottomNavigation != null && webView != null) {
                 boolean shouldExpand = webView.getScrollY() == 0;
                 if (!isAppBarMoving && shouldExpand != isAppBarExpanded) {
@@ -176,30 +209,33 @@ public class ViewerFragment extends BaseFragment<ViewerMvp.View, ViewerPresenter
         }
     }
 
-    @Override public void onCreate(@Nullable Bundle savedInstanceState) {
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        defaultBranch = requireArguments().getString(BundleConstant.EXTRA_THREE);
         setHasOptionsMenu(true);
     }
 
-    @Override protected void onFragmentCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    @Override
+    protected void onFragmentCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         if (InputHelper.isEmpty(getPresenter().downloadedStream())) {
             getPresenter().onHandleIntent(getArguments());
         } else {
             if (getPresenter().isMarkDown()) {
-                onSetMdText(getPresenter().downloadedStream(), getPresenter().url(), false);
+                onSetMdText(getPresenter().downloadedStream(), getPresenter().url(), false, defaultBranch);
             } else {
                 onSetCode(getPresenter().downloadedStream());
             }
         }
-        getActivity().invalidateOptionsMenu();
+        requireActivity().invalidateOptionsMenu();
         stateLayout.setEmptyText(R.string.no_data);
         if (savedInstanceState == null) {
             stateLayout.showReload(0);
         }
         stateLayout.setOnReloadListener(view1 -> getPresenter().onHandleIntent(getArguments()));
         if (getPresenter().isRepo()) {
-            appBarLayout = getActivity().findViewById(R.id.appbar);
-            bottomNavigation = getActivity().findViewById(R.id.bottomNavigation);
+            appBarLayout = requireActivity().findViewById(R.id.appbar);
+            bottomNavigation = requireActivity().findViewById(R.id.bottomNavigation);
 
             if (appBarLayout != null && !isAppBarListener) {
                 appBarLayout.addOnOffsetChangedListener(this);
@@ -208,9 +244,10 @@ public class ViewerFragment extends BaseFragment<ViewerMvp.View, ViewerPresenter
         }
     }
 
-    @Override public void onStart() {
+    @Override
+    public void onStart() {
         super.onStart();
-        if (AppHelper.isDeviceAnimationEnabled(getContext())) {
+        if (AppHelper.isDeviceAnimationEnabled(requireContext())) {
             if (appBarLayout != null && !isAppBarListener) {
                 appBarLayout.addOnOffsetChangedListener(this);
                 isAppBarListener = true;
@@ -218,8 +255,9 @@ public class ViewerFragment extends BaseFragment<ViewerMvp.View, ViewerPresenter
         }
     }
 
-    @Override public void onStop() {
-        if (AppHelper.isDeviceAnimationEnabled(getContext())) {
+    @Override
+    public void onStop() {
+        if (AppHelper.isDeviceAnimationEnabled(requireContext())) {
             if (appBarLayout != null && isAppBarListener) {
                 appBarLayout.removeOnOffsetChangedListener(this);
                 isAppBarListener = false;
@@ -228,13 +266,15 @@ public class ViewerFragment extends BaseFragment<ViewerMvp.View, ViewerPresenter
         super.onStop();
     }
 
-    @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.wrap_menu_option, menu);
         menu.findItem(R.id.wrap).setVisible(false);
     }
 
-    @Override public void onPrepareOptionsMenu(Menu menu) {
+    @Override
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
         super.onPrepareOptionsMenu(menu);
         MenuItem menuItem = menu.findItem(R.id.wrap);
         if (menuItem != null) {
@@ -246,7 +286,8 @@ public class ViewerFragment extends BaseFragment<ViewerMvp.View, ViewerPresenter
         }
     }
 
-    @Override public boolean onOptionsItemSelected(MenuItem item) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.wrap) {
             item.setChecked(!item.isChecked());
             isWrap = item.isChecked();
@@ -256,19 +297,22 @@ public class ViewerFragment extends BaseFragment<ViewerMvp.View, ViewerPresenter
         return super.onOptionsItemSelected(item);
     }
 
-    @Override public void onScrollTop(int index) {
+    @Override
+    public void onScrollTop(int index) {
         super.onScrollTop(index);
         if (webView != null) webView.scrollTo(0, 0);
     }
 
-    @Override public void setUserVisibleHint(boolean isVisibleToUser) {
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (!isVisibleToUser && appBarLayout != null) {
             appBarLayout.setVisibility(View.VISIBLE);
         }
     }
 
-    @Override public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
         verticalOffset = Math.abs(verticalOffset);
         if (verticalOffset == 0 || verticalOffset == appBarLayout.getTotalScrollRange())
             isAppBarMoving = false;

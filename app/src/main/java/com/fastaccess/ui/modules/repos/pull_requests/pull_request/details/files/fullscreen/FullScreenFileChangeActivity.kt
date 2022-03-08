@@ -118,7 +118,7 @@ class FullScreenFileChangeActivity : BaseActivity<FullScreenFileChangeMvp.View, 
     override fun onItemClick(position: Int, v: View, item: CommitLinesModel) {
         if (item.text?.startsWith("@@")!!) return
         val commit = presenter.model?.commitFileModel ?: return
-        if (PrefGetter.isProEnabled()) {
+        if (PrefGetter.isProEnabled) {
             AddReviewDialogFragment.newInstance(item, Bundler.start()
                     .put(BundleConstant.ITEM, commit.filename)
                     .put(BundleConstant.EXTRA_TWO, presenter.position)
@@ -163,7 +163,7 @@ class FullScreenFileChangeActivity : BaseActivity<FullScreenFileChangeMvp.View, 
 
 
     companion object {
-        val FOR_RESULT_CODE = 1002
+        const val FOR_RESULT_CODE = 1002
         fun startActivityForResult(fragment: Fragment, model: CommitFileChanges, position: Int, isCommit: Boolean = false) {
             val intent = Intent(fragment.context, FullScreenFileChangeActivity::class.java)
             intent.putExtras(Bundler.start()

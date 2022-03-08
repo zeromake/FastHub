@@ -41,9 +41,9 @@ class GroupedNotificationModel {
         const val ROW = 2
 
         @JvmStatic
-        fun construct(items: List<Notification>?): List<GroupedNotificationModel> {
+        fun construct(items: List<Notification>): List<GroupedNotificationModel> {
             val models: MutableList<GroupedNotificationModel> = ArrayList()
-            if (items == null || items.isEmpty()) return models
+            if (items.isEmpty()) return models
             val grouped: Map<Repo, List<Notification>?> = items.asSequence()
                 .filter { value: Notification -> !value.isUnread }
                 .groupByTo(mutableMapOf()) { it.repository }
@@ -66,8 +66,8 @@ class GroupedNotificationModel {
         }
 
         @JvmStatic
-        fun onlyNotifications(items: List<Notification>?): List<GroupedNotificationModel> {
-            return if (items == null || items.isEmpty()) ArrayList() else items.asSequence()
+        fun onlyNotifications(items: List<Notification>): List<GroupedNotificationModel> {
+            return items
                 .map { notification -> GroupedNotificationModel(notification) }
                 .toList()
         }

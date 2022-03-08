@@ -8,7 +8,6 @@ import android.content.pm.PackageManager
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -65,7 +64,7 @@ class SettingsCategoryFragment : PreferenceFragmentCompat(), Preference.OnPrefer
         super.onDetach()
     }
 
-    override fun onCreatePreferences(savedInstanceState: Bundle, rootKey: String) {
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         when (settingsCallback!!.settingsType) {
             SettingsModel.BACKUP -> addBackup()
             SettingsModel.BEHAVIOR -> addBehaviour()
@@ -89,7 +88,7 @@ class SettingsCategoryFragment : PreferenceFragmentCompat(), Preference.OnPrefer
                     preferenceScreen.addPreference(notificationSoundPath)
                     NotificationSchedulerJobTask.scheduleJob(
                         App.getInstance(),
-                        PrefGetter.getNotificationTaskDuration(), true
+                        PrefGetter.notificationTaskDuration, true
                     )
                 } else {
                     preferenceScreen.removePreference(notificationTime)
@@ -146,8 +145,8 @@ class SettingsCategoryFragment : PreferenceFragmentCompat(), Preference.OnPrefer
                     val settings = PrefHelper.getAll()
                     settings.remove("token")
                     val json = Gson().toJson(settings)
-                    val path = Environment.getExternalStorageDirectory()
-                        .toString() + File.separator + "FastHub"
+                    // Todo use ExternalFile
+                    val path = FileHelper.getExternalDataPath(requireContext())
                     val folder = File(path)
                     folder.mkdirs()
                     val backup = File(folder, "backup.json")
@@ -234,7 +233,7 @@ class SettingsCategoryFragment : PreferenceFragmentCompat(), Preference.OnPrefer
                     val preferences = PrefHelper.getAll()
                     preferences.remove("token")
                     val json = Gson().toJson(preferences)
-                    val path = FileHelper.PATH
+                    val path = FileHelper.getExternalDataPath(this.requireContext())
                     val folder = File(path)
                     folder.mkdirs()
                     val backup = File(folder, "backup.json")
@@ -265,7 +264,7 @@ class SettingsCategoryFragment : PreferenceFragmentCompat(), Preference.OnPrefer
             findPreference("backup").summary = SpannableBuilder.builder()
                 .append(getString(R.string.backup_summary, PrefHelper.getString("backed_up")))
                 .append("\n")
-                .append(FileHelper.PATH)
+                .append(FileHelper.getExternalDataPath(this.requireContext()))
         } else {
             findPreference("backup").summary = ""
         }
@@ -331,18 +330,18 @@ class SettingsCategoryFragment : PreferenceFragmentCompat(), Preference.OnPrefer
         notificationSoundPath = findPreference("notification_sound_path")
         notificationSoundPath?.summary = FileHelper.getRingtoneName(
             requireContext(),
-            PrefGetter.getNotificationSound()
+            PrefGetter.notificationSound
         )
         notificationSoundPath?.setOnPreferenceClickListener {
             newInstance(
-                    FileHelper.getRingtoneName(
-                        requireContext(),
-                        PrefGetter.getNotificationSound()
-                    )
+                FileHelper.getRingtoneName(
+                    requireContext(),
+                    PrefGetter.notificationSound
                 )
-                    .show(childFragmentManager, "NotificationSoundBottomSheet")
-                true
-            }
+            )
+                .show(childFragmentManager, "NotificationSoundBottomSheet")
+            true
+        }
         if (!PrefHelper.getBoolean("notificationEnabled")) {
             preferenceScreen.removePreference(notificationTime)
             preferenceScreen.removePreference(notificationRead)

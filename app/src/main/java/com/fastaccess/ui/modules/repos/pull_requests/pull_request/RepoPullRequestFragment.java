@@ -55,7 +55,7 @@ public class RepoPullRequestFragment extends BaseFragment<RepoPullRequestMvp.Vie
         return view;
     }
 
-    @Override public void onAttach(Context context) {
+    @Override public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (getParentFragment() instanceof RepoPullRequestPagerMvp.View) {
             pagerCallback = (RepoPullRequestPagerMvp.View) getParentFragment();

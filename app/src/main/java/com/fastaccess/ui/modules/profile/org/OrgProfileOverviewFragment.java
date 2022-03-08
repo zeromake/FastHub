@@ -56,11 +56,11 @@ public class OrgProfileOverviewFragment extends BaseFragment<OrgProfileOverviewM
     }
 
     @OnClick(R.id.userInformation) void onOpenAvatar() {
-        if (userModel != null) ActivityHelper.startCustomTab(getActivity(), userModel.getAvatarUrl());
+        if (userModel != null) ActivityHelper.startCustomTab(requireActivity(), userModel.getAvatarUrl());
     }
 
     @OnClick(R.id.projects) void onOpenProjects() {
-        OrgProjectActivity.Companion.startActivity(getContext(), getPresenter().getLogin(), isEnterprise());
+        OrgProjectActivity.Companion.startActivity(requireContext(), getPresenter().getLogin(), isEnterprise());
     }
 
     @SuppressLint("ClickableViewAccessibility") @Override public void onInitViews(@Nullable User userModel) {
@@ -81,30 +81,27 @@ public class OrgProfileOverviewFragment extends BaseFragment<OrgProfileOverviewM
         avatarLayout.setUrl(userModel.getAvatarUrl(), null, false, false);
         avatarLayout.findViewById(R.id.avatar).setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_UP) {
-                ActivityHelper.startCustomTab(getActivity(), userModel.getAvatarUrl());
+                ActivityHelper.startCustomTab(requireActivity(), userModel.getAvatarUrl());
                 return true;
             }
             return false;
         });
-        location.setText(userModel.getLocation());
-        email.setText(userModel.getEmail());
-        link.setText(userModel.getBlog());
-        joined.setText(ParseDateFormat.getTimeAgo(userModel.getCreatedAt()));
 
         if (!InputHelper.isEmpty(userModel.getLocation())) {
             location.setVisibility(View.VISIBLE);
+            location.setText(userModel.getLocation());
         }
         if (!InputHelper.isEmpty(userModel.getEmail())) {
             email.setVisibility(View.VISIBLE);
+            email.setText(userModel.getEmail());
         }
         if (!InputHelper.isEmpty(userModel.getBlog())) {
             link.setVisibility(View.VISIBLE);
+            link.setText(userModel.getBlog());
         }
         if (!InputHelper.isEmpty(userModel.getCreatedAt())) {
             joined.setVisibility(View.VISIBLE);
-        }
-        if (!InputHelper.isEmpty(userModel.getEmail())) {
-            email.setVisibility(View.VISIBLE);
+            joined.setText(ParseDateFormat.getTimeAgo(userModel.getCreatedAt()));
         }
         projects.setVisibility(userModel.isHasOrganizationProjects() ? View.VISIBLE : View.GONE);
     }
