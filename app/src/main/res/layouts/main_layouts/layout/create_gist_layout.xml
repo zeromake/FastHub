@@ -59,9 +59,8 @@
             android:text="@string/add"/>
     </FrameLayout>
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/files"
-        android:name="com.fastaccess.ui.modules.gists.gist.files.GistFilesListFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

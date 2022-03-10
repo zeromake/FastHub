@@ -10,12 +10,10 @@ import com.fastaccess.provider.rest.RestProvider
 import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
 import com.fastaccess.ui.base.mvp.BaseMvp.FAView
 import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import net.grandcentrix.thirtyinch.TiPresenter
-import net.grandcentrix.thirtyinch.ViewAction
-import net.grandcentrix.thirtyinch.rx2.RxTiPresenterDisposableHandler
-import retrofit2.HttpException
 import java.io.IOException
 import java.util.concurrent.TimeoutException
 
@@ -26,7 +24,8 @@ open class BasePresenter<V : FAView?> : TiPresenter<V>(), FAPresenter {
     @com.evernote.android.state.State
     var isEnterprise = false
     private var apiCalled = false
-    private val subscriptionHandler = RxTiPresenterDisposableHandler(this)
+    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
+
 
     override fun onSaveInstanceState(outState: Bundle?) {
         StateSaver.saveInstanceState(this, outState!!)
@@ -37,20 +36,28 @@ open class BasePresenter<V : FAView?> : TiPresenter<V>(), FAPresenter {
     }
 
     override fun manageDisposable(vararg disposables: Disposable?) {
-        subscriptionHandler.manageDisposables(*disposables)
+        compositeDisposable.addAll(*disposables)
     }
 
     override fun <T> manageObservable(observable: Observable<T>?) {
+        manageObservable(observable) {}
+    }
+
+    fun <T> manageObservable(observable: Observable<T>?, onNext: (T) -> Unit) {
         if (observable != null) {
             manageDisposable(
                 RxHelper.getObservable(observable)
-                    .subscribe({ }) { obj: Throwable -> obj.printStackTrace() })
+                    .subscribe(onNext) { obj: Throwable ->
+                        obj.printStackTrace()
+                        // Todo bugly
+                    }
+            )
         }
     }
 
     override fun manageViewDisposable(vararg disposables: Disposable?) {
         if (isViewAttached) {
-            subscriptionHandler.manageViewDisposables(*disposables)
+            compositeDisposable.addAll(*disposables)
         } else {
             sendToView { manageViewDisposable(*disposables) }
         }
@@ -146,5 +153,17 @@ open class BasePresenter<V : FAView?> : TiPresenter<V>(), FAPresenter {
                         }
                     }
             })
+    }
+
+    override fun onDestroy() {
+        disposable()
+        super.onDestroy()
+    }
+
+    fun disposable() {
+        if (!compositeDisposable.isDisposed) {
+            compositeDisposable.dispose()
+            compositeDisposable.clear()
+        }
     }
 }

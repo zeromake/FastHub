@@ -10,7 +10,6 @@ import com.fastaccess.helper.DeviceNameGetter;
 import com.fastaccess.helper.TypeFaceHelper;
 import com.fastaccess.provider.colors.ColorsProvider;
 import com.fastaccess.provider.emoji.EmojiManager;
-import com.fastaccess.provider.tasks.notification.NotificationSchedulerJobTask;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.miguelbcr.io.rx_billing_service.RxBillingService;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -24,7 +23,7 @@ import io.requery.reactivex.ReactiveSupport;
 import io.requery.sql.Configuration;
 import io.requery.sql.EntityDataStore;
 import io.requery.sql.TableCreationMode;
-import shortbread.Shortbread;
+import shortbread.ShortbreadInitializer;
 
 
 /**
@@ -54,8 +53,8 @@ public class App extends Application {
         getDataStore();
         setupPreference();
         TypeFaceHelper.generateTypeface(this);
-        NotificationSchedulerJobTask.scheduleJob(this);
-        Shortbread.create(this);
+//        NotificationSchedulerJobTask.scheduleJob(this);
+        new ShortbreadInitializer().create(this);
         EmojiManager.load();
         ColorsProvider.load();
         DeviceNameGetter.instance.loadDevice();
@@ -83,7 +82,7 @@ public class App extends Application {
             if (BuildConfig.DEBUG) {
                 source.setTableCreationMode(TableCreationMode.CREATE_NOT_EXISTS);
             }
-            dataStore = ReactiveSupport.toReactiveStore(new EntityDataStore<Persistable>(configuration));
+            dataStore = ReactiveSupport.toReactiveStore(new EntityDataStore<>(configuration));
         }
         return dataStore;
     }

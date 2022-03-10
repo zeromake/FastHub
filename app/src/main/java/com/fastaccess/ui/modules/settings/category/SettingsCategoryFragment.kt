@@ -20,7 +20,6 @@ import com.fastaccess.data.dao.SettingsModel
 import com.fastaccess.data.dao.SettingsModel.SettingsType
 import com.fastaccess.data.dao.model.SearchHistory
 import com.fastaccess.helper.*
-import com.fastaccess.provider.tasks.notification.NotificationSchedulerJobTask
 import com.fastaccess.ui.base.mvp.BaseMvp.FAView
 import com.fastaccess.ui.modules.settings.sound.NotificationSoundBottomSheet.Companion.newInstance
 import com.fastaccess.ui.modules.settings.sound.NotificationSoundMvp.NotificationSoundListener
@@ -86,26 +85,26 @@ class SettingsCategoryFragment : PreferenceFragmentCompat(), Preference.OnPrefer
                     preferenceScreen.addPreference(notificationRead)
                     preferenceScreen.addPreference(notificationSound)
                     preferenceScreen.addPreference(notificationSoundPath)
-                    NotificationSchedulerJobTask.scheduleJob(
-                        App.getInstance(),
-                        PrefGetter.notificationTaskDuration, true
-                    )
+//                    NotificationSchedulerJobTask.scheduleJob(
+//                        App.getInstance(),
+//                        PrefGetter.notificationTaskDuration, true
+//                    )
                 } else {
                     preferenceScreen.removePreference(notificationTime)
                     preferenceScreen.removePreference(notificationRead)
                     preferenceScreen.removePreference(notificationSound)
                     preferenceScreen.removePreference(notificationSoundPath)
-                    NotificationSchedulerJobTask.scheduleJob(App.getInstance(), -1, true)
+//                    NotificationSchedulerJobTask.scheduleJob(App.getInstance(), -1, true)
                 }
                 return true
             }
-            preference.key.equals("notificationTime", ignoreCase = true) -> {
-                NotificationSchedulerJobTask.scheduleJob(
-                    App.getInstance(),
-                    PrefGetter.notificationDurationMillis((newValue as String)), true
-                )
-                return true
-            }
+//            preference.key.equals("notificationTime", ignoreCase = true) -> {
+//                NotificationSchedulerJobTask.scheduleJob(
+//                    App.getInstance(),
+//                    PrefGetter.notificationDurationMillis((newValue as String)), true
+//                )
+//                return true
+//            }
             preference.key.equals("recylerViewAnimation", ignoreCase = true) -> {
                 callback!!.onThemeChanged()
                 return true

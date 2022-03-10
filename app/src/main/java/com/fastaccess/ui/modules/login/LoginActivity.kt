@@ -126,7 +126,7 @@ open class LoginActivity : BaseActivity<LoginMvp.View?, LoginPresenter?>(), Logi
         endpoint!!.visibility = if (isEnterprise) View.VISIBLE else View.GONE
     }
 
-    fun onCheckChanged(checked: Boolean) {
+    private fun onCheckChanged(checked: Boolean) {
         isBasicAuth = !checked
         password!!.hint =
             if (checked) getString(R.string.access_token) else getString(R.string.password)

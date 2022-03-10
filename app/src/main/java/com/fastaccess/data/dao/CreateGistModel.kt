@@ -10,7 +10,7 @@ import java.util.HashMap
  */
 @Parcelize
 class CreateGistModel(
-    var files: HashMap<String, FilesListModel>?,
-    var description: String?,
+    var files: MutableMap<String, FilesListModel>,
+    var description: String,
     @SerializedName("public") var publicGist: Boolean
 ) : Parcelable

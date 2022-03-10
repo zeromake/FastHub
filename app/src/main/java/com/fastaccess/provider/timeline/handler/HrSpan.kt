@@ -47,7 +47,7 @@ class HrSpan internal constructor(private val color: Int, private val width: Int
         fm.descent /= 3
     }
 
-    init {
-        val drawable: Drawable = ColorDrawable(color)
-    }
+//    init {
+//        val drawable: Drawable = ColorDrawable(color)
+//    }
 }

@@ -1,21 +1,22 @@
 package com.fastaccess.ui.widgets
 
+import android.app.Activity
 import android.content.Context
-import petrov.kristiyan.colorpicker.ColorPicker.OnChooseColorListener
-import com.fastaccess.R
-import petrov.kristiyan.colorpicker.ColorPicker
-import android.widget.TextView
-import com.fastaccess.helper.ViewHelper
-import androidx.preference.PreferenceViewHolder
+import android.content.ContextWrapper
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.widget.Button
+import android.widget.TextView
 import androidx.preference.Preference
+import androidx.preference.PreferenceViewHolder
+import com.fastaccess.R
 import com.fastaccess.helper.PrefGetter
-import java.util.ArrayList
-import java.util.HashMap
+import com.fastaccess.helper.ViewHelper
+import petrov.kristiyan.colorpicker.ColorPicker
+import petrov.kristiyan.colorpicker.ColorPicker.OnChooseColorListener
+
 
 /**
  * Created by Hamad on 6/11/17.
@@ -54,7 +55,7 @@ class ColorPickerPreference : Preference, OnChooseColorListener {
         super.onClick()
         val selectedColor1 = selectedColor
         val title = String.format("Accent Color: (Currently: %s)", selectedColorName)
-        val colorPicker = ColorPicker(context)
+        val colorPicker = ColorPicker(findActivity(context))
         colorPicker.setRoundColorButton(true)
         colorPicker.setColors(R.array.theme_colors_hex)
         colorPicker.setDefaultColorButton(selectedColor1)
@@ -111,4 +112,22 @@ class ColorPickerPreference : Preference, OnChooseColorListener {
             val colorNames = context.resources.getStringArray(R.array.theme_colors)
             return colorNames[PrefGetter.getThemeColor(context) - 1]
         }
+
+    private fun findActivity(pContext: Context): Activity? {
+        var context = pContext
+        while (true) {
+            when (context) {
+                is Activity -> {
+                    return context
+                }
+                is ContextWrapper -> {
+                    context = context.baseContext
+                }
+                else -> {
+                    return null
+                }
+            }
+        }
+
+    }
 }

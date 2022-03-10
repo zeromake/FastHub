@@ -85,6 +85,7 @@ dependencies {
     implementation("androidx.browser:browser:1.4.0")
     implementation("androidx.palette:palette-ktx:1.0.0")
     implementation("androidx.compose.ui:ui:1.1.1")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
     // thirtyinch
     implementation("com.github.Grandcentrix.ThirtyInch:thirtyinch:v1.0.1")
@@ -101,7 +102,8 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.13.1")
 
     // ShapedImageView
-    implementation("cn.gavinliu.android.lib:ShapedImageView:0.8.3")
+    implementation("cn.gavinliu:ShapedImageView:0.8.7")
+//    implementation("io.woong.shapedimageview:shapedimageview:1.4.3")
 
     // butterknife
     implementation("com.jakewharton:butterknife:10.2.3")
@@ -113,6 +115,12 @@ dependencies {
     // rx2
     implementation("io.reactivex.rxjava2:rxjava:2.2.21")
     implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
+
+    // autodispose
+    implementation("com.uber.autodispose2:autodispose:2.1.1")
+    implementation("com.uber.autodispose2:autodispose-lifecycle:2.1.1")
+    implementation("com.uber.autodispose2:autodispose-android:2.1.1")
+    implementation("com.uber.autodispose2:autodispose-androidx-lifecycle:2.1.1")
 
     // okhttp3
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.9.3"))
@@ -132,8 +140,8 @@ dependencies {
     implementation("com.github.daniel-stoneuk:material-about-library:2.1.0")
 
     // requery
-    implementation("io.requery:requery:1.6.1")
-    implementation("io.requery:requery-android:1.6.1")
+    implementation("io.requery:requery:1.6.0")
+    implementation("io.requery:requery-android:1.6.0")
 //    kapt("io.requery:requery-processor:1.6.1")
 
     // about lib
@@ -159,7 +167,7 @@ dependencies {
     implementation("com.google.firebase:firebase-core:20.1.0")
     implementation("com.google.firebase:firebase-messaging:23.0.0")
     implementation("com.google.firebase:firebase-database:20.0.3")
-    implementation("com.firebase:firebase-jobdispatcher:0.8.2")
+//    implementation("com.firebase:firebase-jobdispatcher:0.8.6")
 //    implementation("com.google.android.gms:play-services-base:18.0.1")
 
     // rx billing
@@ -176,7 +184,7 @@ dependencies {
     kapt("com.evernote:android-state-processor:1.4.1")
 
     // color picker
-    implementation("petrov.kristiyan:colorpicker-library:1.1.4")
+    implementation("com.github.kristiyanP:colorpicker:v1.1.10")
 
     // apollo3
     implementation("com.apollographql.apollo3:apollo-runtime:3.1.0")

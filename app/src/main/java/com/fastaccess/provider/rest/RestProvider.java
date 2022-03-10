@@ -40,6 +40,7 @@ import com.google.gson.GsonBuilder;
 
 import java.io.File;
 import java.lang.reflect.Modifier;
+import java.util.Objects;
 
 import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
@@ -83,7 +84,7 @@ public class RestProvider {
 
     private static Retrofit provideRetrofit(boolean enterprise) {
         return new Retrofit.Builder()
-                .baseUrl(enterprise && PrefGetter.isEnterprise() ? LinkParserHelper.getEndpoint(PrefGetter.getEnterpriseUrl()) : BuildConfig.REST_URL)
+                .baseUrl(enterprise && PrefGetter.isEnterprise() ? LinkParserHelper.getEndpoint(Objects.requireNonNull(PrefGetter.getEnterpriseUrl())) : BuildConfig.REST_URL)
                 .client(provideOkHttpClient())
                 .addConverterFactory(new GithubResponseConverter(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

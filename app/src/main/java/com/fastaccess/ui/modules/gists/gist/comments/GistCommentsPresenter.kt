@@ -28,7 +28,7 @@ class GistCommentsPresenter : BasePresenter<GistCommentsMvp.View>(),
     override fun onError(throwable: Throwable) {
         sendToView { view: GistCommentsMvp.View ->
             onWorkOffline(
-                view.loadMore?.parameter!!
+                view.loadMore.parameter!!
             )
         }
         super.onError(throwable)
@@ -53,7 +53,7 @@ class GistCommentsPresenter : BasePresenter<GistCommentsMvp.View>(),
             }
             sendToView { view: GistCommentsMvp.View? ->
                 view?.onNotifyAdapter(
-                    listResponse.items?.filterNotNull(),
+                    listResponse.items?: listOf(),
                     page
                 )
             }
@@ -69,7 +69,7 @@ class GistCommentsPresenter : BasePresenter<GistCommentsMvp.View>(),
                 makeRestCall(
                     RestProvider.getGistService(isEnterprise)
                         .deleteGistComment(gistId, commId)
-                ) { booleanResponse: Response<Boolean?> ->
+                ) { booleanResponse: Response<Boolean> ->
                     sendToView { view ->
                         view ?: return@sendToView
                         if (booleanResponse.code() == 204) {
@@ -104,7 +104,7 @@ class GistCommentsPresenter : BasePresenter<GistCommentsMvp.View>(),
         }
     }
 
-    override fun onHandleComment(text: String, bundle: Bundle?, gistId: String?) {
+    override fun onHandleComment(text: String, bundle: Bundle, gistId: String) {
         val model = CommentRequestModel()
         model.body = text
         manageDisposable(RxHelper.getObservable(

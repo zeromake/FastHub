@@ -21,7 +21,7 @@ interface CreateGistMvp {
     interface Presenter : FAPresenter {
         fun onSubmit(
             description: String,
-            files: HashMap<String, FilesListModel>,
+            files: MutableMap<String, FilesListModel>,
             isPublic: Boolean
         )
 
@@ -29,7 +29,7 @@ interface CreateGistMvp {
         fun onSubmitUpdate(
             id: String,
             description: String,
-            files: HashMap<String, FilesListModel>
+            files: MutableMap<String, FilesListModel>
         )
     }
 }

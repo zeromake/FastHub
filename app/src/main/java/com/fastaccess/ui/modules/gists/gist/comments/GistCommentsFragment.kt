@@ -56,7 +56,7 @@ class GistCommentsFragment : BaseFragment<GistCommentsMvp.View, GistCommentsPres
     private var commentsCallback: CommentListener? = null
     private var gistId: String? = null
     private var adapter: CommentsAdapter? = null
-    private var onLoadMore: OnLoadMore<String?>? = null
+    private var onLoadMore: OnLoadMore<String>? = null
     override fun onAttach(context: Context) {
         super.onAttach(context)
         commentsCallback = if (parentFragment is CommentListener) {
@@ -92,10 +92,10 @@ class GistCommentsFragment : BaseFragment<GistCommentsMvp.View, GistCommentsPres
         stateLayout!!.setOnReloadListener(this)
         adapter = CommentsAdapter(presenter!!.comments)
         adapter!!.listener = presenter
-        loadMore?.initialize(presenter!!.currentPage, presenter!!.previousTotal)
+        loadMore.initialize(presenter!!.currentPage, presenter!!.previousTotal)
         recycler!!.adapter = adapter
         recycler!!.addKeyLineDivider()
-        loadMore?.let { recycler!!.addOnScrollListener(it) }
+        loadMore.let { recycler!!.addOnScrollListener(it) }
         recycler!!.addNormalSpacingDivider()
         if (presenter!!.comments.isEmpty() && !presenter!!.isApiCalled) {
             sparseBooleanArray = SparseBooleanArrayParcelable()
@@ -108,9 +108,9 @@ class GistCommentsFragment : BaseFragment<GistCommentsMvp.View, GistCommentsPres
         presenter!!.onCallApi(1, gistId)
     }
 
-    override fun onNotifyAdapter(items: List<Comment>?, page: Int) {
+    override fun onNotifyAdapter(items: List<Comment>, page: Int) {
         hideProgress()
-        if (items == null || items.isEmpty()) {
+        if (items.isEmpty()) {
             adapter!!.clear()
             return
         }
@@ -151,12 +151,12 @@ class GistCommentsFragment : BaseFragment<GistCommentsMvp.View, GistCommentsPres
         return GistCommentsPresenter()
     }
 
-    override val loadMore: OnLoadMore<String?>?
+    override val loadMore: OnLoadMore<String>
         get() {
             if (onLoadMore == null) {
-                onLoadMore = OnLoadMore(presenter, gistId)
+                onLoadMore = OnLoadMore(presenter, gistId!!)
             }
-            return onLoadMore
+            return onLoadMore!!
         }
 
     override fun onEditComment(item: Comment) {
@@ -192,18 +192,18 @@ class GistCommentsFragment : BaseFragment<GistCommentsMvp.View, GistCommentsPres
             .show(childFragmentManager, MessageDialogView.TAG)
     }
 
-    override fun onTagUser(user: User?) {
-        if (commentsCallback != null && user != null) {
+    override fun onTagUser(user: User) {
+        if (commentsCallback != null) {
             commentsCallback!!.onTagUser(user.login)
         }
     }
 
-    override fun onReply(user: User?, message: String?) {
+    override fun onReply(user: User, message: String) {
         onTagUser(user)
     }
 
-    override fun onHandleComment(text: String, bundle: Bundle?) {
-        presenter!!.onHandleComment(text, bundle, gistId)
+    override fun onHandleComment(text: String, bundle: Bundle) {
+        presenter!!.onHandleComment(text, bundle, gistId!!)
     }
 
     override fun onAddNewComment(comment: Comment) {
@@ -221,7 +221,7 @@ class GistCommentsFragment : BaseFragment<GistCommentsMvp.View, GistCommentsPres
     }
 
     override fun onDestroyView() {
-        loadMore?.let { recycler!!.removeOnScrollListener(it) }
+        loadMore.let { recycler!!.removeOnScrollListener(it) }
         super.onDestroyView()
     }
 

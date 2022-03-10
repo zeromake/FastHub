@@ -12,8 +12,12 @@ import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.evernote.android.state.StateSaver
 import com.fastaccess.data.dao.model.Login
+import com.fastaccess.helper.RxHelper
 import com.fastaccess.ui.base.mvp.BaseMvp.FAView
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
+import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import net.grandcentrix.thirtyinch.TiFragment
 
 /**
@@ -22,6 +26,39 @@ import net.grandcentrix.thirtyinch.TiFragment
 abstract class BaseFragment<V : FAView, P : BasePresenter<V>> : TiFragment<P, V>(), FAView {
     protected var callback: FAView? = null
     private var unbinder: Unbinder? = null
+    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
+
+    fun manageDisposable(vararg disposables: Disposable?) {
+        compositeDisposable.addAll(*disposables)
+    }
+
+    fun <T> manageObservable(observable: Observable<T>?) {
+        manageObservable(observable) {}
+    }
+
+    fun <T> manageObservable(observable: Observable<T>?, onNext: (T) -> Unit) {
+        if (observable != null) {
+            manageDisposable(
+                RxHelper.getObservable(observable)
+                    .subscribe(onNext) { obj: Throwable ->
+                        obj.printStackTrace()
+                        // Todo bugly
+                    }
+            )
+        }
+    }
+
+    fun disposable() {
+        if (!compositeDisposable.isDisposed) {
+            compositeDisposable.dispose()
+            compositeDisposable.clear()
+        }
+    }
+
+    override fun onDestroy() {
+        disposable()
+        super.onDestroy()
+    }
 
     @LayoutRes
     protected abstract fun fragmentLayout(): Int

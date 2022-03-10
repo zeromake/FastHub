@@ -13,7 +13,7 @@ import java.util.regex.Pattern
  * @author Vincent DURMONT [vdurmont@gmail.com]
  */
 object EmojiParser {
-    private val ALIAS_CANDIDATE_PATTERN = Pattern.compile("(?<=:)\\+?(\\w|\\||\\-)+(?=:)")
+    private val ALIAS_CANDIDATE_PATTERN = Pattern.compile("(?<=:)\\+?(\\w|\\||-)+(?=:)")
 
     /**
      * See [.parseToAliases] with the action
@@ -222,7 +222,7 @@ object EmojiParser {
      * @return the string with the emojis replaced by their html hex
      * representation.
      */
-    fun parseToHtmlHexadecimal(
+    private fun parseToHtmlHexadecimal(
         input: String,
         fitzpatrickAction: FitzpatrickAction
     ): String {
@@ -271,7 +271,7 @@ object EmojiParser {
             object : EmojiTransformer {
                 override fun transform(unicodeCandidate: UnicodeCandidate): String {
                     if (!emojisToRemove.contains(unicodeCandidate.emoji)) {
-                        return unicodeCandidate.emoji!!.unicode +
+                        return unicodeCandidate.emoji.unicode +
                                 unicodeCandidate.fitzpatrickUnicode
                     }
                     return ""

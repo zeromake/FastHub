@@ -61,6 +61,8 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.navigation.NavigationView
 import es.dmoral.toasty.Toasty
 import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import net.grandcentrix.thirtyinch.TiActivity
 
 /**
@@ -100,6 +102,35 @@ abstract class BaseActivity<V : FAView?, P : BasePresenter<V>?> : TiActivity<P, 
     protected abstract val isSecured: Boolean
     private val menuCallback: MutableList<(menu: Menu) -> Unit> = mutableListOf()
     private var drawerMenu: Menu? = null
+    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
+
+    fun manageDisposable(vararg disposables: Disposable?) {
+        compositeDisposable.addAll(*disposables)
+    }
+
+    fun <T> manageObservable(observable: Observable<T>?) {
+        manageObservable(observable) {}
+    }
+
+    fun <T> manageObservable(observable: Observable<T>?, onNext: (T) -> Unit) {
+        if (observable != null) {
+            manageDisposable(
+                RxHelper.getObservable(observable)
+                    .subscribe(onNext) { obj: Throwable ->
+                        obj.printStackTrace()
+                        // Todo bugly
+                    }
+            )
+        }
+    }
+
+
+    fun disposable() {
+        if (!compositeDisposable.isDisposed) {
+            compositeDisposable.dispose()
+            compositeDisposable.clear()
+        }
+    }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -122,6 +153,7 @@ abstract class BaseActivity<V : FAView?, P : BasePresenter<V>?> : TiActivity<P, 
         setupTheme()
         AppHelper.updateAppLanguage(this)
         super.onCreate(savedInstanceState)
+
         if (layout() != 0) {
             setContentView(layout())
             ButterKnife.bind(this)
@@ -320,6 +352,7 @@ abstract class BaseActivity<V : FAView?, P : BasePresenter<V>?> : TiActivity<P, 
 
     override fun onDestroy() {
         clearCachedComments()
+        disposable()
         super.onDestroy()
     }
 
@@ -525,7 +558,7 @@ abstract class BaseActivity<V : FAView?, P : BasePresenter<V>?> : TiActivity<P, 
         val intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(intent)
-        finishAndRemoveTask()
+        finish()
     }
 
     private fun showProgress(resId: Int, cancelable: Boolean) {

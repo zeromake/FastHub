@@ -14,7 +14,7 @@ import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 class CreateGistPresenter : BasePresenter<CreateGistMvp.View?>(), CreateGistMvp.Presenter {
     override fun onSubmit(
         description: String,
-        files: HashMap<String, FilesListModel>,
+        files: MutableMap<String, FilesListModel>,
         isPublic: Boolean
     ) {
         if (files.isEmpty()) return
@@ -34,7 +34,7 @@ class CreateGistPresenter : BasePresenter<CreateGistMvp.View?>(), CreateGistMvp.
     override fun onSubmitUpdate(
         id: String,
         description: String,
-        files: HashMap<String, FilesListModel>
+        files: MutableMap<String, FilesListModel>
     ) {
         val isEmptyDesc = isEmpty(description)
         if (view != null) {
