@@ -2,9 +2,9 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-parcelize")
-    id("com.apollographql.apollo3").version("3.1.0")
     id("kotlin-kapt")
-    id("com.mikepenz.aboutlibraries.plugin") version "10.0.0-rc02"
+    id("com.apollographql.apollo3").version("3.1.0")
+    id("com.mikepenz.aboutlibraries.plugin").version("10.0.0-rc02")
 }
 android {
     compileSdk = 31
@@ -146,8 +146,6 @@ dependencies {
     // htmlcleaner
     implementation("net.sourceforge.htmlcleaner:htmlcleaner:2.2")
 
-    // shortbread
-    implementation("com.github.matthiasrobbers:shortbread:1.4.0")
 
     // commonmark
     implementation("com.atlassian.commonmark:commonmark:0.10.0")
@@ -168,7 +166,7 @@ dependencies {
     implementation("com.github.miguelbcr:RxBillingService:0.0.3")
 
     // kotlin std
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.20-RC")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.10")
 
     // jsoup
     implementation("org.jsoup:jsoup:1.14.3")
@@ -201,8 +199,9 @@ dependencies {
     implementation("androidx.annotation:annotation:1.3.0")
 
 
+    // shortbread
+    implementation("com.github.matthiasrobbers:shortbread:1.4.0")
     kapt("com.github.matthiasrobbers:shortbread-compiler:1.4.0")
-
 
     // bugly
     implementation("com.tencent.bugly:crashreport:4.0.0")
