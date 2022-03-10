@@ -2,12 +2,14 @@ package com.fastaccess.ui.widgets.recyclerview;
 
 import android.content.Context;
 import android.content.res.Resources;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -24,20 +26,25 @@ import com.fastaccess.ui.widgets.StateLayout;
 public class DynamicRecyclerView extends RecyclerView {
 
     private StateLayout emptyView;
-    @Nullable private View parentView;
+    @Nullable
+    private View parentView;
     private BottomPaddingDecoration bottomPaddingDecoration;
 
-    @NonNull private AdapterDataObserver observer = new AdapterDataObserver() {
-        @Override public void onChanged() {
+    @NonNull
+    private final AdapterDataObserver observer = new AdapterDataObserver() {
+        @Override
+        public void onChanged() {
             showEmptyView();
         }
 
-        @Override public void onItemRangeInserted(int positionStart, int itemCount) {
+        @Override
+        public void onItemRangeInserted(int positionStart, int itemCount) {
             super.onItemRangeInserted(positionStart, itemCount);
             showEmptyView();
         }
 
-        @Override public void onItemRangeRemoved(int positionStart, int itemCount) {
+        @Override
+        public void onItemRangeRemoved(int positionStart, int itemCount) {
             super.onItemRangeRemoved(positionStart, itemCount);
             showEmptyView();
         }
@@ -55,7 +62,8 @@ public class DynamicRecyclerView extends RecyclerView {
         super(context, attrs, defStyle);
     }
 
-    @Override public void setAdapter(@Nullable Adapter adapter) {
+    @Override
+    public void setAdapter(@Nullable Adapter adapter) {
         super.setAdapter(adapter);
         if (isInEditMode()) return;
         if (adapter != null) {
@@ -122,7 +130,7 @@ public class DynamicRecyclerView extends RecyclerView {
     public void addKeyLineDivider() {
         if (canAddDivider()) {
             Resources resources = getResources();
-            addItemDecoration(new InsetDividerDecoration(resources.getDimensionPixelSize(R.dimen.divider_height),
+            addItemDecoration(new InsetDividerDecoration<>(resources.getDimensionPixelSize(R.dimen.divider_height),
                     resources.getDimensionPixelSize(R.dimen.keyline_2), ViewHelper.getListDivider(getContext())));
         }
     }
@@ -130,7 +138,7 @@ public class DynamicRecyclerView extends RecyclerView {
     public void addDivider() {
         if (canAddDivider()) {
             Resources resources = getResources();
-            addItemDecoration(new InsetDividerDecoration(resources.getDimensionPixelSize(R.dimen.divider_height), 0,
+            addItemDecoration(new InsetDividerDecoration<>(resources.getDimensionPixelSize(R.dimen.divider_height), 0,
                     ViewHelper.getListDivider(getContext())));
         }
     }
@@ -139,10 +147,10 @@ public class DynamicRecyclerView extends RecyclerView {
         addDivider();
     }
 
-    public void addDivider(@NonNull Class toDivide) {
+    public <P extends RecyclerView.ViewHolder> void addDivider(@NonNull Class<P> toDivide) {
         if (canAddDivider()) {
             Resources resources = getResources();
-            addItemDecoration(new InsetDividerDecoration(resources.getDimensionPixelSize(R.dimen.divider_height), 0,
+            addItemDecoration(new InsetDividerDecoration<>(resources.getDimensionPixelSize(R.dimen.divider_height), 0,
                     ViewHelper.getListDivider(getContext()), toDivide));
         }
     }

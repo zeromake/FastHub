@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.transition.ChangeBounds;
 import androidx.transition.TransitionManager;
 import androidx.appcompat.widget.AppCompatImageView;
+
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +62,8 @@ public class ReviewCommentsViewHolder extends BaseViewHolder<ReviewCommentModel>
     private final String repoOwner;
     private final String poster;
 
-    @Override public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
         if (v.getId() == R.id.toggle || v.getId() == R.id.toggleHolder) {
             if (onToggleView != null) {
                 long id = getId();
@@ -74,7 +76,8 @@ public class ReviewCommentsViewHolder extends BaseViewHolder<ReviewCommentModel>
         }
     }
 
-    private ReviewCommentsViewHolder(@NonNull View itemView, ViewGroup viewGroup, @Nullable BaseRecyclerAdapter<?, ?, ?> adapter,
+    private ReviewCommentsViewHolder(@NonNull View itemView, ViewGroup viewGroup, @Nullable BaseRecyclerAdapter<ReviewCommentModel, ReviewCommentsViewHolder, BaseViewHolder
+            .OnItemClickListener<ReviewCommentModel>> adapter,
                                      @NonNull OnToggleView onToggleView, @NonNull ReactionsCallback reactionsCallback,
                                      String repoOwner, String poster) {
         super(itemView, adapter);
@@ -102,7 +105,8 @@ public class ReviewCommentsViewHolder extends BaseViewHolder<ReviewCommentModel>
         this.heartReaction = itemView.findViewById((R.id.heartReaction));
         if (adapter != null && adapter.getRowWidth() == 0) {
             itemView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-                @Override public boolean onPreDraw() {
+                @Override
+                public boolean onPreDraw() {
                     itemView.getViewTreeObserver().removeOnPreDrawListener(this);
                     adapter.setRowWidth(itemView.getWidth() - ViewHelper.dpToPx(itemView.getContext(), 48));
                     return false;
@@ -145,14 +149,16 @@ public class ReviewCommentsViewHolder extends BaseViewHolder<ReviewCommentModel>
         heartReaction.setOnLongClickListener(this);
     }
 
-    public static ReviewCommentsViewHolder newInstance(ViewGroup viewGroup, BaseRecyclerAdapter<?, ?, ?> adapter,
+    public static ReviewCommentsViewHolder newInstance(ViewGroup viewGroup, BaseRecyclerAdapter<ReviewCommentModel, ReviewCommentsViewHolder, BaseViewHolder
+            .OnItemClickListener<ReviewCommentModel>> adapter,
                                                        @NonNull OnToggleView onToggleView, @NonNull ReactionsCallback reactionsCallback,
                                                        String repoOwner, String poster) {
         return new ReviewCommentsViewHolder(getView(viewGroup, R.layout.review_comments_row_item),
                 viewGroup, adapter, onToggleView, reactionsCallback, repoOwner, poster);
     }
 
-    @Override public void bind(@NonNull ReviewCommentModel commentModel) {
+    @Override
+    public void bind(@NonNull ReviewCommentModel commentModel) {
         if (commentModel.getUser() != null) {
             avatarView.setUrl(commentModel.getUser().getAvatarUrl(), commentModel.getUser().getLogin(), commentModel.getUser()
                     .isOrganizationType(), LinkParserHelper.isEnterprise(commentModel.getHtmlUrl()));
@@ -250,13 +256,14 @@ public class ReviewCommentsViewHolder extends BaseViewHolder<ReviewCommentModel>
         commentOptions.setVisibility(!expanded ? View.GONE : View.VISIBLE);
         reactionsList.setVisibility(expanded ? View.GONE : View.VISIBLE);
         reactionsList.setVisibility(expanded ? View.GONE : reactionsList.getTag() == null || (!((Boolean) reactionsList.getTag()))
-                                                           ? View.GONE : View.VISIBLE);
+                ? View.GONE : View.VISIBLE);
     }
 
-    @Override protected void onViewIsDetaching() {
+    @Override
+    protected void onViewIsDetaching() {
         DrawableGetter drawableGetter = (DrawableGetter) comment.getTag(R.id.drawable_callback);
         if (drawableGetter != null) {
-            drawableGetter.clear(drawableGetter);
+            drawableGetter.clear(viewGroup.getContext(), drawableGetter);
         }
     }
 }

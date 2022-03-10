@@ -7,6 +7,8 @@ import com.fastaccess.helper.PrefGetter
 import com.fastaccess.helper.PrefGetter.ThemeType
 import com.fastaccess.helper.ViewHelper
 import org.jsoup.Jsoup
+import retrofit2.http.Url
+import java.net.URL
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -69,7 +71,7 @@ object GithubHelper {
     private fun getParsedHtml(
         source: String, owner: String?, repoName: String?,
         builder: String, baseLinkUrl: String, isWiki: Boolean,
-        branch: String?,
+        branch: String? = "master",
     ): String {
         val document = Jsoup.parse(source, "")
         val imageElements = document.getElementsByTag("img")
@@ -84,6 +86,7 @@ object GithubHelper {
                         "https://raw.githubusercontent.com/$builder$src"
                     }
                     element.attr("src", finalSrc)
+                    element.attr("origin-src", src)
 //                    element.attr("href", finalSrc)
                 }
             }
@@ -99,9 +102,14 @@ object GithubHelper {
                     continue
                 }
                 val child = element.children().first()
+                // a tag child is img, href change to img src
                 if (child != null && child.tagName() == "img") {
-                    element.attr("href", child.attr("src"))
-                    continue
+                    val imgSrc = child.attr("origin-src")
+                    if (href.equals(imgSrc)) {
+                        element.attr("href", child.attr("src"))
+                        element.attr("origin-href", href)
+                        continue
+                    }
                 }
                 val finalSrc: String =
                     if (isWiki && href.startsWith("wiki") || href.startsWith("./wiki")) {
@@ -113,8 +121,8 @@ object GithubHelper {
                             "https://raw.githubusercontent.com/$builder$href"
                         }
                     }
-
                 element.attr("href", finalSrc)
+                element.attr("origin-href", href)
             }
         }
         return document.html()
@@ -144,15 +152,19 @@ object GithubHelper {
     }
 
     private fun mergeContent(context: Context, source: String, dark: Boolean): String {
+        // <script src="./intercept-hash.js"></script> <script src="./intercept-touch.js"></script>
         return """${HtmlHelper.HTML_HEADER}
 ${HtmlHelper.HEAD_HEADER}
     <link rel="stylesheet" type="text/css" href="${getStyle(dark)}">
     ${getCodeStyle(context, dark)}
-    <script src="./intercept-hash.js"></script>
+    <style>
+    video {
+        width: 100%;
+    }
+    </style>
 ${HtmlHelper.HEAD_BOTTOM}
 ${HtmlHelper.BODY_HEADER}
 $source
-    <script src="./intercept-touch.js"></script>
 ${HtmlHelper.BODY_BOTTOM}
 ${HtmlHelper.HTML_BOTTOM}"""
     }
@@ -169,8 +181,9 @@ ${HtmlHelper.HTML_BOTTOM}"""
                 .uppercase(Locale.getDefault())
         return """<style>
     body .highlight pre, body pre {
-    background-color: $primaryColor !important;
-    ${if (PrefGetter.getThemeType(context) == PrefGetter.AMLOD) "border: solid 1px $accentColor !important;\n" else ""}}
+        background-color: $primaryColor !important;
+        ${if (PrefGetter.getThemeType(context) == PrefGetter.AMLOD) "border: solid 1px $accentColor !important;\n" else ""}
+    }
     </style>"""
     }
 

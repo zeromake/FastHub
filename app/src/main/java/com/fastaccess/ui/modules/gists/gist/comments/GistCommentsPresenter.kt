@@ -18,32 +18,17 @@ import retrofit2.Response
 /**
  * Created by Kosh on 11 Nov 2016, 12:36 PM
  */
-class GistCommentsPresenter : BasePresenter<GistCommentsMvp.View?>(),
+class GistCommentsPresenter : BasePresenter<GistCommentsMvp.View>(),
     GistCommentsMvp.Presenter {
     override val comments = ArrayList<Comment>()
-    private var page = 0
-    private var previousTotal = 0
+    override var currentPage = 0
+    override var previousTotal = 0
     private var lastPage = Int.MAX_VALUE
-    override fun getCurrentPage(): Int {
-        return page
-    }
-
-    override fun getPreviousTotal(): Int {
-        return previousTotal
-    }
-
-    override fun setCurrentPage(page: Int) {
-        this.page = page
-    }
-
-    override fun setPreviousTotal(previousTotal: Int) {
-        this.previousTotal = previousTotal
-    }
 
     override fun onError(throwable: Throwable) {
-        sendToView { view: GistCommentsMvp.View? ->
+        sendToView { view: GistCommentsMvp.View ->
             onWorkOffline(
-                view!!.loadMore?.parameter!!
+                view.loadMore?.parameter!!
             )
         }
         super.onError(throwable)

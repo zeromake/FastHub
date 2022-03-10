@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,13 +18,15 @@ import java.util.List;
 /**
  * Created by Kosh on 17 May 2016, 7:10 PM
  */
-public abstract class BaseRecyclerAdapter<M, VH extends BaseViewHolder<?>,
+public abstract class BaseRecyclerAdapter<M, VH extends BaseViewHolder<M>,
         P extends BaseViewHolder.OnItemClickListener<M>> extends RecyclerView.Adapter<VH> {
 
     private final static int PROGRESS_TYPE = 2017;
 
-    @NonNull private final List<M> data;
-    @Nullable private P listener;
+    @NonNull
+    private final List<M> data;
+    @Nullable
+    private P listener;
     private int lastKnowingPosition = -1;
     private boolean enableAnimation = PrefGetter.isRVAnimationEnabled();
     private boolean showedGuide;
@@ -52,7 +55,8 @@ public abstract class BaseRecyclerAdapter<M, VH extends BaseViewHolder<?>,
 
     protected abstract void onBindView(VH holder, int position);
 
-    @NonNull public List<M> getData() {
+    @NonNull
+    public List<M> getData() {
         return data;
     }
 
@@ -68,7 +72,9 @@ public abstract class BaseRecyclerAdapter<M, VH extends BaseViewHolder<?>,
         return data.indexOf(t);
     }
 
-    @SuppressWarnings("unchecked") @Override public VH onCreateViewHolder(ViewGroup parent, int viewType) {
+    @SuppressWarnings("unchecked")
+    @Override
+    public VH onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == PROGRESS_TYPE) {
             addSpanLookup(parent);
             return (VH) ProgressBarViewHolder.newInstance(parent);
@@ -77,7 +83,8 @@ public abstract class BaseRecyclerAdapter<M, VH extends BaseViewHolder<?>,
         }
     }
 
-    @Override public void onBindViewHolder(@NonNull VH holder, int position) {
+    @Override
+    public void onBindViewHolder(@NonNull VH holder, int position) {
         if (holder instanceof ProgressBarViewHolder) {
             if (holder.itemView.getLayoutParams() instanceof StaggeredGridLayoutManager.LayoutParams) {
                 StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
@@ -90,14 +97,16 @@ public abstract class BaseRecyclerAdapter<M, VH extends BaseViewHolder<?>,
         }
     }
 
-    @Override public int getItemViewType(int position) {
+    @Override
+    public int getItemViewType(int position) {
         if (getItem(position) == null) {
             return PROGRESS_TYPE;
         }
         return super.getItemViewType(position);
     }
 
-    @Override public int getItemCount() {
+    @Override
+    public int getItemCount() {
         return data.size();
     }
 
@@ -138,13 +147,15 @@ public abstract class BaseRecyclerAdapter<M, VH extends BaseViewHolder<?>,
         }
     }
 
-    @SuppressWarnings("WeakerAccess") public void addItems(@NonNull List<M> items) {
+    @SuppressWarnings("WeakerAccess")
+    public void addItems(@NonNull List<M> items) {
         removeProgress();
         data.addAll(items);
         notifyItemRangeInserted(getItemCount(), (getItemCount() + items.size()) - 1);
     }
 
-    @SuppressWarnings("WeakerAccess") public void removeItem(int position) {
+    @SuppressWarnings("WeakerAccess")
+    public void removeItem(int position) {
         data.remove(position);
         notifyItemRemoved(position);
     }
@@ -193,11 +204,14 @@ public abstract class BaseRecyclerAdapter<M, VH extends BaseViewHolder<?>,
         notifyDataSetChanged();
     }
 
-    @SuppressWarnings("WeakerAccess") public boolean isEnableAnimation() {
+    @SuppressWarnings("WeakerAccess")
+    public boolean isEnableAnimation() {
         return enableAnimation;
     }
 
-    @SuppressWarnings("WeakerAccess") @Nullable public P getListener() {
+    @SuppressWarnings("WeakerAccess")
+    @Nullable
+    public P getListener() {
         return listener;
     }
 
@@ -225,7 +239,8 @@ public abstract class BaseRecyclerAdapter<M, VH extends BaseViewHolder<?>,
         return showedGuide;
     }
 
-    @Override public void onViewDetachedFromWindow(VH holder) {
+    @Override
+    public void onViewDetachedFromWindow(VH holder) {
         holder.onViewIsDetaching();
         super.onViewDetachedFromWindow(holder);
     }
@@ -256,7 +271,8 @@ public abstract class BaseRecyclerAdapter<M, VH extends BaseViewHolder<?>,
             if (((RecyclerView) parent).getLayoutManager() instanceof GridLayoutManager) {
                 GridLayoutManager layoutManager = ((GridLayoutManager) ((RecyclerView) parent).getLayoutManager());
                 layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                    @Override public int getSpanSize(int position) {
+                    @Override
+                    public int getSpanSize(int position) {
                         return getItemViewType(position) == PROGRESS_TYPE ? layoutManager.getSpanCount() : 1;
                     }
                 });

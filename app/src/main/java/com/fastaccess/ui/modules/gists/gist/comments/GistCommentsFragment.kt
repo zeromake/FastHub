@@ -32,7 +32,7 @@ import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
 /**
  * Created by Kosh on 11 Nov 2016, 12:36 PM
  */
-class GistCommentsFragment : BaseFragment<GistCommentsMvp.View?, GistCommentsPresenter?>(),
+class GistCommentsFragment : BaseFragment<GistCommentsMvp.View, GistCommentsPresenter>(),
     GistCommentsMvp.View {
     @JvmField
     @BindView(R.id.recycler)
@@ -137,9 +137,9 @@ class GistCommentsFragment : BaseFragment<GistCommentsMvp.View?, GistCommentsPre
         stateLayout!!.showProgress()
     }
 
-    override fun showErrorMessage(message: String) {
+    override fun showErrorMessage(msgRes: String) {
         showReload()
-        super.showErrorMessage(message)
+        super.showErrorMessage(msgRes)
     }
 
     override fun showMessage(titleRes: Int, msgRes: Int) {

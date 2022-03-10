@@ -2,6 +2,7 @@ package com.fastaccess.ui.adapter.viewholder;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -24,13 +25,18 @@ import butterknife.BindView;
 
 public class AssigneesViewHolder extends BaseViewHolder<User> {
 
-    @BindView(R.id.avatarLayout) AvatarLayout avatar;
-    @BindView(R.id.title) FontTextView title;
-    @BindView(R.id.date) FontTextView date;
-    @BindColor(R.color.light_gray) int lightGray;
+    @BindView(R.id.avatarLayout)
+    AvatarLayout avatar;
+    @BindView(R.id.title)
+    FontTextView title;
+    @BindView(R.id.date)
+    FontTextView date;
+    @BindColor(R.color.light_gray)
+    int lightGray;
     private final AssigneesAdapter.OnSelectAssignee onSelectAssignee;
 
-    @Override public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
         if (onSelectAssignee != null) {
             int position = getAdapterPosition();
             onSelectAssignee.onToggleSelection(position, !onSelectAssignee.isAssigneeSelected(position));
@@ -40,7 +46,7 @@ public class AssigneesViewHolder extends BaseViewHolder<User> {
     }
 
     private AssigneesViewHolder(@NonNull View itemView, @Nullable AssigneesAdapter.OnSelectAssignee onSelectAssignee,
-                                @NonNull BaseRecyclerAdapter adapter) {
+                                @NonNull BaseRecyclerAdapter<User, AssigneesViewHolder, BaseViewHolder.OnItemClickListener<User>> adapter) {
         super(itemView, adapter);
         this.onSelectAssignee = onSelectAssignee;
     }
@@ -50,7 +56,8 @@ public class AssigneesViewHolder extends BaseViewHolder<User> {
         return new AssigneesViewHolder(getView(viewGroup, R.layout.feeds_row_item), onSelectAssignee, adapter);
     }
 
-    @Override public void bind(@NonNull User user) {
+    @Override
+    public void bind(@NonNull User user) {
         avatar.setUrl(user.getAvatarUrl(), user.getLogin(), user.isOrganizationType(), LinkParserHelper.isEnterprise(user.getHtmlUrl()));
         title.setText(user.getLogin());
         date.setVisibility(View.GONE);

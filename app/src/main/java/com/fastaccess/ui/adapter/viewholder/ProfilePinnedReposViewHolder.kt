@@ -15,7 +15,7 @@ import java.text.NumberFormat
  */
 class ProfilePinnedReposViewHolder private constructor(
     view: View,
-    adapter: BaseRecyclerAdapter<*, *, *>
+    adapter: BaseRecyclerAdapter<GetPinnedReposQuery.Node, ProfilePinnedReposViewHolder, OnItemClickListener<GetPinnedReposQuery.Node>>
 ) :
     BaseViewHolder<GetPinnedReposQuery.Node>(view, adapter) {
 
@@ -54,7 +54,7 @@ class ProfilePinnedReposViewHolder private constructor(
     companion object {
         fun newInstance(
             parent: ViewGroup,
-            adapter: BaseRecyclerAdapter<*, *, *>
+            adapter: BaseRecyclerAdapter<GetPinnedReposQuery.Node, ProfilePinnedReposViewHolder, OnItemClickListener<GetPinnedReposQuery.Node>>
         ): ProfilePinnedReposViewHolder {
             return ProfilePinnedReposViewHolder(
                 getView(

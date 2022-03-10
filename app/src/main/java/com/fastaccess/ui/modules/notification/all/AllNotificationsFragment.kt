@@ -31,7 +31,7 @@ import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
  * Created by Kosh on 20 Feb 2017, 8:50 PM
  */
 class AllNotificationsFragment :
-    BaseFragment<AllNotificationsMvp.View?, AllNotificationsPresenter?>(),
+    BaseFragment<AllNotificationsMvp.View, AllNotificationsPresenter>(),
     AllNotificationsMvp.View {
     @JvmField
     @BindView(R.id.recycler)
@@ -71,16 +71,16 @@ class AllNotificationsFragment :
         presenter!!.onCallApi()
     }
 
-    override fun onUpdateReadState(item: GroupedNotificationModel?, position: Int) {
+    override fun onUpdateReadState(item: GroupedNotificationModel, position: Int) {
         if (onNotificationChangedListener != null) onNotificationChangedListener!!.onNotificationChanged(
-            item!!, 0
+            item, 0
         )
-        adapter!!.swapItem(item!!, position)
+        adapter!!.swapItem(item, position)
     }
 
-    override fun onNotifyAdapter(items: List<GroupedNotificationModel?>?) {
+    override fun onNotifyAdapter(items: List<GroupedNotificationModel>) {
         hideProgress()
-        if (items == null || items.isEmpty()) {
+        if (items.isEmpty()) {
             adapter!!.clear()
             return
         }
@@ -149,9 +149,9 @@ class AllNotificationsFragment :
         stateLayout!!.showReload(adapter!!.itemCount)
     }
 
-    override fun showErrorMessage(message: String) {
+    override fun showErrorMessage(msgRes: String) {
         showReload()
-        super.showErrorMessage(message)
+        super.showErrorMessage(msgRes)
     }
 
     override fun showMessage(titleRes: Int, msgRes: Int) {

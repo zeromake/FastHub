@@ -25,7 +25,7 @@ public class UsersViewHolder extends BaseViewHolder<User> {
     FontTextView date;
     private final boolean isFilter;
 
-    private UsersViewHolder(@NonNull View itemView, @Nullable BaseRecyclerAdapter<?, ?, ?> adapter, boolean isFilter) {
+    private UsersViewHolder(@NonNull View itemView, @Nullable BaseRecyclerAdapter<User, UsersViewHolder, BaseViewHolder.OnItemClickListener<User>> adapter, boolean isFilter) {
         super(itemView, adapter);
         this.isFilter = isFilter;
         this.avatar = itemView.findViewById(R.id.avatarLayout);
@@ -33,7 +33,7 @@ public class UsersViewHolder extends BaseViewHolder<User> {
         this.date = itemView.findViewById(R.id.date);
     }
 
-    public static UsersViewHolder newInstance(@NonNull ViewGroup parent, @Nullable BaseRecyclerAdapter<?, ?, ?> adapter, boolean isFilter) {
+    public static UsersViewHolder newInstance(@NonNull ViewGroup parent, @Nullable BaseRecyclerAdapter<User, UsersViewHolder, BaseViewHolder.OnItemClickListener<User>> adapter, boolean isFilter) {
         return new UsersViewHolder(getView(parent, isFilter ? R.layout.users_small_row_item : R.layout.feeds_row_item), adapter, isFilter);
     }
 

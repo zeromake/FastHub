@@ -36,7 +36,8 @@ public class RepoFilesViewHolder extends BaseViewHolder<RepoFile> {
         }
     }
 
-    private RepoFilesViewHolder(@NonNull View itemView, @NonNull BaseRecyclerAdapter<?,?,?> adapter) {
+    private RepoFilesViewHolder(@NonNull View itemView, @NonNull BaseRecyclerAdapter<RepoFile, RepoFilesViewHolder, BaseViewHolder
+            .OnItemClickListener<RepoFile>> adapter) {
         super(itemView, adapter);
         this.contentTypeImage = itemView.findViewById((R.id.contentTypeImage));
         this.title = itemView.findViewById((R.id.title));
@@ -49,7 +50,8 @@ public class RepoFilesViewHolder extends BaseViewHolder<RepoFile> {
         contentTypeImage.setOnClickListener(this);
     }
 
-    public static RepoFilesViewHolder newInstance(ViewGroup viewGroup, BaseRecyclerAdapter<?,?,?> adapter) {
+    public static RepoFilesViewHolder newInstance(ViewGroup viewGroup, BaseRecyclerAdapter<RepoFile, RepoFilesViewHolder, BaseViewHolder
+            .OnItemClickListener<RepoFile>> adapter) {
         return new RepoFilesViewHolder(getView(viewGroup, R.layout.repo_files_row_item), adapter);
     }
 

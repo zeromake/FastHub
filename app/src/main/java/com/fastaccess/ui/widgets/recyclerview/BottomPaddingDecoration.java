@@ -31,7 +31,7 @@ class BottomPaddingDecoration extends RecyclerView.ItemDecoration {
         return new BottomPaddingDecoration(context);
     }
 
-    @Override public void getItemOffsets(@NonNull Rect outRect, View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+    @Override public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
         int dataSize = state.getItemCount();
         int position = parent.getChildAdapterPosition(view);

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.transition.ChangeBounds;
 import androidx.transition.TransitionManager;
+
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,7 +69,8 @@ public class TimelineCommentsViewHolder extends BaseViewHolder<TimelineModel> {
     private final String repoOwner;
     private final String poster;
 
-    @Override public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
         if (v.getId() == R.id.toggle || v.getId() == R.id.toggleHolder) {
             if (onToggleView != null) {
                 int position = getAbsoluteAdapterPosition();
@@ -111,7 +113,8 @@ public class TimelineCommentsViewHolder extends BaseViewHolder<TimelineModel> {
         this.heartReaction = itemView.findViewById((R.id.heartReaction));
         if (adapter != null && adapter.getRowWidth() == 0) {
             itemView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-                @Override public boolean onPreDraw() {
+                @Override
+                public boolean onPreDraw() {
                     itemView.getViewTreeObserver().removeOnPreDrawListener(this);
                     adapter.setRowWidth(itemView.getWidth() - ViewHelper.dpToPx(itemView.getContext(), 48));
                     return false;
@@ -163,7 +166,8 @@ public class TimelineCommentsViewHolder extends BaseViewHolder<TimelineModel> {
                 onToggleView, showEmojies, reactionsCallback, repoOwner, poster);
     }
 
-    @Override public void bind(@NonNull TimelineModel timelineModel) {
+    @Override
+    public void bind(@NonNull TimelineModel timelineModel) {
         Comment commentsModel = timelineModel.getComment();
         if (commentsModel.getUser() != null) {
             avatar.setUrl(commentsModel.getUser().getAvatarUrl(), commentsModel.getUser().getLogin(),
@@ -279,13 +283,14 @@ public class TimelineCommentsViewHolder extends BaseViewHolder<TimelineModel> {
         commentOptions.setVisibility(!expanded ? View.GONE : View.VISIBLE);
         reactionsList.setVisibility(expanded ? View.GONE : View.VISIBLE);
         reactionsList.setVisibility(expanded ? View.GONE : reactionsList.getTag() == null || (!((Boolean) reactionsList.getTag()))
-                                                           ? View.GONE : View.VISIBLE);
+                ? View.GONE : View.VISIBLE);
     }
 
-    @Override protected void onViewIsDetaching() {
+    @Override
+    protected void onViewIsDetaching() {
         DrawableGetter drawableGetter = (DrawableGetter) comment.getTag(R.id.drawable_callback);
         if (drawableGetter != null) {
-            drawableGetter.clear(drawableGetter);
+            drawableGetter.clear(viewGroup.getContext(), drawableGetter);
         }
     }
 }

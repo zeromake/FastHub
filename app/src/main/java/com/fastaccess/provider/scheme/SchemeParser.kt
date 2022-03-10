@@ -169,12 +169,12 @@ object SchemeParser {
                 return if (intentOptional.isPresent && intentOptional !== empty) {
                     val intent = intentOptional.get()
                     if (isEnterprise) {
-                        if (intent?.extras != null) {
+                        if (intent.extras != null) {
                             val bundle = intent.extras
                             bundle!!.putBoolean(BundleConstant.IS_ENTERPRISE, true)
                             intent.putExtras(bundle)
                         } else {
-                            intent?.putExtra(BundleConstant.IS_ENTERPRISE, true)
+                            intent.putExtra(BundleConstant.IS_ENTERPRISE, true)
                         }
                     }
                     intent
@@ -419,7 +419,7 @@ object SchemeParser {
                 ) || !value.equals("v3", ignoreCase = true)
             }
             .toList()
-        if (segments == null || segments.isEmpty() || segments.size < 3) return null
+        if (segments.isEmpty() || segments.size < 3) return null
         var login: String? = null
         var repoId: String? = null
         var sha: String? = null

@@ -38,7 +38,7 @@ class CheckPurchaseActivity : Activity() {
                             .getPurchases(ProductType.IN_APP)
                             .toMaybe()
                             .blockingGet(mutableListOf())
-                    if (!purchases.isEmpty()) {
+                    if (purchases.isNotEmpty()) {
                         purchases.filterNotNull()
                                 .map { it.sku() }
                                 .filterNot { !it.isNullOrBlank() }
@@ -68,9 +68,7 @@ class CheckPurchaseActivity : Activity() {
     }
 
     override fun onDestroy() {
-        progress?.let {
-            it.dismiss()
-        }
+        progress?.dismiss()
         disposable?.let {
             if (!it.isDisposed) it.dispose()
         }

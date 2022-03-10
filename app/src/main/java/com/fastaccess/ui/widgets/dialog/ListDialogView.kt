@@ -60,6 +60,7 @@ class ListDialogView<O : Parcelable?> : BaseDialogFragment<BaseMvp.FAView, BaseP
         fastScroller.attachRecyclerView(recycler)
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (parentFragment != null && parentFragment is OnSimpleItemSelection<*>) {

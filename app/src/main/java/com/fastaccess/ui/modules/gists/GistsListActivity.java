@@ -3,10 +3,14 @@ package com.fastaccess.ui.modules.gists;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+
 import androidx.fragment.app.Fragment;
+
 import android.view.MenuItem;
 
 import com.fastaccess.R;
@@ -32,49 +36,61 @@ import butterknife.OnClick;
 
 public class GistsListActivity extends BaseActivity {
 
-    @BindView(R.id.tabs) TabLayout tabs;
-    @BindView(R.id.gistsContainer) ViewPagerView pager;
-    @BindView(R.id.fab) FloatingActionButton fab;
+    @BindView(R.id.tabs)
+    TabLayout tabs;
+    @BindView(R.id.gistsContainer)
+    ViewPagerView pager;
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
 
     public static void startActivity(@NonNull Context context) {
         context.startActivity(new Intent(context, GistsListActivity.class));
     }
 
-    @Override protected int layout() {
+    @Override
+    protected int layout() {
         return R.layout.gists_activity_layout;
     }
 
-    @Override protected boolean isTransparent() {
+    @Override
+    protected boolean isTransparent() {
         return true;
     }
 
-    @Override protected boolean canBack() {
+    @Override
+    protected boolean canBack() {
         return true;
     }
 
-    @Override protected boolean isSecured() {
+    @Override
+    protected boolean isSecured() {
         return false;
     }
 
-    @NonNull @Override public TiPresenter providePresenter() {
+    @NonNull
+    @Override
+    public TiPresenter providePresenter() {
         return new BasePresenter();
     }
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(R.string.gists);
         setTaskName(getString(R.string.gists));
         setupTabs();
         fab.show();
         tabs.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(pager) {
-            @Override public void onTabReselected(TabLayout.Tab tab) {
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
                 super.onTabReselected(tab);
                 onScrollTop(tab.getPosition());
             }
         });
     }
 
-    @Override public void onScrollTop(int index) {
+    @Override
+    public void onScrollTop(int index) {
         if (pager == null || pager.getAdapter() == null) return;
         Fragment fragment = (BaseFragment) pager.getAdapter().instantiateItem(pager, index);
         if (fragment instanceof BaseFragment) {
@@ -82,11 +98,13 @@ public class GistsListActivity extends BaseActivity {
         }
     }
 
-    @OnClick(R.id.fab) public void onViewClicked() {
+    @OnClick(R.id.fab)
+    public void onViewClicked() {
         ActivityHelper.startReveal(this, new Intent(this, CreateGistActivity.class), fab, BundleConstant.REQUEST_CODE);
     }
 
-    @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == BundleConstant.REQUEST_CODE) {
             if (pager != null && pager.getAdapter() != null) {
@@ -95,9 +113,10 @@ public class GistsListActivity extends BaseActivity {
         }
     }
 
-    @Override public boolean onOptionsItemSelected(MenuItem item) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            startActivity(new Intent(this, MainActivity.class));
+            MainActivity.launchMainActivity(this, true);
             finish();
             return true;
         }

@@ -17,6 +17,8 @@ import com.fastaccess.ui.widgets.ForegroundImageView;
 import com.fastaccess.ui.widgets.SpannableBuilder;
 import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder;
 
+import java.util.Objects;
+
 import butterknife.BindColor;
 import butterknife.BindView;
 
@@ -84,10 +86,10 @@ public class PullStatusViewHolder extends BaseViewHolder<PullRequestStatusModel>
                     .filter(statusesModel -> statusesModel != null && statusesModel.getState() != null && statusesModel.getTargetUrl() != null)
                     .forEach(statusesModel -> {
                         if (!InputHelper.isEmpty(statusesModel.getTargetUrl())) {
-                            builder.append(ContextCompat.getDrawable(statuses.getContext(), statusesModel.getState().getDrawableRes()));
+                            builder.append(ContextCompat.getDrawable(statuses.getContext(), Objects.requireNonNull(statusesModel.getState()).getDrawableRes()));
                             builder.append(" ")
                                     .append(statusesModel.getContext() != null ? statusesModel.getContext() + " " : "")
-                                    .url(statusesModel.getDescription(), v -> SchemeParser.launchUri(v.getContext(), statusesModel.getTargetUrl()))
+                                    .url(Objects.requireNonNull(statusesModel.getDescription()), v -> SchemeParser.launchUri(v.getContext(), Objects.requireNonNull(statusesModel.getTargetUrl())))
                                     .append("\n");
                         }
                     });

@@ -7,28 +7,28 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.annotation.ColorInt
-import com.google.android.material.navigation.NavigationView
-import androidx.drawerlayout.widget.DrawerLayout
 import android.text.Editable
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
-import butterknife.BindView
-import butterknife.OnClick
-import butterknife.OnEditorAction
-import butterknife.OnTextChanged
+import androidx.annotation.ColorInt
+import androidx.core.widget.addTextChangedListener
+import androidx.drawerlayout.widget.DrawerLayout
 import com.evernote.android.state.State
 import com.fastaccess.R
-import com.fastaccess.helper.*
 import com.fastaccess.data.dao.TrendingModel
+import com.fastaccess.databinding.TrendingActivityLayoutBinding
+import com.fastaccess.helper.*
 import com.fastaccess.provider.scheme.LinkParserHelper
 import com.fastaccess.ui.base.BaseActivity
+import com.fastaccess.ui.delegate.viewBinding
 import com.fastaccess.ui.modules.main.MainActivity
 import com.fastaccess.ui.modules.trending.fragment.TrendingFragment
 import com.fastaccess.ui.widgets.FontEditText
+import com.fastaccess.utils.setOnThrottleClickListener
+import com.google.android.material.navigation.NavigationView
 import java.util.*
 
 
@@ -39,18 +39,28 @@ import java.util.*
 class TrendingActivity : BaseActivity<TrendingMvp.View, TrendingPresenter>(), TrendingMvp.View {
     private var trendingFragment: TrendingFragment? = null
 
-    @BindView(R.id.navMenu) lateinit var navMenu: NavigationView
-    @BindView(R.id.daily) lateinit var daily: TextView
-    @BindView(R.id.weekly) lateinit var weekly: TextView
-    @BindView(R.id.monthly) lateinit var monthly: TextView
-    @BindView(R.id.drawer) lateinit var drawerLayout: DrawerLayout
-    @BindView(R.id.clear) lateinit var clear: View
-    @BindView(R.id.searchEditText) lateinit var searchEditText: FontEditText
+//    private val binding: TrendingActivityLayoutBinding by viewBinding()
+//    private val navMenu: NavigationView by lazy { binding.navMenu }
+//    val daily: TextView by lazy { binding.daily }
+//    val weekly: TextView by lazy { binding.weekly }
+//    val monthly: TextView by lazy { binding.monthly }
+//    val drawerLayout: DrawerLayout by lazy { binding.drawer }
+//    val clear: View by lazy { binding.clear }
+//    val searchEditText: FontEditText by lazy { binding.searchEditText }
+    private val rootView: View by lazy { window.decorView }
+    private val navMenu: NavigationView by lazy { rootView.findViewById(R.id.navMenu) }
+    val daily: TextView by lazy { rootView.findViewById(R.id.daily) }
+    val weekly: TextView by lazy { rootView.findViewById(R.id.weekly) }
+    val monthly: TextView by lazy { rootView.findViewById(R.id.monthly) }
+    val drawerLayout: DrawerLayout by lazy { rootView.findViewById(R.id.drawer) }
+    val clear: View by lazy { rootView.findViewById(R.id.clear) }
+    val searchEditText: FontEditText by lazy { rootView.findViewById(R.id.searchEditText) }
 
 
-    @State var selectedTitle: String = TrendingModel.DEFAULT_LANG
+    @State
+    var selectedTitle: String = TrendingModel.DEFAULT_LANG
 
-    @OnTextChanged(value = [R.id.searchEditText], callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED) fun onTextChange(s: Editable) {
+    fun onTextChange(s: Editable) {
         val text = s.toString()
         if (text.isEmpty()) {
             AnimHelper.animateVisibility(clear, false)
@@ -59,35 +69,34 @@ class TrendingActivity : BaseActivity<TrendingMvp.View, TrendingPresenter>(), Tr
         }
     }
 
-    @OnEditorAction(R.id.searchEditText) fun onSearch(): Boolean {
+    fun onSearch(): Boolean {
         presenter.onFilterLanguage(InputHelper.toString(searchEditText))
         ViewHelper.hideKeyboard(searchEditText)
         return true
     }
 
-    @OnClick(R.id.daily) fun onDailyClicked() {
-        Logger.e()
+    private fun onDailyClicked() {
         daily.isSelected = true
         weekly.isSelected = false
         monthly.isSelected = false
         setValues()
     }
 
-    @OnClick(R.id.weekly) fun onWeeklyClicked() {
+    private fun onWeeklyClicked() {
         weekly.isSelected = true
         daily.isSelected = false
         monthly.isSelected = false
         setValues()
     }
 
-    @OnClick(R.id.monthly) fun onMonthlyClicked() {
+    private fun onMonthlyClicked() {
         monthly.isSelected = true
         weekly.isSelected = false
         daily.isSelected = false
         setValues()
     }
 
-    @OnClick(R.id.clear) fun onClearSearch() {
+    private fun onClearSearch() {
         ViewHelper.hideKeyboard(searchEditText)
         searchEditText.setText("")
         onClearMenu()
@@ -106,8 +115,33 @@ class TrendingActivity : BaseActivity<TrendingMvp.View, TrendingPresenter>(), Tr
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // init view
+        searchEditText.setOnEditorActionListener { _, _, _ ->
+            onSearch()
+        }
+
+        searchEditText.addTextChangedListener({ _, _, _, _ -> }, { _, _, _, _ -> }) {
+            onTextChange(it!!)
+        }
+
+        daily.setOnThrottleClickListener {
+            onDailyClicked()
+        }
+
+        weekly.setOnThrottleClickListener {
+            onWeeklyClicked()
+        }
+
+        monthly.setOnThrottleClickListener {
+            onMonthlyClicked()
+        }
+        clear.setOnThrottleClickListener {
+            onClearSearch()
+        }
         navMenu.itemIconTintList = null
-        trendingFragment = supportFragmentManager.findFragmentById(R.id.trendingFragment) as TrendingFragment?
+        trendingFragment =
+            supportFragmentManager.findFragmentById(R.id.trendingFragment) as TrendingFragment?
         navMenu.setNavigationItemSelectedListener { item ->
             closeDrawerLayout()
             onItemClicked(item)
@@ -145,8 +179,12 @@ class TrendingActivity : BaseActivity<TrendingMvp.View, TrendingPresenter>(), Tr
                     TrendingModel.DEFAULT_LANG -> ""
                     else -> selectedTitle
                 }
-                ActivityHelper.shareUrl(this, "${LinkParserHelper.PROTOCOL_HTTPS}://${LinkParserHelper.HOST_DEFAULT}" +
-                        "/trending/${lang.replace(" ".toRegex(), "-").lowercase(Locale.getDefault())}")
+                ActivityHelper.shareUrl(
+                    this, "${LinkParserHelper.PROTOCOL_HTTPS}://${LinkParserHelper.HOST_DEFAULT}" +
+                            "/trending/${
+                                lang.replace(" ".toRegex(), "-").lowercase(Locale.getDefault())
+                            }"
+                )
                 return true
             }
             android.R.id.home -> {
@@ -160,9 +198,10 @@ class TrendingActivity : BaseActivity<TrendingMvp.View, TrendingPresenter>(), Tr
 
     override fun onAppend(title: String, color: Int) {
         navMenu.menu.add(R.id.languageGroup, title.hashCode(), Menu.NONE, title)
-                .setCheckable(true)
-                .setIcon(createOvalShape(color))
-                .isChecked = title.lowercase(Locale.getDefault()) == selectedTitle.lowercase(Locale.getDefault())
+            .setCheckable(true)
+            .setIcon(createOvalShape(color))
+            .isChecked =
+            title.lowercase(Locale.getDefault()) == selectedTitle.lowercase(Locale.getDefault())
     }
 
     override fun onClearMenu() {
@@ -236,10 +275,12 @@ class TrendingActivity : BaseActivity<TrendingMvp.View, TrendingPresenter>(), Tr
     companion object {
         fun getTrendingIntent(context: Context, lang: String?, query: String?): Intent {
             val intent = Intent(context, TrendingActivity::class.java)
-            intent.putExtras(Bundler.start()
+            intent.putExtras(
+                Bundler.start()
                     .put(BundleConstant.EXTRA, lang)
                     .put(BundleConstant.EXTRA_TWO, query)
-                    .end())
+                    .end()
+            )
             return intent
         }
     }

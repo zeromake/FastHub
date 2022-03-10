@@ -14,19 +14,19 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
  * Created by Kosh on 11 Nov 2016, 2:07 PM
  */
 class NotificationsAdapter :
-    BaseRecyclerAdapter<GroupedNotificationModel?, BaseViewHolder<*>?, BaseViewHolder.OnItemClickListener<GroupedNotificationModel?>?> {
+    BaseRecyclerAdapter<GroupedNotificationModel, BaseViewHolder<GroupedNotificationModel>, BaseViewHolder.OnItemClickListener<GroupedNotificationModel>> {
     private var showUnreadState: Boolean
     private var hideClear = false
 
     constructor(
-        eventsModels: List<GroupedNotificationModel?>,
+        eventsModels: List<GroupedNotificationModel>,
         showUnreadState: Boolean
     ) : super(eventsModels) {
         this.showUnreadState = showUnreadState
     }
 
     constructor(
-        eventsModels: List<GroupedNotificationModel?>,
+        eventsModels: List<GroupedNotificationModel>,
         showUnreadState: Boolean,
         hideClear: Boolean
     ) : super(eventsModels) {
@@ -34,7 +34,10 @@ class NotificationsAdapter :
         this.hideClear = hideClear
     }
 
-    override fun viewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
+    override fun viewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BaseViewHolder<GroupedNotificationModel> {
         return if (viewType == GroupedNotificationModel.HEADER) {
             NotificationsHeaderViewHolder.newInstance(parent, this)
         } else {
@@ -42,7 +45,7 @@ class NotificationsAdapter :
         }
     }
 
-    override fun onBindView(holder: BaseViewHolder<*>?, position: Int) {
+    override fun onBindView(holder: BaseViewHolder<GroupedNotificationModel>, position: Int) {
         if (getItemViewType(position) == GroupedNotificationModel.HEADER) {
             (holder as NotificationsHeaderViewHolder).bind(getItem(position)!!)
             if (hideClear) if (getItem(

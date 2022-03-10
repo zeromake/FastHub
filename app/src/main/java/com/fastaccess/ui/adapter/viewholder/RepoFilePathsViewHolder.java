@@ -20,12 +20,14 @@ public class RepoFilePathsViewHolder extends BaseViewHolder<RepoFile> {
 
     FontTextView pathName;
 
-    private RepoFilePathsViewHolder(@NonNull View itemView, @NonNull BaseRecyclerAdapter<?,?,?> baseAdapter) {
+    private RepoFilePathsViewHolder(@NonNull View itemView, @NonNull BaseRecyclerAdapter<RepoFile, RepoFilePathsViewHolder, BaseViewHolder
+            .OnItemClickListener<RepoFile>> baseAdapter) {
         super(itemView, baseAdapter);
         this.pathName = itemView.findViewById(R.id.pathName);
     }
 
-    public static RepoFilePathsViewHolder newInstance(ViewGroup viewGroup, BaseRecyclerAdapter<?,?,?> adapter) {
+    public static RepoFilePathsViewHolder newInstance(ViewGroup viewGroup, BaseRecyclerAdapter<RepoFile, RepoFilePathsViewHolder, BaseViewHolder
+            .OnItemClickListener<RepoFile>> adapter) {
         return new RepoFilePathsViewHolder(getView(viewGroup, R.layout.file_path_row_item), adapter);
     }
 

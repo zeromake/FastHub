@@ -10,7 +10,7 @@ import com.fastaccess.R;
  * Created by kosh on 03/08/2017.
  */
 
-public class ProgressBarViewHolder extends BaseViewHolder {
+public class ProgressBarViewHolder extends BaseViewHolder<Object> {
 
     private ProgressBarViewHolder(@NonNull View itemView) {
         super(itemView);

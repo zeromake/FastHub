@@ -71,7 +71,6 @@ object CommentsHelper {
             ReactionTypes.MINUS_ONE -> thumbsDown
             ReactionTypes.CONFUSED -> sad
             ReactionTypes.LAUGH -> laugh
-            else -> thumbsUp
         }
     }
 

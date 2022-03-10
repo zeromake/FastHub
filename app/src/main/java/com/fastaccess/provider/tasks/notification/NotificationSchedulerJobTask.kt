@@ -59,7 +59,7 @@ class NotificationSchedulerJobTask : JobService() {
                     } else {
                         finishJob(job)
                     }
-                }) { throwable: Throwable? -> jobFinished(job, true) }
+                }) { jobFinished(job, true) }
         }
         return true
     }
@@ -134,7 +134,7 @@ class NotificationSchedulerJobTask : JobService() {
                         custom.url
                     )
                 }
-            }, { throwable: Throwable? -> finishJob(job) }) {
+            }, { finishJob(job) }) {
                 if (!NotificationQueue.exists(first.id)) {
                     val grouped = getSummaryGroupNotification(
                         first,

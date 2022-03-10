@@ -56,11 +56,10 @@ import static com.fastaccess.data.dao.model.PinnedRepos.REPO_FULL_NAME;
                 App.getInstance().getDataStore().toBlocking().insert(pinned);
                 return true;
             } catch (Exception ignored) {}
-            return false;
         } else {
             delete(pinnedRepos.getId());
-            return false;
         }
+        return false;
     }
 
     @Nullable public static PinnedRepos get(long id) {
@@ -116,32 +115,32 @@ import static com.fastaccess.data.dao.model.PinnedRepos.REPO_FULL_NAME;
                 .toObservable();
     }
 
-    public static void migrateToVersion4() {
-        RxHelper.getObservable(Observable.fromPublisher(e -> {
-            try {
-                Login login = Login.getUser();
-                if (login == null) {
-                    e.onComplete();
-                    return;
-                }
-                BlockingEntityStore<Persistable> reactiveEntityStore = App.getInstance().getDataStore().toBlocking();
-                List<PinnedRepos> pinnedRepos = reactiveEntityStore.select(PinnedRepos.class)
-                        .where(LOGIN.isNull())
-                        .get()
-                        .toList();
-                if (pinnedRepos != null) {
-                    for (PinnedRepos pinnedRepo : pinnedRepos) {
-                        pinnedRepo.setRepoFullName(login.getLogin());
-                        reactiveEntityStore.update(pinnedRepo);
-                    }
-                }
-                Logger.e("Hello");
-            } catch (Exception ignored) {
-                e.onError(ignored);
-            }
-            e.onComplete();
-        })).subscribe(o -> {/*do nothing*/}, Throwable::printStackTrace);
-    }
+//    public static Disposable migrateToVersion4() {
+//        return RxHelper.getObservable(Observable.fromPublisher(e -> {
+//            try {
+//                Login login = Login.getUser();
+//                if (login == null) {
+//                    e.onComplete();
+//                    return;
+//                }
+//                BlockingEntityStore<Persistable> reactiveEntityStore = App.getInstance().getDataStore().toBlocking();
+//                List<PinnedRepos> pinnedRepos = reactiveEntityStore.select(PinnedRepos.class)
+//                        .where(LOGIN.isNull())
+//                        .get()
+//                        .toList();
+//                if (pinnedRepos != null) {
+//                    for (PinnedRepos pinnedRepo : pinnedRepos) {
+//                        pinnedRepo.setRepoFullName(login.getLogin());
+//                        reactiveEntityStore.update(pinnedRepo);
+//                    }
+//                }
+//                Logger.e("Hello");
+//            } catch (Exception ignored) {
+//                e.onError(ignored);
+//            }
+//            e.onComplete();
+//        })).subscribe(o -> {/*do nothing*/}, Throwable::printStackTrace);
+//    }
 
     public static void delete(long id) {
         App.getInstance().getDataStore().delete(PinnedRepos.class)

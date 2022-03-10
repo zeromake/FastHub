@@ -14,6 +14,7 @@ import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.JsonReader
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
+import io.reactivex.disposables.Disposable
 import java.io.IOException
 import java.io.InputStreamReader
 
@@ -26,8 +27,10 @@ object ColorsProvider {
         "Ruby", "C++", "C", "Go", "Swift"
     ).toList() //predefined languages.
     private val colors: MutableMap<String, LanguageColorModel> = LinkedHashMap()
+
     @JvmStatic
-    fun load() {
+    fun load(): Disposable? {
+        // Todo Disposable handle
         if (colors.isEmpty()) {
             val disposable = RxHelper.safeObservable(
                 Observable
@@ -38,8 +41,9 @@ object ColorsProvider {
                             App.getInstance().assets.open("colors.json").use { stream ->
                                 val gson = Gson()
                                 JsonReader(InputStreamReader(stream)).use { reader ->
-                                    val items: Map<String?, LanguageColorModel?> = gson.fromJson(reader, type)
-                                    items.forEach{
+                                    val items: Map<String?, LanguageColorModel?> =
+                                        gson.fromJson(reader, type)
+                                    items.forEach {
                                         if (it.key != null) {
                                             colors[it.key!!] = it.value!!
                                         }
@@ -54,7 +58,9 @@ object ColorsProvider {
                         observableEmitter.onComplete()
                     })
                 .subscribe({}) { obj: Throwable -> obj.printStackTrace() }
+            return disposable
         }
+        return null
     }
 
     fun languages(): List<String> {

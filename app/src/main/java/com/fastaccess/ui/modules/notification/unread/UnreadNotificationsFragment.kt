@@ -30,7 +30,7 @@ import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
  * Created by Kosh on 25 Apr 2017, 4:06 PM
  */
 class UnreadNotificationsFragment :
-    BaseFragment<UnreadNotificationMvp.View?, UnreadNotificationsPresenter?>(),
+    BaseFragment<UnreadNotificationMvp.View, UnreadNotificationsPresenter>(),
     UnreadNotificationMvp.View {
     @JvmField
     @BindView(R.id.recycler)
@@ -119,7 +119,7 @@ class UnreadNotificationsFragment :
         adapter!!.listener = presenter
         refresh!!.setOnRefreshListener(this)
         stateLayout!!.setEmptyText(R.string.no_notifications)
-        stateLayout!!.setOnReloadListener { v: View? -> onRefresh() }
+        stateLayout!!.setOnReloadListener { onRefresh() }
         recycler!!.setEmptyView(stateLayout!!, refresh)
         recycler!!.adapter = adapter
         recycler!!.addDivider(NotificationsViewHolder::class.java)

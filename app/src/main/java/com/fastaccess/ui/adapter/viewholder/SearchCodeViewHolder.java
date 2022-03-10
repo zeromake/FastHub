@@ -23,14 +23,16 @@ public class SearchCodeViewHolder extends BaseViewHolder<SearchCodeModel> {
     FontTextView details;
     View commentsNo;
 
-    private SearchCodeViewHolder(@NonNull View itemView, @Nullable BaseRecyclerAdapter<?, ?, ?> adapter) {
+    private SearchCodeViewHolder(@NonNull View itemView, @Nullable BaseRecyclerAdapter<SearchCodeModel, SearchCodeViewHolder, BaseViewHolder
+            .OnItemClickListener<SearchCodeModel>> adapter) {
         super(itemView, adapter);
         this.title = itemView.findViewById(R.id.title);
         this.details = itemView.findViewById(R.id.details);
         this.commentsNo = itemView.findViewById(R.id.commentsNo);
     }
 
-    public static SearchCodeViewHolder newInstance(ViewGroup viewGroup, BaseRecyclerAdapter<?, ?, ?> adapter) {
+    public static SearchCodeViewHolder newInstance(ViewGroup viewGroup, BaseRecyclerAdapter<SearchCodeModel, SearchCodeViewHolder, BaseViewHolder
+            .OnItemClickListener<SearchCodeModel>> adapter) {
         return new SearchCodeViewHolder(getView(viewGroup, R.layout.issue_no_image_row_item), adapter);
     }
 

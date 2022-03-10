@@ -26,24 +26,24 @@ object HtmlHelper {
     @JvmStatic
     fun htmlIntoTextView(textView: TextView, html: String, width: Int) {
         registerClickEvent(textView)
-        textView.text =
-            initHtml(textView, width).fromHtml(format(html).toString())
+        val htmlSpanner = initHtml(textView, width).fromHtml(format(html).toString())
+        textView.text = htmlSpanner
     }
 
     @SuppressLint("NonConstantResourceId")
     private fun registerClickEvent(textView: TextView) {
         val betterLinkMovementMethod = BetterLinkMovementExtended.linkifyHtml(textView)
-        betterLinkMovementMethod.setOnLinkClickListener { view: TextView, url: String? ->
+        betterLinkMovementMethod.setOnLinkClickListener { view: TextView, url: String ->
             launchUri(view.context, Uri.parse(url))
             true
         }
-        betterLinkMovementMethod.setOnLinkLongClickListener { view: TextView, url: String? ->
+        betterLinkMovementMethod.setOnLinkLongClickListener { view: TextView, url: String ->
             view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
             val menu = PopupMenu(view.context, view)
             menu.setOnMenuItemClickListener { menuItem: MenuItem ->
                 when (menuItem.itemId) {
                     R.id.copy -> {
-                        AppHelper.copyToClipboard(view.context, url!!)
+                        AppHelper.copyToClipboard(view.context, url)
                         return@setOnMenuItemClickListener true
                     }
                     R.id.open -> {
@@ -99,6 +99,7 @@ object HtmlHelper {
         mySpanner.registerHandler("h4", HeaderHandler(1.2f))
         mySpanner.registerHandler("h5", HeaderHandler(1.1f))
         mySpanner.registerHandler("h6", HeaderHandler(1.0f))
+
         if (width > 0) {
             val tableHandler = TableHandler()
             tableHandler.setTextColor(ViewHelper.generateTextColor(windowBackground))

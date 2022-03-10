@@ -27,10 +27,8 @@ buildscript {
         maven("https://maven.aliyun.com/repository/jcenter")
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:7.3.0-alpha04")
+        classpath("com.android.tools.build:gradle:7.3.0-alpha05")
         classpath("com.google.gms:google-services:4.3.10")
-        classpath("com.novoda:gradle-build-properties-plugin:0.3")
-        classpath("com.dicedmelon.gradle:jacoco-android:0.1.2")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20-RC")
     }
 }
@@ -39,7 +37,6 @@ allprojects {
     repositories {
         mavenCentral()
         google()
-        jcenter()
         maven("https://jitpack.io")
         maven("https://maven.aliyun.com/repository/google")
         maven("https://maven.aliyun.com/repository/jcenter")

@@ -27,11 +27,12 @@ open class BasePresenter<V : FAView?> : TiPresenter<V>(), FAPresenter {
     var isEnterprise = false
     private var apiCalled = false
     private val subscriptionHandler = RxTiPresenterDisposableHandler(this)
-    override fun onSaveInstanceState(outState: Bundle) {
-        StateSaver.saveInstanceState(this, outState)
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        StateSaver.saveInstanceState(this, outState!!)
     }
 
-    override fun onRestoreInstanceState(outState: Bundle) {
+    override fun onRestoreInstanceState(outState: Bundle?) {
         StateSaver.restoreInstanceState(this, outState)
     }
 
@@ -55,9 +56,8 @@ open class BasePresenter<V : FAView?> : TiPresenter<V>(), FAPresenter {
         }
     }
 
-    override fun isApiCalled(): Boolean {
-        return apiCalled
-    }
+    override val isApiCalled: Boolean
+        get() = apiCalled
 
     override fun onSubscribed(cancelable: Boolean) {
         sendToView { v: V ->

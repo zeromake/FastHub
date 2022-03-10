@@ -44,8 +44,7 @@ public class PushNotificationService extends FirebaseMessagingService {
                 title = title == null ? remoteMessage.getData().get("title") : title;
                 body = body == null ? remoteMessage.getData().get("message") : body;
             }
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            Intent intent = MainActivity.launchMain(this, true);
             @SuppressLint("UnspecifiedImmutableFlag") PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, "In App-Notifications")
                     .setSmallIcon(R.drawable.ic_notification)

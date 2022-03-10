@@ -4,6 +4,7 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,8 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder implemen
         void onItemLongClick(int position, View v, T item);
     }
 
-    @Nullable protected final BaseRecyclerAdapter adapter;
+    @Nullable
+    protected final BaseRecyclerAdapter<T, ?, BaseViewHolder.OnItemClickListener<T>> adapter;
 
     public static View getView(@NonNull ViewGroup parent, @LayoutRes int layoutRes) {
         return LayoutInflater.from(parent.getContext()).inflate(layoutRes, parent, false);
@@ -31,7 +33,7 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder implemen
         this(itemView, null);
     }
 
-    public BaseViewHolder(@NonNull View itemView, @Nullable BaseRecyclerAdapter<?, ?, ?> adapter) {
+    public BaseViewHolder(@NonNull View itemView, @Nullable BaseRecyclerAdapter<T, ?, BaseViewHolder.OnItemClickListener<T>> adapter) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         this.adapter = adapter;
@@ -39,7 +41,8 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder implemen
         itemView.setOnLongClickListener(this);
     }
 
-    @SuppressWarnings("unchecked") @Override public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
         if (adapter != null && adapter.getListener() != null) {
             int position = getAbsoluteAdapterPosition();
             if (position != RecyclerView.NO_POSITION && position < adapter.getItemCount())
@@ -47,7 +50,8 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder implemen
         }
     }
 
-    @SuppressWarnings("unchecked") @Override public boolean onLongClick(View v) {
+    @Override
+    public boolean onLongClick(View v) {
         if (adapter != null && adapter.getListener() != null) {
             int position = getAbsoluteAdapterPosition();
             if (position != RecyclerView.NO_POSITION && position < adapter.getItemCount())
@@ -58,6 +62,7 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder implemen
 
     public abstract void bind(@NonNull T t);
 
-    protected void onViewIsDetaching() {}
+    protected void onViewIsDetaching() {
+    }
 
 }

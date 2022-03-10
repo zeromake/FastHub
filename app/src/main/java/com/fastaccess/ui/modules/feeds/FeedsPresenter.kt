@@ -3,9 +3,6 @@ package com.fastaccess.ui.modules.feeds
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import com.annimon.stream.Collectors
-import com.annimon.stream.Stream
-import com.annimon.stream.function.Supplier
 import com.fastaccess.data.dao.NameParser
 import com.fastaccess.data.dao.Pageable
 import com.fastaccess.data.dao.SimpleUrlsModel
@@ -22,17 +19,14 @@ import com.fastaccess.ui.modules.repos.code.commit.details.CommitPagerActivity
 import com.fastaccess.ui.modules.repos.code.releases.ReleasesListActivity
 import com.fastaccess.ui.modules.repos.wiki.WikiActivity.Companion.getWiki
 import io.reactivex.Observable
-import io.reactivex.functions.Consumer
-import net.grandcentrix.thirtyinch.ViewAction
-import java.util.*
 
 /**
  * Created by Kosh on 11 Nov 2016, 12:36 PM
  */
-class FeedsPresenter : BasePresenter<FeedsMvp.View?>(), FeedsMvp.Presenter {
-    private val eventsModels = ArrayList<Event>()
-    private var page = 0
-    private var previousTotal = 0
+class FeedsPresenter : BasePresenter<FeedsMvp.View>(), FeedsMvp.Presenter {
+    override val events: MutableList<Event> = mutableListOf()
+    override var currentPage = 0
+    override var previousTotal = 0
     private var lastPage = Int.MAX_VALUE
 
     @com.evernote.android.state.State
@@ -43,7 +37,7 @@ class FeedsPresenter : BasePresenter<FeedsMvp.View?>(), FeedsMvp.Presenter {
     override fun onFragmentCreated(argument: Bundle) {
         user = argument.getString(BundleConstant.EXTRA)
         isOrg = argument.getBoolean(BundleConstant.EXTRA_TWO)
-        if (eventsModels.isEmpty()) {
+        if (events.isEmpty()) {
             onCallApi(1)
         }
     }
@@ -82,12 +76,13 @@ class FeedsPresenter : BasePresenter<FeedsMvp.View?>(), FeedsMvp.Presenter {
         }
         makeRestCall(observable) { response ->
             lastPage = response.last
+            val items = response.items ?: listOf()
             if (currentPage == 1) {
-                manageDisposable(Event.save(response.items, user))
+                manageDisposable(Event.save(items, user))
             }
             sendToView { view ->
                 view?.onNotifyAdapter(
-                    response.items,
+                    items,
                     page
                 )
             }
@@ -95,23 +90,7 @@ class FeedsPresenter : BasePresenter<FeedsMvp.View?>(), FeedsMvp.Presenter {
         return true
     }
 
-    override fun getCurrentPage(): Int {
-        return page
-    }
-
-    override fun getPreviousTotal(): Int {
-        return previousTotal
-    }
-
-    override fun setCurrentPage(page: Int) {
-        this.page = page
-    }
-
-    override fun setPreviousTotal(previousTotal: Int) {
-        this.previousTotal = previousTotal
-    }
-
-    override fun onCallApi(page: Int, parameter: Any?): Boolean {
+    override fun onCallApi(page: Int, parameter: String?): Boolean {
         return onCallApi(page)
     }
 
@@ -124,20 +103,16 @@ class FeedsPresenter : BasePresenter<FeedsMvp.View?>(), FeedsMvp.Presenter {
         super.onError(throwable)
     }
 
-    override fun getEvents(): ArrayList<Event> {
-        return eventsModels
-    }
-
     override fun onWorkOffline() {
-        if (eventsModels.isEmpty() && InputHelper.isEmpty(user)) {
+        if (events.isEmpty() && InputHelper.isEmpty(user)) {
             manageDisposable(RxHelper.getObservable(
                 Event.getEvents(Login.getUser().login).toObservable()
             )
-                .subscribe({ modelList: List<Event?>? ->
+                .subscribe({ modelList ->
                     if (modelList != null) {
                         sendToView { view ->
-                            view!!.onNotifyAdapter(
-                                modelList,
+                            view?.onNotifyAdapter(
+                                modelList.filterNotNull(),
                                 1
                             )
                         }
@@ -148,7 +123,9 @@ class FeedsPresenter : BasePresenter<FeedsMvp.View?>(), FeedsMvp.Presenter {
         }
     }
 
-    override fun onItemClick(position: Int, v: View, item: Event) {
+    override fun onItemClick(position: Int, v: View?, item: Event?) {
+        v ?: return
+        item ?: return
         if (item.type === EventsType.ForkEvent) {
             val parser = NameParser(
                 item.payload.forkee?.htmlUrl
@@ -216,7 +193,9 @@ class FeedsPresenter : BasePresenter<FeedsMvp.View?>(), FeedsMvp.Presenter {
         }
     }
 
-    override fun onItemLongClick(position: Int, v: View, item: Event) {
+    override fun onItemLongClick(position: Int, v: View?, item: Event?) {
+        v ?: return
+        item ?: return
         if (item.type === EventsType.ForkEvent) {
             if (view != null) {
                 view!!.onOpenRepoChooser(

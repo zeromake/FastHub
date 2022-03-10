@@ -2,6 +2,7 @@ package com.fastaccess.ui.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
 import android.view.ViewGroup;
 
 import com.fastaccess.R;
@@ -26,8 +27,7 @@ import java.util.List;
  * Created by Kosh on 13 Dec 2016, 1:44 AM
  */
 
-public class IssuesTimelineAdapter extends BaseRecyclerAdapter<TimelineModel, BaseViewHolder<?>,
-        BaseViewHolder.OnItemClickListener<TimelineModel>> {
+public class IssuesTimelineAdapter extends BaseRecyclerAdapter<TimelineModel, BaseViewHolder<TimelineModel>, BaseViewHolder.OnItemClickListener<TimelineModel>> {
 
     private final OnToggleView onToggleView;
     private final boolean showEmojies;
@@ -55,7 +55,8 @@ public class IssuesTimelineAdapter extends BaseRecyclerAdapter<TimelineModel, Ba
         this(data, onToggleView, showEmojies, reactionsCallback, false, null, repoOwner, poster);
     }
 
-    @Override protected BaseViewHolder viewHolder(ViewGroup parent, int viewType) {
+    @Override
+    protected BaseViewHolder viewHolder(ViewGroup parent, int viewType) {
         if (viewType == 0) {
             return new UnknownTypeViewHolder(BaseViewHolder.getView(parent, R.layout.unknown_row_item));
         } else if (viewType == TimelineModel.HEADER) {
@@ -76,22 +77,23 @@ public class IssuesTimelineAdapter extends BaseRecyclerAdapter<TimelineModel, Ba
                 reactionsCallback, repoOwner, poster);
     }
 
-    @Override protected void onBindView(BaseViewHolder holder, int position) {
+    @Override
+    protected void onBindView(BaseViewHolder<TimelineModel> holder, int position) {
         TimelineModel model = getItem(position);
         if (model.getType() == TimelineModel.HEADER) {
-            ((IssueDetailsViewHolder) holder).bind(model);
+            holder.bind(model);
         } else if (model.getType() == TimelineModel.EVENT) {
-            ((IssueTimelineViewHolder) holder).bind(model);
+            holder.bind(model);
         } else if (model.getType() == TimelineModel.COMMENT) {
-            ((TimelineCommentsViewHolder) holder).bind(model);
+            holder.bind(model);
         } else if (model.getType() == TimelineModel.GROUP) {
-            ((GroupedReviewsViewHolder) holder).bind(model);
+            holder.bind(model);
         } else if (model.getType() == TimelineModel.REVIEW) {
-            ((ReviewsViewHolder) holder).bind(model);
+            holder.bind(model);
         } else if (model.getType() == TimelineModel.COMMIT_COMMENTS) {
-            ((CommitThreadViewHolder) holder).bind(model);
+            holder.bind(model);
         } else if (model.getType() == TimelineModel.STATUS && model.getStatus() != null) {
-            ((PullStatusViewHolder) holder).bind(model.getStatus());
+            ((PullStatusViewHolder) (BaseViewHolder<?>) holder).bind(model.getStatus());
         }
         if (model.getType() != TimelineModel.COMMENT) {
             StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
@@ -99,7 +101,20 @@ public class IssuesTimelineAdapter extends BaseRecyclerAdapter<TimelineModel, Ba
         }
     }
 
-    @Override public int getItemViewType(int position) {
+//    @Override
+//    protected void onBindView(BaseViewHolder<PullRequestStatusModel> holder, int position) {
+//        TimelineModel model = getItem(position);
+//        if (model.getType() == TimelineModel.STATUS && model.getStatus() != null) {
+//            holder.bind(model.getStatus());
+//        }
+//        if (model.getType() != TimelineModel.COMMENT) {
+//            StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
+//            layoutParams.setFullSpan(true);
+//        }
+//    }
+
+    @Override
+    public int getItemViewType(int position) {
         TimelineModel timelineModel = getData().get(position);
         return timelineModel != null ? timelineModel.getType() : super.getItemViewType(position);
     }

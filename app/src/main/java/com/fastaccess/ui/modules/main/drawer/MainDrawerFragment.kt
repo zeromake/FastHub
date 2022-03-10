@@ -29,13 +29,16 @@ import com.fastaccess.ui.modules.user.UserPagerActivity
 /**
  * Created by Kosh on 25.03.18.
  */
-class MainDrawerFragment(private val onDrawerMenuCreated: OnDrawerMenuCreatedListener) :
+class MainDrawerFragment :
     BaseFragment<MainMvp.View, BasePresenter<MainMvp.View>>(),
     NavigationView.OnNavigationItemSelectedListener {
     interface OnDrawerMenuCreatedListener {
         fun onDrawerCreated(menu: Menu)
     }
 
+    private val onDrawerMenuCreated: OnDrawerMenuCreatedListener? by lazy {
+        if (requireActivity() is OnDrawerMenuCreatedListener) requireActivity() as OnDrawerMenuCreatedListener else null
+    }
     private val binding: MainNavFragmentLayoutBinding by viewBinding()
     private val mainNav: NavigationView by lazy { this.binding.mainNav }
     private val userModel by lazy { Login.getUser() }
@@ -116,6 +119,6 @@ class MainDrawerFragment(private val onDrawerMenuCreated: OnDrawerMenuCreatedLis
 
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
         mainNav.setNavigationItemSelectedListener(this)
-        this.onDrawerMenuCreated.onDrawerCreated(mainNav.menu)
+        this.onDrawerMenuCreated?.onDrawerCreated(mainNav.menu)
     }
 }

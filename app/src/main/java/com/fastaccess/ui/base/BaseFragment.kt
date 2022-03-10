@@ -1,6 +1,5 @@
 package com.fastaccess.ui.base
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,14 +19,14 @@ import net.grandcentrix.thirtyinch.TiFragment
 /**
  * Created by Kosh on 27 May 2016, 7:54 PM
  */
-abstract class BaseFragment<V : FAView?, P : BasePresenter<V>?> : TiFragment<P, V>(), FAView {
+abstract class BaseFragment<V : FAView, P : BasePresenter<V>> : TiFragment<P, V>(), FAView {
     protected var callback: FAView? = null
     private var unbinder: Unbinder? = null
-    var onCreateViewed: Boolean = false
 
     @LayoutRes
     protected abstract fun fragmentLayout(): Int
     protected abstract fun onFragmentCreated(view: View, savedInstanceState: Bundle?)
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is FAView) {
@@ -55,7 +54,6 @@ abstract class BaseFragment<V : FAView?, P : BasePresenter<V>?> : TiFragment<P, 
         presenter!!.isEnterprise = isEnterprise
     }
 
-    @SuppressLint("RestrictedApi")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -68,12 +66,9 @@ abstract class BaseFragment<V : FAView?, P : BasePresenter<V>?> : TiFragment<P, 
             val themeAwareInflater = inflater.cloneInContext(contextThemeWrapper)
             val view = themeAwareInflater.inflate(fragmentLayout(), container, false)
             unbinder = ButterKnife.bind(this, view)
-            onCreateViewed = true
             return view
         }
-        val root = super.onCreateView(inflater, container, savedInstanceState)
-        onCreateViewed = true
-        return root
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -89,58 +84,56 @@ abstract class BaseFragment<V : FAView?, P : BasePresenter<V>?> : TiFragment<P, 
     }
 
     override fun showProgress(@StringRes resId: Int) {
-        callback!!.showProgress(resId)
+        callback?.showProgress(resId)
     }
 
     override fun showBlockingProgress(resId: Int) {
-        callback!!.showBlockingProgress(resId)
+        callback?.showBlockingProgress(resId)
     }
 
     override fun hideProgress() {
-        if (callback != null) callback!!.hideProgress()
+        callback?.hideProgress()
     }
 
     override fun showMessage(@StringRes titleRes: Int, @StringRes msgRes: Int) {
-        callback!!.showMessage(titleRes, msgRes)
+        callback?.showMessage(titleRes, msgRes)
     }
 
     override fun showMessage(titleRes: String, msgRes: String) {
-        callback!!.showMessage(titleRes, msgRes)
+        callback?.showMessage(titleRes, msgRes)
     }
 
     override fun showErrorMessage(msgRes: String) {
-        callback!!.showErrorMessage(msgRes)
+        callback?.showErrorMessage(msgRes)
     }
 
-    override fun isLoggedIn(): Boolean {
-        return callback!!.isLoggedIn
-    }
+    override val isLoggedIn: Boolean
+        get() = callback?.isLoggedIn ?: false
 
     override fun onRequireLogin() {
-        callback!!.onRequireLogin()
+        callback?.onRequireLogin()
     }
 
     override fun onMessageDialogActionClicked(isOk: Boolean, bundle: Bundle?) {}
     override fun onDialogDismissed() {}
     override fun onLogoutPressed() {
-        callback!!.onLogoutPressed()
+        callback?.onLogoutPressed()
     }
 
     override fun onThemeChanged() {
-        callback!!.onThemeChanged()
+        callback?.onThemeChanged()
     }
 
     override fun onOpenSettings() {
-        callback!!.onOpenSettings()
+        callback?.onOpenSettings()
     }
 
     override fun onScrollTop(index: Int) {}
-    override fun isEnterprise(): Boolean {
-        return callback != null && callback!!.isEnterprise
-    }
+    override val isEnterprise: Boolean
+        get() = callback?.isEnterprise ?: false
 
     override fun onOpenUrlInBrowser() {
-        callback!!.onOpenUrlInBrowser()
+        callback?.onOpenUrlInBrowser()
     }
 
     protected val isSafe: Boolean

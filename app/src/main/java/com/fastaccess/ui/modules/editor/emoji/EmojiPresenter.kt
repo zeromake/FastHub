@@ -12,7 +12,7 @@ import io.reactivex.Observable
 class EmojiPresenter : BasePresenter<EmojiMvp.View>(), EmojiMvp.Presenter {
     override fun onLoadEmoji() {
         manageObservable(Observable.create<Emoji> { e ->
-            val emojies = EmojiManager.getAll()
+            val emojies = EmojiManager.all
             emojies?.let {
                 it.onEach {
                     if (!e.isDisposed) {

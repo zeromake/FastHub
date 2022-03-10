@@ -90,13 +90,13 @@ class AddGistBottomSheetDialog : BaseDialogFragment<AddGistMvp.View, AddGistPres
                 if (file == null) {
                     file = FilesListModel()
                 }
-                file?.let { it ->
-                    it.content = getSavedText().toString()
-                    it.filename = InputHelper.toString(description)
-                    it.type = MimeTypeMap.getFileExtensionFromUrl(file!!.filename)
-                    it.size = it.content?.length?.toLong()
+                file?.let { model ->
+                    model.content = getSavedText().toString()
+                    model.filename = InputHelper.toString(description)
+                    model.type = MimeTypeMap.getFileExtensionFromUrl(file!!.filename)
+                    model.size = model.content?.length?.toLong()
                     ViewHelper.hideKeyboard(editText)
-                    addFileListener?.onFileAdded(it, position)
+                    addFileListener?.onFileAdded(model, position)
                 }
             }
             dismiss()

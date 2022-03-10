@@ -7,9 +7,9 @@ import androidx.core.content.ContextCompat
 import androidx.appcompat.widget.Toolbar
 import android.view.View
 import android.widget.TextView
-import butterknife.BindView
 import com.fastaccess.R
 import com.fastaccess.data.dao.CommitLinesModel
+import com.fastaccess.databinding.ReviewCommentDialogLayoutBinding
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler
 import com.fastaccess.helper.InputHelper
@@ -17,6 +17,7 @@ import com.fastaccess.helper.ViewHelper
 import com.fastaccess.ui.base.BaseDialogFragment
 import com.fastaccess.ui.base.mvp.BaseMvp
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
+import com.fastaccess.ui.delegate.viewBinding
 import com.fastaccess.ui.modules.editor.comment.CommentEditorFragment
 import com.fastaccess.ui.modules.reviews.callback.ReviewCommentListener
 import com.fastaccess.ui.widgets.SpannableBuilder
@@ -24,11 +25,12 @@ import com.fastaccess.ui.widgets.SpannableBuilder
 /**
  * Created by Kosh on 24 Jun 2017, 12:32 PM
  */
-class AddReviewDialogFragment : BaseDialogFragment<BaseMvp.FAView, BasePresenter<BaseMvp.FAView>>() {
-
-    @BindView(R.id.toolbar) lateinit var toolbar: Toolbar
-    @BindView(R.id.text) lateinit var textView: TextView
-    @BindView(R.id.lineNo) lateinit var lineNo: TextView
+class AddReviewDialogFragment :
+    BaseDialogFragment<BaseMvp.FAView, BasePresenter<BaseMvp.FAView>>() {
+    private val binding: ReviewCommentDialogLayoutBinding by viewBinding()
+    val toolbar: Toolbar by lazy { this.binding.root.findViewById(R.id.toolbar) }
+    val textView: TextView by lazy { binding.text }
+    val lineNo: TextView by lazy { binding.lineNo }
 
     private val commentEditorFragment: CommentEditorFragment? by lazy {
         childFragmentManager.findFragmentByTag("CommentEditorFragment") as CommentEditorFragment?
@@ -58,24 +60,37 @@ class AddReviewDialogFragment : BaseDialogFragment<BaseMvp.FAView, BasePresenter
             val fragment = CommentEditorFragment()
             fragment.arguments = Bundler.start().put(BundleConstant.YES_NO_EXTRA, true).end()
             childFragmentManager.beginTransaction()
-                    .replace(R.id.commentFragmentContainer, fragment, "CommentEditorFragment")
-                    .commitNow()
+                .replace(R.id.commentFragmentContainer, fragment, "CommentEditorFragment")
+                .commitNow()
         }
         val item = requireArguments().getParcelable<CommitLinesModel>(BundleConstant.ITEM)!!
         lineNo.text = SpannableBuilder.builder()
-                .append(if (item.leftLineNo >= 0) String.format("%s.", item.leftLineNo) else "")
-                .append(if (item.rightLineNo >= 0) String.format("%s.", item.rightLineNo) else "")
+            .append(if (item.leftLineNo >= 0) String.format("%s.", item.leftLineNo) else "")
+            .append(if (item.rightLineNo >= 0) String.format("%s.", item.rightLineNo) else "")
         lineNo.visibility = if (InputHelper.isEmpty(lineNo)) View.GONE else View.VISIBLE
 
         val context = context ?: return
         when (item.color) {
-            CommitLinesModel.ADDITION -> textView.setBackgroundColor(ViewHelper.getPatchAdditionColor(context))
-            CommitLinesModel.DELETION -> textView.setBackgroundColor(ViewHelper.getPatchDeletionColor(context))
-            CommitLinesModel.PATCH -> textView.setBackgroundColor(ViewHelper.getPatchRefColor(context))
+            CommitLinesModel.ADDITION -> textView.setBackgroundColor(
+                ViewHelper.getPatchAdditionColor(
+                    context
+                )
+            )
+            CommitLinesModel.DELETION -> textView.setBackgroundColor(
+                ViewHelper.getPatchDeletionColor(
+                    context
+                )
+            )
+            CommitLinesModel.PATCH -> textView.setBackgroundColor(
+                ViewHelper.getPatchRefColor(
+                    context
+                )
+            )
             else -> textView.setBackgroundColor(Color.TRANSPARENT)
         }
         if (item.isNoNewLine) {
-            textView.text = SpannableBuilder.builder().append(item.text?.replace(spacePattern, " ")).append(" ")
+            textView.text =
+                SpannableBuilder.builder().append(item.text?.replace(spacePattern, " ")).append(" ")
                     .append(ContextCompat.getDrawable(context, R.drawable.ic_newline))
         } else {
             textView.text = item.text?.replace(spacePattern, " ")
@@ -89,8 +104,10 @@ class AddReviewDialogFragment : BaseDialogFragment<BaseMvp.FAView, BasePresenter
                 commentEditorFragment?.getEditText()?.error = getString(R.string.required_field)
             } else {
                 commentEditorFragment?.getEditText()?.error = null
-                commentCallback?.onCommentAdded(InputHelper.toString(commentEditorFragment?.getEditText()?.text),
-                        item, requireArguments().getBundle(BundleConstant.EXTRA))
+                commentCallback?.onCommentAdded(
+                    InputHelper.toString(commentEditorFragment?.getEditText()?.text),
+                    item, requireArguments().getBundle(BundleConstant.EXTRA)
+                )
                 dismiss()
             }
             return@setOnMenuItemClickListener true
@@ -100,12 +117,15 @@ class AddReviewDialogFragment : BaseDialogFragment<BaseMvp.FAView, BasePresenter
     override fun providePresenter(): BasePresenter<BaseMvp.FAView> = BasePresenter()
 
     companion object {
-        fun newInstance(commitLinesModel: CommitLinesModel, bundle: Bundle? = null): AddReviewDialogFragment {
+        fun newInstance(
+            commitLinesModel: CommitLinesModel,
+            bundle: Bundle? = null
+        ): AddReviewDialogFragment {
             val dialog = AddReviewDialogFragment()
             dialog.arguments = Bundler.start()
-                    .put(BundleConstant.ITEM, commitLinesModel)
-                    .put(BundleConstant.EXTRA, bundle)
-                    .end()
+                .put(BundleConstant.ITEM, commitLinesModel)
+                .put(BundleConstant.EXTRA, bundle)
+                .end()
             return dialog
         }
     }

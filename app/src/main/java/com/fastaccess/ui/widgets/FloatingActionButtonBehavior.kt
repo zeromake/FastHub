@@ -39,7 +39,7 @@ class FloatingActionButtonBehavior : CoordinatorLayout.Behavior<FloatingActionBu
         child: FloatingActionButton,
         dependency: View
     ): Boolean {
-        MiscUtils.log(TAG, Log.INFO, "onDependentViewChanged: $dependency")
+        MiscUtils.log(Log.INFO, TAG, "onDependentViewChanged: $dependency")
         val list = parent.getDependencies(child)
         val params = child.layoutParams as MarginLayoutParams
         val bottomMargin =

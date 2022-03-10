@@ -20,9 +20,9 @@ import io.reactivex.Observable
 /**
  * Created by Kosh on 20 Feb 2017, 8:46 PM
  */
-class AllNotificationsPresenter : BasePresenter<AllNotificationsMvp.View?>(),
+class AllNotificationsPresenter : BasePresenter<AllNotificationsMvp.View>(),
     AllNotificationsMvp.Presenter {
-    override val notifications: MutableList<GroupedNotificationModel?> = mutableListOf()
+    override val notifications: MutableList<GroupedNotificationModel> = mutableListOf()
     override fun onItemClick(position: Int, v: View, model: GroupedNotificationModel?) {
         if (view == null) return
         model?: return
@@ -88,7 +88,7 @@ class AllNotificationsPresenter : BasePresenter<AllNotificationsMvp.View?>(),
                 Notification.getAllNotifications().toObservable()
             ).flatMap { notifications ->
                 Observable.just(
-                    construct(notifications?.filterNotNull()?: listOf())
+                    construct(notifications.filterNotNull())
                 )
             }.subscribe { models ->
                 sendToView { view ->
@@ -109,7 +109,7 @@ class AllNotificationsPresenter : BasePresenter<AllNotificationsMvp.View?>(),
                 if (items.isNotEmpty()) {
                     return@flatMap Observable.just(construct(items))
                 }
-                Observable.empty<List<GroupedNotificationModel?>?>()
+                Observable.empty()
             }
         makeRestCall(observable.doOnComplete {
             sendToView { view ->
@@ -122,7 +122,7 @@ class AllNotificationsPresenter : BasePresenter<AllNotificationsMvp.View?>(),
         }
     }
 
-    override fun onMarkAllAsRead(data: List<GroupedNotificationModel?>) {
+    override fun onMarkAllAsRead(data: List<GroupedNotificationModel>) {
         val disposable = RxHelper.getObservable(Observable.fromIterable(data))
             .filter { group: GroupedNotificationModel -> group.type == GroupedNotificationModel.ROW }
             .filter { group: GroupedNotificationModel -> group.notification != null && group.notification!!.isUnread }
@@ -141,7 +141,7 @@ class AllNotificationsPresenter : BasePresenter<AllNotificationsMvp.View?>(),
         manageDisposable(disposable)
     }
 
-    override fun onMarkReadByRepo(data: List<GroupedNotificationModel?>, repo: Repo) {
+    override fun onMarkReadByRepo(data: List<GroupedNotificationModel>, repo: Repo) {
         val disposable = RxHelper.getObservable(Observable.fromIterable(data))
             .filter { group: GroupedNotificationModel -> group.type == GroupedNotificationModel.ROW }
             .filter { group: GroupedNotificationModel -> group.notification != null && group.notification!!.isUnread }

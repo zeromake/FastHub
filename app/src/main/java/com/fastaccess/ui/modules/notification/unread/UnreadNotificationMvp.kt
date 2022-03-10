@@ -21,10 +21,10 @@ interface UnreadNotificationMvp {
         fun onNotifyNotificationChanged(notification: GroupedNotificationModel)
     }
 
-    interface Presenter : BaseViewHolder.OnItemClickListener<GroupedNotificationModel?> {
+    interface Presenter : BaseViewHolder.OnItemClickListener<GroupedNotificationModel> {
         fun onWorkOffline()
-        val notifications: MutableList<GroupedNotificationModel?>
-        fun onMarkAllAsRead(data: List<GroupedNotificationModel?>)
+        val notifications: MutableList<GroupedNotificationModel>
+        fun onMarkAllAsRead(data: List<GroupedNotificationModel>)
         fun onCallApi()
     }
 }

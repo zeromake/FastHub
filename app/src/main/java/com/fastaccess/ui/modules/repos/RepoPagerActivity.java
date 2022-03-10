@@ -384,7 +384,7 @@ public class RepoPagerActivity extends BaseActivity<RepoPagerMvp.View, RepoPager
         if (repoModel.isHasProjects()) {
             bottomNavigation.inflateMenu(R.menu.repo_with_project_bottom_nav_menu);
         }
-        bottomNavigation.setOnMenuItemClickListener(getPresenter());
+        bottomNavigation.setMenuItemSelectionListener(getPresenter());
         if (repoModel.getTopics() != null && !repoModel.getTopics().isEmpty()) {
             tagsIcon.setVisibility(View.VISIBLE);
             topicsList.setAdapter(new TopicsAdapter(repoModel.getTopics()));
@@ -535,7 +535,7 @@ public class RepoPagerActivity extends BaseActivity<RepoPagerMvp.View, RepoPager
 
     @Override public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            startActivity(new Intent(this, MainActivity.class));
+            MainActivity.launchMainActivity(this, true);
             finish();
         } else if (item.getItemId() == R.id.share) {
             if (getPresenter().getRepo() != null) ActivityHelper.shareUrl(this, getPresenter().getRepo().getHtmlUrl());

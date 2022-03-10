@@ -3,12 +3,13 @@ package com.fastaccess.ui.modules.trending.fragment
 import android.os.Bundle
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import android.view.View
-import butterknife.BindView
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.TrendingModel
+import com.fastaccess.databinding.SmallGridRefreshListBinding
 import com.fastaccess.ui.adapter.TrendingAdapter
 import com.fastaccess.ui.base.BaseFragment
+import com.fastaccess.ui.delegate.viewBinding
 import com.fastaccess.ui.widgets.StateLayout
 import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
 import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
@@ -17,17 +18,22 @@ import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
  * Created by Kosh on 30 May 2017, 11:37 PM
  */
 
-class TrendingFragment : BaseFragment<TrendingFragmentMvp.View, TrendingFragmentPresenter>(), TrendingFragmentMvp.View {
+class TrendingFragment : BaseFragment<TrendingFragmentMvp.View, TrendingFragmentPresenter>(),
+    TrendingFragmentMvp.View {
+    private val binding: SmallGridRefreshListBinding by viewBinding()
 
-    @BindView(R.id.recycler) lateinit var recycler: DynamicRecyclerView
-    @BindView(R.id.refresh) lateinit var refresh: SwipeRefreshLayout
-    @BindView(R.id.stateLayout) lateinit var stateLayout: StateLayout
-    @BindView(R.id.fastScroller) lateinit var fastScroller: RecyclerViewFastScroller
+    val recycler: DynamicRecyclerView by lazy { binding.recycler }
+    val refresh: SwipeRefreshLayout by lazy { binding.refresh }
+    val stateLayout: StateLayout by lazy { binding.root.findViewById(R.id.stateLayout) }
+    val fastScroller: RecyclerViewFastScroller by lazy { binding.fastScroller }
 
     private val adapter by lazy { TrendingAdapter(presenter.getTendingList()) }
 
-    @State var lang: String = ""
-    @State var since: String = ""
+    @State
+    var lang: String = ""
+
+    @State
+    var since: String = ""
 
     override fun providePresenter(): TrendingFragmentPresenter = TrendingFragmentPresenter()
 

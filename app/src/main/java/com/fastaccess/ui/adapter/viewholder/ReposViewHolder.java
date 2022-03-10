@@ -46,7 +46,7 @@ public class ReposViewHolder extends BaseViewHolder<Repo> {
     private final boolean isStarred;
     private final boolean withImage;
 
-    private ReposViewHolder(@NonNull View itemView, @Nullable BaseRecyclerAdapter<?,?,?> adapter, boolean isStarred, boolean withImage) {
+    private ReposViewHolder(@NonNull View itemView, @Nullable BaseRecyclerAdapter<Repo, ReposViewHolder, BaseViewHolder.OnItemClickListener<Repo>> adapter, boolean isStarred, boolean withImage) {
         super(itemView, adapter);
         Context context = itemView.getContext();
         Resources res = context.getResources();
@@ -65,7 +65,7 @@ public class ReposViewHolder extends BaseViewHolder<Repo> {
         this.withImage = withImage;
     }
 
-    public static ReposViewHolder newInstance(ViewGroup viewGroup, BaseRecyclerAdapter<?,?,?> adapter, boolean isStarred, boolean withImage) {
+    public static ReposViewHolder newInstance(ViewGroup viewGroup, BaseRecyclerAdapter<Repo, ReposViewHolder, BaseViewHolder.OnItemClickListener<Repo>> adapter, boolean isStarred, boolean withImage) {
         if (withImage) {
             return new ReposViewHolder(getView(viewGroup, R.layout.repos_row_item), adapter, isStarred, true);
         } else {

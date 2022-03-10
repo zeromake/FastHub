@@ -2,36 +2,45 @@ package com.fastaccess.ui.modules.reviews.changes
 
 import android.content.Context
 import android.os.Bundle
-import androidx.core.content.ContextCompat
-import androidx.appcompat.widget.Toolbar
 import android.view.View
 import android.widget.Spinner
-import butterknife.BindView
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.ReviewRequestModel
+import com.fastaccess.databinding.AddReviewDialogLayoutBinding
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler
 import com.fastaccess.helper.InputHelper
 import com.fastaccess.ui.base.BaseDialogFragment
+import com.fastaccess.ui.delegate.viewBinding
 import com.fastaccess.ui.modules.editor.comment.CommentEditorFragment
 
 /**
  * Created by Kosh on 25 Jun 2017, 1:25 AM
  */
-class ReviewChangesActivity : BaseDialogFragment<ReviewChangesMvp.View, ReviewChangesPresenter>(), ReviewChangesMvp.View {
+class ReviewChangesActivity : BaseDialogFragment<ReviewChangesMvp.View, ReviewChangesPresenter>(),
+    ReviewChangesMvp.View {
+    private val binding: AddReviewDialogLayoutBinding by viewBinding()
 
-    @BindView(R.id.toolbar) lateinit var toolbar: Toolbar
-    @BindView(R.id.reviewMethod) lateinit var spinner: Spinner
+    val toolbar: Toolbar by lazy { this.binding.root.findViewById(R.id.toolbar) }
+    val spinner: Spinner by lazy { this.binding.reviewMethod }
 
-    @State var reviewRequest: ReviewRequestModel? = null
-    @State var repoId: String? = null
-    @State var owner: String? = null
-    @State var number: Long? = null
-    @State var isClosed: Boolean = false
-    @State var isAuthor: Boolean = false
+    @State
+    var reviewRequest: ReviewRequestModel? = null
+    @State
+    var repoId: String? = null
+    @State
+    var owner: String? = null
+    @State
+    var number: Long? = null
+    @State
+    var isClosed: Boolean = false
+    @State
+    var isAuthor: Boolean = false
 
-    private var subimssionCallback: ReviewChangesMvp.ReviewSubmissionCallback? = null
+    private var submissionCallback: ReviewChangesMvp.ReviewSubmissionCallback? = null
 
     private val commentEditorFragment: CommentEditorFragment? by lazy {
         childFragmentManager.findFragmentByTag("commentContainer") as CommentEditorFragment?
@@ -40,14 +49,14 @@ class ReviewChangesActivity : BaseDialogFragment<ReviewChangesMvp.View, ReviewCh
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (parentFragment is ReviewChangesMvp.ReviewSubmissionCallback) {
-            subimssionCallback = parentFragment as ReviewChangesMvp.ReviewSubmissionCallback
+            submissionCallback = parentFragment as ReviewChangesMvp.ReviewSubmissionCallback
         } else if (context is ReviewChangesMvp.ReviewSubmissionCallback) {
-            subimssionCallback = context
+            submissionCallback = context
         }
     }
 
     override fun onDetach() {
-        subimssionCallback = null
+        submissionCallback = null
         super.onDetach()
     }
 
@@ -60,9 +69,9 @@ class ReviewChangesActivity : BaseDialogFragment<ReviewChangesMvp.View, ReviewCh
             val fragment = CommentEditorFragment()
             fragment.arguments = Bundler.start().put(BundleConstant.YES_NO_EXTRA, true).end()
             childFragmentManager.beginTransaction()
-                    .replace(R.id.commentContainer, fragment, "commentContainer")
-                    .commit()
-            val bundle = arguments!!
+                .replace(R.id.commentContainer, fragment, "commentContainer")
+                .commit()
+            val bundle = requireArguments()
             reviewRequest = bundle.getParcelable(BundleConstant.EXTRA)
             repoId = bundle.getString(BundleConstant.EXTRA_TWO)
             owner = bundle.getString(BundleConstant.EXTRA_THREE)
@@ -70,7 +79,7 @@ class ReviewChangesActivity : BaseDialogFragment<ReviewChangesMvp.View, ReviewCh
             isClosed = bundle.getBoolean(BundleConstant.EXTRA_FIVE)
             isAuthor = bundle.getBoolean(BundleConstant.EXTRA_FOUR)
         }
-        toolbar.navigationIcon = ContextCompat.getDrawable(context!!, R.drawable.ic_clear)
+        toolbar.navigationIcon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_clear)
         toolbar.inflateMenu(R.menu.done_menu)
         toolbar.setNavigationOnClickListener { dismiss() }
         toolbar.setOnMenuItemClickListener {
@@ -79,8 +88,14 @@ class ReviewChangesActivity : BaseDialogFragment<ReviewChangesMvp.View, ReviewCh
                     commentEditorFragment?.getEditText()?.error = getString(R.string.required_field)
                 } else {
                     commentEditorFragment?.getEditText()?.error = null
-                    presenter.onSubmit(reviewRequest!!, repoId!!, owner!!, number!!, InputHelper.toString(commentEditorFragment?.getEditText()?.text)
-                            , spinner.selectedItem as String)
+                    presenter.onSubmit(
+                        reviewRequest!!,
+                        repoId!!,
+                        owner!!,
+                        number!!,
+                        InputHelper.toString(commentEditorFragment?.getEditText()?.text),
+                        spinner.selectedItem as String
+                    )
                 }
             }
             return@setOnMenuItemClickListener true
@@ -94,7 +109,7 @@ class ReviewChangesActivity : BaseDialogFragment<ReviewChangesMvp.View, ReviewCh
 
     override fun onSuccessfullySubmitted() {
         hideProgress()
-        subimssionCallback?.onSuccessfullyReviewed()
+        submissionCallback?.onSuccessfullyReviewed()
         dismiss()
     }
 
@@ -125,23 +140,25 @@ class ReviewChangesActivity : BaseDialogFragment<ReviewChangesMvp.View, ReviewCh
         commentEditorFragment?.commentText?.setText("")
     }
 
-    override fun getNamesToTag(): ArrayList<String>? {
+    override fun getNamesToTag(): ArrayList<String> {
         return arrayListOf()
     }
 
     companion object {
-        fun startForResult(reviewChanges: ReviewRequestModel, repoId: String, owner: String, number: Long,
-                           isAuthor: Boolean, isEnterprise: Boolean, isClosed: Boolean): ReviewChangesActivity {
+        fun startForResult(
+            reviewChanges: ReviewRequestModel, repoId: String, owner: String, number: Long,
+            isAuthor: Boolean, isEnterprise: Boolean, isClosed: Boolean
+        ): ReviewChangesActivity {
             val fragment = ReviewChangesActivity()
             val bundle = Bundler.start()
-                    .put(BundleConstant.EXTRA, reviewChanges)
-                    .put(BundleConstant.EXTRA_TWO, repoId)
-                    .put(BundleConstant.EXTRA_THREE, owner)
-                    .put(BundleConstant.EXTRA_FOUR, isAuthor)
-                    .put(BundleConstant.ID, number)
-                    .put(BundleConstant.IS_ENTERPRISE, isEnterprise)
-                    .put(BundleConstant.EXTRA_FIVE, isClosed)
-                    .end()
+                .put(BundleConstant.EXTRA, reviewChanges)
+                .put(BundleConstant.EXTRA_TWO, repoId)
+                .put(BundleConstant.EXTRA_THREE, owner)
+                .put(BundleConstant.EXTRA_FOUR, isAuthor)
+                .put(BundleConstant.ID, number)
+                .put(BundleConstant.IS_ENTERPRISE, isEnterprise)
+                .put(BundleConstant.EXTRA_FIVE, isClosed)
+                .end()
             fragment.arguments = bundle
             return fragment
         }

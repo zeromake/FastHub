@@ -1,19 +1,21 @@
 package com.fastaccess.ui.modules.main;
 
+import static com.fastaccess.helper.AppHelper.getFragmentByTag;
+
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import androidx.fragment.app.FragmentManager;
-import androidx.core.view.GravityCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.GravityCompat;
+import androidx.fragment.app.FragmentManager;
 
 import com.evernote.android.state.State;
 import com.fastaccess.App;
@@ -32,43 +34,54 @@ import com.fastaccess.ui.modules.notification.NotificationActivity;
 import com.fastaccess.ui.modules.search.SearchActivity;
 import com.fastaccess.ui.modules.settings.SlackBottomSheetDialog;
 import com.fastaccess.ui.modules.user.UserPagerActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
 import shortbread.Shortcut;
 
-import static com.fastaccess.helper.AppHelper.getFragmentByTag;
-
 public class MainActivity extends BaseActivity<MainMvp.View, MainPresenter> implements MainMvp.View {
 
-    @State @MainMvp.NavigationType int navType = MainMvp.FEEDS;
+    @State
+    @MainMvp.NavigationType
+    int navType = MainMvp.FEEDS;
     BottomNavigation bottomNavigation;
     FloatingActionButton fab;
-    void onFilter() {}
 
-    @NonNull @Override public MainPresenter providePresenter() {
+    void onFilter() {
+    }
+
+    @NonNull
+    @Override
+    public MainPresenter providePresenter() {
         return new MainPresenter();
     }
 
-    @Override protected int layout() {
+    @Override
+    protected int layout() {
         return R.layout.activity_main_view;
     }
 
-    @Override protected boolean isTransparent() {
+    @Override
+    protected boolean isTransparent() {
         return true;
     }
 
-    @Override protected boolean canBack() {
+    @Override
+    protected boolean canBack() {
         return false;
     }
 
-    @Override protected boolean isSecured() {
+    @Override
+    protected boolean isSecured() {
         return false;
     }
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState == null) {
-            if (getIntent() != null && getIntent().getBooleanExtra(SlackBottomSheetDialog.TAG, false)) {
+        Intent intent = getIntent();
+        if (savedInstanceState == null && intent != null) {
+            if (intent.getBooleanExtra(SlackBottomSheetDialog.TAG, false)) {
                 new SlackBottomSheetDialog().show(getSupportFragmentManager(), SlackBottomSheetDialog.TAG);
             }
         }
@@ -86,7 +99,8 @@ public class MainActivity extends BaseActivity<MainMvp.View, MainPresenter> impl
         onNewIntent(getIntent());
     }
 
-    @Override protected void onNewIntent(Intent intent) {
+    @Override
+    protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if (intent != null && intent.getExtras() != null) {
             boolean recreate = intent.getExtras().getBoolean(BundleConstant.YES_NO_EXTRA);
@@ -94,12 +108,14 @@ public class MainActivity extends BaseActivity<MainMvp.View, MainPresenter> impl
         }
     }
 
-    @Override public boolean onCreateOptionsMenu(Menu menu) {
+    @Override
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         getMenuInflater().inflate(R.menu.search_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             if (drawer != null) drawer.openDrawer(GravityCompat.START);
             return true;
@@ -114,7 +130,8 @@ public class MainActivity extends BaseActivity<MainMvp.View, MainPresenter> impl
         return super.onOptionsItemSelected(item);
     }
 
-    @Override public boolean onPrepareOptionsMenu(Menu menu) {
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
         if (isLoggedIn() && Notification.hasUnreadNotifications()) {
             ViewHelper.tintDrawable(menu.findItem(R.id.notifications).setIcon(R.drawable.ic_ring).getIcon(), ViewHelper.getAccentColor(this));
         } else {
@@ -124,7 +141,8 @@ public class MainActivity extends BaseActivity<MainMvp.View, MainPresenter> impl
         return super.onPrepareOptionsMenu(menu);
     }
 
-    @Override public void onNavigationChanged(@MainMvp.NavigationType int navType) {
+    @Override
+    public void onNavigationChanged(@MainMvp.NavigationType int navType) {
         if (navType == MainMvp.PROFILE) {
             getPresenter().onModuleChanged(getSupportFragmentManager(), navType);
             bottomNavigation.setSelectedIndex(this.navType, true);
@@ -132,29 +150,35 @@ public class MainActivity extends BaseActivity<MainMvp.View, MainPresenter> impl
         }
         this.navType = navType;
         //noinspection WrongConstant
-        if (bottomNavigation.getSelectedIndex() != navType) bottomNavigation.setSelectedIndex(navType, true);
+        if (bottomNavigation.getSelectedIndex() != navType)
+            bottomNavigation.setSelectedIndex(navType, true);
         hideShowShadow(navType == MainMvp.FEEDS);
         getPresenter().onModuleChanged(getSupportFragmentManager(), navType);
     }
 
-    @Override public void onUpdateDrawerMenuHeader() {
+    @Override
+    public void onUpdateDrawerMenuHeader() {
         setupNavigationView();
     }
 
-    @Override public void onOpenProfile() {
+    @Override
+    public void onOpenProfile() {
         UserPagerActivity.startActivity(this, Login.getUser().getLogin(), false, PrefGetter.isEnterprise(), -1);
     }
 
-    @Override public void onInvalidateNotification() {
+    @Override
+    public void onInvalidateNotification() {
         invalidateOptionsMenu();
     }
 
-    @Override public void onUserIsBlackListed() {
+    @Override
+    public void onUserIsBlackListed() {
         Toast.makeText(App.getInstance(), "You are blacklisted, please contact the dev", Toast.LENGTH_LONG).show();
         finish();
     }
 
-    @Override public void onScrollTop(int index) {
+    @Override
+    public void onScrollTop(int index) {
         super.onScrollTop(index);
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (index == 0) {
@@ -179,11 +203,13 @@ public class MainActivity extends BaseActivity<MainMvp.View, MainPresenter> impl
 
     @SuppressLint("NonConstantResourceId")
     @Shortcut(id = "myIssues", icon = R.drawable.ic_app_shortcut_issues, shortLabelRes = R.string.issues, rank = 2, action = "myIssues")
-    public void myIssues() {}//do nothing
+    public void myIssues() {
+    }//do nothing
 
     @SuppressLint("NonConstantResourceId")
     @Shortcut(id = "myPulls", icon = R.drawable.ic_app_shortcut_pull_requests, shortLabelRes = R.string.pull_requests, rank = 3, action = "myPulls")
-    public void myPulls() {}//do nothing
+    public void myPulls() {
+    }//do nothing
 
     private void onInit(@Nullable Bundle savedInstanceState) {
         if (isLoggedIn()) {
@@ -218,7 +244,20 @@ public class MainActivity extends BaseActivity<MainMvp.View, MainPresenter> impl
             }
             Typeface myTypeface = TypeFaceHelper.getTypeface();
             bottomNavigation.setDefaultTypeface(myTypeface);
-            bottomNavigation.setOnMenuItemClickListener(getPresenter());
+            bottomNavigation.setMenuItemSelectionListener(getPresenter());
         }
+    }
+
+    public static Intent launchMain(Context context, boolean clearTop) {
+        Intent intent = new Intent(context, MainActivity.class);
+        if (clearTop) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        }
+        return intent;
+    }
+
+    public static void launchMainActivity(Context context, boolean clearTop) {
+        Intent intent = launchMain(context, clearTop);
+        context.startActivity(intent);
     }
 }

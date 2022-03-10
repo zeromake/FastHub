@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 
 public class PinnedReposPresenter extends BasePresenter<PinnedReposMvp.View> implements PinnedReposMvp.Presenter {
-    private ArrayList<PinnedRepos> pinnedRepos = new ArrayList<>();
+    private final ArrayList<PinnedRepos> pinnedRepos = new ArrayList<>();
 
     @Override protected void onAttachView(@NonNull PinnedReposMvp.View view) {
         super.onAttachView(view);

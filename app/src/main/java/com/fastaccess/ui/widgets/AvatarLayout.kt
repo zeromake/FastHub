@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.signature.StringSignature
+import com.bumptech.glide.signature.ObjectKey
 import com.fastaccess.R
 import com.fastaccess.helper.InputHelper
 import com.fastaccess.helper.PrefGetter
@@ -82,7 +82,7 @@ class AvatarLayout : FrameLayout {
             .load(url)
             .fallback(ContextCompat.getDrawable(context, R.drawable.ic_fasthub_mascot))
             .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .signature(StringSignature(if (reload) System.currentTimeMillis().toString() else "0"))
+            .signature(ObjectKey(if (reload) System.currentTimeMillis().toString() else "0"))
             .dontAnimate()
             .into(avatar)
     }

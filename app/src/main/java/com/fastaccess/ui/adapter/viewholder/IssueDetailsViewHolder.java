@@ -1,10 +1,12 @@
 package com.fastaccess.ui.adapter.viewholder;
 
 import android.graphics.Color;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.transition.ChangeBounds;
 import androidx.transition.TransitionManager;
+
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,31 +46,56 @@ import butterknife.BindView;
 
 public class IssueDetailsViewHolder extends BaseViewHolder<TimelineModel> {
 
-    @BindView(R.id.avatarView) AvatarLayout avatar;
-    @BindView(R.id.date) FontTextView date;
-    @BindView(R.id.name) FontTextView name;
-    @BindView(R.id.comment) FontTextView comment;
-    @BindView(R.id.thumbsUp) FontTextView thumbsUp;
-    @BindView(R.id.thumbsDown) FontTextView thumbsDown;
-    @BindView(R.id.laugh) FontTextView laugh;
-    @BindView(R.id.sad) FontTextView sad;
-    @BindView(R.id.hurray) FontTextView hooray;
-    @BindView(R.id.heart) FontTextView heart;
-    @BindView(R.id.toggle) View toggle;
-    @BindView(R.id.commentMenu) View commentMenu;
-    @BindView(R.id.commentOptions) View commentOptions;
-    @BindView(R.id.toggleHolder) View toggleHolder;
-    @BindView(R.id.emojiesList) View emojiesList;
-    @BindView(R.id.owner) TextView owner;
-    @BindView(R.id.labels) TextView labels;
-    @BindView(R.id.labelsHolder) View labelsHolder;
-    @BindView(R.id.reactionsList) View reactionsList;
-    @BindView(R.id.thumbsUpReaction) FontTextView thumbsUpReaction;
-    @BindView(R.id.thumbsDownReaction) FontTextView thumbsDownReaction;
-    @BindView(R.id.laughReaction) FontTextView laughReaction;
-    @BindView(R.id.hurrayReaction) FontTextView hurrayReaction;
-    @BindView(R.id.sadReaction) FontTextView sadReaction;
-    @BindView(R.id.heartReaction) FontTextView heartReaction;
+    @BindView(R.id.avatarView)
+    AvatarLayout avatar;
+    @BindView(R.id.date)
+    FontTextView date;
+    @BindView(R.id.name)
+    FontTextView name;
+    @BindView(R.id.comment)
+    FontTextView comment;
+    @BindView(R.id.thumbsUp)
+    FontTextView thumbsUp;
+    @BindView(R.id.thumbsDown)
+    FontTextView thumbsDown;
+    @BindView(R.id.laugh)
+    FontTextView laugh;
+    @BindView(R.id.sad)
+    FontTextView sad;
+    @BindView(R.id.hurray)
+    FontTextView hooray;
+    @BindView(R.id.heart)
+    FontTextView heart;
+    @BindView(R.id.toggle)
+    View toggle;
+    @BindView(R.id.commentMenu)
+    View commentMenu;
+    @BindView(R.id.commentOptions)
+    View commentOptions;
+    @BindView(R.id.toggleHolder)
+    View toggleHolder;
+    @BindView(R.id.emojiesList)
+    View emojiesList;
+    @BindView(R.id.owner)
+    TextView owner;
+    @BindView(R.id.labels)
+    TextView labels;
+    @BindView(R.id.labelsHolder)
+    View labelsHolder;
+    @BindView(R.id.reactionsList)
+    View reactionsList;
+    @BindView(R.id.thumbsUpReaction)
+    FontTextView thumbsUpReaction;
+    @BindView(R.id.thumbsDownReaction)
+    FontTextView thumbsDownReaction;
+    @BindView(R.id.laughReaction)
+    FontTextView laughReaction;
+    @BindView(R.id.hurrayReaction)
+    FontTextView hurrayReaction;
+    @BindView(R.id.sadReaction)
+    FontTextView sadReaction;
+    @BindView(R.id.heartReaction)
+    FontTextView heartReaction;
     private OnToggleView onToggleView;
     private ReactionsCallback reactionsCallback;
     private ViewGroup viewGroup;
@@ -122,7 +149,8 @@ public class IssueDetailsViewHolder extends BaseViewHolder<TimelineModel> {
                 adapter, onToggleView, reactionsCallback, repoOwner, poster);
     }
 
-    @Override public void bind(@NonNull TimelineModel timelineModel) {
+    @Override
+    public void bind(@NonNull TimelineModel timelineModel) {
         if (timelineModel.getIssue() != null) {
             bind(timelineModel.getIssue());
         } else if (timelineModel.getPullRequest() != null) {
@@ -131,7 +159,8 @@ public class IssueDetailsViewHolder extends BaseViewHolder<TimelineModel> {
         if (onToggleView != null) onToggle(onToggleView.isCollapsed(getAdapterPosition()), false);
     }
 
-    @Override public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
         if (v.getId() == R.id.toggle || v.getId() == R.id.toggleHolder) {
             if (onToggleView != null) {
                 int position = getAdapterPosition();
@@ -264,13 +293,14 @@ public class IssueDetailsViewHolder extends BaseViewHolder<TimelineModel> {
         toggle.setRotation(!expanded ? 0.0F : 180F);
         commentOptions.setVisibility(!expanded ? View.GONE : View.VISIBLE);
         reactionsList.setVisibility(expanded ? View.GONE : reactionsList.getTag() == null || (!((Boolean) reactionsList.getTag()))
-                                                           ? View.GONE : View.VISIBLE);
+                ? View.GONE : View.VISIBLE);
     }
 
-    @Override protected void onViewIsDetaching() {
+    @Override
+    protected void onViewIsDetaching() {
         DrawableGetter drawableGetter = (DrawableGetter) comment.getTag(R.id.drawable_callback);
         if (drawableGetter != null) {
-            drawableGetter.clear(drawableGetter);
+            drawableGetter.clear(viewGroup.getContext(), drawableGetter);
         }
     }
 }

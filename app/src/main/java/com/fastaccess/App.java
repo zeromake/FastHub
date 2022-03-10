@@ -15,6 +15,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.miguelbcr.io.rx_billing_service.RxBillingService;
 import com.tencent.bugly.crashreport.CrashReport;
 
+import es.dmoral.toasty.Toasty;
 import io.requery.Persistable;
 import io.requery.android.sqlite.DatabaseSource;
 import io.requery.meta.EntityModel;
@@ -62,6 +63,7 @@ public class App extends Application {
             FirebaseMessaging.getInstance().subscribeToTopic("FastHub");
         } catch (Exception ignored) {
         }
+        Toasty.Config.getInstance().allowQueue(true).apply();
     }
 
     private void setupPreference() {

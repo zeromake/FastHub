@@ -46,7 +46,7 @@ public class FeedsViewHolder extends BaseViewHolder<Event> {
     @BindView(R.id.date) FontTextView date;
     private Resources resources;
 
-    public FeedsViewHolder(@NonNull View itemView, @Nullable BaseRecyclerAdapter adapter) {
+    public FeedsViewHolder(@NonNull View itemView, @Nullable BaseRecyclerAdapter<Event, FeedsViewHolder, BaseViewHolder.OnItemClickListener<Event>> adapter) {
         super(itemView, adapter);
         this.resources = itemView.getResources();
     }

@@ -13,11 +13,17 @@ import com.fastaccess.github.RepoProjectsOpenQuery
 /**
  * Created by kosh on 09/09/2017.
  */
-class ProjectViewHolder(view: View, adapter: BaseRecyclerAdapter<*, *, *>) : BaseViewHolder<RepoProjectsOpenQuery.Node>(view, adapter) {
+class ProjectViewHolder(
+    view: View,
+    adapter: BaseRecyclerAdapter<RepoProjectsOpenQuery.Node, ProjectViewHolder, OnItemClickListener<RepoProjectsOpenQuery.Node>>
+) : BaseViewHolder<RepoProjectsOpenQuery.Node>(view, adapter) {
 
-    @BindView(R.id.description) lateinit var description: FontTextView
-    @BindView(R.id.title) lateinit var title: FontTextView
-    @BindView(R.id.date) lateinit var date: FontTextView
+    @BindView(R.id.description)
+    lateinit var description: FontTextView
+    @BindView(R.id.title)
+    lateinit var title: FontTextView
+    @BindView(R.id.date)
+    lateinit var date: FontTextView
 
     override fun bind(t: RepoProjectsOpenQuery.Node) {
         title.text = t.name
@@ -31,7 +37,10 @@ class ProjectViewHolder(view: View, adapter: BaseRecyclerAdapter<*, *, *>) : Bas
     }
 
     companion object {
-        fun newInstance(parent: ViewGroup, adapter: BaseRecyclerAdapter<*, *, *>): ProjectViewHolder {
+        fun newInstance(
+            parent: ViewGroup,
+            adapter: BaseRecyclerAdapter<RepoProjectsOpenQuery.Node, ProjectViewHolder, OnItemClickListener<RepoProjectsOpenQuery.Node>>
+        ): ProjectViewHolder {
             return ProjectViewHolder(getView(parent, R.layout.feeds_row_no_image_item), adapter)
         }
     }

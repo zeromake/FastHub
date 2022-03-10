@@ -46,7 +46,7 @@ class WikiPresenter : BasePresenter<WikiMvp.View>(), WikiMvp.Presenter {
     private fun getWikiContent(body: String?): Observable<WikiContentModel> {
         return Observable.fromPublisher { s ->
             try {
-                val document: Document = Jsoup.parse(body, "")
+                val document: Document = Jsoup.parse(body!!, "")
                 val wikiWrapper = document.select("#wiki-wrapper")
                 if (wikiWrapper.isNotEmpty()) {
                     val cloneUrl = wikiWrapper.select(".clone-url")

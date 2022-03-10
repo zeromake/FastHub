@@ -19,6 +19,7 @@ import com.fastaccess.ui.modules.main.premium.PremiumActivity
 import com.fastaccess.ui.modules.theme.fragment.ThemeFragmentMvp
 import com.fastaccess.ui.widgets.CardsPagerTransformerBasic
 import com.fastaccess.ui.widgets.ViewPagerView
+import kotlin.math.hypot
 
 
 /**
@@ -71,7 +72,7 @@ class ThemeActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FAView>
         val cx = parentLayout.width / 2
         val cy = parentLayout.height / 2
         if (parentLayout.isAttachedToWindow) {
-            val finalRadius = Math.hypot(cx.toDouble(), cy.toDouble()).toFloat()
+            val finalRadius = hypot(cx.toDouble(), cy.toDouble()).toFloat()
             val anim = ViewAnimationUtils.createCircularReveal(parentLayout, cx, cy, 0f, finalRadius)
             anim.addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator?) {

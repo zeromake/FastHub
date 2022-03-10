@@ -40,8 +40,8 @@ class DonateActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FAView
         super.onCreate(savedInstanceState)
         val bundle: Bundle = intent.extras!!
         val productKey = bundle.getString(BundleConstant.EXTRA)!!
-        val price = bundle.getLong(BundleConstant.EXTRA_FOUR, 0)
-        val priceText = bundle.getString(BundleConstant.EXTRA_FIVE)
+//        val price = bundle.getLong(BundleConstant.EXTRA_FOUR, 0)
+//        val priceText = bundle.getString(BundleConstant.EXTRA_FIVE)
         subscription = RxHelper.getSingle<Purchase>(RxBillingService.getInstance(this, BuildConfig.DEBUG)
                 .purchase(ProductType.IN_APP, productKey, "inapp:com.fastaccess.github:$productKey"))
                 .subscribe { _: Purchase?, throwable: Throwable? ->

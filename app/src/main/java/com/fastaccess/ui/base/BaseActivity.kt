@@ -56,6 +56,7 @@ import com.fastaccess.ui.modules.settings.SettingsActivity
 import com.fastaccess.ui.widgets.dialog.MessageDialogView
 import com.fastaccess.ui.widgets.dialog.MessageDialogView.Companion.newInstance
 import com.fastaccess.ui.widgets.dialog.ProgressDialogFragment
+import com.fastaccess.utils.setOnThrottleClickListener
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.navigation.NavigationView
 import es.dmoral.toasty.Toasty
@@ -208,9 +209,8 @@ abstract class BaseActivity<V : FAView?, P : BasePresenter<V>?> : TiActivity<P, 
         showMessage(getString(R.string.error), msgRes)
     }
 
-    override fun isLoggedIn(): Boolean {
-        return Login.getUser() != null
-    }
+    override val isLoggedIn: Boolean
+        get() = Login.getUser() != null
 
     override fun showProgress(@StringRes resId: Int) {
         showProgress(resId, true)
@@ -300,9 +300,8 @@ abstract class BaseActivity<V : FAView?, P : BasePresenter<V>?> : TiActivity<P, 
     }
 
     override fun onScrollTop(index: Int) {}
-    override fun isEnterprise(): Boolean {
-        return presenter != null && presenter!!.isEnterprise
-    }
+    override val isEnterprise: Boolean
+        get() = presenter != null && presenter!!.isEnterprise
 
     override fun onOpenUrlInBrowser() {
         if (!isEmpty(schemeUrl)) {
@@ -402,9 +401,13 @@ abstract class BaseActivity<V : FAView?, P : BasePresenter<V>?> : TiActivity<P, 
                         val navIcon = getToolbarNavigationIcon(toolbar)
                         navIcon?.setOnLongClickListener {
                             val intent = Intent(this, MainActivity::class.java)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                             startActivity(intent)
                             finish()
                             true
+                        }
+                        navIcon?.setOnThrottleClickListener {
+                            finish()
                         }
                     }
                 }

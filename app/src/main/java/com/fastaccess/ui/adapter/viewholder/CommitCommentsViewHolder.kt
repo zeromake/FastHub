@@ -26,7 +26,7 @@ import java.util.*
  * Created by kosh on 15/08/2017.
  */
 class CommitCommentsViewHolder private constructor(
-    view: View, adapter: BaseRecyclerAdapter<*, *, *>,
+    view: View, adapter: BaseRecyclerAdapter<Comment, CommitCommentsViewHolder, OnItemClickListener<Comment>>,
     val viewGroup: ViewGroup, val onToggleView: OnToggleView
 ) : BaseViewHolder<Comment>(view, adapter) {
 
@@ -101,7 +101,8 @@ class CommitCommentsViewHolder private constructor(
             owner.visibility = View.GONE
         }
         if (t.createdAt == t.updatedAt) {
-            date.text = "${ParseDateFormat.getTimeAgo(t.updatedAt)} ${itemView.resources.getString(R.string.edited)}"
+            date.text =
+                "${ParseDateFormat.getTimeAgo(t.updatedAt)} ${itemView.resources.getString(R.string.edited)}"
         } else {
             date.text = ParseDateFormat.getTimeAgo(t.createdAt)
         }
@@ -117,13 +118,13 @@ class CommitCommentsViewHolder private constructor(
 
     override fun onViewIsDetaching() {
         val drawableGetter = comment.getTag(R.id.drawable_callback) as DrawableGetter?
-        drawableGetter?.clear(drawableGetter)
+        drawableGetter?.clear(viewGroup.context, drawableGetter)
     }
 
     companion object {
         fun newInstance(
             parent: ViewGroup,
-            adapter: BaseRecyclerAdapter<*, *, *>,
+            adapter: BaseRecyclerAdapter<Comment, CommitCommentsViewHolder, OnItemClickListener<Comment>>,
             onToggleView: OnToggleView
         ): CommitCommentsViewHolder {
             return CommitCommentsViewHolder(

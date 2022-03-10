@@ -7,8 +7,6 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="com.android.vending.BILLING"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -42,6 +40,7 @@
         android:supportsRtl="true"
         android:theme="@style/SplashTheme"
         tools:replace="android:allowBackup"
+        android:hardwareAccelerated ="true"
         tools:targetApi="n">
         <activity
             android:name=".ui.modules.main.donation.CheckPurchaseActivity"
@@ -49,7 +48,7 @@
             android:theme="@style/ThemeTranslucent"/>
         <activity
             android:name=".ui.modules.main.MainActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:theme="@style/SplashTheme"
             android:exported="true">
             <intent-filter>
@@ -61,7 +60,7 @@
         <activity
             android:name=".ui.modules.login.LoginActivity"
             android:configChanges="keyboard|orientation|screenSize"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme"
             android:exported="true">

@@ -2,11 +2,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-parcelize")
-    id("com.novoda.build-properties")
-//    id("jacoco-android")
     id("com.apollographql.apollo3").version("3.1.0")
-//    id("com.google.gms.google-services")
-//    id("io.freefair.lombok") version "5.3.0"
     id("kotlin-kapt")
     id("com.mikepenz.aboutlibraries.plugin") version "10.0.0-rc02"
 }
@@ -33,6 +29,8 @@ android {
 
     buildTypes {
         release {
+            isShrinkResources = true
+            isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
         debug {
@@ -86,29 +84,31 @@ dependencies {
     implementation("androidx.legacy:legacy-preference-v14:1.0.0")
     implementation("androidx.browser:browser:1.4.0")
     implementation("androidx.palette:palette-ktx:1.0.0")
+    implementation("androidx.compose.ui:ui:1.1.1")
 
     // thirtyinch
-    implementation("net.grandcentrix.thirtyinch:thirtyinch:1.0.1")
-    implementation("net.grandcentrix.thirtyinch:thirtyinch-rx2:1.0.1")
+    implementation("com.github.Grandcentrix.ThirtyInch:thirtyinch:v1.0.1")
+    implementation("com.github.Grandcentrix.ThirtyInch:thirtyinch-rx2:v1.0.1")
+    implementation("com.github.Grandcentrix.ThirtyInch:thirtyinch-kotlin:v1.0.1")
+    implementation("com.github.Grandcentrix.ThirtyInch:thirtyinch-kotlin-coroutines:v1.0.1")
 
     // retrofit2
-    implementation("com.squareup.retrofit2:retrofit:2.3.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.3.0")
-    implementation("com.squareup.retrofit2:adapter-rxjava2:2.3.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:adapter-rxjava2:2.9.0")
 
     // glide
-    implementation("com.github.bumptech.glide:glide:3.7.0")
+    implementation("com.github.bumptech.glide:glide:4.13.1")
 
     // ShapedImageView
     implementation("cn.gavinliu.android.lib:ShapedImageView:0.8.3")
 
     // butterknife
     implementation("com.jakewharton:butterknife:10.2.3")
-    implementation("androidx.compose.ui:ui:1.1.1")
     kapt("com.jakewharton:butterknife-compiler:10.2.3")
 
     // bottom-navigation
-    implementation("it.sephiroth.android.library.bottomnavigation:bottom-navigation:2.0.2")
+    implementation("it.sephiroth.android.library.bottomnavigation:bottom-navigation:3.0.0")
 
     // rx2
     implementation("io.reactivex.rxjava2:rxjava:2.2.21")
@@ -120,7 +120,7 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor")
 
     // stream
-    implementation("com.annimon:stream:1.1.9")
+    implementation("com.annimon:stream:1.2.2")
 
     // Toasty
     implementation("com.github.GrenderG:Toasty:1.5.2")
@@ -142,12 +142,12 @@ dependencies {
     implementation("com.mikepenz:aboutlibraries-compose:10.0.0")
 
     // HtmlSpanner
-    implementation("com.github.nightwhistler:HtmlSpanner:0.4")
+    implementation("com.github.NightWhistler:HtmlSpanner:0.4")
     // htmlcleaner
     implementation("net.sourceforge.htmlcleaner:htmlcleaner:2.2")
 
     // shortbread
-    implementation("com.github.matthiasrobbers:shortbread:1.0.1")
+    implementation("com.github.matthiasrobbers:shortbread:1.4.0")
 
     // commonmark
     implementation("com.atlassian.commonmark:commonmark:0.10.0")
@@ -191,7 +191,7 @@ dependencies {
     implementation("net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.1.0")
 
     // lottie
-    implementation("com.airbnb.android:lottie:2.2.5")
+    implementation("com.airbnb.android:lottie:5.0.3")
 
     // mmkv
     implementation("com.tencent:mmkv:1.2.12")
@@ -201,7 +201,7 @@ dependencies {
     implementation("androidx.annotation:annotation:1.3.0")
 
 
-    kapt("com.github.matthiasrobbers:shortbread-compiler:1.0.1")
+    kapt("com.github.matthiasrobbers:shortbread-compiler:1.4.0")
 
 
     // bugly
@@ -209,9 +209,9 @@ dependencies {
 
 
     testImplementation("junit:junit:4.13.2")
-    testImplementation("org.mockito:mockito-core:1.10.19")
-    testImplementation("org.assertj:assertj-core:2.5.0")
-    androidTestImplementation("org.mockito:mockito-core:1.10.19")
+    testImplementation("org.mockito:mockito-core:4.4.0")
+    testImplementation("org.assertj:assertj-core:3.22.0")
+    androidTestImplementation("org.mockito:mockito-core:4.4.0")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test:rules:1.4.0")
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.4.0")

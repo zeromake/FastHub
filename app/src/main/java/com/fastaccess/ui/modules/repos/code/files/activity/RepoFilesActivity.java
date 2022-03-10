@@ -67,7 +67,7 @@ public class RepoFilesActivity extends BaseActivity {
             } else if (uri.getPathSegments().get(0).equalsIgnoreCase("repositories")) {
                 String id = uri.getPathSegments().get(1);
                 try {
-                    long longRepoId = Long.valueOf(id);
+                    long longRepoId = Long.parseLong(id);
                     if (longRepoId != 0) {
                         Repo repo = AbstractRepo.getRepo(longRepoId);
                         if (repo != null) {
@@ -80,7 +80,7 @@ public class RepoFilesActivity extends BaseActivity {
                         }
                     }
                 } catch (NumberFormatException ignored) {
-                    return new Intent(context, MainActivity.class);
+                    return MainActivity.launchMain(context, true);
                 }
             } else {
                 login = uri.getPathSegments().get(0);
@@ -102,9 +102,9 @@ public class RepoFilesActivity extends BaseActivity {
                         .end());
                 return intent;
             }
-            return new Intent(context, MainActivity.class);
+            return MainActivity.launchMain(context, true);
         }
-        return new Intent(context, MainActivity.class);
+        return MainActivity.launchMain(context, true);
     }
 
     @Override protected int layout() {

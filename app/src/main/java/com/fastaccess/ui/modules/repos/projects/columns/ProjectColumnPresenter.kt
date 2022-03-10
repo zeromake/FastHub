@@ -21,21 +21,21 @@ import java.util.*
 class ProjectColumnPresenter : BasePresenter<ProjectColumnMvp.View>(), ProjectColumnMvp.Presenter {
 
     private val projects = ArrayList<ProjectCardModel>()
-    private var page: Int = 0
-    private var previousTotal: Int = 0
+    override var currentPage: Int = 0
+    override var previousTotal: Int = 0
     private var lastPage = Integer.MAX_VALUE
 
     override fun onItemClick(position: Int, v: View, item: ProjectCardModel) {
         if (v.id == R.id.editCard) {
-            view?.let {
+            view?.let { view ->
                 val popupMenu = PopupMenu(v.context, v)
                 popupMenu.inflate(R.menu.project_card_menu)
                 popupMenu.menu.findItem(R.id.share).isVisible = !item.contentUrl.isNullOrBlank()
                 popupMenu.menu.findItem(R.id.copy).isVisible = !item.contentUrl.isNullOrBlank()
-                popupMenu.menu.findItem(R.id.edit).isVisible = it.isOwner() && !item.note.isNullOrBlank()
-                popupMenu.menu.findItem(R.id.delete).isVisible = it.isOwner() && !item.note.isNullOrBlank()
-                popupMenu.setOnMenuItemClickListener {
-                    when (it.itemId) {
+                popupMenu.menu.findItem(R.id.edit).isVisible = view.isOwner() && !item.note.isNullOrBlank()
+                popupMenu.menu.findItem(R.id.delete).isVisible = view.isOwner() && !item.note.isNullOrBlank()
+                popupMenu.setOnMenuItemClickListener { it1 ->
+                    when (it1.itemId) {
                         R.id.edit -> sendToView { it.onEditCard(item.note, position) }
                         R.id.delete -> sendToView { it.onDeleteCard(position) }
                         R.id.share -> if (!item.contentUrl.isNullOrBlank()) {
@@ -59,18 +59,6 @@ class ProjectColumnPresenter : BasePresenter<ProjectColumnMvp.View>(), ProjectCo
     override fun onItemLongClick(position: Int, v: View?, item: ProjectCardModel?) {}
 
     override fun getCards(): ArrayList<ProjectCardModel> = projects
-
-    override fun getCurrentPage(): Int = page
-
-    override fun getPreviousTotal(): Int = previousTotal
-
-    override fun setCurrentPage(page: Int) {
-        this.page = page
-    }
-
-    override fun setPreviousTotal(previousTotal: Int) {
-        this.previousTotal = previousTotal
-    }
 
     override fun onCallApi(page: Int, parameter: Long?): Boolean {
         if (page == 1) {
@@ -97,7 +85,7 @@ class ProjectColumnPresenter : BasePresenter<ProjectColumnMvp.View>(), ProjectCo
                     .doOnSubscribe {
                         showBlockingProgress()
                     }
-                    .subscribe({
+                    .subscribe({ it ->
                         if (it.code() == 204) {
                             sendToView { it.deleteColumn() }
                         } else {

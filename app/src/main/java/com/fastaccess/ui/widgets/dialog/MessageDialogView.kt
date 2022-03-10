@@ -52,7 +52,8 @@ class MessageDialogView : BaseBottomSheetDialog() {
             if (msg != null) {
                 message.visibility = View.GONE
                 prettifyWebView.visibility = View.VISIBLE
-                prettifyWebView.setGithubContent(msg, null,
+                prettifyWebView.setGithubContent(
+                    msg, null,
                     toggleNestScrolling = false,
                     enableBridge = false,
                     "",
@@ -133,6 +134,11 @@ class MessageDialogView : BaseBottomSheetDialog() {
     override fun onHidden() {
         if (callback != null) callback!!.onDialogDismissed()
         super.onHidden()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        prettifyWebView.destroy()
     }
 
     companion object {

@@ -24,13 +24,13 @@ public class TeamsViewHolder extends BaseViewHolder<TeamsModel> {
     FontTextView title;
     FontTextView date;
 
-    private TeamsViewHolder(@NonNull View itemView, @Nullable BaseRecyclerAdapter<?, ?, ?> adapter) {
+    private TeamsViewHolder(@NonNull View itemView, @Nullable BaseRecyclerAdapter<TeamsModel, TeamsViewHolder, TeamsViewHolder.OnItemClickListener<TeamsModel>> adapter) {
         super(itemView, adapter);
         this.title = itemView.findViewById((R.id.title));
         this.date = itemView.findViewById((R.id.date));
     }
 
-    public static TeamsViewHolder newInstance(@NonNull ViewGroup viewGroup, @NonNull BaseRecyclerAdapter<?, ?, ?> adapter) {
+    public static TeamsViewHolder newInstance(@NonNull ViewGroup viewGroup, @NonNull BaseRecyclerAdapter<TeamsModel, TeamsViewHolder, TeamsViewHolder.OnItemClickListener<TeamsModel>> adapter) {
         return new TeamsViewHolder(getView(viewGroup, R.layout.feeds_row_no_image_item), adapter);
     }
 

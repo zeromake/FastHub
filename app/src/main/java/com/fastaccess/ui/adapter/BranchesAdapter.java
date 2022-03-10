@@ -26,17 +26,20 @@ public class BranchesAdapter extends BaseRecyclerAdapter<BranchesModel, Branches
         super(data, listener);
     }
 
-    @Override protected BranchesViewHolder viewHolder(ViewGroup parent, int viewType) {
+    @Override
+    protected BranchesViewHolder viewHolder(ViewGroup parent, int viewType) {
         return new BranchesViewHolder(BaseViewHolder.getView(parent, R.layout.branches_row_item), this);
     }
 
-    @Override protected void onBindView(BranchesViewHolder holder, int position) {
+    @Override
+    protected void onBindView(BranchesViewHolder holder, int position) {
         holder.bind(getItem(position));
     }
 
 
     static class BranchesViewHolder extends BaseViewHolder<BranchesModel> {
-        @Nullable AppCompatImageView image;
+        @Nullable
+        AppCompatImageView image;
         TextView title;
 
         BranchesViewHolder(@NonNull View itemView, @Nullable BaseRecyclerAdapter adapter) {
@@ -45,7 +48,8 @@ public class BranchesAdapter extends BaseRecyclerAdapter<BranchesModel, Branches
             this.title = itemView.findViewById(android.R.id.text1);
         }
 
-        @Override public void bind(@NonNull BranchesModel branchesModel) {
+        @Override
+        public void bind(@NonNull BranchesModel branchesModel) {
             if (image != null) {
                 image.setImageResource(branchesModel.isTag() ? R.drawable.ic_label : R.drawable.ic_branch);
                 image.setContentDescription(branchesModel.getName());

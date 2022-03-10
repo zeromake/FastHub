@@ -476,12 +476,11 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
 
         fun buildForDrawer(
             context: Context,
-            onDrawerCreated: MainDrawerFragment.OnDrawerMenuCreatedListener
         ): List<FragmentPagerAdapterModel> {
             return sequenceOf(
                 FragmentPagerAdapterModel(
                     context.getString(R.string.menu_label),
-                    MainDrawerFragment(onDrawerCreated)
+                    MainDrawerFragment()
                 ),
                 FragmentPagerAdapterModel(
                     context.getString(R.string.profile),

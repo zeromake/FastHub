@@ -13,12 +13,15 @@ import io.reactivex.Observable
  * Created by Kosh on 06 Jul 2017, 9:14 PM
  */
 class BranchesPresenter : BasePresenter<BranchesMvp.View>(), BranchesMvp.Presenter {
-    private var page: Int = 0
-    private var previousTotal: Int = 0
+    override var currentPage: Int = 0
+    override var previousTotal: Int = 0
     private var lastPage = Integer.MAX_VALUE
-    @com.evernote.android.state.State var login: String? = null
-    @com.evernote.android.state.State var repoId: String? = null
-    @com.evernote.android.state.State var isBranch: Boolean = true
+    @com.evernote.android.state.State
+    var login: String? = null
+    @com.evernote.android.state.State
+    var repoId: String? = null
+    @com.evernote.android.state.State
+    var isBranch: Boolean = true
 
     var branches = ArrayList<BranchesModel>()
 
@@ -34,20 +37,20 @@ class BranchesPresenter : BasePresenter<BranchesMvp.View>(), BranchesMvp.Present
 
     private fun callApi(login: String, repoId: String, page: Int) {
         val observable = if (!isBranch) RestProvider.getRepoService(isEnterprise)
-                .getTags(login, repoId, page) else RestProvider.getRepoService(isEnterprise)
-                .getBranches(login, repoId, page)
+            .getTags(login, repoId, page) else RestProvider.getRepoService(isEnterprise)
+            .getBranches(login, repoId, page)
         return makeRestCall(observable
-                .flatMap { t: Pageable<BranchesModel>? ->
-                    val list = ArrayList<BranchesModel>()
-                    if (t != null) {
-                        lastPage = t.last
-                        t.items?.onEach {
-                            it.isTag = !isBranch
-                            list.add(it)
-                        }
+            .flatMap { t: Pageable<BranchesModel>? ->
+                val list = ArrayList<BranchesModel>()
+                if (t != null) {
+                    lastPage = t.last
+                    t.items?.onEach {
+                        it.isTag = !isBranch
+                        list.add(it)
                     }
-                    return@flatMap Observable.just(list)
-                }) { items -> sendToView { v -> v.onNotifyAdapter(items, page) } }
+                }
+                return@flatMap Observable.just(list)
+            }) { items -> sendToView { v -> v.onNotifyAdapter(items, page) } }
     }
 
     override fun onItemClick(position: Int, v: View?, item: BranchesModel?) {
@@ -56,29 +59,18 @@ class BranchesPresenter : BasePresenter<BranchesMvp.View>(), BranchesMvp.Present
 
     override fun onItemLongClick(position: Int, v: View?, item: BranchesModel?) {}
 
-    override fun getCurrentPage(): Int = page
-
-    override fun getPreviousTotal(): Int = previousTotal
-
-    override fun setCurrentPage(page: Int) {
-        this.page = page
-    }
-
-    override fun setPreviousTotal(previousTotal: Int) {
-        this.previousTotal = previousTotal
-    }
 
     override fun onCallApi(page: Int, parameter: Boolean?): Boolean {
         if (login.isNullOrEmpty() || repoId.isNullOrEmpty()) {
-            sendToView({ it.hideProgress() })
+            sendToView { it.hideProgress() }
             return false
         }
         if (page == 1) {
             lastPage = Integer.MAX_VALUE
-            sendToView({ it.getLoadMore().reset() })
+            sendToView { it.getLoadMore().reset() }
         }
         if (page > lastPage || lastPage == 0) {
-            sendToView({ it.hideProgress() })
+            sendToView { it.hideProgress() }
             return false
         }
         currentPage = page

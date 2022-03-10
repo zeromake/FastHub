@@ -9,8 +9,8 @@ import it.sephiroth.android.library.bottomnavigation.BottomNavigation
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.appbar.AppBarLayout
 
-class TabletBehavior(context: Context?, attrs: AttributeSet?) :
-    VerticalScrollingBehavior<BottomNavigation?>(context, attrs) {
+class TabletBehavior(context: Context, attrs: AttributeSet) :
+    VerticalScrollingBehavior<BottomNavigation>(context, attrs) {
     fun setLayoutValues(bottomNavWidth: Int, topInset: Int, translucentStatus: Boolean) {}
     override fun layoutDependsOn(
         parent: CoordinatorLayout,
@@ -48,7 +48,7 @@ class TabletBehavior(context: Context?, attrs: AttributeSet?) :
 
     override fun onNestedVerticalOverScroll(
         coordinatorLayout: CoordinatorLayout,
-        child: BottomNavigation?,
+        child: BottomNavigation,
         direction: Int,
         currentOverScroll: Int,
         totalOverScroll: Int
@@ -57,7 +57,7 @@ class TabletBehavior(context: Context?, attrs: AttributeSet?) :
 
     override fun onDirectionNestedPreScroll(
         coordinatorLayout: CoordinatorLayout,
-        child: BottomNavigation?,
+        child: BottomNavigation,
         target: View,
         dx: Int,
         dy: Int,
@@ -68,7 +68,7 @@ class TabletBehavior(context: Context?, attrs: AttributeSet?) :
 
     override fun onNestedDirectionFling(
         coordinatorLayout: CoordinatorLayout,
-        child: BottomNavigation?,
+        child: BottomNavigation,
         target: View,
         velocityX: Float,
         velocityY: Float,

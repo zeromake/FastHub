@@ -317,4 +317,12 @@ public class ViewerFragment extends BaseFragment<ViewerMvp.View, ViewerPresenter
         if (verticalOffset == 0 || verticalOffset == appBarLayout.getTotalScrollRange())
             isAppBarMoving = false;
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (webView != null) {
+            webView.destroy();
+        }
+    }
 }

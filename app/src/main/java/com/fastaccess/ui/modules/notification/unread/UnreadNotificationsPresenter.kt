@@ -18,9 +18,9 @@ import io.reactivex.Observable
 /**
  * Created by Kosh on 25 Apr 2017, 3:55 PM
  */
-class UnreadNotificationsPresenter : BasePresenter<UnreadNotificationMvp.View?>(),
+class UnreadNotificationsPresenter : BasePresenter<UnreadNotificationMvp.View>(),
     UnreadNotificationMvp.Presenter {
-    override val notifications: MutableList<GroupedNotificationModel?> = mutableListOf()
+    override val notifications: MutableList<GroupedNotificationModel> = mutableListOf()
     override fun onItemClick(position: Int, v: View?, model: GroupedNotificationModel?) {
         v ?: return
         model ?: return
@@ -65,7 +65,7 @@ class UnreadNotificationsPresenter : BasePresenter<UnreadNotificationMvp.View?>(
         }
     }
 
-    override fun onMarkAllAsRead(data: List<GroupedNotificationModel?>) {
+    override fun onMarkAllAsRead(data: List<GroupedNotificationModel>) {
         manageDisposable(RxHelper.getObservable(Observable.fromIterable(data))
             .filter { group: GroupedNotificationModel? -> group != null && group.type == GroupedNotificationModel.ROW }
             .filter { group: GroupedNotificationModel? -> group!!.notification != null && group.notification!!.isUnread }

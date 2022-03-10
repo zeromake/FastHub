@@ -23,10 +23,9 @@ import kotlin.collections.ArrayList
  * Created by kosh on 09/09/2017.
  */
 class RepoProjectPresenter : BasePresenter<RepoProjectMvp.View>(), RepoProjectMvp.Presenter {
-
     private val projects = arrayListOf<RepoProjectsOpenQuery.Node>()
-    private var page: Int = 0
-    private var previousTotal: Int = 0
+    override var currentPage: Int = 0
+    override var previousTotal: Int = 0
     private var lastPage = Integer.MAX_VALUE
 
     @com.evernote.android.state.State
@@ -54,18 +53,6 @@ class RepoProjectPresenter : BasePresenter<RepoProjectMvp.View>(), RepoProjectMv
 
     override fun getProjects(): ArrayList<RepoProjectsOpenQuery.Node> = projects
 
-    override fun getCurrentPage(): Int = page
-
-    override fun getPreviousTotal(): Int = previousTotal
-
-    override fun setCurrentPage(page: Int) {
-        this.page = page
-    }
-
-    override fun setPreviousTotal(previousTotal: Int) {
-        this.previousTotal = previousTotal
-    }
-
     override fun onCallApi(page: Int, parameter: IssueState?): Boolean {
         if (page == 1) {
             lastPage = Integer.MAX_VALUE
@@ -87,18 +74,18 @@ class RepoProjectPresenter : BasePresenter<RepoProjectMvp.View>(), RepoProjectMv
                     repoId,
                     getPage()
                 )
-                task = apollo.query(query).rxFlowable().map {
+                task = apollo.query(query).rxFlowable().map { it ->
                     val list = arrayListOf<RepoProjectsOpenQuery.Node>()
                     val repo = it.data?.repository!!
-                    repo.projects.let { it ->
-                        lastPage = if (it.pageInfo.hasNextPage) Int.MAX_VALUE else 0
+                    repo.projects.let { projects1 ->
+                        lastPage = if (projects1.pageInfo.hasNextPage) Int.MAX_VALUE else 0
                         pages.clear()
-                        count = it.totalCount
-                        it.edges?.let {
-                            pages.addAll(it.map { it?.cursor.toString() })
+                        count = projects1.totalCount
+                        projects1.edges?.let { it1 ->
+                            pages.addAll(it1.map { it?.cursor.toString() })
                         }
-                        it.nodes?.let {
-                            list.addAll(it.map { it!! })
+                        projects1.nodes?.let { it1 ->
+                            list.addAll(it1.map { it!! })
                         }
                     }
                     Observable.just(list)
@@ -116,19 +103,19 @@ class RepoProjectPresenter : BasePresenter<RepoProjectMvp.View>(), RepoProjectMv
                     repoId,
                     getPage()
                 )
-                task = apollo.query(query).rxFlowable().map {
+                task = apollo.query(query).rxFlowable().map { apolloResponse ->
                     val list = arrayListOf<RepoProjectsOpenQuery.Node>()
-                    val repos = it.data?.repository!!
-                    repos.projects.let {
-                        lastPage = if (it.pageInfo.hasNextPage) Int.MAX_VALUE else 0
+                    val repos = apolloResponse.data?.repository!!
+                    repos.projects.let { projects1 ->
+                        lastPage = if (projects1.pageInfo.hasNextPage) Int.MAX_VALUE else 0
                         pages.clear()
-                        count = it.totalCount
-                        it.edges?.let {
-                            pages.addAll(it.map { it?.cursor!! })
+                        count = projects1.totalCount
+                        projects1.edges?.let { list1 ->
+                            pages.addAll(list1.map { it?.cursor!! })
                         }
-                        it.nodes?.let {
+                        projects1.nodes?.let { list1 ->
                             val toConvert = arrayListOf<RepoProjectsOpenQuery.Node>()
-                            it.onEach {
+                            list1.onEach {
                                 val columns = RepoProjectsOpenQuery.Columns(
                                     it?.columns?.totalCount!!
                                 )

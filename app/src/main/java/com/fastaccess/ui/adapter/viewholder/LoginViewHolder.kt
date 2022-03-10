@@ -16,11 +16,11 @@ import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
  * Created by Kosh on 09 Jul 2017, 4:54 PM
  */
 
-class LoginViewHolder private constructor(itemView: View, adapter: BaseRecyclerAdapter<*, *, *>?) :
+class LoginViewHolder private constructor(itemView: View, adapter: BaseRecyclerAdapter<Login, LoginViewHolder, OnItemClickListener<Login>>) :
         BaseViewHolder<Login>(itemView, adapter) {
 
-    val avatarLayout: AvatarLayout? by lazy { itemView.findViewById<AvatarLayout>(R.id.avatarLayout) }
-    @BindView(R.id.title) lateinit var title: FontTextView
+    val avatarLayout: AvatarLayout? by lazy { itemView.findViewById(R.id.avatarLayout) }
+    val title: FontTextView by lazy { itemView.findViewById(R.id.title) }
 
     @SuppressLint("SetTextI18n")
     override fun bind(login: Login) {
@@ -34,8 +34,8 @@ class LoginViewHolder private constructor(itemView: View, adapter: BaseRecyclerA
     }
 
     companion object {
-        fun newInstance(parent: ViewGroup, adapter: BaseRecyclerAdapter<*, *, *>, small: Boolean): LoginViewHolder {
-            return LoginViewHolder(BaseViewHolder.getView(parent, if (small) R.layout.login_row_item_menu else R.layout.login_row_item), adapter)
+        fun newInstance(parent: ViewGroup, adapter: BaseRecyclerAdapter<Login, LoginViewHolder, OnItemClickListener<Login>>, small: Boolean): LoginViewHolder {
+            return LoginViewHolder(getView(parent, if (small) R.layout.login_row_item_menu else R.layout.login_row_item), adapter)
         }
     }
 }

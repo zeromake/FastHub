@@ -100,7 +100,7 @@ class ProjectCurdDialogFragment : BaseDialogFragment<BaseMvp.FAView, BasePresent
     }
 
     companion object {
-        val TAG = ProjectCurdDialogFragment::class.java.simpleName!!
+        val TAG: String = ProjectCurdDialogFragment::class.java.simpleName
 
         fun newInstance(text: String? = null, isCard: Boolean = false, position: Int = -1): ProjectCurdDialogFragment {
             val fragment = ProjectCurdDialogFragment()

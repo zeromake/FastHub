@@ -104,9 +104,9 @@ class RepoProjectFragment : BaseFragment<RepoProjectMvp.View, RepoProjectPresent
         stateLayout.hideProgress()
     }
 
-    override fun showErrorMessage(message: String) {
+    override fun showErrorMessage(msgRes: String) {
         showReload()
-        super.showErrorMessage(message)
+        super.showErrorMessage(msgRes)
     }
 
     override fun showMessage(titleRes: Int, msgRes: Int) {
@@ -116,7 +116,7 @@ class RepoProjectFragment : BaseFragment<RepoProjectMvp.View, RepoProjectPresent
 
     override fun onScrollTop(index: Int) {
         super.onScrollTop(index)
-        recycler?.scrollToPosition(0)
+        recycler.scrollToPosition(0)
     }
 
     override fun onDestroyView() {

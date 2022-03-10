@@ -3,10 +3,12 @@ package com.fastaccess.ui.widgets.recyclerview;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 
 /**
@@ -14,18 +16,19 @@ import android.view.View;
  * type; with a left inset.
  * this class adopted from Plaid
  */
-class InsetDividerDecoration extends RecyclerView.ItemDecoration {
+class InsetDividerDecoration<T extends RecyclerView.ViewHolder> extends RecyclerView.ItemDecoration {
 
-    @NonNull private final Paint paint;
+    @NonNull
+    private final Paint paint;
     private final int inset;
     private final int height;
-    private final Class toDivide;
+    private final Class<T> toDivide;
 
     InsetDividerDecoration(int divider, int leftInset, @ColorInt int dividerColor) {
         this(divider, leftInset, dividerColor, null);
     }
 
-    InsetDividerDecoration(int divider, int leftInset, @ColorInt int dividerColor, @Nullable Class toDivide) {
+    InsetDividerDecoration(int divider, int leftInset, @ColorInt int dividerColor, @Nullable Class<T> toDivide) {
         this.inset = leftInset;
         this.height = divider;
         this.paint = new Paint();
@@ -35,7 +38,8 @@ class InsetDividerDecoration extends RecyclerView.ItemDecoration {
         this.toDivide = toDivide;
     }
 
-    @Override public void onDrawOver(@NonNull Canvas canvas, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+    @Override
+    public void onDrawOver(@NonNull Canvas canvas, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         int childCount = parent.getChildCount();
         if (childCount < 2) return;
         RecyclerView.LayoutManager lm = parent.getLayoutManager();
@@ -51,7 +55,7 @@ class InsetDividerDecoration extends RecyclerView.ItemDecoration {
                     if (child.isActivated() || (i + 1 < childCount && parent.getChildAt(i + 1).isActivated())) {
                         continue;
                     }
-                    if (position != (state.getItemCount() - 1)) {
+                    if (lm != null && position != (state.getItemCount() - 1)) {
                         lines[i * 4] = inset == 0 ? inset : inset + lm.getDecoratedLeft(child);
                         lines[(i * 4) + 2] = lm.getDecoratedRight(child);
                         int y = lm.getDecoratedBottom(child) + (int) child.getTranslationY() - height;

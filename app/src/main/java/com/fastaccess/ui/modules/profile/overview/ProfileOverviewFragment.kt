@@ -40,7 +40,7 @@ import com.fastaccess.helper.*
 /**
  * Created by Kosh on 03 Dec 2016, 9:16 AM
  */
-class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View?, ProfileOverviewPresenter?>(),
+class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View, ProfileOverviewPresenter>(),
     ProfileOverviewMvp.View {
 
     var contributionsCaption: FontTextView? = null
@@ -129,13 +129,17 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View?, ProfileOv
 
     @OnClick(R.id.following, R.id.followers, R.id.followBtn)
     fun onClick(view: View) {
-        if (view.id == R.id.followers) {
-            profileCallback!!.onNavigateToFollowers()
-        } else if (view.id == R.id.following) {
-            profileCallback!!.onNavigateToFollowing()
-        } else if (view.id == R.id.followBtn) {
-            presenter!!.onFollowButtonClicked(presenter!!.login)
-            followBtn!!.isEnabled = false
+        when (view.id) {
+            R.id.followers -> {
+                profileCallback!!.onNavigateToFollowers()
+            }
+            R.id.following -> {
+                profileCallback!!.onNavigateToFollowing()
+            }
+            R.id.followBtn -> {
+                presenter!!.onFollowButtonClicked(presenter!!.login!!)
+                followBtn!!.isEnabled = false
+            }
         }
     }
 
@@ -190,7 +194,7 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View?, ProfileOv
     @SuppressLint("ClickableViewAccessibility")
     override fun onInitViews(userModel: User?) {
         progress!!.visibility = View.GONE
-        if (userModel == null) return
+        userModel ?: return
         if (profileCallback != null) profileCallback!!.onCheckType(userModel.isOrganizationType)
         if (view != null) {
             if (this.userModel == null) {
@@ -298,8 +302,8 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View?, ProfileOv
             if (show) View.VISIBLE else View.GONE
     }
 
-    override fun onInitOrgs(orgs: List<User>?) {
-        if (orgs != null && !orgs.isEmpty()) {
+    override fun onInitOrgs(orgs: List<User>) {
+        if (orgs.isNotEmpty()) {
             orgsList!!.isNestedScrollingEnabled = false
             val adapter = ProfileOrgsAdapter()
             adapter.addItems(orgs)
@@ -358,9 +362,9 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View?, ProfileOv
         progress!!.visibility = View.GONE
     }
 
-    override fun showErrorMessage(message: String) {
+    override fun showErrorMessage(msgRes: String) {
         onHideProgress()
-        super.showErrorMessage(message)
+        super.showErrorMessage(msgRes)
     }
 
     override fun showMessage(titleRes: Int, msgRes: Int) {
@@ -377,7 +381,7 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View?, ProfileOv
     }
 
     private val isMeOrOrganization: Boolean
-        private get() = Login.getUser() != null && Login.getUser().login.equals(
+        get() = Login.getUser() != null && Login.getUser().login.equals(
             presenter!!.login,
             ignoreCase = true
         ) ||

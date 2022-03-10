@@ -11,7 +11,7 @@ import com.fastaccess.ui.base.BaseFragment
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-inline fun <reified T : ViewBinding> BaseFragment<*, *>.viewBinding() =
+inline fun <reified T : ViewBinding> Fragment.viewBinding() =
     FragmentViewBindingDelegate(T::class.java, this)
 
 
