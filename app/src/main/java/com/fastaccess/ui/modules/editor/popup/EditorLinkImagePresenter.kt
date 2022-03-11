@@ -10,18 +10,19 @@ import java.io.File
 /**
  * Created by Kosh on 15 Apr 2017, 9:08 PM
  */
-class EditorLinkImagePresenter : BasePresenter<EditorLinkImageMvp.View?>(),
+class EditorLinkImagePresenter : BasePresenter<EditorLinkImageMvp.View>(),
     EditorLinkImageMvp.Presenter {
     override fun onSubmit(title: String?, file: File) {
         if (file.exists()) {
             val image: RequestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
-            makeRestCall(ImgurProvider.getImgurService().postImage(title, image),
+            makeRestCall(
+                ImgurProvider.getImgurService().postImage(title ?: "", image),
                 { imgurResponseModel ->
                     if (imgurResponseModel.data != null) {
-                        val imageResponse = imgurResponseModel.data
+                        val imageResponse = imgurResponseModel.data!!
                         sendToView { view ->
                             view?.onUploaded(
-                                title ?: imageResponse?.title, imageResponse?.link
+                                title ?: imageResponse.title!!, imageResponse.link!!
                             )
                         }
                     } else {

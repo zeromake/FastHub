@@ -87,8 +87,8 @@ class UnreadNotificationsPresenter : BasePresenter<UnreadNotificationMvp.View>()
 
     override fun onCallApi() {
         val observable = RestProvider.getNotificationService(PrefGetter.isEnterprise)
-            .getNotifications(lastWeekDate).flatMap { response: Pageable<Notification?> ->
-                val items = response.items?.filterNotNull() ?: listOf()
+            .getNotifications(lastWeekDate).flatMap { response: Pageable<Notification> ->
+                val items = response.items ?: listOf()
                 manageDisposable(
                     Notification.save(items)
                 )

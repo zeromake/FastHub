@@ -12,7 +12,7 @@ import retrofit2.http.Query
 
 interface ScrapService {
 
-    @GET("{lan}") fun getTrending(@Path("lan") lan: String?, @Query("since") since: String?): Observable<String>
+    @GET("{lan}") fun getTrending(@Path("lan") lan: String, @Query("since") since: String): Observable<String>
 
-    @GET("{path}") fun getWiki(@Path(value = "path", encoded = true) path: String?): Observable<String>
+    @GET("{path}") fun getWiki(@Path(value = "path", encoded = true) path: String): Observable<String>
 }

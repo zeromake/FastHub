@@ -288,11 +288,17 @@ object MarkDownProvider {
     }
 
     private fun hasNewLine(source: String, selectionStart: Int): Boolean {
-        return if (source.isEmpty()) return true else source.substring(
+        if (source.isEmpty()) {
+            return true
+        }
+        val selectSource = source.substring(
             0,
             selectionStart
         )
-            .last().code == 10
+        if (selectSource.isEmpty()) {
+            return true
+        }
+        return selectSource.last().code == 10
     }
 
     @JvmStatic

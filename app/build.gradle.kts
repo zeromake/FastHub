@@ -26,7 +26,11 @@ android {
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    signingConfigs {
+        getByName("debug") {
+            storeFile = file("${rootProject.projectDir}\\debug.keystore")
+        }
+    }
     buildTypes {
         release {
             isShrinkResources = true
@@ -34,6 +38,7 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
         debug {
+            signingConfig = signingConfigs.getByName("debug")
             applicationIdSuffix = ".debug1"
             versionNameSuffix = "-debug"
         }
@@ -117,10 +122,10 @@ dependencies {
     implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
 
     // autodispose
-    implementation("com.uber.autodispose2:autodispose:2.1.1")
-    implementation("com.uber.autodispose2:autodispose-lifecycle:2.1.1")
-    implementation("com.uber.autodispose2:autodispose-android:2.1.1")
-    implementation("com.uber.autodispose2:autodispose-androidx-lifecycle:2.1.1")
+//    implementation("com.uber.autodispose2:autodispose:2.1.1")
+//    implementation("com.uber.autodispose2:autodispose-lifecycle:2.1.1")
+//    implementation("com.uber.autodispose2:autodispose-android:2.1.1")
+//    implementation("com.uber.autodispose2:autodispose-androidx-lifecycle:2.1.1")
 
     // okhttp3
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.9.3"))
@@ -156,12 +161,12 @@ dependencies {
 
 
     // commonmark
-    implementation("com.atlassian.commonmark:commonmark:0.10.0")
-    implementation("com.atlassian.commonmark:commonmark-ext-autolink:0.10.0")
-    implementation("com.atlassian.commonmark:commonmark-ext-gfm-strikethrough:0.10.0")
-    implementation("com.atlassian.commonmark:commonmark-ext-gfm-tables:0.10.0")
-    implementation("com.atlassian.commonmark:commonmark-ext-ins:0.10.0")
-    implementation("com.atlassian.commonmark:commonmark-ext-yaml-front-matter:0.10.0")
+    implementation("com.atlassian.commonmark:commonmark:0.17.0")
+    implementation("com.atlassian.commonmark:commonmark-ext-autolink:0.17.0")
+    implementation("com.atlassian.commonmark:commonmark-ext-gfm-strikethrough:0.17.0")
+    implementation("com.atlassian.commonmark:commonmark-ext-gfm-tables:0.17.0")
+    implementation("com.atlassian.commonmark:commonmark-ext-ins:0.17.0")
+    implementation("com.atlassian.commonmark:commonmark-ext-yaml-front-matter:0.17.0")
 
     // firebase
     implementation("com.google.firebase:firebase-core:20.1.0")

@@ -57,7 +57,7 @@ class PullRequestFilesPresenter : BasePresenter<PullRequestFilesMvp.View>(),
         }
         if (repoId == null || login == null) return false
         makeRestCall<List<CommitFileChanges>>(RestProvider.getPullRequestService(isEnterprise)
-            .getPullRequestFiles(login, repoId, number, page)
+            .getPullRequestFiles(login!!, repoId!!, number, page)
             .flatMap { commitFileModelPageable: Pageable<CommitFileModel> ->
                 lastPage = commitFileModelPageable.last
                 if (commitFileModelPageable.items != null) {
@@ -110,7 +110,10 @@ class PullRequestFilesPresenter : BasePresenter<PullRequestFilesMvp.View>(),
                     R.id.share -> ActivityHelper.shareUrl(v.context, item!!.blobUrl!!)
                     R.id.download -> {
                         val activity = ActivityHelper.getActivity(v.context)
-                        if (activity != null && ActivityHelper.checkAndRequestReadWritePermission(activity)) {
+                        if (activity != null && ActivityHelper.checkAndRequestReadWritePermission(
+                                activity
+                            )
+                        ) {
                             RestProvider.downloadFile(v.context, item!!.rawUrl!!)
                         }
                     }

@@ -2,6 +2,7 @@ package com.fastaccess.provider.markdown.extension.emoji.internal
 
 import com.fastaccess.provider.markdown.extension.emoji.Emoji
 import org.commonmark.node.Node
+import org.commonmark.node.Nodes
 import org.commonmark.node.Text
 import org.commonmark.parser.delimiter.DelimiterProcessor
 import org.commonmark.parser.delimiter.DelimiterRun
@@ -19,22 +20,17 @@ class EmojiDelimiterProcessor : DelimiterProcessor {
         return 1
     }
 
-    override fun getDelimiterUse(opener: DelimiterRun, closer: DelimiterRun): Int {
-        return if (opener.length() >= 1 && closer.length() >= 1) {
+    override fun process(openerRun: DelimiterRun, closerRun: DelimiterRun): Int {
+        return if (openerRun.length() >= 1 && closerRun.length() >= 1) {
+            val emoji: Node = Emoji()
+            val opener: Text = openerRun.opener
+            for (node in Nodes.between(opener, closerRun.closer)) {
+                emoji.appendChild(node)
+            }
+            opener.insertAfter(emoji)
             1
         } else {
             0
         }
-    }
-
-    override fun process(opener: Text, closer: Text, delimiterCount: Int) {
-        val emoji: Node = Emoji()
-        var tmp = opener.next
-        while (tmp != null && tmp !== closer) {
-            val next = tmp.next
-            emoji.appendChild(tmp)
-            tmp = next
-        }
-        opener.insertAfter(emoji)
     }
 }

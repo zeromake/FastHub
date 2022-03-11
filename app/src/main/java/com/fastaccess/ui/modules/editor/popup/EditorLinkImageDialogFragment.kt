@@ -23,7 +23,7 @@ import java.io.File
  * Created by Kosh on 15 Apr 2017, 9:14 PM
  */
 class EditorLinkImageDialogFragment :
-    BaseDialogFragment<EditorLinkImageMvp.View?, EditorLinkImagePresenter?>(),
+    BaseDialogFragment<EditorLinkImageMvp.View, EditorLinkImagePresenter>(),
     EditorLinkImageMvp.View {
     private var editorCallback: EditorLinkCallback? = null
 

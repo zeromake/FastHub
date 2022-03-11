@@ -25,7 +25,7 @@ class AllNotificationsPresenter : BasePresenter<AllNotificationsMvp.View>(),
     override val notifications: MutableList<GroupedNotificationModel> = mutableListOf()
     override fun onItemClick(position: Int, v: View, model: GroupedNotificationModel?) {
         if (view == null) return
-        model?: return
+        model ?: return
         if (model.type == GroupedNotificationModel.ROW) {
             model.notification?.let { item ->
                 if (v.id == R.id.markAsRead) {
@@ -103,10 +103,10 @@ class AllNotificationsPresenter : BasePresenter<AllNotificationsMvp.View>(),
 
     override fun onCallApi() {
         val observable = RestProvider.getNotificationService(PrefGetter.isEnterprise)
-            .allNotifications.flatMap { response: Pageable<Notification?> ->
-                val items = response.items?.filterNotNull()!!
+            .allNotifications.flatMap { response: Pageable<Notification> ->
+                val items = response.items
                 manageDisposable(Notification.save(items))
-                if (items.isNotEmpty()) {
+                if (items != null && items.isNotEmpty()) {
                     return@flatMap Observable.just(construct(items))
                 }
                 Observable.empty()

@@ -18,9 +18,10 @@ class UserPagerPresenter : BasePresenter<UserPagerMvp.View?>(), UserPagerMvp.Pre
     @com.evernote.android.state.State
     var isUserBlockedRequested = false
     override fun onCheckBlocking(login: String) {
-        makeRestCall(RestProvider.getUserService(isEnterprise).isUserBlocked(login)
-        ) { booleanResponse: Response<Boolean?> ->
-            sendToView { view: UserPagerMvp.View? ->
+        makeRestCall(
+            RestProvider.getUserService(isEnterprise).isUserBlocked(login)
+        ) { booleanResponse ->
+            sendToView { view ->
                 isUserBlockedRequested = true
                 isUserBlocked = booleanResponse.code() == 204
                 view?.onInvalidateMenu()
@@ -29,9 +30,10 @@ class UserPagerPresenter : BasePresenter<UserPagerMvp.View?>(), UserPagerMvp.Pre
     }
 
     override fun checkOrgMembership(org: String) {
-        makeRestCall(RestProvider.getOrgService(isEnterprise).isMember(org, Login.getUser().login)
-        ) { booleanResponse: Response<Boolean?> ->
-            sendToView { view: UserPagerMvp.View? ->
+        makeRestCall(
+            RestProvider.getOrgService(isEnterprise).isMember(org, Login.getUser().login)
+        ) { booleanResponse ->
+            sendToView { view ->
                 isMember = if (booleanResponse.code() == 204) 1 else 0
                 view?.onInitOrg(isMember == 1)
             }
@@ -42,7 +44,8 @@ class UserPagerPresenter : BasePresenter<UserPagerMvp.View?>(), UserPagerMvp.Pre
         if (isUserBlocked) {
             onUnblockUser(login)
         } else {
-            makeRestCall(RestProvider.getUserService(isEnterprise).blockUser(login)
+            makeRestCall(
+                RestProvider.getUserService(isEnterprise).blockUser(login)
             ) {
                 sendToView { view: UserPagerMvp.View? ->
                     isUserBlocked = true
@@ -53,7 +56,8 @@ class UserPagerPresenter : BasePresenter<UserPagerMvp.View?>(), UserPagerMvp.Pre
     }
 
     override fun onUnblockUser(login: String) {
-        makeRestCall(RestProvider.getUserService(isEnterprise).unBlockUser(login)
+        makeRestCall(
+            RestProvider.getUserService(isEnterprise).unBlockUser(login)
         ) {
             sendToView { view: UserPagerMvp.View? ->
                 isUserBlocked = false

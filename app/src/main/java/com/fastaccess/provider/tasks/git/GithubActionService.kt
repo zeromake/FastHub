@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.annotation.IntDef
 import androidx.core.app.NotificationCompat
-import autodispose2.AutoDispose
 import com.fastaccess.R
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler

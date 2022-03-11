@@ -44,7 +44,7 @@ class ProfileOverviewPresenter : BasePresenter<ProfileOverviewMvp.View>(),
                     isEnterprise
                 ).getFollowStatus(login)
             )
-                .subscribe({ booleanResponse: Response<Boolean?> ->
+                .subscribe({ booleanResponse: Response<Boolean> ->
                     isSuccessResponse = true
                     isFollowing = booleanResponse.code() == 204
                     sendToView {
@@ -60,7 +60,7 @@ class ProfileOverviewPresenter : BasePresenter<ProfileOverviewMvp.View>(),
                 isEnterprise
             ).followUser(login) else RestProvider.getUserService(isEnterprise).unfollowUser(login)
         )
-            .subscribe({ booleanResponse: Response<Boolean?> ->
+            .subscribe({ booleanResponse: Response<Boolean> ->
                 if (booleanResponse.code() == 204) {
                     isFollowing = !isFollowing
                     sendToView { it?.invalidateFollowBtn() }

@@ -74,7 +74,7 @@ class ReactionsProvider {
                     return RxHelper.safeObservable(
                         RestProvider.getReactionsService(isEnterprise).delete(reactionsModel.id)
                     )
-                        .doOnNext { booleanResponse: Response<Boolean?> ->
+                        .doOnNext { booleanResponse: Response<Boolean> ->
                             if (booleanResponse.code() == 204) {
                                 reactionsMap.remove(idOrNumber)
                             }

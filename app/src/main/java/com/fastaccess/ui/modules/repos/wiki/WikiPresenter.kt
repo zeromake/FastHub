@@ -16,8 +16,10 @@ import org.jsoup.nodes.Document
  */
 class WikiPresenter : BasePresenter<WikiMvp.View>(), WikiMvp.Presenter {
 
-    @com.evernote.android.state.State var repoId: String? = null
-    @com.evernote.android.state.State var login: String? = null
+    @com.evernote.android.state.State
+    var repoId: String? = null
+    @com.evernote.android.state.State
+    var login: String? = null
 
     override fun onActivityCreated(intent: Intent?) {
         if (intent != null) {
@@ -29,18 +31,22 @@ class WikiPresenter : BasePresenter<WikiMvp.View>(), WikiMvp.Presenter {
                 sendToView { it.onSetPage(page) }
             }
             if (!repoId.isNullOrEmpty() && !login.isNullOrEmpty()) {
-                onSidebarClicked(WikiSideBarModel("Home", "$login/$repoId/wiki" +
-                        if (!page.isNullOrEmpty()) "/$page" else ""))
+                onSidebarClicked(
+                    WikiSideBarModel(
+                        "Home", "$login/$repoId/wiki" +
+                                if (!page.isNullOrEmpty()) "/$page" else ""
+                    )
+                )
             }
         }
     }
 
     override fun onSidebarClicked(sidebar: WikiSideBarModel) {
-        manageViewDisposable(RxHelper.getObservable(JsoupProvider.getWiki().getWiki(sidebar.link))
-                .flatMap { s -> RxHelper.getObservable(getWikiContent(s)) }
-                .doOnSubscribe { sendToView { it.showProgress(0) } }
-                .subscribe({ response -> sendToView { view -> view.onLoadContent(response) } },
-                        { throwable -> onError(throwable) }, { sendToView({ it.hideProgress() }) }))
+        manageViewDisposable(RxHelper.getObservable(JsoupProvider.getWiki().getWiki(sidebar.link!!))
+            .flatMap { s -> RxHelper.getObservable(getWikiContent(s)) }
+            .doOnSubscribe { sendToView { it.showProgress(0) } }
+            .subscribe({ response -> sendToView { view -> view.onLoadContent(response) } },
+                { throwable -> onError(throwable) }) { sendToView { it.hideProgress() } })
     }
 
     private fun getWikiContent(body: String?): Observable<WikiContentModel> {
