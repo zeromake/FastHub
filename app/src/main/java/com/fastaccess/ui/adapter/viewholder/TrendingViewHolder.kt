@@ -7,8 +7,8 @@ import com.fastaccess.helper.Logger
 import com.fastaccess.provider.colors.ColorsProvider
 import com.fastaccess.provider.emoji.EmojiParser
 import com.fastaccess.ui.widgets.FontTextView
-import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
+import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 
 /**
  * Created: FontTextView by Kosh on 02 Jun 2017, 1:27 PM

@@ -75,7 +75,7 @@ class PullRequestCommitsFragment :
         } else if (presenter!!.commits.isEmpty() && !presenter!!.isApiCalled) {
             onRefresh()
         }
-        fastScroller!!.attachRecyclerView(recycler)
+        fastScroller!!.attachRecyclerView(recycler!!)
     }
 
     override fun providePresenter(): PullRequestCommitsPresenter {

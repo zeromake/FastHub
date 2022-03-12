@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 
 import com.fastaccess.data.dao.SearchCodeModel;
 import com.fastaccess.ui.adapter.viewholder.SearchCodeViewHolder;
-import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter;
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder;
+import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter;
+import com.fastaccess.ui.base.adapter.BaseViewHolder;
 
 import java.util.List;
 

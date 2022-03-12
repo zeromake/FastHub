@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import com.fastaccess.R
 import com.fastaccess.provider.emoji.Emoji
 import com.fastaccess.ui.widgets.FontTextView
-import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
+import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 
 /**
  * Created by kosh on 17/08/2017.

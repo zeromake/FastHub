@@ -39,7 +39,7 @@ import com.fastaccess.ui.widgets.FontEditText;
 import com.fastaccess.ui.widgets.FontTextView;
 import com.fastaccess.ui.widgets.ForegroundImageView;
 import com.fastaccess.ui.widgets.SpannableBuilder;
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder;
+import com.fastaccess.ui.base.adapter.BaseViewHolder;
 import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView;
 
 import java.util.ArrayList;

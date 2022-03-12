@@ -1,12 +1,13 @@
 package com.fastaccess.ui.adapter;
 
 import androidx.annotation.NonNull;
+
 import android.view.ViewGroup;
 
 import com.fastaccess.data.dao.model.Comment;
 import com.fastaccess.ui.adapter.viewholder.CommentsViewHolder;
-import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter;
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder;
+import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter;
+import com.fastaccess.ui.base.adapter.BaseViewHolder;
 
 import java.util.ArrayList;
 
@@ -20,11 +21,13 @@ public class CommentsAdapter extends BaseRecyclerAdapter<Comment, CommentsViewHo
         super(eventsModels);
     }
 
-    @Override protected CommentsViewHolder viewHolder(ViewGroup parent, int viewType) {
+    @Override
+    protected CommentsViewHolder viewHolder(ViewGroup parent, int viewType) {
         return CommentsViewHolder.newInstance(parent, this);
     }
 
-    @Override protected void onBindView(CommentsViewHolder holder, int position) {
+    @Override
+    protected void onBindView(CommentsViewHolder holder, int position) {
         holder.bind(getItem(position));
     }
 }

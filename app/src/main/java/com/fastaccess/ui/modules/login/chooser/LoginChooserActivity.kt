@@ -147,7 +147,7 @@ class LoginChooserActivity : BaseActivity<LoginChooserMvp.View, LoginChooserPres
         }
     }
 
-    override fun onItemClick(position: Int, v: View, item: Login) {
+    override fun onItemClick(position: Int, v: View?, item: Login) {
         presenter.manageViewDisposable(Login.onMultipleLogin(item, item.isIsEnterprise, false)
             .doOnSubscribe { showProgress(0) }
             .doOnComplete { this.hideProgress() }
@@ -155,7 +155,7 @@ class LoginChooserActivity : BaseActivity<LoginChooserMvp.View, LoginChooserPres
         )
     }
 
-    override fun onItemLongClick(position: Int, v: View, item: Login) {}
+    override fun onItemLongClick(position: Int, v: View?, item: Login) {}
 
     private fun showLanguage() {
         val languageBottomSheetDialog = LanguageBottomSheetDialog()

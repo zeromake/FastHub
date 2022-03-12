@@ -26,10 +26,10 @@ import net.grandcentrix.thirtyinch.TiFragment
 abstract class BaseFragment<V : FAView, P : BasePresenter<V>> : TiFragment<P, V>(), FAView {
     protected var callback: FAView? = null
     private var unbinder: Unbinder? = null
-    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
+    private var compositeDisposable: CompositeDisposable? = CompositeDisposable()
 
     fun manageDisposable(vararg disposables: Disposable?) {
-        compositeDisposable.addAll(*disposables)
+        compositeDisposable?.addAll(*disposables)
     }
 
     fun <T> manageObservable(observable: Observable<T>?) {
@@ -49,15 +49,16 @@ abstract class BaseFragment<V : FAView, P : BasePresenter<V>> : TiFragment<P, V>
     }
 
     fun disposable() {
-        if (!compositeDisposable.isDisposed) {
-            compositeDisposable.dispose()
-            compositeDisposable.clear()
+        compositeDisposable?.let {
+            it.dispose()
+            it.clear()
         }
     }
 
     override fun onDestroy() {
         disposable()
         super.onDestroy()
+        compositeDisposable = null
     }
 
     @LayoutRes

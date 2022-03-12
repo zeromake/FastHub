@@ -11,8 +11,8 @@ import com.fastaccess.helper.AppHelper;
 import com.fastaccess.helper.ViewHelper;
 import com.fastaccess.ui.adapter.viewholder.SimpleViewHolder;
 import com.fastaccess.ui.modules.search.SearchActivity;
-import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter;
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder;
+import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter;
+import com.fastaccess.ui.base.adapter.BaseViewHolder;
 
 import java.util.List;
 

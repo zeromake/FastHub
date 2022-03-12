@@ -3,6 +3,8 @@ package com.fastaccess.ui.modules.filter.chooser;
 import android.content.Context;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 import com.fastaccess.R;
 import com.fastaccess.ui.base.BaseBottomSheetDialog;
 
@@ -20,7 +22,7 @@ public class FilterChooserBottomSheetDialog extends BaseBottomSheetDialog {
         return new FilterChooserBottomSheetDialog();
     }
 
-    @Override public void onAttach(Context context) {
+    @Override public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (getParentFragment() instanceof FilterAddChooserListener) {
             listener = (FilterAddChooserListener) getParentFragment();

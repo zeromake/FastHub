@@ -1,12 +1,12 @@
 package com.fastaccess.ui.adapter
 
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
-import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter
+import com.fastaccess.ui.base.adapter.BaseViewHolder
+import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
 import com.fastaccess.ui.adapter.viewholder.SimpleViewHolder
 import android.view.ViewGroup
 import com.fastaccess.R
 
-open class SimpleListAdapter<O>(data: List<O>, listener: BaseViewHolder.OnItemClickListener<O>) :
+open class SimpleListAdapter<O>(data: MutableList<O>, listener: BaseViewHolder.OnItemClickListener<O>) :
     BaseRecyclerAdapter<O, SimpleViewHolder<O>, BaseViewHolder.OnItemClickListener<O>>(
         data,
         listener
@@ -17,6 +17,6 @@ open class SimpleListAdapter<O>(data: List<O>, listener: BaseViewHolder.OnItemCl
 
     override fun onBindView(holder: SimpleViewHolder<O>, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
+        holder.bind(item!!)
     }
 }

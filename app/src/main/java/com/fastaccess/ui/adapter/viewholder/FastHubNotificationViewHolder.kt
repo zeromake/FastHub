@@ -6,15 +6,16 @@ import com.fastaccess.R
 import com.fastaccess.data.dao.model.FastHubNotification
 import com.fastaccess.helper.ParseDateFormat
 import com.fastaccess.ui.widgets.FontTextView
-import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
+import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 
 /**
  * Created: by Kosh on 02 Jun 2017, 1:27 PM
  */
 
 open class FastHubNotificationViewHolder(itemView: View, adapter: BaseRecyclerAdapter<FastHubNotification,
-        FastHubNotificationViewHolder, OnItemClickListener<FastHubNotification>>) : BaseViewHolder<FastHubNotification>(itemView, adapter) {
+        FastHubNotificationViewHolder, OnItemClickListener<FastHubNotification>>
+) : BaseViewHolder<FastHubNotification>(itemView, adapter) {
 
     @BindView(R.id.title) lateinit var title: FontTextView
     @BindView(R.id.date) lateinit var date: FontTextView

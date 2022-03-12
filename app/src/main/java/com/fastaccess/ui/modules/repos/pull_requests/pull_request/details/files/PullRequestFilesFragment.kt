@@ -143,7 +143,7 @@ class PullRequestFilesFragment :
         } else if (presenter!!.files.isEmpty() && !presenter!!.isApiCalled) {
             onRefresh()
         }
-        fastScroller!!.attachRecyclerView(recycler)
+        fastScroller!!.attachRecyclerView(recycler!!)
     }
 
     private fun setupChanges() {
@@ -208,7 +208,7 @@ class PullRequestFilesFragment :
             }
             ActivityHelper.startCustomTab(
                 requireActivity(),
-                adapter!!.getItem(position.toInt()).commitFileModel!!.blobUrl!!
+                adapter!!.getItem(position.toInt())!!.commitFileModel!!.blobUrl!!
             )
         }
         toggleMap[position] = isCollapsed
@@ -256,7 +256,7 @@ class PullRequestFilesFragment :
             if (viewCallback != null) viewCallback!!.onAddComment(commentRequestModel)
             val groupPosition = bundle.getInt(BundleConstant.EXTRA_TWO)
             val childPosition = bundle.getInt(BundleConstant.EXTRA_THREE)
-            val commitFileChanges = adapter!!.getItem(groupPosition)
+            val commitFileChanges = adapter!!.getItem(groupPosition)!!
             val models: MutableList<CommitLinesModel> = commitFileChanges.linesModel?.toMutableList()?: mutableListOf()
             if (models.isNotEmpty()) {
                 val current = models[childPosition]

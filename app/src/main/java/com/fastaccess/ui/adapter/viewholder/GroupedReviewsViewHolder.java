@@ -18,8 +18,8 @@ import com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.timeli
 import com.fastaccess.ui.widgets.DiffLineSpan;
 import com.fastaccess.ui.widgets.FontTextView;
 import com.fastaccess.ui.widgets.ForegroundImageView;
-import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter;
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder;
+import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter;
+import com.fastaccess.ui.base.adapter.BaseViewHolder;
 import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView;
 
 import butterknife.BindView;

@@ -27,7 +27,7 @@ import com.google.android.material.textfield.TextInputLayout
 /**
  * Created by Kosh on 30 Nov 2016, 11:02 AM
  */
-class CreateGistActivity : BaseActivity<CreateGistMvp.View?, CreateGistPresenter?>(),
+class CreateGistActivity : BaseActivity<CreateGistMvp.View, CreateGistPresenter>(),
     CreateGistMvp.View {
     @JvmField
     @BindView(R.id.description)

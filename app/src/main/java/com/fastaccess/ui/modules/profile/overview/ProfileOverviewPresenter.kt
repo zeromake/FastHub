@@ -1,25 +1,24 @@
 package com.fastaccess.ui.modules.profile.overview
 
+import android.graphics.Bitmap
+import android.os.Bundle
+import android.text.TextUtils
+import com.apollographql.apollo3.rx2.Rx2Apollo
+import com.fastaccess.data.dao.Pageable
+import com.fastaccess.data.dao.model.Login
+import com.fastaccess.data.dao.model.User
+import com.fastaccess.github.GetPinnedReposQuery
+import com.fastaccess.helper.BundleConstant
+import com.fastaccess.helper.InputHelper
+import com.fastaccess.helper.RxHelper
 import com.fastaccess.provider.rest.ApolloProdivder.getApollo
+import com.fastaccess.provider.rest.RestProvider
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 import com.fastaccess.ui.widgets.contributions.ContributionsDay
-import android.text.TextUtils
-import com.fastaccess.data.dao.model.Login
-import com.fastaccess.helper.RxHelper
-import com.fastaccess.provider.rest.RestProvider
-import com.fastaccess.helper.InputHelper
-import android.os.Bundle
-import com.fastaccess.helper.BundleConstant
-import com.fastaccess.github.GetPinnedReposQuery
-import com.apollographql.apollo3.rx2.Rx2Apollo
+import com.fastaccess.ui.widgets.contributions.ContributionsHtmlProvider
 import com.fastaccess.ui.widgets.contributions.GitHubContributionsView
-import com.fastaccess.ui.widgets.contributions.ContributionsProvider
-import android.graphics.Bitmap
-import com.fastaccess.data.dao.Pageable
-import com.fastaccess.data.dao.model.User
 import io.reactivex.Observable
 import retrofit2.Response
-import java.lang.NullPointerException
 
 /**
  * Created by Kosh on 03 Dec 2016, 9:16 AM
@@ -154,14 +153,14 @@ class ProfileOverviewPresenter : BasePresenter<ProfileOverviewMvp.View>(),
                 )
                     .flatMap { s: String? ->
                         Observable.just(
-                            ContributionsProvider().getContributions(
+                            ContributionsHtmlProvider.getContributions(
                                 s
                             )
                         )
                     }
-                    .subscribe({ lists: List<ContributionsDay>? ->
+                    .subscribe({ lists: List<ContributionsDay> ->
                         contributions.clear()
-                        contributions.addAll(lists!!)
+                        contributions.addAll(lists)
                         loadContributions(contributions, view)
                     }) { obj: Throwable -> obj.printStackTrace() })
             } else {
@@ -175,7 +174,7 @@ class ProfileOverviewPresenter : BasePresenter<ProfileOverviewMvp.View>(),
         gitHubContributionsView: GitHubContributionsView
     ) {
         val filter = gitHubContributionsView.getLastContributions(contributions)
-        if (filter != null && contributions.isNotEmpty()) {
+        if (contributions.isNotEmpty()) {
             val bitmapObservable =
                 Observable.just(gitHubContributionsView.drawOnCanvas(filter, contributions))
             manageObservable(bitmapObservable

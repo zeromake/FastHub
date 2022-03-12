@@ -7,7 +7,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.fastaccess.data.dao.model.RepoFile;
 import com.fastaccess.ui.base.mvp.BaseMvp;
 import com.fastaccess.ui.modules.repos.git.delete.DeleteContentFileCallback;
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder;
+import com.fastaccess.ui.base.adapter.BaseViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
 interface RepoFilesMvp {
 
     interface View extends BaseMvp.FAView, SwipeRefreshLayout.OnRefreshListener, DeleteContentFileCallback {
-        void onNotifyAdapter();
+        void onNotifyAdapter(@NonNull List<RepoFile> list);
 
         void onItemClicked(@NonNull RepoFile model);
 

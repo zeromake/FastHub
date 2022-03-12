@@ -6,8 +6,8 @@ import butterknife.BindView
 import com.fastaccess.R
 import com.fastaccess.helper.ParseDateFormat
 import com.fastaccess.ui.widgets.FontTextView
-import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
+import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 import com.fastaccess.github.RepoProjectsOpenQuery
 
 /**

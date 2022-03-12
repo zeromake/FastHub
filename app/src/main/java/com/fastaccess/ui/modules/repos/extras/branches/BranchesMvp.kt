@@ -4,7 +4,7 @@ import android.os.Bundle
 import com.fastaccess.data.dao.BranchesModel
 import com.fastaccess.provider.rest.loadmore.OnLoadMore
 import com.fastaccess.ui.base.mvp.BaseMvp
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 
 /**
  * Created by Kosh on 06 Jul 2017, 9:06 PM

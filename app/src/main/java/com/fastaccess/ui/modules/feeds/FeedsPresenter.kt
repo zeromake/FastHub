@@ -78,6 +78,8 @@ class FeedsPresenter : BasePresenter<FeedsMvp.View>(), FeedsMvp.Presenter {
             lastPage = response.last
             val items = response.items ?: listOf()
             if (currentPage == 1) {
+//                events.clear()
+//                events.addAll(items)
                 manageDisposable(Event.save(items, user))
             }
             sendToView { view ->
@@ -110,6 +112,7 @@ class FeedsPresenter : BasePresenter<FeedsMvp.View>(), FeedsMvp.Presenter {
             )
                 .subscribe({ modelList ->
                     if (modelList != null) {
+//                        events.addAll(modelList.filterNotNull())
                         sendToView { view ->
                             view?.onNotifyAdapter(
                                 modelList.filterNotNull(),
@@ -123,12 +126,12 @@ class FeedsPresenter : BasePresenter<FeedsMvp.View>(), FeedsMvp.Presenter {
         }
     }
 
-    override fun onItemClick(position: Int, v: View?, item: Event?) {
+    override fun onItemClick(position: Int, v: View?, item: Event) {
         v ?: return
-        item ?: return
         if (item.type === EventsType.ForkEvent) {
             val parser = NameParser(
-                item.payload.forkee?.htmlUrl
+                item.repo.url,
+//                item.payload.forkee?.htmlUrl
             )
             RepoPagerActivity.startRepoPager(v.context, parser)
         } else {
@@ -193,19 +196,18 @@ class FeedsPresenter : BasePresenter<FeedsMvp.View>(), FeedsMvp.Presenter {
         }
     }
 
-    override fun onItemLongClick(position: Int, v: View?, item: Event?) {
+    override fun onItemLongClick(position: Int, v: View?, item: Event) {
         v ?: return
-        item ?: return
         if (item.type === EventsType.ForkEvent) {
             if (view != null) {
                 view!!.onOpenRepoChooser(
                     listOf(
-                        SimpleUrlsModel(item.repo.name, item.repo.url),
                         SimpleUrlsModel(
                             item.payload.forkee!!.fullName,
                             item.payload.forkee!!.htmlUrl
-                        )
-                    ) as ArrayList<SimpleUrlsModel>
+                        ),
+                        SimpleUrlsModel(item.repo.name, item.repo.url),
+                    )
                 )
             }
         } else {

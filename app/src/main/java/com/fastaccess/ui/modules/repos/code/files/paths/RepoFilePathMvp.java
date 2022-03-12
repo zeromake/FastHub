@@ -7,7 +7,7 @@ import androidx.annotation.Nullable;
 import com.fastaccess.data.dao.model.RepoFile;
 import com.fastaccess.ui.base.mvp.BaseMvp;
 import com.fastaccess.ui.modules.repos.extras.branches.BranchesMvp;
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder;
+import com.fastaccess.ui.base.adapter.BaseViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;

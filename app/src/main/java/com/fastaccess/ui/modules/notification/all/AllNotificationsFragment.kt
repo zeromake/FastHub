@@ -103,7 +103,7 @@ class AllNotificationsFragment :
     }
 
     override fun onMarkAllByRepo(repo: Repo) {
-        presenter!!.onMarkReadByRepo(adapter!!.data, repo)
+        presenter!!.onMarkReadByRepo(adapter!!.data.filterNotNull(), repo)
     }
 
     override fun onNotifyNotificationChanged(notification: GroupedNotificationModel) {
@@ -131,7 +131,7 @@ class AllNotificationsFragment :
         if (savedInstanceState == null || !presenter!!.isApiCalled) {
             onRefresh()
         }
-        fastScroller!!.attachRecyclerView(recycler)
+        fastScroller!!.attachRecyclerView(recycler!!)
     }
 
     override fun providePresenter(): AllNotificationsPresenter {
@@ -199,7 +199,7 @@ class AllNotificationsFragment :
     override fun onMessageDialogActionClicked(isOk: Boolean, bundle: Bundle?) {
         super.onMessageDialogActionClicked(isOk, bundle)
         if (isOk) {
-            presenter!!.onMarkAllAsRead(adapter!!.data)
+            presenter!!.onMarkAllAsRead(adapter!!.data.filterNotNull())
         }
     }
 

@@ -5,8 +5,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import net.grandcentrix.thirtyinch.callonmainthread.CallOnMainThread
 import com.fastaccess.data.dao.GroupedNotificationModel
 import com.fastaccess.data.dao.model.Notification
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
-import java.util.ArrayList
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 
 /**
  * Created by Kosh on 25 Apr 2017, 3:51 PM

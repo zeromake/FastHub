@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.fastaccess.data.dao.LabelModel;
 import com.fastaccess.ui.base.mvp.BaseMvp;
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder;
+import com.fastaccess.ui.base.adapter.BaseViewHolder;
 
 /**
  * Created by Kosh on 02 Apr 2017, 5:30 PM

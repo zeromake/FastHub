@@ -15,7 +15,7 @@ import com.fastaccess.provider.scheme.SchemeParser;
 import com.fastaccess.ui.widgets.FontTextView;
 import com.fastaccess.ui.widgets.ForegroundImageView;
 import com.fastaccess.ui.widgets.SpannableBuilder;
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder;
+import com.fastaccess.ui.base.adapter.BaseViewHolder;
 
 import java.util.Objects;
 

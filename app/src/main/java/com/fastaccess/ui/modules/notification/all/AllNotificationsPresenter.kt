@@ -23,9 +23,8 @@ import io.reactivex.Observable
 class AllNotificationsPresenter : BasePresenter<AllNotificationsMvp.View>(),
     AllNotificationsMvp.Presenter {
     override val notifications: MutableList<GroupedNotificationModel> = mutableListOf()
-    override fun onItemClick(position: Int, v: View, model: GroupedNotificationModel?) {
-        if (view == null) return
-        model ?: return
+    override fun onItemClick(position: Int, v: View?, model: GroupedNotificationModel) {
+        v ?: return
         if (model.type == GroupedNotificationModel.ROW) {
             model.notification?.let { item ->
                 if (v.id == R.id.markAsRead) {
@@ -76,7 +75,7 @@ class AllNotificationsPresenter : BasePresenter<AllNotificationsMvp.View>(),
         ReadNotificationService.start(v.context, item.id)
     }
 
-    override fun onItemLongClick(position: Int, v: View, item: GroupedNotificationModel?) {}
+    override fun onItemLongClick(position: Int, v: View?, item: GroupedNotificationModel) {}
     override fun onError(throwable: Throwable) {
         onWorkOffline()
         super.onError(throwable)

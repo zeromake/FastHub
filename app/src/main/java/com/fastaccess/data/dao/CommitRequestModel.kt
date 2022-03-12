@@ -5,7 +5,7 @@ package com.fastaccess.data.dao
  */
 class CommitRequestModel(
     var message: String,
-    var content: String,
+    var content: String?,
     var sha: String,
     var branch: String
 )

@@ -8,8 +8,8 @@ import com.fastaccess.data.dao.CommitFileChanges;
 import com.fastaccess.ui.adapter.callback.OnToggleView;
 import com.fastaccess.ui.adapter.viewholder.PullRequestFilesViewHolder;
 import com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.files.PullRequestFilesMvp;
-import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter;
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder;
+import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter;
+import com.fastaccess.ui.base.adapter.BaseViewHolder;
 
 import java.util.ArrayList;
 

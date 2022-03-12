@@ -8,7 +8,7 @@ import retrofit2.Response
 /**
  * Created by Kosh on 03 Dec 2016, 8:00 AM
  */
-class UserPagerPresenter : BasePresenter<UserPagerMvp.View?>(), UserPagerMvp.Presenter {
+class UserPagerPresenter : BasePresenter<UserPagerMvp.View>(), UserPagerMvp.Presenter {
     @com.evernote.android.state.State
     var isMember = -1
 

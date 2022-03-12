@@ -4,7 +4,7 @@ import com.fastaccess.ui.base.mvp.BaseMvp.FAView
 import com.fastaccess.ui.modules.gists.create.dialog.AddGistMvp.AddGistFileListener
 import com.fastaccess.data.dao.FilesListModel
 import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 import java.util.HashMap
 
 /**

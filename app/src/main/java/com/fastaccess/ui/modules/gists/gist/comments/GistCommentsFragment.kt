@@ -101,7 +101,7 @@ class GistCommentsFragment : BaseFragment<GistCommentsMvp.View, GistCommentsPres
             sparseBooleanArray = SparseBooleanArrayParcelable()
             onRefresh()
         }
-        fastScroller!!.attachRecyclerView(recycler)
+        fastScroller!!.attachRecyclerView(recycler!!)
     }
 
     override fun onRefresh() {
@@ -168,7 +168,7 @@ class GistCommentsFragment : BaseFragment<GistCommentsMvp.View, GistCommentsPres
                 .put(BundleConstant.EXTRA, item.body)
                 .put(BundleConstant.EXTRA_FOUR, item.id)
                 .put(BundleConstant.EXTRA_TYPE, ExtraType.EDIT_GIST_COMMENT_EXTRA)
-                .putStringArrayList("participants", getUsers(adapter!!.data))
+                .putStringArrayList("participants", getUsers(adapter!!.data.filterNotNull()))
                 .put(BundleConstant.IS_ENTERPRISE, isEnterprise)
                 .end()
         )
@@ -186,7 +186,7 @@ class GistCommentsFragment : BaseFragment<GistCommentsMvp.View, GistCommentsPres
                 .put(BundleConstant.EXTRA, id)
                 .put(BundleConstant.ID, gistId)
                 .put(BundleConstant.YES_NO_EXTRA, true)
-                .putStringArrayList("participants", getUsers(adapter!!.data))
+                .putStringArrayList("participants", getUsers(adapter!!.data.filterNotNull()))
                 .end()
         )
             .show(childFragmentManager, MessageDialogView.TAG)
@@ -213,7 +213,7 @@ class GistCommentsFragment : BaseFragment<GistCommentsMvp.View, GistCommentsPres
     }
 
     override val namesToTag: ArrayList<String>
-        get() = getUsers(adapter!!.data)
+        get() = getUsers(adapter!!.data.filterNotNull())
 
     override fun hideBlockingProgress() {
         hideProgress()

@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import com.fastaccess.data.dao.CommitLinesModel;
 import com.fastaccess.ui.adapter.viewholder.CommitLinesViewHolder;
 import com.fastaccess.ui.adapter.viewholder.SimpleViewHolder;
-import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter;
+import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter;
 
 import java.util.List;
 

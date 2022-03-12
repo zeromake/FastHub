@@ -91,9 +91,9 @@ class PullRequestCommitsPresenter : BasePresenter<PullRequestCommitsMvp.View>(),
         }
     }
 
-    override fun onItemClick(position: Int, v: View, item: Commit) {
-        CommitPagerActivity.createIntentForOffline(v.context, item)
+    override fun onItemClick(position: Int, v: View?, item: Commit) {
+        CommitPagerActivity.createIntentForOffline(v!!.context, item)
     }
 
-    override fun onItemLongClick(position: Int, v: View, item: Commit) {}
+    override fun onItemLongClick(position: Int, v: View?, item: Commit) {}
 }

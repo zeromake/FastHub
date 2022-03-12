@@ -28,7 +28,7 @@ import net.grandcentrix.thirtyinch.TiDialogFragment
 /**
  * Created by Kosh on 22 Feb 2017, 7:28 PM
  */
-abstract class BaseDialogFragment<V : FAView?, P : BasePresenter<V>?> : TiDialogFragment<P, V>(),
+abstract class BaseDialogFragment<V : FAView, P : BasePresenter<V>> : TiDialogFragment<P, V>(),
     FAView {
     protected var callback: FAView? = null
     private var unbinder: Unbinder? = null

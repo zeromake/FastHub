@@ -42,7 +42,7 @@ import shortbread.Shortcut
     backStack = [MainActivity::class],
     rank = 4
 )
-class UserPagerActivity : BaseActivity<UserPagerMvp.View?, UserPagerPresenter?>(),
+class UserPagerActivity : BaseActivity<UserPagerMvp.View, UserPagerPresenter>(),
     UserPagerMvp.View {
     lateinit var tabs: TabLayout
 

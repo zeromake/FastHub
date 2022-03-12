@@ -21,28 +21,27 @@ import io.reactivex.Observable
 class UnreadNotificationsPresenter : BasePresenter<UnreadNotificationMvp.View>(),
     UnreadNotificationMvp.Presenter {
     override val notifications: MutableList<GroupedNotificationModel> = mutableListOf()
-    override fun onItemClick(position: Int, v: View?, model: GroupedNotificationModel?) {
+    override fun onItemClick(position: Int, v: View?, item: GroupedNotificationModel) {
         v ?: return
-        model ?: return
-        val item = model.notification
+        val notification = item.notification
         if (v.id == R.id.markAsRead) {
-            if (item!!.isUnread) markAsRead(position, v, item)
+            if (notification!!.isUnread) markAsRead(position, v, notification)
         } else if (v.id == R.id.unsubsribe) {
-            item!!.isUnread = false
-            manageDisposable(item.save(item))
+            notification!!.isUnread = false
+            manageDisposable(notification.save(notification))
             sendToView { view -> view?.onRemove(position) }
-            ReadNotificationService.unSubscribe(v.context, item.id)
+            ReadNotificationService.unSubscribe(v.context, notification.id)
         } else {
-            if (item!!.subject != null && item.subject.url != null) {
-                if (item.isUnread && !isMarkAsReadEnabled) {
-                    markAsRead(position, v, item)
+            if (notification!!.subject != null && notification.subject.url != null) {
+                if (notification.isUnread && !isMarkAsReadEnabled) {
+                    markAsRead(position, v, notification)
                 }
-                if (view != null) view!!.onClick(item.subject.url!!)
+                if (view != null) view!!.onClick(notification.subject.url!!)
             }
         }
     }
 
-    override fun onItemLongClick(position: Int, v: View, item: GroupedNotificationModel?) {}
+    override fun onItemLongClick(position: Int, v: View?, item: GroupedNotificationModel) {}
     override fun onWorkOffline() {
         if (notifications.isEmpty()) {
             manageDisposable(RxHelper.getObservable(

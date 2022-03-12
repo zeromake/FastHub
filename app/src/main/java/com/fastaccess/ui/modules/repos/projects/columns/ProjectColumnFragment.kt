@@ -166,7 +166,7 @@ class ProjectColumnFragment : BaseFragment<ProjectColumnMvp.View, ProjectColumnP
             if (position == -1) {
                 presenter.createCard(text, getColumn().id!!)
             } else {
-                presenter.editCard(text, adapter.getItem(position), position)
+                presenter.editCard(text, adapter.getItem(position)!!, position)
             }
         }
     }
@@ -177,7 +177,7 @@ class ProjectColumnFragment : BaseFragment<ProjectColumnMvp.View, ProjectColumnP
             if (bundle != null) {
                 if (bundle.containsKey(BundleConstant.ID)) {
                     val position = bundle.getInt(BundleConstant.ID)
-                    presenter.onDeleteCard(position, adapter.getItem(position))
+                    presenter.onDeleteCard(position, adapter.getItem(position)!!)
                 } else {
                     presenter.onEditOrDeleteColumn(null, getColumn())
                 }

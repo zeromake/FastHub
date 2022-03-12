@@ -30,7 +30,7 @@ import io.reactivex.functions.Action
 /**
  * Created by Kosh on 08 Feb 2017, 9:10 PM
  */
-open class LoginActivity : BaseActivity<LoginMvp.View?, LoginPresenter?>(), LoginMvp.View {
+open class LoginActivity : BaseActivity<LoginMvp.View, LoginPresenter>(), LoginMvp.View {
     var usernameEditText: TextInputEditText? = null
 
     var username: TextInputLayout? = null

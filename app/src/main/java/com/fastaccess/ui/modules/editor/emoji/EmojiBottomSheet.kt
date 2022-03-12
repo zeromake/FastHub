@@ -63,7 +63,7 @@ class EmojiBottomSheet : BaseMvpBottomSheetDialogFragment<EmojiMvp.View, EmojiPr
         dismiss()
     }
 
-    override fun onItemLongClick(position: Int, v: View?, item: Emoji?) {}
+    override fun onItemLongClick(position: Int, v: View?, item: Emoji) {}
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

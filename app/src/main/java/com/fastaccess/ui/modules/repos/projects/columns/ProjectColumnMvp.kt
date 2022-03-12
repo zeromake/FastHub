@@ -5,7 +5,7 @@ import com.fastaccess.data.dao.ProjectColumnModel
 import com.fastaccess.provider.rest.loadmore.OnLoadMore
 import com.fastaccess.ui.base.mvp.BaseMvp
 import com.fastaccess.ui.modules.repos.projects.crud.ProjectCurdDialogFragment
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 
 /**
  * Created by Hashemsergani on 11.09.17.

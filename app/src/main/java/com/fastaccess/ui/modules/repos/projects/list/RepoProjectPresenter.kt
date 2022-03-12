@@ -36,13 +36,14 @@ class RepoProjectPresenter : BasePresenter<RepoProjectMvp.View>(), RepoProjectMv
     var count: Int = 0
     val pages = arrayListOf<String>()
 
-    override fun onItemClick(position: Int, v: View, item: RepoProjectsOpenQuery.Node) {
+    override fun onItemClick(position: Int, v: View?, item: RepoProjectsOpenQuery.Node) {
+        v ?: return
         item.databaseId?.let {
             ProjectPagerActivity.startActivity(v.context, login, repoId, it.toLong(), isEnterprise)
         }
     }
 
-    override fun onItemLongClick(position: Int, v: View?, item: RepoProjectsOpenQuery.Node?) {}
+    override fun onItemLongClick(position: Int, v: View?, item: RepoProjectsOpenQuery.Node) {}
 
     override fun onFragmentCreate(bundle: Bundle?) {
         bundle?.let {
@@ -191,19 +192,19 @@ class RepoProjectPresenter : BasePresenter<RepoProjectMvp.View>(), RepoProjectMv
                 task.run {}
             } else {
                 val query = OrgProjectsClosedQuery(login, getPage())
-                task = apollo.query(query).rxFlowable().map {
+                task = apollo.query(query).rxFlowable().map { response ->
                     val list = arrayListOf<RepoProjectsOpenQuery.Node>()
-                    val organization = it.data?.organization!!
-                    organization.projects.let {
-                        lastPage = if (it.pageInfo.hasNextPage) Int.MAX_VALUE else 0
+                    val organization = response.data?.organization!!
+                    organization.projects.let { projects1 ->
+                        lastPage = if (projects1.pageInfo.hasNextPage) Int.MAX_VALUE else 0
                         pages.clear()
-                        count = it.totalCount
-                        it.edges?.let {
+                        count = projects1.totalCount
+                        projects1.edges?.let {
                             pages.addAll(it.map { it?.cursor!! })
                         }
-                        it.nodes?.let {
+                        projects1.nodes?.let { list1 ->
                             val toConvert = arrayListOf<RepoProjectsOpenQuery.Node>()
-                            it.onEach {
+                            list1.onEach {
                                 val columns = RepoProjectsOpenQuery.Columns(
                                     it?.columns?.totalCount!!
                                 )
@@ -232,7 +233,7 @@ class RepoProjectPresenter : BasePresenter<RepoProjectMvp.View>(), RepoProjectMv
                     }
                 }
             }
-            task.run {}
+            manageDisposable(task)
         }
         return true
     }

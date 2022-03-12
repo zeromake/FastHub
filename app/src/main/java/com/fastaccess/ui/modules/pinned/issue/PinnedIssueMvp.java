@@ -5,7 +5,7 @@ import androidx.annotation.Nullable;
 
 import com.fastaccess.data.dao.model.Issue;
 import com.fastaccess.ui.base.mvp.BaseMvp;
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder;
+import com.fastaccess.ui.base.adapter.BaseViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;

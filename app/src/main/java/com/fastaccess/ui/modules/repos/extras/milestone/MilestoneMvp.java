@@ -6,7 +6,7 @@ import androidx.annotation.Nullable;
 import com.fastaccess.data.dao.MilestoneModel;
 import com.fastaccess.ui.base.mvp.BaseMvp;
 import com.fastaccess.ui.modules.repos.extras.milestone.create.CreateMilestoneMvp;
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder;
+import com.fastaccess.ui.base.adapter.BaseViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;

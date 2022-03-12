@@ -214,11 +214,23 @@ Laus Deo Semper
 - [x] feat: partial code butterknife convert to findViewById
 - [x] feat: partial code file convert to kotlin
 - [x] feat: partial code Stream convert to kotlin `List|Sequence`
-- [ ] fix: migration code favorite page cannot be viewed
-- [ ] fix: top navigation back button event change to system back button consistent
+- [x] ~~fix: migration code favorite page cannot be viewed~~
+- [x] fix: top navigation back button event change to system back button consistent
+- [x] fix: background app click icon but forced back to the home page
+- [x] fix: profile overview contribution view does not display properly(github html change)
+- [x] feat: migration ui/widgets, ui/base dir java to kotlin is finish
+- [ ] feat: migration ui/adapter dir java to kotlin
+- [ ] feat: migration ui/modules dir java to kotlin
+    - [x] ui/modules/about
+    - [x] ui/modules/code
+    - [x] ui/modules/editor
+    - [x] ui/modules/login
+    - [x] ui/modules/feeds
+- [x] feat: feeds view fork item click is default open origin repo
+- [x] feat: settings module storage to mmkv
+- [x] fix: migration kotlin BaseRecyclerAdapter.data is shared variables
 - [ ] feat: add history page
 - [ ] feat: remake search page support `star` sorted and code search page
 - [ ] fix: gist public page request is http 500
 - [ ] feat: support actions page
 - [ ] feat: main timeline pages support grouping aggregation
-- [ ] feat: migration to view

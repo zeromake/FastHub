@@ -7,10 +7,8 @@ import android.view.ViewGroup;
 import com.fastaccess.R;
 import com.fastaccess.data.dao.model.RepoFile;
 import com.fastaccess.ui.widgets.FontTextView;
-import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter;
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder;
-
-import butterknife.BindView;
+import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter;
+import com.fastaccess.ui.base.adapter.BaseViewHolder;
 
 /**
  * Created by Kosh on 18 Feb 2017, 2:53 AM

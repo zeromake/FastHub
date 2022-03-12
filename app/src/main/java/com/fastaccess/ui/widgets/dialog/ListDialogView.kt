@@ -3,7 +3,7 @@ package com.fastaccess.ui.widgets.dialog
 import android.content.Context
 import android.os.Parcelable
 import com.fastaccess.ui.base.BaseDialogFragment
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 import com.fastaccess.R
 import com.fastaccess.ui.widgets.FontTextView
 import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
@@ -22,13 +22,14 @@ import java.util.ArrayList
 /**
  * Created by Kosh on 31 Dec 2016, 3:19 PM
  */
-class ListDialogView<O : Parcelable?> : BaseDialogFragment<BaseMvp.FAView, BasePresenter<BaseMvp.FAView>>(),
+class ListDialogView<O : Parcelable?> :
+    BaseDialogFragment<BaseMvp.FAView, BasePresenter<BaseMvp.FAView>>(),
     BaseViewHolder.OnItemClickListener<O> {
     lateinit var title: FontTextView
     lateinit var recycler: DynamicRecyclerView
     lateinit var fastScroller: RecyclerViewFastScroller
 
-    interface OnSimpleItemSelection<T: Parcelable?> {
+    interface OnSimpleItemSelection<T : Parcelable?> {
         fun onItemSelected(item: T)
     }
 
@@ -79,14 +80,14 @@ class ListDialogView<O : Parcelable?> : BaseDialogFragment<BaseMvp.FAView, BaseP
         return BasePresenter()
     }
 
-    override fun onItemClick(position: Int, v: View, item: O) {
+    override fun onItemClick(position: Int, v: View?, item: O) {
         if (simpleItemSelection != null) {
             simpleItemSelection!!.onItemSelected(item)
         }
         dismiss()
     }
 
-    override fun onItemLongClick(position: Int, v: View, item: O) {}
+    override fun onItemLongClick(position: Int, v: View?, item: O) {}
     fun initArguments(title: String, objects: ArrayList<O>) {
         arguments = Bundler.start()
             .put(BundleConstant.EXTRA, title)
@@ -99,7 +100,7 @@ class ListDialogView<O : Parcelable?> : BaseDialogFragment<BaseMvp.FAView, BaseP
             .put(BundleConstant.EXTRA, title)
             .putParcelableArrayList(
                 BundleConstant.ITEM,
-                objects as ArrayList<out Parcelable?>
+                objects.toMutableList() as ArrayList<out Parcelable?>
             )
             .end()
     }

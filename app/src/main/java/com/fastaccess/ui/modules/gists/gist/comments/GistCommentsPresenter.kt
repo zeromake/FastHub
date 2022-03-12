@@ -125,9 +125,8 @@ class GistCommentsPresenter : BasePresenter<GistCommentsMvp.View>(),
             })
     }
 
-    override fun onItemClick(position: Int, v: View, item: Comment?) {
-        view ?: return
-        item ?: return
+    override fun onItemClick(position: Int, v: View?, item: Comment) {
+        v ?: return
         if (v.id == R.id.toggle || v.id == R.id.toggleHolder) {
             val popupMenu = PopupMenu(v.context, v)
             popupMenu.inflate(R.menu.comments_menu)
@@ -155,8 +154,8 @@ class GistCommentsPresenter : BasePresenter<GistCommentsMvp.View>(),
         }
     }
 
-    override fun onItemLongClick(position: Int, v: View, item: Comment?) {
-        item ?: return
+    override fun onItemLongClick(position: Int, v: View?, item: Comment) {
+        v ?: return
         if (v.id == R.id.toggle) {
             view?.onReply(item.user, item.body)
         } else {

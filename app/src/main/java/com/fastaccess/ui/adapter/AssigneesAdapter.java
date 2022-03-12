@@ -2,12 +2,13 @@ package com.fastaccess.ui.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import android.view.ViewGroup;
 
 import com.fastaccess.data.dao.model.User;
 import com.fastaccess.ui.adapter.viewholder.AssigneesViewHolder;
-import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter;
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder;
+import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter;
+import com.fastaccess.ui.base.adapter.BaseViewHolder;
 
 import java.util.List;
 
@@ -30,11 +31,13 @@ public class AssigneesAdapter extends BaseRecyclerAdapter<User, AssigneesViewHol
         this.onSelectAssignee = onSelectAssignee;
     }
 
-    @Override protected AssigneesViewHolder viewHolder(ViewGroup parent, int viewType) {
+    @Override
+    protected AssigneesViewHolder viewHolder(ViewGroup parent, int viewType) {
         return AssigneesViewHolder.newInstance(parent, onSelectAssignee, this);
     }
 
-    @Override protected void onBindView(AssigneesViewHolder holder, int position) {
+    @Override
+    protected void onBindView(AssigneesViewHolder holder, int position) {
         holder.bind(getItem(position));
     }
 }

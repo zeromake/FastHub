@@ -46,7 +46,7 @@ public class ProfileReposFilterBottomSheetDialog extends BaseBottomSheetDialog {
 
     @Override public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        currentFilterOptions = getArguments().getParcelable(BundleConstant.ITEM);
+        currentFilterOptions = requireArguments().getParcelable(BundleConstant.ITEM);
         if (currentFilterOptions == null) return;
         ArrayAdapter<String> typesAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1,
                 currentFilterOptions.getTypesList());
@@ -66,7 +66,7 @@ public class ProfileReposFilterBottomSheetDialog extends BaseBottomSheetDialog {
         }
     }
 
-    @Override public void onAttach(Context context) {
+    @Override public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof OrgReposMvp.View || getParentFragment() instanceof OrgReposMvp.View) {
             listener = ((OrgReposFragment) getParentFragment());
@@ -98,7 +98,7 @@ public class ProfileReposFilterBottomSheetDialog extends BaseBottomSheetDialog {
 
     @OnClick(R.id.filter_sheet_search_btn) public void startSearch() {
         if (listener != null) {
-            Intent intent = SearchUserActivity.Companion.getIntent(getContext(), listener.getLogin(), "");
+            Intent intent = SearchUserActivity.Companion.getIntent(requireContext(), listener.getLogin(), "");
             startActivity(intent);
         }
         dismiss();

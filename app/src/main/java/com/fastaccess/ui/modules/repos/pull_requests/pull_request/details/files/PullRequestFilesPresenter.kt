@@ -89,35 +89,36 @@ class PullRequestFilesPresenter : BasePresenter<PullRequestFilesMvp.View>(),
         sendToView { it?.hideProgress() }
     }
 
-    override fun onItemClick(position: Int, v: View, model: CommitFileChanges) {
+    override fun onItemClick(position: Int, v: View?, item: CommitFileChanges) {
+        v ?: return
         if (v.id == R.id.patchList) {
             sendToView {
                 it?.onOpenForResult(
                     position,
-                    model
+                    item
                 )
             }
         } else if (v.id == R.id.open) {
-            val item = model.commitFileModel
+            val fileModel = item.commitFileModel
             val popup = PopupMenu(v.context, v)
             val inflater = popup.menuInflater
             inflater.inflate(R.menu.commit_row_menu, popup.menu)
             popup.setOnMenuItemClickListener { item1: MenuItem ->
                 when (item1.itemId) {
                     R.id.open -> v.context.startActivity(
-                        createIntent(v.context, item!!.contentsUrl!!, item.blobUrl!!)
+                        createIntent(v.context, fileModel!!.contentsUrl!!, fileModel.blobUrl!!)
                     )
-                    R.id.share -> ActivityHelper.shareUrl(v.context, item!!.blobUrl!!)
+                    R.id.share -> ActivityHelper.shareUrl(v.context, fileModel!!.blobUrl!!)
                     R.id.download -> {
                         val activity = ActivityHelper.getActivity(v.context)
                         if (activity != null && ActivityHelper.checkAndRequestReadWritePermission(
                                 activity
                             )
                         ) {
-                            RestProvider.downloadFile(v.context, item!!.rawUrl!!)
+                            RestProvider.downloadFile(v.context, fileModel!!.rawUrl!!)
                         }
                     }
-                    R.id.copy -> AppHelper.copyToClipboard(v.context, item!!.blobUrl!!)
+                    R.id.copy -> AppHelper.copyToClipboard(v.context, fileModel!!.blobUrl!!)
                 }
                 true
             }
@@ -125,7 +126,8 @@ class PullRequestFilesPresenter : BasePresenter<PullRequestFilesMvp.View>(),
         }
     }
 
-    override fun onItemLongClick(position: Int, v: View, item: CommitFileChanges) {
+    override fun onItemLongClick(position: Int, v: View?, item: CommitFileChanges) {
+        v ?: return
         v.context.startActivity(
             CommitPagerActivity.createIntent(
                 v.context, repoId!!, login!!,

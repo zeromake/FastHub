@@ -126,7 +126,7 @@ class UnreadNotificationsFragment :
         if (savedInstanceState == null || !presenter!!.isApiCalled) {
             onRefresh()
         }
-        fastScroller!!.attachRecyclerView(recycler)
+        fastScroller!!.attachRecyclerView(recycler!!)
     }
 
     override fun providePresenter(): UnreadNotificationsPresenter {
@@ -160,7 +160,7 @@ class UnreadNotificationsFragment :
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.readAll) {
-            if (!adapter!!.data.isEmpty()) {
+            if (adapter!!.data.isNotEmpty()) {
                 newInstance(
                     getString(R.string.mark_all_as_read), getString(R.string.confirm_message),
                     false, false, Bundler.start()
@@ -193,7 +193,7 @@ class UnreadNotificationsFragment :
     override fun onMessageDialogActionClicked(isOk: Boolean, bundle: Bundle?) {
         super.onMessageDialogActionClicked(isOk, bundle)
         if (isOk) {
-            presenter!!.onMarkAllAsRead(adapter!!.data)
+            presenter!!.onMarkAllAsRead(adapter!!.data.filterNotNull())
         }
     }
 

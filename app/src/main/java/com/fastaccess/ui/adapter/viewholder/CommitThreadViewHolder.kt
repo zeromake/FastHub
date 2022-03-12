@@ -11,8 +11,8 @@ import com.fastaccess.ui.adapter.CommitCommentsAdapter
 import com.fastaccess.ui.adapter.callback.OnToggleView
 import com.fastaccess.ui.widgets.FontTextView
 import com.fastaccess.ui.widgets.SpannableBuilder
-import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
+import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
 
 /**
@@ -68,7 +68,7 @@ class CommitThreadViewHolder private constructor(
                     .url(it.commitId?.substring(0, 7)!!)
             it.comments?.let {
                 if (it.isNotEmpty()) commitComments.adapter =
-                    CommitCommentsAdapter(it, this, onToggleView)
+                    CommitCommentsAdapter(it.toMutableList(), this, onToggleView)
             }
         }
         onToggle(onToggleView.isCollapsed(absoluteAdapterPosition.toLong()))

@@ -29,10 +29,10 @@ class TrendingFragmentPresenter : BasePresenter<TrendingFragmentMvp.View>(), Tre
         return trendingList
     }
 
-    override fun onItemLongClick(position: Int, v: View?, item: TrendingModel?) {}
+    override fun onItemLongClick(position: Int, v: View?, item: TrendingModel) {}
 
-    override fun onItemClick(position: Int, v: View?, item: TrendingModel?) {
-        val split = item?.title?.trim()?.split("/")!!
+    override fun onItemClick(position: Int, v: View?, item: TrendingModel) {
+        val split = item.title?.trim()?.split("/")!!
         v?.context!!.startActivity(RepoPagerActivity.createIntent(v.context!!, split[1].trim(), split[0].trim()))
     }
 

@@ -13,8 +13,8 @@ import com.fastaccess.provider.scheme.LinkParserHelper;
 import com.fastaccess.ui.adapter.AssigneesAdapter;
 import com.fastaccess.ui.widgets.AvatarLayout;
 import com.fastaccess.ui.widgets.FontTextView;
-import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter;
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder;
+import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter;
+import com.fastaccess.ui.base.adapter.BaseViewHolder;
 
 import butterknife.BindColor;
 import butterknife.BindView;

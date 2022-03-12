@@ -28,7 +28,7 @@ import com.fastaccess.ui.modules.repos.code.prettifier.ViewerFragment
 /**
  * Created by Kosh on 27 Nov 2016, 3:43 PM
  */
-class CodeViewerActivity : BaseActivity<BaseMvp.FAView?, BasePresenter<BaseMvp.FAView?>>() {
+class CodeViewerActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FAView>>() {
     @JvmField
     @State
     var url: String? = null
@@ -50,7 +50,7 @@ class CodeViewerActivity : BaseActivity<BaseMvp.FAView?, BasePresenter<BaseMvp.F
     override val isSecured: Boolean
         get() = false
 
-    override fun providePresenter(): BasePresenter<BaseMvp.FAView?> {
+    override fun providePresenter(): BasePresenter<BaseMvp.FAView> {
         return BasePresenter()
     }
 

@@ -115,7 +115,7 @@ class FullScreenFileChangeActivity : BaseActivity<FullScreenFileChangeMvp.View, 
         }
     }
 
-    override fun onItemClick(position: Int, v: View, item: CommitLinesModel) {
+    override fun onItemClick(position: Int, v: View?, item: CommitLinesModel) {
         if (item.text?.startsWith("@@")!!) return
         val commit = presenter.model?.commitFileModel ?: return
         if (PrefGetter.isProEnabled) {
@@ -130,7 +130,7 @@ class FullScreenFileChangeActivity : BaseActivity<FullScreenFileChangeMvp.View, 
         }
     }
 
-    override fun onItemLongClick(position: Int, v: View?, item: CommitLinesModel?) {
+    override fun onItemLongClick(position: Int, v: View?, item: CommitLinesModel) {
 
     }
 

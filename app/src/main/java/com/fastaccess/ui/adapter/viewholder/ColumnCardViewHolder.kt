@@ -9,8 +9,8 @@ import com.fastaccess.R
 import com.fastaccess.data.dao.ProjectCardModel
 import com.fastaccess.data.dao.PullsIssuesParser
 import com.fastaccess.helper.ParseDateFormat
-import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
+import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 
 /**
  * Created by Hashemsergani on 11.09.17.

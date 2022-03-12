@@ -8,12 +8,10 @@ import com.fastaccess.data.dao.SimpleUrlsModel
 import com.fastaccess.provider.rest.loadmore.OnLoadMore
 import com.fastaccess.data.dao.GitCommitModel
 import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 import com.fastaccess.ui.base.mvp.BaseMvp.PaginationListener
 import android.os.Bundle
-import android.view.View
 import com.fastaccess.data.dao.model.Event
-import java.util.ArrayList
 
 /**
  * Created by Kosh on 11 Nov 2016, 12:35 PM

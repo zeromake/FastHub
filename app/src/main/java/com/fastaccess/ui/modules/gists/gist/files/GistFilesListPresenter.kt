@@ -9,24 +9,22 @@ import com.fastaccess.ui.base.mvp.presenter.BasePresenter
  * Created by Kosh on 13 Nov 2016, 1:35 PM
  */
 class GistFilesListPresenter : BasePresenter<GistFilesListMvp.View>(), GistFilesListMvp.Presenter {
-    override fun onItemClick(position: Int, v: View, item: FilesListModel) {
-        if (view != null) {
-            when (v.id) {
-                R.id.delete -> {
-                    view!!.onDeleteFile(item, position)
-                }
-                R.id.edit -> {
-                    view!!.onEditFile(item, position)
-                }
-                else -> {
-                    view!!.onOpenFile(item, position)
-                }
+    override fun onItemClick(position: Int, v: View?, item: FilesListModel) {
+        v ?: return
+        when (v.id) {
+            R.id.delete -> {
+                view!!.onDeleteFile(item, position)
+            }
+            R.id.edit -> {
+                view!!.onEditFile(item, position)
+            }
+            else -> {
+                view!!.onOpenFile(item, position)
             }
         }
     }
 
-    override fun onItemLongClick(position: Int, v: View, item: FilesListModel) {}
-
+    override fun onItemLongClick(position: Int, v: View?, item: FilesListModel) {}
     override var files: MutableList<FilesListModel> = mutableListOf()
     val filesMap: MutableMap<String, FilesListModel> = mutableMapOf()
 }

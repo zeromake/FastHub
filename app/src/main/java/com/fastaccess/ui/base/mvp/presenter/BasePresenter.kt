@@ -10,39 +10,27 @@ import com.fastaccess.provider.rest.RestProvider
 import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
 import com.fastaccess.ui.base.mvp.BaseMvp.FAView
 import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import net.grandcentrix.thirtyinch.TiPresenter
+import net.grandcentrix.thirtyinch.rx2.RxTiPresenterDisposableHandler
 import java.io.IOException
 import java.util.concurrent.TimeoutException
 
 /**
  * Created by Kosh on 25 May 2016, 9:12 PM
  */
-open class BasePresenter<V : FAView?> : TiPresenter<V>(), FAPresenter {
+open class BasePresenter<V : FAView> : TiPresenter<V>(), FAPresenter {
     @com.evernote.android.state.State
     var isEnterprise = false
     private var apiCalled = false
-    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
-
-
-    override fun onSaveInstanceState(outState: Bundle?) {
-        StateSaver.saveInstanceState(this, outState!!)
-    }
-
-    override fun onRestoreInstanceState(outState: Bundle?) {
-        StateSaver.restoreInstanceState(this, outState)
-    }
-
+    private val subscriptionHandler = RxTiPresenterDisposableHandler(this)
     override fun manageDisposable(vararg disposables: Disposable?) {
-        compositeDisposable.addAll(*disposables)
+        subscriptionHandler.manageDisposables(*disposables)
     }
-
     override fun <T> manageObservable(observable: Observable<T>?) {
         manageObservable(observable) {}
     }
-
     fun <T> manageObservable(observable: Observable<T>?, onNext: (T) -> Unit) {
         if (observable != null) {
             manageDisposable(
@@ -54,14 +42,23 @@ open class BasePresenter<V : FAView?> : TiPresenter<V>(), FAPresenter {
             )
         }
     }
-
     override fun manageViewDisposable(vararg disposables: Disposable?) {
         if (isViewAttached) {
-            compositeDisposable.addAll(*disposables)
+            subscriptionHandler.manageViewDisposables(*disposables)
         } else {
             sendToView { manageViewDisposable(*disposables) }
         }
     }
+
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        StateSaver.saveInstanceState(this, outState!!)
+    }
+
+    override fun onRestoreInstanceState(outState: Bundle?) {
+        StateSaver.restoreInstanceState(this, outState)
+    }
+
 
     override val isApiCalled: Boolean
         get() = apiCalled
@@ -69,9 +66,9 @@ open class BasePresenter<V : FAView?> : TiPresenter<V>(), FAPresenter {
     override fun onSubscribed(cancelable: Boolean) {
         sendToView { v: V ->
             if (cancelable) {
-                v?.showProgress(R.string.in_progress)
+                v.showProgress(R.string.in_progress)
             } else {
-                v?.showBlockingProgress(R.string.in_progress)
+                v.showBlockingProgress(R.string.in_progress)
             }
         }
     }
@@ -87,13 +84,13 @@ open class BasePresenter<V : FAView?> : TiPresenter<V>(), FAPresenter {
         val errorResponse = RestProvider.getErrorResponse(throwable)
         if (errorResponse?.message != null) {
             sendToView { v ->
-                v?.showErrorMessage(
+                v.showErrorMessage(
                     errorResponse.message!!
                 )
             }
         } else {
             sendToView { v ->
-                v?.showMessage(
+                v.showMessage(
                     R.string.error,
                     getPrettifiedErrorMessage(throwable)
                 )
@@ -146,24 +143,12 @@ open class BasePresenter<V : FAView?> : TiPresenter<V>(), FAPresenter {
                     .forEach {
                         if (!it.status.equals("operational", true)) {
                             sendToView { v ->
-                                v?.showErrorMessage(
+                                v.showErrorMessage(
                                     """Github Status ${it.name}: ${it.status}""".trimIndent()
                                 )
                             }
                         }
                     }
             })
-    }
-
-    override fun onDestroy() {
-        disposable()
-        super.onDestroy()
-    }
-
-    fun disposable() {
-        if (!compositeDisposable.isDisposed) {
-            compositeDisposable.dispose()
-            compositeDisposable.clear()
-        }
     }
 }

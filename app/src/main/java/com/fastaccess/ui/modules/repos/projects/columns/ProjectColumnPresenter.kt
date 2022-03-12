@@ -25,7 +25,8 @@ class ProjectColumnPresenter : BasePresenter<ProjectColumnMvp.View>(), ProjectCo
     override var previousTotal: Int = 0
     private var lastPage = Integer.MAX_VALUE
 
-    override fun onItemClick(position: Int, v: View, item: ProjectCardModel) {
+    override fun onItemClick(position: Int, v: View?, item: ProjectCardModel) {
+        v?:return
         if (v.id == R.id.editCard) {
             view?.let { view ->
                 val popupMenu = PopupMenu(v.context, v)
@@ -56,7 +57,7 @@ class ProjectColumnPresenter : BasePresenter<ProjectColumnMvp.View>(), ProjectCo
         }
     }
 
-    override fun onItemLongClick(position: Int, v: View?, item: ProjectCardModel?) {}
+    override fun onItemLongClick(position: Int, v: View?, item: ProjectCardModel) {}
 
     override fun getCards(): ArrayList<ProjectCardModel> = projects
 

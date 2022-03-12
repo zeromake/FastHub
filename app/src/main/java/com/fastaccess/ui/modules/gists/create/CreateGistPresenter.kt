@@ -11,7 +11,7 @@ import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 /**
  * Created by Kosh on 30 Nov 2016, 10:51 AM
  */
-class CreateGistPresenter : BasePresenter<CreateGistMvp.View?>(), CreateGistMvp.Presenter {
+class CreateGistPresenter : BasePresenter<CreateGistMvp.View>(), CreateGistMvp.Presenter {
     override fun onSubmit(
         description: String,
         files: MutableMap<String, FilesListModel>,

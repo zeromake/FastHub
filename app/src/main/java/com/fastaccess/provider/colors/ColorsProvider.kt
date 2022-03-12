@@ -22,10 +22,10 @@ import java.io.InputStreamReader
  * Created by Kosh on 27 May 2017, 9:50 PM
  */
 object ColorsProvider {
-    private val POPULAR_LANG = Stream.of(
+    private val POPULAR_LANG = listOf(
         "Java", "Kotlin", "JavaScript", "Python", "CSS", "PHP",
         "Ruby", "C++", "C", "Go", "Swift"
-    ).toList() //predefined languages.
+    ) //predefined languages.
     private val colors: MutableMap<String, LanguageColorModel> = LinkedHashMap()
 
     @JvmStatic

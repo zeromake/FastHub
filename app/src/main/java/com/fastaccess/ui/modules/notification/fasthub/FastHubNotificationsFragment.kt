@@ -16,13 +16,19 @@ import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
 /**
  * Created by Kosh on 19.11.17.
  */
-class FastHubNotificationsFragment : BaseFragment<FastHubNotificationsMvp.View, FastHubNotificationsPresenter>(), FastHubNotificationsMvp.View {
+class FastHubNotificationsFragment :
+    BaseFragment<FastHubNotificationsMvp.View, FastHubNotificationsPresenter>(),
+    FastHubNotificationsMvp.View {
 
-    @BindView(R.id.recycler) lateinit var recycler: DynamicRecyclerView
-    @BindView(R.id.refresh) lateinit var refresh: AppbarRefreshLayout
-    @BindView(R.id.stateLayout) lateinit var stateLayout: StateLayout
-    @BindView(R.id.fastScroller) lateinit var fastScroller: RecyclerViewFastScroller
-    private val adapter by lazy { FastHubNotificationsAdapter(presenter.getData()) }
+    @BindView(R.id.recycler)
+    lateinit var recycler: DynamicRecyclerView
+    @BindView(R.id.refresh)
+    lateinit var refresh: AppbarRefreshLayout
+    @BindView(R.id.stateLayout)
+    lateinit var stateLayout: StateLayout
+    @BindView(R.id.fastScroller)
+    lateinit var fastScroller: RecyclerViewFastScroller
+    private val adapter by lazy { FastHubNotificationsAdapter(presenter.getData().toMutableList()) }
 
     override fun fragmentLayout(): Int = R.layout.small_grid_refresh_list
 
@@ -53,7 +59,8 @@ class FastHubNotificationsFragment : BaseFragment<FastHubNotificationsMvp.View, 
         }
     }
 
-    override fun onItemClick(position: Int, v: View?, item: FastHubNotification) = FastHubNotificationDialog.show(childFragmentManager, item)
+    override fun onItemClick(position: Int, v: View?, item: FastHubNotification) =
+        FastHubNotificationDialog.show(childFragmentManager, item)
 
     override fun onItemLongClick(position: Int, v: View?, item: FastHubNotification) {}
 }

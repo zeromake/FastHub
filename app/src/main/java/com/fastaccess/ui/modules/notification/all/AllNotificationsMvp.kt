@@ -6,8 +6,7 @@ import net.grandcentrix.thirtyinch.callonmainthread.CallOnMainThread
 import com.fastaccess.data.dao.GroupedNotificationModel
 import com.fastaccess.data.dao.model.Notification
 import com.fastaccess.data.dao.model.Repo
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
-import java.util.ArrayList
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 
 /**
  * Created by Kosh on 19 Feb 2017, 7:53 PM

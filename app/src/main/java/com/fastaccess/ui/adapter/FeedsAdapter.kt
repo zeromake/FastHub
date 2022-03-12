@@ -1,18 +1,17 @@
 package com.fastaccess.ui.adapter
 
 import kotlin.jvm.JvmOverloads
-import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter
+import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
 import com.fastaccess.ui.adapter.viewholder.FeedsViewHolder
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 import android.view.ViewGroup
 import com.fastaccess.data.dao.model.Event
-import java.util.ArrayList
 
 /**
  * Created by Kosh on 11 Nov 2016, 2:07 PM
  */
 class FeedsAdapter @JvmOverloads constructor(
-    events: List<Event>,
+    events: MutableList<Event>,
     private val noImage: Boolean = false
 ) : BaseRecyclerAdapter<Event, FeedsViewHolder, BaseViewHolder.OnItemClickListener<Event>>(
     events

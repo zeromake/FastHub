@@ -24,8 +24,8 @@ import io.reactivex.Observable;
  */
 
 class RepoFilesPresenter extends BasePresenter<RepoFilesMvp.View> implements RepoFilesMvp.Presenter {
-    private ArrayList<RepoFile> files = new ArrayList<>();
-    private RepoPathsManager pathsModel = new RepoPathsManager();
+    private final ArrayList<RepoFile> files = new ArrayList<>();
+    private final RepoPathsManager pathsModel = new RepoPathsManager();
     @com.evernote.android.state.State String repoId;
     @com.evernote.android.state.State String login;
     @com.evernote.android.state.State String path;
@@ -67,7 +67,7 @@ class RepoFilesPresenter extends BasePresenter<RepoFilesMvp.View> implements Rep
                 .toList()
                 .subscribe(models -> {
                     files.addAll(models);
-                    sendToView(RepoFilesMvp.View::onNotifyAdapter);
+                    sendToView(v -> v.onNotifyAdapter(files));
                 }));
     }
 
@@ -90,7 +90,7 @@ class RepoFilesPresenter extends BasePresenter<RepoFilesMvp.View> implements Rep
                 files.addAll(response);
             }
             sendToView(view -> {
-                view.onNotifyAdapter();
+                view.onNotifyAdapter(files);
                 view.onUpdateTab(toAppend);
             });
         });
@@ -109,7 +109,7 @@ class RepoFilesPresenter extends BasePresenter<RepoFilesMvp.View> implements Rep
             files.clear();
             files.addAll(cachedFiles);
             sendToView(view -> {
-                view.onNotifyAdapter();
+                view.onNotifyAdapter(files);
                 view.onUpdateTab(toAppend);
             });
         } else {

@@ -23,7 +23,7 @@ import com.fastaccess.ui.modules.main.MainMvp
 import com.fastaccess.ui.modules.main.premium.PremiumActivity
 import com.fastaccess.ui.modules.pinned.PinnedReposActivity
 import com.fastaccess.ui.modules.user.UserPagerActivity
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
 
 /**
@@ -69,8 +69,7 @@ class AccountDrawerFragment : BaseFragment<MainMvp.View, BasePresenter<MainMvp.V
         pinnedListAdapter.listener = this
         pinnedList.adapter = pinnedListAdapter
         adapter.listener = object : BaseViewHolder.OnItemClickListener<Login> {
-            override fun onItemLongClick(position: Int, v: View?, item: Login?) {}
-
+            override fun onItemLongClick(position: Int, v: View?, item: Login) {}
             override fun onItemClick(position: Int, v: View?, item: Login) {
                 presenter.manageViewDisposable(RxHelper.getObservable(Login.onMultipleLogin(item, item.isIsEnterprise, false))
                         .doOnSubscribe { showProgress(0) }
@@ -116,13 +115,13 @@ class AccountDrawerFragment : BaseFragment<MainMvp.View, BasePresenter<MainMvp.V
         loadPinned()
     }
 
-    override fun onItemClick(position: Int, v: View?, item: PinnedRepos?) {
-        if (v != null && item != null) {
+    override fun onItemClick(position: Int, v: View?, item: PinnedRepos) {
+        if (v != null) {
             postDelayedAndClose { SchemeParser.launchUri(v.context, item.pinnedRepo.htmlUrl) }
         }
     }
 
-    override fun onItemLongClick(position: Int, v: View?, item: PinnedRepos?) = Unit
+    override fun onItemLongClick(position: Int, v: View?, item: PinnedRepos) = Unit
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)

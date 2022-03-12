@@ -60,7 +60,7 @@ class FeedsFragment : BaseFragment<FeedsMvp.View, FeedsPresenter>(), FeedsMvp.Vi
             recycler!!.addDivider()
         }
         recycler!!.addOnScrollListener(loadMore)
-        fastScroller!!.attachRecyclerView(recycler)
+        fastScroller!!.attachRecyclerView(recycler!!)
         if (presenter!!.events.isEmpty() && !presenter!!.isApiCalled) {
             presenter!!.onFragmentCreated(requireArguments())
         }

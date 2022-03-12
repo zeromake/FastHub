@@ -81,7 +81,7 @@ class GistFilesListFragment : BaseFragment<GistFilesListMvp.View, GistFilesListP
         } else {
             onInitFiles(presenter.files, isOwner)
         }
-        fastScroller!!.attachRecyclerView(recycler)
+        fastScroller!!.attachRecyclerView(recycler!!)
     }
 
     override fun onOpenFile(item: FilesListModel, position: Int) {
@@ -143,7 +143,7 @@ class GistFilesListFragment : BaseFragment<GistFilesListMvp.View, GistFilesListP
                     var file = adapter!!.getItem(position)
                     if (file != null) {
                         if (presenter.filesMap[file.filename] != null) {
-                            file = presenter.filesMap[file.filename]
+                            file = presenter.filesMap[file.filename]!!
                             file.content = null
                             presenter.filesMap[file.filename!!] = file
                         }
@@ -164,7 +164,7 @@ class GistFilesListFragment : BaseFragment<GistFilesListMvp.View, GistFilesListP
             adapter!!.addItem(file)
             presenter.filesMap[file.filename!!] = file
         } else {
-            val current = adapter!!.getItem(position)
+            val current = adapter!!.getItem(position)!!
             if (presenter.filesMap.contains(current.filename)) {
                 presenter.filesMap[current.filename]?.let { toUpdate ->
                     toUpdate.filename = file.filename

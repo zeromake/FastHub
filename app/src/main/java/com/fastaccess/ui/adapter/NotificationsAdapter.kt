@@ -1,9 +1,9 @@
 package com.fastaccess.ui.adapter
 
 import android.view.View
-import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter
+import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
 import com.fastaccess.data.dao.GroupedNotificationModel
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 import android.view.ViewGroup
 import com.fastaccess.ui.adapter.viewholder.NotificationsHeaderViewHolder
 import com.fastaccess.ui.adapter.viewholder.NotificationsViewHolder
@@ -19,14 +19,14 @@ class NotificationsAdapter :
     private var hideClear = false
 
     constructor(
-        eventsModels: List<GroupedNotificationModel>,
+        eventsModels: MutableList<GroupedNotificationModel>,
         showUnreadState: Boolean
     ) : super(eventsModels) {
         this.showUnreadState = showUnreadState
     }
 
     constructor(
-        eventsModels: List<GroupedNotificationModel>,
+        eventsModels: MutableList<GroupedNotificationModel>,
         showUnreadState: Boolean,
         hideClear: Boolean
     ) : super(eventsModels) {

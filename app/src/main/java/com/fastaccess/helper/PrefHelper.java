@@ -17,7 +17,7 @@ import java.util.Map;
 public class PrefHelper {
     private static MMKV mmkv;
 
-    private static MMKV getInstance() {
+    public static MMKV getInstance() {
         if (mmkv == null) {
             MMKV.initialize(App.getInstance().getApplicationContext());
             mmkv = MMKV.mmkvWithID("preferences");

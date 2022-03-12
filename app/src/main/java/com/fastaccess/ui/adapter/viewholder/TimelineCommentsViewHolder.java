@@ -30,7 +30,7 @@ import com.fastaccess.ui.adapter.callback.ReactionsCallback;
 import com.fastaccess.ui.widgets.AvatarLayout;
 import com.fastaccess.ui.widgets.FontTextView;
 import com.fastaccess.ui.widgets.ForegroundImageView;
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder;
+import com.fastaccess.ui.base.adapter.BaseViewHolder;
 
 
 /**
@@ -287,7 +287,7 @@ public class TimelineCommentsViewHolder extends BaseViewHolder<TimelineModel> {
     }
 
     @Override
-    protected void onViewIsDetaching() {
+    public void onViewIsDetaching() {
         DrawableGetter drawableGetter = (DrawableGetter) comment.getTag(R.id.drawable_callback);
         if (drawableGetter != null) {
             drawableGetter.clear(viewGroup.getContext(), drawableGetter);

@@ -28,8 +28,8 @@ import com.fastaccess.ui.adapter.callback.OnToggleView;
 import com.fastaccess.ui.adapter.callback.ReactionsCallback;
 import com.fastaccess.ui.widgets.AvatarLayout;
 import com.fastaccess.ui.widgets.FontTextView;
-import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter;
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder;
+import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter;
+import com.fastaccess.ui.base.adapter.BaseViewHolder;
 
 
 public class ReviewCommentsViewHolder extends BaseViewHolder<ReviewCommentModel> {
@@ -260,7 +260,7 @@ public class ReviewCommentsViewHolder extends BaseViewHolder<ReviewCommentModel>
     }
 
     @Override
-    protected void onViewIsDetaching() {
+    public void onViewIsDetaching() {
         DrawableGetter drawableGetter = (DrawableGetter) comment.getTag(R.id.drawable_callback);
         if (drawableGetter != null) {
             drawableGetter.clear(viewGroup.getContext(), drawableGetter);

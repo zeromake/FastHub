@@ -25,7 +25,7 @@ import com.fastaccess.ui.widgets.SpannableBuilder
 import com.fastaccess.ui.adapter.ProfileOrgsAdapter
 import com.fastaccess.ui.widgets.recyclerview.layout_manager.GridManager
 import com.fastaccess.ui.adapter.ProfilePinnedReposAdapter
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 import com.fastaccess.provider.scheme.SchemeParser
 import androidx.annotation.StringRes
 import androidx.transition.AutoTransition
@@ -328,12 +328,12 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View, ProfileOve
         if (nodes.isNotEmpty()) {
             pinnedReposTextView!!.visibility = View.VISIBLE
             pinnedReposCard!!.visibility = View.VISIBLE
-            val adapter = ProfilePinnedReposAdapter(nodes)
+            val adapter = ProfilePinnedReposAdapter(nodes.toMutableList())
             adapter.listener =
                 object : BaseViewHolder.OnItemClickListener<GetPinnedReposQuery.Node> {
                     override fun onItemClick(
                         position: Int,
-                        v: View,
+                        v: View?,
                         item: GetPinnedReposQuery.Node
                     ) {
                         SchemeParser.launchUri(requireContext(), item.onRepository!!.url.toString())
@@ -341,7 +341,7 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View, ProfileOve
 
                     override fun onItemLongClick(
                         position: Int,
-                        v: View,
+                        v: View?,
                         item: GetPinnedReposQuery.Node
                     ) {
                     }
