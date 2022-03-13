@@ -67,7 +67,7 @@ class CommitLinesModel : Parcelable {
         fun getLines(text: String?): List<CommitLinesModel> {
             val models = ArrayList<CommitLinesModel>()
             if (!InputHelper.isEmpty(text)) {
-                val split = text!!.split("\\r?\\n|\\r").toTypedArray()
+                val split = text!!.split("\\r?\\n|\\r".toRegex())
                 if (split.size > 1) {
                     var leftLineNo = -1
                     var rightLineNo = -1

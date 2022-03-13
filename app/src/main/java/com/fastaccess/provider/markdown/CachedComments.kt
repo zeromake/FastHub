@@ -10,7 +10,7 @@ class CachedComments private constructor() {
     val map = WeakHashMap<String, CharSequence>()
 
     fun put(repo: String?, login: String?, number: Any?, comment: CharSequence) {
-        map.put("$repo/$login/$number", comment)
+        map["$repo/$login/$number"] = comment
     }
 
     fun get(repo: String?, login: String?, number: Any?): CharSequence? {

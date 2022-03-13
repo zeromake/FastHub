@@ -19,6 +19,7 @@ interface RepoService {
     fun getFileAsHtmlStream(@Url url: String): Observable<String>
 
     @POST("markdown")
+    @Headers("Accept: application/vnd.github.v3+json")
     fun convertReadmeToHtml(@Body model: MarkdownModel): Observable<String>
 
     @GET("repos/{login}/{repoId}")
@@ -76,8 +77,10 @@ interface RepoService {
 
     @GET("repos/{owner}/{repo}/commits")
     fun getCommits(
-        @Path("owner") owner: String, @Path("repo") repo: String,
-        @Query("sha") branch: String, @Query("page") page: Int
+        @Path("owner") owner: String,
+        @Path("repo") repo: String,
+        @Query("sha") branch: String,
+        @Query("page") page: Int
     ): Observable<Pageable<Commit>>
 
     @GET("repos/{owner}/{repo}/commits")

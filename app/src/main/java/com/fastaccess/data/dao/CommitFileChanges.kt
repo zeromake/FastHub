@@ -46,26 +46,28 @@ class CommitFileChanges : Parcelable {
 
         @JvmStatic
         fun construct(files: List<CommitFileModel>?): List<CommitFileChanges> {
-            return if (files == null || files.isEmpty()) {
-                ArrayList()
-            } else files.asSequence()
+            files ?: return listOf()
+
+            return if (files.isEmpty()) {
+                listOf()
+            } else files
                 .map { m: CommitFileModel -> getCommitFileChanges(m) }
-                .toList()
         }
 
         @JvmStatic
         private fun getCommitFileChanges(m: CommitFileModel): CommitFileChanges {
             val model = CommitFileChanges()
-            model.linesModel = (CommitLinesModel.getLines(m.patch))
+            model.linesModel = CommitLinesModel.getLines(m.patch)
             if (m.patch != null) {
                 m.patch = "fake"
             }
-            model.commitFileModel = (m)
+            model.commitFileModel = m
             return model
         }
 
         @JvmField
-        val CREATOR: Parcelable.Creator<CommitFileChanges> = ParcelUtil.createParcel { CommitFileChanges(it) }
+        val CREATOR: Parcelable.Creator<CommitFileChanges> =
+            ParcelUtil.createParcel { CommitFileChanges(it) }
 
         @JvmStatic
         fun canAttachToBundle(model: CommitFileChanges): Boolean {
