@@ -12,8 +12,8 @@ android {
         applicationId = "com.fastaccess.github"
         minSdk = 21
         targetSdk = 31
-        versionCode = 467
-        versionName = "4.6.7"
+        versionCode = 468
+        versionName = "4.6.8"
         buildConfigField("String", "GITHUB_APP_ID", "\"com.fastaccess.github.debug\"")
         buildConfigField("String", "GITHUB_CLIENT_ID", "\"473e333123519beadd63\"")
         buildConfigField("String", "GITHUB_SECRET", "\"b2d158f949d3615078eaf570ff99eba81cfa1ff9\"")
@@ -39,7 +39,7 @@ android {
         }
         debug {
             signingConfig = signingConfigs.getByName("debug")
-            applicationIdSuffix = ".debug1"
+            applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
         }
     }
