@@ -64,7 +64,7 @@ class SettingsCategoryFragment : PreferenceFragmentCompat(), Preference.OnPrefer
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        preferenceManager.preferenceDataStore = SettingsDataStore()
+        preferenceManager.preferenceDataStore = SettingsDataStore("settings")
         when (settingsCallback!!.settingsType) {
             SettingsModel.BACKUP -> addBackup()
             SettingsModel.BEHAVIOR -> addBehaviour()

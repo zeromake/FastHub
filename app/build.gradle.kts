@@ -91,6 +91,7 @@ dependencies {
     implementation("androidx.palette:palette-ktx:1.0.0")
     implementation("androidx.compose.ui:ui:1.1.1")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation("androidx.core:core-splashscreen:1.0.0-beta01")
 
     // thirtyinch
     implementation("com.github.Grandcentrix.ThirtyInch:thirtyinch:v1.0.1")
@@ -147,7 +148,7 @@ dependencies {
     // requery
     implementation("io.requery:requery:1.6.0")
     implementation("io.requery:requery-android:1.6.0")
-//    kapt("io.requery:requery-processor:1.6.1")
+//    kapt("io.requery:requery-processor:1.6.0")
 
     // about lib
     implementation("com.mikepenz:aboutlibraries-core:10.0.0")
@@ -214,7 +215,7 @@ dependencies {
 
     // shortbread
     implementation("com.github.matthiasrobbers:shortbread:1.4.0")
-    kapt("com.github.matthiasrobbers:shortbread-compiler:1.4.0")
+//    kapt("com.github.matthiasrobbers:shortbread-compiler:1.4.0")
 
     // bugly
     implementation("com.tencent.bugly:crashreport:4.0.0")

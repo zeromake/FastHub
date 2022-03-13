@@ -61,10 +61,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.navigation.NavigationView
 import es.dmoral.toasty.Toasty
 import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import net.grandcentrix.thirtyinch.TiActivity
-import net.grandcentrix.thirtyinch.rx2.RxTiPresenterDisposableHandler
 
 /**
  * Created by Kosh on 24 May 2016, 8:48 PM
@@ -404,19 +401,21 @@ abstract class BaseActivity<V : FAView, P : BasePresenter<V>> : TiActivity<P, V>
                     if (canBack()) {
                         val navIcon = getToolbarNavigationIcon(toolbar)
                         navIcon?.setOnLongClickListener {
-                            val intent = Intent(this, MainActivity::class.java)
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                            startActivity(intent)
+                            MainActivity.launchMainActivity(this, true)
                             finish()
                             true
                         }
                         navIcon?.setOnThrottleClickListener {
-                            finish()
+                            this.onNavBack()
                         }
                     }
                 }
             }
         }
+    }
+
+    open fun onNavBack() {
+        finish()
     }
 
     protected fun setToolbarIcon(@DrawableRes res: Int) {

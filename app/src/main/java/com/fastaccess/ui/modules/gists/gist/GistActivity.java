@@ -146,6 +146,8 @@ public class GistActivity extends BaseActivity<GistMvp.View, GistPresenter> impl
         super.onCreate(savedInstanceState);
         fab.hide();
         commentEditorFragment = (CommentEditorFragment) getSupportFragmentManager().findFragmentById(R.id.commentFragment);
+        // default
+        hideShowFab();
         accentColor = ViewHelper.getAccentColor(this);
         iconColor = ViewHelper.getIconColor(this);
         if (savedInstanceState == null) {
@@ -256,6 +258,7 @@ public class GistActivity extends BaseActivity<GistMvp.View, GistPresenter> impl
         }
         size.setText(Formatter.formatFileSize(this, gistsModel.getSize()));
         pager.setAdapter(new FragmentsPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapterModel.buildForGist(this, gistsModel)));
+        pager.setCurrentItem(0);
         tabs.setupWithViewPager(pager);
         pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override public void onPageSelected(int position) {
@@ -300,11 +303,11 @@ public class GistActivity extends BaseActivity<GistMvp.View, GistPresenter> impl
         commentEditorFragment.onAddUserName(username);
     }
 
-    @Override public void onCreateComment(String text, Bundle bundle) {
+    @Override public void onCreateComment(@NonNull String text, Bundle bundle) {
 
     }
 
-    @SuppressWarnings("ConstantConditions") @Override public void onClearEditText() {
+    @Override public void onClearEditText() {
         if (commentEditorFragment != null && commentEditorFragment.commentText != null) commentEditorFragment.commentText.setText("");
     }
 

@@ -1,12 +1,15 @@
 package com.fastaccess;
 
 import android.app.Application;
+import android.content.pm.ShortcutManager;
+import android.os.Build;
 
 import androidx.annotation.NonNull;
-import androidx.preference.PreferenceManager;
+import androidx.annotation.RequiresApi;
 
 import com.fastaccess.data.dao.model.Models;
 import com.fastaccess.helper.DeviceNameGetter;
+import com.fastaccess.helper.PrefHelper;
 import com.fastaccess.helper.TypeFaceHelper;
 import com.fastaccess.provider.colors.ColorsProvider;
 import com.fastaccess.provider.emoji.EmojiManager;
@@ -47,6 +50,12 @@ public class App extends Application {
         return instance;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N_MR1)
+    private void initShortcut() {
+        ShortcutManager shortcutManager = this.getApplicationContext().getSystemService(ShortcutManager.class);
+        shortcutManager.removeAllDynamicShortcuts();
+    }
+
     private void init() {
         RxBillingService.register(this);
         deleteDatabase("database.db");
@@ -54,7 +63,12 @@ public class App extends Application {
         setupPreference();
         TypeFaceHelper.generateTypeface(this);
 //        NotificationSchedulerJobTask.scheduleJob(this);
-        new ShortbreadInitializer().create(this);
+        if (BuildConfig.DEBUG) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                initShortcut();
+            }
+        }
+
         EmojiManager.load();
         ColorsProvider.load();
         DeviceNameGetter.instance.loadDevice();
@@ -63,15 +77,11 @@ public class App extends Application {
         } catch (Exception ignored) {
         }
         Toasty.Config.getInstance().allowQueue(true).apply();
+//        ThemeEngine.applyApplication(this);
     }
 
     private void setupPreference() {
-        PreferenceManager.setDefaultValues(this, R.xml.fasthub_settings, false);
-        PreferenceManager.setDefaultValues(this, R.xml.about_settings, false);
-        PreferenceManager.setDefaultValues(this, R.xml.behaviour_settings, false);
-        PreferenceManager.setDefaultValues(this, R.xml.customization_settings, false);
-        PreferenceManager.setDefaultValues(this, R.xml.language_settings, false);
-        PreferenceManager.setDefaultValues(this, R.xml.notification_settings, false);
+        PrefHelper.init(this.getApplicationContext());
     }
 
     public ReactiveEntityStore<Persistable> getDataStore() {

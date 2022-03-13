@@ -3,15 +3,11 @@ package com.fastaccess.ui.widgets
 import android.text.SpannableStringBuilder
 import com.fastaccess.helper.InputHelper
 import android.graphics.drawable.Drawable
-import android.text.style.ImageSpan
-import android.text.style.StyleSpan
 import android.graphics.Typeface
-import android.text.style.BackgroundColorSpan
+import android.text.ParcelableSpan
 import androidx.annotation.ColorInt
-import android.text.style.ForegroundColorSpan
-import android.text.style.URLSpan
-import android.text.style.ClickableSpan
 import android.text.TextPaint
+import android.text.style.*
 import android.view.View
 
 /**
@@ -54,7 +50,7 @@ class SpannableBuilder private constructor() : SpannableStringBuilder() {
 
     fun append(text: Char, span: Any?): SpannableBuilder {
         append(text)
-        if (!InputHelper.isEmpty(span)) {
+        if (!InputHelper.isEmpty(span.toString())) {
             val length = length
             setSpan(span, length - 1, length, SPAN_EXCLUSIVE_EXCLUSIVE)
         }

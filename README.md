@@ -229,8 +229,29 @@ Laus Deo Semper
 - [x] feat: feeds view fork item click is default open origin repo
 - [x] feat: settings module storage to mmkv
 - [x] fix: migration kotlin BaseRecyclerAdapter.data is shared variables
+- [ ] fix: Install the app for the first time, switch page left nav drawer turns on by default and closes immediately
 - [ ] feat: add history page
 - [ ] feat: remake search page support `star` sorted and code search page
 - [ ] fix: gist public page request is http 500
 - [ ] feat: support actions page
 - [ ] feat: main timeline pages support grouping aggregation
+
+## 修改
+
+- [x] fix: 升级所有依赖，废弃 jcenter，删除一些非必须的依赖，以支持在最新的 android studio 开发
+- [x] fix: 排行榜的 html 选择器错误
+- [x] fix: 排行榜的全部语言选择失败
+- [x] fix: 更新日志和 release 的详情的底部 dialog 里的 webview 会有大量的底部空白可以滚动
+- [x] fix: github content 的 html 渲染的标签与属性错误
+- [x] fix: graphql 库过时，并且更新 graphql 结构
+- [x] fix: 应用在三级页面 (例如排行榜打开的 repo) 点左上的导航返回会强制返回到首页并清空打开页面历史
+- [x] fix: 个人详细页的一年贡献分布无法显示，github 的格式发生变化
+- [x] feat: 修改首页的 fork 项目点击默认进入的是原项目
+- [x] feat: 设置的 SharedPreferences 全部使用 mmkv 替换
+- [x] feat: release 的下载会调起系统下载器无需再申请写入权限，默认保存到设备支持的 Download 目录里
+- [x] fix: gist 的创建页面打不开(迁移问题)
+- [x] fix: InputHelper 转换为 kotlin 方法的 `Any` 会对其它类型造成遮蔽效果与 `java` 效果不同，gist 创建的文件名会格式化为组件名字
+- [ ] fix: repo 的 readme 滚动比较卡顿
+- [ ] feat: 通知里的 issue 点击后从顶部开始浏览，需要修改为从通知的位置开始浏览
+- [ ] fix: gist 的公共列表拉取发生 500 错误
+- [ ] fix: 使用 token 登录时无限 loading 但是重开 app 就已经是登录状态了

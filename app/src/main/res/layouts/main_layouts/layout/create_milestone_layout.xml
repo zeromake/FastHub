@@ -36,8 +36,7 @@
                     android:id="@+id/title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    app:hintTextAppearance="@style/TextAppearance.AppCompat.Title">
+                    android:layout_weight="1">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
@@ -52,8 +51,7 @@
                     android:id="@+id/dueOn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.6"
-                    app:hintTextAppearance="@style/TextAppearance.AppCompat.Title">
+                    android:layout_weight="0.6">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/dueOnEditText"
@@ -84,8 +82,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/description"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:hintTextAppearance="@style/TextAppearance.AppCompat.Title">
+                    android:layout_height="wrap_content">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"

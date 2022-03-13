@@ -22,6 +22,7 @@ import androidx.compose.runtime.withFrameMillis
 import androidx.compose.ui.Modifier
 import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem
 import androidx.core.content.ContextCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.danielstone.materialaboutlibrary.items.MaterialAboutItemOnClickAction
 import com.fastaccess.helper.ActivityHelper
 import com.fastaccess.ui.modules.user.UserPagerActivity
@@ -33,6 +34,7 @@ import com.fastaccess.ui.modules.changelog.ChangelogBottomSheetDialog
 import com.fastaccess.provider.tasks.version.CheckVersionService
 import com.fastaccess.ui.modules.repos.issues.create.CreateIssueActivity
 import com.mikepenz.aboutlibraries.LibsBuilder
+import com.mikepenz.aboutlibraries.ui.LibsActivity
 import com.mikepenz.aboutlibraries.ui.compose.LibrariesContainer
 
 /**
@@ -229,14 +231,28 @@ class FastHubAboutActivity : MaterialAboutActivity() {
                 .text(R.string.open_source_libs)
                 .icon(ContextCompat.getDrawable(context, R.drawable.ic_github))
                 .setOnClickAction {
-                    LibsBuilder()
+                    val builder = LibsBuilder()
                         .withSearchEnabled(true)
                         .withActivityTitle(this.resources.getString(R.string.open_source_libs))
                         .withAboutIconShown(true)
                         .withAboutVersionShown(true)
-                        .start(context)
+                        .withAboutAppName(this.resources.getString(R.string.app_name))
+                        .withAboutVersionString(BuildConfig.VERSION_NAME)
+                    startLibsActivity(this, builder)
                 }
                 .build())
+    }
+
+    private fun startLibsActivity(ctx: Context, builder: LibsBuilder) {
+        val i = Intent(ctx, CommonLibsActivity::class.java)
+        i.putExtra("data", builder)
+        if (builder.activityTitle != null) {
+            i.putExtra(LibsBuilder.BUNDLE_TITLE, builder.activityTitle)
+        }
+        i.putExtra(LibsBuilder.BUNDLE_EDGE_TO_EDGE, builder.edgeToEdge)
+        i.putExtra(LibsBuilder.BUNDLE_SEARCH_ENABLED, builder.searchEnabled)
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        ctx.startActivity(i)
     }
 
     private fun buildApp(context: Context, appCardBuilder: MaterialAboutCard.Builder) {

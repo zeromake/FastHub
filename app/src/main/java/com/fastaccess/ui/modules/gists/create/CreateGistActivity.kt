@@ -41,6 +41,7 @@ class CreateGistActivity : BaseActivity<CreateGistMvp.View, CreateGistPresenter>
     @State
     var id: String? = null
     private var filesListFragment: GistFilesListFragment? = null
+
     @OnClick(value = [R.id.createPublicGist, R.id.createSecretGist])
     fun onClick(view: View) {
         if (view.id == R.id.createSecretGist) {
@@ -51,14 +52,13 @@ class CreateGistActivity : BaseActivity<CreateGistMvp.View, CreateGistPresenter>
             return
         }
         presenter!!.onSubmit(
-            toString(description),
+            toString(description?.editText?.text.toString()),
             filesFragment!!.files, view.id == R.id.createPublicGist
         )
     }
 
     @OnClick(R.id.addFile)
     fun onViewClicked() {
-        e(filesFragment)
         filesFragment!!.onAddNewFile()
     }
 
@@ -85,7 +85,7 @@ class CreateGistActivity : BaseActivity<CreateGistMvp.View, CreateGistPresenter>
         return R.layout.create_gist_layout
     }
 
-    override val isTransparent=false
+    override val isTransparent = false
 
     override fun canBack(): Boolean {
         return true

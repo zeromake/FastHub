@@ -63,7 +63,7 @@ class CommitPagerPresenter extends BasePresenter<CommitPagerMvp.View> implements
                             }
                             return Observable.just(commit);
                         }, (commit, u) -> {
-                            if (!InputHelper.isEmpty(u) && u instanceof String) {
+                            if (!InputHelper.isEmpty(u.toString()) && u instanceof String) {
                                 commit.getGitCommit().setMessage(u.toString());
                             }
                             return commit;

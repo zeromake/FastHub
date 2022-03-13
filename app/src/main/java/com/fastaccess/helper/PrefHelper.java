@@ -1,6 +1,8 @@
 package com.fastaccess.helper;
 
 import android.annotation.SuppressLint;
+import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
@@ -17,12 +19,18 @@ import java.util.Map;
 public class PrefHelper {
     private static MMKV mmkv;
 
+    public static void init(Context context) {
+        MMKV.initialize(context);
+        mmkv = MMKV.mmkvWithID("preferences");
+    }
+
     public static MMKV getInstance() {
-        if (mmkv == null) {
-            MMKV.initialize(App.getInstance().getApplicationContext());
-            mmkv = MMKV.mmkvWithID("preferences");
-        }
         return mmkv;
+    }
+
+
+    public static MMKV getInstanceWithKey(String key) {
+        return MMKV.mmkvWithID(key);
     }
 
     /**
@@ -37,7 +45,7 @@ public class PrefHelper {
             throw new NullPointerException("Key must not be null! (key = " + key + "), (value = " + value + ")");
         }
         SharedPreferences.Editor edit = getInstance().edit();
-        if (InputHelper.isEmpty(value)) {
+        if (value == null || InputHelper.isEmpty(value.toString())) {
             clearKey(key);
             return;
         }
@@ -52,6 +60,7 @@ public class PrefHelper {
         } else if (value instanceof Float) {
             edit.putFloat(key, (Float) value);
         } else {
+            assert value != null;
             edit.putString(key, value.toString());
         }
         edit.commit();//apply on UI

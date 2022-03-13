@@ -6,7 +6,6 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ListView
-import android.widget.TextView
 import com.fastaccess.ui.widgets.FontEditText
 import java.util.*
 
@@ -57,7 +56,7 @@ class MarkdownEditText : FontEditText {
         }
     }
 
-    @SuppressLint("SetTextI18n") override fun setText(text: CharSequence, type: TextView.BufferType) {
+    @SuppressLint("SetTextI18n") override fun setText(text: CharSequence, type: BufferType) {
         try {
             super.setText(text, type)
         } catch (e: Exception) {
@@ -72,7 +71,7 @@ class MarkdownEditText : FontEditText {
         try {
             var lastChar: Char = 0.toChar()
             if (charSequence.isNotEmpty()) lastChar = charSequence[charSequence.length - 1]
-            if (lastChar.toInt() != 0) {
+            if (lastChar.code != 0) {
                 if (lastChar == '@') {
                     inMentionMode = selectionEnd
                     mention?.visibility = GONE
@@ -103,10 +102,11 @@ class MarkdownEditText : FontEditText {
     }
 
     private fun updateMentionList(mentioning: String) {
-        participants?.let {
-            val mentions = it.filter { it.toLowerCase().startsWith(mentioning.replace("@", "").toLowerCase()) }
-            val adapter = ArrayAdapter<String>(context, android.R.layout.simple_list_item_1,
-                    android.R.id.text1, mentions.subList(0, Math.min(mentions.size, 3)))
+        participants?.let { list ->
+            val mentions = list.filter { it.lowercase(Locale.getDefault())
+                .startsWith(mentioning.replace("@", "").lowercase(Locale.getDefault())) }
+            val adapter = ArrayAdapter(context, android.R.layout.simple_list_item_1,
+                    android.R.id.text1, mentions.subList(0, mentions.size.coerceAtMost(3)))
             mention?.setAdapter(adapter)
         }
     }

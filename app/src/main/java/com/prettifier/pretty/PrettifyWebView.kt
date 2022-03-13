@@ -88,18 +88,18 @@ class PrettifyWebView : NestedWebView {
                 tp.recycle()
             }
         }
-        if (!File(context.cacheDir.path, "WebView/Default/HTTP Cache/Code Cache/js").exists()) {
-            listOf(
-                File(context.cacheDir.path, "WebView/Default/HTTP Cache/Code Cache/js"),
-                File(context.cacheDir.path, "WebView/Default/HTTP Cache/Code Cache/wasm"),
-                File(context.cacheDir.path, "WebView/Default/HTTP Cache/Code Cache/html"),
-                File(context.cacheDir.path, "WebView/Default/HTTP Cache/Code Cache/css"),
-            ).filter {
-                !it.exists()
-            }.map {
-                it.mkdirs()
-            }
-        }
+//        if (!File(context.cacheDir.path, "WebView/Default/HTTP Cache/Code Cache/js").exists()) {
+//            listOf(
+//                File(context.cacheDir.path, "WebView/Default/HTTP Cache/Code Cache/js"),
+//                File(context.cacheDir.path, "WebView/Default/HTTP Cache/Code Cache/wasm"),
+//                File(context.cacheDir.path, "WebView/Default/HTTP Cache/Code Cache/html"),
+//                File(context.cacheDir.path, "WebView/Default/HTTP Cache/Code Cache/css"),
+//            ).filter {
+//                !it.exists()
+//            }.map {
+//                it.mkdirs()
+//            }
+//        }
 
         webChromeClient = ChromeClient()
         webViewClient = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -109,8 +109,8 @@ class PrettifyWebView : NestedWebView {
         }
         val settings = settings
         settings.javaScriptEnabled = true
-        settings.setAppCachePath(context.cacheDir.path)
-        settings.setAppCacheEnabled(true)
+//        settings.setAppCachePath(context.cacheDir.path)
+//        settings.setAppCacheEnabled(true)
         settings.cacheMode = WebSettings.LOAD_DEFAULT
 //        settings.cacheMode = WebSettings.LOAD_NO_CACHE
         settings.defaultTextEncodingName = "utf-8"
@@ -132,6 +132,9 @@ class PrettifyWebView : NestedWebView {
                     }
                 }
             }
+            emitter.setCancellable {
+                this.onReadyListener = null
+            }
         }).debounce(1000, TimeUnit.MILLISECONDS).subscribe {
             this.resize(it)
         }
@@ -151,7 +154,6 @@ class PrettifyWebView : NestedWebView {
         )
         view.measure(w, h)
         this.disposable.dispose()
-        this.onReadyListener = null
     }
 
     override fun onScrollChanged(l: Int, t: Int, oldl: Int, oldt: Int) {

@@ -2,10 +2,11 @@ package com.fastaccess.ui.modules.main;
 
 import static com.fastaccess.helper.AppHelper.getFragmentByTag;
 
-import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.splashscreen.SplashScreen;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.FragmentManager;
 
@@ -31,13 +33,13 @@ import com.fastaccess.ui.modules.feeds.FeedsFragment;
 import com.fastaccess.ui.modules.main.issues.pager.MyIssuesPagerFragment;
 import com.fastaccess.ui.modules.main.pullrequests.pager.MyPullsPagerFragment;
 import com.fastaccess.ui.modules.notification.NotificationActivity;
+import com.fastaccess.ui.modules.pinned.PinnedReposActivity;
 import com.fastaccess.ui.modules.search.SearchActivity;
 import com.fastaccess.ui.modules.settings.SlackBottomSheetDialog;
 import com.fastaccess.ui.modules.user.UserPagerActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
-import shortbread.Shortcut;
 
 public class MainActivity extends BaseActivity<MainMvp.View, MainPresenter> implements MainMvp.View {
 
@@ -78,9 +80,11 @@ public class MainActivity extends BaseActivity<MainMvp.View, MainPresenter> impl
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        if (savedInstanceState == null && intent != null) {
+        navType = _onIntent(intent);
+        SplashScreen.installSplashScreen(this);
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState == null) {
             if (intent.getBooleanExtra(SlackBottomSheetDialog.TAG, false)) {
                 new SlackBottomSheetDialog().show(getSupportFragmentManager(), SlackBottomSheetDialog.TAG);
             }
@@ -96,7 +100,24 @@ public class MainActivity extends BaseActivity<MainMvp.View, MainPresenter> impl
         setToolbarIcon(R.drawable.ic_menu);
         onInit(savedInstanceState);
         fab.setImageResource(R.drawable.ic_filter);
-        onNewIntent(getIntent());
+        onNewIntent(intent);
+    }
+
+    private int _onIntent(Intent intent) {
+        int nav = navType;
+        String action = intent.getAction();
+        if (action != null && action.equals(Intent.ACTION_VIEW)) {
+            Uri uri = intent.getData();
+            if (uri != null) {
+                String host = uri.getHost();
+                if (host.equalsIgnoreCase("myPulls")) {
+                    nav = MainMvp.PULL_REQUESTS;
+                } else if (host.equalsIgnoreCase("myIssues")) {
+                    nav = MainMvp.ISSUES;
+                }
+            }
+        }
+        return nav;
     }
 
     @Override
@@ -201,38 +222,31 @@ public class MainActivity extends BaseActivity<MainMvp.View, MainPresenter> impl
         }
     }
 
-    @SuppressLint("NonConstantResourceId")
-    @Shortcut(id = "myIssues", icon = R.drawable.ic_app_shortcut_issues, shortLabelRes = R.string.issues, rank = 2, action = "myIssues")
-    public void myIssues() {
-    }//do nothing
-
-    @SuppressLint("NonConstantResourceId")
-    @Shortcut(id = "myPulls", icon = R.drawable.ic_app_shortcut_pull_requests, shortLabelRes = R.string.pull_requests, rank = 3, action = "myPulls")
-    public void myPulls() {
-    }//do nothing
 
     private void onInit(@Nullable Bundle savedInstanceState) {
         if (isLoggedIn()) {
             if (savedInstanceState == null) {
                 boolean attachFeeds = true;
-                if (getIntent().getAction() != null) {
-                    if (getIntent().getAction().equalsIgnoreCase("myPulls")) {
-                        navType = MainMvp.PULL_REQUESTS;
+                switch (navType) {
+                    case MainMvp.PULL_REQUESTS:
                         getSupportFragmentManager()
                                 .beginTransaction()
                                 .replace(R.id.container, MyPullsPagerFragment.newInstance(), MyPullsPagerFragment.TAG)
                                 .commit();
                         bottomNavigation.setSelectedIndex(2, true);
                         attachFeeds = false;
-                    } else if (getIntent().getAction().equalsIgnoreCase("myIssues")) {
-                        navType = MainMvp.ISSUES;
+                        break;
+                    case MainMvp.ISSUES:
                         getSupportFragmentManager()
                                 .beginTransaction()
                                 .replace(R.id.container, MyIssuesPagerFragment.newInstance(), MyIssuesPagerFragment.TAG)
                                 .commit();
                         bottomNavigation.setSelectedIndex(1, true);
                         attachFeeds = false;
-                    }
+                        break;
+                    case MainMvp.FEEDS:
+                    case MainMvp.PROFILE:
+                        break;
                 }
                 hideShowShadow(navType == MainMvp.FEEDS);
                 if (attachFeeds) {
@@ -250,6 +264,7 @@ public class MainActivity extends BaseActivity<MainMvp.View, MainPresenter> impl
 
     public static Intent launchMain(Context context, boolean clearTop) {
         Intent intent = new Intent(context, MainActivity.class);
+        intent.setAction(Intent.ACTION_VIEW);
         if (clearTop) {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         }

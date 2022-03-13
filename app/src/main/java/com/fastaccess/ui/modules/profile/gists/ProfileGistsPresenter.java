@@ -87,5 +87,7 @@ class ProfileGistsPresenter extends BasePresenter<ProfileGistsMvp.View> implemen
         SchemeParser.launchUri(v.getContext(), item.getHtmlUrl());
     }
 
-    @Override public void onItemLongClick(int position, View v, Gist item) {}
+    @Override public void onItemLongClick(int position, View v, Gist item) {
+
+    }
 }

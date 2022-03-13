@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,13 +8,13 @@
     android:orientation="vertical">
 
 
-    <include layout="@layout/appbar_elevation_dark"/>
+    <include layout="@layout/appbar_elevation_dark" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_xs_large"
         android:layout_marginTop="@dimen/spacing_xs_large"
+        android:layout_marginBottom="@dimen/spacing_xs_large"
         app:cardBackgroundColor="?card_background"
         app:contentPaddingBottom="@dimen/spacing_normal"
         app:contentPaddingLeft="@dimen/spacing_xs_large"
@@ -25,15 +24,14 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/description"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:hintTextAppearance="@style/TextAppearance.AppCompat.Title">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/description"
                 android:inputType="textMultiLine|textCapSentences"
-                android:maxLines="3"/>
+                android:maxLines="3" />
 
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.cardview.widget.CardView>
@@ -45,10 +43,10 @@
         android:layout_marginBottom="@dimen/spacing_normal"
         android:background="@drawable/bottom_border"
         android:foreground="?selectableItemBackground"
-        android:paddingBottom="@dimen/spacing_normal"
-        android:paddingEnd="@dimen/spacing_xs_large"
         android:paddingStart="@dimen/spacing_xs_large"
-        android:paddingTop="@dimen/spacing_normal">
+        android:paddingTop="@dimen/spacing_normal"
+        android:paddingEnd="@dimen/spacing_xs_large"
+        android:paddingBottom="@dimen/spacing_normal">
 
         <com.fastaccess.ui.widgets.FontTextView
             style="@style/Base.TextAppearance.AppCompat.Title"
@@ -56,21 +54,22 @@
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/ic_add"
             android:gravity="start|center"
-            android:text="@string/add"/>
+            android:text="@string/add" />
     </FrameLayout>
 
-    <androidx.fragment.app.FragmentContainerView
+    <fragment
         android:id="@+id/files"
+        android:name="com.fastaccess.ui.modules.gists.gist.files.GistFilesListFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         app:layoutManager="@string/linear_layout_manager"
-        tools:layout="@layout/micro_grid_refresh_list"/>
+        tools:layout="@layout/micro_grid_refresh_list" />
 
     <LinearLayout
+        android:id="@+id/buttonsHolder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/buttonsHolder"
         android:orientation="vertical">
 
         <com.fastaccess.ui.widgets.FontTextView
@@ -80,7 +79,7 @@
             android:background="@drawable/bottom_border"
             android:gravity="center"
             android:padding="@dimen/spacing_xs_large"
-            android:text="@string/submit_as"/>
+            android:text="@string/submit_as" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -96,7 +95,7 @@
                 android:layout_margin="@dimen/fab_margin"
                 android:contentDescription="@string/create_secret_gist"
                 android:src="@drawable/ic_incognito"
-                android:tint="@color/white"/>
+                android:tint="@color/white" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/createPublicGist"
@@ -105,7 +104,7 @@
                 android:layout_margin="@dimen/fab_margin"
                 android:contentDescription="@string/create_public_gist"
                 android:src="@drawable/ic_brower"
-                android:tint="@color/white"/>
+                android:tint="@color/white" />
 
         </LinearLayout>
     </LinearLayout>

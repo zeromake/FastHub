@@ -109,18 +109,18 @@ class GistFilesListFragment : BaseFragment<GistFilesListMvp.View, GistFilesListP
 
 
     override fun onInitFiles(file: MutableList<FilesListModel>, isOwner: Boolean) {
-        if (presenter.filesMap.isEmpty()) {
+        if (presenter.filesMap.isEmpty() && file.isNotEmpty()) {
             for (listModel in file) {
                 presenter.filesMap[listModel.filename!!] = listModel
             }
         }
+
         adapter!!.setOwner(isOwner)
         presenter.files = file
         adapter!!.insertItems(file)
     }
 
     override fun onAddNewFile() {
-        e("Hello world")
         if (adapter!!.itemCount == 0 || isProEnabled || isAllFeaturesUnlocked) {
             newInstance(null, -1)
                 .show(childFragmentManager, TAG)
@@ -192,7 +192,7 @@ class GistFilesListFragment : BaseFragment<GistFilesListMvp.View, GistFilesListP
 
     companion object {
         fun newInstance(
-            files: ArrayList<FilesListModel?>,
+            files: ArrayList<FilesListModel>,
             isOwner: Boolean
         ): GistFilesListFragment {
             val view = GistFilesListFragment()

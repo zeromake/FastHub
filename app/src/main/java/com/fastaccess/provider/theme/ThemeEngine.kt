@@ -2,12 +2,15 @@ package com.fastaccess.provider.theme
 
 import android.app.Activity
 import android.app.ActivityManager
+import android.app.Application
+import android.content.Context
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Icon
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.StyleRes
 import com.danielstone.materialaboutlibrary.MaterialAboutActivity
+import com.fastaccess.App
 import com.fastaccess.R
 import com.fastaccess.helper.Logger
 import com.fastaccess.helper.PrefGetter
@@ -23,7 +26,8 @@ import com.fastaccess.ui.modules.main.donation.DonateActivity
 
 object ThemeEngine {
 
-    fun apply(activity: BaseActivity<*, *>) {
+    @JvmStatic
+    fun apply(activity: Activity) {
         if (hasTheme(activity)) {
             return
         }
@@ -32,6 +36,14 @@ object ThemeEngine {
         activity.setTheme(getTheme(themeMode, themeColor))
         setTaskDescription(activity)
         applyNavBarColor(activity)
+    }
+
+    @JvmStatic
+    fun applyApplication(app: Application) {
+        val context = app.applicationContext
+        val themeMode = PrefGetter.getThemeType(context)
+        val themeColor = PrefGetter.getThemeColor(context)
+        app.setTheme(getTheme(themeMode, themeColor))
     }
 
     private fun applyNavBarColor(activity: Activity) {
@@ -282,7 +294,7 @@ object ThemeEngine {
         activity.setTaskDescription(desc)
     }
 
-    private fun hasTheme(activity: BaseActivity<*, *>) =
+    private fun hasTheme(activity: Activity) =
         (activity is LoginChooserActivity || activity is LoginActivity ||
                 activity is DonateActivity)
 }

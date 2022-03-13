@@ -85,14 +85,14 @@ class AddGistBottomSheetDialog : BaseDialogFragment<AddGistMvp.View, AddGistPres
         toolbar.menu.findItem(R.id.submit)?.setIcon(R.drawable.ic_done)
         toolbar.setNavigationIcon(R.drawable.ic_clear)
         toolbar.setNavigationOnClickListener { dismiss() }
-        toolbar.setOnMenuItemClickListener { it ->
+        toolbar.setOnMenuItemClickListener {
             if (it.itemId == R.id.submit) {
                 if (file == null) {
                     file = FilesListModel()
                 }
                 file?.let { model ->
                     model.content = getSavedText().toString()
-                    model.filename = InputHelper.toString(description)
+                    model.filename = description.editText?.text.toString()
                     model.type = MimeTypeMap.getFileExtensionFromUrl(file!!.filename)
                     model.size = model.content?.length?.toLong()
                     ViewHelper.hideKeyboard(editText)

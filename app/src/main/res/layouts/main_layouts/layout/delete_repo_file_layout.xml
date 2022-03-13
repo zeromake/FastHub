@@ -23,8 +23,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/description"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:hintTextAppearance="@style/TextAppearance.AppCompat.Title">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -51,8 +50,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/fileName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:hintTextAppearance="@style/TextAppearance.AppCompat.Title">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -78,7 +76,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cancel"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:textColor="?colorAccent"/>
 
         <com.fastaccess.ui.widgets.FontButton
@@ -87,7 +84,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/delete"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:textColor="@color/material_pink_700"/>
 
     </LinearLayout>

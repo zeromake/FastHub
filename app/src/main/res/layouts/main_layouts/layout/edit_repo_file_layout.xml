@@ -46,8 +46,7 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/description"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:hintTextAppearance="@style/TextAppearance.AppCompat.Title">
+                        android:layout_height="wrap_content">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
@@ -75,8 +74,7 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/fileName"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:hintTextAppearance="@style/TextAppearance.AppCompat.Title">
+                        android:layout_height="wrap_content">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"

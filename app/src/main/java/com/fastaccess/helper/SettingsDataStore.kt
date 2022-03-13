@@ -1,53 +1,56 @@
 package com.fastaccess.helper
 
 import androidx.preference.PreferenceDataStore
+import com.tencent.mmkv.MMKV
 
-class SettingsDataStore : PreferenceDataStore() {
+class SettingsDataStore(key: String) : PreferenceDataStore() {
+    private val instance: MMKV = PrefHelper.getInstanceWithKey(key)
+
     override fun putString(key: String, value: String?) {
-        PrefHelper.getInstance().putString(key, value)
+        instance.putString(key, value)
     }
 
     override fun getString(key: String, defValue: String?): String? {
-        return PrefHelper.getInstance().getString(key, defValue)
+        return instance.getString(key, defValue)
     }
 
     override fun putStringSet(key: String?, values: MutableSet<String>?) {
-        PrefHelper.getInstance().putStringSet(key, values)
+        instance.putStringSet(key, values)
     }
 
     override fun putInt(key: String?, value: Int) {
-        PrefHelper.getInstance().putInt(key, value)
+        instance.putInt(key, value)
     }
 
     override fun putLong(key: String?, value: Long) {
-        PrefHelper.getInstance().putLong(key, value)
+        instance.putLong(key, value)
     }
 
     override fun putFloat(key: String?, value: Float) {
-        PrefHelper.getInstance().putFloat(key, value)
+        instance.putFloat(key, value)
     }
 
     override fun putBoolean(key: String?, value: Boolean) {
-        PrefHelper.getInstance().putBoolean(key, value)
+        instance.putBoolean(key, value)
     }
 
     override fun getStringSet(key: String?, defValues: MutableSet<String>?): MutableSet<String>? {
-        return PrefHelper.getInstance().getStringSet(key, defValues)
+        return instance.getStringSet(key, defValues)
     }
 
     override fun getInt(key: String?, defValue: Int): Int {
-        return PrefHelper.getInstance().getInt(key, defValue)
+        return instance.getInt(key, defValue)
     }
 
     override fun getLong(key: String?, defValue: Long): Long {
-        return PrefHelper.getInstance().getLong(key, defValue)
+        return instance.getLong(key, defValue)
     }
 
     override fun getFloat(key: String?, defValue: Float): Float {
-        return PrefHelper.getInstance().getFloat(key, defValue)
+        return instance.getFloat(key, defValue)
     }
 
     override fun getBoolean(key: String?, defValue: Boolean): Boolean {
-        return PrefHelper.getInstance().getBoolean(key, defValue)
+        return instance.getBoolean(key, defValue)
     }
 }

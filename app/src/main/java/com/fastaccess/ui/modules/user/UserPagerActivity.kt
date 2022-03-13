@@ -29,19 +29,10 @@ import com.fastaccess.ui.widgets.ViewPagerView
 import com.fastaccess.utils.setOnThrottleClickListener
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
-import shortbread.Shortcut
 
 /**
  * Created by Kosh on 03 Dec 2016, 8:00 AM
  */
-@SuppressLint("NonConstantResourceId")
-@Shortcut(
-    id = "profile",
-    icon = R.drawable.ic_app_shortcut_profile,
-    shortLabelRes = R.string.profile,
-    backStack = [MainActivity::class],
-    rank = 4
-)
 class UserPagerActivity : BaseActivity<UserPagerMvp.View, UserPagerPresenter>(),
     UserPagerMvp.View {
     lateinit var tabs: TabLayout
@@ -65,7 +56,7 @@ class UserPagerActivity : BaseActivity<UserPagerMvp.View, UserPagerPresenter>(),
         return R.layout.tabbed_pager_layout
     }
 
-    override val isTransparent: Boolean  =true
+    override val isTransparent: Boolean = true
 
     override fun canBack(): Boolean = true
 
@@ -174,10 +165,6 @@ class UserPagerActivity : BaseActivity<UserPagerMvp.View, UserPagerPresenter>(),
         fragment.onScrollTop(index)
     }
 
-    override fun hideProgress() {
-        super.hideProgress()
-    }
-
     override fun onNavigateToFollowers() {
         pager.currentItem = 5
     }
@@ -227,6 +214,23 @@ class UserPagerActivity : BaseActivity<UserPagerMvp.View, UserPagerPresenter>(),
         model.count = count
         counts.add(model)
         updateCount(model)
+    }
+
+    override fun onBackPressed() {
+        if (isTaskRoot) {
+            MainActivity.launchMainActivity(this, true)
+            finish()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+
+    override fun onNavBack() {
+        if (isTaskRoot) {
+            MainActivity.launchMainActivity(this, true)
+        }
+        finish()
     }
 
     private fun onRepoFilterClicked() {

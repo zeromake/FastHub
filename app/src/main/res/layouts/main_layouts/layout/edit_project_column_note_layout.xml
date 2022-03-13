@@ -29,8 +29,7 @@
             android:layout_marginBottom="@dimen/spacing_xs_large"
             android:layout_marginTop="@dimen/spacing_normal"
             android:paddingEnd="@dimen/spacing_xs_large"
-            android:paddingStart="@dimen/spacing_xs_large"
-            app:hintTextAppearance="@style/TextAppearance.AppCompat.Title">
+            android:paddingStart="@dimen/spacing_xs_large">
 
             <com.fastaccess.ui.widgets.markdown.MarkdownEditText
                 android:id="@+id/editText"
