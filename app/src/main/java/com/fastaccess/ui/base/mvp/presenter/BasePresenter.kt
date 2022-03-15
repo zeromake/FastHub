@@ -119,7 +119,6 @@ open class BasePresenter<V : FAView> : TiPresenter<V>(), FAPresenter {
     @StringRes
     private fun getPrettifiedErrorMessage(throwable: Throwable?): Int {
         var resId = R.string.network_error
-//        if (throwable is HttpException) {
         when (throwable) {
             is IOException -> {
                 resId = R.string.request_error

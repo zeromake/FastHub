@@ -49,8 +49,8 @@ class TrendingFragment : BaseFragment<TrendingFragmentMvp.View, TrendingFragment
         fastScroller.attachRecyclerView(recycler)
     }
 
-    override fun onNotifyAdapter(items: TrendingModel) {
-        adapter.addItem(items)
+    override fun onNotifyAdapter(items: List<TrendingModel>) {
+        adapter.insertItems(items)
     }
 
     override fun onSetQuery(lang: String, since: String) {

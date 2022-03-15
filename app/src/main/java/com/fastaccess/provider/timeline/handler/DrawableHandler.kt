@@ -11,7 +11,6 @@ import com.fastaccess.provider.scheme.SchemeParser.launchUri
 import com.fastaccess.provider.timeline.handler.drawable.DrawableGetter
 import com.fastaccess.ui.widgets.SpannableBuilder.Companion.builder
 import net.nightwhistler.htmlspanner.TagNodeHandler
-import net.nightwhistler.htmlspanner.spans.CenterSpan
 import org.htmlcleaner.TagNode
 
 /**
@@ -36,12 +35,6 @@ class DrawableHandler(private val textView: TextView?, private val width: Int) :
                 val imageGetter = DrawableGetter(textView!!, width)
                 builder.setSpan(
                     ImageSpan(imageGetter.getDrawable(src)),
-                    start,
-                    builder.length,
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
-                builder.setSpan(
-                    CenterSpan(),
                     start,
                     builder.length,
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE

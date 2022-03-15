@@ -12,6 +12,7 @@ import com.fastaccess.data.dao.types.ReactionTypes
 import com.fastaccess.provider.tasks.git.ReactionService
 import com.fastaccess.ui.widgets.SpannableBuilder.Companion.builder
 
+
 /**
  * Created by Kosh on 30 Mar 2017, 6:44 PM
  */
@@ -22,6 +23,9 @@ object CommentsHelper {
     private const val THUMBS_DOWN = 0x1f44e
     private const val HOORAY = 0x1f389
     private const val HEART = 0x2764
+    private const val ROCKET = 0x1f680
+    private const val EYES = 0x1f440
+
     @JvmStatic
     fun isOwner(currentLogin: String, repoOwner: String, commentUser: String): Boolean {
         return currentLogin.equals(repoOwner, ignoreCase = true) || currentLogin.equals(
@@ -71,31 +75,46 @@ object CommentsHelper {
             ReactionTypes.MINUS_ONE -> thumbsDown
             ReactionTypes.CONFUSED -> sad
             ReactionTypes.LAUGH -> laugh
+            ReactionTypes.ROCKET -> rocket
+            ReactionTypes.EYES -> eyes
         }
     }
 
     @JvmStatic
     val laugh: String
         get() = getEmojiByUnicode(LAUGH)
+
     @JvmStatic
     val sad: String
         get() = getEmojiByUnicode(SAD)
+
     @JvmStatic
     val thumbsUp: String
         get() = getEmojiByUnicode(THUMBS_UP)
+
     @JvmStatic
     val thumbsDown: String
         get() = getEmojiByUnicode(THUMBS_DOWN)
+
     @JvmStatic
     val hooray: String
         get() = getEmojiByUnicode(HOORAY)
+
     @JvmStatic
     val heart: String
         get() = getEmojiByUnicode(HEART)
 
     @JvmStatic
+    val rocket: String
+        get() = getEmojiByUnicode(ROCKET)
+
+    @JvmStatic
+    val eyes: String
+        get() = getEmojiByUnicode(EYES)
+
+    @JvmStatic
     fun getUsers(comments: List<Comment>): ArrayList<String> {
-        return comments
+        return comments.filter { it.user != null }
             .map { comment: Comment -> comment.user.login }
             .distinct()
             .toMutableList() as ArrayList<String>
@@ -118,11 +137,13 @@ object CommentsHelper {
         hurrayReaction: TextView, sad: TextView,
         sadReaction: TextView, laugh: TextView,
         laughReaction: TextView, heart: TextView,
-        heartReaction: TextView, reactionsList: View
+        heartReaction: TextView, rocket: TextView,
+        rocketReaction: TextView, eye: TextView,
+        eyeReaction: TextView, reactionsList: View
     ) {
         var spannableBuilder = builder()
             .append(CommentsHelper.thumbsUp).append(" ")
-            .append(java.lang.String.valueOf(reaction.plusOne))
+            .append(reaction.plusOne.toString())
             .append("   ")
         thumbsUp.text = spannableBuilder
         thumbsUpReaction.text = spannableBuilder
@@ -162,10 +183,36 @@ object CommentsHelper {
         spannableBuilder = builder()
             .append(CommentsHelper.heart).append(" ")
             .append(java.lang.String.valueOf(reaction.heart))
+            .append("   ")
         heart.text = spannableBuilder
         heartReaction.text = spannableBuilder
         heartReaction.visibility = if (reaction.heart > 0) View.VISIBLE else View.GONE
-        if (reaction.plusOne > 0 || reaction.minusOne > 0 || reaction.laugh > 0 || reaction.hooray > 0 || reaction.confused > 0 || reaction.heart > 0) {
+
+        spannableBuilder = builder()
+            .append(CommentsHelper.rocket).append(" ")
+            .append(java.lang.String.valueOf(reaction.rocket))
+            .append("   ")
+        rocket.text = spannableBuilder
+        rocketReaction.text = spannableBuilder
+        rocketReaction.visibility = if (reaction.rocket > 0) View.VISIBLE else View.GONE
+
+        spannableBuilder = builder()
+            .append(CommentsHelper.eyes).append(" ")
+            .append(java.lang.String.valueOf(reaction.eyes))
+            .append("   ")
+        eye.text = spannableBuilder
+        eyeReaction.text = spannableBuilder
+        eyeReaction.visibility = if (reaction.eyes > 0) View.VISIBLE else View.GONE
+
+        if (reaction.plusOne > 0 ||
+            reaction.minusOne > 0 ||
+            reaction.laugh > 0 ||
+            reaction.hooray > 0 ||
+            reaction.confused > 0 ||
+            reaction.heart > 0 ||
+            reaction.rocket > 0 ||
+            reaction.eyes > 0
+        ) {
             reactionsList.visibility = View.VISIBLE
             reactionsList.tag = true
         } else {

@@ -35,8 +35,7 @@ class GithubResponseConverter(private val gson: Gson) : Converter.Factory() {
         return GsonConverterFactory.create(gson)
             .requestBodyConverter(type, parameterAnnotations, methodAnnotations, retrofit)
     }
-
-    private class StringResponseConverter : Converter<ResponseBody, String> {
+    class StringResponseConverter : Converter<ResponseBody, String> {
         @Throws(IOException::class)
         override fun convert(value: ResponseBody): String {
             return value.string()

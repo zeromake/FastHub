@@ -15,6 +15,7 @@ import androidx.appcompat.view.ContextThemeWrapper
 import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.evernote.android.state.StateSaver
+import com.fastaccess.App
 import com.fastaccess.R
 import com.fastaccess.helper.AnimHelper.dismissDialog
 import com.fastaccess.helper.AnimHelper.revealDialog
@@ -111,10 +112,11 @@ abstract class BaseDialogFragment<V : FAView, P : BasePresenter<V>> : TiDialogFr
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
         if (!isAppAnimationDisabled && this !is ProgressDialogFragment && !suppressAnimation) {
+            val longAnimTime = resources.getInteger(android.R.integer.config_longAnimTime)
             dialog.setOnShowListener {
                 revealDialog(
                     dialog,
-                    resources.getInteger(android.R.integer.config_longAnimTime)
+                    longAnimTime
                 )
             }
         }

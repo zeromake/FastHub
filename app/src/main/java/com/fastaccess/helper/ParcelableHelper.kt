@@ -13,3 +13,5 @@ inline fun <reified T> parcelableCreator(crossinline create: (Parcel) -> T) = ob
     override fun newArray(size: Int) = arrayOfNulls<T>(size)
 }
 
+fun Parcel.readBooleanCompat() = readInt() != 0
+fun Parcel.writeBooleanCompat(value: Boolean) = writeInt(if (value) 1 else 0)

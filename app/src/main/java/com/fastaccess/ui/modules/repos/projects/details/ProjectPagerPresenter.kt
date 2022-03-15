@@ -18,10 +18,14 @@ import retrofit2.Response
 class ProjectPagerPresenter : BasePresenter<ProjectPagerMvp.View>(), ProjectPagerMvp.Presenter {
 
     private val columns = arrayListOf<ProjectColumnModel>()
-    @com.evernote.android.state.State var projectId: Long = -1
-    @com.evernote.android.state.State var repoId: String? = null
-    @com.evernote.android.state.State var login: String = ""
-    @com.evernote.android.state.State var viewerCanUpdate: Boolean = false
+    @com.evernote.android.state.State
+    var projectId: Long = -1
+    @com.evernote.android.state.State
+    var repoId: String? = null
+    @com.evernote.android.state.State
+    var login: String = ""
+    @com.evernote.android.state.State
+    var viewerCanUpdate: Boolean = false
 
     override fun onError(throwable: Throwable) {
         val code = RestProvider.getErrorCode(throwable)
@@ -36,18 +40,20 @@ class ProjectPagerPresenter : BasePresenter<ProjectPagerMvp.View>(), ProjectPage
     override fun onRetrieveColumns() {
         val repoId = repoId
         if (repoId != null && !repoId.isNullOrBlank()) {
-            makeRestCall(Observable.zip(RestProvider.getProjectsService(isEnterprise).getProjectColumns(projectId),
-                    RestProvider.getRepoService(isEnterprise).isCollaborator(login, repoId, Login.getUser().login),
-                    BiFunction { items: Pageable<ProjectColumnModel>, response: Response<Boolean> ->
-                        viewerCanUpdate = response.code() == 204
-                        return@BiFunction items
-                    })
-                    .flatMap {
-                        if (it.items != null) {
-                            return@flatMap Observable.just(it.items)
-                        }
-                        return@flatMap Observable.just(listOf<ProjectColumnModel>())
+            makeRestCall(Observable.zip(RestProvider.getProjectsService(isEnterprise)
+                .getProjectColumns(projectId),
+                RestProvider.getRepoService(isEnterprise)
+                    .isCollaborator(login, repoId, Login.getUser().login),
+                BiFunction { items: Pageable<ProjectColumnModel>, response: Response<Boolean> ->
+                    viewerCanUpdate = response.code() == 204
+                    return@BiFunction items
+                })
+                .flatMap {
+                    if (it.items != null) {
+                        return@flatMap Observable.just(it.items)
                     }
+                    return@flatMap Observable.just(listOf<ProjectColumnModel>())
+                }
             ) { t ->
                 columns.clear()
                 if (t != null) {
@@ -57,12 +63,12 @@ class ProjectPagerPresenter : BasePresenter<ProjectPagerMvp.View>(), ProjectPage
             }
         } else {
             makeRestCall(RestProvider.getProjectsService(isEnterprise).getProjectColumns(projectId)
-                    .flatMap {
-                        if (it.items != null) {
-                            return@flatMap Observable.just(it.items)
-                        }
-                        return@flatMap Observable.just(listOf<ProjectColumnModel>())
+                .flatMap {
+                    if (it.items != null) {
+                        return@flatMap Observable.just(it.items)
                     }
+                    return@flatMap Observable.just(listOf<ProjectColumnModel>())
+                }
             ) { t ->
                 columns.clear()
                 if (t != null) {
@@ -75,10 +81,10 @@ class ProjectPagerPresenter : BasePresenter<ProjectPagerMvp.View>(), ProjectPage
 
     override fun onActivityCreated(intent: Intent?) {
         intent?.let {
-            it.extras?.let {it ->
-                projectId = it.getLong(BundleConstant.ID)
-                repoId = it.getString(BundleConstant.ITEM)
-                login = it.getString(BundleConstant.EXTRA)!!
+            it.extras?.let { it1 ->
+                projectId = it1.getLong(BundleConstant.ID)
+                repoId = it1.getString(BundleConstant.ITEM)
+                login = it1.getString(BundleConstant.EXTRA) ?: ""
             }
         }
         if (columns.isEmpty()) {

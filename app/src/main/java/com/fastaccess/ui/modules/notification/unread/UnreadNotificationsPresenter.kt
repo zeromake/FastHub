@@ -26,11 +26,6 @@ class UnreadNotificationsPresenter : BasePresenter<UnreadNotificationMvp.View>()
         val notification = item.notification
         if (v.id == R.id.markAsRead) {
             if (notification!!.isUnread) markAsRead(position, v, notification)
-        } else if (v.id == R.id.unsubsribe) {
-            notification!!.isUnread = false
-            manageDisposable(notification.save(notification))
-            sendToView { view -> view?.onRemove(position) }
-            ReadNotificationService.unSubscribe(v.context, notification.id)
         } else {
             if (notification!!.subject != null && notification.subject.url != null) {
                 if (notification.isUnread && !isMarkAsReadEnabled) {

@@ -14,6 +14,7 @@ data class TrendingModel(
     companion object {
         @JvmField val CREATOR = parcelableCreator(::TrendingModel)
         const val DEFAULT_LANG = "All Languages"
+        const val PATH_URL = "https://github.com/trending/"
     }
 
     constructor(source: Parcel) : this(

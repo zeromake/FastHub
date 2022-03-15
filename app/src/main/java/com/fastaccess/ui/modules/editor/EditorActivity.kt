@@ -218,7 +218,7 @@ class EditorActivity : BaseActivity<EditorMvp.View, EditorPresenter>(), EditorMv
                 editText.setText(String.format("%s ", textToUpdate))
                 editText.setSelection(InputHelper.toString(editText).length)
             }
-            if (bundle.getString("message", "").isBlank()) {
+            if (bundle.getString("message", "").isNullOrEmpty()) {
                 replyQuote.visibility = GONE
             } else {
                 MarkDownProvider.setMdText(quote, bundle.getString("message", ""))

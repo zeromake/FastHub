@@ -25,7 +25,6 @@ class DrawableGetter(tv: TextView, width: Int) : ImageGetter, Drawable.Callback 
                 .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_image))
                 .dontAnimate()
             val target = GlideDrawableTarget(urlDrawable, container, width)
-            load = load.override(width, width / 2)
             load.into(target)
             cachedTargets!!.add(target)
         }

@@ -16,6 +16,10 @@ class QuoteHandler(@field:ColorInt private val color: Int) : TagNodeHandler() {
         start: Int,
         end: Int
     ) {
-        builder.setSpan(MarkDownQuoteSpan(color), start + 1, builder.length, 33)
+        try {
+            builder.setSpan(MarkDownQuoteSpan(color), start + 1, builder.length, 33)
+        } catch (e: IndexOutOfBoundsException) {
+            builder.setSpan(MarkDownQuoteSpan(color), start, builder.length, 33)
+        }
     }
 }

@@ -1,22 +1,20 @@
 package com.fastaccess.ui.widgets
 
-import kotlin.jvm.JvmOverloads
-import androidx.appcompat.widget.AppCompatTextView
-import android.os.Parcelable
-import com.evernote.android.state.StateSaver
-import android.annotation.SuppressLint
 import android.content.Context
-import com.fastaccess.R
-import com.fastaccess.helper.TypeFaceHelper
-import androidx.annotation.ColorInt
-import com.fastaccess.helper.ViewHelper
-import androidx.annotation.DrawableRes
-import androidx.core.content.ContextCompat
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.ScaleDrawable
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.Gravity
+import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import com.evernote.android.state.State
-import java.lang.Exception
+import com.evernote.android.state.StateSaver
+import com.fastaccess.R
+import com.fastaccess.helper.TypeFaceHelper
+import com.fastaccess.helper.ViewHelper
 
 /**
  * Created by Kosh on 8/18/2015. copyrights are reserved
@@ -46,18 +44,26 @@ class FontTextView @JvmOverloads constructor(
         this.mSelected = selected
     }
 
-    @SuppressLint("SetTextI18n")
     override fun setText(text: CharSequence, type: BufferType) {
         try {
             super.setText(text, type)
         } catch (e: Exception) {
-            setText(
-                """
-    I tried, but your OEM just sucks because they modify the framework components and therefore causing the app to crash!.
-    FastHub
-    """.trimIndent()
-            )
-            //            Crashlytics.logException(e);
+            e.printStackTrace()
+        }
+    }
+
+    override fun setTextCursorDrawable(textCursorDrawable: Drawable?) {
+        try {
+            super.setTextCursorDrawable(textCursorDrawable)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }}
+
+    override fun setTextCursorDrawable(textCursorDrawable: Int) {
+        try {
+            super.setTextCursorDrawable(textCursorDrawable)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 

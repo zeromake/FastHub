@@ -99,7 +99,7 @@ open class StateLayout : NestedScrollView {
     }
 
     fun setEmptyText(text: String) {
-        emptyTextValue = "$text\n\n¯\\_(ツ)_/¯"
+        emptyTextValue = text
         emptyText.text = emptyTextValue
     }
 

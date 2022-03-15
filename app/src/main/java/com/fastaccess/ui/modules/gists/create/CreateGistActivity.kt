@@ -44,13 +44,6 @@ class CreateGistActivity : BaseActivity<CreateGistMvp.View, CreateGistPresenter>
 
     @OnClick(value = [R.id.createPublicGist, R.id.createSecretGist])
     fun onClick(view: View) {
-        if (view.id == R.id.createSecretGist) {
-            ActivityHelper.startCustomTab(
-                this,
-                "https://blog.github.com/2018-02-18-deprecation-notice-removing-anonymous-gist-creation/"
-            )
-            return
-        }
         presenter!!.onSubmit(
             toString(description?.editText?.text.toString()),
             filesFragment!!.files, view.id == R.id.createPublicGist

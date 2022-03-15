@@ -56,6 +56,10 @@ public class ReviewCommentsViewHolder extends BaseViewHolder<ReviewCommentModel>
     FontTextView hurrayReaction;
     FontTextView sadReaction;
     FontTextView heartReaction;
+    FontTextView rocketReaction;
+    FontTextView eyeReaction;
+    FontTextView rocket;
+    FontTextView eyes;
     private final OnToggleView onToggleView;
     private final ReactionsCallback reactionsCallback;
     private final ViewGroup viewGroup;
@@ -103,6 +107,10 @@ public class ReviewCommentsViewHolder extends BaseViewHolder<ReviewCommentModel>
         this.hurrayReaction = itemView.findViewById((R.id.hurrayReaction));
         this.sadReaction = itemView.findViewById((R.id.sadReaction));
         this.heartReaction = itemView.findViewById((R.id.heartReaction));
+        this.rocketReaction = itemView.findViewById(R.id.rocketReaction);
+        this.eyeReaction = itemView.findViewById(R.id.eyeReaction);
+        this.rocket = itemView.findViewById(R.id.rocket);
+        this.eyes = itemView.findViewById(R.id.eyes);
         if (adapter != null && adapter.getRowWidth() == 0) {
             itemView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
                 @Override
@@ -147,6 +155,14 @@ public class ReviewCommentsViewHolder extends BaseViewHolder<ReviewCommentModel>
         thumbsUpReaction.setOnLongClickListener(this);
         hurrayReaction.setOnLongClickListener(this);
         heartReaction.setOnLongClickListener(this);
+        rocketReaction.setOnLongClickListener(this);
+        rocketReaction.setOnClickListener(this);
+        rocket.setOnLongClickListener(this);
+        rocket.setOnClickListener(this);
+        eyeReaction.setOnLongClickListener(this);
+        eyeReaction.setOnClickListener(this);
+        eyes.setOnLongClickListener(this);
+        eyes.setOnClickListener(this);
     }
 
     public static ReviewCommentsViewHolder newInstance(ViewGroup viewGroup, BaseRecyclerAdapter<ReviewCommentModel, ReviewCommentsViewHolder, BaseViewHolder
@@ -228,6 +244,14 @@ public class ReviewCommentsViewHolder extends BaseViewHolder<ReviewCommentModel>
                     case R.id.hurrayReaction:
                         reactionsModel.setHooray(!isReacted ? reactionsModel.getHooray() + 1 : reactionsModel.getHooray() - 1);
                         break;
+                    case R.id.rocket:
+                    case R.id.rocketReaction:
+                        reactionsModel.setRocket(!isReacted ? reactionsModel.getRocket() + 1 : reactionsModel.getRocket() - 1);
+                        break;
+                    case R.id.eyes:
+                    case R.id.eyeReaction:
+                        reactionsModel.setEyes(!isReacted ? reactionsModel.getEyes() + 1 : reactionsModel.getEyes() - 1);
+                        break;
                 }
                 comment.setReactions(reactionsModel);
                 appendEmojies(reactionsModel);
@@ -236,8 +260,26 @@ public class ReviewCommentsViewHolder extends BaseViewHolder<ReviewCommentModel>
     }
 
     private void appendEmojies(ReactionsModel reaction) {
-        CommentsHelper.appendEmojies(reaction, thumbsUp, thumbsUpReaction, thumbsDown, thumbsDownReaction, hurray, hurrayReaction, sad,
-                sadReaction, laugh, laughReaction, heart, heartReaction, reactionsList);
+        CommentsHelper.appendEmojies(
+                reaction,
+                thumbsUp,
+                thumbsUpReaction,
+                thumbsDown,
+                thumbsDownReaction,
+                hurray,
+                hurrayReaction,
+                sad,
+                sadReaction,
+                laugh,
+                laughReaction,
+                heart,
+                heartReaction,
+                rocket,
+                rocketReaction,
+                eyes,
+                eyeReaction,
+                reactionsList
+        );
     }
 
     private long getId() {

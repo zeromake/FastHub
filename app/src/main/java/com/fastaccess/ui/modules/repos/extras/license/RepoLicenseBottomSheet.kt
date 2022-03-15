@@ -32,7 +32,7 @@ class RepoLicenseBottomSheet : BaseMvpBottomSheetDialogFragment<RepoLicenseMvp.V
 
     override fun onLicenseLoaded(license: String) {
         this.content = license
-        if (license.isNotBlank()) {
+        if (license.isNotEmpty()) {
             loader.isIndeterminate = false
             val licenseText = license.replace("<pre>", "<pre style='overflow: hidden;word-wrap:break-word;word-break:break-all;" +
                     "white-space:pre-line;'>")

@@ -1,16 +1,19 @@
 package com.fastaccess.provider.timeline.handler.drawable
 
-import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import com.bumptech.glide.load.resource.gif.GifDrawable
 
-internal class UrlDrawable: BitmapDrawable(), Drawable.Callback {
+internal class UrlDrawable : BitmapDrawable(), Drawable.Callback {
     private var drawable: Drawable? = null
     override fun draw(canvas: Canvas) {
         if (drawable != null) {
-            drawable!!.draw(canvas)
+            try {
+                drawable!!.draw(canvas)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
             if (drawable is GifDrawable) {
                 if (!(drawable as GifDrawable).isRunning) {
                     (drawable as GifDrawable).start()

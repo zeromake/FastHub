@@ -91,7 +91,7 @@ class ReactionsProvider {
             return false
         }
         val type = ReactionTypes[vId]
-        return type != null && type.content == reactionsModel.content
+        return type != null && type.equalsContent(reactionsModel.content)
     }
 
     fun isCallingApi(id: Long, vId: Int): Boolean {
@@ -100,7 +100,7 @@ class ReactionsProvider {
             return false
         }
         val type = ReactionTypes[vId]
-        return type != null && type.content == reactionsModel.content && reactionsModel.isCallingApi
+        return type != null && type.equalsContent(reactionsModel.content) && reactionsModel.isCallingApi
     }
 
     companion object {

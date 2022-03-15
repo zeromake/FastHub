@@ -3,9 +3,9 @@ package com.fastaccess.provider.colors
 import android.content.Context
 import android.graphics.Color
 import androidx.annotation.ColorInt
-import com.annimon.stream.Stream
 import com.fastaccess.App
 import com.fastaccess.data.dao.LanguageColorModel
+import com.fastaccess.data.dao.TrendingModel
 import com.fastaccess.helper.InputHelper
 import com.fastaccess.helper.RxHelper
 import com.fastaccess.ui.widgets.color.ColorGenerator
@@ -23,14 +23,15 @@ import java.io.InputStreamReader
  */
 object ColorsProvider {
     private val POPULAR_LANG = listOf(
-        "Java", "Kotlin", "JavaScript", "Python", "CSS", "PHP",
+        "Java", "Kotlin",
+        "JavaScript", "Python",
+        "CSS", "PHP",
         "Ruby", "C++", "C", "Go", "Swift"
     ) //predefined languages.
     private val colors: MutableMap<String, LanguageColorModel> = LinkedHashMap()
 
     @JvmStatic
     fun load(): Disposable? {
-        // Todo Disposable handle
         if (colors.isEmpty()) {
             val disposable = RxHelper.safeObservable(
                 Observable
@@ -64,9 +65,10 @@ object ColorsProvider {
     }
 
     fun languages(): List<String> {
-        val lang = colors.asSequence().map { it.key }.toMutableList()
-        lang.add(0, "All Languages")
-        lang.addAll(1, POPULAR_LANG)
+        val lang = mutableListOf<String>()
+        lang.add(TrendingModel.DEFAULT_LANG)
+        lang.addAll(POPULAR_LANG)
+        lang.addAll(colors.map { it.key })
         return lang
     }
 

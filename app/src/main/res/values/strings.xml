@@ -606,4 +606,6 @@
     <string name="auth_null_or_blank">The last authentication information was not found</string>
     <string name="static_disabled_message">shortcut disable</string>
     <string name="my_issues">Issues</string>
+    <string name="private_wiki_error_msg">Unfortunately we cannot access private repos wiki</string>
+    <string name="file_history">File History</string>
 </resources>

@@ -23,7 +23,7 @@ class SlackInvitationService : EnhancedIntentService() {
             body.firstName = login.name
             body.lastName = login.login
             val task = RxHelper.getObservable(
-                RestProvider.getSlackService()
+                RestProvider.slackService
                     .invite(body)
             )
                 .subscribe({ response: SlackResponseModel? ->

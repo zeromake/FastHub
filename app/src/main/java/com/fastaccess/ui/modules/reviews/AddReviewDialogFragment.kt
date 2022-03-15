@@ -63,54 +63,57 @@ class AddReviewDialogFragment :
                 .replace(R.id.commentFragmentContainer, fragment, "CommentEditorFragment")
                 .commitNow()
         }
-        val item = requireArguments().getParcelable<CommitLinesModel>(BundleConstant.ITEM)!!
-        lineNo.text = SpannableBuilder.builder()
-            .append(if (item.leftLineNo >= 0) String.format("%s.", item.leftLineNo) else "")
-            .append(if (item.rightLineNo >= 0) String.format("%s.", item.rightLineNo) else "")
-        lineNo.visibility = if (InputHelper.isEmpty(lineNo)) View.GONE else View.VISIBLE
-
-        val context = context ?: return
-        when (item.color) {
-            CommitLinesModel.ADDITION -> textView.setBackgroundColor(
-                ViewHelper.getPatchAdditionColor(
-                    context
+        val commitLinesModel =
+            requireArguments().getParcelable<CommitLinesModel>(BundleConstant.ITEM)
+        commitLinesModel?.let { item ->
+            lineNo.text = SpannableBuilder.builder()
+                .append(if (item.leftLineNo >= 0) String.format("%s.", item.leftLineNo) else "")
+                .append(if (item.rightLineNo >= 0) String.format("%s.", item.rightLineNo) else "")
+            lineNo.visibility = if (InputHelper.isEmpty(lineNo)) View.GONE else View.VISIBLE
+            val context = context ?: return
+            when (item.color) {
+                CommitLinesModel.ADDITION -> textView.setBackgroundColor(
+                    ViewHelper.getPatchAdditionColor(
+                        context
+                    )
                 )
-            )
-            CommitLinesModel.DELETION -> textView.setBackgroundColor(
-                ViewHelper.getPatchDeletionColor(
-                    context
+                CommitLinesModel.DELETION -> textView.setBackgroundColor(
+                    ViewHelper.getPatchDeletionColor(
+                        context
+                    )
                 )
-            )
-            CommitLinesModel.PATCH -> textView.setBackgroundColor(
-                ViewHelper.getPatchRefColor(
-                    context
+                CommitLinesModel.PATCH -> textView.setBackgroundColor(
+                    ViewHelper.getPatchRefColor(
+                        context
+                    )
                 )
-            )
-            else -> textView.setBackgroundColor(Color.TRANSPARENT)
-        }
-        if (item.isNoNewLine) {
-            textView.text =
-                SpannableBuilder.builder().append(item.text?.replace(spacePattern, " ")).append(" ")
-                    .append(ContextCompat.getDrawable(context, R.drawable.ic_newline))
-        } else {
-            textView.text = item.text?.replace(spacePattern, " ")
-        }
-        toolbar.setTitle(R.string.add_comment)
-        toolbar.setNavigationIcon(R.drawable.ic_clear)
-        toolbar.setNavigationOnClickListener { dismiss() }
-        toolbar.inflateMenu(R.menu.add_menu)
-        toolbar.setOnMenuItemClickListener {
-            if (commentEditorFragment?.getEditText()?.text.isNullOrEmpty()) {
-                commentEditorFragment?.getEditText()?.error = getString(R.string.required_field)
-            } else {
-                commentEditorFragment?.getEditText()?.error = null
-                commentCallback?.onCommentAdded(
-                    InputHelper.toString(commentEditorFragment?.getEditText()?.text),
-                    item, requireArguments().getBundle(BundleConstant.EXTRA)
-                )
-                dismiss()
+                else -> textView.setBackgroundColor(Color.TRANSPARENT)
             }
-            return@setOnMenuItemClickListener true
+            if (item.isNoNewLine) {
+                textView.text =
+                    SpannableBuilder.builder().append(item.text?.replace(spacePattern, " "))
+                        .append(" ")
+                        .append(ContextCompat.getDrawable(context, R.drawable.ic_newline))
+            } else {
+                textView.text = item.text?.replace(spacePattern, " ")
+            }
+            toolbar.setTitle(R.string.add_comment)
+            toolbar.setNavigationIcon(R.drawable.ic_clear)
+            toolbar.setNavigationOnClickListener { dismiss() }
+            toolbar.inflateMenu(R.menu.add_menu)
+            toolbar.setOnMenuItemClickListener {
+                if (commentEditorFragment?.getEditText()?.text.isNullOrEmpty()) {
+                    commentEditorFragment?.getEditText()?.error = getString(R.string.required_field)
+                } else {
+                    commentEditorFragment?.getEditText()?.error = null
+                    commentCallback?.onCommentAdded(
+                        InputHelper.toString(commentEditorFragment?.getEditText()?.text),
+                        item, requireArguments().getBundle(BundleConstant.EXTRA)
+                    )
+                    dismiss()
+                }
+                return@setOnMenuItemClickListener true
+            }
         }
     }
 

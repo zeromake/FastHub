@@ -15,21 +15,23 @@ open class ReactionsModel : Parcelable {
     var url: String? = null
     var totalCount = 0
 
-    @SerializedName("+1")
+    @SerializedName("+1", alternate = ["thumbs_up"])
     var plusOne = 0
 
-    @SerializedName("-1")
+    @SerializedName("-1", alternate = ["thumbs_down"])
     var minusOne = 0
     var laugh = 0
     var hooray = 0
     var confused = 0
     var heart = 0
+    var rocket = 0
+    var eyes = 0
     var content: String? = null
     var user: User? = null
     var viewerHasReacted = false
     var isCallingApi = false
 
-    constructor() {}
+    constructor()
 
     override fun toString(): String {
         return "ReactionsModel{" +
@@ -42,6 +44,8 @@ open class ReactionsModel : Parcelable {
                 ", hooray=" + hooray +
                 ", confused=" + confused +
                 ", heart=" + heart +
+                ", rocket=" + rocket +
+                ", eyes=" + eyes +
                 '}'
     }
 
@@ -59,6 +63,8 @@ open class ReactionsModel : Parcelable {
         dest.writeInt(hooray)
         dest.writeInt(confused)
         dest.writeInt(heart)
+        dest.writeInt(rocket)
+        dest.writeInt(eyes)
         dest.writeString(content)
         dest.writeParcelable(user, flags)
         dest.writeByte(if (isCallingApi) 1.toByte() else 0.toByte())
@@ -74,6 +80,8 @@ open class ReactionsModel : Parcelable {
         hooray = `in`.readInt()
         confused = `in`.readInt()
         heart = `in`.readInt()
+        rocket = `in`.readInt()
+        eyes = `in`.readInt()
         content = `in`.readString()
         user = `in`.readParcelable(User::class.java.classLoader)
         isCallingApi = `in`.readByte().toInt() != 0

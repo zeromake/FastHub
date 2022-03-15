@@ -10,10 +10,18 @@ import com.fastaccess.data.dao.SimpleUrlsModel
 open class SimpleUrlsModel : Parcelable {
     var item: String
     var url: String?
+    var extension: String? = null
 
     constructor(item: String, url: String?) {
         this.item = item
         this.url = url
+    }
+
+
+    constructor(item: String, url: String?, extension: String?) {
+        this.item = item
+        this.url = url
+        this.extension = extension
     }
 
     override fun toString(): String {

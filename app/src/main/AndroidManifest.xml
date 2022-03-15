@@ -12,9 +12,6 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
 
-    <meta-data
-        android:name="com.google.firebase.messaging.default_notification_icon"
-        android:resource="@drawable/ic_notification" />
     <queries>
         <intent>
             <action android:name="android.intent.action.VIEW" />
@@ -328,7 +325,6 @@
         <service android:name=".provider.tasks.notification.ReadNotificationService" />
         <service android:name=".provider.tasks.git.GithubActionService" />
         <service android:name=".provider.tasks.git.ReactionService" />
-        <service android:name=".provider.tasks.slack.SlackInvitationService" />
         <service android:name=".provider.tasks.version.CheckVersionService" />
         <service
             android:name=".provider.fcm.PushNotificationService"
@@ -338,5 +334,4 @@
             </intent-filter>
         </service>
     </application>
-
 </manifest>

@@ -200,7 +200,7 @@ public class RepoFilesFragment extends BaseFragment<RepoFilesMvp.View, RepoFiles
         adapter = new RepoFilesAdapter(getPresenter().getFiles());
         adapter.setListener(getPresenter());
         recycler.setAdapter(adapter);
-        fastScroller.attachRecyclerView(recycler);
+        fastScroller.setVisibility(View.GONE);
     }
 
     @Override

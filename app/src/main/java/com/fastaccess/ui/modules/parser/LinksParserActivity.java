@@ -50,8 +50,12 @@ public class LinksParserActivity extends Activity {
         if (Intent.ACTION_SEND.equals(intent.getAction())) {
             String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
             if (!InputHelper.isEmpty(sharedText)) {
-                Uri uri = Uri.parse(sharedText);
-                onUriReceived(uri);
+                try {
+                    Uri uri = Uri.parse(sharedText);
+                    onUriReceived(uri);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         } else if (intent.getAction().equals(Intent.ACTION_VIEW)) {
             if (intent.getData() != null) {

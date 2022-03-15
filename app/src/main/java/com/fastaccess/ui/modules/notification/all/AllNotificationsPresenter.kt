@@ -31,17 +31,6 @@ class AllNotificationsPresenter : BasePresenter<AllNotificationsMvp.View>(),
                     if (item.isUnread && !isMarkAsReadEnabled) {
                         markAsRead(position, v, item)
                     }
-                } else if (v.id == R.id.unsubsribe) {
-                    item.isUnread = false
-                    manageDisposable(item.save(item))
-                    sendToView { view ->
-                        view?.onUpdateReadState(
-                            GroupedNotificationModel(
-                                item
-                            ), position
-                        )
-                    }
-                    ReadNotificationService.unSubscribe(v.context, item.id)
                 } else {
                     if (item.subject != null && item.subject.url != null) {
                         if (item.isUnread && !isMarkAsReadEnabled) {

@@ -149,7 +149,7 @@ class ProfileOverviewPresenter : BasePresenter<ProfileOverviewMvp.View>(),
             if (contributions.isEmpty()) {
                 val url = String.format(URL, login)
                 manageDisposable(RxHelper.getObservable(
-                    RestProvider.getContribution().getContributions(url)
+                    RestProvider.contribution.getContributions(url)
                 )
                     .flatMap { s: String? ->
                         Observable.just(

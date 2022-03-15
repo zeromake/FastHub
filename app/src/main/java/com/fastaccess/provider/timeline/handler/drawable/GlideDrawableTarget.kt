@@ -27,9 +27,8 @@ internal class GlideDrawableTarget(
                     width = (resource.intrinsicWidth / downScale / 1.3).toFloat()
                     height = (resource.intrinsicHeight / downScale / 1.3).toFloat()
                 } else {
-                    val multiplier = this.width.toFloat() / resource.intrinsicWidth
-                    width = resource.intrinsicWidth.toFloat() * multiplier
-                    height = resource.intrinsicHeight.toFloat() * multiplier
+                    width = resource.intrinsicWidth.toFloat()
+                    height = resource.intrinsicHeight.toFloat()
                 }
                 val rect = Rect(0, 0, width.roundToInt(), height.roundToInt())
                 resource.bounds = rect
@@ -41,10 +40,10 @@ internal class GlideDrawableTarget(
                     resource.setLoopCount(GifDrawable.LOOP_FOREVER)
                     resource.start()
                 } else if (resource is Animatable) {
-                    val animatable = resource as Animatable
+                    val animate = resource as Animatable
                     urlDrawable.callback =
                         textView.getTag(R.id.drawable_callback) as Drawable.Callback
-                    animatable.start()
+                    animate.start()
                 }
                 textView.text = textView.text
                 textView.invalidate()

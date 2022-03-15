@@ -34,5 +34,9 @@
         android:icon="@drawable/ic_copy"
         android:title="@string/copy"
         app:showAsAction="ifRoom"/>
-
+    <item
+        android:id="@+id/history"
+        android:icon="@drawable/ic_time"
+        android:title="@string/file_history"
+        android:visible="false" />
 </menu>

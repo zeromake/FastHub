@@ -1,5 +1,7 @@
 package com.fastaccess.provider.rest.jsoup;
 
+import androidx.annotation.NonNull;
+
 import com.fastaccess.BuildConfig;
 import com.fastaccess.data.service.ScrapService;
 import com.fastaccess.provider.rest.converters.GithubResponseConverter;
@@ -10,6 +12,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
  * Created by Kosh on 02 Jun 2017, 12:47 PM
@@ -32,11 +35,11 @@ public class JsoupProvider {
         return okHttpClient;
     }
 
-    public static ScrapService getTrendingService() {
+    public static ScrapService getTrendingService(@NonNull String url) {
         return new Retrofit.Builder()
-                .baseUrl("https://github.com/trending/")
+                .baseUrl(url)
                 .client(provideOkHttpClient())
-                .addConverterFactory(new GithubResponseConverter(new Gson()))
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
                 .create(ScrapService.class);
@@ -46,7 +49,7 @@ public class JsoupProvider {
         return new Retrofit.Builder()
                 .baseUrl("https://github.com/")
                 .client(provideOkHttpClient())
-                .addConverterFactory(new GithubResponseConverter(new Gson()))
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
                 .create(ScrapService.class);

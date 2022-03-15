@@ -9,6 +9,6 @@ class CreateMilestoneModel {
     var title: String? = null
     var description: String? = null
 
-    @SerializedName("due_one")
+    @SerializedName("due_on")
     var dueOn: String? = null
 }

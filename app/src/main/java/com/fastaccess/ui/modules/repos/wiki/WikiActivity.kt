@@ -32,14 +32,21 @@ import java.util.*
  */
 class WikiActivity : BaseActivity<WikiMvp.View, WikiPresenter>(), WikiMvp.View {
 
-    @BindView(R.id.wikiSidebar) lateinit var navMenu: NavigationView
-    @BindView(R.id.drawer) lateinit var drawerLayout: DrawerLayout
-    @BindView(R.id.progress) lateinit var progressbar: ProgressBar
-    @BindView(R.id.stateLayout) lateinit var stateLayout: StateLayout
-    @BindView(R.id.webView) lateinit var webView: PrettifyWebView
+    @BindView(R.id.wikiSidebar)
+    lateinit var navMenu: NavigationView
+    @BindView(R.id.drawer)
+    lateinit var drawerLayout: DrawerLayout
+    @BindView(R.id.progress)
+    lateinit var progressbar: ProgressBar
+    @BindView(R.id.stateLayout)
+    lateinit var stateLayout: StateLayout
+    @BindView(R.id.webView)
+    lateinit var webView: PrettifyWebView
 
-    @State var wiki = WikiContentModel(null, null, arrayListOf())
-    @State var selectedTitle: String = "Home"
+    @State
+    var wiki = WikiContentModel(null, null, arrayListOf())
+    @State
+    var selectedTitle: String = "Home"
 
     override fun layout(): Int = R.layout.wiki_activity_layout
 
@@ -55,12 +62,12 @@ class WikiActivity : BaseActivity<WikiMvp.View, WikiPresenter>(), WikiMvp.View {
         }
         if (wiki.content != null) {
             val baseUrl = Uri.Builder().scheme(LinkParserHelper.PROTOCOL_HTTPS)
-                    .authority(LinkParserHelper.HOST_DEFAULT)
-                    .appendPath(presenter.login)
-                    .appendPath(presenter.repoId)
-                    .appendPath("wiki")
-                    .build()
-                    .toString()
+                .authority(LinkParserHelper.HOST_DEFAULT)
+                .appendPath(presenter.login)
+                .appendPath(presenter.repoId)
+                .appendPath("wiki")
+                .build()
+                .toString()
             webView.setWikiContent(wiki.content, baseUrl)
         }
     }
@@ -73,8 +80,8 @@ class WikiActivity : BaseActivity<WikiMvp.View, WikiPresenter>(), WikiMvp.View {
         navMenu.menu.clear()
         wiki.sidebar.onEach {
             navMenu.menu.add(R.id.languageGroup, it.title?.hashCode()!!, Menu.NONE, it.title)
-                    .setCheckable(true)
-                    .isChecked = it.title.lowercase(Locale.getDefault()) == selectedTitle.lowercase(
+                .setCheckable(true)
+                .isChecked = it.title.lowercase(Locale.getDefault()) == selectedTitle.lowercase(
                 Locale.getDefault()
             )
         }
@@ -100,13 +107,19 @@ class WikiActivity : BaseActivity<WikiMvp.View, WikiPresenter>(), WikiMvp.View {
         setTaskName("${presenter.login}/${presenter.repoId} - Wiki - $selectedTitle")
     }
 
+    override fun showPrivateRepoError() {
+        onLoadContent(WikiContentModel("<h3>${getString(R.string.private_wiki_error_msg)}</h3>", null, listOf()))
+    }
+
     private fun onSidebarClicked(item: MenuItem) {
         this.selectedTitle = item.title.toString()
         setTaskName("${presenter.login}/${presenter.repoId} - Wiki - $selectedTitle")
         closeDrawerLayout()
-        wiki.sidebar.first { it.title?.lowercase(Locale.getDefault()) == item.title.toString()
-            .lowercase(Locale.getDefault()) }
-                .let { presenter.onSidebarClicked(it) }
+        wiki.sidebar.first {
+            it.title?.lowercase(Locale.getDefault()) == item.title.toString()
+                .lowercase(Locale.getDefault())
+        }
+            .let { presenter.onSidebarClicked(it) }
     }
 
     @SuppressLint("RtlHardcoded")
@@ -128,8 +141,10 @@ class WikiActivity : BaseActivity<WikiMvp.View, WikiPresenter>(), WikiMvp.View {
                 return true
             }
             R.id.share -> {
-                ActivityHelper.shareUrl(this, "${LinkParserHelper.PROTOCOL_HTTPS}://${LinkParserHelper.HOST_DEFAULT}/" +
-                        "${presenter.login}/${presenter.repoId}/wiki/$selectedTitle")
+                ActivityHelper.shareUrl(
+                    this, "${LinkParserHelper.PROTOCOL_HTTPS}://${LinkParserHelper.HOST_DEFAULT}/" +
+                            "${presenter.login}/${presenter.repoId}/wiki/$selectedTitle"
+                )
                 return true
             }
             android.R.id.home -> {
@@ -179,11 +194,13 @@ class WikiActivity : BaseActivity<WikiMvp.View, WikiPresenter>(), WikiMvp.View {
 
         fun getWiki(context: Context, repoId: String?, username: String?, page: String?): Intent {
             val intent = Intent(context, WikiActivity::class.java)
-            intent.putExtras(Bundler.start()
+            intent.putExtras(
+                Bundler.start()
                     .put(BundleConstant.ID, repoId)
                     .put(BundleConstant.EXTRA, username)
                     .put(BundleConstant.EXTRA_TWO, page)
-                    .end())
+                    .end()
+            )
             return intent
         }
     }
