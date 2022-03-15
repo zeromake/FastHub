@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi;
 import com.fastaccess.data.dao.model.Models;
 import com.fastaccess.helper.DeviceNameGetter;
 import com.fastaccess.helper.PrefHelper;
+import com.fastaccess.helper.SettingsDataStore;
 import com.fastaccess.helper.TypeFaceHelper;
 import com.fastaccess.provider.colors.ColorsProvider;
 import com.fastaccess.provider.emoji.EmojiManager;
@@ -26,7 +27,6 @@ import io.requery.reactivex.ReactiveSupport;
 import io.requery.sql.Configuration;
 import io.requery.sql.EntityDataStore;
 import io.requery.sql.TableCreationMode;
-import shortbread.ShortbreadInitializer;
 
 
 /**
@@ -77,11 +77,11 @@ public class App extends Application {
         } catch (Exception ignored) {
         }
         Toasty.Config.getInstance().allowQueue(true).apply();
-//        ThemeEngine.applyApplication(this);
     }
 
     private void setupPreference() {
         PrefHelper.init(this.getApplicationContext());
+        SettingsDataStore.init();
     }
 
     public ReactiveEntityStore<Persistable> getDataStore() {

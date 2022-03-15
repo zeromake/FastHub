@@ -145,7 +145,7 @@ class ThemeFragment : BaseFragment<ThemeFragmentMvp.View, ThemeFragmentPresenter
     }
 
     private fun setTheme(theme: String) {
-        PrefHelper.set(THEME, theme)
+        PrefHelper.putAny(THEME, theme)
         themeListener?.onThemeApplied()
     }
 
