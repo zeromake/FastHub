@@ -43,9 +43,11 @@ class OrgProjectActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FA
             val org = org
             if (org != null) {
                 supportFragmentManager.beginTransaction()
-                        .replace(R.id.container, RepoProjectsFragmentPager.newInstance(org),
-                                RepoProjectsFragmentPager.TAG)
-                        .commit()
+                    .replace(
+                        R.id.container, RepoProjectsFragmentPager.newInstance(org),
+                        RepoProjectsFragmentPager.TAG
+                    )
+                    .commit()
             }
         }
         toolbar?.apply { subtitle = org }
@@ -54,9 +56,11 @@ class OrgProjectActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FA
     companion object {
         fun startActivity(context: Context, org: String, isEnterprise: Boolean) {
             val intent = Intent(context, OrgProjectActivity::class.java)
-            intent.putExtras(Bundler.start().put(BundleConstant.ITEM, org)
+            intent.putExtras(
+                Bundler.start().put(BundleConstant.ITEM, org)
                     .put(BundleConstant.IS_ENTERPRISE, isEnterprise)
-                    .end())
+                    .end()
+            )
             context.startActivity(intent)
         }
     }

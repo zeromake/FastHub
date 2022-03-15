@@ -5,7 +5,6 @@
     android:id="@+id/drawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     tools:openDrawer="end">
 
     <LinearLayout
@@ -38,7 +37,6 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:fitsSystemWindows="true"
         app:itemIconTint="?android:textColorSecondary"
         app:itemTextColor="?android:textColorPrimary">
 
@@ -52,7 +50,8 @@
                 android:layout_height="wrap_content"
                 android:minHeight="?actionBarSize"
                 android:orientation="horizontal"
-                android:paddingTop="@dimen/spacing_large">
+                android:paddingTop="@dimen/spacing_large"
+                android:paddingBottom="@dimen/spacing_large">
 
                 <com.fastaccess.ui.widgets.FontTextView
                     android:id="@+id/daily"
