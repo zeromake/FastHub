@@ -5,14 +5,10 @@ import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.webkit.*
 import com.fastaccess.R
-import com.fastaccess.helper.AppHelper
-import com.fastaccess.helper.InputHelper
-import com.fastaccess.helper.Logger
-import com.fastaccess.helper.ViewHelper
+import com.fastaccess.helper.*
 import com.fastaccess.provider.markdown.MarkDownProvider
 import com.fastaccess.provider.scheme.SchemeParser
 import com.fastaccess.ui.modules.code.CodeViewerActivity
@@ -22,8 +18,7 @@ import com.prettifier.pretty.helper.HtmlHelper
 import com.prettifier.pretty.helper.PrettifyHelper
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
-import io.reactivex.disposables.Disposable
-import java.io.File
+import io.reactivex.disposables.CompositeDisposable
 import java.util.concurrent.TimeUnit
 
 
@@ -32,7 +27,8 @@ class PrettifyWebView : NestedWebView {
     private var interceptTouch = false
     private var enableNestedScrolling = false
     private var onReadyListener: OnReadyListener? = null
-    private lateinit var disposable: Disposable
+    private val disposable = CompositeDisposable()
+    private var onScrollListener: ((params: Int) -> Unit)? = null
 
     interface OnContentChangedListener {
         fun onContentChanged(progress: Int)
@@ -88,19 +84,6 @@ class PrettifyWebView : NestedWebView {
                 tp.recycle()
             }
         }
-//        if (!File(context.cacheDir.path, "WebView/Default/HTTP Cache/Code Cache/js").exists()) {
-//            listOf(
-//                File(context.cacheDir.path, "WebView/Default/HTTP Cache/Code Cache/js"),
-//                File(context.cacheDir.path, "WebView/Default/HTTP Cache/Code Cache/wasm"),
-//                File(context.cacheDir.path, "WebView/Default/HTTP Cache/Code Cache/html"),
-//                File(context.cacheDir.path, "WebView/Default/HTTP Cache/Code Cache/css"),
-//            ).filter {
-//                !it.exists()
-//            }.map {
-//                it.mkdirs()
-//            }
-//        }
-
         webChromeClient = ChromeClient()
         webViewClient = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             WebClient()
@@ -109,10 +92,7 @@ class PrettifyWebView : NestedWebView {
         }
         val settings = settings
         settings.javaScriptEnabled = true
-//        settings.setAppCachePath(context.cacheDir.path)
-//        settings.setAppCacheEnabled(true)
         settings.cacheMode = WebSettings.LOAD_DEFAULT
-//        settings.cacheMode = WebSettings.LOAD_NO_CACHE
         settings.defaultTextEncodingName = "utf-8"
         settings.loadsImagesAutomatically = true
         settings.blockNetworkImage = false
@@ -124,25 +104,24 @@ class PrettifyWebView : NestedWebView {
             }
             false
         }
-        disposable = Observable.create(ObservableOnSubscribe<WebView> { emitter ->
-            this.onReadyListener = object : OnReadyListener {
-                override fun onReady(view: WebView) {
-                    if (!emitter.isDisposed) {
-                        emitter.onNext(view)
+        val disposable1 =
+            RxHelper.getObservable(Observable.create(ObservableOnSubscribe<WebView> { emitter ->
+                this.onReadyListener = object : OnReadyListener {
+                    override fun onReady(view: WebView) {
+                        if (!emitter.isDisposed) {
+                            emitter.onNext(view)
+                        }
                     }
                 }
+                emitter.setCancellable {
+                    this.onReadyListener = null
+                }
+            }).debounce(1000, TimeUnit.MILLISECONDS)).subscribe {
+                this.resize(it)
             }
-            emitter.setCancellable {
-                this.onReadyListener = null
-            }
-        }).debounce(1000, TimeUnit.MILLISECONDS).subscribe {
-            this.resize(it)
-        }
-        // webview height
-//        this.addJavascriptInterface(this, "android")
+        disposable.add(disposable1)
     }
 
-    //    @JavascriptInterface
     fun resize(view: WebView) {
         val w: Int = MeasureSpec.makeMeasureSpec(
             0,
@@ -153,13 +132,18 @@ class PrettifyWebView : NestedWebView {
             MeasureSpec.UNSPECIFIED
         )
         view.measure(w, h)
-        this.disposable.dispose()
+    }
+
+    override fun destroy() {
+        disposable.dispose()
+        disposable.clear()
+        super.destroy()
     }
 
     override fun onScrollChanged(l: Int, t: Int, oldl: Int, oldt: Int) {
         super.onScrollChanged(l, t, oldl, oldt)
-        if (onContentChangedListener != null) {
-            onContentChangedListener!!.onScrollChanged(t == 0, t)
+        if (this.onContentChangedListener != null && this.onScrollListener != null) {
+            this.onScrollListener!!(t)
         }
     }
 
@@ -173,6 +157,20 @@ class PrettifyWebView : NestedWebView {
     }
 
     fun setOnContentChangedListener(onContentChangedListener: OnContentChangedListener) {
+        val disposable2 =
+            RxHelper.getObservable(Observable.create(ObservableOnSubscribe<Int> { emitter ->
+                this.onScrollListener = {
+                    if (!emitter.isDisposed) {
+                        emitter.onNext(it)
+                    }
+                }
+                emitter.setCancellable {
+                    this.onScrollListener = null
+                }
+            }).debounce(1000, TimeUnit.MILLISECONDS)).subscribe {
+                this.onContentChangedListener?.onScrollChanged(it == 0, it)
+            }
+        disposable.add(disposable2)
         this.onContentChangedListener = onContentChangedListener
     }
 
@@ -285,7 +283,6 @@ class PrettifyWebView : NestedWebView {
             AppHelper.isNightMode(resources), false,
             branch,
         )
-        Log.e("githubContent", page)
         post { loadDataWithBaseURL("file:///android_asset/md/", page, "text/html", "utf-8", null) }
     }
 

@@ -152,10 +152,10 @@ object GithubHelper {
     }
 
     private fun mergeContent(context: Context, source: String, dark: Boolean): String {
-        // <script src="./intercept-hash.js"></script> <script src="./intercept-touch.js"></script>
         return """${HtmlHelper.HTML_HEADER}
 ${HtmlHelper.HEAD_HEADER}
     <link rel="stylesheet" type="text/css" href="${getStyle(dark)}">
+    <script src="./intercept-hash.js"></script>
     ${getCodeStyle(context, dark)}
     <style>
     video {
@@ -166,6 +166,7 @@ ${HtmlHelper.HEAD_BOTTOM}
 ${HtmlHelper.BODY_HEADER}
 $source
 ${HtmlHelper.BODY_BOTTOM}
+<script src="./intercept-touch.js"></script>
 ${HtmlHelper.HTML_BOTTOM}"""
     }
 

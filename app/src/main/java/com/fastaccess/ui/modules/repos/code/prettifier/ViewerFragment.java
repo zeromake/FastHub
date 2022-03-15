@@ -90,7 +90,6 @@ public class ViewerFragment extends BaseFragment<ViewerMvp.View, ViewerPresenter
 
     @Override
     public void onSetMdText(@NonNull String text, String baseUrl, boolean replace, String branch) {
-        Log.e("onSetMdText", defaultBranch);
         webView.setVisibility(View.VISIBLE);
         loader.setIndeterminate(false);
         webView.setGithubContentWithReplace(text, baseUrl, replace, branch);

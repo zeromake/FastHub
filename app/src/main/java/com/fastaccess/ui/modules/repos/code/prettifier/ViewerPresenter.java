@@ -123,7 +123,6 @@ class ViewerPresenter extends BasePresenter<ViewerMvp.View> implements ViewerMvp
                                 isMarkdown = fileModel.isMarkdown();
                                 sendToView(view -> {
                                     if (isRepo || isMarkdown) {
-                                        Log.e("onWorkOffline", defaultBranch);
                                         view.onSetMdText(downloadedStream, fileModel.getFullUrl(), false, defaultBranch);
                                     } else {
                                         view.onSetCode(downloadedStream);
@@ -161,7 +160,6 @@ class ViewerPresenter extends BasePresenter<ViewerMvp.View> implements ViewerMvp
                 fileModel.setMarkdown(true);
                 isMarkdown = true;
                 isRepo = true;
-                Log.e("onWorkOnline", defaultBranch);
                 sendToView(view -> view.onSetMdText(downloadedStream, htmlUrl == null ? url : htmlUrl, false, defaultBranch));
             } else {
                 isMarkdown = MarkDownProvider.isMarkdown(url);
