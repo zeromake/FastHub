@@ -1,41 +1,31 @@
 package com.fastaccess.ui.modules.about
 
-import com.fastaccess.provider.theme.ThemeEngine.applyForAbout
-import com.fastaccess.ui.modules.user.UserPagerActivity.Companion.startActivity
-import com.danielstone.materialaboutlibrary.MaterialAboutActivity
-import android.os.Bundle
-import com.fastaccess.provider.theme.ThemeEngine
-import com.fastaccess.R
-import com.danielstone.materialaboutlibrary.model.MaterialAboutList
-import com.danielstone.materialaboutlibrary.model.MaterialAboutCard
-import android.content.Intent
-import android.app.Activity
 import android.content.Context
-import android.util.Log
+import android.content.Intent
+import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import com.fastaccess.helper.BundleConstant
-import es.dmoral.toasty.Toasty
-import com.fastaccess.App
 import android.widget.Toast
-import androidx.compose.runtime.withFrameMillis
-import androidx.compose.ui.Modifier
-import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem
 import androidx.core.content.ContextCompat
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.danielstone.materialaboutlibrary.items.MaterialAboutItemOnClickAction
-import com.fastaccess.helper.ActivityHelper
-import com.fastaccess.ui.modules.user.UserPagerActivity
-import com.fastaccess.ui.modules.repos.RepoPagerActivity
 import com.danielstone.materialaboutlibrary.ConvenienceBuilder
+import com.danielstone.materialaboutlibrary.MaterialAboutActivity
+import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem
+import com.danielstone.materialaboutlibrary.model.MaterialAboutCard
+import com.danielstone.materialaboutlibrary.model.MaterialAboutList
+import com.fastaccess.App
 import com.fastaccess.BuildConfig
-import com.fastaccess.ui.modules.main.donation.DonationActivity
-import com.fastaccess.ui.modules.changelog.ChangelogBottomSheetDialog
+import com.fastaccess.R
+import com.fastaccess.helper.ActivityHelper
+import com.fastaccess.helper.BundleConstant
 import com.fastaccess.provider.tasks.version.CheckVersionService
+import com.fastaccess.provider.theme.ThemeEngine.applyForAbout
+import com.fastaccess.ui.modules.changelog.ChangelogBottomSheetDialog
+import com.fastaccess.ui.modules.main.donation.DonationActivity
+import com.fastaccess.ui.modules.repos.RepoPagerActivity
 import com.fastaccess.ui.modules.repos.issues.create.CreateIssueActivity
+import com.fastaccess.ui.modules.user.UserPagerActivity.Companion.startActivity
 import com.mikepenz.aboutlibraries.LibsBuilder
-import com.mikepenz.aboutlibraries.ui.LibsActivity
-import com.mikepenz.aboutlibraries.ui.compose.LibrariesContainer
+import es.dmoral.toasty.Toasty
 
 /**
  * Created by danielstone on 12 Mar 2017, 1:57 AM
@@ -64,7 +54,7 @@ class FastHubAboutActivity : MaterialAboutActivity() {
         )
     }
 
-    override fun getActivityTitle(): CharSequence? {
+    override fun getActivityTitle(): CharSequence {
         return getString(R.string.app_name)
     }
 
@@ -166,7 +156,11 @@ class FastHubAboutActivity : MaterialAboutActivity() {
             .text("Kosh Sergani")
             .subText("k0shk0sh")
             .icon(ContextCompat.getDrawable(context, R.drawable.ic_profile))
-            .setOnClickAction { startActivity(context, "k0shk0sh", false, false, 0) }
+            .setOnClickAction { startActivity(context, "k0shk0sh",
+                isOrg = false,
+                isEnterprise = false,
+                index = 0
+            ) }
             .build())
             .addItem(MaterialAboutActionItem.Builder()
                 .text(R.string.fork_github)
