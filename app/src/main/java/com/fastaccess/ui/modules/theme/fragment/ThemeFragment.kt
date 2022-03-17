@@ -11,9 +11,6 @@ import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.Unbinder
 import com.fastaccess.R
 import com.fastaccess.helper.*
 import com.fastaccess.ui.base.BaseFragment
@@ -27,12 +24,10 @@ import com.fastaccess.ui.widgets.SpannableBuilder
 
 class ThemeFragment : BaseFragment<ThemeFragmentMvp.View, ThemeFragmentPresenter>(), ThemeFragmentMvp.View {
 
-    @BindView(R.id.apply) lateinit var apply: FloatingActionButton
-    @BindView(R.id.toolbar) lateinit var toolbar: Toolbar
+    lateinit var apply: FloatingActionButton
+    lateinit var toolbar: Toolbar
 
-    private var unbinder: Unbinder? = null
-
-    private val THEME = "appTheme"
+    private val mTheme = "appTheme"
     private var primaryDarkColor: Int = 0
     private var theme: Int = 0
     private var themeListener: ThemeFragmentMvp.ThemeListener? = null
@@ -59,15 +54,20 @@ class ThemeFragment : BaseFragment<ThemeFragmentMvp.View, ThemeFragmentPresenter
         toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         theme = requireArguments().getInt(BundleConstant.ITEM)
         val contextThemeWrapper = ContextThemeWrapper(activity, theme)
         primaryDarkColor = ViewHelper.getPrimaryDarkColor(contextThemeWrapper)
         val localInflater = inflater.cloneInContext(contextThemeWrapper)
-        val view = localInflater.inflate(R.layout.theme_layout, container, false)!!
-        unbinder = ButterKnife.bind(this, view)
-        return view
+        val root = localInflater.inflate(R.layout.theme_layout, container, false)!!
+        apply = root.findViewById(R.id.apply)
+        toolbar = root.findViewById(R.id.toolbar)
+        return root
     }
 
     override fun providePresenter(): ThemeFragmentPresenter {
@@ -145,7 +145,7 @@ class ThemeFragment : BaseFragment<ThemeFragmentMvp.View, ThemeFragmentPresenter
     }
 
     private fun setTheme(theme: String) {
-        PrefHelper.putAny(THEME, theme)
+        PrefHelper.putAny(mTheme, theme)
         themeListener?.onThemeApplied()
     }
 
@@ -157,10 +157,5 @@ class ThemeFragment : BaseFragment<ThemeFragmentMvp.View, ThemeFragmentPresenter
         }
         showErrorMessage(getString(R.string.common_google_play_services_unsupported_text))
         return false
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        unbinder?.unbind()
     }
 }

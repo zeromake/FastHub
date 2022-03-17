@@ -31,7 +31,7 @@ class CheckPurchaseActivity : Activity() {
                     setOnCancelListener { finishActivity(false) }
                     show()
                 }
-        if (AppHelper.isGoogleAvailable(this) && !AppHelper.isEmulator()) {
+        if (AppHelper.isGoogleAvailable(this) && !AppHelper.isEmulator) {
             disposable = RxHelper.getObservable(Observable.fromCallable {
                 try {
                     val purchases = RxBillingService.getInstance(this, BuildConfig.DEBUG)
