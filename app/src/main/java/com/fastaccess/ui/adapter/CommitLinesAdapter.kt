@@ -8,7 +8,7 @@ import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
 import com.fastaccess.ui.base.adapter.BaseViewHolder
 
 class CommitLinesAdapter(
-    data: MutableList<CommitLinesModel>,
+    data: List<CommitLinesModel>,
     listener: BaseViewHolder.OnItemClickListener<CommitLinesModel>?
 ) : BaseRecyclerAdapter<CommitLinesModel, CommitLinesViewHolder, BaseViewHolder.OnItemClickListener<CommitLinesModel>>(
     data,

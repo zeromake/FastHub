@@ -2,8 +2,6 @@ package com.fastaccess.ui.adapter.viewholder
 
 import android.view.View
 import android.view.ViewGroup
-import butterknife.BindString
-import butterknife.BindView
 import com.fastaccess.R
 import com.fastaccess.data.dao.CommitFileChanges
 import com.fastaccess.data.dao.CommitFileChanges.Companion.canAttachToBundle
@@ -26,56 +24,22 @@ class PullRequestFilesViewHolder private constructor(
     itemView: View,
     private val viewGroup: ViewGroup,
     adapter: CommitFilesAdapter,
-    private val onToggleView: OnToggleView, private val onPatchClickListener: OnPatchClickListener?
+    private val onToggleView: OnToggleView,
+    private val onPatchClickListener: OnPatchClickListener?
 ) : BaseViewHolder<CommitFileChanges>(itemView, adapter),
     BaseViewHolder.OnItemClickListener<CommitLinesModel> {
-    @kotlin.jvm.JvmField
-    @BindView(R.id.name)
-    var name: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.patchList)
-    var patch: DynamicRecyclerView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.changes)
-    var changes: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.addition)
-    var addition: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.deletion)
-    var deletion: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.status)
-    var status: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.toggle)
-    var toggle: View? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.open)
-    var open: View? = null
-
-    @kotlin.jvm.JvmField
-    @BindString(R.string.changes)
-    var changesText: String? = null
-
-    @kotlin.jvm.JvmField
-    @BindString(R.string.addition)
-    var additionText: String? = null
-
-    @kotlin.jvm.JvmField
-    @BindString(R.string.deletion)
-    var deletionText: String? = null
-
-    @kotlin.jvm.JvmField
-    @BindString(R.string.status)
-    var statusText: String? = null
+    val name: FontTextView? by lazy { itemView.findViewById(R.id.name) }
+    val patch: DynamicRecyclerView? by lazy { itemView.findViewById(R.id.patchList) }
+    val changes: FontTextView? by lazy { itemView.findViewById(R.id.changes) }
+    val addition: FontTextView? by lazy { itemView.findViewById(R.id.addition) }
+    val deletion: FontTextView? by lazy { itemView.findViewById(R.id.deletion) }
+    val status: FontTextView? by lazy { itemView.findViewById(R.id.status) }
+    val toggle: View?  by lazy { itemView.findViewById(R.id.toggle) }
+    val open: View?  by lazy { itemView.findViewById(R.id.open) }
+    val changesText: String? by lazy { viewGroup.context.resources.getString(R.string.changes) }
+    val additionText: String? by lazy { viewGroup.context.resources.getString(R.string.addition) }
+    val deletionText: String? by lazy { viewGroup.context.resources.getString(R.string.deletion) }
+    val statusText: String? by lazy { viewGroup.context.resources.getString(R.string.status) }
     override fun onClick(v: View) {
         if (v.id != R.id.open) {
             val position = absoluteAdapterPosition
@@ -168,7 +132,6 @@ class PullRequestFilesViewHolder private constructor(
     }
 
     companion object {
-        @kotlin.jvm.JvmStatic
         fun newInstance(
             viewGroup: ViewGroup,
             adapter: CommitFilesAdapter,

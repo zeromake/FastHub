@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import com.fastaccess.provider.crash.Report
 import com.fastaccess.ui.widgets.FontEditText
 import java.util.*
 
@@ -38,7 +39,8 @@ class MarkdownEditText : FontEditText {
                         text?.replace(inMentionMode, end, complete, 0, complete.length)
                         inMentionMode = -1
                     }
-                } catch (ignored: Exception) {
+                } catch (e: Exception) {
+                    Report.reportCatchException(e)
                 }
                 mention.visibility = GONE
                 listDivider?.visibility = GONE
@@ -97,7 +99,8 @@ class MarkdownEditText : FontEditText {
                 it.visibility = if (inMentionMode > 0) View.VISIBLE else GONE
                 listDivider!!.visibility = it.visibility
             }
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
+            Report.reportCatchException(e)
         }
     }
 

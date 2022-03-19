@@ -96,26 +96,17 @@ object ActivityHelper {
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         val finalIntent = chooserIntent(context, i, url)
         if (finalIntent != null) {
-            try {
-                safeOpenChooser(context, finalIntent)
-            } catch (ignored: ActivityNotFoundException) {
-            }
+            safeOpenChooser(context, finalIntent)
         } else {
             if (!fromCustomTab) {
                 val activity = getActivity(context)
                 activity?.let {
-                    try {
-                        safeOpenChooser(it, i)
-                    } catch (ignored: ActivityNotFoundException) {
-                    }
+                    safeOpenChooser(it, i)
                     return
                 }
                 startCustomTab(activity, url)
             } else {
-                try {
-                    safeOpenChooser(context, i)
-                } catch (ignored: ActivityNotFoundException) {
-                }
+                safeOpenChooser(context, i)
             }
         }
     }

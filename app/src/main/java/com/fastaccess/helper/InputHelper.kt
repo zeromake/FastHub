@@ -123,13 +123,8 @@ object InputHelper {
 
     @JvmStatic
     fun toLong(text: String): Long {
-        if (!isEmpty(text)) {
-            try {
-                return java.lang.Long.valueOf(text.replace("[^0-9]".toRegex(), ""))
-            } catch (ignored: NumberFormatException) {
-            }
-        }
-        return 0
+        val ret = text.replace("[^0-9]".toRegex(), "").toLongOrNull()
+        return ret ?: 0
     }
 
     @JvmStatic

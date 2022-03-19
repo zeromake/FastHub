@@ -17,6 +17,7 @@ import com.fastaccess.data.dao.SettingsModel
 import com.fastaccess.data.dao.SettingsModel.SettingsType
 import com.fastaccess.data.dao.model.SearchHistory
 import com.fastaccess.helper.*
+import com.fastaccess.provider.crash.Report
 import com.fastaccess.ui.base.mvp.BaseMvp.FAView
 import com.fastaccess.ui.modules.settings.sound.NotificationSoundBottomSheet.Companion.newInstance
 import com.fastaccess.ui.modules.settings.sound.NotificationSoundMvp.NotificationSoundListener
@@ -314,9 +315,10 @@ class SettingsCategoryFragment : PreferenceFragmentCompat(), Preference.OnPrefer
                 }
                 callback!!.onThemeChanged()
                 Toasty.success(App.getInstance(), getString(R.string.restore_up)).show()
-            } catch (ignored: Exception) {
+            } catch (e: Exception) {
                 Toasty.error(App.getInstance(), getString(R.string.error), Toast.LENGTH_SHORT)
                     .show()
+                Report.reportCatchException(e)
             }
         }
     }

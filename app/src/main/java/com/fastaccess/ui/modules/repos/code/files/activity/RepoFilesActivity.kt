@@ -131,22 +131,17 @@ class RepoFilesActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FAV
                         startWithRepo = true
                     }
                     uri.pathSegments[0].equals("repositories", ignoreCase = true) -> {
-                        val id = uri.pathSegments[1]
-                        try {
-                            val longRepoId = id.toLong()
-                            if (longRepoId != 0L) {
-                                val repo = AbstractRepo.getRepo(longRepoId)
-                                if (repo != null) {
-                                    val nameParser = NameParser(repo.htmlUrl)
-                                    if (nameParser.username != null && nameParser.name != null) {
-                                        login = nameParser.username
-                                        repoId = nameParser.name
-                                        branch = uri.getQueryParameter("ref")
-                                    }
+                        val id = uri.pathSegments[1].toLongOrNull()
+                        if (id != null && id != 0L) {
+                            val repo = AbstractRepo.getRepo(id)
+                            if (repo != null) {
+                                val nameParser = NameParser(repo.htmlUrl)
+                                if (nameParser.username != null && nameParser.name != null) {
+                                    login = nameParser.username
+                                    repoId = nameParser.name
+                                    branch = uri.getQueryParameter("ref")
                                 }
                             }
-                        } catch (ignored: NumberFormatException) {
-                            return launchMain(context, true)
                         }
                     }
                     else -> {

@@ -245,7 +245,7 @@ class PullRequestEventViewHolder private constructor(
                 .append(" ")
                 .append("into")
                 .append(" ")
-                .append(event.actor)
+                .append(event.actor.toString())
                 .append(":")
                 .append(
                     event.mergeRefName,

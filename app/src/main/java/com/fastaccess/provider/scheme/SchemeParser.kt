@@ -1,27 +1,16 @@
 package com.fastaccess.provider.scheme
 
-import com.fastaccess.provider.scheme.LinkParserHelper.isEnterprise
-import com.fastaccess.provider.scheme.LinkParserHelper.returnNonNull
-import com.fastaccess.ui.modules.repos.projects.details.ProjectPagerActivity.Companion.getIntent
-import com.fastaccess.ui.modules.repos.wiki.WikiActivity.Companion.getWiki
-import com.fastaccess.provider.scheme.LinkParserHelper.getEndpoint
-import com.fastaccess.ui.modules.user.UserPagerActivity.Companion.createIntent
-import com.fastaccess.provider.scheme.LinkParserHelper.getBlobBuilder
-import com.fastaccess.ui.modules.trending.TrendingActivity.Companion.getTrendingIntent
-import kotlin.jvm.JvmOverloads
-import android.content.Intent
 import android.app.Application
 import android.app.Service
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
-import android.webkit.MimeTypeMap
-import com.fastaccess.provider.markdown.MarkDownProvider
-import com.fastaccess.ui.modules.code.CodeViewerActivity
-import com.fastaccess.ui.modules.gists.gist.GistActivity
 import android.text.TextUtils
+import android.webkit.MimeTypeMap
 import com.annimon.stream.Optional
 import com.annimon.stream.Stream
 import com.fastaccess.helper.*
+import com.fastaccess.provider.markdown.MarkDownProvider
 import com.fastaccess.provider.scheme.LinkParserHelper.API_AUTHORITY
 import com.fastaccess.provider.scheme.LinkParserHelper.HOST_DEFAULT
 import com.fastaccess.provider.scheme.LinkParserHelper.HOST_GISTS
@@ -29,18 +18,26 @@ import com.fastaccess.provider.scheme.LinkParserHelper.HOST_GISTS_RAW
 import com.fastaccess.provider.scheme.LinkParserHelper.IGNORED_LIST
 import com.fastaccess.provider.scheme.LinkParserHelper.PROTOCOL_HTTPS
 import com.fastaccess.provider.scheme.LinkParserHelper.RAW_AUTHORITY
-import com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.PullRequestPagerActivity
-import com.fastaccess.ui.modules.repos.issues.issue.details.IssuePagerActivity
+import com.fastaccess.provider.scheme.LinkParserHelper.getBlobBuilder
+import com.fastaccess.provider.scheme.LinkParserHelper.getEndpoint
+import com.fastaccess.provider.scheme.LinkParserHelper.isEnterprise
+import com.fastaccess.provider.scheme.LinkParserHelper.returnNonNull
+import com.fastaccess.ui.modules.code.CodeViewerActivity
 import com.fastaccess.ui.modules.filter.issues.FilterIssuesActivity
+import com.fastaccess.ui.modules.gists.gist.GistActivity
 import com.fastaccess.ui.modules.repos.RepoPagerActivity
 import com.fastaccess.ui.modules.repos.RepoPagerMvp
 import com.fastaccess.ui.modules.repos.code.commit.details.CommitPagerActivity
-import com.fastaccess.ui.modules.search.SearchActivity
 import com.fastaccess.ui.modules.repos.code.files.activity.RepoFilesActivity
 import com.fastaccess.ui.modules.repos.code.releases.ReleasesListActivity
 import com.fastaccess.ui.modules.repos.issues.create.CreateIssueActivity
-import java.lang.Exception
-import java.lang.NumberFormatException
+import com.fastaccess.ui.modules.repos.issues.issue.details.IssuePagerActivity
+import com.fastaccess.ui.modules.repos.projects.details.ProjectPagerActivity.Companion.getIntent
+import com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.PullRequestPagerActivity
+import com.fastaccess.ui.modules.repos.wiki.WikiActivity.Companion.getWiki
+import com.fastaccess.ui.modules.search.SearchActivity
+import com.fastaccess.ui.modules.trending.TrendingActivity.Companion.getTrendingIntent
+import com.fastaccess.ui.modules.user.UserPagerActivity.Companion.createIntent
 
 /**
  * Created by Kosh on 09 Dec 2016, 4:44 PM
@@ -213,10 +210,7 @@ object SchemeParser {
         if (!InputHelper.isEmpty(fragment) && fragment!!.split("-").toTypedArray().size > 1) {
             fragment = fragment.split("-").toTypedArray()[1]
             if (!InputHelper.isEmpty(fragment)) {
-                try {
-                    commentId = fragment.toLong()
-                } catch (ignored: Exception) {
-                }
+                commentId = fragment.toLongOrNull()
             }
         }
         if (segments.size > 3) {
@@ -255,10 +249,7 @@ object SchemeParser {
         if (!InputHelper.isEmpty(fragment) && fragment!!.split("-").toTypedArray().size > 1) {
             fragment = fragment.split("-").toTypedArray()[1]
             if (!InputHelper.isEmpty(fragment)) {
-                try {
-                    commentId = fragment.toLong()
-                } catch (ignored: Exception) {
-                }
+                commentId = fragment.toLongOrNull()
             }
         }
         if (segments.size > 3) {
@@ -345,15 +336,12 @@ object SchemeParser {
         if (segments.size == 3 && "projects".equals(segments[2], ignoreCase = true)) {
             return RepoPagerActivity.createIntent(context, repoName, owner, RepoPagerMvp.PROJECTS)
         } else if (segments.size == 4 && "projects".equals(segments[2], ignoreCase = true)) {
-            try {
-                val projectId = segments[segments.size - 1].toInt()
-                if (projectId > 0) {
-                    return getIntent(
-                        context, owner, repoName, projectId.toLong(),
-                        isEnterprise(uri.toString())
-                    )
-                }
-            } catch (ignored: Exception) {
+            val projectId = segments[segments.size - 1].toIntOrNull()
+            if (projectId != null && projectId > 0) {
+                return getIntent(
+                    context, owner, repoName, projectId.toLong(),
+                    isEnterprise(uri.toString())
+                )
             }
         }
         return null

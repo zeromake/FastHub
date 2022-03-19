@@ -28,13 +28,19 @@ abstract class BaseRecyclerAdapter<M, VH : BaseViewHolder<M>, P : BaseViewHolder
 
 
     @Suppress("UNCHECKED_CAST")
-    constructor(list: MutableList<M>) {
-        this.data = list as MutableList<M?>
+    constructor(list: List<M>) {
+        this.data = when (list) {
+            is MutableList<*> -> list as MutableList<M?>
+            else -> list.toMutableList()
+        }
     }
 
     @Suppress("UNCHECKED_CAST")
-    constructor(list: MutableList<M>, listener: P?) {
-        this.data = list as MutableList<M?>
+    constructor(list: List<M>, listener: P?) {
+        this.data = when (list) {
+            is MutableList<*> -> list as MutableList<M?>
+            else -> list.toMutableList()
+        }
         this.listener = listener
     }
 

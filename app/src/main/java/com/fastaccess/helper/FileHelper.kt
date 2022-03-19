@@ -8,6 +8,7 @@ import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Environment
 import com.fastaccess.data.dao.NotificationSoundModel
+import com.fastaccess.provider.crash.Report
 import java.io.File
 import java.lang.Exception
 import java.util.ArrayList
@@ -43,7 +44,8 @@ object FileHelper {
                     }
                 }
             }
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
+            Report.reportCatchException(e)
         }
         return filePath
     }

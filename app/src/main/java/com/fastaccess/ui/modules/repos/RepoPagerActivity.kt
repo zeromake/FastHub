@@ -29,6 +29,7 @@ import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.InputHelper.toLong
 import com.fastaccess.helper.ParseDateFormat.Companion.getTimeAgo
 import com.fastaccess.provider.colors.ColorsProvider.getColorAsColor
+import com.fastaccess.provider.crash.Report
 import com.fastaccess.provider.scheme.LinkParserHelper.isEnterprise
 import com.fastaccess.provider.scheme.SchemeParser.launchUri
 import com.fastaccess.provider.tasks.git.GithubActionService
@@ -448,7 +449,8 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
                 navType,
                 true
             )
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
+            Report.reportCatchException(e)
         }
         showHideFab()
         presenter!!.onModuleChanged(supportFragmentManager, navType)

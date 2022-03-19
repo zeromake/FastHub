@@ -1,8 +1,7 @@
 package com.fastaccess.helper
 
-import android.util.Log
 import com.fastaccess.BuildConfig
-import java.lang.Exception
+import timber.log.Timber
 
 /**
  * Created by Kosh on 04/12/15 11:52 PM. copyrights @
@@ -12,17 +11,17 @@ object Logger {
     private val DEBUG = BuildConfig.DEBUG
     private fun e(tag: String, text: Any?) {
         if (!DEBUG) return
-        Log.e(tag, text?.toString() ?: "LOGGER IS NULL") //avoid null
+        Timber.e(tag, text?.toString() ?: "LOGGER IS NULL") //avoid null
     }
 
     private fun d(tag: String, text: Any?) {
         if (!DEBUG) return
-        Log.d(tag, text?.toString() ?: "LOGGER IS NULL") //avoid null
+        Timber.d(tag, text?.toString() ?: "LOGGER IS NULL") //avoid null
     }
 
     private fun i(tag: String, text: Any?) {
         if (!DEBUG) return
-        Log.i(tag, text?.toString() ?: "LOGGER IS NULL") //avoid null
+        Timber.i(tag, text?.toString() ?: "LOGGER IS NULL") //avoid null
     }
 
     @JvmStatic

@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.Recycler
 import androidx.recyclerview.widget.RecyclerView
+import com.fastaccess.provider.crash.Report
 import java.lang.Exception
 
 /**
@@ -28,7 +29,8 @@ class LinearManager : LinearLayoutManager {
     override fun onLayoutChildren(recycler: Recycler, state: RecyclerView.State) {
         try {
             super.onLayoutChildren(recycler, state)
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
+            Report.reportCatchException(e)
         }
     }
 
@@ -40,7 +42,8 @@ class LinearManager : LinearLayoutManager {
     ) {
         try {
             super.onMeasure(recycler, state, widthSpec, heightSpec)
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
+            Report.reportCatchException(e)
         }
     }
 }

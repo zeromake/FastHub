@@ -15,6 +15,7 @@ import butterknife.Unbinder
 import com.evernote.android.state.StateSaver
 import com.fastaccess.R
 import com.fastaccess.helper.ViewHelper
+import com.fastaccess.provider.crash.Report
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -119,7 +120,8 @@ abstract class BaseBottomSheetDialog : BottomSheetDialogFragment() {
     protected open fun onHidden() {
         try {
             dismiss()
-        } catch (ignored: IllegalStateException) {
+        } catch (e: IllegalStateException) {
+            Report.reportCatchException(e)
         } //FML FIXME
     }
 

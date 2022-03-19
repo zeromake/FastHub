@@ -37,6 +37,7 @@ import com.fastaccess.helper.PrefGetter.otpCode
 import com.fastaccess.helper.PrefGetter.resetEnterprise
 import com.fastaccess.helper.PrefGetter.showWhatsNew
 import com.fastaccess.helper.PrefGetter.token
+import com.fastaccess.provider.crash.Report
 import com.fastaccess.provider.markdown.CachedComments.Companion.instance
 import com.fastaccess.provider.theme.ThemeEngine.apply
 import com.fastaccess.ui.base.mvp.BaseMvp.FAView
@@ -289,7 +290,8 @@ abstract class BaseActivity<V : FAView, P : BasePresenter<V>> : TiActivity<P, V>
             ActivityHelper.startCustomTab(this, schemeUrl!!)
             try {
                 finish()
-            } catch (ignored: Exception) {
+            } catch (e: Exception) {
+                Report.reportCatchException(e)
             } // fragment might be committed and calling finish will crash the app.
         }
     }

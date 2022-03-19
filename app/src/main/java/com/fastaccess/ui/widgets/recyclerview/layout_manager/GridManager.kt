@@ -5,6 +5,8 @@ import android.util.AttributeSet
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView.Recycler
 import androidx.recyclerview.widget.RecyclerView
+import com.fastaccess.provider.crash.Report
+import com.tencent.bugly.crashreport.CrashReport
 import java.lang.Exception
 
 /**
@@ -36,7 +38,8 @@ class GridManager : GridLayoutManager {
         try {
             super.onLayoutChildren(recycler, state)
             updateCount()
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
+            Report.reportCatchException(e)
         }
     }
 
@@ -48,7 +51,8 @@ class GridManager : GridLayoutManager {
     ) {
         try {
             super.onMeasure(recycler, state, widthSpec, heightSpec)
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
+            Report.reportCatchException(e)
         }
     }
 

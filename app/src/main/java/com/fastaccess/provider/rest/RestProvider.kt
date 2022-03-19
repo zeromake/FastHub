@@ -211,9 +211,12 @@ object RestProvider {
             body = throwable.response()!!.errorBody()
         }
         if (body != null) {
-            try {
-                return gson.fromJson(body.string(), GitHubErrorResponse::class.java)
-            } catch (ignored: Exception) {
+            return try {
+                gson.fromJson(body.string(), GitHubErrorResponse::class.java)
+            } catch (e: Exception) {
+                val resp = GitHubErrorResponse()
+                resp.message = e.message
+                resp
             }
         }
         return null

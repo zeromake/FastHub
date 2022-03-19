@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.fastaccess.R
 import com.fastaccess.helper.ActivityHelper
 import com.fastaccess.helper.Logger.e
+import com.fastaccess.provider.crash.Report
 import com.google.android.material.appbar.AppBarLayout
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation
 
@@ -89,7 +90,8 @@ open class RecyclerViewFastScroller : FrameLayout {
             if (registeredObserver && recyclerView!!.adapter != null) {
                 recyclerView!!.adapter!!.unregisterAdapterDataObserver(observer)
             }
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
+            Report.reportCatchException(e)
         }
     }
 

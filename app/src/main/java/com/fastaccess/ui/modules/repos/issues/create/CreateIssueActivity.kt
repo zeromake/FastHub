@@ -499,8 +499,6 @@ class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresent
             }
         }
 
-        @SuppressWarnings("deprecation")
-        @Deprecated("use registerForActivityResult")
         fun getIntent(
             context: Context,
             login: String,
