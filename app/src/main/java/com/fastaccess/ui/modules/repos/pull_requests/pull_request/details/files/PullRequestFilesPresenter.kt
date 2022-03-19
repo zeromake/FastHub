@@ -45,7 +45,7 @@ class PullRequestFilesPresenter : BasePresenter<PullRequestFilesMvp.View>(),
         super.onError(throwable)
     }
 
-    override fun onCallApi(page: Int, parameter: Any?): Boolean {
+    override fun onCallApi(page: Int, parameter: String?): Boolean {
         if (page == 1) {
             lastPage = Int.MAX_VALUE
             sendToView { view -> view?.loadMore?.reset() }

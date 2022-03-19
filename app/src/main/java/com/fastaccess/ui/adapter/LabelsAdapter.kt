@@ -15,8 +15,8 @@ class LabelsAdapter(eventsModels: MutableList<LabelModel>, private val onSelectL
         eventsModels
     ) {
     interface OnSelectLabel {
-        fun isLabelSelected(labelModel: LabelModel?): Boolean
-        fun onToggleSelection(labelModel: LabelModel?, select: Boolean)
+        fun isLabelSelected(labelModel: LabelModel): Boolean
+        fun onToggleSelection(labelModel: LabelModel, select: Boolean)
     }
 
     override fun viewHolder(parent: ViewGroup, viewType: Int): LabelsViewHolder {

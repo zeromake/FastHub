@@ -139,7 +139,9 @@ class PullRequestFilesViewHolder private constructor(
             onPatchClickListener: OnPatchClickListener?
         ): PullRequestFilesViewHolder {
             return PullRequestFilesViewHolder(
-                getView(viewGroup, R.layout.pullrequest_file_row_item), viewGroup, adapter,
+                getView(viewGroup, R.layout.pullrequest_file_row_item),
+                viewGroup,
+                adapter,
                 onToggleView, onPatchClickListener
             )
         }

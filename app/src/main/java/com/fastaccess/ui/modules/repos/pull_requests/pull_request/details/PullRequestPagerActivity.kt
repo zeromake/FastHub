@@ -122,12 +122,12 @@ open class PullRequestPagerActivity :
 
     @OnClick(R.id.detailsIcon)
     fun onTitleClick() {
-        if (presenter!!.getPullRequest() != null && !isEmpty(
-                presenter!!.getPullRequest()!!.title
+        if (presenter!!.pullRequest != null && !isEmpty(
+                presenter!!.pullRequest!!.title
             )
         ) newInstance(
-            String.format("%s/%s", presenter!!.getLogin(), presenter!!.getRepoId()),
-            presenter!!.getPullRequest()!!.title, isMarkDown = false, hideCancel = true
+            String.format("%s/%s", presenter!!.login, presenter!!.repoId),
+            presenter!!.pullRequest!!.title, isMarkDown = false, hideCancel = true
         )
             .show(supportFragmentManager, MessageDialogView.TAG)
     }
@@ -174,7 +174,7 @@ open class PullRequestPagerActivity :
         if (savedInstanceState == null) {
             presenter!!.onActivityCreated(intent)
         } else {
-            if (presenter!!.getPullRequest() != null) onSetupIssue(false)
+            if (presenter!!.pullRequest != null) onSetupIssue(false)
         }
         fab!!.hide()
         startGist!!.visibility = View.GONE
@@ -209,7 +209,7 @@ open class PullRequestPagerActivity :
             onNavToRepoClicked()
             return true
         }
-        val pullRequest = presenter!!.getPullRequest() ?: return false
+        val pullRequest = presenter!!.pullRequest ?: return false
         if (item.itemId == R.id.share) {
             ActivityHelper.shareUrl(this, pullRequest.htmlUrl)
             return true
@@ -239,46 +239,46 @@ open class PullRequestPagerActivity :
             return true
         } else if (item.itemId == R.id.labels) {
             LabelsDialogFragment.newInstance(
-                if (presenter!!.getPullRequest() != null) presenter!!.getPullRequest()!!
+                if (presenter!!.pullRequest != null) presenter!!.pullRequest!!
                     .labels else null,
-                presenter!!.getRepoId(), presenter!!.getLogin()
+                presenter!!.repoId!!, presenter!!.login!!
             )
                 .show(supportFragmentManager, "LabelsDialogFragment")
             return true
         } else if (item.itemId == R.id.edit) {
             CreateIssueActivity.startForResult(
                 this,
-                presenter!!.getLogin(),
-                presenter!!.getRepoId(),
+                presenter!!.login!!,
+                presenter!!.repoId!!,
                 pullRequest,
                 isEnterprise
             )
             return true
         } else if (item.itemId == R.id.milestone) {
             MilestoneDialogFragment.newInstance(
-                presenter!!.getLogin(), presenter!!.getRepoId()
+                presenter!!.login!!, presenter!!.repoId!!
             )
                 .show(supportFragmentManager, "MilestoneDialogFragment")
             return true
         } else if (item.itemId == R.id.assignees) {
             AssigneesDialogFragment.newInstance(
-                presenter!!.getLogin(),
-                presenter!!.getRepoId(),
+                presenter!!.login!!,
+                presenter!!.repoId!!,
                 true
             )
                 .show(supportFragmentManager, "AssigneesDialogFragment")
             return true
         } else if (item.itemId == R.id.reviewers) {
             AssigneesDialogFragment.newInstance(
-                presenter!!.getLogin(),
-                presenter!!.getRepoId(),
+                presenter!!.login!!,
+                presenter!!.repoId!!,
                 false
             )
                 .show(supportFragmentManager, "AssigneesDialogFragment")
             return true
         } else if (item.itemId == R.id.merge) {
-            if (presenter!!.getPullRequest() != null) {
-                val msg = presenter!!.getPullRequest()!!.title
+            if (presenter!!.pullRequest != null) {
+                val msg = presenter!!.pullRequest!!.title
                 MergePullRequestDialogFragment.newInstance(msg)
                     .show(supportFragmentManager, "MergePullRequestDialogFragment")
             }
@@ -322,7 +322,7 @@ open class PullRequestPagerActivity :
         val pinUnpin = menu.findItem(R.id.pinUnpin)
         val isOwner = presenter!!.isOwner
         val isLocked = presenter!!.isLocked
-        val isCollaborator = presenter!!.isCollaborator()
+        val isCollaborator = presenter!!.isCollaborator
         val isRepoOwner = presenter!!.isRepoOwner
         val isMergable = presenter!!.isMergeable
         merge.isVisible = isMergable && (isRepoOwner || isCollaborator)
@@ -332,21 +332,21 @@ open class PullRequestPagerActivity :
         labels.isVisible = isCollaborator || isRepoOwner
         assignees.isVisible = isCollaborator || isRepoOwner
         edit.isVisible = isCollaborator || isRepoOwner || isOwner
-        if (presenter!!.getPullRequest() != null) {
+        if (presenter!!.pullRequest != null) {
             val isPinned = PinnedPullRequests.isPinned(
-                presenter!!.getPullRequest()!!.id
+                presenter!!.pullRequest!!.id
             )
             pinUnpin.icon = if (isPinned) ContextCompat.getDrawable(
                 this,
                 R.drawable.ic_pin_filled
             ) else ContextCompat.getDrawable(this, R.drawable.ic_pin)
             closeIssue.isVisible =
-                isRepoOwner || (isOwner || isCollaborator) && presenter!!.getPullRequest()!!
+                isRepoOwner || (isOwner || isCollaborator) && presenter!!.pullRequest!!
                     .state === IssueState.open
-            lockIssue.isVisible = isRepoOwner || isCollaborator && presenter!!.getPullRequest()!!
+            lockIssue.isVisible = isRepoOwner || isCollaborator && presenter!!.pullRequest!!
                 .state === IssueState.open
             closeIssue.title =
-                if (presenter!!.getPullRequest()!!.state === IssueState.closed) getString(R.string.re_open) else getString(
+                if (presenter!!.pullRequest!!.state === IssueState.closed) getString(R.string.re_open) else getString(
                     R.string.close
                 )
             lockIssue.title =
@@ -360,16 +360,16 @@ open class PullRequestPagerActivity :
 
     override fun onSetupIssue(update: Boolean) {
         hideProgress()
-        if (presenter!!.getPullRequest() == null) {
+        if (presenter!!.pullRequest == null) {
             return
         }
         invalidateOptionsMenu()
-        val pullRequest = presenter!!.getPullRequest()
+        val pullRequest = presenter!!.pullRequest
         setTaskName(pullRequest!!.repoId + " - " + pullRequest.title)
         updateViews(pullRequest)
         if (update) {
             val issueDetailsView = pullRequestTimelineFragment
-            if (issueDetailsView != null && presenter!!.getPullRequest() != null) {
+            if (issueDetailsView != null && presenter!!.pullRequest != null) {
                 issueDetailsView.onUpdateHeader()
             }
         } else {
@@ -455,7 +455,7 @@ open class PullRequestPagerActivity :
     override fun onUpdateTimeline() {
         invalidateOptionsMenu()
         val pullRequestDetailsView = pullRequestTimelineFragment
-        if (pullRequestDetailsView != null && presenter!!.getPullRequest() != null) {
+        if (pullRequestDetailsView != null && presenter!!.pullRequest != null) {
             pullRequestDetailsView.onRefresh()
         }
     }
@@ -487,8 +487,8 @@ open class PullRequestPagerActivity :
     override fun onNavToRepoClicked() {
         val intent = ActivityHelper.editBundle(
             RepoPagerActivity.createIntent(
-                this, presenter!!.getRepoId(),
-                presenter!!.getLogin(), RepoPagerMvp.PULL_REQUEST
+                this, presenter!!.repoId!!,
+                presenter!!.login!!, RepoPagerMvp.PULL_REQUEST
             ), isEnterprise
         )
         startActivity(intent)
@@ -513,7 +513,7 @@ open class PullRequestPagerActivity :
     }
 
     override val data: PullRequest?
-        get() = presenter!!.getPullRequest()
+        get() = presenter!!.pullRequest
 
     override fun onSendActionClicked(text: String, bundle: Bundle?) {
         val fragment = pullRequestTimelineFragment
@@ -564,19 +564,19 @@ open class PullRequestPagerActivity :
     }
 
     private fun addPrReview() {
-        val pullRequest = presenter!!.getPullRequest() ?: return
+        val pullRequest = presenter!!.pullRequest ?: return
         val author =
             (if (pullRequest.user != null) pullRequest.user else if (pullRequest.head != null && pullRequest.head.author != null) pullRequest.head.author else pullRequest.user)
                 ?: return
         val requestModel = ReviewRequestModel()
         requestModel.comments =
-            if (presenter.commitComment.isEmpty()) null else presenter.commitComment.filterNotNull()
+            if (presenter.commitComment.isEmpty()) null else presenter.commitComment
         requestModel.commitId = pullRequest.head.sha
         val isAuthor = Login.getUser().login.equals(author.login, ignoreCase = true)
         startForResult(
             requestModel,
-            presenter!!.getRepoId(),
-            presenter!!.getLogin(),
+            presenter!!.repoId!!,
+            presenter!!.login!!,
             pullRequest.number.toLong(),
             isAuthor,
             isEnterprise,
@@ -639,7 +639,7 @@ open class PullRequestPagerActivity :
     }
 
     private fun hideShowFab() {
-        if (presenter!!.isLocked && !presenter!!.isOwner && !presenter!!.isCollaborator()) {
+        if (presenter!!.isLocked && !presenter!!.isOwner && !presenter!!.isCollaborator) {
             supportFragmentManager.beginTransaction()
                 .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                 .hide(commentEditorFragment!!).commit()

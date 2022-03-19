@@ -2,17 +2,16 @@ package com.fastaccess.ui.modules.repos.git
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import com.google.android.material.textfield.TextInputLayout
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
-import butterknife.BindView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.fragment.app.FragmentManager
 import com.fastaccess.R
 import com.fastaccess.data.dao.EditRepoFileModel
 import com.fastaccess.helper.BundleConstant
@@ -21,19 +20,20 @@ import com.fastaccess.provider.emoji.Emoji
 import com.fastaccess.ui.base.BaseActivity
 import com.fastaccess.ui.widgets.markdown.MarkDownLayout
 import com.fastaccess.ui.widgets.markdown.MarkdownEditText
+import com.google.android.material.textfield.TextInputLayout
 
 /**
  * Created by kosh on 29/08/2017.
  */
-class EditRepoFileActivity : BaseActivity<EditRepoFileMvp.View, EditRepoFilePresenter>(), EditRepoFileMvp.View {
-
-    @BindView(R.id.markDownLayout) lateinit var markDownLayout: MarkDownLayout
-    @BindView(R.id.editText) lateinit var editText: MarkdownEditText
-    @BindView(R.id.description) lateinit var description: TextInputLayout
-    @BindView(R.id.fileName) lateinit var fileName: TextInputLayout
-    @BindView(R.id.fileNameHolder) lateinit var fileNameHolder: View
-    @BindView(R.id.commitHolder) lateinit var commitHolder: View
-    @BindView(R.id.layoutHolder) lateinit var layoutHolder: View
+class EditRepoFileActivity : BaseActivity<EditRepoFileMvp.View, EditRepoFilePresenter>(),
+    EditRepoFileMvp.View {
+    val markDownLayout: MarkDownLayout by lazy { decorViewFindViewById(R.id.markDownLayout)!! }
+    val editText: MarkdownEditText by lazy { decorViewFindViewById(R.id.editText)!! }
+    val description: TextInputLayout by lazy { decorViewFindViewById(R.id.description)!! }
+    val fileName: TextInputLayout by lazy { decorViewFindViewById(R.id.fileName)!! }
+    val commitHolder: View by lazy { decorViewFindViewById(R.id.commitHolder)!! }
+//    val layoutHolder: View by lazy { decorViewFindViewById(R.id.layoutHolder)!! }
+    //    val fileNameHolder: View by lazy { decorViewFindViewById(R.id.fileNameHolder)!! }
 
 
     override fun layout(): Int = R.layout.edit_repo_file_layout
@@ -81,11 +81,16 @@ class EditRepoFileActivity : BaseActivity<EditRepoFileMvp.View, EditRepoFilePres
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.submit) {
             val text = editText.text
-            if (presenter.fileContent == text.toString() && presenter.model?.fileName == fileName.editText?.text.toString()) {
+            if (presenter.fileContent == text.toString()
+                && presenter.model?.fileName == fileName.editText?.text.toString()) {
                 showErrorMessage(getString(R.string.commit_file_required))
                 return true
             }
-            presenter.onSubmit(editText.text?.toString(), fileName.editText?.text?.toString(), description.editText?.text?.toString())
+            presenter.onSubmit(
+                editText.text?.toString(),
+                fileName.editText?.text?.toString(),
+                description.editText?.text?.toString()
+            )
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -134,26 +139,43 @@ class EditRepoFileActivity : BaseActivity<EditRepoFileMvp.View, EditRepoFilePres
     }
 
     companion object {
-        const val EDIT_RQ = 2017
+//        const val EDIT_RQ = 2017
+//
+//        @Deprecated("use registerForActivityResult")
+//        fun startForResult(activity: Activity, model: EditRepoFileModel, isEnterprise: Boolean) {
+//            val bundle = Bundler.start()
+//                    .put(BundleConstant.IS_ENTERPRISE, isEnterprise)
+//                    .put(BundleConstant.ITEM, model)
+//                    .end()
+//            val intent = Intent(activity, EditRepoFileActivity::class.java)
+//            intent.putExtras(bundle)
+//            activity.startActivityForResult(intent, EDIT_RQ)
+//        }
+//
+//        @Deprecated("use registerForActivityResult")
+//        fun startForResult(fragment: Fragment, model: EditRepoFileModel, isEnterprise: Boolean) {
+//            val bundle = Bundler.start()
+//                    .put(BundleConstant.IS_ENTERPRISE, isEnterprise)
+//                    .put(BundleConstant.ITEM, model)
+//                    .end()
+//            val intent = Intent(fragment.context, EditRepoFileActivity::class.java)
+//            intent.putExtras(bundle)
+//            fragment.startActivityForResult(intent, EDIT_RQ)
+//        }
 
-        fun startForResult(activity: Activity, model: EditRepoFileModel, isEnterprise: Boolean) {
+        fun startForResult(
+            context: Context,
+            launcher: ActivityResultLauncher<Intent>,
+            model: EditRepoFileModel,
+            isEnterprise: Boolean
+        ) {
             val bundle = Bundler.start()
-                    .put(BundleConstant.IS_ENTERPRISE, isEnterprise)
-                    .put(BundleConstant.ITEM, model)
-                    .end()
-            val intent = Intent(activity, EditRepoFileActivity::class.java)
+                .put(BundleConstant.IS_ENTERPRISE, isEnterprise)
+                .put(BundleConstant.ITEM, model)
+                .end()
+            val intent = Intent(context, EditRepoFileActivity::class.java)
             intent.putExtras(bundle)
-            activity.startActivityForResult(intent, EDIT_RQ)
-        }
-
-        fun startForResult(fragment: Fragment, model: EditRepoFileModel, isEnterprise: Boolean) {
-            val bundle = Bundler.start()
-                    .put(BundleConstant.IS_ENTERPRISE, isEnterprise)
-                    .put(BundleConstant.ITEM, model)
-                    .end()
-            val intent = Intent(fragment.context, EditRepoFileActivity::class.java)
-            intent.putExtras(bundle)
-            fragment.startActivityForResult(intent, EDIT_RQ)
+            launcher.launch(intent)
         }
     }
 }

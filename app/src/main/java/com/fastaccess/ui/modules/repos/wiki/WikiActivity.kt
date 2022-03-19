@@ -50,21 +50,6 @@ class WikiActivity : BaseActivity<WikiMvp.View, WikiPresenter>(), WikiMvp.View {
     val stateLayout: StateLayout by lazy { window.decorView.findViewById(R.id.stateLayout) }
     val webView: PrettifyWebView by lazy { window.decorView.findViewById(R.id.webView) }
 
-    //    @BindView(R.id.wikiSidebar)
-//    lateinit var navMenu: NavigationView
-//    val webView: PrettifyWebView by lazy { binding.webView }
-//    @BindView(R.id.drawer)
-//    lateinit var drawerLayout: DrawerLayout
-
-//    @BindView(R.id.progress)
-//    lateinit var progressbar: ProgressBar
-
-//    @BindView(R.id.stateLayout)
-//    lateinit var stateLayout: StateLayout
-//
-//    @BindView(R.id.webView)
-//    lateinit var webView: PrettifyWebView
-
     @State
     var wiki = WikiContentModel(null, null, arrayListOf())
 
@@ -107,8 +92,10 @@ class WikiActivity : BaseActivity<WikiMvp.View, WikiPresenter>(), WikiMvp.View {
     private fun toSequence(sideBar: WikiSideBarModel): CharSequence {
         val sb = SpannableStringBuilder()
         var title = sideBar.title
-        if (sideBar.level == 2) {
-            title = "  $title"
+        when(sideBar.level) {
+            0 -> title = "● $title"
+            1 -> title = "● $title"
+            2 -> title = "○ $title"
         }
         val len = title.length
         sb.append(title)
@@ -147,7 +134,6 @@ class WikiActivity : BaseActivity<WikiMvp.View, WikiPresenter>(), WikiMvp.View {
                 R.id.languageGroup,
                 it.title.hashCode(),
                 Menu.NONE,
-                // Todo 不同的样式
                 toSequence(it)
             )
                 .setCheckable(true)
@@ -161,8 +147,6 @@ class WikiActivity : BaseActivity<WikiMvp.View, WikiPresenter>(), WikiMvp.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        this.navMenu = window.decorView.findViewById(R.id.wikiSidebar)
-//        this.stateLayout = window.decorView.findViewById(R.id.stateLayout)
         if (savedInstanceState != null) {
             onLoadContent(wiki)
         } else {
@@ -170,7 +154,8 @@ class WikiActivity : BaseActivity<WikiMvp.View, WikiPresenter>(), WikiMvp.View {
         }
         navMenu.setNavigationItemSelectedListener {
             onSidebarClicked(it)
-            return@setNavigationItemSelectedListener true
+            it.isChecked = true
+            true
         }
 
         toolbar?.subtitle = presenter.login + "/" + presenter.repoId
@@ -201,9 +186,6 @@ class WikiActivity : BaseActivity<WikiMvp.View, WikiPresenter>(), WikiMvp.View {
                 if (selectItem.link == nextSelectItem.link) {
                     if (nextSelectItem.hash != null && nextSelectItem.hash != selectItem.hash) {
                         webView.scrollToHash(nextSelectItem.hash!!)
-                        for (menu in navMenu.menu.iterator()) {
-                            menu.isChecked = menu.itemId == nextSelectItem.id
-                        }
                     }
                 } else {
                     presenter.onSidebarClicked(it)

@@ -55,7 +55,7 @@ class CommitFileChanges : Parcelable {
         }
 
         @JvmStatic
-        private fun getCommitFileChanges(m: CommitFileModel): CommitFileChanges {
+        fun getCommitFileChanges(m: CommitFileModel): CommitFileChanges {
             val model = CommitFileChanges()
             model.linesModel = CommitLinesModel.getLines(m.patch)
             if (m.patch != null) {

@@ -123,7 +123,7 @@ open class TimelineModel : Parcelable {
         }
 
         @JvmStatic
-        fun construct(comments: List<Comment?>?): Observable<List<TimelineModel>> {
+        fun construct(comments: List<Comment>?): Observable<List<TimelineModel>> {
             return if (comments == null || comments.isEmpty()) Observable.empty() else Observable.fromIterable(
                 comments
             )

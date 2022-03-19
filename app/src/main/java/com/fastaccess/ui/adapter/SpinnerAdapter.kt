@@ -24,18 +24,18 @@ class SpinnerAdapter<O>(private val context: Context, private val data: List<O>)
         return position.toLong()
     }
 
-    override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         return getRowView(position, convertView, parent, false)
     }
 
-    override fun getDropDownView(position: Int, convertView: View, parent: ViewGroup): View {
+    override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View {
         return getRowView(position, convertView, parent, true)
     }
 
     private fun getRowView(
         position: Int,
         convertView: View?,
-        parent: ViewGroup,
+        parent: ViewGroup?,
         isDropDown: Boolean
     ): View {
         var convertView1 = convertView

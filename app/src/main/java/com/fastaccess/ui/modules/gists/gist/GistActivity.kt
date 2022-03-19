@@ -1,5 +1,6 @@
 package com.fastaccess.ui.modules.gists.gist
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -142,7 +143,9 @@ class GistActivity : BaseActivity<GistMvp.View, GistPresenter>(), GistMvp.View {
     private val launcher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult(),
     ) {
-        presenter!!.callApi()
+        if (it.resultCode == Activity.RESULT_OK) {
+            presenter!!.callApi()
+        }
     }
 
     @OnClick(R.id.edit)

@@ -18,7 +18,6 @@ import com.fastaccess.ui.modules.repos.code.prettifier.ViewerFragment
 import com.fastaccess.ui.modules.repos.code.files.paths.RepoFilePathFragment
 import com.fastaccess.ui.modules.repos.code.commit.RepoCommitsFragment
 import com.fastaccess.ui.modules.repos.code.releases.RepoReleasesFragment
-import com.fastaccess.ui.modules.repos.code.contributors.RepoContributorsFragment
 import com.fastaccess.ui.modules.search.repos.SearchReposFragment
 import com.fastaccess.ui.modules.search.users.SearchUsersFragment
 import com.fastaccess.ui.modules.search.issues.SearchIssuesFragment
@@ -59,13 +58,14 @@ import com.fastaccess.ui.modules.pinned.pullrequest.PinnedPullRequestFragment
 import com.fastaccess.ui.modules.pinned.gist.PinnedGistFragment
 import com.fastaccess.ui.modules.main.drawer.MainDrawerFragment
 import com.fastaccess.ui.modules.main.drawer.AccountDrawerFragment
+import com.fastaccess.ui.modules.repos.code.contributors.RepoContributorsFragment
 
 /**
  * Created by Kosh on 03 Dec 2016, 9:26 AM
  */
 class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var key: String?) {
 
-    private constructor(title: String, fragment: Fragment?) : this(title, fragment, null) {}
+    private constructor(title: String, fragment: Fragment?) : this(title, fragment, null)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

@@ -1,5 +1,6 @@
 package com.fastaccess.ui.base
 
+import android.app.Activity
 import android.app.ActivityManager.TaskDescription
 import android.content.Context
 import android.content.Intent
@@ -96,6 +97,10 @@ abstract class BaseActivity<V : FAView, P : BasePresenter<V>> : TiActivity<P, V>
     protected abstract val isSecured: Boolean
     private val menuCallback: MutableList<(menu: Menu) -> Unit> = mutableListOf()
     private var drawerMenu: Menu? = null
+
+    protected fun <T : View> decorViewFindViewById(@IdRes id: Int): T? {
+        return window.decorView.findViewById(id)
+    }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -273,7 +278,9 @@ abstract class BaseActivity<V : FAView, P : BasePresenter<V>> : TiActivity<P, V>
     private val openSettingsLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {
-        onThemeChanged()
+        if (it.resultCode == Activity.RESULT_OK) {
+            onThemeChanged()
+        }
     }
 
     override fun onOpenSettings() {

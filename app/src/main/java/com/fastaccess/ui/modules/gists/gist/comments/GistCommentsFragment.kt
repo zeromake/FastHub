@@ -163,6 +163,9 @@ class GistCommentsFragment : BaseFragment<GistCommentsMvp.View, GistCommentsPres
     private val launcher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult(),
     ) {
+        if (it.resultCode != Activity.RESULT_OK) {
+            return@registerForActivityResult
+        }
         val data = it.data
         if (data == null) {
             onRefresh()

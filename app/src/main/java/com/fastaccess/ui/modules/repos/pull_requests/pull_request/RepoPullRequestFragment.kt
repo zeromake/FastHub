@@ -1,5 +1,6 @@
 package com.fastaccess.ui.modules.repos.pull_requests.pull_request
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.View
@@ -130,22 +131,23 @@ class RepoPullRequestFragment : BaseFragment<RepoPullRequestMvp.View, RepoPullRe
         super.showMessage(titleRes, msgRes)
     }
 
-    override fun getLoadMore(): OnLoadMore<IssueState> {
-        if (onLoadMore == null) {
-            onLoadMore = object : OnLoadMore<IssueState>(presenter) {
-                override fun onScrolled(isUp: Boolean) {
-                    super.onScrolled(isUp)
-                    if (pagerCallback != null) pagerCallback!!.onScrolled(isUp)
+    override val loadMore: OnLoadMore<IssueState>
+        get() {
+            if (onLoadMore == null) {
+                onLoadMore = object : OnLoadMore<IssueState>(presenter) {
+                    override fun onScrolled(isUp: Boolean) {
+                        super.onScrolled(isUp)
+                        if (pagerCallback != null) pagerCallback!!.onScrolled(isUp)
+                    }
                 }
             }
+            onLoadMore!!.parameter = issueState
+            return onLoadMore!!
         }
-        onLoadMore!!.parameter = issueState
-        return onLoadMore!!
-    }
 
     override fun onUpdateCount(totalCount: Int) {
         if (tabsBadgeListener != null) tabsBadgeListener!!.onSetBadge(
-            if (presenter!!.getIssueState() === IssueState.open) 0 else 1,
+            if (presenter!!.issueState === IssueState.open) 0 else 1,
             totalCount
         )
     }
@@ -153,6 +155,9 @@ class RepoPullRequestFragment : BaseFragment<RepoPullRequestMvp.View, RepoPullRe
     private val openPullLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {
+        if (it.resultCode != Activity.RESULT_OK) {
+            return@registerForActivityResult
+        }
         it?.data?.let { data ->
             val isClose = data.extras!!.getBoolean(BundleConstant.EXTRA)
             val isOpened = data.extras!!.getBoolean(BundleConstant.EXTRA_TWO)

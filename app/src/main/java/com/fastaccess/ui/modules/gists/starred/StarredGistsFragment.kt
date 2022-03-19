@@ -116,7 +116,7 @@ class StarredGistsFragment : BaseFragment<StarredGistsMvp.View, StarredGistsPres
         ActivityResultContracts.StartActivityForResult(),
     ) {
         val data = it.data
-        if (data != null && data.extras != null) {
+        if (it.resultCode == Activity.RESULT_OK && data != null && data.extras != null) {
             val gistsModel: Gist? = data.extras!!.getParcelable(BundleConstant.ITEM)
             if (gistsModel != null && adapter != null) {
                 adapter!!.removeItem(gistsModel)

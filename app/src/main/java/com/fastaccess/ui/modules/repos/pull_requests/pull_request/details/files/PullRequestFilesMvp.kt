@@ -19,12 +19,12 @@ interface PullRequestFilesMvp {
     interface View : FAView, OnRefreshListener, android.view.View.OnClickListener, OnToggleView,
         OnPatchClickListener, ReviewCommentListener {
         fun onNotifyAdapter(items: List<CommitFileChanges>, page: Int)
-        val loadMore: OnLoadMore<*>
+        val loadMore: OnLoadMore<String>
         fun onOpenForResult(position: Int, linesModel: CommitFileChanges)
     }
 
     interface Presenter : FAPresenter, BaseViewHolder.OnItemClickListener<CommitFileChanges>,
-        PaginationListener<Any?> {
+        PaginationListener<String> {
         fun onFragmentCreated(bundle: Bundle)
         val files: ArrayList<CommitFileChanges>
         fun onWorkOffline()
@@ -45,7 +45,7 @@ interface PullRequestFilesMvp {
     }
 
     interface CommitCommentCallback {
-        val commitComment: ArrayList<CommentRequestModel?>
+        val commitComment: ArrayList<CommentRequestModel>
         fun onAddComment(comment: CommentRequestModel)
         fun hasReviewComments(): Boolean
     }

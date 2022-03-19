@@ -1,5 +1,6 @@
 package com.fastaccess.ui.modules.repos.issues.issue
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.View
@@ -167,7 +168,10 @@ class RepoClosedIssuesFragment : BaseFragment<RepoIssuesMvp.View, RepoIssuesPres
     private val openIssueLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {
-        it?.data?.let { data ->
+        if (it.resultCode != Activity.RESULT_OK) {
+            return@registerForActivityResult
+        }
+        it.data?.let { data ->
             val isClose = data.extras!!.getBoolean(BundleConstant.EXTRA)
             val isOpened = data.extras!!.getBoolean(BundleConstant.EXTRA_TWO)
             if (isClose) {

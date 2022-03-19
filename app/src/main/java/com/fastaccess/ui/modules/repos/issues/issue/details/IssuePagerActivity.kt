@@ -400,7 +400,7 @@ class IssuePagerActivity : BaseActivity<IssuePagerMvp.View, IssuePagerPresenter>
         presenter!!.onPutLabels(labels)
     }
 
-    override fun onSelectedAssignees(users: ArrayList<User>, isAssignee: Boolean) {
+    override fun onSelectedAssignees(users: ArrayList<User>, isAssignees: Boolean) {
         presenter!!.onPutAssignees(users)
     }
 

@@ -94,23 +94,33 @@ class PullRequestTimelinePresenter : BasePresenter<PullRequestTimelineMvp.View>(
                     launchUri(v!!.context, Uri.parse(issueEventModel.commitUrl))
                 } else if (issueEventModel.label != null) {
                     FilterIssuesActivity.startActivity(
-                        v!!, pullRequest.login, pullRequest.repoId, false,
-                        true, isEnterprise, "label:\"" + issueEventModel.label!!.name + "\""
+                        v!!,
+                        pullRequest.login,
+                        pullRequest.repoId,
+                        isIssue = false,
+                        isOpen = true,
+                        isEnterprise = isEnterprise,
+                        criteria = "label:\"" + issueEventModel.label!!.name + "\""
                     )
                 } else if (issueEventModel.milestone != null) {
                     FilterIssuesActivity.startActivity(
                         v!!,
                         pullRequest.login,
                         pullRequest.repoId,
-                        false,
-                        true,
-                        isEnterprise,
-                        "milestone:\"" + issueEventModel.milestone!!.title + "\""
+                        isIssue = false,
+                        isOpen = true,
+                        isEnterprise = isEnterprise,
+                        criteria = "milestone:\"" + issueEventModel.milestone!!.title + "\""
                     )
                 } else if (issueEventModel.assignee != null) {
                     FilterIssuesActivity.startActivity(
-                        v!!, pullRequest.login, pullRequest.repoId, false,
-                        true, isEnterprise, "assignee:\"" + issueEventModel.assignee!!.login + "\""
+                        v!!,
+                        pullRequest.login,
+                        pullRequest.repoId,
+                        false,
+                        isOpen = true,
+                        isEnterprise = isEnterprise,
+                        criteria = "assignee:\"" + issueEventModel.assignee!!.login + "\""
                     )
                 } else if (issueEventModel.event === IssueEventType.committed) {
                     launchUri(v!!.context, issueEventModel.url!!.replace("git/", ""))
@@ -227,9 +237,8 @@ class PullRequestTimelinePresenter : BasePresenter<PullRequestTimelineMvp.View>(
         }
     }
 
-    override fun getEvents(): ArrayList<TimelineModel> {
-        return timeline
-    }
+    override val events: ArrayList<TimelineModel>
+        get() = timeline
 
     override fun onWorkOffline() {
         //TODO
@@ -244,11 +253,12 @@ class PullRequestTimelinePresenter : BasePresenter<PullRequestTimelineMvp.View>(
             val commId = bundle.getLong(BundleConstant.EXTRA, 0)
             val isReviewComment = bundle.getBoolean(BundleConstant.YES_NO_EXTRA)
             if (commId != 0L && !isReviewComment) {
-                makeRestCall(getIssueService(isEnterprise).deleteIssueComment(
-                    login,
-                    repoId,
-                    commId
-                )
+                makeRestCall(
+                    getIssueService(isEnterprise).deleteIssueComment(
+                        login,
+                        repoId,
+                        commId
+                    )
                 ) { booleanResponse ->
                     sendToView { view ->
                         if (booleanResponse.code() == 204) {
@@ -266,7 +276,8 @@ class PullRequestTimelinePresenter : BasePresenter<PullRequestTimelineMvp.View>(
             } else {
                 val groupPosition = bundle.getInt(BundleConstant.EXTRA_TWO)
                 val commentPosition = bundle.getInt(BundleConstant.EXTRA_THREE)
-                makeRestCall(getReviewService(isEnterprise).deleteComment(login, repoId, commId)
+                makeRestCall(
+                    getReviewService(isEnterprise).deleteComment(login, repoId, commId)
                 ) { booleanResponse ->
                     sendToView { view ->
                         if (booleanResponse.code() == 204) {
@@ -299,8 +310,10 @@ class PullRequestTimelinePresenter : BasePresenter<PullRequestTimelineMvp.View>(
         observable?.let { manageObservable(it) }
     }
 
-    override fun isMerged(pullRequest: PullRequest): Boolean {
-        return pullRequest.isMerged || !isEmpty(pullRequest.mergedAt)
+    override fun isMerged(pullRequest: PullRequest?): Boolean {
+        return pullRequest != null
+                && (pullRequest.isMerged
+                || !isEmpty(pullRequest.mergedAt))
     }
 
     override fun isCallingApi(id: Long, vId: Int): Boolean {
@@ -402,7 +415,7 @@ class PullRequestTimelinePresenter : BasePresenter<PullRequestTimelineMvp.View>(
         groupPosition: Int,
         commentPosition: Int,
         v: View,
-        model: ReviewCommentModel
+        comment: ReviewCommentModel
     ) {
         if (view == null || view!!.pullRequest == null) return
         val pullRequest = view!!.pullRequest
@@ -415,11 +428,11 @@ class PullRequestTimelinePresenter : BasePresenter<PullRequestTimelineMvp.View>(
                     type,
                     login,
                     repoId,
-                    model.id,
+                    comment.id,
                     ReactionsProvider.REVIEW_COMMENT
                 )
             } else {
-                onClick(groupPosition, commentPosition, v, model)
+                onClick(groupPosition, commentPosition, v, comment)
             }
         }
     }
@@ -465,12 +478,12 @@ class PullRequestTimelinePresenter : BasePresenter<PullRequestTimelineMvp.View>(
                         repoId,
                         parameter.head.sha
                     )
-                    .onErrorReturn {
-                        getPullRequestService(isEnterprise).getPullStatus(
-                            login, repoId,
-                            parameter.base.sha
-                        ).blockingFirst(PullRequestStatusModel())
-                    }
+                        .onErrorReturn {
+                            getPullRequestService(isEnterprise).getPullStatus(
+                                login, repoId,
+                                parameter.base.sha
+                            ).blockingFirst(PullRequestStatusModel())
+                        }
                 ) { response, comments, status ->
                     lastPage = response.last
                     val models = convert(response.items, comments).toMutableList()

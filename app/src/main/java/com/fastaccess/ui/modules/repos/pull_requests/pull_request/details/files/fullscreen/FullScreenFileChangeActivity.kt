@@ -1,6 +1,7 @@
 package com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.files.fullscreen
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import androidx.activity.result.ActivityResultLauncher
 import butterknife.BindView
 import com.fastaccess.R
 import com.fastaccess.data.dao.CommentRequestModel
@@ -30,15 +32,30 @@ import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
  * Created by Hashemsergani on 24.09.17.
  */
 
-class FullScreenFileChangeActivity : BaseActivity<FullScreenFileChangeMvp.View, FullScreenFileChangePresenter>(), FullScreenFileChangeMvp.View {
+class FullScreenFileChangeActivity :
+    BaseActivity<FullScreenFileChangeMvp.View, FullScreenFileChangePresenter>(),
+    FullScreenFileChangeMvp.View {
 
-    @BindView(R.id.recycler) lateinit var recycler: DynamicRecyclerView
-    @BindView(R.id.refresh) lateinit var refresh: SwipeRefreshLayout
-    @BindView(R.id.stateLayout) lateinit var stateLayout: StateLayout
-    @BindView(R.id.fastScroller) lateinit var fastScroller: RecyclerViewFastScroller
-    @BindView(R.id.changes) lateinit var changes: TextView
-    @BindView(R.id.deletion) lateinit var deletion: TextView
-    @BindView(R.id.addition) lateinit var addition: TextView
+    @BindView(R.id.recycler)
+    lateinit var recycler: DynamicRecyclerView
+
+    @BindView(R.id.refresh)
+    lateinit var refresh: SwipeRefreshLayout
+
+    @BindView(R.id.stateLayout)
+    lateinit var stateLayout: StateLayout
+
+    @BindView(R.id.fastScroller)
+    lateinit var fastScroller: RecyclerViewFastScroller
+
+    @BindView(R.id.changes)
+    lateinit var changes: TextView
+
+    @BindView(R.id.deletion)
+    lateinit var deletion: TextView
+
+    @BindView(R.id.addition)
+    lateinit var addition: TextView
 
     val commentList = arrayListOf<CommentRequestModel>()
 
@@ -119,12 +136,14 @@ class FullScreenFileChangeActivity : BaseActivity<FullScreenFileChangeMvp.View, 
         if (item.text?.startsWith("@@")!!) return
         val commit = presenter.model?.commitFileModel ?: return
         if (PrefGetter.isProEnabled) {
-            AddReviewDialogFragment.newInstance(item, Bundler.start()
+            AddReviewDialogFragment.newInstance(
+                item, Bundler.start()
                     .put(BundleConstant.ITEM, commit.filename)
                     .put(BundleConstant.EXTRA_TWO, presenter.position)
                     .put(BundleConstant.EXTRA_THREE, position)
-                    .end())
-                    .show(supportFragmentManager, "AddReviewDialogFragment")
+                    .end()
+            )
+                .show(supportFragmentManager, "AddReviewDialogFragment")
         } else {
             PremiumActivity.startActivity(this)
         }
@@ -156,22 +175,31 @@ class FullScreenFileChangeActivity : BaseActivity<FullScreenFileChangeMvp.View, 
 
     private fun sendResult() {
         val intent = Intent()
-        intent.putExtras(Bundler.start().putParcelableArrayList(BundleConstant.ITEM, commentList).end())
+        intent.putExtras(
+            Bundler.start().putParcelableArrayList(BundleConstant.ITEM, commentList).end()
+        )
         setResult(Activity.RESULT_OK, intent)
         finish()
     }
 
 
     companion object {
-        const val FOR_RESULT_CODE = 1002
-        fun startActivityForResult(fragment: Fragment, model: CommitFileChanges, position: Int, isCommit: Boolean = false) {
-            val intent = Intent(fragment.context, FullScreenFileChangeActivity::class.java)
-            intent.putExtras(Bundler.start()
+        fun startLauncherForResult(
+            context: Context,
+            launcher: ActivityResultLauncher<Intent>,
+            model: CommitFileChanges,
+            position: Int,
+            isCommit: Boolean = false,
+        ) {
+            val intent = Intent(context, FullScreenFileChangeActivity::class.java)
+            intent.putExtras(
+                Bundler.start()
                     .put(BundleConstant.EXTRA, model)
                     .put(BundleConstant.ITEM, position)
                     .put(BundleConstant.YES_NO_EXTRA, isCommit)
-                    .end())
-            fragment.startActivityForResult(intent, FOR_RESULT_CODE)
+                    .end()
+            )
+            launcher.launch(intent)
         }
     }
 }

@@ -75,7 +75,8 @@ class GistsListActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FAV
 
     private var createLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult(),
-    ) {}
+    ) {
+    }
 
     private fun onViewClicked() {
         ActivityHelper.startLauncher(

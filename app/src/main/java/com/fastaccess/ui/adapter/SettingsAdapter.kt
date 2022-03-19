@@ -1,6 +1,7 @@
 package com.fastaccess.ui.adapter
 
 import android.content.Context
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
@@ -14,6 +15,8 @@ import com.fastaccess.ui.widgets.ForegroundImageView
  */
 class SettingsAdapter(context: Context, private val settings: ArrayList<SettingsModel>) :
     BaseAdapter() {
+    private val inflater: LayoutInflater = LayoutInflater.from(context)
+
     override fun getCount(): Int {
         return settings.size
     }
@@ -26,13 +29,21 @@ class SettingsAdapter(context: Context, private val settings: ArrayList<Settings
         return position.toLong()
     }
 
-    override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
-        val viewHolder: ViewHolder = convertView.tag as ViewHolder
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+        var rootView = convertView
+        lateinit var viewHolder: ViewHolder
+        if (rootView == null) {
+            rootView = inflater.inflate(R.layout.icon_row_item, parent, false)
+            viewHolder = ViewHolder(rootView)
+            rootView.tag = viewHolder
+        } else {
+            viewHolder = rootView.tag as ViewHolder
+        }
         val model = getItem(position)
         viewHolder.title.text = model.title
         viewHolder.image.setImageResource(model.image)
         viewHolder.summary.visibility = View.GONE
-        return convertView
+        return rootView!!
     }
 
     internal class ViewHolder(view: View) {

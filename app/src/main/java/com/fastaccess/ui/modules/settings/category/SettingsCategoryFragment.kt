@@ -1,5 +1,6 @@
 package com.fastaccess.ui.modules.settings.category
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -139,8 +140,9 @@ class SettingsCategoryFragment : PreferenceFragmentCompat(), Preference.OnPrefer
     private val fileChooserLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {
-        it?.data ?: return@registerForActivityResult
-        restoreData(it.data)
+        if (it.resultCode == Activity.RESULT_OK && it.data != null) {
+            restoreData(it.data)
+        }
     }
 
     private fun getBackupUri(): Uri {
@@ -163,8 +165,9 @@ class SettingsCategoryFragment : PreferenceFragmentCompat(), Preference.OnPrefer
     private val fileBackupChooserLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {
-        it?.data ?: return@registerForActivityResult
-        backupData(it.data!!)
+        if (it.resultCode == Activity.RESULT_OK && it.data != null) {
+            backupData(it.data!!)
+        }
     }
 
     private fun showFileBackupChooser() {

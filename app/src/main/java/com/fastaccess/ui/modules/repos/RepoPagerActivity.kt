@@ -38,14 +38,13 @@ import com.fastaccess.ui.adapter.TopicsAdapter
 import com.fastaccess.ui.base.BaseActivity
 import com.fastaccess.ui.modules.filter.issues.FilterIssuesActivity
 import com.fastaccess.ui.modules.main.MainActivity.Companion.launchMainActivity
-import com.fastaccess.ui.modules.repos.RepoPagerActivity
 import com.fastaccess.ui.modules.repos.RepoPagerMvp.RepoNavigationType
 import com.fastaccess.ui.modules.repos.code.RepoCodePagerFragment
 import com.fastaccess.ui.modules.repos.extras.labels.LabelsDialogFragment
 import com.fastaccess.ui.modules.repos.extras.license.RepoLicenseBottomSheet.Companion.newInstance
 import com.fastaccess.ui.modules.repos.extras.milestone.create.MilestoneDialogFragment
 import com.fastaccess.ui.modules.repos.extras.misc.RepoMiscDialogFragment
-import com.fastaccess.ui.modules.repos.extras.misc.RepoMiscMVp
+import com.fastaccess.ui.modules.repos.extras.misc.RepoMiscMvp
 import com.fastaccess.ui.modules.repos.issues.RepoIssuesPagerFragment
 import com.fastaccess.ui.modules.repos.pull_requests.RepoPullRequestPagerFragment
 import com.fastaccess.ui.modules.repos.wiki.WikiActivity.Companion.getWiki
@@ -223,7 +222,7 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
                 override fun onHidden(fab: FloatingActionButton) {
                     super.onHidden(fab)
                     if (appbar != null) appbar!!.setExpanded(false, true)
-                    bottomNavigation!!.setExpanded(false, true)
+                    bottomNavigation!!.setExpanded(expanded = false, animate = true)
                     mimicFabVisibility(true, filterLayout!!, null)
                 }
             })
@@ -267,9 +266,12 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
 
     @OnClick(R.id.detailsIcon)
     fun onTitleClick() {
-        val repoModel = presenter!!.getRepo()
+        val repoModel = presenter!!.repo
         if (repoModel != null && !isEmpty(repoModel.description)) {
-            newInstance(repoModel.fullName, repoModel.description, false, true)
+            newInstance(repoModel.fullName, repoModel.description,
+                isMarkDown = false,
+                hideCancel = true
+            )
                 .show(supportFragmentManager, MessageDialogView.TAG)
         }
     }
@@ -308,7 +310,7 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
                     this,
                     presenter!!.login(),
                     presenter!!.repoId(),
-                    if (presenter!!.isStarred()) GithubActionService.UNSTAR_REPO else GithubActionService.STAR_REPO,
+                    if (presenter!!.isStarred) GithubActionService.UNSTAR_REPO else GithubActionService.STAR_REPO,
                     isEnterprise
                 )
                 presenter!!.onStar()
@@ -321,7 +323,7 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
                     this,
                     presenter!!.login(),
                     presenter!!.repoId(),
-                    if (presenter!!.isWatched()) GithubActionService.UNWATCH_REPO else GithubActionService.WATCH_REPO,
+                    if (presenter!!.isWatched) GithubActionService.UNWATCH_REPO else GithubActionService.WATCH_REPO,
                     isEnterprise
                 )
                 presenter!!.onWatch()
@@ -335,8 +337,8 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
                 getWiki(this, repoId, login),
                 wikiLayout!!
             )
-            R.id.licenseLayout -> if (presenter!!.getRepo() != null) {
-                val licenseModel = presenter!!.getRepo()!!.license
+            R.id.licenseLayout -> if (presenter!!.repo != null) {
+                val licenseModel = presenter!!.repo!!.license
                 val license =
                     if (!isEmpty(licenseModel.spdxId)) licenseModel.spdxId else licenseModel.name
                 newInstance(presenter!!.login(), presenter!!.repoId(), license!!)
@@ -353,7 +355,7 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
                     supportFragmentManager,
                     login!!,
                     repoId!!,
-                    RepoMiscMVp.FORKS
+                    RepoMiscMvp.FORKS
                 )
                 return true
             }
@@ -362,7 +364,7 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
                     supportFragmentManager,
                     login!!,
                     repoId!!,
-                    RepoMiscMVp.STARS
+                    RepoMiscMvp.STARS
                 )
                 return true
             }
@@ -371,7 +373,7 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
                     supportFragmentManager,
                     login!!,
                     repoId!!,
-                    RepoMiscMVp.WATCHERS
+                    RepoMiscMvp.WATCHERS
                 )
                 return true
             }
@@ -462,7 +464,7 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
 
     override fun onInitRepo() {
         hideProgress()
-        if (presenter!!.getRepo() == null) {
+        if (presenter!!.repo == null) {
             return
         }
         when (showWhich) {
@@ -477,8 +479,8 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
                 .show(supportFragmentManager, "LabelsDialogFragment")
         }
         showWhich = -1
-        setTaskName(presenter!!.getRepo()!!.fullName)
-        val repoModel = presenter!!.getRepo()
+        setTaskName(presenter!!.repo!!.fullName)
+        val repoModel = presenter!!.repo
         if (repoModel!!.isHasProjects) {
             bottomNavigation!!.inflateMenu(R.menu.repo_with_project_bottom_nav_menu)
         }
@@ -529,9 +531,9 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
                 if (!isEmpty(licenseModel.spdxId)) licenseModel.spdxId else licenseModel.name
         }
         invalidateOptionsMenu()
-        onRepoWatched(presenter!!.isWatched())
-        onRepoStarred(presenter!!.isStarred())
-        onRepoForked(presenter!!.isForked())
+        onRepoWatched(presenter!!.isWatched)
+        onRepoStarred(presenter!!.isStarred)
+        onRepoForked(presenter!!.isForked)
     }
 
     override fun onRepoWatched(isWatched: Boolean) {
@@ -617,9 +619,10 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
         }
     }
 
-    override fun isCollaborator(): Boolean {
-        return presenter!!.isRepoOwner
-    }
+    override val isCollaborator: Boolean
+        get() {
+            return presenter!!.isRepoOwner
+        }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.repo_menu, menu)
@@ -627,7 +630,7 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        val repoModel = presenter!!.getRepo()
+        val repoModel = presenter!!.repo
         if (repoModel != null && repoModel.isFork && repoModel.parent != null) {
             val menuItem = menu.findItem(R.id.originalRepo)
             menuItem.isVisible = true
@@ -646,29 +649,29 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
                 finish()
             }
             R.id.share -> {
-                if (presenter!!.getRepo() != null) ActivityHelper.shareUrl(
-                    this, presenter!!.getRepo()!!
+                if (presenter!!.repo != null) ActivityHelper.shareUrl(
+                    this, presenter!!.repo!!
                         .htmlUrl
                 )
                 return true
             }
             R.id.browser -> {
-                if (presenter!!.getRepo() != null) ActivityHelper.startCustomTab(
-                    this, presenter!!.getRepo()!!
+                if (presenter!!.repo != null) ActivityHelper.startCustomTab(
+                    this, presenter!!.repo!!
                         .htmlUrl
                 )
                 return true
             }
             R.id.copy -> {
-                if (presenter!!.getRepo() != null) AppHelper.copyToClipboard(
-                    this, presenter!!.getRepo()!!
+                if (presenter!!.repo != null) AppHelper.copyToClipboard(
+                    this, presenter!!.repo!!
                         .htmlUrl
                 )
                 return true
             }
             R.id.originalRepo -> {
-                if (presenter!!.getRepo() != null && presenter!!.getRepo()!!.parent != null) {
-                    val parent = presenter!!.getRepo()!!.parent
+                if (presenter!!.repo != null && presenter!!.repo!!.parent != null) {
+                    val parent = presenter!!.repo!!.parent
                     launchUri(this, parent.htmlUrl)
                 }
                 return true
@@ -692,7 +695,7 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
             val isDelete = bundle.getBoolean(BundleConstant.EXTRA_TWO)
             val fork = bundle.getBoolean(BundleConstant.EXTRA)
             if (fork) {
-                if (!presenter!!.isForked()) {
+                if (!presenter!!.isForked) {
                     startForRepo(
                         this, presenter!!.login(), presenter!!.repoId(),
                         GithubActionService.FORK_REPO, isEnterprise
@@ -753,20 +756,24 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
     }
 
     private fun showHideFab() {
-        if (navType == RepoPagerMvp.ISSUES) {
-            fab!!.setImageResource(R.drawable.ic_menu)
-            fab!!.show()
-        } else if (navType == RepoPagerMvp.PULL_REQUEST) {
-            fab!!.setImageResource(R.drawable.ic_search)
-            fab!!.show()
-        } else {
-            fab!!.hide()
+        when (navType) {
+            RepoPagerMvp.ISSUES -> {
+                fab!!.setImageResource(R.drawable.ic_menu)
+                fab!!.show()
+            }
+            RepoPagerMvp.PULL_REQUEST -> {
+                fab!!.setImageResource(R.drawable.ic_search)
+                fab!!.show()
+            }
+            else -> {
+                fab!!.hide()
+            }
         }
     }
 
     private fun hideFilterLayout() {
         mimicFabVisibility(false, filterLayout!!, object : OnVisibilityChangedListener() {
-            override fun onHidden(actionButton: FloatingActionButton) {
+            override fun onHidden(actionButton: FloatingActionButton?) {
                 fab!!.show()
             }
         })

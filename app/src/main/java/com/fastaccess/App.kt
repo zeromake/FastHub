@@ -26,20 +26,15 @@ import io.requery.sql.TableCreationMode
  * Created by Kosh on 03 Feb 2017, 12:07 AM
  */
 class App : Application() {
-    var dataStore: ReactiveEntityStore<Persistable>? = null
-        get() {
-            if (field == null) {
-                val model = Models.DEFAULT
-                val source = DatabaseSource(this, model, "FastHub-DB", 18)
-                val configuration = source.configuration
-                if (BuildConfig.DEBUG) {
-                    source.setTableCreationMode(TableCreationMode.CREATE_NOT_EXISTS)
-                }
-                field = ReactiveSupport.toReactiveStore(EntityDataStore(configuration))
-            }
-            return field
+    val dataStore: ReactiveEntityStore<Persistable> by lazy {
+        val model = Models.DEFAULT
+        val source = DatabaseSource(this, model, "FastHub-DB", 18)
+        val configuration = source.configuration
+        if (BuildConfig.DEBUG) {
+            source.setTableCreationMode(TableCreationMode.CREATE_NOT_EXISTS)
         }
-        private set
+        ReactiveSupport.toReactiveStore(EntityDataStore(configuration))
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -85,11 +80,11 @@ class App : Application() {
     }
 
     companion object {
-        private var instance: App? = null
+        private lateinit var instance: App
 
         @JvmStatic
         fun getInstance(): App {
-            return instance!!
+            return instance
         }
     }
 }

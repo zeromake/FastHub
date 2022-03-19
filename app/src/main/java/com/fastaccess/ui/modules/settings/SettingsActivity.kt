@@ -1,5 +1,6 @@
 package com.fastaccess.ui.modules.settings
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -131,6 +132,9 @@ class SettingsActivity : BaseActivity<FAView, BasePresenter<FAView>>(), Language
     private val launcher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult(),
     ) {
+        if (it.resultCode != Activity.RESULT_OK) {
+            return@registerForActivityResult
+        }
         it.data?.let {
             setResult(THEME_CHANGE)
             finish()

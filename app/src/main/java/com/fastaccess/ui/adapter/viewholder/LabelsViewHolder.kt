@@ -33,7 +33,7 @@ class LabelsViewHolder private constructor(
         if (onSelectLabel != null) {
             val position = adapterPosition
             if (adapter != null) {
-                val labelModel = adapter.getItem(position)
+                val labelModel = adapter.getItem(position)!!
                 onSelectLabel.onToggleSelection(
                     labelModel,
                     !onSelectLabel.isLabelSelected(labelModel)

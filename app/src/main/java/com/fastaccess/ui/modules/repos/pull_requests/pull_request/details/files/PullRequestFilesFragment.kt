@@ -2,9 +2,9 @@ package com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.files
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import butterknife.BindView
@@ -26,8 +26,7 @@ import com.fastaccess.ui.base.BaseFragment
 import com.fastaccess.ui.modules.main.premium.PremiumActivity.Companion.startActivity
 import com.fastaccess.ui.modules.repos.issues.issue.details.IssuePagerMvp.IssuePrCallback
 import com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.files.PullRequestFilesMvp.PatchCallback
-import com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.files.fullscreen.FullScreenFileChangeActivity
-import com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.files.fullscreen.FullScreenFileChangeActivity.Companion.startActivityForResult
+import com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.files.fullscreen.FullScreenFileChangeActivity.Companion.startLauncherForResult
 import com.fastaccess.ui.modules.reviews.AddReviewDialogFragment.Companion.newInstance
 import com.fastaccess.ui.widgets.FontTextView
 import com.fastaccess.ui.widgets.StateLayout
@@ -72,7 +71,7 @@ class PullRequestFilesFragment :
     @BindView(R.id.deletion)
     var deletion: FontTextView? = null
     private var viewCallback: PatchCallback? = null
-    private var onLoadMore: OnLoadMore<*>? = null
+    private var onLoadMore: OnLoadMore<String>? = null
     private var adapter: CommitFilesAdapter? = null
     private var issueCallback: IssuePrCallback<PullRequest>? = null
     override fun onAttach(context: Context) {
@@ -179,7 +178,7 @@ class PullRequestFilesFragment :
         super.showMessage(titleRes, msgRes)
     }
 
-    override val loadMore: OnLoadMore<*>
+    override val loadMore: OnLoadMore<String>
         get() {
             if (onLoadMore == null) {
                 onLoadMore = OnLoadMore(presenter)
@@ -187,8 +186,26 @@ class PullRequestFilesFragment :
             return onLoadMore!!
         }
 
+    val launcher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        if (it.resultCode == Activity.RESULT_OK && it.data != null) {
+            val data = it.data!!
+            val comments: List<CommentRequestModel> =
+                data.getParcelableArrayListExtra(BundleConstant.ITEM) ?: listOf()
+            if (comments.isNotEmpty()) {
+                if (viewCallback != null) {
+                    for (comment in comments) {
+                        viewCallback!!.onAddComment(comment)
+                    }
+                    showMessage(R.string.success, R.string.comments_added_successfully)
+                }
+            }
+        }
+    }
+
     override fun onOpenForResult(position: Int, linesModel: CommitFileChanges) {
-        startActivityForResult(this, linesModel, position, false)
+        startLauncherForResult(requireContext(), launcher, linesModel, position, false)
     }
 
     override fun onRefresh() {
@@ -199,8 +216,8 @@ class PullRequestFilesFragment :
         onRefresh()
     }
 
-    override fun onToggle(position: Long, isCollapsed: Boolean) {
-        val model = adapter!!.getItem(position.toInt()) ?: return
+    override fun onToggle(id: Long, isCollapsed: Boolean) {
+        val model = adapter!!.getItem(id.toInt()) ?: return
         if (model.commitFileModel!!.patch == null) {
             if ("renamed".equals(model.commitFileModel!!.status, ignoreCase = true)) {
                 launchUri(requireContext(), model.commitFileModel!!.blobUrl!!)
@@ -208,14 +225,14 @@ class PullRequestFilesFragment :
             }
             ActivityHelper.startCustomTab(
                 requireActivity(),
-                adapter!!.getItem(position.toInt())!!.commitFileModel!!.blobUrl!!
+                adapter!!.getItem(id.toInt())!!.commitFileModel!!.blobUrl!!
             )
         }
-        toggleMap[position] = isCollapsed
+        toggleMap[id] = isCollapsed
     }
 
-    override fun isCollapsed(position: Long): Boolean {
-        val toggle = toggleMap[position]
+    override fun isCollapsed(id: Long): Boolean {
+        val toggle = toggleMap[id]
         return toggle != null && toggle
     }
 
@@ -257,7 +274,8 @@ class PullRequestFilesFragment :
             val groupPosition = bundle.getInt(BundleConstant.EXTRA_TWO)
             val childPosition = bundle.getInt(BundleConstant.EXTRA_THREE)
             val commitFileChanges = adapter!!.getItem(groupPosition)!!
-            val models: MutableList<CommitLinesModel> = commitFileChanges.linesModel?.toMutableList()?: mutableListOf()
+            val models: MutableList<CommitLinesModel> =
+                commitFileChanges.linesModel?.toMutableList() ?: mutableListOf()
             if (models.isNotEmpty()) {
                 val current = models[childPosition]
                 current.isHasCommentedOn = true
@@ -265,24 +283,6 @@ class PullRequestFilesFragment :
                 adapter!!.notifyItemChanged(groupPosition)
             }
         }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == FullScreenFileChangeActivity.FOR_RESULT_CODE && data != null) {
-                val comments: List<CommentRequestModel> =
-                    data.getParcelableArrayListExtra(BundleConstant.ITEM)?: listOf()
-                if (comments.isNotEmpty()) {
-                    if (viewCallback != null) {
-                        for (comment in comments) {
-                            viewCallback!!.onAddComment(comment)
-                        }
-                        showMessage(R.string.success, R.string.comments_added_successfully)
-                    }
-                }
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun showReload() {
