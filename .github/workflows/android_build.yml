@@ -1,0 +1,27 @@
+name: Android CI Workflow
+
+on:
+  push:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  apk:
+    name: Generate APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: 11
+      - name: Build APK
+        run: bash ./gradlew assembleDebug --stacktrace
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Artifact-File
+          path: app/build/outputs/apk/debug/app-debug.apk
