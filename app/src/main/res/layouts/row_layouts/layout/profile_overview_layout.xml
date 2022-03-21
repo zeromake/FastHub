@@ -89,6 +89,20 @@
 
                     <include layout="@layout/profile_follow_action_layout"/>
 
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layout_behavior="@string/scroll_behavior">
+
+                        <com.prettifier.pretty.PrettifyWebView
+                            android:id="@+id/readmeWebView"
+                            android:layout_width="match_parent"
+                            android:layout_marginBottom="8dp"
+                            android:layout_height="wrap_content"
+                            app:webview_background="?android:windowBackground"
+                            android:visibility="gone"
+                            tools:visibility="visible"/>
+                    </FrameLayout>
 
                     <LinearLayout
                         android:id="@+id/section_container"

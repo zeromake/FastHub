@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView.Recycler
 import androidx.recyclerview.widget.RecyclerView
 import com.fastaccess.provider.crash.Report
-import com.tencent.bugly.crashreport.CrashReport
 import java.lang.Exception
 
 /**

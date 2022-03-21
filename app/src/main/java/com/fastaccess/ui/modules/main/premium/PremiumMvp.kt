@@ -11,8 +11,4 @@ interface PremiumMvp {
         fun onSuccessfullyActivated()
         fun onNoMatch()
     }
-
-    interface Presenter {
-        fun onCheckPromoCode(promo: String)
-    }
 }

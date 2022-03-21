@@ -19,8 +19,8 @@ import com.fastaccess.helper.ActivityHelper
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.provider.tasks.version.CheckVersionService
 import com.fastaccess.provider.theme.ThemeEngine.applyForAbout
-import com.fastaccess.ui.modules.changelog.ChangelogBottomSheetDialog
 import com.fastaccess.ui.modules.main.donation.DonationActivity
+import com.fastaccess.ui.modules.changelog.ChangelogBottomSheetDialog
 import com.fastaccess.ui.modules.repos.RepoPagerActivity
 import com.fastaccess.ui.modules.repos.issues.create.CreateIssueActivity
 import com.fastaccess.ui.modules.user.UserPagerActivity.Companion.startActivity
@@ -41,6 +41,8 @@ class FastHubAboutActivity : MaterialAboutActivity() {
     override fun getMaterialAboutList(context: Context): MaterialAboutList {
         val appCardBuilder = MaterialAboutCard.Builder()
         buildApp(context, appCardBuilder)
+        val revivalCardBuilder = MaterialAboutCard.Builder()
+        buildRevival(context, revivalCardBuilder)
         val miscCardBuilder = MaterialAboutCard.Builder()
         buildMisc(context, miscCardBuilder)
         val authorCardBuilder = MaterialAboutCard.Builder()
@@ -49,7 +51,7 @@ class FastHubAboutActivity : MaterialAboutActivity() {
         val logoAuthor = MaterialAboutCard.Builder()
         buildLogo(context, newLogoAuthor, logoAuthor)
         return MaterialAboutList(
-            appCardBuilder.build(), miscCardBuilder.build(), authorCardBuilder.build(),
+            appCardBuilder.build(), revivalCardBuilder.build(), miscCardBuilder.build(), authorCardBuilder.build(),
             newLogoAuthor.build(), logoAuthor.build()
         )
     }
@@ -74,6 +76,26 @@ class FastHubAboutActivity : MaterialAboutActivity() {
             finish()
         }
         return false //override
+    }
+
+    private fun buildRevival(context: Context, revivalCardBuilder: MaterialAboutCard.Builder) {
+        revivalCardBuilder.title("FastHub-RE")
+            .addItem(MaterialAboutActionItem.Builder()
+                .text("Revival Attempt for FastHub the ultimate GitHub client for Android.")
+                .subText("by the community")
+                .icon(ContextCompat.getDrawable(context, R.drawable.ic_github))
+                .setOnClickAction {
+                    startActivity(RepoPagerActivity.createIntent(this, "FastHub-RE", "LightDestory"))
+                }
+                .build())
+            .addItem(MaterialAboutActionItem.Builder()
+                .text("Unlock all features")
+                .subText("but don't forget to support developers!")
+                .icon(ContextCompat.getDrawable(context, R.drawable.ic_lock))
+                .setOnClickAction {
+                    startActivity(Intent(context, DonationActivity::class.java))
+                }
+                .build())
     }
 
     private fun buildLogo(
@@ -151,7 +173,7 @@ class FastHubAboutActivity : MaterialAboutActivity() {
     }
 
     private fun buildAuthor(context: Context, authorCardBuilder: MaterialAboutCard.Builder) {
-        authorCardBuilder.title(R.string.author)
+        authorCardBuilder.title("[Upstream] ${getString(R.string.author)}")
         authorCardBuilder.addItem(MaterialAboutActionItem.Builder()
             .text("Kosh Sergani")
             .subText("k0shk0sh")
@@ -188,19 +210,7 @@ class FastHubAboutActivity : MaterialAboutActivity() {
     }
 
     private fun buildMisc(context: Context, miscCardBuilder: MaterialAboutCard.Builder) {
-        miscCardBuilder.title(R.string.about)
-            .addItem(MaterialAboutActionItem.Builder()
-                .text(R.string.support_development)
-                .icon(ContextCompat.getDrawable(context, R.drawable.ic_heart))
-                .setOnClickAction {
-                    startActivity(
-                        Intent(
-                            context,
-                            DonationActivity::class.java
-                        )
-                    )
-                }
-                .build())
+        miscCardBuilder.title("[Upstream] ${getString(R.string.about)}")
             .addItem(MaterialAboutActionItem.Builder()
                 .text(R.string.changelog)
                 .icon(ContextCompat.getDrawable(context, R.drawable.ic_track_changes))
@@ -246,12 +256,6 @@ class FastHubAboutActivity : MaterialAboutActivity() {
             .subText(BuildConfig.VERSION_NAME)
             .setOnClickAction { startService(Intent(this, CheckVersionService::class.java)) }
             .build())
-            .addItem(
-                ConvenienceBuilder.createRateActionItem(
-                    context, ContextCompat.getDrawable(context, R.drawable.ic_star_filled),
-                    getString(R.string.rate_app), null
-                )
-            )
             .addItem(MaterialAboutActionItem.Builder()
                 .text(R.string.report_issue)
                 .subText(R.string.report_issue_here)

@@ -52,11 +52,12 @@ object SchemeParser {
     @JvmOverloads
     fun launchUri(
         context: Context,
-        data: Uri,
+        uri: Uri,
         showRepoBtn: Boolean = false,
         newDocument: Boolean = false
     ) {
-        Logger.e(data)
+        Logger.e(uri)
+        val data: Uri = LinkParserHelper.parseReferenceSymbols(uri)
         val intent = convert(context, data, showRepoBtn)
         if (intent != null) {
             intent.putExtra(BundleConstant.SCHEME_URL, data.toString())
@@ -614,7 +615,7 @@ object SchemeParser {
         if ("issues" == segments[2]) {
             val owner = segments[0]
             val repo = segments[1]
-            val isFeedback = "k0shk0sh/FastHub".equals("$owner/$repo", ignoreCase = true)
+            val isFeedback = "LightDestory/FastHub-RE".equals("$owner/$repo", ignoreCase = true)
             return CreateIssueActivity.getIntent(context, owner, repo, isFeedback)
         }
         return null

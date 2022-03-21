@@ -18,7 +18,6 @@ import com.fastaccess.ui.modules.about.FastHubAboutActivity
 import com.fastaccess.ui.modules.gists.GistsListActivity
 import com.fastaccess.ui.modules.main.MainActivity
 import com.fastaccess.ui.modules.main.MainMvp
-import com.fastaccess.ui.modules.main.donation.CheckPurchaseActivity
 import com.fastaccess.ui.modules.main.playstore.PlayStoreWarningActivity
 import com.fastaccess.ui.modules.notification.NotificationActivity
 import com.fastaccess.ui.modules.pinned.PinnedReposActivity
@@ -97,18 +96,12 @@ class MainDrawerFragment :
                         )
                     )
                     R.id.openFastHub -> activity.startActivity(
-                        RepoPagerActivity.createIntent(activity, "FastHub", "k0shk0sh", RepoPagerMvp.ISSUES)
+                        RepoPagerActivity.createIntent(activity, "FastHub-RE", "LightDestory", RepoPagerMvp.ISSUES)
                     )
                     R.id.faq -> activity.startActivity(
                         Intent(
                             activity,
                             PlayStoreWarningActivity::class.java
-                        )
-                    )
-                    R.id.restorePurchase -> activity.startActivity(
-                        Intent(
-                            activity,
-                            CheckPurchaseActivity::class.java
                         )
                     )
                 }

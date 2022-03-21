@@ -59,11 +59,6 @@ class MainActivity : BaseActivity<MainMvp.View, MainPresenter>(), MainMvp.View {
         navType = handleIntent(intent)
         installSplashScreen()
         super.onCreate(savedInstanceState)
-        if (savedInstanceState == null) {
-            if (intent.getBooleanExtra(SlackBottomSheetDialog.TAG, false)) {
-                SlackBottomSheetDialog().show(supportFragmentManager, SlackBottomSheetDialog.TAG)
-            }
-        }
         val root = window.decorView
         bottomNavigation = root.findViewById(R.id.bottomNavigation)
         fab = root.findViewById(R.id.fab)

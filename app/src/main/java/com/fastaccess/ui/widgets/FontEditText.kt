@@ -7,8 +7,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import java.lang.Exception
+import com.fastaccess.provider.crash.Report
 
-//import com.crashlytics.android.Crashlytics;
 /**
  * Created by Kosh on 8/18/2015. copyrights are reserved
  */
@@ -48,7 +48,7 @@ open class FontEditText : AppCompatEditText {
     FastHub
     """.trimIndent()
             )
-            //            Crashlytics.logException(e);
+            Report.reportCatchException(e)
         }
     }
 }
