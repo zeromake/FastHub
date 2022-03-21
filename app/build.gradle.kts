@@ -35,8 +35,8 @@ android {
         applicationId = "com.fastaccess.github.revival"
         minSdk = 21
         targetSdk = 31
-        versionCode = 473
-        versionName = "4.7.3"
+        versionCode = 474
+        versionName = "4.7.4"
         buildConfigField("String", "GITHUB_APP_ID", "\"com.fastaccess.github.revival\"")
         buildConfigField("String", "GITHUB_CLIENT_ID", "\"${config["GITHUB_CLIENT_ID"]}\"")
         buildConfigField("String", "GITHUB_SECRET", "\"${config["GITHUB_SECRET"]}\"")
