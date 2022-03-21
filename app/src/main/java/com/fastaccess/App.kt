@@ -12,6 +12,7 @@ import com.fastaccess.helper.TypeFaceHelper.generateTypeface
 import com.fastaccess.provider.colors.ColorsProvider
 import com.fastaccess.provider.crash.Report
 import com.fastaccess.provider.emoji.EmojiManager
+import com.fastaccess.provider.tasks.notification.NotificationSchedulerJobTask
 import com.google.firebase.messaging.FirebaseMessaging
 import com.miguelbcr.io.rx_billing_service.RxBillingService
 import es.dmoral.toasty.Toasty
@@ -57,7 +58,7 @@ class App : Application() {
         dataStore
         setupPreference()
         generateTypeface(this)
-        //        NotificationSchedulerJobTask.scheduleJob(this);
+        NotificationSchedulerJobTask.scheduleJob(this);
         if (BuildConfig.DEBUG) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                 initShortcut()
