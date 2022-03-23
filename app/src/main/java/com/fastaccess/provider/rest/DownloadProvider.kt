@@ -133,7 +133,7 @@ object DownloadProvider {
         var intentPosition = 0
         for (i in intents.indices) {
             val arr = intents[i]
-            if (arr[3] == name) {
+            if (arr[4] == name) {
                 intentPosition = i
                 break
             }
