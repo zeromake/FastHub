@@ -164,6 +164,7 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View, ProfileOve
         this.pinnedReposTextView = view.findViewById(R.id.pinnedReposTextView)
         this.pinnedList = view.findViewById(R.id.pinnedList)
         this.pinnedReposCard = view.findViewById(R.id.pinnedReposCard)
+        this.readmeWebView = view.findViewById(R.id.readmeWebView)
         listOf(
             R.id.following, R.id.followers, R.id.followBtn
         ).map { view.findViewById<View>(it) }.setOnThrottleClickListener {
