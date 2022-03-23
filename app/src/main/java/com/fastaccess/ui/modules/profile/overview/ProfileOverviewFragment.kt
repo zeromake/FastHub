@@ -36,6 +36,7 @@ import com.fastaccess.ui.widgets.contributions.GitHubContributionsView
 import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
 import com.fastaccess.ui.widgets.recyclerview.layout_manager.GridManager
 import com.fastaccess.utils.setOnThrottleClickListener
+import com.prettifier.pretty.PrettifyWebView
 
 /**
  * Created by Kosh on 03 Dec 2016, 9:16 AM
@@ -91,7 +92,8 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View, ProfileOve
 
     var pinnedReposCard: CardView? = null
 
-    var readmeWebView: PrettifyWebView? = null
+    var readmeWebView:
+            PrettifyWebView? = null
 
     @State
     var userModel: User? = null

@@ -13,6 +13,7 @@ import com.fastaccess.ui.base.BaseActivity
 import com.fastaccess.ui.base.mvp.BaseMvp
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 import com.fastaccess.ui.modules.main.premium.PremiumActivity.Companion.startActivity
+import com.fastaccess.ui.modules.repos.RepoPagerActivity
 import com.fastaccess.utils.setOnThrottleClickListener
 import com.google.android.material.appbar.AppBarLayout
 
