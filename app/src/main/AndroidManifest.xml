@@ -11,13 +11,20 @@
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
-    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission
+        android:name="android.permission.READ_LOGS"
+        tools:ignore="ProtectedPermissions" />
 
     <queries>
-        <package android:name="com.dv.adm.pay"/>
-        <package android:name="com.dv.adm"/>
-        <package android:name="idm.internet.download.manager.plus"/>
-        <package android:name="idm.internet.download.manager"/>
+        <package android:name="com.dv.adm.pay" />
+        <package android:name="com.dv.adm" />
+        <package android:name="idm.internet.download.manager.plus" />
+        <package android:name="idm.internet.download.manager" />
+        <package android:name="com.vanda_adm.vanda" />
+        <package android:name="org.freedownloadmanager.fdm" />
+        <package android:name="com.dv.get" />
+        <package android:name="com.tachibana.downloader" />
+
         <intent>
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.BROWSABLE" />

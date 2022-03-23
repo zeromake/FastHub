@@ -1,26 +1,18 @@
 package com.fastaccess.provider.rest
 
-import android.app.DownloadManager
 import android.content.Context
-import android.net.Uri
-import android.os.Environment
-import android.text.TextUtils
 import com.fastaccess.BuildConfig
-import com.fastaccess.R
 import com.fastaccess.data.dao.GitHubErrorResponse
 import com.fastaccess.data.dao.GithubStatusComponentsModel
 import com.fastaccess.data.service.*
-import com.fastaccess.helper.InputHelper.isEmpty
-import com.fastaccess.helper.PrefGetter.enterpriseToken
+import com.fastaccess.helper.PrefGetter
 import com.fastaccess.helper.PrefGetter.enterpriseUrl
 import com.fastaccess.helper.PrefGetter.isEnterprise
-import com.fastaccess.helper.PrefGetter.token
 import com.fastaccess.provider.rest.converters.GithubResponseConverter
 import com.fastaccess.provider.rest.interceptors.AuthenticationInterceptor
 import com.fastaccess.provider.rest.interceptors.ContentTypeInterceptor
 import com.fastaccess.provider.rest.interceptors.PaginationInterceptor
 import com.fastaccess.provider.scheme.LinkParserHelper.getEndpoint
-import com.fastaccess.provider.scheme.LinkParserHelper.isEnterprise
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -31,7 +23,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import java.io.File
 import java.lang.reflect.Modifier
 
 /**
@@ -78,43 +69,8 @@ object RestProvider {
             .build()
     }
 
-    @JvmStatic
-    fun downloadFile(context: Context, url: String) {
-        downloadFile(context, url, null)
-    }
-
-    @JvmStatic
-    fun downloadFile(context: Context, url: String, extension: String? = null) {
-        if (isEmpty(url)) return
-        val isEnterprise = isEnterprise(url)
-        val uri = Uri.parse(url)
-        val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-        val request = DownloadManager.Request(uri)
-        val authToken = if (isEnterprise) enterpriseToken else token
-        if (!TextUtils.isEmpty(authToken)) {
-            assert(authToken != null)
-            request.addRequestHeader(
-                "Authorization",
-                if (authToken!!.startsWith("Basic")) authToken else "token $authToken"
-            )
-        }
-        var fileName = File(url).name
-        if (!isEmpty(extension)) {
-            fileName += if (extension!!.startsWith(".")) {
-                extension
-            } else {
-                ".$extension"
-            }
-        }
-        request.setDestinationInExternalPublicDir(
-            Environment.DIRECTORY_DOWNLOADS,
-            context.getString(R.string.app_name) + "/" + fileName
-        )
-        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE or DownloadManager.Request.NETWORK_WIFI)
-        request.setTitle(fileName)
-        request.setDescription(context.getString(R.string.downloading_file))
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-        downloadManager.enqueue(request)
+    fun downloadFile(context: Context, url: String): Boolean {
+        return DownloadProvider.downloadByName(context, url, PrefGetter.downloadSelect)
     }
 
     @JvmStatic
@@ -187,14 +143,6 @@ object RestProvider {
     fun getSearchService(enterprise: Boolean): SearchService {
         return provideRetrofit(enterprise).create(SearchService::class.java)
     }
-
-    val slackService: SlackService
-        get() = Retrofit.Builder()
-            .baseUrl("https://ok13pknpj4.execute-api.eu-central-1.amazonaws.com/prod/")
-            .addConverterFactory(GithubResponseConverter(gson))
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .build()
-            .create(SlackService::class.java)
 
     @JvmStatic
     fun getContentService(enterprise: Boolean): ContentService {

@@ -1,5 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools"
-           tools:ignore="MissingTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- DO NOT COPY!  -->
 
     <string name="app_name" translatable="false">FastHub-RE</string>
@@ -556,7 +555,7 @@
     <string name="projects">Projects</string>
     <string name="no_projects">No Projects</string>
     <string name="no_cards">No Cards</string>
-    <string name= "card_added_by" formatted="false">Added by %s %s</string>
+    <string name="card_added_by" formatted="false">Added by %s %s</string>
     <string name="too_large_changes">Too many differences to display. Please, view them via browser</string>
     <string name="project">Project</string>
     <string name="please_read">PLEASE READ!</string>
@@ -610,4 +609,7 @@
     <string name="my_issues">Issues</string>
     <string name="private_wiki_error_msg">Unfortunately we cannot access private repos wiki</string>
     <string name="file_history">File History</string>
+    <string name="default_downloader" translatable="false">default_browser</string>
+    <string name="download_setting_dialog">Select downloader</string>
+    <string name="download_setting_title">Set downloader</string>
 </resources>

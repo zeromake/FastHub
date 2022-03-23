@@ -548,6 +548,10 @@ object PrefGetter {
             }
             return isPRLongPressHintShowed
         }
+    val downloadSelect: String
+        get() {
+            return PrefHelper.getString("download_select") ?: "default_browser"
+        }
 
     @IntDef(LIGHT, DARK, AMLOD, MID_NIGHT_BLUE, BLUISH)
     @kotlin.annotation.Retention(AnnotationRetention.SOURCE)
