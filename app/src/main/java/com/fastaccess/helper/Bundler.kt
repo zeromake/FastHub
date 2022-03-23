@@ -1,13 +1,10 @@
 package com.fastaccess.helper
 
-import com.fastaccess.helper.Logger.e
 import android.os.Bundle
-import android.os.IBinder
-import android.os.Parcelable
-import android.util.SparseArray
 import android.os.Parcel
+import android.os.Parcelable
+import com.fastaccess.helper.Logger.e
 import java.io.Serializable
-import java.util.ArrayList
 
 /**
  * Created by Kosh on 23 May 2016, 3:37 PM
@@ -24,11 +21,11 @@ class Bundler private constructor() {
         return this
     }
 
-    fun put(key: String, value: IBinder?): Bundler {
-        // Uncommment this line if your minimum sdk version is API level 18
-        //start.putBinder(key, value);
-        return this
-    }
+//    fun put(key: String, value: IBinder?): Bundler {
+//        // Uncommment this line if your minimum sdk version is API level 18
+//        //start.putBinder(key, value);
+//        return this
+//    }
 
     fun put(key: String, value: Int): Bundler {
         bundle.putInt(key, value)
@@ -160,15 +157,15 @@ class Bundler private constructor() {
         return this
     }
 
-    fun putSparseParcelableArray(key: String, value: SparseArray<out Parcelable>?): Bundler {
-        val safeBundle = Bundle()
-        safeBundle.putSparseParcelableArray(key, value)
-        if (isValidBundleSize(safeBundle)) {
-            bundle.putSparseParcelableArray(key, value)
-        }
-        clearBundle(safeBundle)
-        return this
-    }
+//    fun putSparseParcelableArray(key: String, value: SparseArray<out Parcelable>?): Bundler {
+//        val safeBundle = Bundle()
+//        safeBundle.putSparseParcelableArray(key, value)
+//        if (isValidBundleSize(safeBundle)) {
+//            bundle.putSparseParcelableArray(key, value)
+//        }
+//        clearBundle(safeBundle)
+//        return this
+//    }
 
     fun put(key: String, value: Short): Bundler {
         bundle.putShort(key, value)

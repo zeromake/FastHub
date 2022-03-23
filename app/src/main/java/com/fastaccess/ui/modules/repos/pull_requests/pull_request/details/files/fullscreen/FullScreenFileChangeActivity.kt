@@ -5,14 +5,12 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
-import butterknife.BindView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fastaccess.R
 import com.fastaccess.data.dao.CommentRequestModel
 import com.fastaccess.data.dao.CommitFileChanges
@@ -35,27 +33,13 @@ import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
 class FullScreenFileChangeActivity :
     BaseActivity<FullScreenFileChangeMvp.View, FullScreenFileChangePresenter>(),
     FullScreenFileChangeMvp.View {
-
-    @BindView(R.id.recycler)
-    lateinit var recycler: DynamicRecyclerView
-
-    @BindView(R.id.refresh)
-    lateinit var refresh: SwipeRefreshLayout
-
-    @BindView(R.id.stateLayout)
-    lateinit var stateLayout: StateLayout
-
-    @BindView(R.id.fastScroller)
-    lateinit var fastScroller: RecyclerViewFastScroller
-
-    @BindView(R.id.changes)
-    lateinit var changes: TextView
-
-    @BindView(R.id.deletion)
-    lateinit var deletion: TextView
-
-    @BindView(R.id.addition)
-    lateinit var addition: TextView
+    val recycler: DynamicRecyclerView by lazy { viewFind(R.id.recycler)!! }
+    val refresh: SwipeRefreshLayout by lazy { viewFind(R.id.refresh)!! }
+    val stateLayout: StateLayout by lazy { viewFind(R.id.stateLayout)!! }
+    val fastScroller: RecyclerViewFastScroller by lazy { viewFind(R.id.fastScroller)!! }
+    val changes: TextView by lazy { viewFind(R.id.changes)!! }
+    val deletion: TextView by lazy { viewFind(R.id.deletion)!! }
+    val addition: TextView by lazy { viewFind(R.id.addition)!! }
 
     val commentList = arrayListOf<CommentRequestModel>()
 

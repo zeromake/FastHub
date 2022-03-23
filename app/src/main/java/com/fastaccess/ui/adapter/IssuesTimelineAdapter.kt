@@ -56,6 +56,7 @@ class IssuesTimelineAdapter(
     override fun viewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<TimelineModel> {
         when (viewType) {
             0 -> {
+                @Suppress("UNCHECKED_CAST")
                 return UnknownTypeViewHolder(
                     getView(
                         parent,
@@ -89,6 +90,7 @@ class IssuesTimelineAdapter(
                 return newInstance(parent, this, onToggleView!!)
             }
             TimelineModel.STATUS -> {
+                @Suppress("UNCHECKED_CAST")
                 return newInstance(parent) as BaseViewHolder<TimelineModel>
             }
             else -> return newInstance(

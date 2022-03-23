@@ -19,13 +19,12 @@ import com.fastaccess.ui.modules.repos.code.releases.RepoReleasesFragment.Compan
  * Created by Kosh on 25 May 2017, 7:13 PM
  */
 class ReleasesListActivity : BaseActivity<BaseMvp.FAView, EmptyPresenter>() {
-    @JvmField
     @State
     var repoId: String? = null
 
-    @JvmField
     @State
     var login: String? = null
+
     override fun layout(): Int {
         return R.layout.activity_fragment_layout
     }

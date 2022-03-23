@@ -1,24 +1,22 @@
 package com.fastaccess.ui.modules.settings.category
 
+import android.os.Bundle
+import com.evernote.android.state.State
+import com.fastaccess.R
+import com.fastaccess.data.dao.SettingsModel.SettingsType
+import com.fastaccess.helper.BundleConstant
 import com.fastaccess.ui.base.BaseActivity
 import com.fastaccess.ui.base.mvp.BaseMvp.FAView
 import com.fastaccess.ui.modules.settings.category.SettingsCategoryFragment.SettingsCallback
-import com.fastaccess.data.dao.SettingsModel.SettingsType
-import com.fastaccess.R
-import android.os.Bundle
-import com.evernote.android.state.State
-import com.fastaccess.helper.BundleConstant
-import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 
 class SettingsCategoryActivity : BaseActivity<FAView, SettingsCategoryPresenter>(),
     SettingsCallback {
-    @State @SettingsType override var settingsType: Int = 0
+    @State
+    @SettingsType
+    override var settingsType: Int = 0
 
     @State
     var title: String? = null
-
-//    @State
-//    private var mSettingsType = 0
 
     @State
     var needRecreation = false
@@ -26,10 +24,11 @@ class SettingsCategoryActivity : BaseActivity<FAView, SettingsCategoryPresenter>
         return R.layout.activity_settings_category
     }
 
-    override val isTransparent: Boolean  = false
+    override val isTransparent: Boolean = false
     override fun canBack(): Boolean {
         return true
     }
+
     override val isSecured: Boolean = false
 
 

@@ -1,14 +1,13 @@
 package com.fastaccess.ui.adapter.viewholder
 
-import com.fastaccess.helper.ParseDateFormat.Companion.getTimeAgo
-import com.fastaccess.ui.base.adapter.BaseViewHolder
-import butterknife.BindView
-import com.fastaccess.R
-import com.fastaccess.ui.widgets.FontTextView
-import android.view.ViewGroup
-import com.fastaccess.data.dao.MilestoneModel
 import android.view.View
-import com.fastaccess.ui.adapter.*
+import android.view.ViewGroup
+import com.fastaccess.R
+import com.fastaccess.data.dao.MilestoneModel
+import com.fastaccess.helper.ParseDateFormat.Companion.getTimeAgo
+import com.fastaccess.ui.adapter.MilestonesAdapter
+import com.fastaccess.ui.base.adapter.BaseViewHolder
+import com.fastaccess.ui.widgets.FontTextView
 
 /**
  * Created by Kosh on 11 Nov 2016, 2:08 PM
@@ -17,17 +16,9 @@ class MilestonesViewHolder private constructor(
     itemView: View,
     adapter: MilestonesAdapter
 ) : BaseViewHolder<MilestoneModel>(itemView, adapter) {
-    @kotlin.jvm.JvmField
-    @BindView(R.id.title)
-    var title: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.date)
-    var date: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.notificationTitle)
-    var notificationTitle: FontTextView? = null
+    val title: FontTextView? = itemView.findViewById(R.id.title)
+    val date: FontTextView? = itemView.findViewById(R.id.date)
+    val notificationTitle: FontTextView? = itemView.findViewById(R.id.notificationTitle)
     override fun bind(t: MilestoneModel) {
         title!!.text = t.title
         notificationTitle!!.text = t.description

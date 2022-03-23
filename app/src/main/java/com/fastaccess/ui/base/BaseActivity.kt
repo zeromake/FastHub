@@ -22,7 +22,6 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.drawerlayout.widget.DrawerLayout.SimpleDrawerListener
 import androidx.viewpager.widget.ViewPager
-import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.evernote.android.state.State
 import com.evernote.android.state.StateSaver
@@ -98,7 +97,7 @@ abstract class BaseActivity<V : FAView, P : BasePresenter<V>> : TiActivity<P, V>
     private val menuCallback: MutableList<(menu: Menu) -> Unit> = mutableListOf()
     private var drawerMenu: Menu? = null
 
-    protected fun <T : View> decorViewFindViewById(@IdRes id: Int): T? {
+    protected fun <T : View> viewFind(@IdRes id: Int): T? {
         return window.decorView.findViewById(id)
     }
 
@@ -126,8 +125,7 @@ abstract class BaseActivity<V : FAView, P : BasePresenter<V>> : TiActivity<P, V>
 
         if (layout() != 0) {
             setContentView(layout())
-            ButterKnife.bind(this)
-            window.decorView.findViewById<View>(R.id.logout)?.setOnThrottleClickListener {
+            viewFind<View>(R.id.logout)?.setOnThrottleClickListener {
                 onLogoutClicked()
             }
         }

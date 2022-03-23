@@ -16,17 +16,6 @@ query PullRequestTimeline($owner: String!, $name: String!, $number: Int!, $page:
           }
         }
       }
-      timelineItems(first: 30 after: $page) {
-        edges {
-          cursor
-        }
-        pageInfo {
-          hasNextPage
-          startCursor
-          endCursor
-        }
-        totalCount
-      }
       timeline(first: 30 after: $page) {
         edges {
           cursor
@@ -250,10 +239,23 @@ query PullRequestTimeline($owner: String!, $name: String!, $number: Int!, $page:
               avatarUrl
               url
             }
-            user {
-              avatarUrl
-              login
-              url
+            assignee {
+              ... on User {
+                login
+                url
+              }
+              ... on Organization {
+                login
+                url
+              }
+              ... on Mannequin {
+                login
+                url
+              }
+              ... on Bot {
+                login
+                url
+              }
             }
           }
           ... on LabeledEvent {
@@ -470,7 +472,6 @@ query PullRequestTimeline($owner: String!, $name: String!, $number: Int!, $page:
             requestedReviewer {
               ... on User {
                 login
-                name
                 url
               }
               ... on Team {

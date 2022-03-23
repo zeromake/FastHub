@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
-import butterknife.BindView
 import com.fastaccess.R
 import com.fastaccess.data.dao.NotificationSoundModel
 import com.fastaccess.helper.BundleConstant
@@ -22,10 +21,10 @@ import com.fastaccess.ui.widgets.FontTextView
  */
 class NotificationSoundBottomSheet : BaseMvpBottomSheetDialogFragment<NotificationSoundMvp.View,
         NotificationSoundPresenter>(), NotificationSoundMvp.View {
+    lateinit var title: FontTextView
+    private lateinit var radioGroup: RadioGroup
+    private lateinit var okButton: Button
 
-    @BindView(R.id.title) lateinit var title: FontTextView
-    @BindView(R.id.picker) lateinit var radioGroup: RadioGroup
-    @BindView(R.id.ok) lateinit var okButton: Button
 
     private val padding: Int by lazy { resources.getDimensionPixelSize(R.dimen.spacing_xs_large) }
     private var canPlaySound: Boolean = false
@@ -42,17 +41,16 @@ class NotificationSoundBottomSheet : BaseMvpBottomSheetDialogFragment<Notificati
         }
     }
 
-    override fun onDetach() {
-        super.onDetach()
-    }
-
     override fun fragmentLayout(): Int = R.layout.picker_dialog
 
     override fun providePresenter(): NotificationSoundPresenter = NotificationSoundPresenter()
 
     override fun onAddSound(sound: NotificationSoundModel) {
         val radioButtonView = RadioButton(context)
-        val params = RadioGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        val params = RadioGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
         radioButtonView.layoutParams = params
         radioButtonView.id = (radioGroup.childCount)
         radioButtonView.setPadding(padding, padding, padding, padding)
@@ -71,6 +69,9 @@ class NotificationSoundBottomSheet : BaseMvpBottomSheetDialogFragment<Notificati
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        title = view.findViewById(R.id.title)
+        radioGroup = view.findViewById(R.id.picker)
+        okButton = view.findViewById(R.id.ok)
         title.text = getString(R.string.sound_chooser_title)
         okButton.visibility = View.VISIBLE
         presenter.loadSounds(arguments?.getString(BundleConstant.EXTRA))

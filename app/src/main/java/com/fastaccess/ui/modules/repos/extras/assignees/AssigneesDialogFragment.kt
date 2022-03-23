@@ -6,8 +6,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import butterknife.BindView
-import butterknife.OnClick
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.model.User
@@ -15,36 +13,24 @@ import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler.Companion.start
 import com.fastaccess.ui.adapter.AssigneesAdapter
 import com.fastaccess.ui.base.BaseDialogFragment
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.repos.extras.assignees.AssigneesMvp.SelectedAssigneesListener
 import com.fastaccess.ui.widgets.FontTextView
 import com.fastaccess.ui.widgets.StateLayout
 import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
 import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
+import com.fastaccess.utils.setOnThrottleClickListener
 
 /**
  * Created by Kosh on 22 Feb 2017, 7:23 PM
  */
 class AssigneesDialogFragment : BaseDialogFragment<AssigneesMvp.View, AssigneesPresenter>(),
     AssigneesMvp.View {
-    @JvmField
-    @BindView(R.id.title)
-    var title: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.recycler)
-    var recycler: DynamicRecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.stateLayout)
-    var stateLayout: StateLayout? = null
-
-    @JvmField
-    @BindView(R.id.refresh)
-    var refresh: SwipeRefreshLayout? = null
-
-    @JvmField
-    @BindView(R.id.fastScroller)
-    var fastScroller: RecyclerViewFastScroller? = null
+    val title: FontTextView? by viewFind(R.id.title)
+    val recycler: DynamicRecyclerView? by viewFind(R.id.recycler)
+    val refresh: SwipeRefreshLayout? by viewFind(R.id.refresh)
+    val stateLayout: StateLayout? by viewFind(R.id.stateLayout)
+    val fastScroller: RecyclerViewFastScroller? by viewFind(R.id.fastScroller)
 
     @JvmField
     @State
@@ -76,6 +62,11 @@ class AssigneesDialogFragment : BaseDialogFragment<AssigneesMvp.View, AssigneesP
     }
 
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
+        listOf(
+            R.id.cancel, R.id.ok
+        ).map { view.findViewById<View>(it) }.setOnThrottleClickListener {
+            onClick(it)
+        }
         if (savedInstanceState == null) {
             callApi()
         }
@@ -109,7 +100,6 @@ class AssigneesDialogFragment : BaseDialogFragment<AssigneesMvp.View, AssigneesP
         adapter!!.notifyDataSetChanged()
     }
 
-    @OnClick(R.id.cancel, R.id.ok)
     fun onClick(view: View) {
         when (view.id) {
             R.id.cancel -> dismiss()

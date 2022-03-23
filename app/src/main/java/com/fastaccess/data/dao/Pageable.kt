@@ -6,7 +6,7 @@ import android.os.Parcel
 /**
  * Created by Kosh on 15 Nov 2016, 7:04 PM
  */
-class Pageable<M : Parcelable?> : Parcelable {
+open class Pageable<M : Parcelable?> : Parcelable {
     var first = 0
     var next = 0
     var prev = 0

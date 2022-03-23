@@ -4,7 +4,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import androidx.appcompat.widget.AppCompatImageView
-import butterknife.BindView
 import com.fastaccess.R
 import com.fastaccess.data.dao.model.Comment
 import com.fastaccess.helper.InputHelper.isEmpty
@@ -25,29 +24,13 @@ class CommentsViewHolder private constructor(
     adapter: CommentsAdapter,
     viewGroup: ViewGroup
 ) : BaseViewHolder<Comment>(itemView, adapter) {
-    @kotlin.jvm.JvmField
-    @BindView(R.id.avatarView)
-    var avatar: AvatarLayout? = null
+    val avatar: AvatarLayout? = itemView.findViewById(R.id.avatarView)
+    var date: FontTextView? = itemView.findViewById(R.id.date)
+    var name: FontTextView? = itemView.findViewById(R.id.name)
+    var comment: FontTextView? = itemView.findViewById(R.id.comment)
+    var toggleHolder: View? = itemView.findViewById(R.id.toggleHolder)
+    var toggle: AppCompatImageView? = itemView.findViewById(R.id.toggle)
 
-    @kotlin.jvm.JvmField
-    @BindView(R.id.date)
-    var date: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.name)
-    var name: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.comment)
-    var comment: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.toggleHolder)
-    var toggleHolder: View? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.toggle)
-    var toggle: AppCompatImageView? = null
     private val viewGroup: ViewGroup
     override fun onClick(v: View) {
         if (v.id == R.id.toggleHolder) {

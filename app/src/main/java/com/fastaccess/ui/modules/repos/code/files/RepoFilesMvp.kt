@@ -13,6 +13,7 @@ import com.fastaccess.ui.modules.repos.git.delete.DeleteContentFileCallback
 interface RepoFilesMvp {
     interface View : FAView, OnRefreshListener, DeleteContentFileCallback {
         fun onNotifyAdapter(list: List<RepoFile>)
+        fun onNotifyFile(f: RepoFile)
         fun onItemClicked(model: RepoFile)
         fun onMenuClicked(position: Int, model: RepoFile, v: android.view.View?)
         fun onSetData(

@@ -2,8 +2,6 @@ package com.fastaccess.ui.adapter.viewholder
 
 import android.view.View
 import android.view.ViewGroup
-import butterknife.BindString
-import butterknife.BindView
 import com.fastaccess.R
 import com.fastaccess.data.dao.model.PullRequest
 import com.fastaccess.provider.scheme.LinkParserHelper.isEnterprise
@@ -21,44 +19,30 @@ class PullRequestViewHolder private constructor(
     private val withAvatar: Boolean,
     private val showRepoName: Boolean
 ) : BaseViewHolder<PullRequest>(itemView, adapter) {
-    @kotlin.jvm.JvmField
-    @BindView(R.id.title)
-    var title: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.avatarLayout)
-    var avatarLayout: AvatarLayout? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.details)
-    var details: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.commentsNo)
-    var commentsNo: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindString(R.string.by)
-    var by: String? = null
+    val title: FontTextView = itemView.findViewById(R.id.title)
+    val avatarLayout: AvatarLayout? = itemView.findViewById(R.id.avatarLayout)
+    val details: FontTextView = itemView.findViewById(R.id.details)
+    val commentsNo: FontTextView = itemView.findViewById(R.id.commentsNo)
+    val by: String = itemView.context.resources.getString(R.string.by)
     override fun bind(t: PullRequest) {
-        title!!.text = t.title
-        details!!.text = PullRequest.getMergeBy(
+        title.text = t.title
+        details.text = PullRequest.getMergeBy(
             t,
-            details!!.context,
+            details.context,
             showRepoName
         )
         if (t.comments > 0) {
-            commentsNo!!.text = t.comments.toString()
-            commentsNo!!.visibility = View.VISIBLE
+            commentsNo.text = t.comments.toString()
+            commentsNo.visibility = View.VISIBLE
         } else {
-            commentsNo!!.visibility = View.GONE
+            commentsNo.visibility = View.GONE
         }
         if (withAvatar && avatarLayout != null) {
-            avatarLayout!!.setUrl(
+            avatarLayout.setUrl(
                 t.user.avatarUrl, t.user.login,
                 false, isEnterprise(t.htmlUrl)
             )
-            avatarLayout!!.visibility = View.VISIBLE
+            avatarLayout.visibility = View.VISIBLE
         }
     }
 

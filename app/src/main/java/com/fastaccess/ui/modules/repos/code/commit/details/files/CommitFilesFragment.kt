@@ -5,7 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
-import butterknife.BindView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.*
@@ -18,11 +18,11 @@ import com.fastaccess.helper.PrefGetter.isProEnabled
 import com.fastaccess.provider.scheme.SchemeParser.launchUri
 import com.fastaccess.ui.adapter.CommitFilesAdapter
 import com.fastaccess.ui.base.BaseFragment
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.main.premium.PremiumActivity.Companion.startActivity
 import com.fastaccess.ui.modules.repos.code.commit.details.CommitPagerMvp
 import com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.files.fullscreen.FullScreenFileChangeActivity.Companion.startLauncherForResult
 import com.fastaccess.ui.modules.reviews.AddReviewDialogFragment.Companion.newInstance
-import com.fastaccess.ui.widgets.AppbarRefreshLayout
 import com.fastaccess.ui.widgets.StateLayout
 import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
 import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
@@ -32,21 +32,10 @@ import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
  */
 class CommitFilesFragment : BaseFragment<CommitFilesMvp.View, CommitFilesPresenter>(),
     CommitFilesMvp.View {
-    @JvmField
-    @BindView(R.id.recycler)
-    var recycler: DynamicRecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.refresh)
-    var refresh: AppbarRefreshLayout? = null
-
-    @JvmField
-    @BindView(R.id.stateLayout)
-    var stateLayout: StateLayout? = null
-
-    @JvmField
-    @BindView(R.id.fastScroller)
-    var fastScroller: RecyclerViewFastScroller? = null
+    val recycler: DynamicRecyclerView? by viewFind(R.id.recycler)
+    val refresh: SwipeRefreshLayout? by viewFind(R.id.refresh)
+    val stateLayout: StateLayout? by viewFind(R.id.stateLayout)
+    val fastScroller: RecyclerViewFastScroller? by viewFind(R.id.fastScroller)
 
     @JvmField
     @State
@@ -136,24 +125,29 @@ class CommitFilesFragment : BaseFragment<CommitFilesMvp.View, CommitFilesPresent
         return CommitFilesPresenter()
     }
 
-    override fun onToggle(id: Long, isCollapsed: Boolean) {
-        val model = adapter!!.getItem(id.toInt()) ?: return
+    override fun onToggle(id: Long, isCollapsed: Boolean): Boolean {
+        val model = adapter!!.getItem(id.toInt()) ?: return false
         if (model.commitFileModel!!.patch == null) {
             if ("renamed".equals(model.commitFileModel!!.status, ignoreCase = true)) {
                 launchUri(requireContext(), model.commitFileModel!!.blobUrl!!)
-                return
+                toggleMap[id] = false
+                return false
             }
             startCustomTab(
                 requireActivity(),
                 adapter!!.getItem(id.toInt())!!.commitFileModel!!.blobUrl!!
             )
+            toggleMap[id] = false
+            return false
+        } else {
+            toggleMap[id] = isCollapsed
         }
-        toggleMap[id] = isCollapsed
+        return true
     }
 
     override fun isCollapsed(id: Long): Boolean {
         val toggle = toggleMap[id]
-        return toggle != null && toggle
+        return toggle ?: false
     }
 
     override fun onScrollTop(index: Int) {

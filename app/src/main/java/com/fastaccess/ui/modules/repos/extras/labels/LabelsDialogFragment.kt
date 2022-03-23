@@ -2,68 +2,48 @@ package com.fastaccess.ui.modules.repos.extras.labels
 
 import android.annotation.SuppressLint
 import android.content.Context
-import com.fastaccess.helper.Bundler.Companion.start
-import com.fastaccess.helper.InputHelper.isEmpty
-import com.fastaccess.ui.modules.repos.extras.labels.create.CreateLabelDialogFragment.Companion.newInstance
-import com.fastaccess.ui.base.BaseDialogFragment
-import butterknife.BindView
-import com.fastaccess.R
-import com.fastaccess.ui.widgets.FontTextView
-import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.fastaccess.ui.widgets.StateLayout
-import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
-import com.fastaccess.data.dao.LabelModel
-import com.fastaccess.provider.rest.loadmore.OnLoadMore
-import com.fastaccess.ui.adapter.LabelsAdapter
-import com.fastaccess.ui.modules.repos.extras.labels.LabelsMvp.SelectedLabelsListener
-import butterknife.OnClick
-import com.fastaccess.helper.BundleConstant
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.evernote.android.state.State
+import com.fastaccess.R
 import com.fastaccess.data.dao.LabelListModel
-import java.util.ArrayList
+import com.fastaccess.data.dao.LabelModel
+import com.fastaccess.helper.BundleConstant
+import com.fastaccess.helper.Bundler.Companion.start
+import com.fastaccess.helper.InputHelper.isEmpty
+import com.fastaccess.provider.rest.loadmore.OnLoadMore
+import com.fastaccess.ui.adapter.LabelsAdapter
+import com.fastaccess.ui.base.BaseDialogFragment
+import com.fastaccess.ui.delegate.viewFind
+import com.fastaccess.ui.modules.repos.extras.labels.LabelsMvp.SelectedLabelsListener
+import com.fastaccess.ui.modules.repos.extras.labels.create.CreateLabelDialogFragment.Companion.newInstance
+import com.fastaccess.ui.widgets.FontTextView
+import com.fastaccess.ui.widgets.StateLayout
+import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
+import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
+import com.fastaccess.utils.setOnThrottleClickListener
 
 /**
  * Created by Kosh on 22 Feb 2017, 7:23 PM
  */
 class LabelsDialogFragment : BaseDialogFragment<LabelsMvp.View, LabelsPresenter>(),
     LabelsMvp.View {
-    @JvmField
-    @BindView(R.id.title)
-    var title: FontTextView? = null
+    val title: FontTextView? by viewFind(R.id.title)
+    val add: View? by viewFind(R.id.add)
+    val recycler: DynamicRecyclerView? by viewFind(R.id.recycler)
+    val refresh: SwipeRefreshLayout? by viewFind(R.id.refresh)
+    val stateLayout: StateLayout? by viewFind(R.id.stateLayout)
+    val fastScroller: RecyclerViewFastScroller? by viewFind(R.id.fastScroller)
 
-    @JvmField
-    @BindView(R.id.recycler)
-    var recycler: DynamicRecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.refresh)
-    var refresh: SwipeRefreshLayout? = null
-
-    @JvmField
-    @BindView(R.id.add)
-    var add: View? = null
-
-    @JvmField
-    @BindView(R.id.stateLayout)
-    var stateLayout: StateLayout? = null
-
-    @JvmField
-    @BindView(R.id.fastScroller)
-    var fastScroller: RecyclerViewFastScroller? = null
-
-    @JvmField
     @State
     var labelModels: ArrayList<LabelModel>? = ArrayList()
     private var onLoadMore: OnLoadMore<String>? = null
     private var adapter: LabelsAdapter? = null
     private var labelsListener: SelectedLabelsListener? = null
 
-    @OnClick(R.id.add)
-    fun onAddLabel() {
+    private fun onAddLabel() {
         val repo = requireArguments().getString(BundleConstant.EXTRA_TWO)
         val login = requireArguments().getString(BundleConstant.EXTRA_THREE)
         if (!isEmpty(repo) && !isEmpty(login)) {
@@ -90,6 +70,14 @@ class LabelsDialogFragment : BaseDialogFragment<LabelsMvp.View, LabelsPresenter>
     }
 
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
+        add!!.setOnThrottleClickListener {
+            onAddLabel()
+        }
+        listOf(
+            R.id.cancel, R.id.ok
+        ).map { view.findViewById<View>(it) }.setOnThrottleClickListener {
+            onClick(it)
+        }
         stateLayout!!.setEmptyText(R.string.no_labels)
         recycler!!.setEmptyView(stateLayout!!, refresh)
         refresh!!.setOnRefreshListener { presenter!!.onCallApi(1, null) }
@@ -159,7 +147,6 @@ class LabelsDialogFragment : BaseDialogFragment<LabelsMvp.View, LabelsPresenter>
         recycler!!.scrollToPosition(0)
     }
 
-    @OnClick(R.id.cancel, R.id.ok)
     fun onClick(view: View) {
         when (view.id) {
             R.id.cancel -> dismiss()

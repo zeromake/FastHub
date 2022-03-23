@@ -15,7 +15,6 @@ import com.miguelbcr.io.rx_billing_service.RxBillingService
 import com.miguelbcr.io.rx_billing_service.RxBillingServiceError
 import com.miguelbcr.io.rx_billing_service.RxBillingServiceException
 import com.miguelbcr.io.rx_billing_service.entities.ProductType
-import com.miguelbcr.io.rx_billing_service.entities.Purchase
 import io.reactivex.disposables.Disposable
 
 /**
@@ -97,6 +96,7 @@ class DonateActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FAView
             context.startActivityForResult(intent, BundleConstant.REQUEST_CODE)
         }
 
+        @Deprecated("")
         fun start(
             context: Fragment,
             product: String?,

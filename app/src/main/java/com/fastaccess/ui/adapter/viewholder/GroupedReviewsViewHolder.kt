@@ -1,26 +1,24 @@
 package com.fastaccess.ui.adapter.viewholder
 
+import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
+import com.fastaccess.R
+import com.fastaccess.data.dao.ReviewCommentModel
+import com.fastaccess.data.dao.TimelineModel
 import com.fastaccess.helper.ViewHelper.getPatchAdditionColor
 import com.fastaccess.helper.ViewHelper.getPatchDeletionColor
 import com.fastaccess.helper.ViewHelper.getPatchRefColor
-import com.fastaccess.ui.widgets.DiffLineSpan.Companion.getSpannable
-import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
-import com.fastaccess.ui.base.adapter.BaseViewHolder
-import butterknife.BindView
-import com.fastaccess.R
-import com.fastaccess.ui.widgets.FontTextView
-import android.view.ViewGroup
-import com.fastaccess.ui.widgets.ForegroundImageView
-import android.view.View
-import com.fastaccess.ui.adapter.callback.OnToggleView
-import com.fastaccess.ui.adapter.callback.ReactionsCallback
-import com.fastaccess.data.dao.TimelineModel
-import com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.timeline.timeline.PullRequestTimelineMvp.ReviewCommentCallback
-import com.fastaccess.data.dao.ReviewCommentModel
-import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
-import android.widget.LinearLayout
 import com.fastaccess.ui.adapter.IssuesTimelineAdapter
 import com.fastaccess.ui.adapter.ReviewCommentsAdapter
+import com.fastaccess.ui.adapter.callback.OnToggleView
+import com.fastaccess.ui.adapter.callback.ReactionsCallback
+import com.fastaccess.ui.base.adapter.BaseViewHolder
+import com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.timeline.timeline.PullRequestTimelineMvp.ReviewCommentCallback
+import com.fastaccess.ui.widgets.DiffLineSpan.Companion.getSpannable
+import com.fastaccess.ui.widgets.FontTextView
+import com.fastaccess.ui.widgets.ForegroundImageView
+import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
 
 /**
  * Created by Kosh on 13 Dec 2016, 1:42 AM
@@ -35,41 +33,15 @@ class GroupedReviewsViewHolder private constructor(
     repoOwner: String, poster: String
 ) : BaseViewHolder<TimelineModel>(itemView, adapter),
     BaseViewHolder.OnItemClickListener<ReviewCommentModel> {
-    @kotlin.jvm.JvmField
-    @BindView(R.id.stateImage)
-    var stateImage: ForegroundImageView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.nestedRecyclerView)
-    var nestedRecyclerView: DynamicRecyclerView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.name)
-    var name: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.toggle)
-    var toggle: ForegroundImageView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.patch)
-    var patch: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.minimized)
-    var minimized: View? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.addCommentPreview)
-    var addCommentPreview: View? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.toggleHolder)
-    var toggleHolder: LinearLayout? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.bottomToggle)
-    var bottomToggle: View? = null
+    val stateImage: ForegroundImageView? = itemView.findViewById(R.id.stateImage)
+    val nestedRecyclerView: DynamicRecyclerView? = itemView.findViewById(R.id.nestedRecyclerView)
+    val name: FontTextView? = itemView.findViewById(R.id.name)
+    val toggle: ForegroundImageView? = itemView.findViewById(R.id.toggle)
+    val patch: FontTextView? = itemView.findViewById(R.id.patch)
+    val minimized: View? = itemView.findViewById(R.id.minimized)
+    val addCommentPreview: View? = itemView.findViewById(R.id.addCommentPreview)
+    val toggleHolder: LinearLayout? = itemView.findViewById(R.id.toggleHolder)
+    val bottomToggle: View? = itemView.findViewById(R.id.bottomToggle)
     private val patchAdditionColor: Int
     private val patchDeletionColor: Int
     private val patchRefColor: Int
@@ -94,24 +66,24 @@ class GroupedReviewsViewHolder private constructor(
         stateImage!!.setImageResource(R.drawable.ic_eye)
         if (groupedReviewModel.comments == null || groupedReviewModel.comments!!.isEmpty()) {
             nestedRecyclerView!!.visibility = View.GONE
-            nestedRecyclerView!!.adapter = null
+            nestedRecyclerView.adapter = null
         } else {
             nestedRecyclerView!!.visibility = View.VISIBLE
-            nestedRecyclerView!!.adapter = ReviewCommentsAdapter(
+            nestedRecyclerView.adapter = ReviewCommentsAdapter(
                 groupedReviewModel.comments!!, this,
                 onToggleView, reactionsCallback, repoOwner, poster
             )
-            nestedRecyclerView!!.addDivider()
+            nestedRecyclerView.addDivider()
         }
         onToggle(onToggleView.isCollapsed(id), false)
     }
 
     override fun onItemClick(position: Int, v: View?, item: ReviewCommentModel) {
-        reviewCommentCallback?.onClick(adapterPosition, position, v!!, item)
+        reviewCommentCallback?.onClick(absoluteAdapterPosition, position, v!!, item)
     }
 
     override fun onItemLongClick(position: Int, v: View?, item: ReviewCommentModel) {
-        reviewCommentCallback?.onLongClick(adapterPosition, position, v!!, item)
+        reviewCommentCallback?.onLongClick(absoluteAdapterPosition, position, v!!, item)
     }
 
     private fun onToggle(expanded: Boolean, animate: Boolean) {
@@ -129,7 +101,7 @@ class GroupedReviewsViewHolder private constructor(
     }
 
     private val id: Long
-        private get() = adapterPosition.toLong()
+        get() = absoluteAdapterPosition.toLong()
 
     private fun setPatchText(text: String) {
         patch!!.text =

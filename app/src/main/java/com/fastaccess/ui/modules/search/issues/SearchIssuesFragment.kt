@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import butterknife.BindView
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.model.Issue
@@ -13,6 +12,7 @@ import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.provider.rest.loadmore.OnLoadMore
 import com.fastaccess.ui.adapter.IssuesAdapter
 import com.fastaccess.ui.base.BaseFragment
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.repos.extras.popup.IssuePopupFragment
 import com.fastaccess.ui.modules.search.SearchMvp
 import com.fastaccess.ui.widgets.StateLayout
@@ -24,25 +24,13 @@ import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
  */
 class SearchIssuesFragment : BaseFragment<SearchIssuesMvp.View, SearchIssuesPresenter>(),
     SearchIssuesMvp.View {
-    @JvmField
     @State
     var searchQuery = ""
 
-    @JvmField
-    @BindView(R.id.recycler)
-    var recycler: DynamicRecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.refresh)
-    var refresh: SwipeRefreshLayout? = null
-
-    @JvmField
-    @BindView(R.id.stateLayout)
-    var stateLayout: StateLayout? = null
-
-    @JvmField
-    @BindView(R.id.fastScroller)
-    var fastScroller: RecyclerViewFastScroller? = null
+    val recycler: DynamicRecyclerView? by viewFind(R.id.recycler)
+    val refresh: SwipeRefreshLayout? by viewFind(R.id.refresh)
+    val stateLayout: StateLayout? by viewFind(R.id.stateLayout)
+    val fastScroller: RecyclerViewFastScroller? by viewFind(R.id.fastScroller)
     private var onLoadMore: OnLoadMore<String>? = null
     private var adapter: IssuesAdapter? = null
     private var countCallback: SearchMvp.View? = null
@@ -85,7 +73,11 @@ class SearchIssuesFragment : BaseFragment<SearchIssuesMvp.View, SearchIssuesPres
         stateLayout!!.setOnReloadListener(this)
         refresh!!.setOnRefreshListener(this)
         recycler!!.setEmptyView(stateLayout!!, refresh)
-        adapter = IssuesAdapter(presenter!!.issues, false, true, true)
+        adapter = IssuesAdapter(presenter!!.issues,
+            withAvatar = false,
+            showRepoName = true,
+            showState = true
+        )
         adapter!!.listener = presenter
         recycler!!.adapter = adapter
         recycler!!.addDivider()

@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 
 @JvmOverloads
 fun View.setOnThrottleClickListener(
-    windowDuration: Long = 1000,
+    windowDuration: Long = 100,
     unit: TimeUnit = TimeUnit.MILLISECONDS,
     listener: (view: View) -> Unit
 ): Disposable {
@@ -26,32 +26,8 @@ fun View.setOnThrottleClickListener(
 }
 
 @JvmOverloads
-fun Sequence<View>.setOnThrottleClickListener(
-    windowDuration: Long = 1000,
-    unit: TimeUnit = TimeUnit.MILLISECONDS,
-    listener: (view: View) -> Unit
-): Disposable {
-    return Observable.create(ObservableOnSubscribe<View> { emitter ->
-        val onClick: (view: View) -> Unit = {
-            if (!emitter.isDisposed) {
-                emitter.onNext(it)
-            } else {
-                it.setOnClickListener(null)
-            }
-        }
-        this.forEach { view ->
-            view.setOnClickListener(onClick)
-        }
-    }).throttleFirst(windowDuration, unit)
-        .subscribe { listener(it) }
-//    return this.map {
-//        it.setOnThrottleClickListener(windowDuration, unit, listener)
-//    }
-}
-
-@JvmOverloads
 fun List<View>.setOnThrottleClickListener(
-    windowDuration: Long = 1000,
+    windowDuration: Long = 100,
     unit: TimeUnit = TimeUnit.MILLISECONDS,
     listener: (view: View) -> Unit
 ): Disposable {
@@ -68,7 +44,4 @@ fun List<View>.setOnThrottleClickListener(
         }
     }).throttleFirst(windowDuration, unit)
         .subscribe { listener(it) }
-//    return this.map {
-//        it.setOnThrottleClickListener(windowDuration, unit, listener)
-//    }
 }

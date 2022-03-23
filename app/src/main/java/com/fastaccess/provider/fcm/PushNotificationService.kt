@@ -25,7 +25,7 @@ class PushNotificationService : FirebaseMessagingService() {
             val date = Date(remoteMessage.sentTime)
             val fastHubNotification = RestProvider.gson
                 .fromJson(
-                    JSONObject(remoteMessage.data as Map<*, *>?).toString(),
+                    JSONObject(remoteMessage.data.toMap()).toString(),
                     FastHubNotification::class.java
                 )
             fastHubNotification.date = date

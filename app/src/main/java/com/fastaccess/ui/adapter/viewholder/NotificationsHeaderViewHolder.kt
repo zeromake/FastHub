@@ -1,14 +1,13 @@
 package com.fastaccess.ui.adapter.viewholder
 
-import com.fastaccess.ui.base.adapter.BaseViewHolder
-import butterknife.BindView
-import com.fastaccess.R
-import com.fastaccess.ui.widgets.FontTextView
-import android.view.ViewGroup
 import android.view.View
-import com.fastaccess.data.dao.GroupedNotificationModel
+import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageButton
-import com.fastaccess.ui.adapter.*
+import com.fastaccess.R
+import com.fastaccess.data.dao.GroupedNotificationModel
+import com.fastaccess.ui.adapter.NotificationsAdapter
+import com.fastaccess.ui.base.adapter.BaseViewHolder
+import com.fastaccess.ui.widgets.FontTextView
 
 /**
  * Created by Kosh on 11 Nov 2016, 2:08 PM
@@ -17,13 +16,8 @@ class NotificationsHeaderViewHolder private constructor(
     itemView: View,
     adapter: NotificationsAdapter
 ) : BaseViewHolder<GroupedNotificationModel>(itemView, adapter) {
-    @kotlin.jvm.JvmField
-    @BindView(R.id.headerTitle)
-    var headerTitle: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.markAsRead)
-    var markAsRead: AppCompatImageButton? = null
+    var headerTitle: FontTextView? = itemView.findViewById(R.id.headerTitle)
+    var markAsRead: AppCompatImageButton? = itemView.findViewById(R.id.markAsRead)
     override fun bind(t: GroupedNotificationModel) {
         val repo = t.repo
         if (repo != null && headerTitle != null) {

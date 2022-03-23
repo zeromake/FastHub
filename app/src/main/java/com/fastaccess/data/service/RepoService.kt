@@ -177,7 +177,7 @@ interface RepoService {
         @Path("owner") owner: String, @Path("repo") repo: String,
         @Path(value = "path", encoded = true) path: String,
         @Query("ref") ref: String
-    ): Observable<Pageable<RepoFile>>
+    ): Observable<okhttp3.ResponseBody>
 
     @GET("repos/{owner}/{repo}/git/trees/{sha}?recursive=1")
     fun getRepoTree(

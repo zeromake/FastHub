@@ -4,10 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import butterknife.BindView
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.CommentRequestModel
@@ -23,12 +23,12 @@ import com.fastaccess.provider.rest.loadmore.OnLoadMore
 import com.fastaccess.provider.scheme.SchemeParser.launchUri
 import com.fastaccess.ui.adapter.CommitFilesAdapter
 import com.fastaccess.ui.base.BaseFragment
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.main.premium.PremiumActivity.Companion.startActivity
 import com.fastaccess.ui.modules.repos.issues.issue.details.IssuePagerMvp.IssuePrCallback
 import com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.files.PullRequestFilesMvp.PatchCallback
 import com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.files.fullscreen.FullScreenFileChangeActivity.Companion.startLauncherForResult
 import com.fastaccess.ui.modules.reviews.AddReviewDialogFragment.Companion.newInstance
-import com.fastaccess.ui.widgets.FontTextView
 import com.fastaccess.ui.widgets.StateLayout
 import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
 import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
@@ -39,37 +39,16 @@ import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
 class PullRequestFilesFragment :
     BaseFragment<PullRequestFilesMvp.View, PullRequestFilesPresenter>(),
     PullRequestFilesMvp.View {
-    @JvmField
-    @BindView(R.id.recycler)
-    var recycler: DynamicRecyclerView? = null
+    val recycler: DynamicRecyclerView? by viewFind(R.id.recycler)
+    val refresh: SwipeRefreshLayout? by viewFind(R.id.refresh)
+    val stateLayout: StateLayout? by viewFind(R.id.stateLayout)
+    val fastScroller: RecyclerViewFastScroller? by viewFind(R.id.fastScroller)
+    val changes: TextView? by viewFind(R.id.changes)
+    val deletion: TextView? by viewFind(R.id.deletion)
+    val addition: TextView? by viewFind(R.id.addition)
 
-    @JvmField
-    @BindView(R.id.refresh)
-    var refresh: SwipeRefreshLayout? = null
-
-    @JvmField
-    @BindView(R.id.stateLayout)
-    var stateLayout: StateLayout? = null
-
-    @JvmField
-    @BindView(R.id.fastScroller)
-    var fastScroller: RecyclerViewFastScroller? = null
-
-    @JvmField
     @State
     var toggleMap: HashMap<Long, Boolean> = LinkedHashMap()
-
-    @JvmField
-    @BindView(R.id.changes)
-    var changes: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.addition)
-    var addition: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.deletion)
-    var deletion: FontTextView? = null
     private var viewCallback: PatchCallback? = null
     private var onLoadMore: OnLoadMore<String>? = null
     private var adapter: CommitFilesAdapter? = null
@@ -78,9 +57,11 @@ class PullRequestFilesFragment :
         super.onAttach(context)
         issueCallback = when {
             parentFragment is IssuePrCallback<*> -> {
+                @Suppress("UNCHECKED_CAST")
                 parentFragment as IssuePrCallback<PullRequest>
             }
             context is IssuePrCallback<*> -> {
+                @Suppress("UNCHECKED_CAST")
                 context as IssuePrCallback<PullRequest>
             }
             else -> {
@@ -216,19 +197,21 @@ class PullRequestFilesFragment :
         onRefresh()
     }
 
-    override fun onToggle(id: Long, isCollapsed: Boolean) {
-        val model = adapter!!.getItem(id.toInt()) ?: return
+    override fun onToggle(id: Long, isCollapsed: Boolean): Boolean {
+        val model = adapter!!.getItem(id.toInt()) ?: return false
         if (model.commitFileModel!!.patch == null) {
             if ("renamed".equals(model.commitFileModel!!.status, ignoreCase = true)) {
                 launchUri(requireContext(), model.commitFileModel!!.blobUrl!!)
-                return
+                return false
             }
             ActivityHelper.startCustomTab(
                 requireActivity(),
                 adapter!!.getItem(id.toInt())!!.commitFileModel!!.blobUrl!!
             )
+            return false
         }
         toggleMap[id] = isCollapsed
+        return true
     }
 
     override fun isCollapsed(id: Long): Boolean {

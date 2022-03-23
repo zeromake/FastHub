@@ -1,41 +1,41 @@
 package com.fastaccess.ui.modules.profile.overview
 
-import com.fastaccess.ui.base.BaseFragment
-import com.fastaccess.R
-import com.fastaccess.ui.widgets.FontTextView
-import android.widget.LinearLayout
-import com.fastaccess.ui.widgets.AvatarLayout
-import com.fastaccess.ui.widgets.FontButton
-import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
-import androidx.cardview.widget.CardView
-import androidx.core.widget.NestedScrollView
-import com.fastaccess.ui.widgets.contributions.GitHubContributionsView
-import com.fastaccess.ui.modules.profile.ProfilePagerMvp
-import butterknife.OnClick
-import android.os.Bundle
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.ViewGroup
-import com.fastaccess.provider.emoji.EmojiParser
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
-import com.fastaccess.ui.widgets.SpannableBuilder
-import com.fastaccess.ui.adapter.ProfileOrgsAdapter
-import com.fastaccess.ui.widgets.recyclerview.layout_manager.GridManager
-import com.fastaccess.ui.adapter.ProfilePinnedReposAdapter
-import com.fastaccess.ui.base.adapter.BaseViewHolder
-import com.fastaccess.provider.scheme.SchemeParser
+import android.widget.LinearLayout
 import androidx.annotation.StringRes
+import androidx.cardview.widget.CardView
+import androidx.core.widget.NestedScrollView
 import androidx.transition.AutoTransition
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import com.evernote.android.state.State
+import com.fastaccess.R
 import com.fastaccess.data.dao.model.Login
 import com.fastaccess.data.dao.model.User
 import com.fastaccess.github.GetPinnedReposQuery
 import com.fastaccess.helper.*
+import com.fastaccess.provider.emoji.EmojiParser
+import com.fastaccess.provider.scheme.SchemeParser
+import com.fastaccess.ui.adapter.ProfileOrgsAdapter
+import com.fastaccess.ui.adapter.ProfilePinnedReposAdapter
+import com.fastaccess.ui.base.BaseFragment
+import com.fastaccess.ui.base.adapter.BaseViewHolder
+import com.fastaccess.ui.modules.profile.ProfilePagerMvp
+import com.fastaccess.ui.widgets.AvatarLayout
+import com.fastaccess.ui.widgets.FontButton
+import com.fastaccess.ui.widgets.FontTextView
+import com.fastaccess.ui.widgets.SpannableBuilder
+import com.fastaccess.ui.widgets.contributions.GitHubContributionsView
+import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
+import com.fastaccess.ui.widgets.recyclerview.layout_manager.GridManager
+import com.fastaccess.utils.setOnThrottleClickListener
 
 /**
  * Created by Kosh on 03 Dec 2016, 9:16 AM
@@ -73,11 +73,11 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View, ProfileOve
 
     var progress: View? = null
 
-    var followBtn: Button? = null
+    private var followBtn: Button? = null
 
     var orgsList: DynamicRecyclerView? = null
 
-    var orgsCard: CardView? = null
+    private var orgsCard: CardView? = null
 
     var parentView: NestedScrollView? = null
 
@@ -85,7 +85,7 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View, ProfileOve
 
     var contributionCard: CardView? = null
 
-    var pinnedReposTextView: FontTextView? = null
+    private var pinnedReposTextView: FontTextView? = null
 
     var pinnedList: DynamicRecyclerView? = null
 
@@ -94,40 +94,7 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View, ProfileOve
     @State
     var userModel: User? = null
     private var profileCallback: ProfilePagerMvp.View? = null
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val view = super.onCreateView(inflater, container, savedInstanceState)!!
-        this.contributionsCaption = view.findViewById(R.id.contributionsCaption)
-        this.organizationsCaption = view.findViewById(R.id.organizationsCaption)
-        this.userInformation = view.findViewById(R.id.userInformation)
-        this.username = view.findViewById(R.id.username)
-        this.fullname = view.findViewById(R.id.fullname)
-        this.description = view.findViewById(R.id.description)
-        this.avatarLayout = view.findViewById(R.id.avatarLayout)
-        this.organization = view.findViewById(R.id.organization)
-        this.location = view.findViewById(R.id.location)
-        this.email = view.findViewById(R.id.email)
-        this.link = view.findViewById(R.id.link)
-        this.joined = view.findViewById(R.id.joined)
-        this.following = view.findViewById(R.id.following)
-        this.followers = view.findViewById(R.id.followers)
-        this.progress = view.findViewById(R.id.progress)
-        this.followBtn = view.findViewById(R.id.followBtn)
-        this.orgsList = view.findViewById(R.id.orgsList)
-        this.orgsCard = view.findViewById(R.id.orgsCard)
-        this.parentView = view.findViewById(R.id.parentView)
-        this.contributionView = view.findViewById(R.id.contributionView)
-        this.contributionCard = view.findViewById(R.id.contributionCard)
-        this.pinnedReposTextView = view.findViewById(R.id.pinnedReposTextView)
-        this.pinnedList = view.findViewById(R.id.pinnedList)
-        this.pinnedReposCard = view.findViewById(R.id.pinnedReposCard)
-        return view
-    }
 
-    @OnClick(R.id.following, R.id.followers, R.id.followBtn)
     fun onClick(view: View) {
         when (view.id) {
             R.id.followers -> {
@@ -143,7 +110,6 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View, ProfileOve
         }
     }
 
-    @OnClick(R.id.userInformation)
     fun onOpenAvatar() {
         if (userModel != null) ActivityHelper.startCustomTab(
             requireActivity(),
@@ -170,6 +136,39 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View, ProfileOve
     }
 
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
+        this.contributionsCaption = view.findViewById(R.id.contributionsCaption)
+        this.organizationsCaption = view.findViewById(R.id.organizationsCaption)
+        this.userInformation = view.findViewById(R.id.userInformation)
+        this.username = view.findViewById(R.id.username)
+        this.fullname = view.findViewById(R.id.fullname)
+        this.description = view.findViewById(R.id.description)
+        this.avatarLayout = view.findViewById(R.id.avatarLayout)
+        this.organization = view.findViewById(R.id.organization)
+        this.location = view.findViewById(R.id.location)
+        this.email = view.findViewById(R.id.email)
+        this.link = view.findViewById(R.id.link)
+        this.joined = view.findViewById(R.id.joined)
+        this.following = view.findViewById(R.id.following)
+        this.followers = view.findViewById(R.id.followers)
+        this.progress = view.findViewById(R.id.progress)
+        this.followBtn = view.findViewById(R.id.followBtn)
+        this.orgsList = view.findViewById(R.id.orgsList)
+        this.orgsCard = view.findViewById(R.id.orgsCard)
+        this.parentView = view.findViewById(R.id.parentView)
+        this.contributionView = view.findViewById(R.id.contributionView)
+        this.contributionCard = view.findViewById(R.id.contributionCard)
+        this.pinnedReposTextView = view.findViewById(R.id.pinnedReposTextView)
+        this.pinnedList = view.findViewById(R.id.pinnedList)
+        this.pinnedReposCard = view.findViewById(R.id.pinnedReposCard)
+        listOf(
+            R.id.following, R.id.followers, R.id.followBtn
+        ).map { view.findViewById<View>(it) }.setOnThrottleClickListener {
+            onClick(it)
+        }
+        view.findViewById<View>(R.id.userInformation).setOnThrottleClickListener {
+            onOpenAvatar()
+        }
+
         onInitOrgs(presenter!!.orgs)
         onInitPinnedRepos(presenter!!.nodes)
         if (savedInstanceState == null) {
@@ -230,7 +229,12 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View, ProfileOve
         } else {
             description!!.visibility = View.GONE
         }
-        avatarLayout!!.setUrl(userModel.avatarUrl, null, false, false, true)
+        avatarLayout!!.setUrl(
+            userModel.avatarUrl, null,
+            isOrg = false,
+            isEnterprise = false,
+            reload = true
+        )
         avatarLayout!!.findViewById<View>(R.id.avatar)
             .setOnTouchListener { _: View?, event: MotionEvent ->
                 if (event.action == MotionEvent.ACTION_UP) {
@@ -370,10 +374,6 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View, ProfileOve
     override fun showMessage(titleRes: Int, msgRes: Int) {
         onHideProgress()
         super.showMessage(titleRes, msgRes)
-    }
-
-    override fun onScrollTop(index: Int) {
-        super.onScrollTop(index)
     }
 
     private fun onHideProgress() {

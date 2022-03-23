@@ -8,8 +8,6 @@ import android.view.MenuItem
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener
-import butterknife.BindView
-import butterknife.OnClick
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.FragmentPagerAdapterModel.Companion.buildForIssues
@@ -46,6 +44,7 @@ import com.fastaccess.ui.widgets.SpannableBuilder.Companion.builder
 import com.fastaccess.ui.widgets.ViewPagerView
 import com.fastaccess.ui.widgets.dialog.MessageDialogView
 import com.fastaccess.ui.widgets.dialog.MessageDialogView.Companion.newInstance
+import com.fastaccess.utils.setOnThrottleClickListener
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 
@@ -54,51 +53,20 @@ import com.google.android.material.tabs.TabLayout
  */
 class IssuePagerActivity : BaseActivity<IssuePagerMvp.View, IssuePagerPresenter>(),
     IssuePagerMvp.View {
-    @JvmField
-    @BindView(R.id.startGist)
-    var startGist: ForegroundImageView? = null
+    val startGist: ForegroundImageView? by lazy { viewFind(R.id.startGist) }
+    private val forkGist: ForegroundImageView? by lazy { viewFind(R.id.forkGist) }
+    val avatarLayout: AvatarLayout? by lazy { viewFind(R.id.avatarLayout) }
+    val title: FontTextView? by lazy { viewFind(R.id.headerTitle) }
+    val size: FontTextView? by lazy { viewFind(R.id.size) }
+    val date: FontTextView? by lazy { viewFind(R.id.date) }
+    val tabs: TabLayout? by lazy { viewFind(R.id.tabs) }
+    val pager: ViewPagerView? by lazy { viewFind(R.id.pager) }
+    val fab: FloatingActionButton? by lazy { viewFind(R.id.fab) }
+    val detailsIcon: View? by lazy { viewFind(R.id.detailsIcon) }
 
-    @JvmField
-    @BindView(R.id.forkGist)
-    var forkGist: ForegroundImageView? = null
-
-    @JvmField
-    @BindView(R.id.avatarLayout)
-    var avatarLayout: AvatarLayout? = null
-
-    @JvmField
-    @BindView(R.id.headerTitle)
-    var title: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.size)
-    var size: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.date)
-    var date: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.tabs)
-    var tabs: TabLayout? = null
-
-    @JvmField
-    @BindView(R.id.pager)
-    var pager: ViewPagerView? = null
-
-    @JvmField
-    @BindView(R.id.fab)
-    var fab: FloatingActionButton? = null
-
-    @JvmField
-    @BindView(R.id.detailsIcon)
-    var detailsIcon: View? = null
-
-    @JvmField
     @State
     var isClosed = false
 
-    @JvmField
     @State
     var isOpened = false
     private var commentEditorFragment: CommentEditorFragment? = null
@@ -106,7 +74,6 @@ class IssuePagerActivity : BaseActivity<IssuePagerMvp.View, IssuePagerPresenter>
     override val data: Issue?
         get() = presenter?.issue
 
-    @OnClick(R.id.detailsIcon)
     fun onTitleClick() {
         if (presenter!!.issue != null && !isEmpty(
                 presenter!!.issue!!.title
@@ -138,6 +105,10 @@ class IssuePagerActivity : BaseActivity<IssuePagerMvp.View, IssuePagerPresenter>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        detailsIcon!!.setOnThrottleClickListener {
+            onTitleClick()
+        }
+
         commentEditorFragment =
             supportFragmentManager.findFragmentById(R.id.commentFragment) as CommentEditorFragment?
         tabs!!.visibility = View.GONE

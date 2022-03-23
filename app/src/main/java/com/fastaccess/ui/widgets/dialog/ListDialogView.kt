@@ -35,23 +35,14 @@ class ListDialogView<O : Parcelable> :
 
     private var simpleItemSelection: OnSimpleItemSelection<O>? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val root = super.onCreateView(inflater, container, savedInstanceState)!!
-        this.title = root.findViewById(R.id.title)
-        this.recycler = root.findViewById(R.id.recycler)
-        this.fastScroller = root.findViewById(R.id.fastScroller)
-        return root
-    }
-
     override fun fragmentLayout(): Int {
         return R.layout.simple_list_dialog
     }
 
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
+        this.title = view.findViewById(R.id.title)
+        this.recycler = view.findViewById(R.id.recycler)
+        this.fastScroller = view.findViewById(R.id.fastScroller)
         val objects: ArrayList<O> = requireArguments().getParcelableArrayList(BundleConstant.ITEM)!!
         val titleText = requireArguments().getString(BundleConstant.EXTRA)!!
         title.text = titleText

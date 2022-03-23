@@ -4,9 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import androidx.annotation.StringRes
-import androidx.transition.TransitionManager
-import androidx.fragment.app.FragmentManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -15,8 +12,9 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.ListView
-import butterknife.BindView
-import butterknife.OnClick
+import androidx.annotation.StringRes
+import androidx.fragment.app.FragmentManager
+import androidx.transition.TransitionManager
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.EditReviewCommentModel
@@ -29,7 +27,7 @@ import com.fastaccess.ui.widgets.FontTextView
 import com.fastaccess.ui.widgets.dialog.MessageDialogView
 import com.fastaccess.ui.widgets.markdown.MarkDownLayout
 import com.fastaccess.ui.widgets.markdown.MarkdownEditText
-import java.util.*
+import com.fastaccess.utils.setOnThrottleClickListener
 
 /**
  * Created by Kosh on 27 Nov 2016, 1:32 AM
@@ -38,25 +36,35 @@ import java.util.*
 class EditorActivity : BaseActivity<EditorMvp.View, EditorPresenter>(), EditorMvp.View {
     private var participants: ArrayList<String>? = null
     private val sentFromFastHub: String by lazy {
-        "\n\n_" + getString(R.string.sent_from_fasthub, AppHelper.deviceName, "",
-                "[" + getString(R.string.app_name) + "](https://play.google.com/store/apps/details?id=com.fastaccess.github)") + "_"
+        "\n\n_" + getString(
+            R.string.sent_from_fasthub, AppHelper.deviceName, "",
+            "[" + getString(R.string.app_name) + "](https://play.google.com/store/apps/details?id=com.fastaccess.github)"
+        ) + "_"
     }
 
-    @BindView(R.id.replyQuote) lateinit var replyQuote: LinearLayout
-    @BindView(R.id.replyQuoteText) lateinit var quote: FontTextView
-    @BindView(R.id.markDownLayout) lateinit var markDownLayout: MarkDownLayout
-    @BindView(R.id.editText) lateinit var editText: MarkdownEditText
-    @BindView(R.id.list_divider) lateinit var listDivider: View
-    @BindView(R.id.parentView) lateinit var parentView: View
-    @BindView(R.id.autocomplete) lateinit var mention: ListView
+    private val replyQuote: LinearLayout by lazy { viewFind(R.id.replyQuote)!! }
+    val quote: FontTextView by lazy { viewFind(R.id.replyQuoteText)!! }
+    val markDownLayout: MarkDownLayout by lazy { viewFind(R.id.markDownLayout)!! }
+    val editText: MarkdownEditText by lazy { viewFind(R.id.editText)!! }
+    private val listDivider: View by lazy { viewFind(R.id.list_divider)!! }
+    val parentView: View by lazy { viewFind(R.id.parentView)!! }
+    val mention: ListView by lazy { viewFind(R.id.autocomplete)!! }
 
-    @State @BundleConstant.ExtraType var extraType: String? = null
-    @State var itemId: String? = null
-    @State var login: String? = null
-    @State var issueNumber: Int = 0
-    @State var commentId: Long = 0
-    @State var sha: String? = null
-    @State var reviewComment: EditReviewCommentModel? = null
+    @State
+    @BundleConstant.ExtraType
+    var extraType: String? = null
+    @State
+    var itemId: String? = null
+    @State
+    var login: String? = null
+    @State
+    var issueNumber: Int = 0
+    @State
+    var commentId: Long = 0
+    @State
+    var sha: String? = null
+    @State
+    var reviewComment: EditReviewCommentModel? = null
 
     override fun layout(): Int = R.layout.editor_layout
 
@@ -68,20 +76,25 @@ class EditorActivity : BaseActivity<EditorMvp.View, EditorPresenter>(), EditorMv
 
     override fun providePresenter(): EditorPresenter = EditorPresenter()
 
-    @OnClick(R.id.replyQuoteText) internal fun onToggleQuote() {
+    private fun onToggleQuote() {
         TransitionManager.beginDelayedTransition((parentView as ViewGroup))
         if (quote.maxLines == 3) {
             quote.maxLines = Integer.MAX_VALUE
         } else {
             quote.maxLines = 3
         }
-        quote.setCompoundDrawablesWithIntrinsicBounds(0, 0,
-                if (quote.maxLines == 3) R.drawable.ic_arrow_drop_down
-                else R.drawable.ic_arrow_drop_up, 0)
+        quote.setCompoundDrawablesWithIntrinsicBounds(
+            0, 0,
+            if (quote.maxLines == 3) R.drawable.ic_arrow_drop_down
+            else R.drawable.ic_arrow_drop_up, 0
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        quote.setOnThrottleClickListener {
+            onToggleQuote()
+        }
         markDownLayout.markdownListener = this
         setToolbarIcon(R.drawable.ic_clear)
         if (savedInstanceState == null) {
@@ -95,10 +108,12 @@ class EditorActivity : BaseActivity<EditorMvp.View, EditorPresenter>(), EditorMv
     override fun onSendResultAndFinish(commentModel: Comment, isNew: Boolean) {
         hideProgress()
         val intent = Intent()
-        intent.putExtras(Bundler.start()
+        intent.putExtras(
+            Bundler.start()
                 .put(BundleConstant.ITEM, commentModel)
                 .put(BundleConstant.EXTRA, isNew)
-                .end())
+                .end()
+        )
         setResult(Activity.RESULT_OK, intent)
         finish()
     }
@@ -113,10 +128,12 @@ class EditorActivity : BaseActivity<EditorMvp.View, EditorPresenter>(), EditorMv
     override fun onSendReviewResultAndFinish(comment: EditReviewCommentModel, isNew: Boolean) {
         hideProgress()
         val intent = Intent()
-        intent.putExtras(Bundler.start()
+        intent.putExtras(
+            Bundler.start()
                 .put(BundleConstant.ITEM, comment)
                 .put(BundleConstant.EXTRA, isNew)
-                .end())
+                .end()
+        )
         setResult(Activity.RESULT_OK, intent)
         finish()
     }
@@ -134,7 +151,16 @@ class EditorActivity : BaseActivity<EditorMvp.View, EditorPresenter>(), EditorMv
                     editText.savedText = editText.savedText.toString() + sentFromFastHub
                 }
             }
-            presenter.onHandleSubmission(editText.savedText, extraType, itemId, commentId, login, issueNumber, sha, reviewComment)
+            presenter.onHandleSubmission(
+                editText.savedText,
+                extraType,
+                itemId,
+                commentId,
+                login,
+                issueNumber,
+                sha,
+                reviewComment
+            )
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -163,13 +189,15 @@ class EditorActivity : BaseActivity<EditorMvp.View, EditorPresenter>(), EditorMv
     override fun onBackPressed() {
         if (!InputHelper.isEmpty(editText)) {
             ViewHelper.hideKeyboard(editText)
-            MessageDialogView.newInstance(getString(R.string.close), getString(R.string.unsaved_data_warning),
-                    Bundler.start()
-                            .put("primary_extra", getString(R.string.discard))
-                            .put("secondary_extra", getString(R.string.cancel))
-                            .put(BundleConstant.EXTRA, true)
-                            .end())
-                    .show(supportFragmentManager, MessageDialogView.TAG)
+            MessageDialogView.newInstance(
+                getString(R.string.close), getString(R.string.unsaved_data_warning),
+                Bundler.start()
+                    .put("primary_extra", getString(R.string.discard))
+                    .put("secondary_extra", getString(R.string.cancel))
+                    .put(BundleConstant.EXTRA, true)
+                    .end()
+            )
+                .show(supportFragmentManager, MessageDialogView.TAG)
             return
 
         }
@@ -206,8 +234,15 @@ class EditorActivity : BaseActivity<EditorMvp.View, EditorPresenter>(), EditorMv
             reviewComment = bundle.getParcelable(BundleConstant.REVIEW_EXTRA)
             itemId = bundle.getString(BundleConstant.ID)
             login = bundle.getString(BundleConstant.EXTRA_TWO)
-            if (extraType.equals(BundleConstant.ExtraType.EDIT_COMMIT_COMMENT_EXTRA, ignoreCase = true)
-                    || extraType.equals(BundleConstant.ExtraType.NEW_COMMIT_COMMENT_EXTRA, ignoreCase = true)) {
+            if (extraType.equals(
+                    BundleConstant.ExtraType.EDIT_COMMIT_COMMENT_EXTRA,
+                    ignoreCase = true
+                )
+                || extraType.equals(
+                    BundleConstant.ExtraType.NEW_COMMIT_COMMENT_EXTRA,
+                    ignoreCase = true
+                )
+            ) {
                 sha = bundle.getString(BundleConstant.EXTRA_THREE)
             } else {
                 issueNumber = bundle.getInt(BundleConstant.EXTRA_THREE)

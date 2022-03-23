@@ -3,7 +3,6 @@ package com.fastaccess.ui.modules.repos.code
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import butterknife.BindView
 import com.annimon.stream.Objects
 import com.annimon.stream.Stream
 import com.evernote.android.state.State
@@ -16,6 +15,7 @@ import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.ViewHelper.getTabTextView
 import com.fastaccess.ui.adapter.FragmentsPagerAdapter
 import com.fastaccess.ui.base.BaseFragment
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.repos.code.files.paths.RepoFilePathFragment
 import com.fastaccess.ui.widgets.SpannableBuilder.Companion.builder
 import com.fastaccess.ui.widgets.ViewPagerView
@@ -26,15 +26,8 @@ import com.google.android.material.tabs.TabLayout
  */
 class RepoCodePagerFragment : BaseFragment<RepoCodePagerMvp.View, RepoCodePagerPresenter>(),
     RepoCodePagerMvp.View {
-    @JvmField
-    @BindView(R.id.tabs)
-    var tabs: TabLayout? = null
-
-    @JvmField
-    @BindView(R.id.pager)
-    var pager: ViewPagerView? = null
-
-    @JvmField
+    val tabs: TabLayout? by viewFind(R.id.tabs)
+    val pager: ViewPagerView? by viewFind(R.id.pager)
     @State
     var counts = HashSet<TabsCountStateModel>()
     override fun fragmentLayout(): Int {

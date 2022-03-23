@@ -22,7 +22,8 @@ import com.fastaccess.ui.widgets.SpannableBuilder
  * Created by Kosh on 08 Jun 2017, 10:53 PM
  */
 
-class ThemeFragment : BaseFragment<ThemeFragmentMvp.View, ThemeFragmentPresenter>(), ThemeFragmentMvp.View {
+class ThemeFragment : BaseFragment<ThemeFragmentMvp.View, ThemeFragmentPresenter>(),
+    ThemeFragmentMvp.View {
 
     lateinit var apply: FloatingActionButton
     lateinit var toolbar: Toolbar
@@ -45,11 +46,14 @@ class ThemeFragment : BaseFragment<ThemeFragmentMvp.View, ThemeFragmentPresenter
     override fun fragmentLayout(): Int = 0
 
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
+        apply = view.findViewById(R.id.apply)
+        toolbar = view.findViewById(R.id.toolbar)
         apply.setOnClickListener {
             setTheme()
         }
         if (isPremiumTheme()) {
-            toolbar.title = SpannableBuilder.builder().foreground(getString(R.string.premium_theme), Color.RED)
+            toolbar.title =
+                SpannableBuilder.builder().foreground(getString(R.string.premium_theme), Color.RED)
         }
         toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
     }
@@ -64,10 +68,7 @@ class ThemeFragment : BaseFragment<ThemeFragmentMvp.View, ThemeFragmentPresenter
         val contextThemeWrapper = ContextThemeWrapper(activity, theme)
         primaryDarkColor = ViewHelper.getPrimaryDarkColor(contextThemeWrapper)
         val localInflater = inflater.cloneInContext(contextThemeWrapper)
-        val root = localInflater.inflate(R.layout.theme_layout, container, false)!!
-        apply = root.findViewById(R.id.apply)
-        toolbar = root.findViewById(R.id.toolbar)
-        return root
+        return localInflater.inflate(R.layout.theme_layout, container, false)!!
     }
 
     override fun providePresenter(): ThemeFragmentPresenter {
@@ -78,7 +79,10 @@ class ThemeFragment : BaseFragment<ThemeFragmentMvp.View, ThemeFragmentPresenter
         super.setUserVisibleHint(isVisibleToUser)
         if (isVisibleToUser) {
             if (themeListener != null) {
-                themeListener!!.onChangePrimaryDarkColor(primaryDarkColor, theme == R.style.ThemeLight)
+                themeListener!!.onChangePrimaryDarkColor(
+                    primaryDarkColor,
+                    theme == R.style.ThemeLight
+                )
             }
         }
     }
@@ -101,8 +105,8 @@ class ThemeFragment : BaseFragment<ThemeFragmentMvp.View, ThemeFragmentPresenter
         fun newInstance(style: Int): ThemeFragment {
             val fragment = ThemeFragment()
             fragment.arguments = Bundler.start()
-                    .put(BundleConstant.ITEM, style)
-                    .end()
+                .put(BundleConstant.ITEM, style)
+                .end()
             return fragment
         }
     }
@@ -149,7 +153,8 @@ class ThemeFragment : BaseFragment<ThemeFragmentMvp.View, ThemeFragmentPresenter
         themeListener?.onThemeApplied()
     }
 
-    private fun isPremiumTheme(): Boolean = theme != R.style.ThemeLight && theme != R.style.ThemeDark
+    private fun isPremiumTheme(): Boolean =
+        theme != R.style.ThemeLight && theme != R.style.ThemeDark
 
     private fun isGoogleSupported(): Boolean {
         if (AppHelper.isGoogleAvailable(requireContext())) {

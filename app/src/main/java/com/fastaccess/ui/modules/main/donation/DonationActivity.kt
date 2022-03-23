@@ -2,8 +2,6 @@ package com.fastaccess.ui.modules.main.donation
 
 import android.os.Bundle
 import android.view.View
-import butterknife.BindView
-import butterknife.OnClick
 import com.fastaccess.App
 import com.fastaccess.BuildConfig
 import com.fastaccess.R
@@ -16,6 +14,7 @@ import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 import com.fastaccess.ui.modules.main.donation.DonateActivity.Companion.enableProduct
 import com.fastaccess.ui.modules.main.donation.DonateActivity.Companion.start
 import com.fastaccess.ui.modules.main.premium.PremiumActivity.Companion.startActivity
+import com.fastaccess.utils.setOnThrottleClickListener
 import com.google.android.material.appbar.AppBarLayout
 import com.miguelbcr.io.rx_billing_service.RxBillingService
 import com.miguelbcr.io.rx_billing_service.entities.ProductType
@@ -24,13 +23,8 @@ import com.miguelbcr.io.rx_billing_service.entities.ProductType
  * Created by Kosh on 24 Mar 2017, 9:16 PM
  */
 class DonationActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FAView>>() {
-    @JvmField
-    @BindView(R.id.cardsHolder)
-    var cardsHolder: View? = null
-
-    @JvmField
-    @BindView(R.id.appbar)
-    var appBarLayout: AppBarLayout? = null
+    val cardsHolder: View? by lazy { viewFind(R.id.cardsHolder) }
+    val appBarLayout: AppBarLayout? by lazy { viewFind(R.id.appbar) }
     override fun layout(): Int {
         return R.layout.support_development_layout
     }
@@ -47,33 +41,24 @@ class DonationActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FAVi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val root = window.decorView
+        listOf(
+            R.id.two,
+            R.id.five,
+            R.id.ten,
+            R.id.twenty,
+            R.id.premium,
+        ).map { root.findViewById<View>(it) }.setOnThrottleClickListener {
+            when(it.id) {
+                R.id.two -> onProceed(getString(R.string.donation_product_1))
+                R.id.five -> onProceed(getString(R.string.donation_product_2))
+                R.id.ten -> onProceed(getString(R.string.donation_product_3))
+                R.id.twenty -> onProceed(getString(R.string.donation_product_4))
+                R.id.premium -> startActivity(this)
+            }
+        }
         animateVisibility(cardsHolder, true)
         checkPurchase()
-    }
-
-    @OnClick(R.id.two)
-    fun onTwoClicked() {
-        onProceed(getString(R.string.donation_product_1))
-    }
-
-    @OnClick(R.id.five)
-    fun onFiveClicked() {
-        onProceed(getString(R.string.donation_product_2))
-    }
-
-    @OnClick(R.id.ten)
-    fun onTenClicked() {
-        onProceed(getString(R.string.donation_product_3))
-    }
-
-    @OnClick(R.id.twenty)
-    fun onTwentyClicked() {
-        onProceed(getString(R.string.donation_product_4))
-    }
-
-    @OnClick(R.id.premium)
-    fun onNavToPremium() {
-        startActivity(this)
     }
 
     override fun providePresenter(): BasePresenter<BaseMvp.FAView> {

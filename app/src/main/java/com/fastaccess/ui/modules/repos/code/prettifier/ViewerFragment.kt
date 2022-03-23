@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.*
 import android.widget.ProgressBar
 import androidx.annotation.StringRes
-import butterknife.BindView
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.helper.ActivityHelper.startCustomTab
@@ -14,6 +13,7 @@ import com.fastaccess.helper.Bundler.Companion.start
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.PrefGetter.isWrapCode
 import com.fastaccess.ui.base.BaseFragment
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.widgets.StateLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
@@ -26,50 +26,41 @@ import kotlin.math.abs
  */
 class ViewerFragment : BaseFragment<ViewerMvp.View, ViewerPresenter>(), ViewerMvp.View,
     OnOffsetChangedListener {
-    @JvmField
-    @BindView(R.id.readmeLoader)
-    var loader: ProgressBar? = null
+    val loader: ProgressBar? by viewFind(R.id.readmeLoader)
+    lateinit var webView: PrettifyWebView
+    val stateLayout: StateLayout? by viewFind(R.id.stateLayout)
 
-    @JvmField
-    @BindView(R.id.webView)
-    var webView: PrettifyWebView? = null
-
-    @JvmField
-    @BindView(R.id.stateLayout)
-    var stateLayout: StateLayout? = null
     private var appBarLayout: AppBarLayout? = null
     private var bottomNavigation: BottomNavigation? = null
     private var isAppBarMoving = false
     private var isAppBarExpanded = true
     private var isAppBarListener = false
 
-    @JvmField
     @State
     var isWrap = isWrapCode
 
-    @JvmField
     @State
     var defaultBranch: String? = null
     override fun onSetImageUrl(url: String, isSvg: Boolean) {
-        webView!!.loadImage(url, isSvg)
-        webView!!.setOnContentChangedListener(this)
-        webView!!.visibility = View.VISIBLE
+        webView.loadImage(url, isSvg)
+        webView.setOnContentChangedListener(this)
+        webView.visibility = View.VISIBLE
         requireActivity().invalidateOptionsMenu()
     }
 
     override fun onSetMdText(text: String, baseUrl: String?, replace: Boolean, branch: String?) {
-        webView!!.visibility = View.VISIBLE
+        webView.visibility = View.VISIBLE
         loader!!.isIndeterminate = false
-        webView!!.setGithubContentWithReplace(text, baseUrl, replace, branch)
-        webView!!.setOnContentChangedListener(this)
+        webView.setGithubContentWithReplace(text, baseUrl, replace, branch)
+        webView.setOnContentChangedListener(this)
         requireActivity().invalidateOptionsMenu()
     }
 
     override fun onSetCode(text: String) {
-        webView!!.visibility = View.VISIBLE
+        webView.visibility = View.VISIBLE
         loader!!.isIndeterminate = false
-        webView!!.setSource(text, isWrap)
-        webView!!.setOnContentChangedListener(this)
+        webView.setSource(text, isWrap)
+        webView.setOnContentChangedListener(this)
         requireActivity().invalidateOptionsMenu()
     }
 
@@ -136,7 +127,7 @@ class ViewerFragment : BaseFragment<ViewerMvp.View, ViewerPresenter>(), ViewerMv
             if (progress == 100) {
                 hideProgress()
                 if (!presenter!!.isMarkDown && !presenter!!.isImage) {
-                    webView!!.scrollToLine(presenter!!.url())
+                    webView.scrollToLine(presenter!!.url())
                 }
             }
         }
@@ -144,15 +135,15 @@ class ViewerFragment : BaseFragment<ViewerMvp.View, ViewerPresenter>(), ViewerMv
 
     override fun onScrollChanged(reachedTop: Boolean, scroll: Int) {
         if (isDeviceAnimationEnabled(requireActivity())) {
-            if (presenter!!.isRepo && appBarLayout != null && bottomNavigation != null && webView != null) {
-                val shouldExpand = webView!!.scrollY == 0
+            if (presenter!!.isRepo && appBarLayout != null && bottomNavigation != null) {
+                val shouldExpand = webView.scrollY == 0
                 if (!isAppBarMoving && shouldExpand != isAppBarExpanded) {
                     isAppBarMoving = true
                     isAppBarExpanded = shouldExpand
                     bottomNavigation!!.setExpanded(shouldExpand, true)
                     appBarLayout!!.setExpanded(shouldExpand, true)
-                    webView!!.isNestedScrollingEnabled = shouldExpand
-                    if (shouldExpand) webView!!.onTouchEvent(
+                    webView.isNestedScrollingEnabled = shouldExpand
+                    if (shouldExpand) webView.onTouchEvent(
                         MotionEvent.obtain(
                             0,
                             0,
@@ -174,6 +165,7 @@ class ViewerFragment : BaseFragment<ViewerMvp.View, ViewerPresenter>(), ViewerMv
     }
 
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
+        webView = view.findViewById(R.id.webView)
         if (isEmpty(presenter!!.downloadedStream())) {
             presenter!!.onHandleIntent(arguments)
         } else {
@@ -258,7 +250,7 @@ class ViewerFragment : BaseFragment<ViewerMvp.View, ViewerPresenter>(), ViewerMv
 
     override fun onScrollTop(index: Int) {
         super.onScrollTop(index)
-        if (webView != null) webView!!.scrollTo(0, 0)
+        webView.scrollTo(0, 0)
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
@@ -276,10 +268,8 @@ class ViewerFragment : BaseFragment<ViewerMvp.View, ViewerPresenter>(), ViewerMv
     }
 
     override fun onDestroy() {
+        webView.destroy()
         super.onDestroy()
-        if (webView != null) {
-            webView!!.destroy()
-        }
     }
 
     companion object {

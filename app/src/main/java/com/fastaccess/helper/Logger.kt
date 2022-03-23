@@ -1,5 +1,6 @@
 package com.fastaccess.helper
 
+import android.util.Log
 import com.fastaccess.BuildConfig
 import timber.log.Timber
 
@@ -11,17 +12,17 @@ object Logger {
     private val DEBUG = BuildConfig.DEBUG
     private fun e(tag: String, text: Any?) {
         if (!DEBUG) return
-        Timber.e(tag, text?.toString() ?: "LOGGER IS NULL") //avoid null
+        Log.e(tag, text?.toString() ?: "LOGGER IS NULL") //avoid null
     }
 
     private fun d(tag: String, text: Any?) {
         if (!DEBUG) return
-        Timber.d(tag, text?.toString() ?: "LOGGER IS NULL") //avoid null
+        Log.d(tag, text?.toString() ?: "LOGGER IS NULL") //avoid null
     }
 
     private fun i(tag: String, text: Any?) {
         if (!DEBUG) return
-        Timber.i(tag, text?.toString() ?: "LOGGER IS NULL") //avoid null
+        Log.i(tag, text?.toString() ?: "LOGGER IS NULL") //avoid null
     }
 
     @JvmStatic

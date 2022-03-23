@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
-import butterknife.BindView
 import com.fastaccess.R
 import com.fastaccess.data.dao.LabelModel
 import com.fastaccess.data.dao.ReactionsModel
@@ -25,7 +24,6 @@ import com.fastaccess.provider.timeline.handler.drawable.DrawableGetter
 import com.fastaccess.ui.adapter.IssuesTimelineAdapter
 import com.fastaccess.ui.adapter.callback.OnToggleView
 import com.fastaccess.ui.adapter.callback.ReactionsCallback
-import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
 import com.fastaccess.ui.base.adapter.BaseViewHolder
 import com.fastaccess.ui.widgets.AvatarLayout
 import com.fastaccess.ui.widgets.FontTextView
@@ -42,121 +40,36 @@ class IssueDetailsViewHolder private constructor(
     onToggleView: OnToggleView, reactionsCallback: ReactionsCallback,
     repoOwner: String, poster: String
 ) : BaseViewHolder<TimelineModel>(itemView, adapter) {
-    @kotlin.jvm.JvmField
-    @BindView(R.id.avatarView)
-    var avatar: AvatarLayout? = null
+    val avatar: AvatarLayout? = itemView.findViewById(R.id.avatarView)
+    val date: FontTextView? = itemView.findViewById(R.id.date)
+    val name: FontTextView? = itemView.findViewById(R.id.name)
+    val comment: FontTextView? = itemView.findViewById(R.id.comment)
+    val thumbsUp: FontTextView? = itemView.findViewById(R.id.thumbsUp)
+    val thumbsDown: FontTextView? = itemView.findViewById(R.id.thumbsDown)
+    val laugh: FontTextView? = itemView.findViewById(R.id.laugh)
+    val sad: FontTextView? = itemView.findViewById(R.id.sad)
+    val hooray: FontTextView? = itemView.findViewById(R.id.hurray)
+    val heart: FontTextView? = itemView.findViewById(R.id.heart)
+    val toggle: View? = itemView.findViewById(R.id.toggle)
+    val commentMenu: View? = itemView.findViewById(R.id.commentMenu)
+    val commentOptions: View? = itemView.findViewById(R.id.commentOptions)
+    val toggleHolder: View? = itemView.findViewById(R.id.toggleHolder)
+    val emojiesList: View? = itemView.findViewById(R.id.emojiesList)
+    val owner: TextView? = itemView.findViewById(R.id.owner)
+    val labels: TextView? = itemView.findViewById(R.id.labels)
+    val labelsHolder: View? = itemView.findViewById(R.id.labelsHolder)
+    val reactionsList: View? = itemView.findViewById(R.id.reactionsList)
+    val thumbsUpReaction: FontTextView? = itemView.findViewById(R.id.thumbsUpReaction)
+    val thumbsDownReaction: FontTextView? = itemView.findViewById(R.id.thumbsDownReaction)
+    val laughReaction: FontTextView? = itemView.findViewById(R.id.laughReaction)
+    val hurrayReaction: FontTextView? = itemView.findViewById(R.id.hurrayReaction)
+    val sadReaction: FontTextView? = itemView.findViewById(R.id.sadReaction)
+    val heartReaction: FontTextView? = itemView.findViewById(R.id.heartReaction)
+    val rocketReaction: FontTextView? = itemView.findViewById(R.id.rocketReaction)
+    val eyeReaction: FontTextView? = itemView.findViewById(R.id.eyeReaction)
+    val rocket: FontTextView? = itemView.findViewById(R.id.rocket)
+    val eyes: FontTextView? = itemView.findViewById(R.id.eyes)
 
-    @kotlin.jvm.JvmField
-    @BindView(R.id.date)
-    var date: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.name)
-    var name: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.comment)
-    var comment: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.thumbsUp)
-    var thumbsUp: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.thumbsDown)
-    var thumbsDown: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.laugh)
-    var laugh: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.sad)
-    var sad: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.hurray)
-    var hooray: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.heart)
-    var heart: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.toggle)
-    var toggle: View? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.commentMenu)
-    var commentMenu: View? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.commentOptions)
-    var commentOptions: View? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.toggleHolder)
-    var toggleHolder: View? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.emojiesList)
-    var emojiesList: View? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.owner)
-    var owner: TextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.labels)
-    var labels: TextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.labelsHolder)
-    var labelsHolder: View? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.reactionsList)
-    var reactionsList: View? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.thumbsUpReaction)
-    var thumbsUpReaction: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.thumbsDownReaction)
-    var thumbsDownReaction: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.laughReaction)
-    var laughReaction: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.hurrayReaction)
-    var hurrayReaction: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.sadReaction)
-    var sadReaction: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.heartReaction)
-    var heartReaction: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.rocketReaction)
-    var rocketReaction: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.eyeReaction)
-    var eyeReaction: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.rocket)
-    var rocket: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.eyes)
-    var eyes: FontTextView? = null
     private val onToggleView: OnToggleView?
     private val reactionsCallback: ReactionsCallback?
     private val viewGroup: ViewGroup
@@ -169,7 +82,7 @@ class IssueDetailsViewHolder private constructor(
             bind(t.pullRequest!!)
         }
         if (onToggleView != null) onToggle(
-            onToggleView.isCollapsed(adapterPosition.toLong()),
+            onToggleView.isCollapsed(absoluteAdapterPosition.toLong()),
             false
         )
     }
@@ -177,7 +90,7 @@ class IssueDetailsViewHolder private constructor(
     override fun onClick(v: View) {
         if (v.id == R.id.toggle || v.id == R.id.toggleHolder) {
             if (onToggleView != null) {
-                val position = adapterPosition
+                val position = absoluteAdapterPosition
                 onToggleView.onToggle(
                     position.toLong(),
                     !onToggleView.isCollapsed(position.toLong())
@@ -192,7 +105,7 @@ class IssueDetailsViewHolder private constructor(
 
     private fun addReactionCount(v: View) {
         if (adapter != null) {
-            val timelineModel = adapter.getItem(adapterPosition) ?: return
+            val timelineModel = adapter.getItem(absoluteAdapterPosition) ?: return
             var reactionsModel: ReactionsModel? = null
             val pullRequest = timelineModel.pullRequest
             val issue = timelineModel.issue
@@ -209,8 +122,7 @@ class IssueDetailsViewHolder private constructor(
                 number.toLong(),
                 v.id
             )
-            val isCallingApi =
-                reactionsCallback != null && reactionsCallback.isCallingApi(number.toLong(), v.id)
+            reactionsCallback != null && reactionsCallback.isCallingApi(number.toLong(), v.id)
             when (v.id) {
                 R.id.heart, R.id.heartReaction -> reactionsModel.heart =
                     if (!isReacted) reactionsModel.heart + 1 else reactionsModel.heart - 1
@@ -264,10 +176,10 @@ class IssueDetailsViewHolder private constructor(
         val isOwner = TextUtils.equals(repoOwner, user.login)
         if (isOwner) {
             owner!!.visibility = View.VISIBLE
-            owner!!.setText(R.string.owner)
+            owner.setText(R.string.owner)
         } else {
             owner!!.text = ""
-            owner!!.visibility = View.GONE
+            owner.visibility = View.GONE
         }
         reactionsModel?.let { appendEmojies(it) }
         if (!isEmpty(description)) {
@@ -330,7 +242,7 @@ class IssueDetailsViewHolder private constructor(
         toggle!!.rotation = if (!expanded) 0.0f else 180f
         commentOptions!!.visibility = if (!expanded) View.GONE else View.VISIBLE
         reactionsList!!.visibility =
-            if (expanded) View.GONE else if (reactionsList!!.tag == null || !(reactionsList!!.tag as Boolean)) View.GONE else View.VISIBLE
+            if (expanded) View.GONE else if (reactionsList.tag == null || !(reactionsList.tag as Boolean)) View.GONE else View.VISIBLE
     }
 
     override fun onViewIsDetaching() {
@@ -371,32 +283,32 @@ class IssueDetailsViewHolder private constructor(
         thumbsDown!!.setOnClickListener(this)
         thumbsUp!!.setOnClickListener(this)
         hooray!!.setOnClickListener(this)
-        laugh!!.setOnLongClickListener(this)
-        sad!!.setOnLongClickListener(this)
-        thumbsDown!!.setOnLongClickListener(this)
-        thumbsUp!!.setOnLongClickListener(this)
-        hooray!!.setOnLongClickListener(this)
+        laugh.setOnLongClickListener(this)
+        sad.setOnLongClickListener(this)
+        thumbsDown.setOnLongClickListener(this)
+        thumbsUp.setOnLongClickListener(this)
+        hooray.setOnLongClickListener(this)
         heart!!.setOnLongClickListener(this)
-        heart!!.setOnClickListener(this)
+        heart.setOnClickListener(this)
         laughReaction!!.setOnClickListener(this)
         sadReaction!!.setOnClickListener(this)
         thumbsDownReaction!!.setOnClickListener(this)
         thumbsUpReaction!!.setOnClickListener(this)
         hurrayReaction!!.setOnClickListener(this)
         heartReaction!!.setOnClickListener(this)
-        laughReaction!!.setOnLongClickListener(this)
-        sadReaction!!.setOnLongClickListener(this)
-        thumbsDownReaction!!.setOnLongClickListener(this)
-        thumbsUpReaction!!.setOnLongClickListener(this)
-        hurrayReaction!!.setOnLongClickListener(this)
-        heartReaction!!.setOnLongClickListener(this)
+        laughReaction.setOnLongClickListener(this)
+        sadReaction.setOnLongClickListener(this)
+        thumbsDownReaction.setOnLongClickListener(this)
+        thumbsUpReaction.setOnLongClickListener(this)
+        hurrayReaction.setOnLongClickListener(this)
+        heartReaction.setOnLongClickListener(this)
         rocketReaction!!.setOnLongClickListener(this)
-        rocketReaction!!.setOnClickListener(this)
+        rocketReaction.setOnClickListener(this)
         rocket!!.setOnLongClickListener(this)
-        rocket!!.setOnClickListener(this)
+        rocket.setOnClickListener(this)
         eyeReaction!!.setOnLongClickListener(this)
-        eyeReaction!!.setOnClickListener(this)
+        eyeReaction.setOnClickListener(this)
         eyes!!.setOnLongClickListener(this)
-        eyes!!.setOnClickListener(this)
+        eyes.setOnClickListener(this)
     }
 }

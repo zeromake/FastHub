@@ -1,13 +1,11 @@
 package com.fastaccess.ui.modules.repos.extras.milestone.create
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.widget.Toolbar
-import butterknife.BindView
-import butterknife.OnTouch
 import com.fastaccess.R
 import com.fastaccess.data.dao.MilestoneModel
 import com.fastaccess.datetimepicker.DatePickerFragmentDialog
@@ -17,7 +15,7 @@ import com.fastaccess.helper.Bundler.Companion.start
 import com.fastaccess.helper.InputHelper.toString
 import com.fastaccess.helper.ParseDateFormat.Companion.prettifyDate
 import com.fastaccess.ui.base.BaseDialogFragment
-import com.fastaccess.ui.modules.repos.extras.milestone.create.CreateMilestoneDialogFragment
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.repos.extras.milestone.create.CreateMilestoneMvp.OnMilestoneAdded
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -28,21 +26,10 @@ import com.google.android.material.textfield.TextInputLayout
 class CreateMilestoneDialogFragment :
     BaseDialogFragment<CreateMilestoneMvp.View, CreateMilestonePresenter>(),
     CreateMilestoneMvp.View, DatePickerCallback {
-    @JvmField
-    @BindView(R.id.toolbar)
-    var toolbar: Toolbar? = null
-
-    @JvmField
-    @BindView(R.id.title)
-    var title: TextInputLayout? = null
-
-    @JvmField
-    @BindView(R.id.dueOnEditText)
-    var dueOnEditText: TextInputEditText? = null
-
-    @JvmField
-    @BindView(R.id.description)
-    var description: TextInputLayout? = null
+    val toolbar: Toolbar? by viewFind(R.id.toolbar)
+    val title: TextInputLayout? by viewFind(R.id.title)
+    val dueOnEditText: TextInputEditText? by viewFind(R.id.dueOnEditText)
+    val description: TextInputLayout? by viewFind(R.id.description)
     private var onMilestoneAdded: OnMilestoneAdded? = null
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -62,18 +49,22 @@ class CreateMilestoneDialogFragment :
         return R.layout.create_milestone_layout
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
-        val login = arguments!!.getString(BundleConstant.EXTRA)
-        val repo = arguments!!.getString(BundleConstant.ID)
+        val login = requireArguments().getString(BundleConstant.EXTRA)
+        val repo = requireArguments().getString(BundleConstant.ID)
         if (login == null || repo == null) {
             return
         }
+        dueOnEditText!!.setOnTouchListener { _, event ->
+            onTouch(event)
+        }
         toolbar!!.setTitle(R.string.create_milestone)
         toolbar!!.setNavigationIcon(R.drawable.ic_clear)
-        toolbar!!.setNavigationOnClickListener { item: View? -> dismiss() }
+        toolbar!!.setNavigationOnClickListener { dismiss() }
         toolbar!!.inflateMenu(R.menu.add_menu)
         toolbar!!.menu.findItem(R.id.add).setIcon(R.drawable.ic_send)
-        toolbar!!.setOnMenuItemClickListener { item: MenuItem? ->
+        toolbar!!.setOnMenuItemClickListener {
             presenter!!.onSubmit(
                 toString(title),
                 toString(dueOnEditText),
@@ -89,7 +80,6 @@ class CreateMilestoneDialogFragment :
         return CreateMilestonePresenter()
     }
 
-    @OnTouch(R.id.dueOnEditText)
     fun onTouch(event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_UP) {
             DatePickerFragmentDialog.newInstance()
@@ -115,7 +105,7 @@ class CreateMilestoneDialogFragment :
     }
 
     companion object {
-        val TAG = CreateMilestoneDialogFragment::class.java.simpleName
+        val TAG: String = CreateMilestoneDialogFragment::class.java.simpleName
         fun newInstance(login: String, repo: String): CreateMilestoneDialogFragment {
             val fragment = CreateMilestoneDialogFragment()
             fragment.arguments = start()

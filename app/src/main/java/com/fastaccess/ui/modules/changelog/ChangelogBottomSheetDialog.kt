@@ -4,13 +4,13 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
-import butterknife.BindView
-import butterknife.OnClick
 import com.fastaccess.R
 import com.fastaccess.helper.PrefGetter.setWhatsNewVersion
 import com.fastaccess.ui.base.BaseMvpBottomSheetDialogFragment
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.widgets.FontButton
 import com.fastaccess.ui.widgets.FontTextView
+import com.fastaccess.utils.setOnThrottleClickListener
 import com.prettifier.pretty.PrettifyWebView
 
 /**
@@ -18,36 +18,17 @@ import com.prettifier.pretty.PrettifyWebView
  */
 class ChangelogBottomSheetDialog :
     BaseMvpBottomSheetDialogFragment<ChangelogMvp.View, ChangelogPresenter>(), ChangelogMvp.View {
-    @JvmField
-    @BindView(R.id.title)
-    var title: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.message)
-    var message: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.cancel)
-    var cancel: FontButton? = null
-
-    @JvmField
-    @BindView(R.id.messageLayout)
-    var messageLayout: View? = null
-
-    @JvmField
-    @BindView(R.id.prettifyWebView)
-    var prettifyWebView: PrettifyWebView? = null
-
-    @JvmField
-    @BindView(R.id.webProgress)
-    var webProgress: ProgressBar? = null
-    @OnClick(R.id.ok)
-    fun onOk() {
-        dismiss()
-    }
+    val title: FontTextView? by viewFind(R.id.title)
+    val message: FontTextView? by viewFind(R.id.message)
+    val cancel: FontButton? by viewFind(R.id.cancel)
+    val prettifyWebView: PrettifyWebView? by viewFind(R.id.prettifyWebView)
+    private val webProgress: ProgressBar? by viewFind(R.id.webProgress)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        view.findViewById<View>(R.id.ok).setOnThrottleClickListener {
+            dismiss()
+        }
         if (savedInstanceState == null) {
             setWhatsNewVersion()
         }
@@ -86,7 +67,8 @@ class ChangelogBottomSheetDialog :
         if (html != null) {
             message!!.visibility = View.GONE
             prettifyWebView!!.visibility = View.VISIBLE
-            prettifyWebView!!.setGithubContent(html, null,
+            prettifyWebView!!.setGithubContent(
+                html, null,
                 toggleNestScrolling = false,
                 enableBridge = false,
                 branch = ""

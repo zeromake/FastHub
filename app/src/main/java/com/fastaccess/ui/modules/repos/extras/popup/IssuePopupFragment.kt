@@ -7,8 +7,6 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentManager
-import butterknife.BindView
-import butterknife.OnClick
 import com.fastaccess.R
 import com.fastaccess.data.dao.LabelListModel
 import com.fastaccess.data.dao.LabelModel
@@ -26,11 +24,13 @@ import com.fastaccess.helper.InputHelper.toString
 import com.fastaccess.provider.markdown.MarkDownProvider.setMdText
 import com.fastaccess.provider.scheme.LinkParserHelper.isEnterprise
 import com.fastaccess.ui.base.BaseMvpBottomSheetDialogFragment
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.widgets.AvatarLayout
 import com.fastaccess.ui.widgets.FontEditText
 import com.fastaccess.ui.widgets.FontTextView
 import com.fastaccess.ui.widgets.LabelSpan
 import com.fastaccess.ui.widgets.SpannableBuilder.Companion.builder
+import com.fastaccess.utils.setOnThrottleClickListener
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -40,74 +40,24 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class IssuePopupFragment :
     BaseMvpBottomSheetDialogFragment<IssuePopupMvp.View, IssuePopupPresenter>(),
     IssuePopupMvp.View {
-    @JvmField
-    @BindView(R.id.toolbar)
-    var toolbar: Toolbar? = null
+    val toolbar: Toolbar? by viewFind(R.id.toolbar)
+    val appbar: AppBarLayout? by viewFind(R.id.appbar)
+    val avatarLayout: AvatarLayout? by viewFind(R.id.avatarLayout)
+    val name: FontTextView? by viewFind(R.id.name)
+    val body: FontTextView? by viewFind(R.id.body)
+    val assignee: FontTextView? by viewFind(R.id.assignee)
+    private val assigneeLayout: LinearLayout? by viewFind(R.id.assigneeLayout)
+    val title: FontTextView? by viewFind(R.id.title)
+    val labels: FontTextView? by viewFind(R.id.labels)
+    private val labelsLayout: LinearLayout? by viewFind(R.id.labelsLayout)
+    val milestoneTitle: FontTextView? by viewFind(R.id.milestoneTitle)
+    val milestoneDescription: FontTextView? by viewFind(R.id.milestoneDescription)
+    private val milestoneLayout: LinearLayout? by viewFind(R.id.milestoneLayout)
+    val comment: FontEditText? by viewFind(R.id.comment)
+    val submit: FloatingActionButton? by viewFind(R.id.submit)
+    val commentSection: LinearLayout? by viewFind(R.id.commentSection)
+    val progressBar: ProgressBar? by viewFind(R.id.progressBar)
 
-    @JvmField
-    @BindView(R.id.appbar)
-    var appbar: AppBarLayout? = null
-
-    @JvmField
-    @BindView(R.id.avatarLayout)
-    var avatarLayout: AvatarLayout? = null
-
-    @JvmField
-    @BindView(R.id.name)
-    var name: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.body)
-    var body: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.assignee)
-    var assignee: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.assigneeLayout)
-    var assigneeLayout: LinearLayout? = null
-
-    @JvmField
-    @BindView(R.id.title)
-    var title: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.labels)
-    var labels: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.labelsLayout)
-    var labelsLayout: LinearLayout? = null
-
-    @JvmField
-    @BindView(R.id.milestoneTitle)
-    var milestoneTitle: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.milestoneDescription)
-    var milestoneDescription: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.milestoneLayout)
-    var milestoneLayout: LinearLayout? = null
-
-    @JvmField
-    @BindView(R.id.comment)
-    var comment: FontEditText? = null
-
-    @JvmField
-    @BindView(R.id.submit)
-    var submit: FloatingActionButton? = null
-
-    @JvmField
-    @BindView(R.id.commentSection)
-    var commentSection: LinearLayout? = null
-
-    @JvmField
-    @BindView(R.id.progressBar)
-    var progressBar: ProgressBar? = null
-    @OnClick(R.id.submit)
     fun onSubmit() {
         val isEmpty = isEmpty(comment)
         if (!isEmpty) {
@@ -124,6 +74,10 @@ class IssuePopupFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        submit!!.setOnThrottleClickListener {
+            onSubmit()
+        }
+
         toolbar!!.setNavigationIcon(R.drawable.ic_clear)
         toolbar!!.setNavigationOnClickListener { dismiss() }
         val bundle = arguments

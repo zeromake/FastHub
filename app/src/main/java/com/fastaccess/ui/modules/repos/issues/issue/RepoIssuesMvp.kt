@@ -15,7 +15,7 @@ import com.fastaccess.ui.base.mvp.BaseMvp.*
 interface RepoIssuesMvp {
     interface View : FAView, OnRefreshListener, android.view.View.OnClickListener {
         fun onNotifyAdapter(items: List<Issue>?, page: Int)
-        val loadMore: OnLoadMore<IssueState>?
+        val loadMore: OnLoadMore<IssueState>
         fun onAddIssue()
         fun onUpdateCount(totalCount: Int)
         fun onOpenIssue(parser: PullsIssuesParser)

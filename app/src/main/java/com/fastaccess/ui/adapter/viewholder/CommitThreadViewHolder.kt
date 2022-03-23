@@ -3,16 +3,15 @@ package com.fastaccess.ui.adapter.viewholder
 import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
-import butterknife.BindView
 import com.fastaccess.R
 import com.fastaccess.data.dao.TimelineModel
 import com.fastaccess.data.dao.model.Comment
 import com.fastaccess.ui.adapter.CommitCommentsAdapter
 import com.fastaccess.ui.adapter.callback.OnToggleView
-import com.fastaccess.ui.widgets.FontTextView
-import com.fastaccess.ui.widgets.SpannableBuilder
 import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
 import com.fastaccess.ui.base.adapter.BaseViewHolder
+import com.fastaccess.ui.widgets.FontTextView
+import com.fastaccess.ui.widgets.SpannableBuilder
 import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
 
 /**
@@ -23,18 +22,10 @@ class CommitThreadViewHolder private constructor(
     adapter: BaseRecyclerAdapter<TimelineModel, *, OnItemClickListener<TimelineModel>>,
     val onToggleView: OnToggleView
 ) : BaseViewHolder<TimelineModel>(view, adapter), BaseViewHolder.OnItemClickListener<Comment> {
-
-    @BindView(R.id.pathText)
-    lateinit var pathText: FontTextView
-
-    @BindView(R.id.toggle)
-    lateinit var toggle: View
-
-    @BindView(R.id.toggleHolder)
-    lateinit var toggleHolder: View
-
-    @BindView(R.id.commitComments)
-    lateinit var commitComments: DynamicRecyclerView
+    val pathText: FontTextView = view.findViewById(R.id.pathText)
+    val toggle: View = view.findViewById(R.id.toggle)
+    val toggleHolder: View = view.findViewById(R.id.toggleHolder)
+    val commitComments: DynamicRecyclerView = view.findViewById(R.id.commitComments)
 
     init {
         toggleHolder.setOnClickListener(this)

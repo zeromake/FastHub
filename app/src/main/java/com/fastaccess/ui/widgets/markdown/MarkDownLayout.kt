@@ -2,17 +2,13 @@ package com.fastaccess.ui.widgets.markdown
 
 import android.annotation.SuppressLint
 import android.content.Context
-import com.google.android.material.snackbar.Snackbar
-import androidx.transition.TransitionManager
-import androidx.fragment.app.FragmentManager
 import android.util.AttributeSet
 import android.view.View
 import android.widget.EditText
 import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
+import androidx.fragment.app.FragmentManager
+import androidx.transition.TransitionManager
 import com.fastaccess.R
 import com.fastaccess.helper.AppHelper
 import com.fastaccess.helper.InputHelper
@@ -21,11 +17,15 @@ import com.fastaccess.provider.emoji.Emoji
 import com.fastaccess.provider.markdown.MarkDownProvider
 import com.fastaccess.ui.modules.editor.emoji.EmojiBottomSheet
 import com.fastaccess.ui.modules.editor.popup.EditorLinkImageDialogFragment
+import com.fastaccess.utils.setOnThrottleClickListener
+import com.google.android.material.snackbar.Snackbar
 
 /**
  * Created by kosh on 11/08/2017.
  */
 class MarkDownLayout : LinearLayout {
+    lateinit var editorIconsHolder: HorizontalScrollView
+    lateinit var addEmojiView: View
 
     private val sentFromFastHub: String by lazy {
         "\n\n_" + resources.getString(R.string.sent_from_fasthub, AppHelper.deviceName, "",
@@ -33,9 +33,7 @@ class MarkDownLayout : LinearLayout {
     }
 
     var markdownListener: MarkdownListener? = null
-    var selectionIndex = 0
-    @BindView(R.id.editorIconsHolder) lateinit var editorIconsHolder: HorizontalScrollView
-    @BindView(R.id.addEmoji) lateinit var addEmojiView: View
+    private var selectionIndex = 0
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
@@ -46,7 +44,24 @@ class MarkDownLayout : LinearLayout {
         orientation = HORIZONTAL
         View.inflate(context, R.layout.markdown_buttons_layout, this)
         if (isInEditMode) return
-        ButterKnife.bind(this)
+        editorIconsHolder = findViewById(R.id.editorIconsHolder)
+        addEmojiView = findViewById(R.id.addEmoji)
+        findViewById<View>(R.id.view).setOnThrottleClickListener {
+            onViewMarkDown()
+        }
+        listOf(
+            R.id.headerOne, R.id.headerTwo,
+            R.id.headerThree, R.id.bold,
+            R.id.italic, R.id.strikethrough,
+            R.id.bullet, R.id.header,
+            R.id.code, R.id.numbered,
+            R.id.quote, R.id.link,
+            R.id.image,  R.id.unCheckbox,
+            R.id.checkbox, R.id.inlineCode,
+            R.id.addEmoji, R.id.signature
+        ).map { findViewById<View>(it) }.setOnThrottleClickListener {
+            onActions(it)
+        }
     }
 
     override fun onDetachedFromWindow() {
@@ -54,7 +69,7 @@ class MarkDownLayout : LinearLayout {
         super.onDetachedFromWindow()
     }
 
-    @OnClick(R.id.view) fun onViewMarkDown() {
+    fun onViewMarkDown() {
         markdownListener?.let {
             it.getEditText().let { editText ->
                 TransitionManager.beginDelayedTransition(this)
@@ -77,22 +92,18 @@ class MarkDownLayout : LinearLayout {
         }
     }
 
-    @OnClick(R.id.headerOne, R.id.headerTwo, R.id.headerThree, R.id.bold, R.id.italic, R.id.strikethrough,
-            R.id.bullet, R.id.header, R.id.code, R.id.numbered, R.id.quote, R.id.link, R.id.image,
-            R.id.unCheckbox, R.id.checkbox, R.id.inlineCode, R.id.addEmoji,
-            R.id.signature)
     fun onActions(v: View) {
         markdownListener?.let {
             it.getEditText().let { editText ->
                 if (!editText.isEnabled) {
                     Snackbar.make(this, R.string.error_highlighting_editor, Snackbar.LENGTH_SHORT).show()
                 } else {
-                    when {
-                        v.id == R.id.link -> EditorLinkImageDialogFragment.newInstance(true, getSelectedText())
-                                .show(it.fragmentManager(), "EditorLinkImageDialogFragment")
-                        v.id == R.id.image -> EditorLinkImageDialogFragment.newInstance(false, getSelectedText())
-                                .show(it.fragmentManager(), "EditorLinkImageDialogFragment")
-                        v.id == R.id.addEmoji -> {
+                    when (v.id) {
+                        R.id.link -> EditorLinkImageDialogFragment.newInstance(true, getSelectedText())
+                            .show(it.fragmentManager(), "EditorLinkImageDialogFragment")
+                        R.id.image -> EditorLinkImageDialogFragment.newInstance(false, getSelectedText())
+                            .show(it.fragmentManager(), "EditorLinkImageDialogFragment")
+                        R.id.addEmoji -> {
                             ViewHelper.hideKeyboard(it.getEditText())
                             EmojiBottomSheet().show(it.fragmentManager(), "EmojiBottomSheet")
                         }
@@ -164,7 +175,7 @@ class MarkDownLayout : LinearLayout {
 
     private fun getSelectedText(): String? {
         markdownListener?.getEditText()?.let {
-            if (!it.text.toString().isBlank()) {
+            if (it.text.toString().isNotBlank()) {
                 val selectionStart = it.selectionStart
                 val selectionEnd = it.selectionEnd
                 return it.text.toString().substring(selectionStart, selectionEnd)

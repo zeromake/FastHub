@@ -2,8 +2,7 @@ package com.fastaccess.ui.adapter.viewholder
 
 import android.view.View
 import android.view.ViewGroup
-import butterknife.BindColor
-import butterknife.BindView
+import androidx.core.content.ContextCompat
 import com.fastaccess.R
 import com.fastaccess.data.dao.model.User
 import com.fastaccess.helper.ViewHelper.getWindowBackground
@@ -21,24 +20,13 @@ class AssigneesViewHolder private constructor(
     itemView: View, private val onSelectAssignee: OnSelectAssignee?,
     adapter: AssigneesAdapter?
 ) : BaseViewHolder<User>(itemView, adapter) {
-    @JvmField
-    @BindView(R.id.avatarLayout)
-    var avatar: AvatarLayout? = null
-
-    @JvmField
-    @BindView(R.id.title)
-    var title: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.date)
-    var date: FontTextView? = null
-
-    @JvmField
-    @BindColor(R.color.light_gray)
-    var lightGray = 0
+    var avatar: AvatarLayout? = itemView.findViewById(R.id.avatarLayout)
+    var title: FontTextView? = itemView.findViewById(R.id.title)
+    var date: FontTextView? = itemView.findViewById(R.id.date)
+    var lightGray = ContextCompat.getColor(itemView.context, R.color.light_gray)
     override fun onClick(v: View) {
         if (onSelectAssignee != null) {
-            val position = adapterPosition
+            val position = absoluteAdapterPosition
             onSelectAssignee.onToggleSelection(
                 position,
                 !onSelectAssignee.isAssigneeSelected(position)
@@ -59,7 +47,7 @@ class AssigneesViewHolder private constructor(
         date!!.visibility = View.GONE
         if (onSelectAssignee != null) {
             itemView.setBackgroundColor(
-                if (onSelectAssignee.isAssigneeSelected(adapterPosition)) lightGray else getWindowBackground(
+                if (onSelectAssignee.isAssigneeSelected(absoluteAdapterPosition)) lightGray else getWindowBackground(
                     itemView.context
                 )
             )

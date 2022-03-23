@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import butterknife.BindView
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.FragmentPagerAdapterModel.Companion.buildForTeam
@@ -22,21 +21,13 @@ import com.google.android.material.tabs.TabLayout
  * Created by Kosh on 03 Apr 2017, 10:08 PM
  */
 class TeamPagerActivity : BaseActivity<BaseMvp.FAView, EmptyPresenter>() {
-    @JvmField
     @State
     var id: Long = 0
-
-    @JvmField
     @State
     var name: String? = null
 
-    @JvmField
-    @BindView(R.id.tabs)
-    var tabs: TabLayout? = null
-
-    @JvmField
-    @BindView(R.id.tabbedPager)
-    var pager: ViewPagerView? = null
+    val tabs: TabLayout? by lazy { viewFind(R.id.tabs) }
+    val pager: ViewPagerView? by lazy { viewFind(R.id.tabbedPager) }
     override fun layout(): Int {
         return R.layout.tabbed_pager_layout
     }

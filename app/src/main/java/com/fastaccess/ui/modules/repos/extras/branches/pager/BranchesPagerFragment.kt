@@ -2,11 +2,9 @@ package com.fastaccess.ui.modules.repos.extras.branches.pager
 
 import android.content.Context
 import android.os.Bundle
-import com.google.android.material.tabs.TabLayout
-import androidx.viewpager.widget.ViewPager
-import androidx.appcompat.widget.Toolbar
 import android.view.View
-import butterknife.BindView
+import androidx.appcompat.widget.Toolbar
+import androidx.viewpager.widget.ViewPager
 import com.fastaccess.R
 import com.fastaccess.data.dao.BranchesModel
 import com.fastaccess.data.dao.FragmentPagerAdapterModel
@@ -16,16 +14,18 @@ import com.fastaccess.ui.adapter.FragmentsPagerAdapter
 import com.fastaccess.ui.base.BaseDialogFragment
 import com.fastaccess.ui.base.mvp.BaseMvp
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.repos.extras.branches.BranchesMvp
+import com.google.android.material.tabs.TabLayout
 
 /**
  * Created by kosh on 15/07/2017.
  */
-class BranchesPagerFragment : BaseDialogFragment<BaseMvp.FAView, BasePresenter<BaseMvp.FAView>>(), BranchesPagerListener {
-
-    @BindView(R.id.pager) lateinit var pager: ViewPager
-    @BindView(R.id.tabs) lateinit var tabs: TabLayout
-    @BindView(R.id.toolbar) lateinit var toolbar: Toolbar
+class BranchesPagerFragment : BaseDialogFragment<BaseMvp.FAView, BasePresenter<BaseMvp.FAView>>(),
+    BranchesPagerListener {
+    val pager: ViewPager by viewFind(R.id.pager)
+    val tabs: TabLayout by viewFind(R.id.tabs)
+    val toolbar: Toolbar by viewFind(R.id.toolbar)
 
     private var branchCallback: BranchesMvp.BranchSelectionListener? = null
 
@@ -59,7 +59,10 @@ class BranchesPagerFragment : BaseDialogFragment<BaseMvp.FAView, BasePresenter<B
         arguments?.let {
             val login = it.getString(BundleConstant.EXTRA)!!
             val repoId = it.getString(BundleConstant.ID)!!
-            pager.adapter = FragmentsPagerAdapter(childFragmentManager, FragmentPagerAdapterModel.buildForBranches(requireContext(), repoId, login))
+            pager.adapter = FragmentsPagerAdapter(
+                childFragmentManager,
+                FragmentPagerAdapterModel.buildForBranches(requireContext(), repoId, login)
+            )
             tabs.setupWithViewPager(pager)
         }
     }
@@ -68,9 +71,9 @@ class BranchesPagerFragment : BaseDialogFragment<BaseMvp.FAView, BasePresenter<B
         fun newInstance(login: String, repoId: String): BranchesPagerFragment {
             val fragment = BranchesPagerFragment()
             fragment.arguments = Bundler.start()
-                    .put(BundleConstant.ID, repoId)
-                    .put(BundleConstant.EXTRA, login)
-                    .end()
+                .put(BundleConstant.ID, repoId)
+                .put(BundleConstant.EXTRA, login)
+                .end()
             return fragment
         }
     }

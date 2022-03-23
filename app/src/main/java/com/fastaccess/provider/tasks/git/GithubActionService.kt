@@ -26,11 +26,6 @@ class GithubActionService : EnhancedIntentService() {
             return field
         }
 
-    override fun onDestroy() {
-        super.onDestroy()
-
-    }
-
     @IntDef(
         STAR_REPO,
         UNSTAR_REPO,

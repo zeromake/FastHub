@@ -3,6 +3,7 @@ package com.fastaccess.ui.modules.repos.code.files
 import android.view.View
 import com.fastaccess.R
 import com.fastaccess.data.dao.CommitRequestModel
+import com.fastaccess.data.dao.FileOrTree
 import com.fastaccess.data.dao.Pageable
 import com.fastaccess.data.dao.RepoPathsManager
 import com.fastaccess.data.dao.model.RepoFile
@@ -11,7 +12,12 @@ import com.fastaccess.provider.rest.RestProvider.getContentService
 import com.fastaccess.provider.rest.RestProvider.getRepoService
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 import com.fastaccess.ui.modules.repos.code.commit.history.FileCommitHistoryActivity.Companion.startActivity
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import io.reactivex.Observable
+import java.lang.reflect.Type
+
+inline fun <reified T> genericType(): Type = object : TypeToken<T>() {}.type
 
 /**
  * Created by Kosh on 15 Feb 2017, 10:10 PM
@@ -77,25 +83,22 @@ class RepoFilesPresenter : BasePresenter<RepoFilesMvp.View>(), RepoFilesMvp.Pres
                 })
     }
 
-    override fun onCallApi(toAppend: RepoFile?) {
-        if (repoId == null || login == null) return
+    fun onFiles(resp: Observable<Pageable<RepoFile>>, toAppend: RepoFile?) {
         makeRestCall(
-            getRepoService(isEnterprise).getRepoFiles(
-                login!!, repoId!!, path!!, ref!!
-            )
-                .flatMap { response: Pageable<RepoFile>? ->
-                    if (response?.items != null) {
-                        return@flatMap Observable.fromIterable(response.items)
-                            .filter { repoFile: RepoFile -> repoFile.type != null }
-                            .sorted { repoFile: RepoFile, repoFile2: RepoFile ->
-                                repoFile2.type.compareTo(
-                                    repoFile.type
-                                )
-                            }
-                    }
-                    Observable.empty()
+            resp.flatMap { response ->
+                if (response.items != null) {
+                    return@flatMap Observable.fromIterable(response.items)
+                        .filter { repoFile: RepoFile -> repoFile.type != null }
+                        .sorted { repoFile: RepoFile, repoFile2: RepoFile ->
+                            repoFile2.type.compareTo(
+                                repoFile.type
+                            )
+                        }
                 }
-                .toList().toObservable()) { response ->
+                Observable.empty()
+            }
+                .toList().toObservable()
+        ) { response ->
             files.clear()
             if (response != null) {
                 manageObservable(RepoFile.save(response, login!!, repoId!!))
@@ -107,6 +110,41 @@ class RepoFilesPresenter : BasePresenter<RepoFilesMvp.View>(), RepoFilesMvp.Pres
                 view.onUpdateTab(toAppend)
             }
         }
+    }
+
+    fun onFile(resp: Observable<RepoFile>) {
+        makeRestCall(resp) { file ->
+            sendToView {
+                it.onNotifyFile(file)
+            }
+        }
+    }
+
+    override fun onCallApi(toAppend: RepoFile?) {
+        if (repoId == null || login == null) return
+        manageDisposable(
+            getObservable(
+                getRepoService(isEnterprise).getRepoFiles(
+                    login!!, repoId!!, path!!, ref!!
+                )
+            ).subscribe { response: okhttp3.ResponseBody ->
+                val bytes = response.string()
+                val gson = Gson()
+                val type = genericType<FileOrTree>()
+                val resp = gson.fromJson<FileOrTree>(bytes, type)
+                when (resp.type) {
+                    "file" -> {
+                        val type1 = genericType<RepoFile>()
+                        val resp1 = gson.fromJson<RepoFile>(bytes, type1)
+                        onFile(Observable.just(resp1))
+                    }
+                    else -> {
+                        val type1 = genericType<Pageable<RepoFile>>()
+                        val resp1 = gson.fromJson<Pageable<RepoFile>>(bytes, type1)
+                        onFiles(Observable.just(resp1), toAppend)
+                    }
+                }
+            })
     }
 
     override fun onInitDataAndRequest(

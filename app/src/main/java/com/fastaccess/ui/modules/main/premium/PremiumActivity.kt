@@ -9,8 +9,6 @@ import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.transition.TransitionManager
-import butterknife.BindView
-import butterknife.OnClick
 import com.fastaccess.BuildConfig
 import com.fastaccess.R
 import com.fastaccess.helper.AppHelper
@@ -18,6 +16,7 @@ import com.fastaccess.helper.Logger
 import com.fastaccess.helper.RxHelper
 import com.fastaccess.ui.base.BaseActivity
 import com.fastaccess.ui.modules.main.donation.DonateActivity
+import com.fastaccess.utils.setOnThrottleClickListener
 import com.miguelbcr.io.rx_billing_service.RxBillingService
 import com.miguelbcr.io.rx_billing_service.entities.ProductType
 import io.reactivex.Observable
@@ -27,12 +26,11 @@ import io.reactivex.disposables.Disposable
  * Created by kosh on 13/07/2017.
  */
 class PremiumActivity : BaseActivity<PremiumMvp.View, PremiumPresenter>(), PremiumMvp.View {
-
-    @BindView(R.id.viewGroup) lateinit var viewGroup: FrameLayout
-    @BindView(R.id.progressLayout) lateinit var progressLayout: View
-    @BindView(R.id.proPrice) lateinit var proPriceText: TextView
-    @BindView(R.id.enterprisePrice) lateinit var enterpriseText: TextView
-    @BindView(R.id.buyAll) lateinit var buyAll: Button
+    val viewGroup: FrameLayout by lazy { viewFind(R.id.viewGroup)!! }
+    private val progressLayout: View by lazy { viewFind(R.id.progressLayout)!! }
+    val proPriceText: TextView by lazy { viewFind(R.id.proPrice)!! }
+    val enterpriseText: TextView by lazy { viewFind(R.id.enterprisePrice)!! }
+    private val buyAll: Button by lazy { viewFind(R.id.buyAll)!! }
     private var disposable: Disposable? = null
     private val allFeaturesKey by lazy { getString(R.string.fasthub_all_features_purchase) }
     private val enterpriseKey by lazy { getString(R.string.fasthub_enterprise_purchase) }
@@ -48,51 +46,69 @@ class PremiumActivity : BaseActivity<PremiumMvp.View, PremiumPresenter>(), Premi
 
     override val isSecured: Boolean = true
 
-    @OnClick(R.id.buyAll) fun onBuyAll() {
+    fun onBuyAll() {
         if (!isGoogleSupported()) return
         val price = buyAll.tag as? Long?
         DonateActivity.start(this, allFeaturesKey, price, buyAll.text.toString())
     }
 
-    @OnClick(R.id.buyPro) fun onBuyPro() {
+    fun onBuyPro() {
         if (!isGoogleSupported()) return
         val price = proPriceText.tag as? Long?
-        DonateActivity.Companion.start(this, proKey, price, proPriceText.text.toString())
+        DonateActivity.start(this, proKey, price, proPriceText.text.toString())
     }
 
-    @OnClick(R.id.buyEnterprise) fun onBuyEnterprise() {
+    fun onBuyEnterprise() {
         if (!isGoogleSupported()) return
         val price = enterpriseText.tag as? Long?
         DonateActivity.start(this, enterpriseKey, price, enterpriseText.text.toString())
     }
 
-    @OnClick(R.id.close) fun onClose() = finish()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        listOf<View>(
+            buyAll,
+            viewFind(R.id.buyPro)!!,
+            viewFind(R.id.buyEnterprise)!!,
+            viewFind(R.id.close)!!,
+        ).setOnThrottleClickListener {
+            when (it.id) {
+                R.id.buyAll -> onBuyAll()
+                R.id.buyPro -> onBuyPro()
+                R.id.buyEnterprise -> onBuyEnterprise()
+                R.id.close -> finish()
+            }
+        }
+
         buyAll.text = getString(R.string.purchase_all).replace("%price%", "$7.99")
         val dis = RxHelper.getObservable(
             RxBillingService.getInstance(this, BuildConfig.DEBUG)
-                .getSkuDetails(ProductType.IN_APP, arrayListOf(enterpriseKey, proKey, allFeaturesKey))
-                .toObservable())
-                .flatMap { Observable.fromIterable(it) }
-                .subscribe({
-                    Logger.e(it.sku(), it.price(), it.priceCurrencyCode(), it.priceAmountMicros())
-                    when (it.sku()) {
-                        enterpriseKey -> {
-                            enterpriseText.text = it.price()
-                            enterpriseText.tag = it.priceAmountMicros()
-                        }
-                        proKey -> {
-                            proPriceText.text = it.price()
-                            proPriceText.tag = it.priceAmountMicros()
-                        }
-                        allFeaturesKey -> {
-                            buyAll.text = getString(R.string.purchase_all).replace("%price%", it.price())
-                            buyAll.tag = it.priceAmountMicros()
-                        }
+                .getSkuDetails(
+                    ProductType.IN_APP,
+                    arrayListOf(enterpriseKey, proKey, allFeaturesKey)
+                )
+                .toObservable()
+        )
+            .flatMap { Observable.fromIterable(it) }
+            .subscribe({
+                Logger.e(it.sku(), it.price(), it.priceCurrencyCode(), it.priceAmountMicros())
+                when (it.sku()) {
+                    enterpriseKey -> {
+                        enterpriseText.text = it.price()
+                        enterpriseText.tag = it.priceAmountMicros()
                     }
-                }, { t -> t.printStackTrace() })
+                    proKey -> {
+                        proPriceText.text = it.price()
+                        proPriceText.tag = it.priceAmountMicros()
+                    }
+                    allFeaturesKey -> {
+                        buyAll.text =
+                            getString(R.string.purchase_all).replace("%price%", it.price())
+                        buyAll.tag = it.priceAmountMicros()
+                    }
+                }
+            }, { t -> t.printStackTrace() })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -8,15 +8,12 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.OnClick
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.BranchesModel
 import com.fastaccess.data.dao.EditRepoFileModel
 import com.fastaccess.data.dao.model.Login
 import com.fastaccess.data.dao.model.RepoFile
-import com.fastaccess.helper.ActivityHelper.checkAndRequestReadWritePermission
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler.Companion.start
 import com.fastaccess.helper.InputHelper.isEmpty
@@ -25,6 +22,7 @@ import com.fastaccess.helper.PrefGetter.isProEnabled
 import com.fastaccess.provider.rest.RestProvider.downloadFile
 import com.fastaccess.ui.adapter.RepoFilePathsAdapter
 import com.fastaccess.ui.base.BaseFragment
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.main.premium.PremiumActivity.Companion.startActivity
 import com.fastaccess.ui.modules.repos.RepoPagerMvp
 import com.fastaccess.ui.modules.repos.code.files.RepoFilesFragment
@@ -34,32 +32,21 @@ import com.fastaccess.ui.modules.search.repos.files.SearchFileActivity.Companion
 import com.fastaccess.ui.widgets.FontTextView
 import com.fastaccess.ui.widgets.dialog.MessageDialogView
 import com.fastaccess.ui.widgets.dialog.MessageDialogView.Companion.newInstance
+import com.fastaccess.utils.setOnThrottleClickListener
 
 /**
  * Created by Kosh on 18 Feb 2017, 2:10 AM
  */
 class RepoFilePathFragment : BaseFragment<RepoFilePathMvp.View, RepoFilePathPresenter>(),
     RepoFilePathMvp.View {
-    @JvmField
-    @BindView(R.id.recycler)
-    var recycler: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.toParentFolder)
-    var toParentFolder: View? = null
-
-    @JvmField
-    @BindView(R.id.branches)
-    var branches: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.addFile)
-    var addFile: View? = null
-    private var repoCallback: RepoPagerMvp.View? = null
-
-    @JvmField
     @State
-    var ref: String? = null
+    var refs: String? = null
+    val recycler: RecyclerView? by viewFind(R.id.recycler)
+    private val toParentFolder: View? by viewFind(R.id.toParentFolder)
+    val branches: FontTextView? by viewFind(R.id.branches)
+    private val addFile: View? by viewFind(R.id.addFile)
+
+    private var repoCallback: RepoPagerMvp.View? = null
     private var adapter: RepoFilePathsAdapter? = null
     private var repoFilesView: RepoFilesFragment? = null
         get() {
@@ -86,8 +73,7 @@ class RepoFilePathFragment : BaseFragment<RepoFilePathMvp.View, RepoFilePathPres
         super.onDetach()
     }
 
-    @OnClick(R.id.addFile)
-    fun onAddFile() {
+    private fun onAddFile() {
         if (isProEnabled || isAllFeaturesUnlocked) {
             val repoFile =
                 if (!adapter!!.isEmpty) adapter!!.getItem(adapter!!.itemCount - 1) else null
@@ -95,7 +81,7 @@ class RepoFilePathFragment : BaseFragment<RepoFilePathMvp.View, RepoFilePathPres
                 presenter!!.login!!,
                 presenter!!.repoId!!,
                 repoFile?.path ?: "",
-                ref!!,
+                refs!!,
                 repoFile?.sha ?: "",
                 null,
                 null,
@@ -107,24 +93,20 @@ class RepoFilePathFragment : BaseFragment<RepoFilePathMvp.View, RepoFilePathPres
         }
     }
 
-    @OnClick(R.id.downloadRepoFiles)
-    fun onDownloadRepoFiles() {
-        if (isEmpty(ref)) {
-            ref = presenter!!.defaultBranch
+    private fun onDownloadRepoFiles() {
+        if (isEmpty(refs)) {
+            refs = presenter!!.defaultBranch
         }
-        if (checkAndRequestReadWritePermission(requireActivity())) {
-            newInstance(
-                getString(R.string.download), getString(R.string.confirm_message),
-                start()
-                    .put(BundleConstant.YES_NO_EXTRA, true)
-                    .end()
-            )
-                .show(childFragmentManager, MessageDialogView.TAG)
-        }
+        newInstance(
+            getString(R.string.download), getString(R.string.confirm_message),
+            start()
+                .put(BundleConstant.YES_NO_EXTRA, true)
+                .end()
+        )
+            .show(childFragmentManager, MessageDialogView.TAG)
     }
 
-    @OnClick(R.id.searchRepoFiles)
-    fun onSearchClicked() {
+    private fun onSearchClicked() {
         startActivity(
             createIntent(
                 requireContext(),
@@ -135,23 +117,21 @@ class RepoFilePathFragment : BaseFragment<RepoFilePathMvp.View, RepoFilePathPres
         )
     }
 
-    @OnClick(R.id.toParentFolder)
-    fun onBackClicked() {
+    private fun onBackClicked() {
         if (adapter!!.itemCount > 0) {
             adapter!!.clear()
             repoFilesView!!.onSetData(
                 presenter!!.login!!,
                 presenter!!.repoId!!,
                 "",
-                ref!!,
+                refs!!,
                 false,
                 null
             )
         }
     }
 
-    @OnClick(R.id.branches)
-    fun onBranchesClicked() {
+    private fun onBranchesClicked() {
         newInstance(presenter!!.login!!, presenter!!.repoId!!)
             .show(childFragmentManager, "BranchesFragment")
     }
@@ -174,7 +154,7 @@ class RepoFilePathFragment : BaseFragment<RepoFilePathMvp.View, RepoFilePathPres
         if (repoFilesView?.isRefreshing == true) return
         repoFilesView!!.onSetData(
             presenter!!.login!!, presenter!!.repoId!!,
-            model.path ?: "", ref!!, false, null
+            model.path ?: "", refs!!, false, null
         )
         if (position + 1 < adapter!!.itemCount) {
             adapter!!.subList(position + 1, adapter!!.itemCount)
@@ -185,7 +165,7 @@ class RepoFilePathFragment : BaseFragment<RepoFilePathMvp.View, RepoFilePathPres
     override fun onAppendPath(model: RepoFile) {
         repoFilesView?.onSetData(
             presenter!!.login!!, presenter!!.repoId!!,
-            model.path ?: "", ref!!, false, model
+            model.path ?: "", refs!!, false, model
         )
     }
 
@@ -197,12 +177,12 @@ class RepoFilePathFragment : BaseFragment<RepoFilePathMvp.View, RepoFilePathPres
     }
 
     override fun onSendData() {
-        if (isEmpty(ref)) {
-            ref = presenter!!.defaultBranch
+        if (isEmpty(refs)) {
+            refs = presenter!!.defaultBranch
         }
         repoFilesView?.onSetData(
             presenter!!.login!!, presenter!!.repoId!!,
-            presenter!!.path ?: "", ref!!, false, null
+            presenter!!.path ?: "", refs!!, false, null
         )
     }
 
@@ -217,7 +197,7 @@ class RepoFilePathFragment : BaseFragment<RepoFilePathMvp.View, RepoFilePathPres
             val model = adapter!!.getItem(adapter!!.itemCount - 1)
             repoFilesView!!.onSetData(
                 presenter!!.login!!, presenter!!.repoId!!,
-                model!!.path ?: "", ref!!, false, null
+                model!!.path ?: "", refs!!, false, null
             )
             recycler!!.scrollToPosition(adapter!!.itemCount - 1)
         } else {
@@ -242,6 +222,21 @@ class RepoFilePathFragment : BaseFragment<RepoFilePathMvp.View, RepoFilePathPres
     }
 
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
+        addFile!!.setOnThrottleClickListener {
+            onAddFile()
+        }
+        view.findViewById<View>(R.id.downloadRepoFiles).setOnThrottleClickListener {
+            onDownloadRepoFiles()
+        }
+        view.findViewById<View>(R.id.searchRepoFiles).setOnThrottleClickListener {
+            onSearchClicked()
+        }
+        toParentFolder!!.setOnThrottleClickListener {
+            onBackClicked()
+        }
+        branches!!.setOnThrottleClickListener {
+            onBranchesClicked()
+        }
         adapter = RepoFilePathsAdapter(presenter!!.paths)
         adapter!!.listener = presenter
         recycler!!.adapter = adapter
@@ -250,8 +245,8 @@ class RepoFilePathFragment : BaseFragment<RepoFilePathMvp.View, RepoFilePathPres
         } else if (presenter!!.paths.isEmpty() && !presenter!!.isApiCalled) {
             presenter!!.onFragmentCreated(arguments)
         }
-        ref = presenter!!.defaultBranch
-        branches!!.text = ref
+        refs = presenter!!.defaultBranch
+        branches!!.text = refs
         if (Login.getUser().login.equals(
                 presenter!!.login,
                 ignoreCase = true
@@ -272,7 +267,7 @@ class RepoFilePathFragment : BaseFragment<RepoFilePathMvp.View, RepoFilePathPres
                     .appendPath(presenter!!.login)
                     .appendPath(presenter!!.repoId)
                     .appendPath("archive")
-                    .appendPath("$ref.zip")
+                    .appendPath("$refs.zip")
                     .build()
                 downloadFile(requireContext(), uri.toString())
             }
@@ -294,13 +289,13 @@ class RepoFilePathFragment : BaseFragment<RepoFilePathMvp.View, RepoFilePathPres
     }
 
     override fun onBranchSelected(branch: BranchesModel) {
-        ref = branch.name
-        branches!!.text = ref
+        refs = branch.name
+        branches!!.text = refs
         repoFilesView?.onSetData(
             presenter!!.login!!,
             presenter!!.repoId!!,
             "",
-            ref!!,
+            refs!!,
             true,
             null
         )
@@ -320,7 +315,7 @@ class RepoFilePathFragment : BaseFragment<RepoFilePathMvp.View, RepoFilePathPres
     }
 
     fun getRef(): String {
-        return if (!isEmpty(ref)) ref!! else "master"
+        return if (!isEmpty(refs)) refs!! else "master"
     }
 
     companion object {

@@ -7,11 +7,8 @@ import android.text.Editable
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import butterknife.BindView
-import butterknife.OnClick
-import butterknife.OnEditorAction
-import butterknife.OnTextChanged
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.FragmentPagerAdapterModel.Companion.buildForSearch
@@ -25,6 +22,7 @@ import com.fastaccess.ui.base.BaseFragment
 import com.fastaccess.ui.widgets.FontAutoCompleteEditText
 import com.fastaccess.ui.widgets.ForegroundImageView
 import com.fastaccess.ui.widgets.ViewPagerView
+import com.fastaccess.utils.setOnThrottleClickListener
 import com.google.android.material.tabs.TabLayout
 import java.text.NumberFormat
 
@@ -32,23 +30,11 @@ import java.text.NumberFormat
  * Created by Kosh on 08 Dec 2016, 8:22 PM
  */
 class SearchActivity : BaseActivity<SearchMvp.View, SearchPresenter>(), SearchMvp.View {
-    @JvmField
-    @BindView(R.id.searchEditText)
-    var searchEditText: FontAutoCompleteEditText? = null
+    val searchEditText: FontAutoCompleteEditText? by lazy { viewFind(R.id.searchEditText) }
+    val clear: ForegroundImageView? by lazy { viewFind(R.id.clear) }
+    val tabs: TabLayout? by lazy { viewFind(R.id.tabs) }
+    val pager: ViewPagerView? by lazy { viewFind(R.id.pager) }
 
-    @JvmField
-    @BindView(R.id.clear)
-    var clear: ForegroundImageView? = null
-
-    @JvmField
-    @BindView(R.id.tabs)
-    var tabs: TabLayout? = null
-
-    @JvmField
-    @BindView(R.id.pager)
-    var pager: ViewPagerView? = null
-
-    @JvmField
     @State
     var tabsCountSet: HashSet<TabsCountStateModel> = LinkedHashSet()
     private val numberFormat = NumberFormat.getNumberInstance()
@@ -59,10 +45,6 @@ class SearchActivity : BaseActivity<SearchMvp.View, SearchPresenter>(), SearchMv
             return field
         }
 
-    @OnTextChanged(
-        value = [R.id.searchEditText],
-        callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED
-    )
     fun onTextChange(s: Editable) {
         val text = s.toString()
         if (text.isEmpty()) {
@@ -72,22 +54,17 @@ class SearchActivity : BaseActivity<SearchMvp.View, SearchPresenter>(), SearchMv
         }
     }
 
-    @OnClick(R.id.search)
     fun onSearchClicked() {
         presenter!!.onSearchClicked(pager!!, searchEditText!!)
     }
 
-    @OnEditorAction(R.id.searchEditText)
     fun onEditor(): Boolean {
         onSearchClicked()
         return true
     }
 
-    @OnClick(value = [R.id.clear])
-    fun onClear(view: View) {
-        if (view.id == R.id.clear) {
-            searchEditText!!.setText("")
-        }
+    fun onClear() {
+       searchEditText!!.setText("")
     }
 
     override fun layout(): Int {
@@ -108,6 +85,24 @@ class SearchActivity : BaseActivity<SearchMvp.View, SearchPresenter>(), SearchMv
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        searchEditText!!.addTextChangedListener(
+            { _, _, _, _ -> },
+            { _, _, _, _ -> }
+        ) {
+            onTextChange(it!!)
+        }
+        searchEditText!!.setOnEditorActionListener { _, _, _ ->
+            onEditor()
+        }
+        listOf<View>(
+            clear!!,
+            viewFind(R.id.search)!!
+        ).setOnThrottleClickListener {
+            when (it.id) {
+                R.id.clear -> onClear()
+                R.id.search -> onSearchClicked()
+            }
+        }
         title = ""
         pager!!.adapter = FragmentsPagerAdapter(supportFragmentManager, buildForSearch(this))
         tabs!!.setupWithViewPager(pager)

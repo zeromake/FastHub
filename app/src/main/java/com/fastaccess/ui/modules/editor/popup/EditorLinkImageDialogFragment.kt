@@ -1,22 +1,22 @@
 package com.fastaccess.ui.modules.editor.popup
 
-import com.fastaccess.ui.base.BaseDialogFragment
-import com.fastaccess.ui.modules.editor.popup.EditorLinkImageMvp.EditorLinkCallback
-import butterknife.BindView
-import com.fastaccess.R
-import com.google.android.material.textfield.TextInputLayout
-import com.fastaccess.ui.widgets.FontButton
-import android.os.Bundle
-import android.content.Intent
 import android.app.Activity
 import android.content.Context
-import android.view.LayoutInflater
+import android.content.Intent
+import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import com.fastaccess.R
+import com.fastaccess.helper.BundleConstant
+import com.fastaccess.helper.Bundler
+import com.fastaccess.helper.FileHelper
+import com.fastaccess.helper.InputHelper
+import com.fastaccess.ui.base.BaseDialogFragment
+import com.fastaccess.ui.modules.editor.popup.EditorLinkImageMvp.EditorLinkCallback
+import com.fastaccess.ui.widgets.FontButton
+import com.fastaccess.utils.setOnThrottleClickListener
+import com.google.android.material.textfield.TextInputLayout
 import es.dmoral.toasty.Toasty
-import com.fastaccess.App
-import butterknife.OnClick
-import com.fastaccess.helper.*
 import java.io.File
 
 /**
@@ -32,20 +32,6 @@ class EditorLinkImageDialogFragment :
     lateinit var link: TextInputLayout
 
     lateinit var select: FontButton
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val root = super.onCreateView(inflater, container, savedInstanceState)!!
-        this.title = root.findViewById(R.id.title)
-        this.link = root.findViewById(R.id.link)
-        this.select = root.findViewById(R.id.select)
-
-
-        return root
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -74,6 +60,18 @@ class EditorLinkImageDialogFragment :
     }
 
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
+        this.title = view.findViewById(R.id.title)
+        this.link = view.findViewById(R.id.link)
+        this.select = view.findViewById(R.id.select)
+        this.select.setOnThrottleClickListener {
+            onSelectClicked()
+        }
+        view.findViewById<View>(R.id.cancel).setOnThrottleClickListener {
+            onCancelClicked()
+        }
+        view.findViewById<View>(R.id.insert).setOnThrottleClickListener {
+            onInsertClicked()
+        }
         select.visibility = if (isLink()) View.GONE else View.VISIBLE
         if (savedInstanceState == null) {
             title.editText!!.setText(requireArguments().getString(BundleConstant.ITEM))
@@ -84,41 +82,38 @@ class EditorLinkImageDialogFragment :
         return EditorLinkImagePresenter()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == BundleConstant.REQUEST_CODE) {
-            if (data != null && data.data != null) {
-                val path = FileHelper.getPath(requireContext(), data.data!!)
-                if (!InputHelper.isEmpty(path)) {
-                    presenter?.onSubmit(InputHelper.toString(title), File(path!!))
-                } else {
-                    Toasty.error(App.getInstance(), getString(R.string.failed_selecting_image))
-                        .show()
-                }
+    val launcher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        val data = it.data
+        if (it.resultCode == Activity.RESULT_OK && data != null && data.data != null) {
+            val path = FileHelper.getPath(requireContext(), data.data!!)
+            if (!InputHelper.isEmpty(path)) {
+                presenter?.onSubmit(InputHelper.toString(title), File(path!!))
+            } else {
+                Toasty.error(
+                    requireContext(),
+                    getString(R.string.failed_selecting_image)
+                )
+                    .show()
             }
         }
     }
 
-    @OnClick(R.id.select)
-    fun onSelectClicked() {
-        if (ActivityHelper.checkAndRequestReadWritePermission(requireActivity())) {
-            val intent = Intent()
-            intent.type = "image/*"
-            intent.action = Intent.ACTION_GET_CONTENT
-            startActivityForResult(
-                Intent.createChooser(intent, getString(R.string.select_picture)),
-                BundleConstant.REQUEST_CODE
-            )
-        }
+    private fun onSelectClicked() {
+//        if (ActivityHelper.checkAndRequestReadWritePermission(requireActivity())) {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        launcher.launch(Intent.createChooser(intent, getString(R.string.select_picture)))
+//        }
     }
 
-    @OnClick(R.id.cancel)
-    fun onCancelClicked() {
+    private fun onCancelClicked() {
         dismiss()
     }
 
-    @OnClick(R.id.insert)
-    fun onInsertClicked() {
+    private fun onInsertClicked() {
         if (editorCallback != null) {
             editorCallback?.onAppendLink(
                 InputHelper.toString(title),

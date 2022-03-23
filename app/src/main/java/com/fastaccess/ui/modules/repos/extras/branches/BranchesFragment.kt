@@ -2,9 +2,8 @@ package com.fastaccess.ui.modules.repos.extras.branches
 
 import android.content.Context
 import android.os.Bundle
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import android.view.View
-import butterknife.BindView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fastaccess.R
 import com.fastaccess.data.dao.BranchesModel
 import com.fastaccess.helper.BundleConstant
@@ -12,6 +11,7 @@ import com.fastaccess.helper.Bundler
 import com.fastaccess.provider.rest.loadmore.OnLoadMore
 import com.fastaccess.ui.adapter.BranchesAdapter
 import com.fastaccess.ui.base.BaseFragment
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.repos.extras.branches.pager.BranchesPagerListener
 import com.fastaccess.ui.widgets.StateLayout
 import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
@@ -21,11 +21,10 @@ import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
  * Created by Kosh on 06 Jul 2017, 9:48 PM
  */
 class BranchesFragment : BaseFragment<BranchesMvp.View, BranchesPresenter>(), BranchesMvp.View {
-
-    @BindView(R.id.recycler) lateinit var recycler: DynamicRecyclerView
-    @BindView(R.id.refresh) lateinit var refresh: SwipeRefreshLayout
-    @BindView(R.id.stateLayout) lateinit var stateLayout: StateLayout
-    @BindView(R.id.fastScroller) lateinit var fastScroller: RecyclerViewFastScroller
+    val recycler: DynamicRecyclerView by viewFind(R.id.recycler)
+    val refresh: SwipeRefreshLayout by viewFind(R.id.refresh)
+    val stateLayout: StateLayout by viewFind(R.id.stateLayout)
+    val fastScroller: RecyclerViewFastScroller by viewFind(R.id.fastScroller)
 
     private var onLoadMore: OnLoadMore<Boolean>? = null
     private var branchCallback: BranchesPagerListener? = null

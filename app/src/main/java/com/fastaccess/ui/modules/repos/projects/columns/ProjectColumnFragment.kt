@@ -2,11 +2,9 @@ package com.fastaccess.ui.modules.repos.projects.columns
 
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import androidx.annotation.StringRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import android.view.View
-import butterknife.BindView
-import butterknife.OnClick
 import com.fastaccess.R
 import com.fastaccess.data.dao.ProjectCardModel
 import com.fastaccess.data.dao.ProjectColumnModel
@@ -17,6 +15,7 @@ import com.fastaccess.helper.PrefGetter
 import com.fastaccess.provider.rest.loadmore.OnLoadMore
 import com.fastaccess.ui.adapter.ColumnCardAdapter
 import com.fastaccess.ui.base.BaseFragment
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.main.premium.PremiumActivity
 import com.fastaccess.ui.modules.repos.projects.crud.ProjectCurdDialogFragment
 import com.fastaccess.ui.modules.repos.projects.details.ProjectPagerMvp
@@ -29,17 +28,19 @@ import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
 /**
  * Created by Hashemsergani on 11.09.17.
  */
-class ProjectColumnFragment : BaseFragment<ProjectColumnMvp.View, ProjectColumnPresenter>(), ProjectColumnMvp.View {
+class ProjectColumnFragment : BaseFragment<ProjectColumnMvp.View, ProjectColumnPresenter>(),
+    ProjectColumnMvp.View {
 
-    @BindView(R.id.recycler) lateinit var recycler: DynamicRecyclerView
-    @BindView(R.id.refresh) lateinit var refresh: SwipeRefreshLayout
-    @BindView(R.id.stateLayout) lateinit var stateLayout: StateLayout
-    @BindView(R.id.fastScroller) lateinit var fastScroller: RecyclerViewFastScroller
-    @BindView(R.id.columnName) lateinit var columnName: FontTextView
-    @BindView(R.id.editColumnHolder) lateinit var editColumnHolder: View
-    @BindView(R.id.editColumn) lateinit var editColumn: View
-    @BindView(R.id.addCard) lateinit var addCard: View
-    @BindView(R.id.deleteColumn) lateinit var deleteColumn: View
+    val recycler: DynamicRecyclerView by viewFind(R.id.recycler)
+    val refresh: SwipeRefreshLayout by viewFind(R.id.refresh)
+    val stateLayout: StateLayout by viewFind(R.id.stateLayout)
+    val fastScroller: RecyclerViewFastScroller by viewFind(R.id.fastScroller)
+    val columnName: FontTextView by viewFind(R.id.columnName)
+
+    //    val editColumnHolder: View by viewFind(R.id.editColumnHolder)
+    val editColumn: View by viewFind(R.id.editColumn)
+    val addCard: View by viewFind(R.id.addCard)
+    private val deleteColumn: View by viewFind(R.id.deleteColumn)
 
     private var onLoadMore: OnLoadMore<Long>? = null
     private val adapter by lazy { ColumnCardAdapter(presenter.getCards(), isOwner()) }
@@ -60,25 +61,27 @@ class ProjectColumnFragment : BaseFragment<ProjectColumnMvp.View, ProjectColumnP
         super.onDetach()
     }
 
-    @OnClick(R.id.editColumn) fun onEditColumn() {
+    fun onEditColumn() {
         if (canEdit()) {
             ProjectCurdDialogFragment.newInstance(getColumn().name)
-                    .show(childFragmentManager, ProjectCurdDialogFragment.TAG)
+                .show(childFragmentManager, ProjectCurdDialogFragment.TAG)
         }
     }
 
-    @OnClick(R.id.deleteColumn) fun onDeleteColumn() {
+    fun onDeleteColumn() {
         if (canEdit()) {
-            MessageDialogView.newInstance(getString(R.string.delete), getString(R.string.confirm_message),
-                    false, MessageDialogView.getYesNoBundle(requireContext()))
-                    .show(childFragmentManager, MessageDialogView.TAG)
+            MessageDialogView.newInstance(
+                getString(R.string.delete), getString(R.string.confirm_message),
+                false, MessageDialogView.getYesNoBundle(requireContext())
+            )
+                .show(childFragmentManager, MessageDialogView.TAG)
         }
     }
 
-    @OnClick(R.id.addCard) fun onAddCard() {
+    fun onAddCard() {
         if (canEdit()) {
             ProjectCurdDialogFragment.newInstance(isCard = true)
-                    .show(childFragmentManager, ProjectCurdDialogFragment.TAG)
+                .show(childFragmentManager, ProjectCurdDialogFragment.TAG)
         }
     }
 
@@ -108,6 +111,15 @@ class ProjectColumnFragment : BaseFragment<ProjectColumnMvp.View, ProjectColumnP
     override fun fragmentLayout(): Int = R.layout.project_columns_layout
 
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
+        editColumn.setOnClickListener {
+            onEditColumn()
+        }
+        deleteColumn.setOnClickListener {
+            onDeleteColumn()
+        }
+        addCard.setOnClickListener {
+            onAddCard()
+        }
         val column = getColumn()
         columnName.text = column.name
         refresh.setOnRefreshListener { presenter.onCallApi(1, column.id) }
@@ -122,9 +134,9 @@ class ProjectColumnFragment : BaseFragment<ProjectColumnMvp.View, ProjectColumnP
         if (presenter.getCards().isEmpty() && !presenter.isApiCalled) {
             presenter.onCallApi(1, column.id)
         }
-        addCard.visibility = if(isOwner()) View.VISIBLE else View.GONE
-        deleteColumn.visibility = if(isOwner()) View.VISIBLE else View.GONE
-        editColumn.visibility = if(isOwner()) View.VISIBLE else View.GONE
+        addCard.visibility = if (isOwner()) View.VISIBLE else View.GONE
+        deleteColumn.visibility = if (isOwner()) View.VISIBLE else View.GONE
+        editColumn.visibility = if (isOwner()) View.VISIBLE else View.GONE
     }
 
     override fun showProgress(@StringRes resId: Int) {
@@ -206,15 +218,17 @@ class ProjectColumnFragment : BaseFragment<ProjectColumnMvp.View, ProjectColumnP
         if (canEdit()) {
             val yesNoBundle = MessageDialogView.getYesNoBundle(requireContext())
             yesNoBundle.putInt(BundleConstant.ID, position)
-            MessageDialogView.newInstance(getString(R.string.delete), getString(R.string.confirm_message),
-                    false, yesNoBundle).show(childFragmentManager, MessageDialogView.TAG)
+            MessageDialogView.newInstance(
+                getString(R.string.delete), getString(R.string.confirm_message),
+                false, yesNoBundle
+            ).show(childFragmentManager, MessageDialogView.TAG)
         }
     }
 
     override fun onEditCard(note: String?, position: Int) {
         if (canEdit()) {
             ProjectCurdDialogFragment.newInstance(note, true, position)
-                    .show(childFragmentManager, ProjectCurdDialogFragment.TAG)
+                .show(childFragmentManager, ProjectCurdDialogFragment.TAG)
         }
     }
 
@@ -238,22 +252,27 @@ class ProjectColumnFragment : BaseFragment<ProjectColumnMvp.View, ProjectColumnP
         stateLayout.showReload(adapter.itemCount)
     }
 
-    private fun getColumn(): ProjectColumnModel = requireArguments().getParcelable(BundleConstant.ITEM)!!
+    private fun getColumn(): ProjectColumnModel =
+        requireArguments().getParcelable(BundleConstant.ITEM)!!
 
-    private fun canEdit(): Boolean = if (PrefGetter.isProEnabled || PrefGetter.isAllFeaturesUnlocked) {
-        true
-    } else {
-        PremiumActivity.startActivity(requireContext())
-        false
-    }
+    private fun canEdit(): Boolean =
+        if (PrefGetter.isProEnabled || PrefGetter.isAllFeaturesUnlocked) {
+            true
+        } else {
+            PremiumActivity.startActivity(requireContext())
+            false
+        }
 
     companion object {
-        fun newInstance(column: ProjectColumnModel, isCollaborator: Boolean): ProjectColumnFragment {
+        fun newInstance(
+            column: ProjectColumnModel,
+            isCollaborator: Boolean
+        ): ProjectColumnFragment {
             val fragment = ProjectColumnFragment()
             fragment.arguments = Bundler.start()
-                    .put(BundleConstant.ITEM, column)
-                    .put(BundleConstant.EXTRA, isCollaborator)
-                    .end()
+                .put(BundleConstant.ITEM, column)
+                .put(BundleConstant.EXTRA, isCollaborator)
+                .end()
             return fragment
         }
     }

@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
-import butterknife.BindView
 import com.fastaccess.R
 import com.fastaccess.data.dao.LabelModel
 import com.fastaccess.helper.ViewHelper.generateTextColor
@@ -22,16 +21,11 @@ class LabelsViewHolder private constructor(
     private val onSelectLabel: OnSelectLabel?,
     adapter: LabelsAdapter
 ) : BaseViewHolder<LabelModel>(itemView, adapter) {
-    @kotlin.jvm.JvmField
-    @BindView(R.id.colorImage)
-    var colorImage: AppCompatImageView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.name)
-    var name: FontTextView? = null
+    var colorImage: AppCompatImageView? = itemView.findViewById(R.id.colorImage)
+    var name: FontTextView? = itemView.findViewById(R.id.name)
     override fun onClick(v: View) {
         if (onSelectLabel != null) {
-            val position = adapterPosition
+            val position = absoluteAdapterPosition
             if (adapter != null) {
                 val labelModel = adapter.getItem(position)!!
                 onSelectLabel.onToggleSelection(

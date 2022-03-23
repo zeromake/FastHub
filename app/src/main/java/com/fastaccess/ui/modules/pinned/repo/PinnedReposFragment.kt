@@ -2,7 +2,7 @@ package com.fastaccess.ui.modules.pinned.repo
 
 import android.os.Bundle
 import android.view.View
-import butterknife.BindView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fastaccess.R
 import com.fastaccess.data.dao.model.AbstractPinnedRepos
 import com.fastaccess.data.dao.model.PinnedRepos
@@ -10,7 +10,7 @@ import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler
 import com.fastaccess.ui.adapter.PinnedReposAdapter
 import com.fastaccess.ui.base.BaseFragment
-import com.fastaccess.ui.widgets.AppbarRefreshLayout
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.widgets.StateLayout
 import com.fastaccess.ui.widgets.dialog.MessageDialogView
 import com.fastaccess.ui.widgets.dialog.MessageDialogView.Companion.newInstance
@@ -22,21 +22,10 @@ import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
  */
 class PinnedReposFragment : BaseFragment<PinnedReposMvp.View, PinnedReposPresenter>(),
     PinnedReposMvp.View {
-    @JvmField
-    @BindView(R.id.recycler)
-    var recycler: DynamicRecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.refresh)
-    var refresh: AppbarRefreshLayout? = null
-
-    @JvmField
-    @BindView(R.id.stateLayout)
-    var stateLayout: StateLayout? = null
-
-    @JvmField
-    @BindView(R.id.fastScroller)
-    var fastScroller: RecyclerViewFastScroller? = null
+    val recycler: DynamicRecyclerView? by viewFind(R.id.recycler)
+    val refresh: SwipeRefreshLayout? by viewFind(R.id.refresh)
+    val stateLayout: StateLayout? by viewFind(R.id.stateLayout)
+    val fastScroller: RecyclerViewFastScroller? by viewFind(R.id.fastScroller)
     private var adapter: PinnedReposAdapter? = null
     override fun onNotifyAdapter(items: List<PinnedRepos>?) {
         refresh!!.isRefreshing = false

@@ -63,9 +63,6 @@ android {
             )
         }
     }
-    viewBinding {
-        enable = true
-    }
 }
 
 kapt {
@@ -111,10 +108,6 @@ dependencies {
     // ShapedImageView
     implementation("cn.gavinliu:ShapedImageView:0.8.7")
 //    implementation("io.woong.shapedimageview:shapedimageview:1.4.3")
-
-    // butterknife
-    implementation("com.jakewharton:butterknife:10.2.3")
-    kapt("com.jakewharton:butterknife-compiler:10.2.3")
 
     // bottom-navigation
     implementation("it.sephiroth.android.library.bottomnavigation:bottom-navigation:3.0.0")
@@ -171,9 +164,9 @@ dependencies {
     implementation("com.atlassian.commonmark:commonmark-ext-yaml-front-matter:0.17.0")
 
     // firebase
-    implementation("com.google.firebase:firebase-core:20.1.0")
-    implementation("com.google.firebase:firebase-messaging:23.0.0")
-    implementation("com.google.firebase:firebase-database:20.0.3")
+    implementation("com.google.firebase:firebase-core:20.1.1")
+    implementation("com.google.firebase:firebase-messaging:23.0.2")
+    implementation("com.google.firebase:firebase-database:20.0.4")
 //    implementation("com.firebase:firebase-jobdispatcher:0.8.6")
 //    implementation("com.google.android.gms:play-services-base:18.0.1")
 

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import butterknife.BindView
 import com.fastaccess.R
 import com.fastaccess.data.dao.SimpleUrlsModel
 import com.fastaccess.data.dao.model.Release
@@ -15,6 +14,7 @@ import com.fastaccess.provider.rest.RestProvider.downloadFile
 import com.fastaccess.provider.rest.loadmore.OnLoadMore
 import com.fastaccess.ui.adapter.ReleasesAdapter
 import com.fastaccess.ui.base.BaseFragment
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.widgets.StateLayout
 import com.fastaccess.ui.widgets.dialog.ListDialogView
 import com.fastaccess.ui.widgets.dialog.MessageDialogView
@@ -27,21 +27,10 @@ import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
  */
 class RepoReleasesFragment : BaseFragment<RepoReleasesMvp.View, RepoReleasesPresenter>(),
     RepoReleasesMvp.View {
-    @JvmField
-    @BindView(R.id.recycler)
-    var recycler: DynamicRecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.refresh)
-    var refresh: SwipeRefreshLayout? = null
-
-    @JvmField
-    @BindView(R.id.stateLayout)
-    var stateLayout: StateLayout? = null
-
-    @JvmField
-    @BindView(R.id.fastScroller)
-    var fastScroller: RecyclerViewFastScroller? = null
+    val recycler: DynamicRecyclerView? by viewFind(R.id.recycler)
+    val refresh: SwipeRefreshLayout? by viewFind(R.id.refresh)
+    val stateLayout: StateLayout? by viewFind(R.id.stateLayout)
+    val fastScroller: RecyclerViewFastScroller? by viewFind(R.id.fastScroller)
     private var onLoadMore: OnLoadMore<String>? = null
     private var adapter: ReleasesAdapter? = null
     override fun onNotifyAdapter(items: List<Release>?, page: Int) {

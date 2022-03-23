@@ -2,7 +2,6 @@ package com.fastaccess.ui.modules.notification
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import butterknife.BindView
 import com.fastaccess.R
 import com.fastaccess.data.dao.FragmentPagerAdapterModel.Companion.buildForNotifications
 import com.fastaccess.data.dao.GroupedNotificationModel
@@ -23,13 +22,8 @@ import com.google.android.material.tabs.TabLayout
  * Created by Kosh on 27 Feb 2017, 12:36 PM
  */
 class NotificationActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FAView>>(), OnNotificationChangedListener {
-    @JvmField
-    @BindView(R.id.tabs)
-    var tabs: TabLayout? = null
-
-    @JvmField
-    @BindView(R.id.notificationContainer)
-    var pager: ViewPagerView? = null
+    val tabs: TabLayout? by lazy { viewFind(R.id.tabs) }
+    val pager: ViewPagerView? by lazy { viewFind(R.id.notificationContainer) }
     override fun layout(): Int {
         return R.layout.notification_activity_layout
     }

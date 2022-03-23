@@ -3,17 +3,15 @@ package com.fastaccess.ui.modules.main.drawer
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
-import com.google.android.material.navigation.NavigationView
 import android.view.MenuItem
 import android.view.View
 import com.fastaccess.R
 import com.fastaccess.data.dao.model.Login
-import com.fastaccess.databinding.MainNavFragmentLayoutBinding
 import com.fastaccess.helper.PrefGetter
 import com.fastaccess.ui.base.BaseActivity
 import com.fastaccess.ui.base.BaseFragment
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
-import com.fastaccess.ui.delegate.viewBinding
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.about.FastHubAboutActivity
 import com.fastaccess.ui.modules.gists.GistsListActivity
 import com.fastaccess.ui.modules.main.MainActivity
@@ -24,9 +22,9 @@ import com.fastaccess.ui.modules.notification.NotificationActivity
 import com.fastaccess.ui.modules.pinned.PinnedReposActivity
 import com.fastaccess.ui.modules.repos.RepoPagerActivity
 import com.fastaccess.ui.modules.repos.RepoPagerMvp
-import com.fastaccess.ui.modules.repos.issues.create.CreateIssueActivity
 import com.fastaccess.ui.modules.trending.TrendingActivity
 import com.fastaccess.ui.modules.user.UserPagerActivity
+import com.google.android.material.navigation.NavigationView
 
 /**
  * Created by Kosh on 25.03.18.
@@ -41,8 +39,7 @@ class MainDrawerFragment :
     private val onDrawerMenuCreated: OnDrawerMenuCreatedListener? by lazy {
         if (requireActivity() is OnDrawerMenuCreatedListener) requireActivity() as OnDrawerMenuCreatedListener else null
     }
-    private val binding: MainNavFragmentLayoutBinding by viewBinding()
-    private val mainNav: NavigationView by lazy { this.binding.mainNav }
+    private val mainNav: NavigationView by viewFind(R.id.mainNav)
     private val userModel by lazy { Login.getUser() }
 
     override fun fragmentLayout() = R.layout.main_nav_fragment_layout

@@ -7,7 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
-import butterknife.BindView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.TimelineModel
@@ -27,11 +27,11 @@ import com.fastaccess.provider.timeline.ReactionsProvider
 import com.fastaccess.ui.adapter.IssuesTimelineAdapter
 import com.fastaccess.ui.adapter.viewholder.TimelineCommentsViewHolder
 import com.fastaccess.ui.base.BaseFragment
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.editor.EditorActivity
 import com.fastaccess.ui.modules.editor.comment.CommentEditorFragment.CommentListener
 import com.fastaccess.ui.modules.repos.issues.issue.details.IssuePagerMvp.IssuePrCallback
 import com.fastaccess.ui.modules.repos.reactions.ReactionsDialogFragment
-import com.fastaccess.ui.widgets.AppbarRefreshLayout
 import com.fastaccess.ui.widgets.StateLayout
 import com.fastaccess.ui.widgets.dialog.MessageDialogView
 import com.fastaccess.ui.widgets.dialog.MessageDialogView.Companion.newInstance
@@ -43,23 +43,11 @@ import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
  */
 class IssueTimelineFragment : BaseFragment<IssueTimelineMvp.View, IssueTimelinePresenter>(),
     IssueTimelineMvp.View {
-    @JvmField
-    @BindView(R.id.recycler)
-    var recycler: DynamicRecyclerView? = null
+    val recycler: DynamicRecyclerView? by viewFind(R.id.recycler)
+    val refresh: SwipeRefreshLayout? by viewFind(R.id.refresh)
+    val stateLayout: StateLayout? by viewFind(R.id.stateLayout)
+    val fastScroller: RecyclerViewFastScroller? by viewFind(R.id.fastScroller)
 
-    @JvmField
-    @BindView(R.id.refresh)
-    var refresh: AppbarRefreshLayout? = null
-
-    @JvmField
-    @BindView(R.id.fastScroller)
-    var fastScroller: RecyclerViewFastScroller? = null
-
-    @JvmField
-    @BindView(R.id.stateLayout)
-    var stateLayout: StateLayout? = null
-
-    @JvmField
     @State
     var toggleMap: HashMap<Long, Boolean> = LinkedHashMap()
     private var adapter: IssuesTimelineAdapter? = null
@@ -389,12 +377,13 @@ class IssueTimelineFragment : BaseFragment<IssueTimelineMvp.View, IssueTimelineP
         onRefresh()
     }
 
-    override fun onToggle(position: Long, isCollapsed: Boolean) {
-        toggleMap[position] = isCollapsed
+    override fun onToggle(id: Long, isCollapsed: Boolean): Boolean {
+        toggleMap[id] = isCollapsed
+        return true
     }
 
-    override fun isCollapsed(position: Long): Boolean {
-        val toggle = toggleMap[position]
+    override fun isCollapsed(id: Long): Boolean {
+        val toggle = toggleMap[id]
         return toggle != null && toggle
     }
 
