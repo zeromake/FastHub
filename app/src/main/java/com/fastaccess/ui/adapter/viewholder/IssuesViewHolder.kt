@@ -3,8 +3,6 @@ package com.fastaccess.ui.adapter.viewholder
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
-import butterknife.BindString
-import butterknife.BindView
 import com.fastaccess.R
 import com.fastaccess.data.dao.PullsIssuesParser.Companion.getForIssue
 import com.fastaccess.data.dao.model.Issue
@@ -28,29 +26,12 @@ class IssuesViewHolder private constructor(
     private val showRepoName: Boolean,
     private val showState: Boolean = false
 ) : BaseViewHolder<Issue>(itemView, adapter) {
-    @kotlin.jvm.JvmField
-    @BindView(R.id.title)
-    var title: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.avatarLayout)
-    var avatarLayout: AvatarLayout? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.issue_state)
-    var issueState: AppCompatImageView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.details)
-    var details: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.commentsNo)
-    var commentsNo: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindString(R.string.by)
-    var by: String? = null
+    val title: FontTextView? = itemView.findViewById(R.id.title)
+    val avatarLayout: AvatarLayout? = itemView.findViewById(R.id.avatarLayout)
+    val issueState: AppCompatImageView? = itemView.findViewById(R.id.issue_state)
+    val details: FontTextView? = itemView.findViewById(R.id.details)
+    val commentsNo: FontTextView? = itemView.findViewById(R.id.commentsNo)
+    val by: String = itemView.context.resources.getString(R.string.by)
     override fun bind(t: Issue) {
         title!!.text = t.title
         if (t.state != null) {
@@ -92,23 +73,23 @@ class IssuesViewHolder private constructor(
                 .append(data)
             if (t.comments > 0) {
                 commentsNo!!.text = t.comments.toString()
-                commentsNo!!.visibility = View.VISIBLE
+                commentsNo.visibility = View.VISIBLE
             } else {
                 commentsNo!!.visibility = View.GONE
             }
         }
         if (showState) {
             issueState!!.visibility = View.VISIBLE
-            issueState!!.setImageResource(if (t.state === IssueState.open) R.drawable.ic_issue_opened_small else R.drawable.ic_issue_closed_small)
+            issueState.setImageResource(if (t.state === IssueState.open) R.drawable.ic_issue_opened_small else R.drawable.ic_issue_closed_small)
         } else {
             issueState!!.visibility = View.GONE
         }
         if (withAvatar && avatarLayout != null) {
-            avatarLayout!!.setUrl(
+            avatarLayout.setUrl(
                 t.user.avatarUrl, t.user.login, false,
                 isEnterprise(t.user.htmlUrl)
             )
-            avatarLayout!!.visibility = View.VISIBLE
+            avatarLayout.visibility = View.VISIBLE
         }
     }
 

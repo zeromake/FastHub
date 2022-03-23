@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
-import butterknife.BindView
 import com.fastaccess.R
 import com.fastaccess.data.dao.CommitLinesModel
 import com.fastaccess.helper.ViewHelper.getPatchAdditionColor
@@ -22,21 +21,10 @@ class CommitLinesViewHolder private constructor(
     itemView: View,
     adapter: CommitLinesAdapter?
 ) : BaseViewHolder<CommitLinesModel>(itemView, adapter) {
-    @kotlin.jvm.JvmField
-    @BindView(R.id.textView)
-    var textView: AppCompatTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.leftLinNo)
-    var leftLinNo: AppCompatTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.rightLinNo)
-    var rightLinNo: AppCompatTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.hasComment)
-    var hasComment: View? = null
+    val textView: AppCompatTextView? = itemView.findViewById(R.id.textView)
+    val leftLinNo: AppCompatTextView? = itemView.findViewById(R.id.leftLinNo)
+    val rightLinNo: AppCompatTextView? = itemView.findViewById(R.id.rightLinNo)
+    val hasComment: View? = itemView.findViewById(R.id.hasComment)
     private val patchAdditionColor: Int = getPatchAdditionColor(itemView.context)
     private val patchDeletionColor: Int = getPatchDeletionColor(itemView.context)
     private val patchRefColor: Int = getPatchRefColor(itemView.context)
@@ -49,17 +37,17 @@ class CommitLinesViewHolder private constructor(
             CommitLinesModel.ADDITION -> textView!!.setBackgroundColor(patchAdditionColor)
             CommitLinesModel.DELETION -> textView!!.setBackgroundColor(patchDeletionColor)
             CommitLinesModel.PATCH -> {
-                leftLinNo!!.visibility = View.GONE
-                rightLinNo!!.visibility = View.GONE
+                leftLinNo.visibility = View.GONE
+                rightLinNo.visibility = View.GONE
                 textView!!.setBackgroundColor(patchRefColor)
             }
             else -> textView!!.setBackgroundColor(Color.TRANSPARENT)
         }
         if (t.isNoNewLine) {
-            textView!!.text = builder().append(t.text).append(" ")
-                .append(ContextCompat.getDrawable(textView!!.context, R.drawable.ic_newline))
+            textView.text = builder().append(t.text).append(" ")
+                .append(ContextCompat.getDrawable(textView.context, R.drawable.ic_newline))
         } else {
-            textView!!.text = t.text
+            textView.text = t.text
         }
     }
 

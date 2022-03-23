@@ -63,6 +63,11 @@ class MainActivity : BaseActivity<MainMvp.View, MainPresenter>(), MainMvp.View {
         bottomNavigation = root.findViewById(R.id.bottomNavigation)
         fab = root.findViewById(R.id.fab)
         fab?.setOnThrottleClickListener { onFilter() }
+        if (savedInstanceState == null) {
+            if (intent.getBooleanExtra(SlackBottomSheetDialog.TAG, false)) {
+                SlackBottomSheetDialog().show(supportFragmentManager, SlackBottomSheetDialog.TAG)
+            }
+        }
         presenter!!.isEnterprise = PrefGetter.isEnterprise
         selectHome(false)
         hideShowShadow(navType == MainMvp.FEEDS)

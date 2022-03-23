@@ -3,10 +3,8 @@ package com.fastaccess.ui.modules.repos.pull_requests.pull_request.merge
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
 import androidx.appcompat.widget.AppCompatSpinner
-import butterknife.BindView
-import butterknife.OnClick
-import butterknife.OnItemSelected
 import com.fastaccess.R
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler.Companion.start
@@ -14,8 +12,10 @@ import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.InputHelper.toString
 import com.fastaccess.helper.PrefGetter.isProEnabled
 import com.fastaccess.ui.base.BaseDialogFragment
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.main.premium.PremiumActivity.Companion.startActivity
 import com.fastaccess.ui.modules.repos.pull_requests.pull_request.merge.MergePullRequestMvp.MergeCallback
+import com.fastaccess.utils.setOnThrottleClickListener
 import com.google.android.material.textfield.TextInputLayout
 
 /**
@@ -24,13 +24,8 @@ import com.google.android.material.textfield.TextInputLayout
 class MergePullRequestDialogFragment :
     BaseDialogFragment<MergePullRequestMvp.View, MergePullRequestPresenter>(),
     MergePullRequestMvp.View {
-    @JvmField
-    @BindView(R.id.title)
-    var title: TextInputLayout? = null
-
-    @JvmField
-    @BindView(R.id.mergeMethod)
-    var mergeMethod: AppCompatSpinner? = null
+    val title: TextInputLayout? by viewFind(R.id.title)
+    val mergeMethod: AppCompatSpinner? by viewFind(R.id.mergeMethod)
     private var mergeCallback: MergeCallback? = null
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -51,6 +46,26 @@ class MergePullRequestDialogFragment :
     }
 
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
+        listOf(
+            R.id.cancel,
+            R.id.ok
+        ).map { view.findViewById<View>(it) }.setOnThrottleClickListener {
+            onClick(it)
+        }
+        mergeMethod!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                onItemSelect(position)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+        }
         if (savedInstanceState == null) {
             val titleMsg = requireArguments().getString(BundleConstant.EXTRA)
             if (!isEmpty(titleMsg)) {
@@ -63,7 +78,6 @@ class MergePullRequestDialogFragment :
         return MergePullRequestPresenter()
     }
 
-    @OnClick(R.id.cancel, R.id.ok)
     fun onClick(view: View) {
         if (view.id == R.id.ok) {
             val isEmpty = isEmpty(title)
@@ -77,7 +91,6 @@ class MergePullRequestDialogFragment :
         dismiss()
     }
 
-    @OnItemSelected(R.id.mergeMethod)
     fun onItemSelect(position: Int) {
         if (position > 0) {
             if (!isProEnabled) {

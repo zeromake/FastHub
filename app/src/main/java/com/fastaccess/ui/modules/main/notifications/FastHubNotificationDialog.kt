@@ -32,19 +32,10 @@ class FastHubNotificationDialog :
 
     private val model by lazy { arguments?.getParcelable<FastHubNotification>(BundleConstant.ITEM) }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val root = super.onCreateView(inflater, container, savedInstanceState)!!
-        root.findViewById<View>(R.id.cancel).setOnThrottleClickListener {
+    override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
+        view.findViewById<View>(R.id.cancel).setOnThrottleClickListener {
             dismiss()
         }
-        return root
-    }
-
-    override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
         val title = view.findViewById<FontTextView>(R.id.title)
         val description = view.findViewById<FontTextView>(R.id.description)
         model?.let {

@@ -45,18 +45,18 @@ import com.google.android.material.tabs.TabLayout
  */
 class CommitPagerActivity : BaseActivity<CommitPagerMvp.View, CommitPagerPresenter>(),
     CommitPagerMvp.View {
-    val avatarLayout: AvatarLayout? by lazy { decorViewFindViewById(R.id.avatarLayout) }
-    val title: FontTextView? by lazy { decorViewFindViewById(R.id.headerTitle) }
-    val size: FontTextView? by lazy { decorViewFindViewById(R.id.size) }
-    val date: FontTextView? by lazy { decorViewFindViewById(R.id.date) }
-    val tabs: TabLayout? by lazy { decorViewFindViewById(R.id.tabs) }
-    val pager: ViewPagerView? by lazy { decorViewFindViewById(R.id.pager) }
-    val fab: FloatingActionButton? by lazy { decorViewFindViewById(R.id.fab) }
-    val changes: FontTextView? by lazy { decorViewFindViewById(R.id.changes) }
-    val addition: FontTextView? by lazy { decorViewFindViewById(R.id.addition) }
-    val deletion: FontTextView? by lazy { decorViewFindViewById(R.id.deletion) }
+    val avatarLayout: AvatarLayout? by lazy { viewFind(R.id.avatarLayout) }
+    val title: FontTextView? by lazy { viewFind(R.id.headerTitle) }
+    val size: FontTextView? by lazy { viewFind(R.id.size) }
+    val date: FontTextView? by lazy { viewFind(R.id.date) }
+    val tabs: TabLayout? by lazy { viewFind(R.id.tabs) }
+    val pager: ViewPagerView? by lazy { viewFind(R.id.pager) }
+    val fab: FloatingActionButton? by lazy { viewFind(R.id.fab) }
+    val changes: FontTextView? by lazy { viewFind(R.id.changes) }
+    val addition: FontTextView? by lazy { viewFind(R.id.addition) }
+    val deletion: FontTextView? by lazy { viewFind(R.id.deletion) }
 //    val coordinatorLayout: CoordinatorLayout? by lazy { decorViewFindViewById(R.id.deletion) }
-    val detailsIcon: View? by lazy { decorViewFindViewById(R.id.deletion) }
+    val detailsIcon: View? by lazy { viewFind(R.id.deletion) }
 
     private var commentEditorFragment: CommentEditorFragment? = null
     private fun onTitleClick() {
@@ -83,7 +83,7 @@ class CommitPagerActivity : BaseActivity<CommitPagerMvp.View, CommitPagerPresent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        decorViewFindViewById<View>(R.id.detailsIcon)!!.setOnThrottleClickListener {
+        viewFind<View>(R.id.detailsIcon)!!.setOnThrottleClickListener {
             onTitleClick()
         }
 

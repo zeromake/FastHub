@@ -12,8 +12,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener
-import butterknife.BindView
-import butterknife.OnClick
 import com.fastaccess.R
 import com.fastaccess.data.dao.FragmentPagerAdapterModel.Companion.buildForGist
 import com.fastaccess.data.dao.model.Gist
@@ -44,6 +42,7 @@ import com.fastaccess.ui.widgets.ForegroundImageView
 import com.fastaccess.ui.widgets.ViewPagerView
 import com.fastaccess.ui.widgets.dialog.MessageDialogView
 import com.fastaccess.ui.widgets.dialog.MessageDialogView.Companion.newInstance
+import com.fastaccess.utils.setOnThrottleClickListener
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 
@@ -51,58 +50,22 @@ import com.google.android.material.tabs.TabLayout
  * Created by Kosh on 12 Nov 2016, 12:18 PM
  */
 class GistActivity : BaseActivity<GistMvp.View, GistPresenter>(), GistMvp.View {
-    @JvmField
-    @BindView(R.id.avatarLayout)
-    var avatarLayout: AvatarLayout? = null
-
-    @JvmField
-    @BindView(R.id.headerTitle)
-    var title: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.size)
-    var size: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.date)
-    var date: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.pager)
-    var pager: ViewPagerView? = null
-
-    @JvmField
-    @BindView(R.id.tabs)
-    var tabs: TabLayout? = null
-
-    @JvmField
-    @BindView(R.id.fab)
-    var fab: FloatingActionButton? = null
-
-    @JvmField
-    @BindView(R.id.startGist)
-    var startGist: ForegroundImageView? = null
-
-    @JvmField
-    @BindView(R.id.forkGist)
-    var forkGist: ForegroundImageView? = null
-
-    @JvmField
-    @BindView(R.id.detailsIcon)
-    var detailsIcon: View? = null
-
-    @JvmField
-    @BindView(R.id.edit)
-    var edit: View? = null
-
-    @JvmField
-    @BindView(R.id.pinUnpin)
-    var pinUnpin: ForegroundImageView? = null
+    val avatarLayout: AvatarLayout? by lazy { viewFind(R.id.avatarLayout) }
+    val title: FontTextView? by lazy { viewFind(R.id.headerTitle) }
+    val size: FontTextView? by lazy { viewFind(R.id.size) }
+    val date: FontTextView? by lazy { viewFind(R.id.date) }
+    val pager: ViewPagerView? by lazy { viewFind(R.id.pager) }
+    val tabs: TabLayout? by lazy { viewFind(R.id.tabs) }
+    val fab: FloatingActionButton? by lazy { viewFind(R.id.fab) }
+    val startGist: ForegroundImageView? by lazy { viewFind(R.id.startGist) }
+    val forkGist: ForegroundImageView? by lazy { viewFind(R.id.forkGist) }
+    val detailsIcon: View? by lazy { viewFind(R.id.detailsIcon) }
+    val edit: View? by lazy { viewFind(R.id.edit) }
+    val pinUnpin: ForegroundImageView? by lazy { viewFind(R.id.pinUnpin) }
     private var accentColor = 0
     private var iconColor = 0
     private var commentEditorFragment: CommentEditorFragment? = null
 
-    @OnClick(R.id.detailsIcon)
     fun onTitleClick() {
         if (presenter!!.gist != null && !isEmpty(presenter!!.gist!!.description)) newInstance(
             getString(R.string.details),
@@ -113,7 +76,6 @@ class GistActivity : BaseActivity<GistMvp.View, GistPresenter>(), GistMvp.View {
             .show(supportFragmentManager, MessageDialogView.TAG)
     }
 
-    @OnClick(R.id.startGist, R.id.forkGist, R.id.browser)
     fun onGistActions(view: View) {
         if (presenter!!.gist == null) return
         if (view.id != R.id.browser) {
@@ -148,7 +110,6 @@ class GistActivity : BaseActivity<GistMvp.View, GistPresenter>(), GistMvp.View {
         }
     }
 
-    @OnClick(R.id.edit)
     fun onEdit() {
         if (isProEnabled || isAllFeaturesUnlocked) {
             if (presenter!!.gist != null) launcher(this, launcher, presenter!!.gist!!)
@@ -157,8 +118,7 @@ class GistActivity : BaseActivity<GistMvp.View, GistPresenter>(), GistMvp.View {
         }
     }
 
-    @OnClick(R.id.pinUnpin)
-    fun pinUpin() {
+    fun pinUnpin() {
         if (isProEnabled) {
             presenter!!.onPinUnpinGist()
         } else {
@@ -186,6 +146,22 @@ class GistActivity : BaseActivity<GistMvp.View, GistPresenter>(), GistMvp.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        detailsIcon!!.setOnThrottleClickListener {
+            onTitleClick()
+        }
+        listOf(
+            R.id.startGist,
+            R.id.forkGist,
+            R.id.browser
+        ).map { window.decorView.findViewById<View>(it) }.setOnThrottleClickListener {
+            onGistActions(it)
+        }
+        edit!!.setOnThrottleClickListener {
+            onEdit()
+        }
+        pinUnpin!!.setOnThrottleClickListener {
+            pinUnpin()
+        }
         fab!!.hide()
         commentEditorFragment =
             supportFragmentManager.findFragmentById(R.id.commentFragment) as CommentEditorFragment?

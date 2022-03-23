@@ -27,13 +27,11 @@ import com.google.android.material.textfield.TextInputLayout
  */
 class EditRepoFileActivity : BaseActivity<EditRepoFileMvp.View, EditRepoFilePresenter>(),
     EditRepoFileMvp.View {
-    val markDownLayout: MarkDownLayout by lazy { decorViewFindViewById(R.id.markDownLayout)!! }
-    val editText: MarkdownEditText by lazy { decorViewFindViewById(R.id.editText)!! }
-    val description: TextInputLayout by lazy { decorViewFindViewById(R.id.description)!! }
-    val fileName: TextInputLayout by lazy { decorViewFindViewById(R.id.fileName)!! }
-    val commitHolder: View by lazy { decorViewFindViewById(R.id.commitHolder)!! }
-//    val layoutHolder: View by lazy { decorViewFindViewById(R.id.layoutHolder)!! }
-    //    val fileNameHolder: View by lazy { decorViewFindViewById(R.id.fileNameHolder)!! }
+    val markDownLayout: MarkDownLayout by lazy { viewFind(R.id.markDownLayout)!! }
+    val editText: MarkdownEditText by lazy { viewFind(R.id.editText)!! }
+    val description: TextInputLayout by lazy { viewFind(R.id.description)!! }
+    val fileName: TextInputLayout by lazy { viewFind(R.id.fileName)!! }
+    val commitHolder: View by lazy { viewFind(R.id.commitHolder)!! }
 
 
     override fun layout(): Int = R.layout.edit_repo_file_layout
@@ -82,7 +80,8 @@ class EditRepoFileActivity : BaseActivity<EditRepoFileMvp.View, EditRepoFilePres
         if (item.itemId == R.id.submit) {
             val text = editText.text
             if (presenter.fileContent == text.toString()
-                && presenter.model?.fileName == fileName.editText?.text.toString()) {
+                && presenter.model?.fileName == fileName.editText?.text.toString()
+            ) {
                 showErrorMessage(getString(R.string.commit_file_required))
                 return true
             }

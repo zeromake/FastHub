@@ -18,20 +18,17 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
-import androidx.core.view.iterator
 import androidx.drawerlayout.widget.DrawerLayout
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.NameParser
 import com.fastaccess.data.dao.wiki.WikiContentModel
 import com.fastaccess.data.dao.wiki.WikiSideBarModel
-import com.fastaccess.databinding.WikiActivityLayoutBinding
 import com.fastaccess.helper.ActivityHelper
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler
 import com.fastaccess.provider.scheme.LinkParserHelper
 import com.fastaccess.ui.base.BaseActivity
-import com.fastaccess.ui.delegate.viewBinding
 import com.fastaccess.ui.modules.repos.RepoPagerActivity
 import com.fastaccess.ui.widgets.StateLayout
 import com.google.android.material.navigation.NavigationView
@@ -42,13 +39,11 @@ import com.prettifier.pretty.PrettifyWebView
  * Created by Kosh on 13 Jun 2017, 8:35 PM
  */
 class WikiActivity : BaseActivity<WikiMvp.View, WikiPresenter>(), WikiMvp.View {
-    val binding: WikiActivityLayoutBinding by viewBinding()
-
-    private val navMenu: NavigationView by lazy { window.decorView.findViewById(R.id.wikiSidebar) }
-    val drawerLayout: DrawerLayout by lazy { window.decorView.findViewById(R.id.drawer) }
-    val progressbar: ProgressBar by lazy { window.decorView.findViewById(R.id.progress) }
-    val stateLayout: StateLayout by lazy { window.decorView.findViewById(R.id.stateLayout) }
-    val webView: PrettifyWebView by lazy { window.decorView.findViewById(R.id.webView) }
+    private val navMenu: NavigationView by lazy { viewFind(R.id.wikiSidebar)!! }
+    val drawerLayout: DrawerLayout by lazy { viewFind(R.id.drawer)!! }
+    val progressbar: ProgressBar by lazy { viewFind(R.id.progress)!! }
+    val stateLayout: StateLayout by lazy { viewFind(R.id.stateLayout)!! }
+    val webView: PrettifyWebView by lazy { viewFind(R.id.webView)!! }
 
     @State
     var wiki = WikiContentModel(null, null, arrayListOf())
@@ -92,7 +87,7 @@ class WikiActivity : BaseActivity<WikiMvp.View, WikiPresenter>(), WikiMvp.View {
     private fun toSequence(sideBar: WikiSideBarModel): CharSequence {
         val sb = SpannableStringBuilder()
         var title = sideBar.title
-        when(sideBar.level) {
+        when (sideBar.level) {
             0 -> title = "● $title"
             1 -> title = "● $title"
             2 -> title = "○ $title"

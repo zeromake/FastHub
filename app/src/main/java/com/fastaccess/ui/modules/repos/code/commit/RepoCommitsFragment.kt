@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import butterknife.BindView
-import butterknife.OnClick
 import com.fastaccess.R
 import com.fastaccess.data.dao.BranchesModel
 import com.fastaccess.data.dao.model.Commit
@@ -15,42 +13,31 @@ import com.fastaccess.helper.Bundler.Companion.start
 import com.fastaccess.provider.rest.loadmore.OnLoadMore
 import com.fastaccess.ui.adapter.CommitsAdapter
 import com.fastaccess.ui.base.BaseFragment
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.repos.RepoPagerMvp.TabsBadgeListener
 import com.fastaccess.ui.modules.repos.extras.branches.pager.BranchesPagerFragment.Companion.newInstance
 import com.fastaccess.ui.widgets.FontTextView
 import com.fastaccess.ui.widgets.StateLayout
 import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
 import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
+import com.fastaccess.utils.setOnThrottleClickListener
 
 /**
  * Created by Kosh on 03 Dec 2016, 3:56 PM
  */
 class RepoCommitsFragment : BaseFragment<RepoCommitsMvp.View, RepoCommitsPresenter>(),
     RepoCommitsMvp.View {
-    @JvmField
-    @BindView(R.id.recycler)
-    var recycler: DynamicRecyclerView? = null
+    val recycler: DynamicRecyclerView? by viewFind(R.id.recycler)
+    val refresh: SwipeRefreshLayout? by viewFind(R.id.refresh)
+    val stateLayout: StateLayout? by viewFind(R.id.stateLayout)
+    val fastScroller: RecyclerViewFastScroller? by viewFind(R.id.fastScroller)
 
-    @JvmField
-    @BindView(R.id.refresh)
-    var refresh: SwipeRefreshLayout? = null
-
-    @JvmField
-    @BindView(R.id.stateLayout)
-    var stateLayout: StateLayout? = null
-
-    @JvmField
-    @BindView(R.id.fastScroller)
-    var fastScroller: RecyclerViewFastScroller? = null
-
-    @JvmField
-    @BindView(R.id.branches)
-    var branches: FontTextView? = null
+    val branches: FontTextView? by viewFind(R.id.branches)
     private var onLoadMore: OnLoadMore<String>? = null
     private var adapter: CommitsAdapter? = null
     private var tabsBadgeListener: TabsBadgeListener? = null
-    @OnClick(R.id.branches)
-    fun onBranchesClicked() {
+
+    private fun onBranchesClicked() {
         newInstance(presenter!!.login!!, presenter!!.repoId!!)
             .show(childFragmentManager, "BranchesFragment")
     }
@@ -89,6 +76,9 @@ class RepoCommitsFragment : BaseFragment<RepoCommitsMvp.View, RepoCommitsPresent
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
         if (arguments == null) {
             throw NullPointerException("Bundle is null, therefore, issues can't be proceeded.")
+        }
+        branches!!.setOnThrottleClickListener {
+            onBranchesClicked()
         }
         stateLayout!!.setEmptyText(R.string.no_commits)
         stateLayout!!.setOnReloadListener(this)

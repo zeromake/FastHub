@@ -3,10 +3,9 @@ package com.fastaccess.ui.modules.repos.projects.details
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.viewpager.widget.ViewPager
 import android.view.MenuItem
 import android.view.View
-import butterknife.BindView
+import androidx.viewpager.widget.ViewPager
 import com.airbnb.lottie.LottieAnimationView
 import com.evernote.android.state.State
 import com.fastaccess.R
@@ -25,10 +24,11 @@ import com.fastaccess.ui.widgets.CardsPagerTransformerBasic
  * Created by Hashemsergani on 11.09.17.
  */
 
-class ProjectPagerActivity : BaseActivity<ProjectPagerMvp.View, ProjectPagerPresenter>(), ProjectPagerMvp.View {
+class ProjectPagerActivity : BaseActivity<ProjectPagerMvp.View, ProjectPagerPresenter>(),
+    ProjectPagerMvp.View {
+    val pager: ViewPager by lazy { viewFind(R.id.pager)!! }
+    val loading: LottieAnimationView by lazy { viewFind(R.id.loading)!! }
 
-    @BindView(R.id.pager) lateinit var pager: ViewPager
-    @BindView(R.id.loading) lateinit var loading: LottieAnimationView
     @State
     override var isProgressShowing = false
 
@@ -40,8 +40,10 @@ class ProjectPagerActivity : BaseActivity<ProjectPagerMvp.View, ProjectPagerPres
 
     override fun onInitPager(list: List<ProjectColumnModel>) {
         hideProgress()
-        pager.adapter = FragmentsPagerAdapter(supportFragmentManager, FragmentPagerAdapterModel
-                .buildForProjectColumns(list, presenter.viewerCanUpdate))
+        pager.adapter = FragmentsPagerAdapter(
+            supportFragmentManager, FragmentPagerAdapterModel
+                .buildForProjectColumns(list, presenter.viewerCanUpdate)
+        )
     }
 
     override fun showMessage(titleRes: Int, msgRes: Int) {
@@ -80,14 +82,14 @@ class ProjectPagerActivity : BaseActivity<ProjectPagerMvp.View, ProjectPagerPres
             android.R.id.home -> {
                 val repoId = presenter.repoId
                 if (repoId != null && !repoId.isNullOrBlank()) {
-                    if (!presenter.login.isBlank()) {
+                    if (presenter.login.isNotBlank()) {
                         val nameParse = NameParser("")
                         nameParse.name = presenter.repoId
                         nameParse.username = presenter.login
                         nameParse.isEnterprise = isEnterprise
                         RepoPagerActivity.startRepoPager(this, nameParse)
                     }
-                } else if (!presenter.login.isBlank()) {
+                } else if (presenter.login.isNotBlank()) {
                     UserPagerActivity.startActivity(this, presenter.login, true, isEnterprise, 0)
                 }
                 finish()
@@ -132,18 +134,32 @@ class ProjectPagerActivity : BaseActivity<ProjectPagerMvp.View, ProjectPagerPres
     }
 
     companion object {
-        fun startActivity(context: Context, login: String, repoId: String? = null, projectId: Long, isEnterprise: Boolean = false) {
+        fun startActivity(
+            context: Context,
+            login: String,
+            repoId: String? = null,
+            projectId: Long,
+            isEnterprise: Boolean = false
+        ) {
             context.startActivity(getIntent(context, login, repoId, projectId, isEnterprise))
         }
 
-        fun getIntent(context: Context, login: String, repoId: String? = null, projectId: Long, isEnterprise: Boolean = false): Intent {
+        fun getIntent(
+            context: Context,
+            login: String,
+            repoId: String? = null,
+            projectId: Long,
+            isEnterprise: Boolean = false
+        ): Intent {
             val intent = Intent(context, ProjectPagerActivity::class.java)
-            intent.putExtras(Bundler.start()
+            intent.putExtras(
+                Bundler.start()
                     .put(BundleConstant.ID, projectId)
                     .put(BundleConstant.ITEM, repoId)
                     .put(BundleConstant.EXTRA, login)
                     .put(BundleConstant.IS_ENTERPRISE, isEnterprise)
-                    .end())
+                    .end()
+            )
             return intent
         }
 

@@ -1,5 +1,6 @@
 package com.fastaccess.ui.adapter.viewholder
 
+import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
 import com.fastaccess.R
@@ -34,17 +35,23 @@ class PullRequestFilesViewHolder private constructor(
     val addition: FontTextView? by lazy { itemView.findViewById(R.id.addition) }
     val deletion: FontTextView? by lazy { itemView.findViewById(R.id.deletion) }
     val status: FontTextView? by lazy { itemView.findViewById(R.id.status) }
-    val toggle: View?  by lazy { itemView.findViewById(R.id.toggle) }
-    val open: View?  by lazy { itemView.findViewById(R.id.open) }
+    val toggle: View? by lazy { itemView.findViewById(R.id.toggle) }
+    val open: View? by lazy { itemView.findViewById(R.id.open) }
     val changesText: String? by lazy { viewGroup.context.resources.getString(R.string.changes) }
     val additionText: String? by lazy { viewGroup.context.resources.getString(R.string.addition) }
     val deletionText: String? by lazy { viewGroup.context.resources.getString(R.string.deletion) }
     val statusText: String? by lazy { viewGroup.context.resources.getString(R.string.status) }
+
     override fun onClick(v: View) {
         if (v.id != R.id.open) {
             val position = absoluteAdapterPosition
-            onToggleView.onToggle(position.toLong(), !onToggleView.isCollapsed(position.toLong()))
-            onToggle(onToggleView.isCollapsed(position.toLong()), true, position)
+            if (onToggleView.onToggle(
+                    position.toLong(),
+                    !onToggleView.isCollapsed(position.toLong())
+                )
+            ) {
+                onToggle(onToggleView.isCollapsed(position.toLong()), true, position)
+            }
         } else {
             super.onClick(v)
         }
@@ -75,6 +82,7 @@ class PullRequestFilesViewHolder private constructor(
         onToggle(onToggleView.isCollapsed(position.toLong()), false, position)
     }
 
+    @SuppressLint("TimberArgCount")
     private fun onToggle(expanded: Boolean, animate: Boolean, position: Int) {
         if (!expanded) {
             patch!!.swapAdapter(null, true)
@@ -82,6 +90,7 @@ class PullRequestFilesViewHolder private constructor(
             name!!.maxLines = 2
             toggle!!.rotation = 0.0f
         } else {
+            var toggleClose = false
             if (adapter != null) {
                 val model = adapter.getItem(position)
                 if (model!!.linesModel != null && model.linesModel!!.isNotEmpty()) {
@@ -92,12 +101,14 @@ class PullRequestFilesViewHolder private constructor(
                     } else if (canAttachToBundle(model)) {
                         if (adapter.listener != null) {
                             adapter.listener!!.onItemClick(position, patch, model)
+                            toggleClose = true
                         }
                     } else {
                         Toasty.warning(
                             itemView.context,
                             itemView.resources.getString(R.string.too_large_changes)
                         ).show()
+                        toggleClose = true
                         return
                     }
                 } else {
@@ -105,8 +116,12 @@ class PullRequestFilesViewHolder private constructor(
                     patch!!.visibility = View.GONE
                 }
             }
-            name!!.maxLines = 5
-            toggle!!.rotation = 180f
+            if (!toggleClose) {
+                name!!.maxLines = 5
+                toggle!!.rotation = 180f
+            } else {
+                onToggleView.onToggle(position.toLong(), false)
+            }
         }
     }
 

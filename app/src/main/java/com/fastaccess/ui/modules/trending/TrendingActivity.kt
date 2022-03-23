@@ -19,11 +19,9 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.TrendingModel
-import com.fastaccess.databinding.TrendingActivityLayoutBinding
 import com.fastaccess.helper.*
 import com.fastaccess.provider.scheme.LinkParserHelper
 import com.fastaccess.ui.base.BaseActivity
-import com.fastaccess.ui.delegate.viewBinding
 import com.fastaccess.ui.modules.main.MainActivity
 import com.fastaccess.ui.modules.trending.fragment.TrendingFragment
 import com.fastaccess.ui.widgets.FontEditText
@@ -38,15 +36,6 @@ import java.util.*
 
 class TrendingActivity : BaseActivity<TrendingMvp.View, TrendingPresenter>(), TrendingMvp.View {
     private var trendingFragment: TrendingFragment? = null
-
-//    private val binding: TrendingActivityLayoutBinding by viewBinding()
-//    private val navMenu: NavigationView by lazy { binding.navMenu }
-//    val daily: TextView by lazy { binding.daily }
-//    val weekly: TextView by lazy { binding.weekly }
-//    val monthly: TextView by lazy { binding.monthly }
-//    val drawerLayout: DrawerLayout by lazy { binding.drawer }
-//    val clear: View by lazy { binding.clear }
-//    val searchEditText: FontEditText by lazy { binding.searchEditText }
     private val rootView: View by lazy { window.decorView }
     private val navMenu: NavigationView by lazy { rootView.findViewById(R.id.navMenu) }
     val daily: TextView by lazy { rootView.findViewById(R.id.daily) }
@@ -124,20 +113,18 @@ class TrendingActivity : BaseActivity<TrendingMvp.View, TrendingPresenter>(), Tr
         searchEditText.addTextChangedListener({ _, _, _, _ -> }, { _, _, _, _ -> }) {
             onTextChange(it!!)
         }
-
-        daily.setOnThrottleClickListener {
-            onDailyClicked()
-        }
-
-        weekly.setOnThrottleClickListener {
-            onWeeklyClicked()
-        }
-
-        monthly.setOnThrottleClickListener {
-            onMonthlyClicked()
-        }
-        clear.setOnThrottleClickListener {
-            onClearSearch()
+        listOf(
+            daily,
+            weekly,
+            monthly,
+            clear,
+        ).setOnThrottleClickListener {
+            when (it.id) {
+                R.id.daily -> onDailyClicked()
+                R.id.weekly -> onWeeklyClicked()
+                R.id.monthly -> onMonthlyClicked()
+                R.id.clear -> onClearSearch()
+            }
         }
         navMenu.itemIconTintList = null
         trendingFragment =

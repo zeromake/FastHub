@@ -95,9 +95,6 @@ android {
             )
         }
     }
-    viewBinding {
-        enable = true
-    }
 }
 
 kapt {
@@ -143,10 +140,6 @@ dependencies {
     // ShapedImageView
     implementation("cn.gavinliu:ShapedImageView:0.8.7")
 //    implementation("io.woong.shapedimageview:shapedimageview:1.4.3")
-
-    // butterknife
-    implementation("com.jakewharton:butterknife:10.2.3")
-    kapt("com.jakewharton:butterknife-compiler:10.2.3")
 
     // bottom-navigation
     implementation("it.sephiroth.android.library.bottomnavigation:bottom-navigation:3.0.0")

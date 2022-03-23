@@ -8,7 +8,6 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import butterknife.BindView
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.SparseBooleanArrayParcelable
@@ -22,6 +21,7 @@ import com.fastaccess.provider.rest.loadmore.OnLoadMore
 import com.fastaccess.provider.timeline.CommentsHelper.getUsers
 import com.fastaccess.ui.adapter.CommentsAdapter
 import com.fastaccess.ui.base.BaseFragment
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.editor.EditorActivity
 import com.fastaccess.ui.modules.editor.comment.CommentEditorFragment.CommentListener
 import com.fastaccess.ui.widgets.StateLayout
@@ -35,23 +35,11 @@ import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
  */
 class GistCommentsFragment : BaseFragment<GistCommentsMvp.View, GistCommentsPresenter>(),
     GistCommentsMvp.View {
-    @JvmField
-    @BindView(R.id.recycler)
-    var recycler: DynamicRecyclerView? = null
+    val recycler: DynamicRecyclerView? by viewFind(R.id.recycler)
+    val refresh: SwipeRefreshLayout? by viewFind(R.id.refresh)
+    val stateLayout: StateLayout? by viewFind(R.id.stateLayout)
+    val fastScroller: RecyclerViewFastScroller? by viewFind(R.id.fastScroller)
 
-    @JvmField
-    @BindView(R.id.refresh)
-    var refresh: SwipeRefreshLayout? = null
-
-    @JvmField
-    @BindView(R.id.stateLayout)
-    var stateLayout: StateLayout? = null
-
-    @JvmField
-    @BindView(R.id.fastScroller)
-    var fastScroller: RecyclerViewFastScroller? = null
-
-    @JvmField
     @State
     var sparseBooleanArray: SparseBooleanArrayParcelable? = null
     private var commentsCallback: CommentListener? = null
@@ -60,17 +48,21 @@ class GistCommentsFragment : BaseFragment<GistCommentsMvp.View, GistCommentsPres
     private var onLoadMore: OnLoadMore<String>? = null
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        commentsCallback = if (parentFragment is CommentListener) {
-            parentFragment as CommentListener?
-        } else if (context is CommentListener) {
-            context
-        } else {
-            throw IllegalArgumentException(
-                String.format(
-                    "%s or parent fragment must implement CommentEditorFragment.CommentListener",
-                    context.javaClass.simpleName
+        commentsCallback = when {
+            parentFragment is CommentListener -> {
+                parentFragment as CommentListener?
+            }
+            context is CommentListener -> {
+                context
+            }
+            else -> {
+                throw IllegalArgumentException(
+                    String.format(
+                        "%s or parent fragment must implement CommentEditorFragment.CommentListener",
+                        context.javaClass.simpleName
+                    )
                 )
-            )
+            }
         }
     }
 

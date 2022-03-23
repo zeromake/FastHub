@@ -2,8 +2,6 @@ package com.fastaccess.ui.adapter.viewholder
 
 import android.view.View
 import android.view.ViewGroup
-import butterknife.BindString
-import butterknife.BindView
 import com.fastaccess.R
 import com.fastaccess.data.dao.model.Release
 import com.fastaccess.helper.InputHelper.isEmpty
@@ -21,25 +19,11 @@ class ReleasesViewHolder private constructor(
     itemView: View,
     adapter: ReleasesAdapter
 ) : BaseViewHolder<Release>(itemView, adapter) {
-    @kotlin.jvm.JvmField
-    @BindView(R.id.title)
-    var title: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.details)
-    var details: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.download)
-    var download: ForegroundImageView? = null
-
-    @kotlin.jvm.JvmField
-    @BindString(R.string.released)
-    var released: String? = null
-
-    @kotlin.jvm.JvmField
-    @BindString(R.string.drafted)
-    var drafted: String? = null
+    var title: FontTextView? = itemView.findViewById(R.id.title)
+    var details: FontTextView? = itemView.findViewById(R.id.details)
+    var download: ForegroundImageView? = itemView.findViewById(R.id.download)
+    var released: String = itemView.resources.getString(R.string.released)
+    var drafted: String = itemView.resources.getString(R.string.drafted)
     override fun bind(t: Release) {
         title!!.text = builder()
             .bold(if (!isEmpty(t.name)) t.name else t.tagName)

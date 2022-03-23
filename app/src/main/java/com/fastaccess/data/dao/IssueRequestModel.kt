@@ -41,13 +41,11 @@ class IssueRequestModel : Parcelable {
         fun clone(issue: Issue, toClose: Boolean): IssueRequestModel {
             val model = IssueRequestModel()
             if (issue.labels != null) {
-                model.labels = (
-                    issue.labels.asSequence().filter {
-                        it?.name != null
-                    }.map {
-                        it?.name!!
-                    }.toList()
-                )
+                model.labels = (issue.labels.filter {
+                    it.name != null
+                }.map {
+                    it.name!!
+                })
             }
             model.assignee = (if (issue.assignee != null) issue.assignee.name else null)
             model.body = (issue.body)
@@ -62,13 +60,11 @@ class IssueRequestModel : Parcelable {
         fun clone(issue: PullRequest, toClose: Boolean): IssueRequestModel {
             val model = IssueRequestModel()
             if (issue.labels != null) {
-                model.labels = (
-                        issue.labels.asSequence().filter {
-                            it?.name != null
-                        }.map {
-                            it?.name!!
-                        }.toList()
-                        )
+                model.labels = (issue.labels.filter {
+                    it.name != null
+                }.map {
+                    it.name!!
+                })
             }
             model.base = (if (issue.base != null) issue.base.ref else "master")
             model.assignee = (if (issue.assignee != null) issue.assignee.name else null)
@@ -80,6 +76,7 @@ class IssueRequestModel : Parcelable {
             return model
         }
     }
+
     private constructor() {}
     private constructor(`in`: Parcel) {
         val tmpState = `in`.readInt()

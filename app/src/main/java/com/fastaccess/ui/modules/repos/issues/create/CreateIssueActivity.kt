@@ -1,5 +1,6 @@
 package com.fastaccess.ui.modules.repos.issues.create
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -10,12 +11,10 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.transition.TransitionManager
-import butterknife.BindView
-import butterknife.OnClick
-import butterknife.OnTouch
 import com.danielstone.materialaboutlibrary.ConvenienceBuilder
 import com.evernote.android.state.State
 import com.fastaccess.App
@@ -37,12 +36,12 @@ import com.fastaccess.ui.modules.editor.EditorActivity
 import com.fastaccess.ui.modules.repos.extras.assignees.AssigneesDialogFragment
 import com.fastaccess.ui.modules.repos.extras.labels.LabelsDialogFragment
 import com.fastaccess.ui.modules.repos.extras.milestone.create.MilestoneDialogFragment
-import com.fastaccess.ui.modules.repos.issues.create.CreateIssueActivity
 import com.fastaccess.ui.widgets.FontTextView
 import com.fastaccess.ui.widgets.LabelSpan
 import com.fastaccess.ui.widgets.SpannableBuilder.Companion.builder
 import com.fastaccess.ui.widgets.dialog.MessageDialogView
 import com.fastaccess.ui.widgets.dialog.MessageDialogView.Companion.newInstance
+import com.fastaccess.utils.setOnThrottleClickListener
 import com.google.android.material.textfield.TextInputLayout
 import es.dmoral.toasty.Toasty
 
@@ -51,67 +50,36 @@ import es.dmoral.toasty.Toasty
  */
 class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresenter>(),
     CreateIssueMvp.View {
-    @JvmField
-    @BindView(R.id.title)
-    var title: TextInputLayout? = null
+    val title: TextInputLayout? by lazy { viewFind(R.id.title) }
+    val description: FontTextView? by lazy { viewFind(R.id.description) }
+    val submit: View? by lazy { viewFind(R.id.submit) }
+    private val issueMiscLayout: LinearLayout? by lazy { viewFind(R.id.issueMiscLayout) }
+    val assignee: FontTextView? by lazy { viewFind(R.id.assignee) }
+    val labels: FontTextView? by lazy { viewFind(R.id.labels) }
+    val milestoneTitle: FontTextView? by lazy { viewFind(R.id.milestoneTitle) }
+    val milestoneDescription: FontTextView? by lazy { viewFind(R.id.milestoneDescription) }
 
-    @JvmField
-    @BindView(R.id.description)
-    var description: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.submit)
-    var submit: View? = null
-
-    @JvmField
-    @BindView(R.id.issueMiscLayout)
-    var issueMiscLayout: LinearLayout? = null
-
-    @JvmField
-    @BindView(R.id.assignee)
-    var assignee: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.labels)
-    var labels: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.milestoneTitle)
-    var milestoneTitle: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.milestoneDescription)
-    var milestoneDescription: FontTextView? = null
-
-    @JvmField
     @State
     var repoId: String? = null
 
-    @JvmField
     @State
     var login: String? = null
 
-    @JvmField
     @State
     var issue: Issue? = null
 
-    @JvmField
     @State
     var pullRequest: PullRequest? = null
 
-    @JvmField
     @State
     var isFeedback = false
 
-    @JvmField
     @State
     var labelModels = ArrayList<LabelModel>()
 
-    @JvmField
     @State
     var milestoneModel: MilestoneModel? = null
 
-    @JvmField
     @State
     var users = ArrayList<User>()
     private var alertDialog: AlertDialog? = null
@@ -185,8 +153,21 @@ class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresent
     override val isSecured: Boolean
         get() = false
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        description!!.setOnTouchListener {_, event ->
+            onTouch(event)
+        }
+        submit!!.setOnThrottleClickListener {
+            onClick()
+        }
+        listOf(
+            R.id.addAssignee, R.id.addLabels, R.id.addMilestone
+        ).map { viewFind<View>(it)!! }.setOnThrottleClickListener {
+            onViewClicked(it)
+        }
         if (savedInstanceState == null) {
             val bundle = intent.extras
             login = bundle!!.getString(BundleConstant.EXTRA)
@@ -317,8 +298,7 @@ class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresent
         }
     }
 
-    @OnTouch(R.id.description)
-    fun onTouch(event: MotionEvent): Boolean {
+    private fun onTouch(event: MotionEvent): Boolean {
         if (isFeedback && isEmpty(savedText)) {
             savedText = AppHelper.getFastHubIssueTemplate(isEnterprise)
         }
@@ -337,7 +317,6 @@ class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresent
         return false
     }
 
-    @OnClick(R.id.submit)
     fun onClick() {
         presenter!!.onSubmit(
             toString(title),
@@ -352,8 +331,7 @@ class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresent
         )
     }
 
-    @OnClick(R.id.addAssignee, R.id.addLabels, R.id.addMilestone)
-    fun onViewClicked(view: View) {
+    private fun onViewClicked(view: View) {
         when (view.id) {
             R.id.addAssignee -> AssigneesDialogFragment.newInstance(login!!, repoId!!, false)
                 .show(supportFragmentManager, "AssigneesDialogFragment")
@@ -370,12 +348,12 @@ class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresent
         }
     }
 
-    override fun onSelectedLabels(labelModels: ArrayList<LabelModel>) {
+    override fun onSelectedLabels(labels: ArrayList<LabelModel>) {
         this.labelModels.clear()
-        this.labelModels.addAll(labelModels)
+        this.labelModels.addAll(labels)
         val builder = builder()
-        for (i in labelModels.indices) {
-            val labelModel = labelModels[i]
+        for (i in labels.indices) {
+            val labelModel = labels[i]
             val color = Color.parseColor("#" + labelModel.color)
             if (i > 0) {
                 builder.append(" ").append(" " + labelModel.name + " ", LabelSpan(color))
@@ -383,7 +361,7 @@ class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresent
                 builder.append(labelModel.name + " ", LabelSpan(color))
             }
         }
-        labels!!.text = builder
+        this.labels!!.text = builder
     }
 
     override fun onMilestoneSelected(milestoneModel: MilestoneModel) {
@@ -531,6 +509,14 @@ class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresent
         @Deprecated("use registerForActivityResult")
         fun startForResult(activity: Activity, intent: Intent, view: View) {
             ActivityHelper.startReveal(activity, intent, view, BundleConstant.REQUEST_CODE)
+        }
+
+        fun startForResult(
+            launcher: ActivityResultLauncher<Intent>,
+            intent: Intent,
+            view: View
+        ) {
+            ActivityHelper.startLauncher(launcher, intent, view)
         }
     }
 }

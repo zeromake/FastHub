@@ -13,7 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.PopupWindow
 import android.widget.Toast
-import butterknife.*
+import androidx.core.widget.addTextChangedListener
 import com.evernote.android.state.State
 import com.fastaccess.App
 import com.fastaccess.R
@@ -37,13 +37,13 @@ import com.fastaccess.ui.adapter.SimpleListAdapter
 import com.fastaccess.ui.adapter.UsersAdapter
 import com.fastaccess.ui.base.BaseActivity
 import com.fastaccess.ui.base.adapter.BaseViewHolder
-import com.fastaccess.ui.modules.filter.issues.FilterIssuesActivity
 import com.fastaccess.ui.modules.filter.issues.fragment.FilterIssueFragment
 import com.fastaccess.ui.widgets.FontEditText
 import com.fastaccess.ui.widgets.FontTextView
 import com.fastaccess.ui.widgets.ForegroundImageView
 import com.fastaccess.ui.widgets.SpannableBuilder.Companion.builder
 import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
+import com.fastaccess.utils.setOnThrottleClickListener
 import es.dmoral.toasty.Toasty
 import java.util.*
 
@@ -53,63 +53,29 @@ import java.util.*
 class FilterIssuesActivity :
     BaseActivity<FilterIssuesActivityMvp.View, FilterIssuesActivityPresenter>(),
     FilterIssuesActivityMvp.View {
-    @JvmField
-    @BindView(R.id.back)
-    var back: ForegroundImageView? = null
+    val back: ForegroundImageView? by lazy { viewFind(R.id.back) }
+    val open: FontTextView? by lazy { viewFind(R.id.open) }
+    val close: FontTextView? by lazy { viewFind(R.id.close) }
+    val author: FontTextView? by lazy { viewFind(R.id.author) }
+    val labels: FontTextView? by lazy { viewFind(R.id.labels) }
+    val milestone: FontTextView? by lazy { viewFind(R.id.milestone) }
+    val assignee: FontTextView? by lazy { viewFind(R.id.assignee) }
+    val sort: FontTextView? by lazy { viewFind(R.id.sort) }
+    val searchEditText: FontEditText? by lazy { viewFind(R.id.searchEditText) }
+    val clear: View? by lazy { viewFind(R.id.clear) }
 
-    @JvmField
-    @BindView(R.id.open)
-    var open: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.close)
-    var close: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.author)
-    var author: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.labels)
-    var labels: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.milestone)
-    var milestone: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.assignee)
-    var assignee: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.sort)
-    var sort: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.searchEditText)
-    var searchEditText: FontEditText? = null
-
-    @JvmField
-    @BindView(R.id.clear)
-    var clear: View? = null
-
-    @JvmField
     @State
     var isIssue = false
 
-    @JvmField
     @State
     var isOpen = false
 
-    @JvmField
     @State
     var login: String? = null
 
-    @JvmField
     @State
     var repoId: String? = null
 
-    @JvmField
     @State
     var criteria: String? = null
     private var filterFragment: FilterIssueFragment? = null
@@ -144,6 +110,46 @@ class FilterIssuesActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        back!!.setOnThrottleClickListener {
+            onBackClicked()
+        }
+        open!!.setOnThrottleClickListener {
+            onOpenClicked()
+        }
+        close!!.setOnThrottleClickListener {
+            onCloseClicked()
+        }
+        author!!.setOnThrottleClickListener {
+            onAuthorClicked()
+        }
+        labels!!.setOnThrottleClickListener {
+            onLabelsClicked()
+        }
+        milestone!!.setOnThrottleClickListener {
+            onMilestoneClicked()
+        }
+        assignee!!.setOnThrottleClickListener {
+            onAssigneeClicked()
+        }
+        val root = window.decorView
+        root.findViewById<View>(R.id.sort).setOnThrottleClickListener {
+            onSortClicked()
+        }
+        root.findViewById<View>(R.id.clear).setOnThrottleClickListener {
+            onClear(it)
+        }
+        root.findViewById<View>(R.id.search).setOnThrottleClickListener {
+            onSearch()
+        }
+        searchEditText!!.addTextChangedListener(
+            { _, _, _, _ -> },
+            { _, _, _, _ -> }
+        ) {
+            onTextChange(it!!)
+        }
+        searchEditText!!.setOnEditorActionListener { _, _, _ ->
+            onEditor()
+        }
         if (savedInstanceState == null) {
             val bundle = intent.extras
             isIssue = bundle!!.getBoolean(BundleConstant.EXTRA_TWO)
@@ -160,13 +166,11 @@ class FilterIssuesActivity :
         }
     }
 
-    @OnClick(R.id.back)
-    fun onBackClicked() {
+    private fun onBackClicked() {
         onBackPressed()
     }
 
-    @OnClick(R.id.open)
-    fun onOpenClicked() {
+    private fun onOpenClicked() {
         if (!open!!.isSelected) {
             open!!.isSelected = true
             close!!.isSelected = false
@@ -198,7 +202,6 @@ class FilterIssuesActivity :
         }
     }
 
-    @OnClick(R.id.close)
     fun onCloseClicked() {
         if (!close!!.isSelected) {
             open!!.isSelected = false
@@ -221,8 +224,7 @@ class FilterIssuesActivity :
         }
     }
 
-    @OnClick(R.id.author)
-    fun onAuthorClicked() {
+    private fun onAuthorClicked() {
         Toasty.info(
             App.getInstance(),
             "GitHub doesn't have this API yet!\nYou can try typing it yourself for example author:k0shk0sh",
@@ -231,7 +233,6 @@ class FilterIssuesActivity :
     }
 
     @SuppressLint("InflateParams")
-    @OnClick(R.id.labels)
     fun onLabelsClicked() {
         if (labels!!.tag != null) return
         labels!!.tag = true
@@ -243,7 +244,6 @@ class FilterIssuesActivity :
     }
 
     @SuppressLint("InflateParams")
-    @OnClick(R.id.milestone)
     fun onMilestoneClicked() {
         if (milestone!!.tag != null) return
         milestone!!.tag = true
@@ -255,7 +255,6 @@ class FilterIssuesActivity :
     }
 
     @SuppressLint("InflateParams")
-    @OnClick(R.id.assignee)
     fun onAssigneeClicked() {
         if (assignee!!.tag != null) return
         assignee!!.tag = true
@@ -267,7 +266,6 @@ class FilterIssuesActivity :
     }
 
     @SuppressLint("InflateParams")
-    @OnClick(R.id.sort)
     fun onSortClicked() {
         if (sort!!.tag != null) return
         sort!!.tag = true
@@ -294,7 +292,6 @@ class FilterIssuesActivity :
         revealPopupWindow(popupWindow!!, sort!!)
     }
 
-    @OnClick(R.id.clear)
     fun onClear(view: View) {
         if (view.id == R.id.clear) {
             AppHelper.hideKeyboard(searchEditText!!)
@@ -302,15 +299,6 @@ class FilterIssuesActivity :
         }
     }
 
-    @OnClick(R.id.search)
-    fun onSearchClicked() {
-        onSearch()
-    }
-
-    @OnTextChanged(
-        value = [R.id.searchEditText],
-        callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED
-    )
     fun onTextChange(s: Editable) {
         val text = s.toString()
         if (text.isEmpty()) {
@@ -320,9 +308,8 @@ class FilterIssuesActivity :
         }
     }
 
-    @OnEditorAction(R.id.searchEditText)
     fun onEditor(): Boolean {
-        onSearchClicked()
+        onSearch()
         return true
     }
 
@@ -439,7 +426,10 @@ class FilterIssuesActivity :
                 user.login = getString(R.string.clear)
                 presenter!!.assignees.add(0, user)
             }
-            assigneesAdapter = UsersAdapter(presenter!!.assignees, false, true)
+            assigneesAdapter = UsersAdapter(presenter!!.assignees,
+                isContributor = false,
+                isFilter = true
+            )
             assigneesAdapter!!.listener = object : BaseViewHolder.OnItemClickListener<User> {
                 override fun onItemClick(position: Int, v: View?, item: User) {
                     appendAssignee(item)
@@ -627,14 +617,10 @@ class FilterIssuesActivity :
     }
 
     internal class ViewHolder(var view: View) {
-        @JvmField
         val title: FontTextView? = view.findViewById(R.id.title)
-
-        @JvmField
         val recycler: DynamicRecyclerView? = view.findViewById(R.id.recycler)
 
         init {
-            ButterKnife.bind(this, view)
             title!!.visibility = View.GONE
         }
     }

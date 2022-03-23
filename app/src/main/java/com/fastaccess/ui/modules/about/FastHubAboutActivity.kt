@@ -1,11 +1,13 @@
 package com.fastaccess.ui.modules.about
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.danielstone.materialaboutlibrary.ConvenienceBuilder
 import com.danielstone.materialaboutlibrary.MaterialAboutActivity
@@ -16,7 +18,6 @@ import com.fastaccess.App
 import com.fastaccess.BuildConfig
 import com.fastaccess.R
 import com.fastaccess.helper.ActivityHelper
-import com.fastaccess.helper.BundleConstant
 import com.fastaccess.provider.tasks.version.CheckVersionService
 import com.fastaccess.provider.theme.ThemeEngine.applyForAbout
 import com.fastaccess.ui.modules.main.donation.DonationActivity
@@ -58,17 +59,6 @@ class FastHubAboutActivity : MaterialAboutActivity() {
 
     override fun getActivityTitle(): CharSequence {
         return getString(R.string.app_name)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK && requestCode == BundleConstant.REQUEST_CODE) {
-            Toasty.success(
-                App.getInstance(),
-                getString(R.string.thank_you_for_feedback),
-                Toast.LENGTH_SHORT
-            ).show()
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -178,11 +168,14 @@ class FastHubAboutActivity : MaterialAboutActivity() {
             .text("Kosh Sergani")
             .subText("k0shk0sh")
             .icon(ContextCompat.getDrawable(context, R.drawable.ic_profile))
-            .setOnClickAction { startActivity(context, "k0shk0sh",
-                isOrg = false,
-                isEnterprise = false,
-                index = 0
-            ) }
+            .setOnClickAction {
+                startActivity(
+                    context, "k0shk0sh",
+                    isOrg = false,
+                    isEnterprise = false,
+                    index = 0
+                )
+            }
             .build())
             .addItem(MaterialAboutActionItem.Builder()
                 .text(R.string.fork_github)
@@ -249,6 +242,18 @@ class FastHubAboutActivity : MaterialAboutActivity() {
         ctx.startActivity(i)
     }
 
+    val launcher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        if (it.resultCode == Activity.RESULT_OK) {
+            Toasty.success(
+                App.getInstance(),
+                getString(R.string.thank_you_for_feedback),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
     private fun buildApp(context: Context, appCardBuilder: MaterialAboutCard.Builder) {
         appCardBuilder.addItem(MaterialAboutActionItem.Builder()
             .text(getString(R.string.version))
@@ -262,7 +267,7 @@ class FastHubAboutActivity : MaterialAboutActivity() {
                 .icon(ContextCompat.getDrawable(context, R.drawable.ic_bug))
                 .setOnClickAction {
                     CreateIssueActivity.startForResult(
-                        this,
+                        launcher,
                         CreateIssueActivity.startForResult(this),
                         malRecyclerview!!
                     )

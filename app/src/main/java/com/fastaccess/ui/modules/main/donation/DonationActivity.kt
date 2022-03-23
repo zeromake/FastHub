@@ -2,8 +2,6 @@ package com.fastaccess.ui.modules.main.donation
 
 import android.os.Bundle
 import android.view.View
-import butterknife.BindView
-import butterknife.OnClick
 import com.fastaccess.App
 import com.fastaccess.BuildConfig
 import com.fastaccess.R
@@ -15,20 +13,15 @@ import com.fastaccess.ui.base.BaseActivity
 import com.fastaccess.ui.base.mvp.BaseMvp
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 import com.fastaccess.ui.modules.main.premium.PremiumActivity.Companion.startActivity
-import com.fastaccess.ui.modules.repos.RepoPagerActivity
+import com.fastaccess.utils.setOnThrottleClickListener
 import com.google.android.material.appbar.AppBarLayout
 
 /**
  * Created by Kosh on 24 Mar 2017, 9:16 PM
  */
 class DonationActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FAView>>() {
-    @JvmField
-    @BindView(R.id.cardsHolder)
-    var cardsHolder: View? = null
-
-    @JvmField
-    @BindView(R.id.appbar)
-    var appBarLayout: AppBarLayout? = null
+    val cardsHolder: View? by lazy { viewFind(R.id.cardsHolder) }
+    val appBarLayout: AppBarLayout? by lazy { viewFind(R.id.appbar) }
     override fun layout(): Int {
         return R.layout.support_development_layout
     }
@@ -45,19 +38,22 @@ class DonationActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FAVi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val root = window.decorView
+        listOf(
+            R.id.two,
+            R.id.five,
+        ).map { root.findViewById<View>(it) }.setOnThrottleClickListener {
+            when(it.id) {
+                R.id.two -> {
+                    PrefGetter.setProItems()
+                    PrefGetter.setEnterpriseItem()
+                    showMessage(getString(R.string.success), "\"Pro\" features unlocked, but don't forget to support development!")
+                }
+                R.id.five -> startActivity(RepoPagerActivity.createIntent(this, "FastHub", "k0shk0sh"))
+
+            }
+        }
         animateVisibility(cardsHolder, true)
-    }
-
-    @OnClick(R.id.two)
-    fun onTwoClicked() {
-        PrefGetter.setProItems();
-        PrefGetter.setEnterpriseItem();
-        showMessage(getString(R.string.success), "\"Pro\" features unlocked, but don't forget to support development!")
-    }
-
-    @OnClick(R.id.five)
-    fun onFiveClicked() {
-        startActivity(RepoPagerActivity.createIntent(this, "FastHub", "k0shk0sh"))
     }
 
     override fun providePresenter(): BasePresenter<BaseMvp.FAView> {

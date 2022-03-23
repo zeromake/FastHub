@@ -4,9 +4,6 @@ import android.text.method.LinkMovementMethod
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import butterknife.BindColor
-import butterknife.BindView
-import com.annimon.stream.Stream
 import com.fastaccess.R
 import com.fastaccess.data.dao.PullRequestStatusModel
 import com.fastaccess.data.dao.StatusesModel
@@ -23,29 +20,12 @@ import com.fastaccess.ui.widgets.SpannableBuilder.Companion.builder
  */
 class PullStatusViewHolder private constructor(itemView: View) :
     BaseViewHolder<PullRequestStatusModel>(itemView) {
-    @kotlin.jvm.JvmField
-    @BindView(R.id.stateImage)
-    var stateImage: ForegroundImageView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.status)
-    var status: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.statuses)
-    var statuses: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindColor(R.color.material_green_700)
-    var green = 0
-
-    @kotlin.jvm.JvmField
-    @BindColor(R.color.material_red_700)
-    var red = 0
-
-    @kotlin.jvm.JvmField
-    @BindColor(R.color.material_indigo_700)
-    var indigo = 0
+    var stateImage: ForegroundImageView? = itemView.findViewById(R.id.stateImage)
+    var status: FontTextView? = itemView.findViewById(R.id.status)
+    val statuses: FontTextView? = itemView.findViewById(R.id.statuses)
+    val green = ContextCompat.getColor(itemView.context, R.color.material_green_700)
+    val red = ContextCompat.getColor(itemView.context, R.color.material_red_700)
+    val indigo = ContextCompat.getColor(itemView.context, R.color.material_indigo_700)
     override fun bind(t: PullRequestStatusModel) {
         if (t.state != null) {
             val stateType = t.state
@@ -83,7 +63,7 @@ class PullStatusViewHolder private constructor(itemView: View) :
         }
         if (t.statuses != null && t.statuses!!.isNotEmpty()) {
             val builder = builder()
-            Stream.of(t.statuses!!)
+            t.statuses!!
                 .filter { statusesModel: StatusesModel? -> statusesModel?.state != null && statusesModel.targetUrl != null }
                 .forEach { statusesModel: StatusesModel ->
                     if (!isEmpty(statusesModel.targetUrl)) {
@@ -106,8 +86,8 @@ class PullStatusViewHolder private constructor(itemView: View) :
                 }
             if (!isEmpty(builder)) {
                 statuses!!.movementMethod = LinkMovementMethod.getInstance()
-                statuses!!.text = builder
-                statuses!!.visibility = View.VISIBLE
+                statuses.text = builder
+                statuses.visibility = View.VISIBLE
             } else {
                 statuses!!.visibility = View.GONE
             }

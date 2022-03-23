@@ -3,7 +3,6 @@ package com.fastaccess.ui.adapter.viewholder
 import android.text.format.Formatter
 import android.view.View
 import android.view.ViewGroup
-import butterknife.BindView
 import com.fastaccess.R
 import com.fastaccess.data.dao.FilesListModel
 import com.fastaccess.ui.adapter.GistFilesAdapter
@@ -20,30 +19,16 @@ class GistFilesViewHolder private constructor(
     adapter: GistFilesAdapter,
     private val isOwner: Boolean
 ) : BaseViewHolder<FilesListModel>(itemView, adapter) {
-    @kotlin.jvm.JvmField
-    @BindView(R.id.fileName)
-    var fileName: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.language)
-    var language: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.size)
-    var size: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.delete)
-    var delete: ForegroundImageView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.edit)
-    var edit: ForegroundImageView? = null
+    val fileName: FontTextView? = itemView.findViewById(R.id.fileName)
+    val language: FontTextView? = itemView.findViewById(R.id.language)
+    val size: FontTextView? = itemView.findViewById(R.id.size)
+    val delete: ForegroundImageView? = itemView.findViewById(R.id.delete)
+    val edit: ForegroundImageView? = itemView.findViewById(R.id.edit)
     override fun bind(t: FilesListModel) {
         fileName!!.text = t.filename
         language!!.text = builder().bold(t.type!!)
         size!!.text =
-            Formatter.formatFileSize(size!!.context, t.size!!)
+            Formatter.formatFileSize(size.context, t.size!!)
         delete!!.visibility = if (isOwner) View.VISIBLE else View.GONE
         edit!!.visibility = if (isOwner) View.VISIBLE else View.GONE
     }

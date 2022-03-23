@@ -4,7 +4,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
-import butterknife.BindView
 import com.fastaccess.R
 import com.fastaccess.data.dao.GroupedNotificationModel
 import com.fastaccess.helper.AppHelper.isNightMode
@@ -23,43 +22,29 @@ class NotificationsViewHolder private constructor(
     adapter: NotificationsAdapter,
     showUnreadState: Boolean
 ) : BaseViewHolder<GroupedNotificationModel>(itemView, adapter) {
-    @kotlin.jvm.JvmField
-    @BindView(R.id.title)
-    var title: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.date)
-    var date: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.markAsRead)
-    var markAsRead: ForegroundImageView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.notificationType)
-    var notificationType: ForegroundImageView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.repoName)
-    var repoName: FontTextView? = null
+    val title: FontTextView = itemView.findViewById(R.id.title)
+    val date: FontTextView = itemView.findViewById(R.id.date)
+    val markAsRead: ForegroundImageView = itemView.findViewById(R.id.markAsRead)
+    val notificationType: ForegroundImageView = itemView.findViewById(R.id.notificationType)
+    val repoName: FontTextView = itemView.findViewById(R.id.repoName)
     private val showUnreadState: Boolean
     override fun bind(t: GroupedNotificationModel) {
         val thread = t.notification
         if (thread != null && thread.subject != null) {
-            title!!.text = thread.subject.title
+            title.text = thread.subject.title
             val cardBackground = getCardBackground(itemView.context)
             val color: Int
-            date!!.text = getTimeAgo(thread.updatedAt)
-            markAsRead!!.visibility =
+            date.text = getTimeAgo(thread.updatedAt)
+            markAsRead.visibility =
                 if (thread.isUnread) View.VISIBLE else View.GONE
             if (thread.subject.type != null) {
-                notificationType!!.setImageResource(thread.subject.type!!.drawableRes)
-                notificationType!!.contentDescription = thread.subject.type!!.name
+                notificationType.setImageResource(thread.subject.type!!.drawableRes)
+                notificationType.contentDescription = thread.subject.type!!.name
             } else {
-                notificationType!!.setImageResource(R.drawable.ic_info_outline)
+                notificationType.setImageResource(R.drawable.ic_info_outline)
             }
             if (showUnreadState) {
-                repoName!!.visibility = View.GONE
+                repoName.visibility = View.GONE
                 color = if (isNightMode(itemView.resources)) {
                     ContextCompat.getColor(itemView.context, R.color.material_blue_grey_800)
                 } else {
@@ -67,8 +52,8 @@ class NotificationsViewHolder private constructor(
                 }
                 (itemView as CardView).setCardBackgroundColor(if (thread.isUnread) color else cardBackground)
             } else {
-                repoName!!.visibility = View.VISIBLE
-                repoName!!.text = thread.repository.fullName
+                repoName.visibility = View.VISIBLE
+                repoName.text = thread.repository.fullName
             }
         }
     }
@@ -88,7 +73,7 @@ class NotificationsViewHolder private constructor(
     }
 
     init {
-        markAsRead!!.setOnClickListener(this)
+        markAsRead.setOnClickListener(this)
         this.showUnreadState = showUnreadState
     }
 }

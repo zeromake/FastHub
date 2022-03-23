@@ -5,7 +5,6 @@ import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import butterknife.BindView
 import com.fastaccess.R
 import com.fastaccess.data.dao.model.Event
 import com.fastaccess.data.dao.types.EventsType
@@ -18,10 +17,6 @@ import com.fastaccess.ui.widgets.AvatarLayout
 import com.fastaccess.ui.widgets.FontTextView
 import com.fastaccess.ui.widgets.SpannableBuilder
 import com.fastaccess.ui.widgets.SpannableBuilder.Companion.builder
-import java.lang.String
-import java.util.*
-import kotlin.Boolean
-import kotlin.plus
 
 /**
  * Created by Kosh on 11 Nov 2016, 2:08 PM
@@ -30,116 +25,105 @@ class FeedsViewHolder(
     itemView: View,
     adapter: BaseRecyclerAdapter<Event, FeedsViewHolder, OnItemClickListener<Event>>?
 ) : BaseViewHolder<Event>(itemView, adapter) {
-    @kotlin.jvm.JvmField
-    @BindView(R.id.avatarLayout)
-    var avatar: AvatarLayout? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.description)
-    var description: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.title)
-    var title: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.date)
-    var date: FontTextView? = null
-    private val resources: Resources
-    override fun bind(eventsModel: Event) {
-        appendAvatar(eventsModel)
+    private val resources: Resources = itemView.resources
+    val avatar: AvatarLayout? = itemView.findViewById(R.id.avatarLayout)
+    val description: FontTextView? = itemView.findViewById(R.id.description)
+    val title: FontTextView? = itemView.findViewById(R.id.title)
+    val date: FontTextView? = itemView.findViewById(R.id.date)
+    override fun bind(t: Event) {
+        appendAvatar(t)
         val spannableBuilder = builder()
-        appendActor(eventsModel, spannableBuilder)
+        appendActor(t, spannableBuilder)
         description!!.maxLines = 2
-        description!!.text = ""
-        description!!.visibility = View.GONE
-        if (eventsModel.type != null) {
-            val type = eventsModel.type
+        description.text = ""
+        description.visibility = View.GONE
+        if (t.type != null) {
+            val type = t.type
             when {
                 type === EventsType.WatchEvent -> {
-                    appendWatch(spannableBuilder, type, eventsModel)
+                    appendWatch(spannableBuilder, type, t)
                 }
                 type === EventsType.CreateEvent -> {
-                    appendCreateEvent(spannableBuilder, eventsModel)
+                    appendCreateEvent(spannableBuilder, t)
                 }
                 type === EventsType.CommitCommentEvent -> {
-                    appendCommitComment(spannableBuilder, eventsModel)
+                    appendCommitComment(spannableBuilder, t)
                 }
                 type === EventsType.DownloadEvent -> {
-                    appendDownloadEvent(spannableBuilder, eventsModel)
+                    appendDownloadEvent(spannableBuilder, t)
                 }
                 type === EventsType.FollowEvent -> {
-                    appendFollowEvent(spannableBuilder, eventsModel)
+                    appendFollowEvent(spannableBuilder, t)
                 }
                 type === EventsType.ForkEvent -> {
-                    appendForkEvent(spannableBuilder, eventsModel)
+                    appendForkEvent(spannableBuilder, t)
                 }
                 type === EventsType.GistEvent -> {
-                    appendGistEvent(spannableBuilder, eventsModel)
+                    appendGistEvent(spannableBuilder, t)
                 }
                 type === EventsType.GollumEvent -> {
-                    appendGollumEvent(spannableBuilder, eventsModel)
+                    appendGollumEvent(spannableBuilder, t)
                 }
                 type === EventsType.IssueCommentEvent -> {
-                    appendIssueCommentEvent(spannableBuilder, eventsModel)
+                    appendIssueCommentEvent(spannableBuilder, t)
                 }
                 type === EventsType.IssuesEvent -> {
-                    appendIssueEvent(spannableBuilder, eventsModel)
+                    appendIssueEvent(spannableBuilder, t)
                 }
                 type === EventsType.MemberEvent -> {
-                    appendMemberEvent(spannableBuilder, eventsModel)
+                    appendMemberEvent(spannableBuilder, t)
                 }
                 type === EventsType.PublicEvent -> {
-                    appendPublicEvent(spannableBuilder, eventsModel)
+                    appendPublicEvent(spannableBuilder, t)
                 }
                 type === EventsType.PullRequestEvent -> {
-                    appendPullRequestEvent(spannableBuilder, eventsModel)
+                    appendPullRequestEvent(spannableBuilder, t)
                 }
                 type === EventsType.PullRequestReviewCommentEvent -> {
-                    appendPullRequestReviewCommentEvent(spannableBuilder, eventsModel)
+                    appendPullRequestReviewCommentEvent(spannableBuilder, t)
                 }
                 type === EventsType.PullRequestReviewEvent -> {
-                    appendPullRequestReviewCommentEvent(spannableBuilder, eventsModel)
+                    appendPullRequestReviewCommentEvent(spannableBuilder, t)
                 }
                 type === EventsType.RepositoryEvent -> {
-                    appendPublicEvent(spannableBuilder, eventsModel)
+                    appendPublicEvent(spannableBuilder, t)
                 }
                 type === EventsType.PushEvent -> {
-                    appendPushEvent(spannableBuilder, eventsModel)
+                    appendPushEvent(spannableBuilder, t)
                 }
                 type === EventsType.TeamAddEvent -> {
-                    appendTeamEvent(spannableBuilder, eventsModel)
+                    appendTeamEvent(spannableBuilder, t)
                 }
                 type === EventsType.DeleteEvent -> {
-                    appendDeleteEvent(spannableBuilder, eventsModel)
+                    appendDeleteEvent(spannableBuilder, t)
                 }
                 type === EventsType.ReleaseEvent -> {
-                    appendReleaseEvent(spannableBuilder, eventsModel)
+                    appendReleaseEvent(spannableBuilder, t)
                 }
                 type === EventsType.ForkApplyEvent -> {
-                    appendForkApplyEvent(spannableBuilder, eventsModel)
+                    appendForkApplyEvent(spannableBuilder, t)
                 }
                 type === EventsType.OrgBlockEvent -> {
-                    appendOrgBlockEvent(spannableBuilder, eventsModel)
+                    appendOrgBlockEvent(spannableBuilder, t)
                 }
                 type === EventsType.ProjectCardEvent -> {
-                    appendProjectCardEvent(spannableBuilder, eventsModel, false)
+                    appendProjectCardEvent(spannableBuilder, t, false)
                 }
                 type === EventsType.ProjectColumnEvent -> {
-                    appendProjectCardEvent(spannableBuilder, eventsModel, true)
+                    appendProjectCardEvent(spannableBuilder, t, true)
                 }
                 type === EventsType.OrganizationEvent -> {
-                    appendOrganizationEvent(spannableBuilder, eventsModel)
+                    appendOrganizationEvent(spannableBuilder, t)
                 }
                 type === EventsType.ProjectEvent -> {
-                    appendProjectCardEvent(spannableBuilder, eventsModel, false)
+                    appendProjectCardEvent(spannableBuilder, t, false)
                 }
             }
             date!!.gravity = Gravity.CENTER
-            date!!.setEventsIcon(type.drawableRes)
+            date.setEventsIcon(type.drawableRes)
         }
         title!!.text = spannableBuilder
-        date!!.text = getTimeAgo(eventsModel.createdAt)
+        date!!.text = getTimeAgo(t.createdAt)
     }
 
     private fun appendOrganizationEvent(spannableBuilder: SpannableBuilder, eventsModel: Event) {
@@ -226,7 +210,7 @@ class FeedsViewHolder(
         val size = commits?.size ?: -1
         val spanCommits = builder()
         if (size > 0) {
-            if (size != 1) spanCommits.append(String.valueOf(eventsModel.payload.size))
+            if (size != 1) spanCommits.append(eventsModel.payload.size.toString())
                 .append(" new commits").append("\n") else spanCommits.append("1 new commit")
                 .append("\n")
             val max = 5
@@ -250,12 +234,12 @@ class FeedsViewHolder(
         if (spanCommits.length > 0) {
             val last = spanCommits.length
             description!!.maxLines = 5
-            description!!.text = spanCommits.delete(last - 1, last)
-            description!!.visibility = View.VISIBLE
+            description.text = spanCommits.delete(last - 1, last)
+            description.visibility = View.VISIBLE
         } else {
             description!!.text = ""
-            description!!.maxLines = 2
-            description!!.visibility = View.GONE
+            description.maxLines = 2
+            description.visibility = View.GONE
         }
     }
 
@@ -276,10 +260,10 @@ class FeedsViewHolder(
             .bold(pullRequest!!.number.toString())
         if (comment?.body != null) {
             stripMdText(description!!, comment.body.replace("\\r?\\n|\\r".toRegex(), " "))
-            description!!.visibility = View.VISIBLE
+            description.visibility = View.VISIBLE
         } else {
             description!!.text = ""
-            description!!.visibility = View.GONE
+            description.visibility = View.GONE
         }
     }
 
@@ -302,10 +286,10 @@ class FeedsViewHolder(
         if ("opened" == action || "closed" == action) {
             if (issue.title != null) {
                 stripMdText(description!!, issue.title.replace("\\r?\\n|\\r".toRegex(), " "))
-                description!!.visibility = View.VISIBLE
+                description.visibility = View.VISIBLE
             } else {
                 description!!.text = ""
-                description!!.visibility = View.GONE
+                description.visibility = View.GONE
             }
         }
     }
@@ -352,10 +336,10 @@ class FeedsViewHolder(
             .bold(issue!!.number.toString())
         if (issue.title != null) {
             stripMdText(description!!, issue.title.replace("\\r?\\n|\\r".toRegex(), " "))
-            description!!.visibility = View.VISIBLE
+            description.visibility = View.VISIBLE
         } else {
             description!!.text = ""
-            description!!.visibility = View.GONE
+            description.visibility = View.GONE
         }
     }
 
@@ -373,10 +357,10 @@ class FeedsViewHolder(
             .bold(issue.number.toString())
         if (comment!!.body != null) {
             stripMdText(description!!, comment.body.replace("\\r?\\n|\\r".toRegex(), " "))
-            description!!.visibility = View.VISIBLE
+            description.visibility = View.VISIBLE
         } else {
             description!!.text = ""
-            description!!.visibility = View.GONE
+            description.visibility = View.GONE
         }
     }
 
@@ -453,10 +437,10 @@ class FeedsViewHolder(
                 description!!,
                 payloadModel.description!!.replace("\\r?\\n|\\r".toRegex(), " ")
             )
-            description!!.visibility = View.VISIBLE
+            description.visibility = View.VISIBLE
         } else {
             description!!.text = ""
-            description!!.visibility = View.GONE
+            description.visibility = View.GONE
         }
     }
 
@@ -465,7 +449,7 @@ class FeedsViewHolder(
         type: EventsType,
         eventsModel: Event
     ) {
-        spannableBuilder.bold(resources.getString(type.type).lowercase(Locale.getDefault()))
+        spannableBuilder.bold(resources.getString(type.type).lowercase())
             .append(" ")
             .append(eventsModel.repo.name)
     }
@@ -489,10 +473,10 @@ class FeedsViewHolder(
             .url(if (commitId != null) "@$commitId" else "")
         if (comment != null && comment.body != null) {
             stripMdText(description!!, comment.body.replace("\\r?\\n|\\r".toRegex(), " "))
-            description!!.visibility = View.VISIBLE
+            description.visibility = View.VISIBLE
         } else {
             description!!.text = ""
-            description!!.visibility = View.GONE
+            description.visibility = View.GONE
         }
     }
 
@@ -505,13 +489,13 @@ class FeedsViewHolder(
     private fun appendAvatar(eventsModel: Event) {
         if (avatar != null) {
             if (eventsModel.actor != null) {
-                avatar!!.setUrl(
+                avatar.setUrl(
                     eventsModel.actor.avatarUrl, eventsModel.actor.login,
                     eventsModel.actor.isOrganizationType,
                     isEnterprise(eventsModel.actor.htmlUrl)
                 )
             } else {
-                avatar!!.setUrl(null, null, isOrg = false, isEnterprise = false)
+                avatar.setUrl(null, null, isOrg = false, isEnterprise = false)
             }
         }
     }
@@ -526,7 +510,4 @@ class FeedsViewHolder(
         }
     }
 
-    init {
-        resources = itemView.resources
-    }
 }

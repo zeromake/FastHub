@@ -6,8 +6,6 @@ import android.view.View
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener
-import butterknife.BindView
-import com.annimon.stream.Stream
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.FragmentPagerAdapterModel.Companion.buildForMyPulls
@@ -16,28 +14,20 @@ import com.fastaccess.data.dao.types.IssueState
 import com.fastaccess.helper.ViewHelper
 import com.fastaccess.ui.adapter.FragmentsPagerAdapter
 import com.fastaccess.ui.base.BaseFragment
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.main.pullrequests.MyPullRequestFragment
 import com.fastaccess.ui.widgets.SpannableBuilder.Companion.builder
 import com.fastaccess.ui.widgets.ViewPagerView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
-import kotlin.Boolean
-import kotlin.Int
 
 /**
  * Created by Kosh on 26 Mar 2017, 12:14 AM
  */
 class MyPullsPagerFragment : BaseFragment<MyPullsPagerMvp.View, MyPullsPagerPresenter>(),
     MyPullsPagerMvp.View {
-    @JvmField
-    @BindView(R.id.tabs)
-    var tabs: TabLayout? = null
-
-    @JvmField
-    @BindView(R.id.pager)
-    var pager: ViewPagerView? = null
-
-    @JvmField
+    val tabs: TabLayout? by viewFind(R.id.tabs)
+    val pager: ViewPagerView? by viewFind(R.id.pager)
     @State
     var counts = HashSet<TabsCountStateModel>()
     override fun fragmentLayout(): Int {
@@ -77,7 +67,7 @@ class MyPullsPagerFragment : BaseFragment<MyPullsPagerMvp.View, MyPullsPagerPres
             }
         })
         if (savedInstanceState != null && counts.isNotEmpty()) {
-            Stream.of(counts).forEach { model: TabsCountStateModel -> updateCount(model) }
+            counts.forEach { model: TabsCountStateModel -> updateCount(model) }
         }
     }
 
@@ -100,10 +90,7 @@ class MyPullsPagerFragment : BaseFragment<MyPullsPagerMvp.View, MyPullsPagerPres
     }
 
     private fun getModelAtIndex(index: Int): TabsCountStateModel? {
-        return Stream.of(counts)
-            .filter { model: TabsCountStateModel -> model.tabIndex == index }
-            .findFirst()
-            .orElse(null)
+        return counts.firstOrNull { model: TabsCountStateModel -> model.tabIndex == index }
     }
 
     override fun onScrollTop(index: Int) {

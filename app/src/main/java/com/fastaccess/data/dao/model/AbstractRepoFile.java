@@ -2,11 +2,13 @@ package com.fastaccess.data.dao.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 
 import com.fastaccess.App;
 import com.fastaccess.data.dao.types.FilesType;
 import com.fastaccess.helper.RxHelper;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
@@ -28,17 +30,24 @@ import static com.fastaccess.data.dao.model.RepoFile.TYPE;
  * Created by Kosh on 16 Mar 2017, 7:53 PM
  */
 
-@Entity public abstract class AbstractRepoFile implements Parcelable {
-    @Key @Generated long id;
+@Entity
+public abstract class AbstractRepoFile implements Parcelable {
+    @Key
+    @Generated
+    long id;
     String name;
     String path;
     String sha;
     long size;
     String url;
+    @SerializedName("html_url")
     String htmlUrl;
+    @SerializedName("git_url")
     String gitUrl;
+    @SerializedName("download_url")
     String downloadUrl;
     FilesType type;
+    @SerializedName("repo_id")
     String repoId;
     String login;
 
@@ -87,9 +96,13 @@ import static com.fastaccess.data.dao.model.RepoFile.TYPE;
                 .observable();
     }
 
-    @Override public int describeContents() { return 0; }
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
-    @Override public void writeToParcel(Parcel dest, int flags) {
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(this.id);
         dest.writeString(this.name);
         dest.writeString(this.path);
@@ -121,8 +134,14 @@ import static com.fastaccess.data.dao.model.RepoFile.TYPE;
     }
 
     public static final Creator<RepoFile> CREATOR = new Creator<RepoFile>() {
-        @Override public RepoFile createFromParcel(Parcel source) {return new RepoFile(source);}
+        @Override
+        public RepoFile createFromParcel(Parcel source) {
+            return new RepoFile(source);
+        }
 
-        @Override public RepoFile[] newArray(int size) {return new RepoFile[size];}
+        @Override
+        public RepoFile[] newArray(int size) {
+            return new RepoFile[size];
+        }
     };
 }

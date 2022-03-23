@@ -197,9 +197,7 @@ object AppHelper {
         return duration != 0f && transition != 0f
     }
 
-    @JvmStatic
     val isDataPlan: Boolean
-        @RequiresApi(Build.VERSION_CODES.S)
         get() {
             val connectivityManager = App.getInstance()
                 .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

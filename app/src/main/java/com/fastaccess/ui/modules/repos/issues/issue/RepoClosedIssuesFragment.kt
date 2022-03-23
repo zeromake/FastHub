@@ -7,7 +7,6 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import butterknife.BindView
 import com.fastaccess.R
 import com.fastaccess.data.dao.PullsIssuesParser
 import com.fastaccess.data.dao.model.Issue
@@ -17,6 +16,7 @@ import com.fastaccess.helper.Bundler
 import com.fastaccess.provider.rest.loadmore.OnLoadMore
 import com.fastaccess.ui.adapter.IssuesAdapter
 import com.fastaccess.ui.base.BaseFragment
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.repos.RepoPagerMvp.TabsBadgeListener
 import com.fastaccess.ui.modules.repos.extras.popup.IssuePopupFragment
 import com.fastaccess.ui.modules.repos.issues.RepoIssuesPagerMvp
@@ -30,21 +30,10 @@ import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
  */
 class RepoClosedIssuesFragment : BaseFragment<RepoIssuesMvp.View, RepoIssuesPresenter>(),
     RepoIssuesMvp.View {
-    @JvmField
-    @BindView(R.id.recycler)
-    var recycler: DynamicRecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.refresh)
-    var refresh: SwipeRefreshLayout? = null
-
-    @JvmField
-    @BindView(R.id.stateLayout)
-    var stateLayout: StateLayout? = null
-
-    @JvmField
-    @BindView(R.id.fastScroller)
-    var fastScroller: RecyclerViewFastScroller? = null
+    val recycler: DynamicRecyclerView? by viewFind(R.id.recycler)
+    val refresh: SwipeRefreshLayout? by viewFind(R.id.refresh)
+    val stateLayout: StateLayout? by viewFind(R.id.stateLayout)
+    val fastScroller: RecyclerViewFastScroller? by viewFind(R.id.fastScroller)
     private var onLoadMore: OnLoadMore<IssueState>? = null
     private var adapter: IssuesAdapter? = null
     private var tabsBadgeListener: TabsBadgeListener? = null
@@ -96,10 +85,10 @@ class RepoClosedIssuesFragment : BaseFragment<RepoIssuesMvp.View, RepoIssuesPres
         recycler!!.setEmptyView(stateLayout!!, refresh)
         adapter = IssuesAdapter(presenter!!.issues, true)
         adapter!!.listener = presenter
-        loadMore!!.initialize(presenter.currentPage, presenter.previousTotal)
+        loadMore.initialize(presenter.currentPage, presenter.previousTotal)
         recycler!!.adapter = adapter
         recycler!!.addKeyLineDivider()
-        recycler!!.addOnScrollListener(loadMore!!)
+        recycler!!.addOnScrollListener(loadMore)
         if (savedInstanceState == null) {
             presenter!!.onFragmentCreated(requireArguments(), IssueState.closed)
         } else if (presenter!!.issues.isEmpty() && !presenter!!.isApiCalled) {
@@ -132,30 +121,18 @@ class RepoClosedIssuesFragment : BaseFragment<RepoIssuesMvp.View, RepoIssuesPres
         super.showMessage(titleRes, msgRes)
     }
 
-    override var loadMore: OnLoadMore<IssueState>? = null
+    override val loadMore: OnLoadMore<IssueState>
         get() {
-            if (field == null) {
-                field = object : OnLoadMore<IssueState>(presenter) {
+            if (onLoadMore == null) {
+                onLoadMore = object : OnLoadMore<IssueState>(presenter) {
                     override fun onScrolled(isUp: Boolean) {
                         super.onScrolled(isUp)
                         if (pagerCallback != null) pagerCallback!!.onScrolled(isUp)
                     }
                 }
             }
-            return field
+            return onLoadMore!!
         }
-//    override fun getLoadMore(): OnLoadMore<IssueState> {
-//        if (onLoadMore == null) {
-//            onLoadMore = object : OnLoadMore<IssueState>(presenter) {
-//                override fun onScrolled(isUp: Boolean) {
-//                    super.onScrolled(isUp)
-//                    if (pagerCallback != null) pagerCallback!!.onScrolled(isUp)
-//                }
-//            }
-//        }
-//        onLoadMore!!.parameter = IssueState.closed
-//        return onLoadMore!!
-//    }
 
     override fun onAddIssue() {
         //DO NOTHING

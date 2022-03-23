@@ -7,8 +7,12 @@ import android.os.Build
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.webkit.*
+import com.fastaccess.BuildConfig
 import com.fastaccess.R
-import com.fastaccess.helper.*
+import com.fastaccess.helper.AppHelper
+import com.fastaccess.helper.InputHelper
+import com.fastaccess.helper.RxHelper
+import com.fastaccess.helper.ViewHelper
 import com.fastaccess.provider.markdown.MarkDownProvider
 import com.fastaccess.provider.scheme.SchemeParser
 import com.fastaccess.ui.modules.code.CodeViewerActivity
@@ -29,6 +33,7 @@ class PrettifyWebView : NestedWebView {
     private var onReadyListener: OnReadyListener? = null
     private val disposable = CompositeDisposable()
     private var onScrollListener: ((params: Int) -> Unit)? = null
+    private var currentBaseUrl: String? = null
 
     interface OnContentChangedListener {
         fun onContentChanged(progress: Int)
@@ -118,6 +123,9 @@ class PrettifyWebView : NestedWebView {
                 }
             }).debounce(1000, TimeUnit.MILLISECONDS)).subscribe {
                 this.resize(it)
+                if (BuildConfig.DEBUG) {
+                    this.debugConsole()
+                }
             }
         disposable.add(disposable1)
     }
@@ -167,7 +175,7 @@ class PrettifyWebView : NestedWebView {
                 emitter.setCancellable {
                     this.onScrollListener = null
                 }
-            }).debounce(1000, TimeUnit.MILLISECONDS)).subscribe {
+            }).debounce(100, TimeUnit.MILLISECONDS)).subscribe {
                 this.onContentChangedListener?.onScrollChanged(it == 0, it)
             }
         disposable.add(disposable2)
@@ -202,6 +210,7 @@ class PrettifyWebView : NestedWebView {
     }
 
     private fun loadCode(page: String) {
+        currentBaseUrl = null
         post {
             loadDataWithBaseURL(
                 "file:///android_asset/highlight/",
@@ -226,6 +235,20 @@ class PrettifyWebView : NestedWebView {
         this.loadUrl("javascript:scrollTo(\"${hash}\");")
     }
 
+    private fun debugConsole() {
+        this.loadUrl(
+            """javascript:(function () {
+            if (!document.querySelector("#eruda")){
+                var script = document.createElement('script');
+                script.id="eruda";
+                script.src="https://cdnjs.cloudflare.com/ajax/libs/eruda/2.4.1/eruda.min.js";
+                document.body.appendChild(script);
+                script.onload = function () { eruda.init() }
+            }
+            })();"""
+        )
+    }
+
     fun setGithubContentWithReplace(
         source: String,
         baseUrl: String?,
@@ -235,13 +258,24 @@ class PrettifyWebView : NestedWebView {
         setGithubContent(source, baseUrl, false, branch)
         addJavascriptInterface(MarkDownInterceptorInterface(this, false), "Android")
         val page = GithubHelper.generateContent(
-            context, source, baseUrl,
+            context,
+            source,
+            baseUrl,
             AppHelper.isNightMode(
                 resources
             ),
             false, replace, branch,
         )
-        post { loadDataWithBaseURL("file:///android_asset/md/", page, "text/html", "utf-8", null) }
+        currentBaseUrl = baseUrl
+        post {
+            loadDataWithBaseURL(
+                "file:///android_asset/md/",
+                page,
+                "text/html",
+                "utf-8",
+                null
+            )
+        }
     }
 
     fun setGithubContent(
@@ -266,7 +300,16 @@ class PrettifyWebView : NestedWebView {
             true,
             "master",
         )
-        post { loadDataWithBaseURL("file:///android_asset/md/", page, "text/html", "utf-8", null) }
+        currentBaseUrl = baseUrl
+        post {
+            loadDataWithBaseURL(
+                "file:///android_asset/md/",
+                page,
+                "text/html",
+                "utf-8",
+                null
+            )
+        }
     }
 
     fun setGithubContent(
@@ -283,11 +326,23 @@ class PrettifyWebView : NestedWebView {
             ), "Android"
         )
         val page = GithubHelper.generateContent(
-            context, source, baseUrl, AppHelper.isNightMode(resources),
+            context,
+            source,
+            baseUrl,
+            AppHelper.isNightMode(resources),
             AppHelper.isNightMode(resources), false,
             branch,
         )
-        post { loadDataWithBaseURL("file:///android_asset/md/", page, "text/html", "utf-8", null) }
+        currentBaseUrl = baseUrl
+        post {
+            loadDataWithBaseURL(
+                "file:///android_asset/md/",
+                page,
+                "text/html",
+                "utf-8",
+                null,
+            )
+        }
     }
 
     fun loadImage(url: String, isSvg: Boolean) {
@@ -316,7 +371,7 @@ ${HtmlHelper.BODY_HEADER}
 ${HtmlHelper.BODY_BOTTOM}
 ${HtmlHelper.HTML_BOTTOM}"""
         }
-        Logger.e(html)
+        currentBaseUrl = null
         loadData(html, "text/html", null)
     }
 
@@ -336,10 +391,16 @@ ${HtmlHelper.HTML_BOTTOM}"""
         if (MarkDownProvider.isImage(url.toString())) {
             CodeViewerActivity.startActivity(context, url.toString(), url.toString())
         } else {
-            val lastSegment = url.encodedFragment
-            if (lastSegment != null || url.toString().startsWith("#") || url.toString()
-                    .indexOf('#') != -1
+            val urlString = url.toString()
+            val hashIndex = urlString.indexOf("#")
+            if (hashIndex == 0) {
+                // #xxx
+                return
+            } else if (hashIndex > 0 && currentBaseUrl != null && urlString.startsWith(
+                    currentBaseUrl!!
+                )
             ) {
+                // ${currentBaseUrl}#xxx
                 return
             }
             SchemeParser.launchUri(context, url, true)

@@ -71,7 +71,7 @@ class PullRequestEventViewHolder private constructor(
 
     private fun reset() {
         stateText.text = ""
-        avatarLayout.setUrl(null, null, false, false)
+        avatarLayout.setUrl(null, null, isOrg = false, isEnterprise = false)
     }
 
     @SuppressLint("SetTextI18n")
@@ -119,12 +119,19 @@ class PullRequestEventViewHolder private constructor(
 
     private fun unassignedEvent(event: PullRequestTimelineQuery.OnUnassignedEvent) {
         event.actor?.let {
+            val login: String? = when {
+                event.assignee?.onUser != null -> event.assignee.onUser.login
+                event.assignee?.onBot != null -> event.assignee.onBot.login
+                event.assignee?.onMannequin != null -> event.assignee.onMannequin.login
+                event.assignee?.onOrganization != null -> event.assignee.onOrganization.login
+                else -> null
+            }
             stateText.text = SpannableBuilder.builder()
                 .bold(it.login)
                 .append(" ")
-                .append("unassigned") //TODO add "removed their assignment" for self
+                .append("unassigned")
                 .append(" ")
-                .append(event.user?.login)
+                .append(login)
                 .append(" ")
                 .append(ParseDateFormat.getTimeAgo((event.createdAt.toString())))
             stateImage.setImageResource(R.drawable.ic_profile)
@@ -512,12 +519,19 @@ class PullRequestEventViewHolder private constructor(
 
     private fun assignedEvent(event: PullRequestTimelineQuery.OnAssignedEvent) {
         event.actor?.let {
+            val login: String? = when {
+                event.assignee?.onUser != null -> event.assignee.onUser.login
+                event.assignee?.onBot != null -> event.assignee.onBot.login
+                event.assignee?.onMannequin != null -> event.assignee.onMannequin.login
+                event.assignee?.onOrganization != null -> event.assignee.onOrganization.login
+                else -> null
+            }
             stateText.text = SpannableBuilder.builder()
                 .bold(it.login)
                 .append(" ")
                 .append("assigned")
                 .append(" ")
-                .append(event.assignee?.onUser?.login)// TODO add "self-assigned" for self
+                .append(login)// TODO add "self-assigned" for self
                 .append(" ")
                 .append(ParseDateFormat.getTimeAgo((event.createdAt.toString())))
             stateImage.setImageResource(R.drawable.ic_profile)

@@ -9,34 +9,36 @@ import androidx.core.content.ContextCompat
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.ReviewRequestModel
-import com.fastaccess.databinding.AddReviewDialogLayoutBinding
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler
 import com.fastaccess.helper.InputHelper
 import com.fastaccess.ui.base.BaseDialogFragment
-import com.fastaccess.ui.delegate.viewBinding
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.editor.comment.CommentEditorFragment
 
 /**
  * Created by Kosh on 25 Jun 2017, 1:25 AM
  */
-class ReviewChangesActivity : BaseDialogFragment<ReviewChangesMvp.View, ReviewChangesPresenter>(),
+class ReviewChangesFragment : BaseDialogFragment<ReviewChangesMvp.View, ReviewChangesPresenter>(),
     ReviewChangesMvp.View {
-    private val binding: AddReviewDialogLayoutBinding by viewBinding()
-
-    val toolbar: Toolbar by lazy { this.binding.root.findViewById(R.id.toolbar) }
-    val spinner: Spinner by lazy { this.binding.reviewMethod }
+    val toolbar: Toolbar by viewFind(R.id.toolbar)
+    val spinner: Spinner by viewFind(R.id.reviewMethod)
 
     @State
     var reviewRequest: ReviewRequestModel? = null
+
     @State
     var repoId: String? = null
+
     @State
     var owner: String? = null
+
     @State
     var number: Long? = null
+
     @State
     var isClosed: Boolean = false
+
     @State
     var isAuthor: Boolean = false
 
@@ -148,8 +150,8 @@ class ReviewChangesActivity : BaseDialogFragment<ReviewChangesMvp.View, ReviewCh
         fun startForResult(
             reviewChanges: ReviewRequestModel, repoId: String, owner: String, number: Long,
             isAuthor: Boolean, isEnterprise: Boolean, isClosed: Boolean
-        ): ReviewChangesActivity {
-            val fragment = ReviewChangesActivity()
+        ): ReviewChangesFragment {
+            val fragment = ReviewChangesFragment()
             val bundle = Bundler.start()
                 .put(BundleConstant.EXTRA, reviewChanges)
                 .put(BundleConstant.EXTRA_TWO, repoId)

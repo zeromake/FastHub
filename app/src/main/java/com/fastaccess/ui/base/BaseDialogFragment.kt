@@ -12,10 +12,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.view.ContextThemeWrapper
-import butterknife.ButterKnife
-import butterknife.Unbinder
 import com.evernote.android.state.StateSaver
-import com.fastaccess.App
 import com.fastaccess.R
 import com.fastaccess.helper.AnimHelper.dismissDialog
 import com.fastaccess.helper.AnimHelper.revealDialog
@@ -32,7 +29,6 @@ import net.grandcentrix.thirtyinch.TiDialogFragment
 abstract class BaseDialogFragment<V : FAView, P : BasePresenter<V>> : TiDialogFragment<P, V>(),
     FAView {
     protected var callback: FAView? = null
-    private var unbinder: Unbinder? = null
 
     @JvmField
     protected var suppressAnimation = false
@@ -102,9 +98,7 @@ abstract class BaseDialogFragment<V : FAView, P : BasePresenter<V>> : TiDialogFr
                 context, requireContext().theme
             )
             val themeAwareInflater = inflater.cloneInContext(contextThemeWrapper)
-            val view = themeAwareInflater.inflate(fragmentLayout(), container, false)
-            unbinder = ButterKnife.bind(this, view)
-            return view
+            return themeAwareInflater.inflate(fragmentLayout(), container, false)
         }
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -170,11 +164,6 @@ abstract class BaseDialogFragment<V : FAView, P : BasePresenter<V>> : TiDialogFr
 
     override fun onOpenSettings() {
         callback!!.onOpenSettings()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        if (unbinder != null) unbinder!!.unbind()
     }
 
     override fun onScrollTop(index: Int) {}

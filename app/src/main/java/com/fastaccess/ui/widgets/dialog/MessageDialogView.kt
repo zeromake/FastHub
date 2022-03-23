@@ -2,9 +2,7 @@ package com.fastaccess.ui.widgets.dialog
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import com.fastaccess.R
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler
@@ -31,43 +29,6 @@ class MessageDialogView : BaseBottomSheetDialog() {
     lateinit var ok: FontButton
     private var callback: MessageDialogViewActionCallback? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val root = super.onCreateView(inflater, container, savedInstanceState)!!
-        this.prettifyWebView = root.findViewById(R.id.prettifyWebView)
-        this.title = root.findViewById(R.id.title)
-        this.message = root.findViewById(R.id.message)
-        this.cancel = root.findViewById(R.id.cancel)
-        this.ok = root.findViewById(R.id.ok)
-        listOf<View>(this.ok, this.cancel).setOnThrottleClickListener {
-            this.onClick(it)
-        }
-        val bundle = arguments
-        title.text = bundle!!.getString("bundleTitle")
-        val msg = bundle.getString("bundleMsg")
-        if (bundle.getBoolean("isMarkDown")) {
-            if (msg != null) {
-                message.visibility = View.GONE
-                prettifyWebView.visibility = View.VISIBLE
-                prettifyWebView.setGithubContent(
-                    msg, null,
-                    toggleNestScrolling = false,
-                    enableBridge = false,
-                    "",
-                )
-                prettifyWebView.isNestedScrollingEnabled = false
-            }
-        } else {
-            message.text = msg
-        }
-        val hideCancel = bundle.getBoolean("hideCancel")
-        if (hideCancel) cancel.visibility = View.GONE
-        initButton(bundle)
-        return root
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -100,6 +61,35 @@ class MessageDialogView : BaseBottomSheetDialog() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        this.prettifyWebView = view.findViewById(R.id.prettifyWebView)
+        this.title = view.findViewById(R.id.title)
+        this.message = view.findViewById(R.id.message)
+        this.cancel = view.findViewById(R.id.cancel)
+        this.ok = view.findViewById(R.id.ok)
+        listOf<View>(this.ok, this.cancel).setOnThrottleClickListener {
+            this.onClick(it)
+        }
+        val bundle = arguments
+        title.text = bundle!!.getString("bundleTitle")
+        val msg = bundle.getString("bundleMsg")
+        if (bundle.getBoolean("isMarkDown")) {
+            if (msg != null) {
+                message.visibility = View.GONE
+                prettifyWebView.visibility = View.VISIBLE
+                prettifyWebView.setGithubContent(
+                    msg, null,
+                    toggleNestScrolling = false,
+                    enableBridge = false,
+                    "",
+                )
+                prettifyWebView.isNestedScrollingEnabled = false
+            }
+        } else {
+            message.text = msg
+        }
+        val hideCancel = bundle.getBoolean("hideCancel")
+        if (hideCancel) cancel.visibility = View.GONE
+        initButton(bundle)
     }
 
     private fun initButton(bundle: Bundle) {

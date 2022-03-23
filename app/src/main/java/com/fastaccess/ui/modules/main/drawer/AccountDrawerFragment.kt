@@ -30,7 +30,7 @@ import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
  * Created by Kosh on 25.03.18.
  */
 class AccountDrawerFragment : BaseFragment<MainMvp.View, BasePresenter<MainMvp.View>>(),
-        BaseViewHolder.OnItemClickListener<PinnedRepos> {
+    BaseViewHolder.OnItemClickListener<PinnedRepos> {
 
     private val pinnedListAdapter = PinnedReposAdapter(true)
     private val adapter = LoginAdapter(true)
@@ -48,33 +48,35 @@ class AccountDrawerFragment : BaseFragment<MainMvp.View, BasePresenter<MainMvp.V
 
     override fun providePresenter() = BasePresenter<MainMvp.View>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val root = super.onCreateView(inflater, container, savedInstanceState)!!
-        pinnedList = root.findViewById(R.id.pinnedList)
-        accLists = root.findViewById(R.id.accLists)
-        logout = root.findViewById(R.id.logout)
-        togglePinned = root.findViewById(R.id.togglePinned)
-        addAccLayout = root.findViewById(R.id.addAccLayout)
-        repos = root.findViewById(R.id.repos)
-        toggleAccountsLayout = root.findViewById(R.id.toggleAccountsLayout)
-        starred = root.findViewById(R.id.starred)
-        return root
-    }
-
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
+        pinnedList = view.findViewById(R.id.pinnedList)
+        accLists = view.findViewById(R.id.accLists)
+        logout = view.findViewById(R.id.logout)
+        togglePinned = view.findViewById(R.id.togglePinned)
+        addAccLayout = view.findViewById(R.id.addAccLayout)
+        repos = view.findViewById(R.id.repos)
+        toggleAccountsLayout = view.findViewById(R.id.toggleAccountsLayout)
+        starred = view.findViewById(R.id.starred)
+
         pinnedListAdapter.listener = this
         pinnedList.adapter = pinnedListAdapter
         adapter.listener = object : BaseViewHolder.OnItemClickListener<Login> {
             override fun onItemLongClick(position: Int, v: View?, item: Login) {}
             override fun onItemClick(position: Int, v: View?, item: Login) {
-                presenter.manageViewDisposable(RxHelper.getObservable(Login.onMultipleLogin(item, item.isIsEnterprise, false))
-                        .doOnSubscribe { showProgress(0) }
-                        .doOnComplete { hideProgress() }
-                        .subscribe({ (activity as? BaseActivity<*, *>?)?.onRestartApp() }, ::println))
+                presenter.manageViewDisposable(RxHelper.getObservable(
+                    Login.onMultipleLogin(
+                        item,
+                        item.isIsEnterprise,
+                        false
+                    )
+                )
+                    .doOnSubscribe { showProgress(0) }
+                    .doOnComplete { hideProgress() }
+                    .subscribe(
+                        { (activity as? BaseActivity<*, *>?)?.onRestartApp() },
+                        ::println
+                    )
+                )
             }
         }
         accLists.adapter = adapter
@@ -102,12 +104,24 @@ class AccountDrawerFragment : BaseFragment<MainMvp.View, BasePresenter<MainMvp.V
         }
         repos.setOnClickListener {
             postDelayedAndClose {
-                UserPagerActivity.startActivity(it.context, userModel.login, false, PrefGetter.isEnterprise, 2)
+                UserPagerActivity.startActivity(
+                    it.context,
+                    userModel.login,
+                    false,
+                    PrefGetter.isEnterprise,
+                    2
+                )
             }
         }
         starred.setOnClickListener {
             postDelayedAndClose {
-                UserPagerActivity.startActivity(it.context, userModel.login, false, PrefGetter.isEnterprise, 3)
+                UserPagerActivity.startActivity(
+                    it.context,
+                    userModel.login,
+                    false,
+                    PrefGetter.isEnterprise,
+                    3
+                )
             }
         }
 
@@ -132,19 +146,21 @@ class AccountDrawerFragment : BaseFragment<MainMvp.View, BasePresenter<MainMvp.V
 
     private fun loadAccount() {
         presenter.manageViewDisposable(Login.getAccounts()
-                .doOnComplete {
-                    if (!adapter.isEmpty) {
-                        toggleAccountsLayout.visibility = View.VISIBLE
-                    } else {
-                        toggleAccountsLayout.visibility = View.GONE
-                    }
+            .doOnComplete {
+                if (!adapter.isEmpty) {
+                    toggleAccountsLayout.visibility = View.VISIBLE
+                } else {
+                    toggleAccountsLayout.visibility = View.GONE
                 }
-                .subscribe({ adapter.addItem(it) }, ::print))
+            }
+            .subscribe({ adapter.addItem(it) }, ::print)
+        )
     }
 
     private fun loadPinned() {
         presenter?.manageViewDisposable(PinnedRepos.getMenuRepos()
-                .subscribe({ pinnedListAdapter.insertItems(it) }, ::println))
+            .subscribe({ pinnedListAdapter.insertItems(it) }, ::println)
+        )
     }
 
     private fun closeDrawer() {

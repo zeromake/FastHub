@@ -31,11 +31,9 @@ import com.fastaccess.ui.modules.repos.code.prettifier.ViewerFragment
  * Created by Kosh on 27 Nov 2016, 3:43 PM
  */
 class CodeViewerActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FAView>>() {
-    @JvmField
     @State
     var url: String? = null
 
-    @JvmField
     @State
     var htmlUrl: String? = null
     override fun layout(): Int {
@@ -95,9 +93,7 @@ class CodeViewerActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FA
                 return true
             }
             R.id.download -> {
-                if (ActivityHelper.checkAndRequestReadWritePermission(this)) {
-                    RestProvider.downloadFile(this, url!!)
-                }
+                RestProvider.downloadFile(this, url!!)
                 return true
             }
             R.id.browser -> {

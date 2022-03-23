@@ -11,7 +11,6 @@ import com.fastaccess.data.dao.GitCommitModel
 import com.fastaccess.data.dao.NameParser
 import com.fastaccess.data.dao.SimpleUrlsModel
 import com.fastaccess.data.dao.model.Event
-import com.fastaccess.databinding.MicroGridRefreshListBinding
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler
 import com.fastaccess.helper.InputHelper.isEmpty
@@ -20,7 +19,7 @@ import com.fastaccess.provider.scheme.LinkParserHelper.isEnterprise
 import com.fastaccess.provider.scheme.SchemeParser.launchUri
 import com.fastaccess.ui.adapter.FeedsAdapter
 import com.fastaccess.ui.base.BaseFragment
-import com.fastaccess.ui.delegate.viewBinding
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.repos.code.commit.details.CommitPagerActivity
 import com.fastaccess.ui.widgets.StateLayout
 import com.fastaccess.ui.widgets.dialog.ListDialogView
@@ -31,12 +30,10 @@ import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
  * Created by Kosh on 11 Nov 2016, 12:36 PM
  */
 class FeedsFragment : BaseFragment<FeedsMvp.View, FeedsPresenter>(), FeedsMvp.View {
-    val binding: MicroGridRefreshListBinding by viewBinding()
-
-    val recycler: DynamicRecyclerView? by lazy { binding.recycler }
-    val refresh: SwipeRefreshLayout? by lazy { binding.refresh }
-    val stateLayout: StateLayout? by lazy { binding.root.findViewById(R.id.stateLayout) }
-    val fastScroller: RecyclerViewFastScroller? by lazy { binding.fastScroller }
+    val recycler: DynamicRecyclerView? by viewFind(R.id.recycler)
+    val refresh: SwipeRefreshLayout? by viewFind(R.id.refresh)
+    val stateLayout: StateLayout? by viewFind(R.id.stateLayout)
+    val fastScroller: RecyclerViewFastScroller? by viewFind(R.id.fastScroller)
 
     private var adapter: FeedsAdapter? = null
     private var onLoadMore: OnLoadMore<String>? = null

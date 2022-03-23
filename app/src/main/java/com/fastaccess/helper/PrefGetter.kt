@@ -104,12 +104,10 @@ object PrefGetter {
             PrefHelper.putAny(ADS, isEnabled)
         }
 
-    @JvmStatic
     fun clear() {
         PrefHelper.clearPrefs()
     }
 
-    @JvmStatic
     val isUserIconGuideShowed: Boolean
         get() {
             val isShowed = PrefHelper.getBoolean(USER_ICON_GUIDE)
@@ -117,7 +115,6 @@ object PrefGetter {
             return isShowed
         }
 
-    @JvmStatic
     val isReleaseHintShow: Boolean
         get() {
             val isShowed = PrefHelper.getBoolean(RELEASE_GUIDE)
@@ -125,7 +122,6 @@ object PrefGetter {
             return isShowed
         }
 
-    @JvmStatic
     val isFileOptionHintShow: Boolean
         get() {
             val isShowed = PrefHelper.getBoolean(FILE_OPTION_GUIDE)
@@ -133,7 +129,6 @@ object PrefGetter {
             return isShowed
         }
 
-    @JvmStatic
     val isCommentHintShowed: Boolean
         get() {
             val isShowed = PrefHelper.getBoolean(COMMENTS_GUIDE)
@@ -141,7 +136,6 @@ object PrefGetter {
             return isShowed
         }
 
-    @JvmStatic
     val isHomeButoonHintShowed: Boolean
         get() {
             val isShowed = PrefHelper.getBoolean(HOME_BUTTON_GUIDE)
@@ -149,7 +143,6 @@ object PrefGetter {
             return isShowed
         }
 
-    @JvmStatic
     val isRepoGuideShowed: Boolean
         get() {
             val isShowed = PrefHelper.getBoolean(REPO_GUIDE)
@@ -157,7 +150,6 @@ object PrefGetter {
             return isShowed
         }
 
-    @JvmStatic
     val isEditorHintShowed: Boolean
         get() {
             val isShowed = PrefHelper.getBoolean(MARKDOWNDOWN_GUIDE)
@@ -165,7 +157,6 @@ object PrefGetter {
             return isShowed
         }
 
-    @JvmStatic
     val isNavDrawerHintShowed: Boolean
         get() {
             val isShowed = PrefHelper.getBoolean(NAV_DRAWER_GUIDE)
@@ -173,7 +164,6 @@ object PrefGetter {
             return isShowed
         }
 
-    @JvmStatic
     val isAccountNavDrawerHintShowed: Boolean
         get() {
             val isShowed = PrefHelper.getBoolean(ACC_NAV_DRAWER_GUIDE)
@@ -181,7 +171,6 @@ object PrefGetter {
             return isShowed
         }
 
-    @JvmStatic
     val isRepoFabHintShowed: Boolean
         get() {
             val isShowed = PrefHelper.getBoolean(FAB_LONG_PRESS_REPO_GUIDE)
@@ -189,11 +178,9 @@ object PrefGetter {
             return isShowed
         }
 
-    @JvmStatic
     val isRVAnimationEnabled: Boolean
         get() = PrefHelper.getBoolean("recylerViewAnimation")
 
-    @JvmStatic
     val notificationTaskDuration: Int
         get() {
             if (
@@ -208,7 +195,6 @@ object PrefGetter {
             return -1
         }
 
-    @JvmStatic
     fun notificationDurationMillis(prefValue: String): Int {
         if (!isEmpty(prefValue)) {
             when (prefValue) {
@@ -225,48 +211,38 @@ object PrefGetter {
         return -1
     }
 
-    @JvmStatic
     val isTwiceBackButtonDisabled: Boolean
         get() = PrefHelper.getBoolean("back_button")
 
-    @JvmStatic
     val isRectAvatar: Boolean
         get() = PrefHelper.getBoolean("rect_avatar")
 
-    @JvmStatic
     val isMarkAsReadEnabled: Boolean
         get() = PrefHelper.getBoolean("markNotificationAsRead")
 
-    @JvmStatic
     val isWrapCode: Boolean
         get() = PrefHelper.getBoolean(WRAP_CODE)
 
-    @JvmStatic
     val isSentViaEnabled: Boolean
         get() = PrefHelper.getBoolean(SENT_VIA)
 
-    @JvmStatic
     val isSentViaBoxEnabled: Boolean
         get() = PrefHelper.getBoolean(SENT_VIA_BOX)
 
-    @JvmStatic
     @ThemeType
     fun getThemeType(context: Context): Int {
         return getThemeType(context.resources)
     }
 
-    @JvmStatic
     @get:ThemeType
     val themeType: Int
         get() = getThemeType(App.getInstance().resources)
 
-    @JvmStatic
     @ThemeColor
     fun getThemeColor(context: Context): Int {
         return getThemeColor(context.resources)
     }
 
-    @JvmStatic
     @ThemeType
     fun getThemeType(resources: Resources): Int {
         val appTheme = PrefHelper.getString("appTheme")
@@ -307,14 +283,12 @@ object PrefGetter {
         return LIGHT
     }
 
-    @JvmStatic
     @ThemeColor
     private fun getThemeColor(resources: Resources): Int {
         val appColor = PrefHelper.getString("appColor")
         return getThemeColor(resources, appColor)
     }
 
-    @JvmStatic
     @ThemeColor
     // used for color picker to get the index of the color (enum) from the name of the color
     fun getThemeColor(resources: Resources, appColor: String?): Int {
@@ -403,7 +377,6 @@ object PrefGetter {
         return BLUE
     }
 
-    @JvmStatic
     private fun getSystemLanguage(res: Resources): String {
         val locale: Locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             res.configuration.locales[0]
@@ -413,18 +386,15 @@ object PrefGetter {
         return locale.language
     }
 
-    @JvmStatic
     fun getAppLanguage(res: Resources): String {
         val appLanguage = PrefHelper.getString(APP_LANGUAGE)
         return appLanguage ?: getSystemLanguage(res)
     }
 
-    @JvmStatic
     fun setAppLangauge(language: String?) {
         PrefHelper.putAny(APP_LANGUAGE, language ?: "en")
     }
 
-    @JvmStatic
     var profileBackgroundUrl: String?
         get() = PrefHelper.getString(PROFILE_BACKGROUND_URL)
         set(url) {
@@ -435,48 +405,38 @@ object PrefGetter {
             }
         }
 
-    @JvmStatic
     fun setWhatsNewVersion() {
         PrefHelper.putAny(WHATS_NEW_VERSION, BuildConfig.VERSION_CODE)
     }
 
-    @JvmStatic
     fun showWhatsNew(): Boolean {
         return PrefHelper.getInt(WHATS_NEW_VERSION) != BuildConfig.VERSION_CODE
     }
 
-    @JvmStatic
     val isNotificationSoundEnabled: Boolean
         get() = PrefHelper.getBoolean("notificationSound")
 
-    @JvmStatic
     fun enableAmlodTheme() {
         PrefHelper.putAny(AMLOD_THEME_ENABLED, true)
     }
 
-    @JvmStatic
     val isAmlodEnabled: Boolean
         get() = PrefHelper.getBoolean(AMLOD_THEME_ENABLED)
 
-    @JvmStatic
     fun enableMidNightBlueTheme() {
         PrefHelper.putAny(MIDNIGHTBLUE_THEME_ENABLED, true)
     }
 
-    @JvmStatic
     val isMidNightBlueThemeEnabled: Boolean
         get() = PrefHelper.getBoolean(MIDNIGHTBLUE_THEME_ENABLED)
 
-    @JvmStatic
     val isBluishEnabled: Boolean
         get() = PrefHelper.getBoolean(BLUISH_THEME_ENABLED)
 
-    @JvmStatic
     fun enableBluishTheme() {
         PrefHelper.putAny(BLUISH_THEME_ENABLED, true)
     }
 
-    @JvmStatic
     fun setProItems() {
         PrefHelper.putAny(PRO_ITEMS, true)
         enableAmlodTheme()
@@ -484,33 +444,26 @@ object PrefGetter {
         enableMidNightBlueTheme()
     }
 
-    @JvmStatic
     fun setEnterpriseItem() {
         PrefHelper.putAny(ENTERPRISE_ITEM, true)
     }
 
-    @JvmStatic
     val isEnterpriseEnabled: Boolean
         get() = PrefHelper.getBoolean(ENTERPRISE_ITEM)
 
-    @JvmStatic
     val isAllFeaturesUnlocked: Boolean
         get() = isProEnabled && isEnterprise
 
-    @JvmStatic
     val isProEnabled: Boolean
         get() = PrefHelper.getBoolean(PRO_ITEMS)
 
-    @JvmStatic
     fun hasSupported(): Boolean {
         return isProEnabled || isAmlodEnabled || isBluishEnabled
     }
 
-    @JvmStatic
     val codeTheme: String?
         get() = PrefHelper.getString(CODE_THEME)
 
-    @JvmStatic
     fun setCodeTheme(theme: String) {
         PrefHelper.putAny(CODE_THEME, theme)
     }
@@ -537,7 +490,6 @@ object PrefGetter {
         enterpriseUrl = null
     }
 
-    @JvmStatic
     val notificationSound: Uri?
         get() {
             val nsp = PrefHelper.getString(NOTIFICATION_SOUND_PATH)
@@ -546,29 +498,23 @@ object PrefGetter {
             )
         }
 
-    @JvmStatic
     fun setNotificationSound(uri: Uri) {
         PrefHelper.putAny(NOTIFICATION_SOUND_PATH, uri.toString())
     }
 
-    @JvmStatic
     val isAutoImageDisabled: Boolean
         get() = PrefHelper.getBoolean(DISABLE_AUTO_LOAD_IMAGE) && AppHelper.isDataPlan
 
-    @JvmStatic
     val isAppAnimationDisabled: Boolean
         get() = PrefHelper.getBoolean("app_animation")
 
-    @JvmStatic
     val isPlayStoreWarningShowed: Boolean
         get() = PrefHelper.getBoolean(PLAY_STORE_REVIEW_ACTIVITY)
 
-    @JvmStatic
     fun setPlayStoreWarningShowed() {
         PrefHelper.putAny(PLAY_STORE_REVIEW_ACTIVITY, true)
     }
 
-    @JvmStatic
     fun clearPurchases() {
         PrefHelper.putAny(PRO_ITEMS, false)
         PrefHelper.putAny(BLUISH_THEME_ENABLED, false)
@@ -576,7 +522,6 @@ object PrefGetter {
         enterpriseUrl = null
     }
 
-    @JvmStatic
     val isFeedsHintShowed: Boolean
         get() {
             val isFeedsHitShowed = PrefHelper.getBoolean("feeds_hint")
@@ -586,7 +531,6 @@ object PrefGetter {
             return isFeedsHitShowed
         }
 
-    @JvmStatic
     val isIssuesLongPressHintShowed: Boolean
         get() {
             val isIssuesLongPressHintShowed = PrefHelper.getBoolean("issues_long_press_hint")
@@ -596,7 +540,6 @@ object PrefGetter {
             return isIssuesLongPressHintShowed
         }
 
-    @JvmStatic
     val isPRLongPressHintShowed: Boolean
         get() {
             val isPRLongPressHintShowed = PrefHelper.getBoolean("pr_long_press_hint")

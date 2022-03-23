@@ -63,6 +63,7 @@ class CommitPagerPresenter : BasePresenter<CommitPagerMvp.View>(),
                                 val markdownModel = MarkdownModel()
                                 markdownModel.context = "$login/$repoId"
                                 markdownModel.text = commit.gitCommit.message
+                                return@flatMap Observable.just("todo markdown")
                                 return@flatMap getRepoService(isEnterprise).convertReadmeToHtml(
                                     markdownModel
                                 )

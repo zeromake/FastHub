@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.view.ContextThemeWrapper
-import butterknife.ButterKnife
-import butterknife.Unbinder
 import com.evernote.android.state.StateSaver
 import com.fastaccess.data.dao.model.Login
 import com.fastaccess.helper.RxHelper
@@ -25,7 +23,6 @@ import net.grandcentrix.thirtyinch.TiFragment
  */
 abstract class BaseFragment<V : FAView, P : BasePresenter<V>> : TiFragment<P, V>(), FAView {
     protected open var callback: FAView? = null
-    private var unbinder: Unbinder? = null
     private var compositeDisposable: CompositeDisposable? = CompositeDisposable()
 
     fun manageDisposable(vararg disposables: Disposable?) {
@@ -102,9 +99,7 @@ abstract class BaseFragment<V : FAView, P : BasePresenter<V>> : TiFragment<P, V>
                 context, requireContext().theme
             )
             val themeAwareInflater = inflater.cloneInContext(contextThemeWrapper)
-            val view = themeAwareInflater.inflate(fragmentLayout(), container, false)
-            unbinder = ButterKnife.bind(this, view)
-            return view
+            return themeAwareInflater.inflate(fragmentLayout(), container, false)
         }
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -114,11 +109,6 @@ abstract class BaseFragment<V : FAView, P : BasePresenter<V>> : TiFragment<P, V>
         if (Login.getUser() != null) {
             onFragmentCreated(view, savedInstanceState)
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        if (unbinder != null) unbinder!!.unbind()
     }
 
     override fun showProgress(@StringRes resId: Int) {

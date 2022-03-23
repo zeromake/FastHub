@@ -3,19 +3,21 @@ package com.fastaccess.ui.modules.gists.gist.files
 import android.os.Bundle
 import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import butterknife.BindView
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.FilesListModel
-import com.fastaccess.helper.*
+import com.fastaccess.helper.ActivityHelper
+import com.fastaccess.helper.BundleConstant
+import com.fastaccess.helper.Bundler
+import com.fastaccess.helper.FileHelper
 import com.fastaccess.helper.InputHelper.isEmpty
-import com.fastaccess.helper.Logger.e
 import com.fastaccess.helper.PrefGetter.isAllFeaturesUnlocked
 import com.fastaccess.helper.PrefGetter.isProEnabled
 import com.fastaccess.provider.markdown.MarkDownProvider.isImage
 import com.fastaccess.provider.rest.RestProvider
 import com.fastaccess.ui.adapter.GistFilesAdapter
 import com.fastaccess.ui.base.BaseFragment
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.code.CodeViewerActivity.Companion.startActivity
 import com.fastaccess.ui.modules.gists.create.dialog.AddGistBottomSheetDialog.Companion.TAG
 import com.fastaccess.ui.modules.gists.create.dialog.AddGistBottomSheetDialog.Companion.newInstance
@@ -26,30 +28,17 @@ import com.fastaccess.ui.widgets.dialog.MessageDialogView
 import com.fastaccess.ui.widgets.dialog.MessageDialogView.Companion.newInstance
 import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
 import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
-import java.util.HashMap
 
 /**
  * Created by Kosh on 13 Nov 2016, 1:36 PM
  */
 class GistFilesListFragment : BaseFragment<GistFilesListMvp.View, GistFilesListPresenter>(),
     GistFilesListMvp.View {
-    @JvmField
-    @BindView(R.id.recycler)
-    var recycler: DynamicRecyclerView? = null
+    val recycler: DynamicRecyclerView? by viewFind(R.id.recycler)
+    val refresh: SwipeRefreshLayout? by viewFind(R.id.refresh)
+    val stateLayout: StateLayout? by viewFind(R.id.stateLayout)
+    val fastScroller: RecyclerViewFastScroller? by viewFind(R.id.fastScroller)
 
-    @JvmField
-    @BindView(R.id.refresh)
-    var refresh: SwipeRefreshLayout? = null
-
-    @JvmField
-    @BindView(R.id.stateLayout)
-    var stateLayout: StateLayout? = null
-
-    @JvmField
-    @BindView(R.id.fastScroller)
-    var fastScroller: RecyclerViewFastScroller? = null
-
-    @JvmField
     @State
     var isOwner = false
     private var adapter: GistFilesAdapter? = null
@@ -135,9 +124,7 @@ class GistFilesListFragment : BaseFragment<GistFilesListMvp.View, GistFilesListP
         if (isOk && bundle != null) {
             val url = bundle.getString(BundleConstant.EXTRA)
             if (!isEmpty(url)) {
-                if (ActivityHelper.checkAndRequestReadWritePermission(requireActivity())) {
-                    RestProvider.downloadFile(requireContext(), url!!)
-                }
+                RestProvider.downloadFile(requireContext(), url!!)
             } else if (bundle.getBoolean(BundleConstant.YES_NO_EXTRA)) {
                 if (adapter != null) {
                     val position = bundle.getInt(BundleConstant.ID)

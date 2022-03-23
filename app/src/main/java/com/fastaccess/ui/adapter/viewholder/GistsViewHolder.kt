@@ -1,16 +1,15 @@
 package com.fastaccess.ui.adapter.viewholder
 
+import android.view.View
+import android.view.ViewGroup
+import com.fastaccess.R
+import com.fastaccess.data.dao.model.Gist
 import com.fastaccess.helper.ParseDateFormat.Companion.getTimeAgo
 import com.fastaccess.provider.scheme.LinkParserHelper.isEnterprise
+import com.fastaccess.ui.adapter.GistsAdapter
 import com.fastaccess.ui.base.adapter.BaseViewHolder
-import butterknife.BindView
-import com.fastaccess.R
 import com.fastaccess.ui.widgets.AvatarLayout
 import com.fastaccess.ui.widgets.FontTextView
-import android.view.ViewGroup
-import android.view.View
-import com.fastaccess.data.dao.model.Gist
-import com.fastaccess.ui.adapter.*
 
 /**
  * Created by Kosh on 11 Nov 2016, 2:08 PM
@@ -20,17 +19,9 @@ class GistsViewHolder private constructor(
     adapter: GistsAdapter?,
     isFromProfile: Boolean
 ) : BaseViewHolder<Gist>(itemView, adapter) {
-    @kotlin.jvm.JvmField
-    @BindView(R.id.avatarLayout)
-    var avatar: AvatarLayout? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.title)
-    var title: FontTextView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.date)
-    var date: FontTextView? = null
+    val avatar: AvatarLayout? = itemView.findViewById(R.id.avatarLayout)
+    val title: FontTextView? = itemView.findViewById(R.id.title)
+    val date: FontTextView? = itemView.findViewById(R.id.date)
     private val isFromProfile: Boolean
     override fun bind(t: Gist) {
         if (!isFromProfile) {
@@ -39,7 +30,7 @@ class GistsViewHolder private constructor(
                     if (t.owner != null) t.owner.avatarUrl else (if (t.user != null) t.user.avatarUrl else null)!!
                 val login =
                     if (t.owner != null) t.owner.login else (if (t.user != null) t.user.login else null)!!
-                avatar!!.setUrl(
+                avatar.setUrl(
                     url, login, false, isEnterprise(
                         if (t.owner != null) t.owner.htmlUrl else if (t.user != null) t.user.htmlUrl else null
                     )

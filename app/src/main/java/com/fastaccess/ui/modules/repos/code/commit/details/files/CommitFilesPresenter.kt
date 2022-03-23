@@ -55,9 +55,7 @@ class CommitFilesPresenter : BasePresenter<CommitFilesMvp.View>(),
                     R.id.download -> {
                         val activity = getActivity(v.context)
                         activity?.let {
-                            if (checkAndRequestReadWritePermission(it)) {
-                                downloadFile(v.context, commitFileModel!!.rawUrl!!)
-                            }
+                            downloadFile(v.context, commitFileModel!!.rawUrl!!)
                         }
                     }
                     R.id.copy -> copyToClipboard(v.context, commitFileModel!!.blobUrl!!)

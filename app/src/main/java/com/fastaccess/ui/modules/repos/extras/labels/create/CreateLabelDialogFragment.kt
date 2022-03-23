@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.Toolbar
-import butterknife.BindView
 import com.fastaccess.R
 import com.fastaccess.data.dao.LabelModel
 import com.fastaccess.helper.BundleConstant
@@ -13,6 +12,7 @@ import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.InputHelper.toString
 import com.fastaccess.ui.adapter.LabelColorsAdapter
 import com.fastaccess.ui.base.BaseDialogFragment
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.repos.extras.labels.LabelsMvp
 import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
 import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
@@ -23,25 +23,12 @@ import com.google.android.material.textfield.TextInputLayout
  */
 class CreateLabelDialogFragment : BaseDialogFragment<CreateLabelMvp.View, CreateLabelPresenter>(),
     CreateLabelMvp.View {
-    @JvmField
-    @BindView(R.id.toolbar)
-    var toolbar: Toolbar? = null
+    val toolbar: Toolbar? by viewFind(R.id.toolbar)
+    val name: TextInputLayout? by viewFind(R.id.name)
+    val description: TextInputLayout? by viewFind(R.id.description)
+    val recycler: DynamicRecyclerView? by viewFind(R.id.recycler)
+    val fastScroller: RecyclerViewFastScroller? by viewFind(R.id.fastScroller)
 
-    @JvmField
-    @BindView(R.id.name)
-    var name: TextInputLayout? = null
-
-    @JvmField
-    @BindView(R.id.description)
-    var description: TextInputLayout? = null
-
-    @JvmField
-    @BindView(R.id.recycler)
-    var recycler: DynamicRecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.fastScroller)
-    var fastScroller: RecyclerViewFastScroller? = null
     private var viewListener: LabelsMvp.View? = null
     override fun onAttach(context: Context) {
         super.onAttach(context)

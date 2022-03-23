@@ -10,8 +10,6 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener
-import butterknife.BindView
-import butterknife.OnClick
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.CommentRequestModel
@@ -24,8 +22,10 @@ import com.fastaccess.data.dao.model.PinnedPullRequests
 import com.fastaccess.data.dao.model.PullRequest
 import com.fastaccess.data.dao.model.User
 import com.fastaccess.data.dao.types.IssueState
-import com.fastaccess.helper.*
+import com.fastaccess.helper.ActivityHelper
 import com.fastaccess.helper.AnimHelper.mimicFabVisibility
+import com.fastaccess.helper.BundleConstant
+import com.fastaccess.helper.Bundler
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.Logger.e
 import com.fastaccess.helper.PrefGetter.isProEnabled
@@ -45,8 +45,8 @@ import com.fastaccess.ui.modules.repos.issues.create.CreateIssueActivity
 import com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.files.PullRequestFilesFragment
 import com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.timeline.timeline.PullRequestTimelineFragment
 import com.fastaccess.ui.modules.repos.pull_requests.pull_request.merge.MergePullRequestDialogFragment
-import com.fastaccess.ui.modules.reviews.changes.ReviewChangesActivity
-import com.fastaccess.ui.modules.reviews.changes.ReviewChangesActivity.Companion.startForResult
+import com.fastaccess.ui.modules.reviews.changes.ReviewChangesFragment
+import com.fastaccess.ui.modules.reviews.changes.ReviewChangesFragment.Companion.startForResult
 import com.fastaccess.ui.widgets.AvatarLayout
 import com.fastaccess.ui.widgets.FontTextView
 import com.fastaccess.ui.widgets.ForegroundImageView
@@ -54,6 +54,7 @@ import com.fastaccess.ui.widgets.SpannableBuilder.Companion.builder
 import com.fastaccess.ui.widgets.ViewPagerView
 import com.fastaccess.ui.widgets.dialog.MessageDialogView
 import com.fastaccess.ui.widgets.dialog.MessageDialogView.Companion.newInstance
+import com.fastaccess.utils.setOnThrottleClickListener
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 
@@ -63,64 +64,26 @@ import com.google.android.material.tabs.TabLayout
 open class PullRequestPagerActivity :
     BaseActivity<PullRequestPagerMvp.View, PullRequestPagerPresenter>(),
     PullRequestPagerMvp.View {
-    @JvmField
-    @BindView(R.id.startGist)
-    var startGist: ForegroundImageView? = null
+    val startGist: ForegroundImageView? by lazy { viewFind(R.id.startGist) }
+    private val forkGist: ForegroundImageView? by lazy { viewFind(R.id.forkGist) }
+    val avatarLayout: AvatarLayout? by lazy { viewFind(R.id.avatarLayout) }
+    val title: FontTextView? by lazy { viewFind(R.id.headerTitle) }
+    val size: FontTextView? by lazy { viewFind(R.id.size) }
+    val date: FontTextView? by lazy { viewFind(R.id.date) }
+    val tabs: TabLayout? by lazy { viewFind(R.id.tabs) }
+    val pager: ViewPagerView? by lazy { viewFind(R.id.startGist) }
+    val fab: FloatingActionButton? by lazy { viewFind(R.id.fab) }
+    val detailsIcon: View? by lazy { viewFind(R.id.detailsIcon) }
+    private val reviewsCount: FontTextView? by lazy { viewFind(R.id.reviewsCount) }
+    private val prReviewHolder: CardView? by lazy { viewFind(R.id.prReviewHolder) }
 
-    @JvmField
-    @BindView(R.id.forkGist)
-    var forkGist: ForegroundImageView? = null
-
-    @JvmField
-    @BindView(R.id.avatarLayout)
-    var avatarLayout: AvatarLayout? = null
-
-    @JvmField
-    @BindView(R.id.headerTitle)
-    var title: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.size)
-    var size: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.date)
-    var date: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.tabs)
-    var tabs: TabLayout? = null
-
-    @JvmField
-    @BindView(R.id.pager)
-    var pager: ViewPagerView? = null
-
-    @JvmField
-    @BindView(R.id.fab)
-    var fab: FloatingActionButton? = null
-
-    @JvmField
-    @BindView(R.id.detailsIcon)
-    var detailsIcon: View? = null
-
-    @JvmField
-    @BindView(R.id.reviewsCount)
-    var reviewsCount: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.prReviewHolder)
-    var prReviewHolder: CardView? = null
-
-    @JvmField
     @State
     var isClosed = false
 
-    @JvmField
     @State
     var isOpened = false
     private var commentEditorFragment: CommentEditorFragment? = null
 
-    @OnClick(R.id.detailsIcon)
     fun onTitleClick() {
         if (presenter!!.pullRequest != null && !isEmpty(
                 presenter!!.pullRequest!!.title
@@ -132,12 +95,10 @@ open class PullRequestPagerActivity :
             .show(supportFragmentManager, MessageDialogView.TAG)
     }
 
-    @OnClick(R.id.submitReviews)
     fun onSubmitReviews() {
         addPrReview()
     }
 
-    @OnClick(R.id.cancelReview)
     fun onCancelReviews() {
         newInstance(
             getString(R.string.cancel_reviews), getString(R.string.confirm_message),
@@ -169,6 +130,17 @@ open class PullRequestPagerActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        detailsIcon!!.setOnThrottleClickListener {
+            onTitleClick()
+        }
+
+        viewFind<View>(R.id.submitReviews)!!.setOnThrottleClickListener {
+            onSubmitReviews()
+        }
+        viewFind<View>(R.id.cancelReview)!!.setOnThrottleClickListener {
+            onCancelReviews()
+        }
         commentEditorFragment =
             supportFragmentManager.findFragmentById(R.id.commentFragment) as CommentEditorFragment?
         if (savedInstanceState == null) {
@@ -583,7 +555,7 @@ open class PullRequestPagerActivity :
             pullRequest.isMerged
                     || pullRequest.state === IssueState.closed
         )
-            .show(supportFragmentManager, ReviewChangesActivity::class.java.simpleName)
+            .show(supportFragmentManager, ReviewChangesFragment::class.java.simpleName)
     }
 
     private fun initTabs(pullRequest: PullRequest) {

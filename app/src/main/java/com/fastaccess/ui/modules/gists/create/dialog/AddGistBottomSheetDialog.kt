@@ -12,7 +12,6 @@ import android.webkit.MimeTypeMap
 import android.widget.EditText
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentManager
-import butterknife.BindView
 import com.fastaccess.R
 import com.fastaccess.data.dao.FilesListModel
 import com.fastaccess.helper.BundleConstant
@@ -20,6 +19,7 @@ import com.fastaccess.helper.Bundler
 import com.fastaccess.helper.ViewHelper
 import com.fastaccess.provider.emoji.Emoji
 import com.fastaccess.ui.base.BaseDialogFragment
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.gists.create.dialog.AddGistMvp.AddGistFileListener
 import com.fastaccess.ui.widgets.markdown.MarkDownLayout
 import com.fastaccess.ui.widgets.markdown.MarkdownEditText
@@ -28,12 +28,13 @@ import com.google.android.material.textfield.TextInputLayout
 /**
  * Created by kosh on 14/08/2017.
  */
-class AddGistBottomSheetDialog : BaseDialogFragment<AddGistMvp.View, AddGistPresenter>(), AddGistMvp.View {
+class AddGistBottomSheetDialog : BaseDialogFragment<AddGistMvp.View, AddGistPresenter>(),
+    AddGistMvp.View {
 
-    @BindView(R.id.editText) lateinit var editText: MarkdownEditText
-    @BindView(R.id.description) lateinit var description: TextInputLayout
-    @BindView(R.id.toolbar) lateinit var toolbar: Toolbar
-    @BindView(R.id.markDownLayout) lateinit var markDownLayout: MarkDownLayout
+    val editText: MarkdownEditText by viewFind(R.id.editText)
+    val description: TextInputLayout by viewFind(R.id.description)
+    val toolbar: Toolbar by viewFind(R.id.toolbar)
+    val markDownLayout: MarkDownLayout by viewFind(R.id.markDownLayout)
 
     private var addFileListener: AddGistFileListener? = null
 
@@ -51,7 +52,11 @@ class AddGistBottomSheetDialog : BaseDialogFragment<AddGistMvp.View, AddGistPres
         super.onDetach()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -75,11 +80,14 @@ class AddGistBottomSheetDialog : BaseDialogFragment<AddGistMvp.View, AddGistPres
         var file = arguments?.getParcelable<FilesListModel>(BundleConstant.ITEM)
         val position = arguments?.getInt(BundleConstant.ID)
         if (position != null) {
-            toolbar.title = if (position > 0) getString(R.string.edit_gist) else getString(R.string.create_gist)
+            toolbar.title =
+                if (position > 0) getString(R.string.edit_gist) else getString(R.string.create_gist)
         } else {
             toolbar.title = getString(R.string.create_gist)
         }
-        editText.setOnFocusChangeListener { _, focused -> markDownLayout.visibility = if (focused) View.VISIBLE else View.GONE }
+        editText.setOnFocusChangeListener { _, focused ->
+            markDownLayout.visibility = if (focused) View.VISIBLE else View.GONE
+        }
         toolbar.inflateMenu(R.menu.done_menu)
         toolbar.menu.findItem(R.id.submit)?.setIcon(R.drawable.ic_done)
         toolbar.setNavigationIcon(R.drawable.ic_clear)
@@ -119,9 +127,9 @@ class AddGistBottomSheetDialog : BaseDialogFragment<AddGistMvp.View, AddGistPres
             val fragment = AddGistBottomSheetDialog()
             file?.let {
                 fragment.arguments = Bundler.start()
-                        .put(BundleConstant.ITEM, file as Parcelable)
-                        .put(BundleConstant.ID, position)
-                        .end()
+                    .put(BundleConstant.ITEM, file as Parcelable)
+                    .put(BundleConstant.ID, position)
+                    .end()
             }
             return fragment
         }

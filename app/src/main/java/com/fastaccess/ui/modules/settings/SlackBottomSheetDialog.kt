@@ -1,15 +1,13 @@
 package com.fastaccess.ui.modules.settings
 
 import android.content.Context
-import com.fastaccess.ui.base.BaseBottomSheetDialog
-import com.fastaccess.R
-import com.fastaccess.ui.widgets.FontTextView
-import com.fastaccess.ui.widgets.FontButton
-import com.fastaccess.helper.ActivityHelper
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import com.fastaccess.R
+import com.fastaccess.helper.ActivityHelper
+import com.fastaccess.ui.base.BaseBottomSheetDialog
+import com.fastaccess.ui.widgets.FontButton
+import com.fastaccess.ui.widgets.FontTextView
 import com.fastaccess.utils.setOnThrottleClickListener
 
 /**
@@ -29,27 +27,6 @@ class SlackBottomSheetDialog : BaseBottomSheetDialog() {
     lateinit var ok: FontButton
     private var listener: SlackDialogListener? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val root = super.onCreateView(inflater, container, savedInstanceState)!!
-        this.title = root.findViewById(R.id.title)
-        this.message = root.findViewById(R.id.message)
-        this.cancel = root.findViewById(R.id.cancel)
-        this.ok = root.findViewById(R.id.ok)
-        listOf<View>(this.ok, this.cancel).setOnThrottleClickListener {
-            this.onViewClicked(it)
-        }
-//        this.ok.setOnThrottleClickListener {
-//            this.onViewClicked(it)
-//        }
-//        this.cancel.setOnThrottleClickListener {
-//            this.onViewClicked(it)
-//        }
-        return root
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -77,6 +54,13 @@ class SlackBottomSheetDialog : BaseBottomSheetDialog() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        this.title = view.findViewById(R.id.title)
+        this.message = view.findViewById(R.id.message)
+        this.cancel = view.findViewById(R.id.cancel)
+        this.ok = view.findViewById(R.id.ok)
+        listOf<View>(this.ok, this.cancel).setOnThrottleClickListener {
+            this.onViewClicked(it)
+        }
         cancel.setText(R.string.no)
         ok.setText(R.string.yes)
         title.setText(R.string.join_slack)

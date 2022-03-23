@@ -1,6 +1,5 @@
 package com.fastaccess.ui.modules.user
 
-import android.annotation.SuppressLint
 import android.app.Application
 import android.app.Service
 import android.content.Context

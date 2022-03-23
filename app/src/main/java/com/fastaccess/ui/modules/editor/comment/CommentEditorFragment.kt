@@ -5,12 +5,12 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import androidx.transition.TransitionManager
 import androidx.fragment.app.FragmentManager
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.activity.result.contract.ActivityResultContracts
 import com.fastaccess.R
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler
@@ -39,35 +39,11 @@ class CommentEditorFragment : BaseFragment<BaseMvp.FAView, BasePresenter<BaseMvp
     lateinit var commentBox: View
     lateinit var markDownLayout: MarkDownLayout
     lateinit var commentText: MarkdownEditText
-    lateinit var markdownBtnHolder: View
+    private lateinit var markdownBtnHolder: View
     lateinit var sendComment: View
-    lateinit var toggleButtons: View
+    private lateinit var toggleButtons: View
     private var commentListener: CommentListener? = null
     private var keyboardListener: Unregistrar? = null
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val root = super.onCreateView(inflater, container, savedInstanceState)!!
-        this.commentBox = root.findViewById(R.id.commentBox)
-        this.markDownLayout = root.findViewById(R.id.markdDownLayout)
-        this.commentText = root.findViewById(R.id.commentText)
-        this.markdownBtnHolder = root.findViewById(R.id.markdownBtnHolder)
-        this.sendComment = root.findViewById(R.id.sendComment)
-        this.toggleButtons = root.findViewById(R.id.toggleButtons)
-        this.sendComment.setOnThrottleClickListener{
-            this.onComment()
-        }
-        root.findViewById<View>(R.id.fullScreenComment).setOnThrottleClickListener {
-            this.onExpandScreen()
-        }
-        this.toggleButtons.setOnThrottleClickListener {
-            this.onToggleButtons(it)
-        }
-        return root
-    }
 
     internal fun onComment() {
         if (!InputHelper.isEmpty(getEditText())) {
@@ -80,7 +56,17 @@ class CommentEditorFragment : BaseFragment<BaseMvp.FAView, BasePresenter<BaseMvp
         }
     }
 
-    internal fun onExpandScreen() {
+    private val launcher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        if (it.resultCode == Activity.RESULT_OK && it.data != null) {
+            val text = it.data?.extras?.getCharSequence(BundleConstant.EXTRA) ?: ""
+            getEditText().setText(text)
+            getEditText().setSelection(getEditText().text.length)
+        }
+    }
+
+    private fun onExpandScreen() {
         val intent = Intent(context, EditorActivity::class.java)
         intent.putExtras(
             Bundler.start()
@@ -89,10 +75,10 @@ class CommentEditorFragment : BaseFragment<BaseMvp.FAView, BasePresenter<BaseMvp
                 .putStringArrayList("participants", commentListener?.getNamesToTag())
                 .end()
         )
-        startActivityForResult(intent, BundleConstant.REQUEST_CODE)
+        launcher.launch(intent)
     }
 
-    internal fun onToggleButtons(v: View) {
+    private fun onToggleButtons(v: View) {
         TransitionManager.beginDelayedTransition((view as ViewGroup?)!!)
         v.isActivated = !v.isActivated
         markdownBtnHolder.visibility =
@@ -118,6 +104,21 @@ class CommentEditorFragment : BaseFragment<BaseMvp.FAView, BasePresenter<BaseMvp
     override fun fragmentLayout(): Int = R.layout.comment_box_layout
 
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
+        this.commentBox = view.findViewById(R.id.commentBox)
+        this.markDownLayout = view.findViewById(R.id.markdDownLayout)
+        this.commentText = view.findViewById(R.id.commentText)
+        this.markdownBtnHolder = view.findViewById(R.id.markdownBtnHolder)
+        this.sendComment = view.findViewById(R.id.sendComment)
+        this.toggleButtons = view.findViewById(R.id.toggleButtons)
+        this.sendComment.setOnThrottleClickListener {
+            this.onComment()
+        }
+        view.findViewById<View>(R.id.fullScreenComment).setOnThrottleClickListener {
+            this.onExpandScreen()
+        }
+        this.toggleButtons.setOnThrottleClickListener {
+            this.onToggleButtons(it)
+        }
         arguments?.let {
             val hideSendButton = it.getBoolean(BundleConstant.YES_NO_EXTRA)
             if (hideSendButton) {
@@ -133,11 +134,11 @@ class CommentEditorFragment : BaseFragment<BaseMvp.FAView, BasePresenter<BaseMvp
 
     override fun onStart() {
         super.onStart()
-        keyboardListener = KeyboardVisibilityEvent.registerEventListener(activity, {
+        keyboardListener = KeyboardVisibilityEvent.registerEventListener(activity) {
             TransitionManager.beginDelayedTransition((view as ViewGroup?)!!)
             toggleButtons.isActivated = it
             markdownBtnHolder.visibility = if (!it) View.GONE else View.VISIBLE
-        })
+        }
     }
 
     override fun onStop() {
@@ -171,17 +172,6 @@ class CommentEditorFragment : BaseFragment<BaseMvp.FAView, BasePresenter<BaseMvp
             }
         )
         getEditText().setSelection(getEditText().text.length)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == BundleConstant.REQUEST_CODE) {
-                val text = data?.extras?.getCharSequence(BundleConstant.EXTRA)
-                getEditText().setText(text)
-                getEditText().setSelection(getEditText().text.length)
-            }
-        }
     }
 
     override fun onAppendLink(title: String?, link: String?, isLink: Boolean) {

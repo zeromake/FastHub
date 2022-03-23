@@ -23,19 +23,14 @@ class FilterChooserBottomSheetDialog : BaseBottomSheetDialog() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val root = super.onCreateView(inflater, container, savedInstanceState)!!
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         listOf<View>(
-            root.findViewById(R.id.add),
-            root.findViewById(R.id.search),
+            view.findViewById(R.id.add),
+            view.findViewById(R.id.search),
         ).setOnThrottleClickListener {
             onViewClicked(it)
         }
-        return root
     }
 
     override fun onDestroy() {
@@ -47,7 +42,7 @@ class FilterChooserBottomSheetDialog : BaseBottomSheetDialog() {
         return R.layout.add_filter_row_layout
     }
 
-    fun onViewClicked(view: View) {
+    private fun onViewClicked(view: View) {
         when (view.id) {
             R.id.add -> listener!!.onAddSelected()
             R.id.search -> listener!!.onSearchSelected()

@@ -6,41 +6,26 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.Spinner
-import butterknife.BindView
-import butterknife.OnClick
 import com.fastaccess.R
 import com.fastaccess.data.dao.FilterOptionsModel
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler.Companion.start
 import com.fastaccess.ui.base.BaseBottomSheetDialog
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.profile.org.repos.OrgReposFragment
 import com.fastaccess.ui.modules.profile.org.repos.OrgReposMvp
 import com.fastaccess.ui.modules.search.SearchUserActivity.Companion.getIntent
+import com.fastaccess.utils.setOnThrottleClickListener
 
 class ProfileReposFilterBottomSheetDialog : BaseBottomSheetDialog() {
-    @JvmField
-    @BindView(R.id.type_selection)
-    var typeSelectionSpinner: Spinner? = null
+    val typeSelectionSpinner: Spinner? by viewFind(R.id.type_selection)
+    val sortSelectionSpinner: Spinner? by viewFind(R.id.sort_selection)
 
-    @JvmField
-    @BindView(R.id.sort_selection)
-    var sortSelectionSpinner: Spinner? = null
+    //    val applyBtn: View? by viewFind(R.id.filter_sheet_apply_btn)
+    val sortDirectionSpinner: Spinner? by viewFind(R.id.sort_direction_selection)
+    val sortLayout: LinearLayout? by viewFind(R.id.sort_layout)
+    val sortDirectionLayout: LinearLayout? by viewFind(R.id.sort_direction_layout)
 
-    @JvmField
-    @BindView(R.id.filter_sheet_apply_btn)
-    var applyBtn: View? = null
-
-    @JvmField
-    @BindView(R.id.sort_direction_selection)
-    var sortDirectionSpinner: Spinner? = null
-
-    @JvmField
-    @BindView(R.id.sort_layout)
-    var sortLayout: LinearLayout? = null
-
-    @JvmField
-    @BindView(R.id.sort_direction_layout)
-    var sortDirectionlayout: LinearLayout? = null
     private var currentFilterOptions: FilterOptionsModel? = null
     private var listener: ProfileReposFilterChangeListener? = null
     override fun layoutRes(): Int {
@@ -49,6 +34,17 @@ class ProfileReposFilterBottomSheetDialog : BaseBottomSheetDialog() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        view.findViewById<View>(R.id.filter_sheet_apply_btn).setOnThrottleClickListener {
+            onApply()
+        }
+        view.findViewById<View>(R.id.filter_sheet_reset_btn).setOnThrottleClickListener {
+            onReset()
+        }
+        view.findViewById<View>(R.id.filter_sheet_search_btn).setOnThrottleClickListener {
+            startSearch()
+        }
+
         currentFilterOptions = requireArguments().getParcelable(BundleConstant.ITEM)
         if (currentFilterOptions == null) return
         val typesAdapter = ArrayAdapter(
@@ -71,7 +67,7 @@ class ProfileReposFilterBottomSheetDialog : BaseBottomSheetDialog() {
         sortDirectionSpinner!!.setSelection(currentFilterOptions!!.selectedSortDirectionIndex)
         if (currentFilterOptions!!.isOrg) {
             sortLayout!!.visibility = View.GONE
-            sortDirectionlayout!!.visibility = View.GONE
+            sortDirectionLayout!!.visibility = View.GONE
         }
     }
 
@@ -90,7 +86,6 @@ class ProfileReposFilterBottomSheetDialog : BaseBottomSheetDialog() {
         listener = null
     }
 
-    @OnClick(R.id.filter_sheet_apply_btn)
     fun onApply() {
         if (listener != null) {
             listener!!.onTypeSelected(typeSelectionSpinner!!.selectedItem as String)
@@ -101,14 +96,12 @@ class ProfileReposFilterBottomSheetDialog : BaseBottomSheetDialog() {
         }
     }
 
-    @OnClick(R.id.filter_sheet_reset_btn)
     fun onReset() {
         typeSelectionSpinner!!.setSelection(0)
         sortDirectionSpinner!!.setSelection(0)
         sortSelectionSpinner!!.setSelection(0)
     }
 
-    @OnClick(R.id.filter_sheet_search_btn)
     fun startSearch() {
         if (listener != null) {
             val intent = getIntent(requireContext(), listener!!.login!!, "")

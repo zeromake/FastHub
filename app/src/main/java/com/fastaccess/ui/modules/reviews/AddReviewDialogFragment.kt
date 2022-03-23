@@ -3,13 +3,12 @@ package com.fastaccess.ui.modules.reviews
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import androidx.core.content.ContextCompat
-import androidx.appcompat.widget.Toolbar
 import android.view.View
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import com.fastaccess.R
 import com.fastaccess.data.dao.CommitLinesModel
-import com.fastaccess.databinding.ReviewCommentDialogLayoutBinding
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler
 import com.fastaccess.helper.InputHelper
@@ -17,7 +16,7 @@ import com.fastaccess.helper.ViewHelper
 import com.fastaccess.ui.base.BaseDialogFragment
 import com.fastaccess.ui.base.mvp.BaseMvp
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
-import com.fastaccess.ui.delegate.viewBinding
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.editor.comment.CommentEditorFragment
 import com.fastaccess.ui.modules.reviews.callback.ReviewCommentListener
 import com.fastaccess.ui.widgets.SpannableBuilder
@@ -27,10 +26,9 @@ import com.fastaccess.ui.widgets.SpannableBuilder
  */
 class AddReviewDialogFragment :
     BaseDialogFragment<BaseMvp.FAView, BasePresenter<BaseMvp.FAView>>() {
-    private val binding: ReviewCommentDialogLayoutBinding by viewBinding()
-    val toolbar: Toolbar by lazy { this.binding.root.findViewById(R.id.toolbar) }
-    val textView: TextView by lazy { binding.text }
-    val lineNo: TextView by lazy { binding.lineNo }
+    val toolbar: Toolbar by viewFind(R.id.toolbar)
+    val textView: TextView by viewFind(R.id.text)
+    val lineNo: TextView by viewFind(R.id.lineNo)
 
     private val commentEditorFragment: CommentEditorFragment? by lazy {
         childFragmentManager.findFragmentByTag("CommentEditorFragment") as CommentEditorFragment?

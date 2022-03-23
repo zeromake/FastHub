@@ -1,12 +1,14 @@
 package com.fastaccess.ui.modules.search.repos.files
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
-import androidx.appcompat.widget.AppCompatSpinner
-import butterknife.*
+import android.widget.AdapterView
+import android.widget.Spinner
+import androidx.core.widget.addTextChangedListener
 import com.fastaccess.R
 import com.fastaccess.helper.AnimHelper.animateVisibility
 import com.fastaccess.helper.BundleConstant
@@ -14,39 +16,28 @@ import com.fastaccess.ui.base.BaseActivity
 import com.fastaccess.ui.modules.search.code.SearchCodeFragment
 import com.fastaccess.ui.widgets.FontEditText
 import com.fastaccess.ui.widgets.ForegroundImageView
+import com.fastaccess.utils.setOnThrottleClickListener
 
 class SearchFileActivity : BaseActivity<SearchFileMvp.View, SearchFilePresenter>(),
     SearchFileMvp.View {
-    @JvmField
-    @BindView(R.id.searchEditText)
-    var searchEditText: FontEditText? = null
+    val searchEditText: FontEditText? by lazy { viewFind(R.id.searchEditText) }
+    val clear: ForegroundImageView? by lazy { viewFind(R.id.clear) }
+    val searchOptions: Spinner? by lazy { viewFind(R.id.searchOptions) }
 
-    @JvmField
-    @BindView(R.id.clear)
-    var clear: ForegroundImageView? = null
-
-    @JvmField
-    @BindView(R.id.searchOptions)
-    var searchOptions: AppCompatSpinner? = null
     private var onSpinnerTouched = false
     private var searchCodeFragment: SearchCodeFragment? = null
-    @OnTouch(R.id.searchOptions)
-    fun onTouch(): Boolean {
+
+    private fun onTouch(): Boolean {
         onSpinnerTouched = true
         return false
     }
 
-    @OnItemSelected(R.id.searchOptions)
     fun onOptionSelected() {
         if (onSpinnerTouched) {
             onSearch()
         }
     }
 
-    @OnTextChanged(
-        value = [R.id.searchEditText],
-        callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED
-    )
     fun onTextChange(s: Editable) {
         val text = s.toString()
         if (text.isEmpty()) {
@@ -56,21 +47,18 @@ class SearchFileActivity : BaseActivity<SearchFileMvp.View, SearchFilePresenter>
         }
     }
 
-    @OnEditorAction(R.id.searchEditText)
     fun onEditor(): Boolean {
         onSearch()
         return true
     }
 
-    @OnClick(value = [R.id.clear])
     fun onClear(view: View) {
         if (view.id == R.id.clear) {
             searchEditText!!.setText("")
         }
     }
 
-    @OnClick(R.id.search)
-    fun onSearchClicked() {
+    private fun onSearchClicked() {
         onSearch()
     }
 
@@ -90,8 +78,42 @@ class SearchFileActivity : BaseActivity<SearchFileMvp.View, SearchFilePresenter>
         return SearchFilePresenter()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        searchOptions!!.setOnTouchListener { _, _ ->
+            onTouch()
+        }
+        searchOptions!!.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                onOptionSelected()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+        }
+        searchEditText!!.addTextChangedListener(
+            { _, _, _, _ -> },
+            { _, _, _, _ -> }
+        ) {
+            onTextChange(it!!)
+        }
+        searchEditText!!.setOnEditorActionListener { _, _, _ ->
+            onEditor()
+        }
+        clear!!.setOnThrottleClickListener {
+            onClear(it)
+        }
+        viewFind<View>(R.id.search)!!.setOnThrottleClickListener {
+            onSearchClicked()
+        }
+
         presenter!!.onActivityCreated(intent.extras)
         searchCodeFragment =
             supportFragmentManager.findFragmentById(R.id.filesFragment) as SearchCodeFragment?

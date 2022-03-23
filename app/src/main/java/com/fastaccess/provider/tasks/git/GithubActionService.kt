@@ -27,11 +27,6 @@ class GithubActionService : IntentService("GithubActionService") {
             return field
         }
 
-    override fun onDestroy() {
-        super.onDestroy()
-
-    }
-
     @IntDef(
         STAR_REPO,
         UNSTAR_REPO,

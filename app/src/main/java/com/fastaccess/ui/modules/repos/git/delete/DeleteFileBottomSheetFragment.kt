@@ -2,29 +2,29 @@ package com.fastaccess.ui.modules.repos.git.delete
 
 import android.content.Context
 import android.os.Bundle
-import com.google.android.material.textfield.TextInputLayout
 import android.view.View
-import butterknife.BindView
-import butterknife.OnClick
 import com.fastaccess.R
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler
 import com.fastaccess.helper.InputHelper
 import com.fastaccess.ui.base.BaseBottomSheetDialog
+import com.fastaccess.ui.delegate.viewFind
+import com.fastaccess.utils.setOnThrottleClickListener
+import com.google.android.material.textfield.TextInputLayout
 
 /**
  * Created by Hashemsergani on 02/09/2017.
  */
 class DeleteFileBottomSheetFragment : BaseBottomSheetDialog() {
-
-    @BindView(R.id.description) lateinit var description: TextInputLayout
-    @BindView(R.id.fileName) lateinit var fileName: TextInputLayout
+    val description: TextInputLayout by viewFind(R.id.description)
+    val fileName: TextInputLayout by viewFind(R.id.fileName)
 
     private var deleteCallback: DeleteContentFileCallback? = null
 
 
-    @OnClick(R.id.delete) fun onDeleteClicked() {
-        description.error = if (InputHelper.isEmpty(description)) getString(R.string.required_field) else null
+    fun onDeleteClicked() {
+        description.error =
+            if (InputHelper.isEmpty(description)) getString(R.string.required_field) else null
         if (!InputHelper.isEmpty(description)) {
             val position = arguments?.getInt(BundleConstant.EXTRA)
             position?.let {
@@ -34,8 +34,6 @@ class DeleteFileBottomSheetFragment : BaseBottomSheetDialog() {
         }
     }
 
-    @OnClick(R.id.cancel)
-    fun onCancel() = dismiss()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -55,6 +53,12 @@ class DeleteFileBottomSheetFragment : BaseBottomSheetDialog() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        view.findViewById<View>(R.id.delete).setOnThrottleClickListener {
+            onDeleteClicked()
+        }
+        view.findViewById<View>(R.id.cancel).setOnThrottleClickListener {
+            dismiss()
+        }
         fileName.isEnabled = false
         fileName.editText?.setText(arguments?.getString(BundleConstant.ITEM))
     }
@@ -63,9 +67,9 @@ class DeleteFileBottomSheetFragment : BaseBottomSheetDialog() {
         fun newInstance(position: Int, path: String): DeleteFileBottomSheetFragment {
             val fragment = DeleteFileBottomSheetFragment()
             fragment.arguments = Bundler.start()
-                    .put(BundleConstant.EXTRA, position)
-                    .put(BundleConstant.ITEM, path)
-                    .end()
+                .put(BundleConstant.EXTRA, position)
+                .put(BundleConstant.ITEM, path)
+                .end()
             return fragment
         }
     }

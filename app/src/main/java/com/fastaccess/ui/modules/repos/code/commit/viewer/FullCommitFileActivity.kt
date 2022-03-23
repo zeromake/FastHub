@@ -32,11 +32,11 @@ import com.fastaccess.ui.widgets.SpannableBuilder.Companion.builder
 class FullCommitFileActivity : BaseActivity<BaseMvp.FAView, EmptyPresenter>() {
     @State
     var commitFileModel: CommitFileModel? = null
-    val textView: FontTextView? by lazy { decorViewFindViewById(R.id.textView) }
-    val changes: FontTextView? by lazy { decorViewFindViewById(R.id.changes) }
-    val addition: FontTextView? by lazy { decorViewFindViewById(R.id.addition) }
-    val deletion: FontTextView? by lazy { decorViewFindViewById(R.id.deletion) }
-    val status: FontTextView? by lazy { decorViewFindViewById(R.id.status) }
+    val textView: FontTextView? by lazy { viewFind(R.id.textView) }
+    val changes: FontTextView? by lazy { viewFind(R.id.changes) }
+    val addition: FontTextView? by lazy { viewFind(R.id.addition) }
+    val deletion: FontTextView? by lazy { viewFind(R.id.deletion) }
+    val status: FontTextView? by lazy { viewFind(R.id.status) }
     val changesText: String by lazy { resources.getString(R.string.changes) }
     val additionText: String by lazy { resources.getString(R.string.addition) }
     val deletionText: String by lazy { resources.getString(R.string.deletion) }
@@ -112,9 +112,7 @@ class FullCommitFileActivity : BaseActivity<BaseMvp.FAView, EmptyPresenter>() {
                 true
             }
             R.id.download -> {
-                if (checkAndRequestReadWritePermission(this)) {
-                    downloadFile(this, commitFileModel!!.rawUrl!!)
-                }
+                downloadFile(this, commitFileModel!!.rawUrl!!)
                 true
             }
             R.id.copy -> {

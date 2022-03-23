@@ -30,10 +30,9 @@ import com.google.android.material.textfield.TextInputLayout
  */
 class CreateGistActivity : BaseActivity<CreateGistMvp.View, CreateGistPresenter>(),
     CreateGistMvp.View {
-    val description: TextInputLayout? by lazy { window.decorView.findViewById(R.id.description) }
-    private val buttonsHolder: View? by lazy { window.decorView.findViewById(R.id.buttonsHolder) }
+    val description: TextInputLayout? by lazy { viewFind(R.id.description) }
+    private val buttonsHolder: View? by lazy { viewFind(R.id.buttonsHolder) }
 
-    @JvmField
     @State
     var id: String? = null
     private var filesListFragment: GistFilesListFragment? = null
@@ -45,7 +44,7 @@ class CreateGistActivity : BaseActivity<CreateGistMvp.View, CreateGistPresenter>
         )
     }
 
-    fun onViewClicked() {
+    private fun onViewClicked() {
         filesFragment!!.onAddNewFile()
     }
 

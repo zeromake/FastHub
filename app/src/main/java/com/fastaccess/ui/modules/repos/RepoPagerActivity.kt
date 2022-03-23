@@ -14,10 +14,6 @@ import android.widget.CheckBox
 import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
-import butterknife.BindView
-import butterknife.OnCheckedChanged
-import butterknife.OnClick
-import butterknife.OnLongClick
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.NameParser
@@ -55,6 +51,7 @@ import com.fastaccess.ui.widgets.ForegroundImageView
 import com.fastaccess.ui.widgets.SpannableBuilder.Companion.builder
 import com.fastaccess.ui.widgets.dialog.MessageDialogView
 import com.fastaccess.ui.widgets.dialog.MessageDialogView.Companion.newInstance
+import com.fastaccess.utils.setOnThrottleClickListener
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton.OnVisibilityChangedListener
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation
@@ -65,128 +62,44 @@ import java.text.NumberFormat
  */
 class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
     RepoPagerMvp.View {
-    @JvmField
-    @BindView(R.id.avatarLayout)
-    var avatarLayout: AvatarLayout? = null
+    val avatarLayout: AvatarLayout? by lazy { viewFind(R.id.avatarLayout) }
+    val title: FontTextView? by lazy { viewFind(R.id.headerTitle) }
+    val size: FontTextView? by lazy { viewFind(R.id.size) }
+    val date: FontTextView? by lazy { viewFind(R.id.date) }
+    private val forkRepo: FontTextView? by lazy { viewFind(R.id.forkRepo) }
+    val starRepo: FontTextView? by lazy { viewFind(R.id.starRepo) }
+    val watchRepo: FontTextView? by lazy { viewFind(R.id.watchRepo) }
+    val license: FontTextView? by lazy { viewFind(R.id.license) }
+    val bottomNavigation: BottomNavigation? by lazy { viewFind(R.id.bottomNavigation) }
+    val fab: FloatingActionButton? by lazy { viewFind(R.id.fab) }
+    val language: FontTextView? by lazy { viewFind(R.id.language) }
+    val detailsIcon: View? by lazy { viewFind(R.id.detailsIcon) }
+    private val tagsIcon: View? by lazy { viewFind(R.id.tagsIcon) }
+    private val watchRepoImage: ForegroundImageView? by lazy { viewFind(R.id.watchRepoImage) }
+    val starRepoImage: ForegroundImageView? by lazy { viewFind(R.id.starRepoImage) }
+    private val forkRepoImage: ForegroundImageView? by lazy { viewFind(R.id.forkRepoImage) }
+    val licenseLayout: View? by lazy { viewFind(R.id.licenseLayout) }
+    val watchRepoLayout: View? by lazy { viewFind(R.id.watchRepoLayout) }
+    val starRepoLayout: View? by lazy { viewFind(R.id.starRepoLayout) }
+    private val forkRepoLayout: View? by lazy { viewFind(R.id.forkRepoLayout) }
+    val pinImage: ForegroundImageView? by lazy { viewFind(R.id.pinImage) }
+    val pinLayout: View? by lazy { viewFind(R.id.pinLayout) }
+    val pinText: FontTextView? by lazy { viewFind(R.id.pinText) }
+    val filterLayout: View? by lazy { viewFind(R.id.filterLayout) }
+    private val topicsList: RecyclerView? by lazy { viewFind(R.id.topicsList) }
+    private val sortByUpdated: CheckBox? by lazy { viewFind(R.id.sortByUpdated) }
+    private val wikiLayout: View? by lazy { viewFind(R.id.wikiLayout) }
 
-    @JvmField
-    @BindView(R.id.headerTitle)
-    var title: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.size)
-    var size: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.date)
-    var date: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.forkRepo)
-    var forkRepo: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.starRepo)
-    var starRepo: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.watchRepo)
-    var watchRepo: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.license)
-    var license: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.bottomNavigation)
-    var bottomNavigation: BottomNavigation? = null
-
-    @JvmField
-    @BindView(R.id.fab)
-    var fab: FloatingActionButton? = null
-
-    @JvmField
-    @BindView(R.id.language)
-    var language: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.detailsIcon)
-    var detailsIcon: View? = null
-
-    @JvmField
-    @BindView(R.id.tagsIcon)
-    var tagsIcon: View? = null
-
-    @JvmField
-    @BindView(R.id.watchRepoImage)
-    var watchRepoImage: ForegroundImageView? = null
-
-    @JvmField
-    @BindView(R.id.starRepoImage)
-    var starRepoImage: ForegroundImageView? = null
-
-    @JvmField
-    @BindView(R.id.forkRepoImage)
-    var forkRepoImage: ForegroundImageView? = null
-
-    @JvmField
-    @BindView(R.id.licenseLayout)
-    var licenseLayout: View? = null
-
-    @JvmField
-    @BindView(R.id.watchRepoLayout)
-    var watchRepoLayout: View? = null
-
-    @JvmField
-    @BindView(R.id.starRepoLayout)
-    var starRepoLayout: View? = null
-
-    @JvmField
-    @BindView(R.id.forkRepoLayout)
-    var forkRepoLayout: View? = null
-
-    @JvmField
-    @BindView(R.id.pinImage)
-    var pinImage: ForegroundImageView? = null
-
-    @JvmField
-    @BindView(R.id.pinLayout)
-    var pinLayout: View? = null
-
-    @JvmField
-    @BindView(R.id.pinText)
-    var pinText: FontTextView? = null
-
-    @JvmField
-    @BindView(R.id.filterLayout)
-    var filterLayout: View? = null
-
-    @JvmField
-    @BindView(R.id.topicsList)
-    var topicsList: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.sortByUpdated)
-    var sortByUpdated: CheckBox? = null
-
-    @JvmField
-    @BindView(R.id.wikiLayout)
-    var wikiLayout: View? = null
-
-    @JvmField
     @State
     @RepoNavigationType
     var navType = 0
 
-    @JvmField
     @State
     var login: String? = null
 
-    @JvmField
     @State
     var repoId: String? = null
 
-    @JvmField
     @State
     var showWhich = -1
     private val numberFormat = NumberFormat.getNumberInstance()
@@ -194,19 +107,16 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
     private var accentColor = 0
     private var iconColor = 0
 
-    @OnLongClick(R.id.date)
     fun onShowDateHint(): Boolean {
         showMessage(R.string.creation_date, R.string.creation_date_hint)
         return true
     }
 
-    @OnLongClick(R.id.size)
     fun onShowLastUpdateDateHint(): Boolean {
         showMessage(R.string.last_updated, R.string.last_updated_hint)
         return true
     }
 
-    @OnLongClick(R.id.fab)
     fun onFabLongClick(): Boolean {
         if (navType == RepoPagerMvp.ISSUES) {
             onAddSelected()
@@ -215,7 +125,6 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
         return false
     }
 
-    @OnClick(R.id.fab)
     fun onFabClicked() {
         if (navType == RepoPagerMvp.ISSUES) {
             fab!!.hide(object : OnVisibilityChangedListener() {
@@ -242,13 +151,11 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
         }
     }
 
-    @OnClick(R.id.add)
     fun onAddIssues() {
         hideFilterLayout()
         onAddSelected()
     }
 
-    @OnClick(R.id.search)
     fun onSearch() {
         hideFilterLayout()
         onSearchSelected()
@@ -264,11 +171,11 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
         return super.dispatchTouchEvent(ev)
     }
 
-    @OnClick(R.id.detailsIcon)
     fun onTitleClick() {
         val repoModel = presenter!!.repo
         if (repoModel != null && !isEmpty(repoModel.description)) {
-            newInstance(repoModel.fullName, repoModel.description,
+            newInstance(
+                repoModel.fullName, repoModel.description,
                 isMarkDown = false,
                 hideCancel = true
             )
@@ -276,7 +183,6 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
         }
     }
 
-    @OnClick(R.id.tagsIcon)
     fun onTagsClick() {
         if (topicsList!!.adapter!!.itemCount > 0) {
             TransitionManager.beginDelayedTransition(topicsList!!)
@@ -285,14 +191,6 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
         }
     }
 
-    @OnClick(
-        R.id.forkRepoLayout,
-        R.id.starRepoLayout,
-        R.id.watchRepoLayout,
-        R.id.pinLayout,
-        R.id.wikiLayout,
-        R.id.licenseLayout
-    )
     fun onClick(view: View) {
         when (view.id) {
             R.id.forkRepoLayout -> newInstance(
@@ -347,7 +245,6 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
         }
     }
 
-    @OnLongClick(R.id.forkRepoLayout, R.id.starRepoLayout, R.id.watchRepoLayout)
     fun onLongClick(view: View?): Boolean {
         when (view!!.id) {
             R.id.forkRepoLayout -> {
@@ -381,7 +278,6 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
         return false
     }
 
-    @OnCheckedChanged(R.id.sortByUpdated)
     fun onSortIssues(isChecked: Boolean) {
         val pagerView = AppHelper.getFragmentByTag(
             supportFragmentManager,
@@ -411,6 +307,54 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        date!!.setOnLongClickListener {
+            onShowDateHint()
+        }
+        size!!.setOnLongClickListener {
+            onShowLastUpdateDateHint()
+        }
+        fab!!.setOnLongClickListener {
+            onFabLongClick()
+        }
+        fab!!.setOnThrottleClickListener {
+            onFabClicked()
+        }
+
+        viewFind<View>(R.id.add)!!.setOnThrottleClickListener {
+            onAddIssues()
+        }
+        viewFind<View>(R.id.search)!!.setOnThrottleClickListener {
+            onSearch()
+        }
+        detailsIcon!!.setOnThrottleClickListener {
+            onTitleClick()
+        }
+        tagsIcon!!.setOnThrottleClickListener {
+            onTagsClick()
+        }
+        listOf(
+            R.id.forkRepoLayout,
+            R.id.starRepoLayout,
+            R.id.watchRepoLayout,
+            R.id.pinLayout,
+            R.id.wikiLayout,
+            R.id.licenseLayout
+        ).map { viewFind<View>(it)!! }.setOnThrottleClickListener {
+            onClick(it)
+        }
+        val longClickListener = View.OnLongClickListener {
+            onLongClick(it)
+        }
+        listOf(
+            forkRepoLayout!!,
+            starRepoLayout!!,
+            watchRepoLayout!!
+        ).forEach {
+            it.setOnLongClickListener(longClickListener)
+        }
+        sortByUpdated!!.setOnCheckedChangeListener { _, isChecked ->
+            onSortIssues(isChecked)
+        }
         if (savedInstanceState == null) {
             if (intent == null || intent.extras == null) {
                 finish()

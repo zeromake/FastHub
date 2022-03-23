@@ -10,8 +10,6 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.annotation.LayoutRes
 import androidx.appcompat.view.ContextThemeWrapper
-import butterknife.ButterKnife
-import butterknife.Unbinder
 import com.evernote.android.state.StateSaver
 import com.fastaccess.R
 import com.fastaccess.helper.ViewHelper
@@ -41,7 +39,6 @@ abstract class BaseBottomSheetDialog : BottomSheetDialogFragment() {
         }
     }
     protected var isAlreadyHidden = false
-    private var unbinder: Unbinder? = null
     @LayoutRes
     protected abstract fun layoutRes(): Int
 
@@ -67,7 +64,6 @@ abstract class BaseBottomSheetDialog : BottomSheetDialogFragment() {
         )
         val themeAwareInflater = inflater.cloneInContext(contextThemeWrapper)
         val view = themeAwareInflater.inflate(layoutRes(), container, false)
-        unbinder = ButterKnife.bind(this, view)
         view.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 view.viewTreeObserver.removeOnGlobalLayoutListener(this)
@@ -80,11 +76,6 @@ abstract class BaseBottomSheetDialog : BottomSheetDialogFragment() {
             }
         })
         return view
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        if (unbinder != null) unbinder!!.unbind()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

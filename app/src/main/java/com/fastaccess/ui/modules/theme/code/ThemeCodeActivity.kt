@@ -3,15 +3,15 @@ package com.fastaccess.ui.modules.theme.code
 import android.app.Activity
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ProgressBar
 import android.widget.Spinner
-import butterknife.BindView
-import butterknife.OnClick
-import butterknife.OnItemSelected
+import androidx.appcompat.widget.AppCompatSpinner
 import com.fastaccess.R
 import com.fastaccess.helper.PrefGetter
 import com.fastaccess.ui.adapter.SpinnerAdapter
 import com.fastaccess.ui.base.BaseActivity
+import com.fastaccess.utils.setOnThrottleClickListener
 import com.prettifier.pretty.PrettifyWebView
 import com.prettifier.pretty.helper.CodeThemesHelper
 
@@ -20,10 +20,9 @@ import com.prettifier.pretty.helper.CodeThemesHelper
  */
 
 class ThemeCodeActivity : BaseActivity<ThemeCodeMvp.View, ThemeCodePresenter>(), ThemeCodeMvp.View {
-
-    @BindView(R.id.themesList) lateinit var spinner: Spinner
-    @BindView(R.id.webView) lateinit var webView: PrettifyWebView
-    @BindView(R.id.readmeLoader) lateinit var progress: ProgressBar
+    val spinner: Spinner by lazy { viewFind(R.id.themesList)!! }
+    val webView: PrettifyWebView by lazy { viewFind(R.id.webView)!! }
+    val progress: ProgressBar by lazy { viewFind(R.id.readmeLoader)!! }
 
     override fun layout(): Int = R.layout.theme_code_layout
 
@@ -35,7 +34,7 @@ class ThemeCodeActivity : BaseActivity<ThemeCodeMvp.View, ThemeCodePresenter>(),
 
     override fun providePresenter(): ThemeCodePresenter = ThemeCodePresenter()
 
-    @OnClick(R.id.done) fun onSaveTheme() {
+    private fun onSaveTheme() {
         val theme = spinner.selectedItem as String
         PrefGetter.setCodeTheme(theme)
         setResult(Activity.RESULT_OK)
@@ -49,7 +48,7 @@ class ThemeCodeActivity : BaseActivity<ThemeCodeMvp.View, ThemeCodePresenter>(),
         if (themePosition >= 0) spinner.setSelection(themePosition)
     }
 
-    @OnItemSelected(R.id.themesList) fun onItemSelect() {
+    fun onItemSelect() {
         val theme = spinner.selectedItem as String
         progress.visibility = View.VISIBLE
         webView.setThemeSource(CodeThemesHelper.CODE_EXAMPLE, theme)
@@ -57,6 +56,25 @@ class ThemeCodeActivity : BaseActivity<ThemeCodeMvp.View, ThemeCodePresenter>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewFind<View>(R.id.done)!!.setOnThrottleClickListener {
+            onSaveTheme()
+        }
+        viewFind<Spinner>(R.id.themesList)!!.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    onItemSelect()
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+
+            }
+
         progress.visibility = View.VISIBLE
         webView.setOnContentChangedListener(this)
         title = ""

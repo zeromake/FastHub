@@ -4,8 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import butterknife.BindView
-import com.annimon.stream.Stream
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.FragmentPagerAdapterModel.Companion.buildForRepoPullRequest
@@ -15,6 +13,7 @@ import com.fastaccess.helper.Bundler.Companion.start
 import com.fastaccess.helper.ViewHelper.getTabTextView
 import com.fastaccess.ui.adapter.FragmentsPagerAdapter
 import com.fastaccess.ui.base.BaseFragment
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.repos.RepoPagerMvp
 import com.fastaccess.ui.widgets.SpannableBuilder.Companion.builder
 import com.fastaccess.ui.widgets.ViewPagerView
@@ -26,15 +25,9 @@ import com.google.android.material.tabs.TabLayout
 class RepoPullRequestPagerFragment :
     BaseFragment<RepoPullRequestPagerMvp.View, RepoPullRequestPagerPresenter>(),
     RepoPullRequestPagerMvp.View {
-    @JvmField
-    @BindView(R.id.tabs)
-    var tabs: TabLayout? = null
+    val tabs: TabLayout? by viewFind(R.id.tabs)
+    val pager: ViewPagerView? by viewFind(R.id.pager)
 
-    @JvmField
-    @BindView(R.id.pager)
-    var pager: ViewPagerView? = null
-
-    @JvmField
     @State
     var counts = HashSet<TabsCountStateModel>()
     private var repoCallback: RepoPagerMvp.View? = null
@@ -66,7 +59,7 @@ class RepoPullRequestPagerFragment :
         )
         tabs!!.setupWithViewPager(pager)
         if (savedInstanceState != null && counts.isNotEmpty()) {
-            Stream.of(counts).forEach { model: TabsCountStateModel -> updateCount(model) }
+            counts.forEach { model: TabsCountStateModel -> updateCount(model) }
         }
         tabs!!.addOnTabSelectedListener(object : TabLayout.ViewPagerOnTabSelectedListener(pager) {
             override fun onTabReselected(tab: TabLayout.Tab) {

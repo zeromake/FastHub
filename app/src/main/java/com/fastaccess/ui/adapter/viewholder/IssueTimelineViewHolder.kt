@@ -2,7 +2,6 @@ package com.fastaccess.ui.adapter.viewholder
 
 import android.view.View
 import android.view.ViewGroup
-import butterknife.BindView
 import com.fastaccess.R
 import com.fastaccess.data.dao.TimelineModel
 import com.fastaccess.data.dao.types.IssueEventType
@@ -24,19 +23,11 @@ class IssueTimelineViewHolder private constructor(
     adapter: IssuesTimelineAdapter,
     private val isMerged: Boolean
 ) : BaseViewHolder<TimelineModel>(itemView, adapter) {
-    @kotlin.jvm.JvmField
-    @BindView(R.id.stateImage)
-    var stateImage: ForegroundImageView? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.avatarLayout)
-    var avatarLayout: AvatarLayout? = null
-
-    @kotlin.jvm.JvmField
-    @BindView(R.id.stateText)
-    var stateText: FontTextView? = null
-    override fun bind(timelineModel: TimelineModel) {
-        val issueEventModel = timelineModel.genericEvent
+    val stateImage: ForegroundImageView? = itemView.findViewById(R.id.stateImage)
+    val avatarLayout: AvatarLayout? = itemView.findViewById(R.id.avatarLayout)
+    val stateText: FontTextView? = itemView.findViewById(R.id.stateText)
+    override fun bind(t: TimelineModel) {
+        val issueEventModel = t.genericEvent
         val event = issueEventModel!!.event
         if (issueEventModel.assignee != null && issueEventModel.assigner != null) {
             avatarLayout!!.setUrl(
@@ -47,12 +38,12 @@ class IssueTimelineViewHolder private constructor(
             if (event !== IssueEventType.committed) {
                 avatarLayout!!.visibility = View.VISIBLE
                 if (issueEventModel.actor != null) {
-                    avatarLayout!!.setUrl(
+                    avatarLayout.setUrl(
                         issueEventModel.actor!!.avatarUrl, issueEventModel.actor!!.login,
                         false, isEnterprise(issueEventModel.url)
                     )
                 } else if (issueEventModel.author != null) {
-                    avatarLayout!!.setUrl(
+                    avatarLayout.setUrl(
                         issueEventModel.author!!.avatarUrl, issueEventModel.author!!.login,
                         false, isEnterprise(issueEventModel.url)
                     )
@@ -63,7 +54,7 @@ class IssueTimelineViewHolder private constructor(
         }
         if (event != null) {
             stateImage!!.contentDescription = event.name
-            stateImage!!.setImageResource(event.iconResId)
+            stateImage.setImageResource(event.iconResId)
         }
         if (event != null) {
             stateText!!.text = getStyledEvents(issueEventModel, itemView.context, isMerged)

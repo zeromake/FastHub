@@ -6,22 +6,21 @@ import android.view.View.OnLongClickListener
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.ButterKnife
+import com.fastaccess.utils.setOnThrottleClickListener
 
 /**
  * Created by Kosh on 17 May 2016, 7:13 PM
  */
 abstract class BaseViewHolder<T>(
     itemView: View,
-    adapter: BaseRecyclerAdapter<T, *, OnItemClickListener<T>>?
+    pAdapter: BaseRecyclerAdapter<T, *, OnItemClickListener<T>>?
 ) : RecyclerView.ViewHolder(itemView), View.OnClickListener, OnLongClickListener {
     interface OnItemClickListener<T> {
         fun onItemClick(position: Int, v: View?, item: T)
         fun onItemLongClick(position: Int, v: View?, item: T)
     }
 
-    @JvmField
-    protected val adapter: BaseRecyclerAdapter<T, *, OnItemClickListener<T>>?
+    protected val adapter: BaseRecyclerAdapter<T, *, OnItemClickListener<T>>? = pAdapter
 
     protected constructor(itemView: View) : this(itemView, null)
 
@@ -46,16 +45,17 @@ abstract class BaseViewHolder<T>(
     open fun onViewIsDetaching() {}
 
     companion object {
-        @JvmStatic
         fun getView(parent: ViewGroup, @LayoutRes layoutRes: Int): View {
             return LayoutInflater.from(parent.context).inflate(layoutRes, parent, false)
         }
     }
 
     init {
-        ButterKnife.bind(this, itemView)
-        this.adapter = adapter
-        itemView.setOnClickListener(this)
-        itemView.setOnLongClickListener(this)
+        itemView.setOnThrottleClickListener {
+            onClick(it)
+        }
+        itemView.setOnLongClickListener {
+            onLongClick(it)
+        }
     }
 }

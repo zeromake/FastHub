@@ -3,14 +3,13 @@ package com.fastaccess.ui.modules.repos.projects.crud
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.FragmentManager
-import androidx.appcompat.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.EditText
-import butterknife.BindView
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.FragmentManager
 import com.fastaccess.R
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler
@@ -19,6 +18,7 @@ import com.fastaccess.provider.emoji.Emoji
 import com.fastaccess.ui.base.BaseDialogFragment
 import com.fastaccess.ui.base.mvp.BaseMvp
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.editor.emoji.EmojiMvp
 import com.fastaccess.ui.modules.editor.popup.EditorLinkImageMvp
 import com.fastaccess.ui.widgets.markdown.MarkDownLayout
@@ -28,12 +28,12 @@ import com.fastaccess.ui.widgets.markdown.MarkdownEditText
  * Created by Hashemsergani on 15.09.17.
  */
 
-class ProjectCurdDialogFragment : BaseDialogFragment<BaseMvp.FAView, BasePresenter<BaseMvp.FAView>>(),
-        EditorLinkImageMvp.EditorLinkCallback, MarkDownLayout.MarkdownListener, EmojiMvp.EmojiCallback {
-
-    @BindView(R.id.editText) lateinit var editText: MarkdownEditText
-    @BindView(R.id.toolbar) lateinit var toolbar: Toolbar
-    @BindView(R.id.markDownLayout) lateinit var markDownLayout: MarkDownLayout
+class ProjectCurdDialogFragment :
+    BaseDialogFragment<BaseMvp.FAView, BasePresenter<BaseMvp.FAView>>(),
+    EditorLinkImageMvp.EditorLinkCallback, MarkDownLayout.MarkdownListener, EmojiMvp.EmojiCallback {
+    val editText: MarkdownEditText by viewFind(R.id.editText)
+    val toolbar: Toolbar by viewFind(R.id.toolbar)
+    val markDownLayout: MarkDownLayout by viewFind(R.id.markDownLayout)
 
     private var onProjectEditedCallback: OnProjectEditedCallback? = null
 
@@ -55,7 +55,11 @@ class ProjectCurdDialogFragment : BaseDialogFragment<BaseMvp.FAView, BasePresent
 
     override fun providePresenter(): BasePresenter<BaseMvp.FAView> = BasePresenter()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -76,7 +80,11 @@ class ProjectCurdDialogFragment : BaseDialogFragment<BaseMvp.FAView, BasePresent
                 val isEmpty = editText.text.isNullOrBlank()
                 editText.error = if (isEmpty) getString(R.string.required_field) else null
                 if (!isEmpty) {
-                    onProjectEditedCallback?.onCreatedOrEdited(InputHelper.toString(editText), isCard, position)
+                    onProjectEditedCallback?.onCreatedOrEdited(
+                        InputHelper.toString(editText),
+                        isCard,
+                        position
+                    )
                     dismiss()
                 }
             }
@@ -102,13 +110,17 @@ class ProjectCurdDialogFragment : BaseDialogFragment<BaseMvp.FAView, BasePresent
     companion object {
         val TAG: String = ProjectCurdDialogFragment::class.java.simpleName
 
-        fun newInstance(text: String? = null, isCard: Boolean = false, position: Int = -1): ProjectCurdDialogFragment {
+        fun newInstance(
+            text: String? = null,
+            isCard: Boolean = false,
+            position: Int = -1
+        ): ProjectCurdDialogFragment {
             val fragment = ProjectCurdDialogFragment()
             fragment.arguments = Bundler.start()
-                    .put(BundleConstant.ITEM, text)
-                    .put(BundleConstant.EXTRA, isCard)
-                    .put(BundleConstant.ID, position)
-                    .end()
+                .put(BundleConstant.ITEM, text)
+                .put(BundleConstant.EXTRA, isCard)
+                .put(BundleConstant.ID, position)
+                .end()
             return fragment
         }
     }

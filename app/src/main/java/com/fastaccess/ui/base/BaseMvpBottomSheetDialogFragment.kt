@@ -3,7 +3,6 @@ package com.fastaccess.ui.base
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -13,8 +12,6 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.view.ContextThemeWrapper
-import butterknife.ButterKnife
-import butterknife.Unbinder
 import com.evernote.android.state.StateSaver
 import com.fastaccess.R
 import com.fastaccess.helper.AppHelper
@@ -30,7 +27,6 @@ import net.grandcentrix.thirtyinch.TiDialogFragment
 abstract class BaseMvpBottomSheetDialogFragment<V : FAView, P : BasePresenter<V>> :
     TiDialogFragment<P, V>(), FAView {
     protected var callback: FAView? = null
-    private var unbinder: Unbinder? = null
 
     @LayoutRes
     protected abstract fun fragmentLayout(): Int
@@ -78,9 +74,7 @@ abstract class BaseMvpBottomSheetDialogFragment<V : FAView, P : BasePresenter<V>
                 context, requireContext().theme
             )
             val themeAwareInflater = inflater.cloneInContext(contextThemeWrapper)
-            val view = themeAwareInflater.inflate(fragmentLayout(), container, false)
-            unbinder = ButterKnife.bind(this, view)
-            return view
+            return themeAwareInflater.inflate(fragmentLayout(), container, false)
         }
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -131,10 +125,6 @@ abstract class BaseMvpBottomSheetDialogFragment<V : FAView, P : BasePresenter<V>
     }
 
     override fun onScrollTop(index: Int) {}
-    override fun onDestroyView() {
-        super.onDestroyView()
-        if (unbinder != null) unbinder!!.unbind()
-    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BottomSheetDialog(requireContext(), theme)
