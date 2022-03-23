@@ -507,4 +507,6 @@ CaptainTF @ Github 提议：
     <string name="clear_image_cache">清除图片缓存</string>
     <string name="restart_app_message">请重启应用</string>
     <string name="auth_null_or_blank">没有找到上次的认证信息</string>
+    <string name="download_setting_dialog">选择需要下载器</string>
+    <string name="download_setting_title">设置下载器</string>
 </resources>

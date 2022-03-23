@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.provider.DocumentsContract
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.bumptech.glide.Glide
@@ -19,6 +20,7 @@ import com.fastaccess.data.dao.SettingsModel.SettingsType
 import com.fastaccess.data.dao.model.SearchHistory
 import com.fastaccess.helper.*
 import com.fastaccess.provider.crash.Report
+import com.fastaccess.provider.rest.DownloadProvider
 import com.fastaccess.ui.base.mvp.BaseMvp.FAView
 import com.fastaccess.ui.modules.settings.sound.NotificationSoundBottomSheet.Companion.newInstance
 import com.fastaccess.ui.modules.settings.sound.NotificationSoundMvp.NotificationSoundListener
@@ -258,6 +260,10 @@ class SettingsCategoryFragment : PreferenceFragmentCompat(), Preference.OnPrefer
                 })
                 true
             }
+        val downloadSelect = findPreference("download_select") as ListPreference
+        val downloads = DownloadProvider.getDownloads(requireContext())
+        downloadSelect.entries = downloads[0]
+        downloadSelect.entryValues = downloads[1]
     }
 
     private fun addNotifications() {

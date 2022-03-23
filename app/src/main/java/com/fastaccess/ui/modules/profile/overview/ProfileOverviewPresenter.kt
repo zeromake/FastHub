@@ -11,7 +11,7 @@ import com.fastaccess.github.GetPinnedReposQuery
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.InputHelper
 import com.fastaccess.helper.RxHelper
-import com.fastaccess.provider.rest.ApolloProdivder.getApollo
+import com.fastaccess.provider.rest.ApolloProvider.getApollo
 import com.fastaccess.provider.rest.RestProvider
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 import com.fastaccess.ui.widgets.contributions.ContributionsDay

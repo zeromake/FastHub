@@ -11,7 +11,7 @@ import com.fastaccess.github.RepoProjectsClosedQuery
 import com.fastaccess.github.RepoProjectsOpenQuery
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Logger
-import com.fastaccess.provider.rest.ApolloProdivder
+import com.fastaccess.provider.rest.ApolloProvider
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 import com.fastaccess.ui.modules.repos.projects.details.ProjectPagerActivity
 import io.reactivex.Observable
@@ -64,7 +64,7 @@ class RepoProjectPresenter : BasePresenter<RepoProjectMvp.View>(), RepoProjectMv
         currentPage = page
         Logger.e(login)
         val repoId = repoId
-        val apollo = ApolloProdivder.getApollo(isEnterprise)
+        val apollo = ApolloProvider.getApollo(isEnterprise)
         val task: Disposable?
         if (repoId != null && !repoId.isNullOrBlank()) {
             if (parameter == IssueState.open) {

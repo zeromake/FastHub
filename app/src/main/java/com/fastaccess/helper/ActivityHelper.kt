@@ -44,8 +44,8 @@ object ActivityHelper {
         }
     }
 
-    fun startCustomTab(context: Activity?, url: Uri) {
-        context ?: return
+    fun startCustomTab(context: Context?, url: Uri): Boolean {
+        context ?: return false
         val packageNameToUse = getPackageNameToUse(context)
         if (packageNameToUse != null) {
             val customTabsIntent = CustomTabsIntent.Builder()
@@ -57,56 +57,59 @@ object ActivityHelper {
                 .setShowTitle(true)
                 .build()
             customTabsIntent.intent.setPackage(packageNameToUse)
-            try {
+            return try {
                 customTabsIntent.launchUrl(context, url)
+                true
             } catch (ignored: ActivityNotFoundException) {
                 openChooser(context, url, true)
             }
-        } else {
-            openChooser(context, url, true)
         }
+        return openChooser(context, url, true)
     }
 
     @JvmStatic
-    fun startCustomTab(context: Activity, url: String) {
-        startCustomTab(context, Uri.parse(url))
+    fun startCustomTab(context: Context, url: String): Boolean {
+        return startCustomTab(context, Uri.parse(url))
     }
 
     @JvmStatic
-    fun openChooser(context: Context, url: Uri) {
-        openChooser(context, url, false)
+    fun openChooser(context: Context, url: Uri): Boolean {
+        return openChooser(context, url, false)
     }
 
     @JvmStatic
-    fun safeOpenChooser(context: Context, intent: Intent) {
+    fun safeOpenChooser(context: Context, intent: Intent): Boolean {
         if (intent.resolveActivity(context.packageManager) != null) {
             context.startActivity(intent)
+            return true
         }
+        return false
     }
 
     @JvmStatic
-    fun safeOpenChooser(context: Activity, intent: Intent) {
+    fun safeOpenChooser(context: Activity, intent: Intent): Boolean {
         if (intent.resolveActivity(context.packageManager) != null) {
             context.startActivity(intent)
+            return true
         }
+        return false
     }
 
-    private fun openChooser(context: Context, url: Uri, fromCustomTab: Boolean) {
+    private fun openChooser(context: Context, url: Uri, fromCustomTab: Boolean): Boolean {
         val i = Intent(Intent.ACTION_VIEW, url)
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         val finalIntent = chooserIntent(context, i, url)
         if (finalIntent != null) {
-            safeOpenChooser(context, finalIntent)
+            return safeOpenChooser(context, finalIntent)
         } else {
             if (!fromCustomTab) {
                 val activity = getActivity(context)
                 activity?.let {
-                    safeOpenChooser(it, i)
-                    return
+                    return safeOpenChooser(it, i)
                 }
-                startCustomTab(activity, url)
+                return startCustomTab(activity, url)
             } else {
-                safeOpenChooser(context, i)
+                return safeOpenChooser(context, i)
             }
         }
     }
