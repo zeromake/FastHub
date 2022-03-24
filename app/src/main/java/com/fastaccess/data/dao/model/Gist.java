@@ -170,6 +170,144 @@ public class Gist extends AbstractGist implements Persistable {
     .setConverter(new com.fastaccess.data.dao.converters.UserConverter())
     .build();
 
+    public static final NumericAttribute<Gist, Date> CREATED_AT = 
+    new AttributeBuilder<Gist, Date>("createdAt", Date.class)
+    .setProperty(new Property<Gist, Date>() {
+        @Override
+        public Date get(Gist entity) {
+            return entity.createdAt;
+        }
+
+        @Override
+        public void set(Gist entity, Date value) {
+            entity.createdAt = value;
+        }
+    })
+    .setPropertyName("createdAt")
+    .setPropertyState(new Property<Gist, PropertyState>() {
+        @Override
+        public PropertyState get(Gist entity) {
+            return entity.$createdAt_state;
+        }
+
+        @Override
+        public void set(Gist entity, PropertyState value) {
+            entity.$createdAt_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildNumeric();
+
+    public static final StringAttribute<Gist, String> GIT_PUSH_URL = 
+    new AttributeBuilder<Gist, String>("gitPushUrl", String.class)
+    .setProperty(new Property<Gist, String>() {
+        @Override
+        public String get(Gist entity) {
+            return entity.gitPushUrl;
+        }
+
+        @Override
+        public void set(Gist entity, String value) {
+            entity.gitPushUrl = value;
+        }
+    })
+    .setPropertyName("gitPushUrl")
+    .setPropertyState(new Property<Gist, PropertyState>() {
+        @Override
+        public PropertyState get(Gist entity) {
+            return entity.$gitPushUrl_state;
+        }
+
+        @Override
+        public void set(Gist entity, PropertyState value) {
+            entity.$gitPushUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final NumericAttribute<Gist, Date> UPDATED_AT = 
+    new AttributeBuilder<Gist, Date>("updatedAt", Date.class)
+    .setProperty(new Property<Gist, Date>() {
+        @Override
+        public Date get(Gist entity) {
+            return entity.updatedAt;
+        }
+
+        @Override
+        public void set(Gist entity, Date value) {
+            entity.updatedAt = value;
+        }
+    })
+    .setPropertyName("updatedAt")
+    .setPropertyState(new Property<Gist, PropertyState>() {
+        @Override
+        public PropertyState get(Gist entity) {
+            return entity.$updatedAt_state;
+        }
+
+        @Override
+        public void set(Gist entity, PropertyState value) {
+            entity.$updatedAt_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildNumeric();
+
+    public static final NumericAttribute<Gist, Integer> COMMENTS = 
+    new AttributeBuilder<Gist, Integer>("comments", int.class)
+    .setProperty(new IntProperty<Gist>() {
+        @Override
+        public Integer get(Gist entity) {
+            return entity.comments;
+        }
+
+        @Override
+        public void set(Gist entity, Integer value) {
+            entity.comments = value;
+        }
+
+        @Override
+        public int getInt(Gist entity) {
+            return entity.comments;
+        }
+
+        @Override
+        public void setInt(Gist entity, int value) {
+            entity.comments = value;
+        }
+    })
+    .setPropertyName("comments")
+    .setPropertyState(new Property<Gist, PropertyState>() {
+        @Override
+        public PropertyState get(Gist entity) {
+            return entity.$comments_state;
+        }
+
+        @Override
+        public void set(Gist entity, PropertyState value) {
+            entity.$comments_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .buildNumeric();
+
     public static final StringAttribute<Gist, String> COMMENTS_URL = 
     new AttributeBuilder<Gist, String>("commentsUrl", String.class)
     .setProperty(new Property<Gist, String>() {
@@ -202,29 +340,29 @@ public class Gist extends AbstractGist implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final StringAttribute<Gist, String> DESCRIPTION = 
-    new AttributeBuilder<Gist, String>("description", String.class)
+    public static final StringAttribute<Gist, String> COMMITS_URL = 
+    new AttributeBuilder<Gist, String>("commitsUrl", String.class)
     .setProperty(new Property<Gist, String>() {
         @Override
         public String get(Gist entity) {
-            return entity.description;
+            return entity.commitsUrl;
         }
 
         @Override
         public void set(Gist entity, String value) {
-            entity.description = value;
+            entity.commitsUrl = value;
         }
     })
-    .setPropertyName("description")
+    .setPropertyName("commitsUrl")
     .setPropertyState(new Property<Gist, PropertyState>() {
         @Override
         public PropertyState get(Gist entity) {
-            return entity.$description_state;
+            return entity.$commitsUrl_state;
         }
 
         @Override
         public void set(Gist entity, PropertyState value) {
-            entity.$description_state = value;
+            entity.$commitsUrl_state = value;
         }
     })
     .setGenerated(false)
@@ -234,29 +372,61 @@ public class Gist extends AbstractGist implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final StringAttribute<Gist, String> GIT_PULL_URL = 
-    new AttributeBuilder<Gist, String>("gitPullUrl", String.class)
+    public static final StringAttribute<Gist, String> GIST_ID = 
+    new AttributeBuilder<Gist, String>("gistId", String.class)
     .setProperty(new Property<Gist, String>() {
         @Override
         public String get(Gist entity) {
-            return entity.gitPullUrl;
+            return entity.gistId;
         }
 
         @Override
         public void set(Gist entity, String value) {
-            entity.gitPullUrl = value;
+            entity.gistId = value;
         }
     })
-    .setPropertyName("gitPullUrl")
+    .setPropertyName("gistId")
     .setPropertyState(new Property<Gist, PropertyState>() {
         @Override
         public PropertyState get(Gist entity) {
-            return entity.$gitPullUrl_state;
+            return entity.$gistId_state;
         }
 
         @Override
         public void set(Gist entity, PropertyState value) {
-            entity.$gitPullUrl_state = value;
+            entity.$gistId_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Gist, String> HTML_URL = 
+    new AttributeBuilder<Gist, String>("htmlUrl", String.class)
+    .setProperty(new Property<Gist, String>() {
+        @Override
+        public String get(Gist entity) {
+            return entity.htmlUrl;
+        }
+
+        @Override
+        public void set(Gist entity, String value) {
+            entity.htmlUrl = value;
+        }
+    })
+    .setPropertyName("htmlUrl")
+    .setPropertyState(new Property<Gist, PropertyState>() {
+        @Override
+        public PropertyState get(Gist entity) {
+            return entity.$htmlUrl_state;
+        }
+
+        @Override
+        public void set(Gist entity, PropertyState value) {
+            entity.$htmlUrl_state = value;
         }
     })
     .setGenerated(false)
@@ -307,6 +477,38 @@ public class Gist extends AbstractGist implements Persistable {
     .setNullable(false)
     .setUnique(false)
     .build();
+
+    public static final StringAttribute<Gist, String> DESCRIPTION = 
+    new AttributeBuilder<Gist, String>("description", String.class)
+    .setProperty(new Property<Gist, String>() {
+        @Override
+        public String get(Gist entity) {
+            return entity.description;
+        }
+
+        @Override
+        public void set(Gist entity, String value) {
+            entity.description = value;
+        }
+    })
+    .setPropertyName("description")
+    .setPropertyState(new Property<Gist, PropertyState>() {
+        @Override
+        public PropertyState get(Gist entity) {
+            return entity.$description_state;
+        }
+
+        @Override
+        public void set(Gist entity, PropertyState value) {
+            entity.$description_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
 
     public static final StringAttribute<Gist, String> OWNER_NAME = 
     new AttributeBuilder<Gist, String>("ownerName", String.class)
@@ -372,47 +574,37 @@ public class Gist extends AbstractGist implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final NumericAttribute<Gist, Integer> COMMENTS = 
-    new AttributeBuilder<Gist, Integer>("comments", int.class)
-    .setProperty(new IntProperty<Gist>() {
+    public static final StringAttribute<Gist, String> GIT_PULL_URL = 
+    new AttributeBuilder<Gist, String>("gitPullUrl", String.class)
+    .setProperty(new Property<Gist, String>() {
         @Override
-        public Integer get(Gist entity) {
-            return entity.comments;
+        public String get(Gist entity) {
+            return entity.gitPullUrl;
         }
 
         @Override
-        public void set(Gist entity, Integer value) {
-            entity.comments = value;
-        }
-
-        @Override
-        public int getInt(Gist entity) {
-            return entity.comments;
-        }
-
-        @Override
-        public void setInt(Gist entity, int value) {
-            entity.comments = value;
+        public void set(Gist entity, String value) {
+            entity.gitPullUrl = value;
         }
     })
-    .setPropertyName("comments")
+    .setPropertyName("gitPullUrl")
     .setPropertyState(new Property<Gist, PropertyState>() {
         @Override
         public PropertyState get(Gist entity) {
-            return entity.$comments_state;
+            return entity.$gitPullUrl_state;
         }
 
         @Override
         public void set(Gist entity, PropertyState value) {
-            entity.$comments_state = value;
+            entity.$gitPullUrl_state = value;
         }
     })
     .setGenerated(false)
     .setReadOnly(false)
     .setLazy(false)
-    .setNullable(false)
+    .setNullable(true)
     .setUnique(false)
-    .buildNumeric();
+    .buildString();
 
     public static final QueryAttribute<Gist, Boolean> TRUNCATED = 
     new AttributeBuilder<Gist, Boolean>("truncated", boolean.class)
@@ -456,166 +648,6 @@ public class Gist extends AbstractGist implements Persistable {
     .setUnique(false)
     .build();
 
-    public static final StringAttribute<Gist, String> GIT_PUSH_URL = 
-    new AttributeBuilder<Gist, String>("gitPushUrl", String.class)
-    .setProperty(new Property<Gist, String>() {
-        @Override
-        public String get(Gist entity) {
-            return entity.gitPushUrl;
-        }
-
-        @Override
-        public void set(Gist entity, String value) {
-            entity.gitPushUrl = value;
-        }
-    })
-    .setPropertyName("gitPushUrl")
-    .setPropertyState(new Property<Gist, PropertyState>() {
-        @Override
-        public PropertyState get(Gist entity) {
-            return entity.$gitPushUrl_state;
-        }
-
-        @Override
-        public void set(Gist entity, PropertyState value) {
-            entity.$gitPushUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Gist, String> HTML_URL = 
-    new AttributeBuilder<Gist, String>("htmlUrl", String.class)
-    .setProperty(new Property<Gist, String>() {
-        @Override
-        public String get(Gist entity) {
-            return entity.htmlUrl;
-        }
-
-        @Override
-        public void set(Gist entity, String value) {
-            entity.htmlUrl = value;
-        }
-    })
-    .setPropertyName("htmlUrl")
-    .setPropertyState(new Property<Gist, PropertyState>() {
-        @Override
-        public PropertyState get(Gist entity) {
-            return entity.$htmlUrl_state;
-        }
-
-        @Override
-        public void set(Gist entity, PropertyState value) {
-            entity.$htmlUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final NumericAttribute<Gist, Date> CREATED_AT = 
-    new AttributeBuilder<Gist, Date>("createdAt", Date.class)
-    .setProperty(new Property<Gist, Date>() {
-        @Override
-        public Date get(Gist entity) {
-            return entity.createdAt;
-        }
-
-        @Override
-        public void set(Gist entity, Date value) {
-            entity.createdAt = value;
-        }
-    })
-    .setPropertyName("createdAt")
-    .setPropertyState(new Property<Gist, PropertyState>() {
-        @Override
-        public PropertyState get(Gist entity) {
-            return entity.$createdAt_state;
-        }
-
-        @Override
-        public void set(Gist entity, PropertyState value) {
-            entity.$createdAt_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildNumeric();
-
-    public static final NumericAttribute<Gist, Date> UPDATED_AT = 
-    new AttributeBuilder<Gist, Date>("updatedAt", Date.class)
-    .setProperty(new Property<Gist, Date>() {
-        @Override
-        public Date get(Gist entity) {
-            return entity.updatedAt;
-        }
-
-        @Override
-        public void set(Gist entity, Date value) {
-            entity.updatedAt = value;
-        }
-    })
-    .setPropertyName("updatedAt")
-    .setPropertyState(new Property<Gist, PropertyState>() {
-        @Override
-        public PropertyState get(Gist entity) {
-            return entity.$updatedAt_state;
-        }
-
-        @Override
-        public void set(Gist entity, PropertyState value) {
-            entity.$updatedAt_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildNumeric();
-
-    public static final StringAttribute<Gist, String> GIST_ID = 
-    new AttributeBuilder<Gist, String>("gistId", String.class)
-    .setProperty(new Property<Gist, String>() {
-        @Override
-        public String get(Gist entity) {
-            return entity.gistId;
-        }
-
-        @Override
-        public void set(Gist entity, String value) {
-            entity.gistId = value;
-        }
-    })
-    .setPropertyName("gistId")
-    .setPropertyState(new Property<Gist, PropertyState>() {
-        @Override
-        public PropertyState get(Gist entity) {
-            return entity.$gistId_state;
-        }
-
-        @Override
-        public void set(Gist entity, PropertyState value) {
-            entity.$gistId_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
     public static final StringAttribute<Gist, String> URL = 
     new AttributeBuilder<Gist, String>("url", String.class)
     .setProperty(new Property<Gist, String>() {
@@ -639,38 +671,6 @@ public class Gist extends AbstractGist implements Persistable {
         @Override
         public void set(Gist entity, PropertyState value) {
             entity.$url_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Gist, String> COMMITS_URL = 
-    new AttributeBuilder<Gist, String>("commitsUrl", String.class)
-    .setProperty(new Property<Gist, String>() {
-        @Override
-        public String get(Gist entity) {
-            return entity.commitsUrl;
-        }
-
-        @Override
-        public void set(Gist entity, String value) {
-            entity.commitsUrl = value;
-        }
-    })
-    .setPropertyName("commitsUrl")
-    .setPropertyState(new Property<Gist, PropertyState>() {
-        @Override
-        public PropertyState get(Gist entity) {
-            return entity.$commitsUrl_state;
-        }
-
-        @Override
-        public void set(Gist entity, PropertyState value) {
-            entity.$commitsUrl_state = value;
         }
     })
     .setGenerated(false)
@@ -728,35 +728,35 @@ public class Gist extends AbstractGist implements Persistable {
 
     private PropertyState $owner_state;
 
+    private PropertyState $createdAt_state;
+
+    private PropertyState $gitPushUrl_state;
+
+    private PropertyState $updatedAt_state;
+
+    private PropertyState $comments_state;
+
     private PropertyState $commentsUrl_state;
 
-    private PropertyState $description_state;
+    private PropertyState $commitsUrl_state;
 
-    private PropertyState $gitPullUrl_state;
+    private PropertyState $gistId_state;
+
+    private PropertyState $htmlUrl_state;
 
     private PropertyState $publicX_state;
+
+    private PropertyState $description_state;
 
     private PropertyState $ownerName_state;
 
     private PropertyState $forksUrl_state;
 
-    private PropertyState $comments_state;
+    private PropertyState $gitPullUrl_state;
 
     private PropertyState $truncated_state;
 
-    private PropertyState $gitPushUrl_state;
-
-    private PropertyState $htmlUrl_state;
-
-    private PropertyState $createdAt_state;
-
-    private PropertyState $updatedAt_state;
-
-    private PropertyState $gistId_state;
-
     private PropertyState $url_state;
-
-    private PropertyState $commitsUrl_state;
 
     private final transient EntityProxy<Gist> $proxy = new EntityProxy<Gist>(this, $TYPE);
 
@@ -799,6 +799,38 @@ public class Gist extends AbstractGist implements Persistable {
         $proxy.set(OWNER, owner);
     }
 
+    public Date getCreatedAt() {
+        return $proxy.get(CREATED_AT);
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        $proxy.set(CREATED_AT, createdAt);
+    }
+
+    public String getGitPushUrl() {
+        return $proxy.get(GIT_PUSH_URL);
+    }
+
+    public void setGitPushUrl(String gitPushUrl) {
+        $proxy.set(GIT_PUSH_URL, gitPushUrl);
+    }
+
+    public Date getUpdatedAt() {
+        return $proxy.get(UPDATED_AT);
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        $proxy.set(UPDATED_AT, updatedAt);
+    }
+
+    public int getComments() {
+        return $proxy.get(COMMENTS);
+    }
+
+    public void setComments(int comments) {
+        $proxy.set(COMMENTS, comments);
+    }
+
     public String getCommentsUrl() {
         return $proxy.get(COMMENTS_URL);
     }
@@ -807,20 +839,28 @@ public class Gist extends AbstractGist implements Persistable {
         $proxy.set(COMMENTS_URL, commentsUrl);
     }
 
-    public String getDescription() {
-        return $proxy.get(DESCRIPTION);
+    public String getCommitsUrl() {
+        return $proxy.get(COMMITS_URL);
     }
 
-    public void setDescription(String description) {
-        $proxy.set(DESCRIPTION, description);
+    public void setCommitsUrl(String commitsUrl) {
+        $proxy.set(COMMITS_URL, commitsUrl);
     }
 
-    public String getGitPullUrl() {
-        return $proxy.get(GIT_PULL_URL);
+    public String getGistId() {
+        return $proxy.get(GIST_ID);
     }
 
-    public void setGitPullUrl(String gitPullUrl) {
-        $proxy.set(GIT_PULL_URL, gitPullUrl);
+    public void setGistId(String gistId) {
+        $proxy.set(GIST_ID, gistId);
+    }
+
+    public String getHtmlUrl() {
+        return $proxy.get(HTML_URL);
+    }
+
+    public void setHtmlUrl(String htmlUrl) {
+        $proxy.set(HTML_URL, htmlUrl);
     }
 
     public boolean isPublicX() {
@@ -829,6 +869,14 @@ public class Gist extends AbstractGist implements Persistable {
 
     public void setPublicX(boolean publicX) {
         $proxy.set(PUBLIC_X, publicX);
+    }
+
+    public String getDescription() {
+        return $proxy.get(DESCRIPTION);
+    }
+
+    public void setDescription(String description) {
+        $proxy.set(DESCRIPTION, description);
     }
 
     public String getOwnerName() {
@@ -847,12 +895,12 @@ public class Gist extends AbstractGist implements Persistable {
         $proxy.set(FORKS_URL, forksUrl);
     }
 
-    public int getComments() {
-        return $proxy.get(COMMENTS);
+    public String getGitPullUrl() {
+        return $proxy.get(GIT_PULL_URL);
     }
 
-    public void setComments(int comments) {
-        $proxy.set(COMMENTS, comments);
+    public void setGitPullUrl(String gitPullUrl) {
+        $proxy.set(GIT_PULL_URL, gitPullUrl);
     }
 
     public boolean isTruncated() {
@@ -863,60 +911,12 @@ public class Gist extends AbstractGist implements Persistable {
         $proxy.set(TRUNCATED, truncated);
     }
 
-    public String getGitPushUrl() {
-        return $proxy.get(GIT_PUSH_URL);
-    }
-
-    public void setGitPushUrl(String gitPushUrl) {
-        $proxy.set(GIT_PUSH_URL, gitPushUrl);
-    }
-
-    public String getHtmlUrl() {
-        return $proxy.get(HTML_URL);
-    }
-
-    public void setHtmlUrl(String htmlUrl) {
-        $proxy.set(HTML_URL, htmlUrl);
-    }
-
-    public Date getCreatedAt() {
-        return $proxy.get(CREATED_AT);
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        $proxy.set(CREATED_AT, createdAt);
-    }
-
-    public Date getUpdatedAt() {
-        return $proxy.get(UPDATED_AT);
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        $proxy.set(UPDATED_AT, updatedAt);
-    }
-
-    public String getGistId() {
-        return $proxy.get(GIST_ID);
-    }
-
-    public void setGistId(String gistId) {
-        $proxy.set(GIST_ID, gistId);
-    }
-
     public String getUrl() {
         return $proxy.get(URL);
     }
 
     public void setUrl(String url) {
         $proxy.set(URL, url);
-    }
-
-    public String getCommitsUrl() {
-        return $proxy.get(COMMITS_URL);
-    }
-
-    public void setCommitsUrl(String commitsUrl) {
-        $proxy.set(COMMITS_URL, commitsUrl);
     }
 
     @Override

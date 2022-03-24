@@ -67,29 +67,29 @@ public class RepoFile extends AbstractRepoFile implements Persistable {
     .setUnique(false)
     .buildNumeric();
 
-    public static final StringAttribute<RepoFile, String> LOGIN = 
-    new AttributeBuilder<RepoFile, String>("login", String.class)
+    public static final StringAttribute<RepoFile, String> SHA = 
+    new AttributeBuilder<RepoFile, String>("sha", String.class)
     .setProperty(new Property<RepoFile, String>() {
         @Override
         public String get(RepoFile entity) {
-            return entity.login;
+            return entity.sha;
         }
 
         @Override
         public void set(RepoFile entity, String value) {
-            entity.login = value;
+            entity.sha = value;
         }
     })
-    .setPropertyName("login")
+    .setPropertyName("sha")
     .setPropertyState(new Property<RepoFile, PropertyState>() {
         @Override
         public PropertyState get(RepoFile entity) {
-            return entity.$login_state;
+            return entity.$sha_state;
         }
 
         @Override
         public void set(RepoFile entity, PropertyState value) {
-            entity.$login_state = value;
+            entity.$sha_state = value;
         }
     })
     .setGenerated(false)
@@ -99,47 +99,101 @@ public class RepoFile extends AbstractRepoFile implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final NumericAttribute<RepoFile, Long> SIZE = 
-    new AttributeBuilder<RepoFile, Long>("size", long.class)
-    .setProperty(new LongProperty<RepoFile>() {
+    public static final QueryAttribute<RepoFile, FilesType> TYPE = 
+    new AttributeBuilder<RepoFile, FilesType>("type", FilesType.class)
+    .setProperty(new Property<RepoFile, FilesType>() {
         @Override
-        public Long get(RepoFile entity) {
-            return entity.size;
+        public FilesType get(RepoFile entity) {
+            return entity.type;
         }
 
         @Override
-        public void set(RepoFile entity, Long value) {
-            entity.size = value;
-        }
-
-        @Override
-        public long getLong(RepoFile entity) {
-            return entity.size;
-        }
-
-        @Override
-        public void setLong(RepoFile entity, long value) {
-            entity.size = value;
+        public void set(RepoFile entity, FilesType value) {
+            entity.type = value;
         }
     })
-    .setPropertyName("size")
+    .setPropertyName("type")
     .setPropertyState(new Property<RepoFile, PropertyState>() {
         @Override
         public PropertyState get(RepoFile entity) {
-            return entity.$size_state;
+            return entity.$type_state;
         }
 
         @Override
         public void set(RepoFile entity, PropertyState value) {
-            entity.$size_state = value;
+            entity.$type_state = value;
         }
     })
     .setGenerated(false)
     .setReadOnly(false)
     .setLazy(false)
-    .setNullable(false)
+    .setNullable(true)
     .setUnique(false)
-    .buildNumeric();
+    .build();
+
+    public static final StringAttribute<RepoFile, String> REPO_ID = 
+    new AttributeBuilder<RepoFile, String>("repoId", String.class)
+    .setProperty(new Property<RepoFile, String>() {
+        @Override
+        public String get(RepoFile entity) {
+            return entity.repoId;
+        }
+
+        @Override
+        public void set(RepoFile entity, String value) {
+            entity.repoId = value;
+        }
+    })
+    .setPropertyName("repoId")
+    .setPropertyState(new Property<RepoFile, PropertyState>() {
+        @Override
+        public PropertyState get(RepoFile entity) {
+            return entity.$repoId_state;
+        }
+
+        @Override
+        public void set(RepoFile entity, PropertyState value) {
+            entity.$repoId_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<RepoFile, String> PATH = 
+    new AttributeBuilder<RepoFile, String>("path", String.class)
+    .setProperty(new Property<RepoFile, String>() {
+        @Override
+        public String get(RepoFile entity) {
+            return entity.path;
+        }
+
+        @Override
+        public void set(RepoFile entity, String value) {
+            entity.path = value;
+        }
+    })
+    .setPropertyName("path")
+    .setPropertyState(new Property<RepoFile, PropertyState>() {
+        @Override
+        public PropertyState get(RepoFile entity) {
+            return entity.$path_state;
+        }
+
+        @Override
+        public void set(RepoFile entity, PropertyState value) {
+            entity.$path_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
 
     public static final StringAttribute<RepoFile, String> DOWNLOAD_URL = 
     new AttributeBuilder<RepoFile, String>("downloadUrl", String.class)
@@ -205,29 +259,29 @@ public class RepoFile extends AbstractRepoFile implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final StringAttribute<RepoFile, String> PATH = 
-    new AttributeBuilder<RepoFile, String>("path", String.class)
+    public static final StringAttribute<RepoFile, String> GIT_URL = 
+    new AttributeBuilder<RepoFile, String>("gitUrl", String.class)
     .setProperty(new Property<RepoFile, String>() {
         @Override
         public String get(RepoFile entity) {
-            return entity.path;
+            return entity.gitUrl;
         }
 
         @Override
         public void set(RepoFile entity, String value) {
-            entity.path = value;
+            entity.gitUrl = value;
         }
     })
-    .setPropertyName("path")
+    .setPropertyName("gitUrl")
     .setPropertyState(new Property<RepoFile, PropertyState>() {
         @Override
         public PropertyState get(RepoFile entity) {
-            return entity.$path_state;
+            return entity.$gitUrl_state;
         }
 
         @Override
         public void set(RepoFile entity, PropertyState value) {
-            entity.$path_state = value;
+            entity.$gitUrl_state = value;
         }
     })
     .setGenerated(false)
@@ -237,29 +291,29 @@ public class RepoFile extends AbstractRepoFile implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final QueryAttribute<RepoFile, FilesType> TYPE = 
-    new AttributeBuilder<RepoFile, FilesType>("type", FilesType.class)
-    .setProperty(new Property<RepoFile, FilesType>() {
+    public static final StringAttribute<RepoFile, String> LOGIN = 
+    new AttributeBuilder<RepoFile, String>("login", String.class)
+    .setProperty(new Property<RepoFile, String>() {
         @Override
-        public FilesType get(RepoFile entity) {
-            return entity.type;
+        public String get(RepoFile entity) {
+            return entity.login;
         }
 
         @Override
-        public void set(RepoFile entity, FilesType value) {
-            entity.type = value;
+        public void set(RepoFile entity, String value) {
+            entity.login = value;
         }
     })
-    .setPropertyName("type")
+    .setPropertyName("login")
     .setPropertyState(new Property<RepoFile, PropertyState>() {
         @Override
         public PropertyState get(RepoFile entity) {
-            return entity.$type_state;
+            return entity.$login_state;
         }
 
         @Override
         public void set(RepoFile entity, PropertyState value) {
-            entity.$type_state = value;
+            entity.$login_state = value;
         }
     })
     .setGenerated(false)
@@ -267,7 +321,7 @@ public class RepoFile extends AbstractRepoFile implements Persistable {
     .setLazy(false)
     .setNullable(true)
     .setUnique(false)
-    .build();
+    .buildString();
 
     public static final StringAttribute<RepoFile, String> URL = 
     new AttributeBuilder<RepoFile, String>("url", String.class)
@@ -301,69 +355,47 @@ public class RepoFile extends AbstractRepoFile implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final StringAttribute<RepoFile, String> REPO_ID = 
-    new AttributeBuilder<RepoFile, String>("repoId", String.class)
-    .setProperty(new Property<RepoFile, String>() {
+    public static final NumericAttribute<RepoFile, Long> SIZE = 
+    new AttributeBuilder<RepoFile, Long>("size", long.class)
+    .setProperty(new LongProperty<RepoFile>() {
         @Override
-        public String get(RepoFile entity) {
-            return entity.repoId;
+        public Long get(RepoFile entity) {
+            return entity.size;
         }
 
         @Override
-        public void set(RepoFile entity, String value) {
-            entity.repoId = value;
+        public void set(RepoFile entity, Long value) {
+            entity.size = value;
+        }
+
+        @Override
+        public long getLong(RepoFile entity) {
+            return entity.size;
+        }
+
+        @Override
+        public void setLong(RepoFile entity, long value) {
+            entity.size = value;
         }
     })
-    .setPropertyName("repoId")
+    .setPropertyName("size")
     .setPropertyState(new Property<RepoFile, PropertyState>() {
         @Override
         public PropertyState get(RepoFile entity) {
-            return entity.$repoId_state;
+            return entity.$size_state;
         }
 
         @Override
         public void set(RepoFile entity, PropertyState value) {
-            entity.$repoId_state = value;
+            entity.$size_state = value;
         }
     })
     .setGenerated(false)
     .setReadOnly(false)
     .setLazy(false)
-    .setNullable(true)
+    .setNullable(false)
     .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<RepoFile, String> GIT_URL = 
-    new AttributeBuilder<RepoFile, String>("gitUrl", String.class)
-    .setProperty(new Property<RepoFile, String>() {
-        @Override
-        public String get(RepoFile entity) {
-            return entity.gitUrl;
-        }
-
-        @Override
-        public void set(RepoFile entity, String value) {
-            entity.gitUrl = value;
-        }
-    })
-    .setPropertyName("gitUrl")
-    .setPropertyState(new Property<RepoFile, PropertyState>() {
-        @Override
-        public PropertyState get(RepoFile entity) {
-            return entity.$gitUrl_state;
-        }
-
-        @Override
-        public void set(RepoFile entity, PropertyState value) {
-            entity.$gitUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
+    .buildNumeric();
 
     public static final StringAttribute<RepoFile, String> HTML_URL = 
     new AttributeBuilder<RepoFile, String>("htmlUrl", String.class)
@@ -397,38 +429,6 @@ public class RepoFile extends AbstractRepoFile implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final StringAttribute<RepoFile, String> SHA = 
-    new AttributeBuilder<RepoFile, String>("sha", String.class)
-    .setProperty(new Property<RepoFile, String>() {
-        @Override
-        public String get(RepoFile entity) {
-            return entity.sha;
-        }
-
-        @Override
-        public void set(RepoFile entity, String value) {
-            entity.sha = value;
-        }
-    })
-    .setPropertyName("sha")
-    .setPropertyState(new Property<RepoFile, PropertyState>() {
-        @Override
-        public PropertyState get(RepoFile entity) {
-            return entity.$sha_state;
-        }
-
-        @Override
-        public void set(RepoFile entity, PropertyState value) {
-            entity.$sha_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
     public static final Type<RepoFile> $TYPE = new TypeBuilder<RepoFile>(RepoFile.class, "RepoFile")
     .setBaseType(AbstractRepoFile.class)
     .setCacheable(true)
@@ -452,39 +452,39 @@ public class RepoFile extends AbstractRepoFile implements Persistable {
     .addAttribute(REPO_ID)
     .addAttribute(DOWNLOAD_URL)
     .addAttribute(SIZE)
-    .addAttribute(LOGIN)
     .addAttribute(GIT_URL)
+    .addAttribute(LOGIN)
     .addAttribute(ID)
     .addAttribute(HTML_URL)
-    .addAttribute(TYPE)
     .addAttribute(SHA)
+    .addAttribute(TYPE)
     .addAttribute(URL)
     .addAttribute(NAME)
     .build();
 
     private PropertyState $id_state;
 
-    private PropertyState $login_state;
+    private PropertyState $sha_state;
 
-    private PropertyState $size_state;
+    private PropertyState $type_state;
+
+    private PropertyState $repoId_state;
+
+    private PropertyState $path_state;
 
     private PropertyState $downloadUrl_state;
 
     private PropertyState $name_state;
 
-    private PropertyState $path_state;
+    private PropertyState $gitUrl_state;
 
-    private PropertyState $type_state;
+    private PropertyState $login_state;
 
     private PropertyState $url_state;
 
-    private PropertyState $repoId_state;
-
-    private PropertyState $gitUrl_state;
+    private PropertyState $size_state;
 
     private PropertyState $htmlUrl_state;
-
-    private PropertyState $sha_state;
 
     private final transient EntityProxy<RepoFile> $proxy = new EntityProxy<RepoFile>(this, $TYPE);
 
@@ -499,20 +499,36 @@ public class RepoFile extends AbstractRepoFile implements Persistable {
         return $proxy.get(ID);
     }
 
-    public String getLogin() {
-        return $proxy.get(LOGIN);
+    public String getSha() {
+        return $proxy.get(SHA);
     }
 
-    public void setLogin(String login) {
-        $proxy.set(LOGIN, login);
+    public void setSha(String sha) {
+        $proxy.set(SHA, sha);
     }
 
-    public long getSize() {
-        return $proxy.get(SIZE);
+    public FilesType getType() {
+        return $proxy.get(TYPE);
     }
 
-    public void setSize(long size) {
-        $proxy.set(SIZE, size);
+    public void setType(FilesType type) {
+        $proxy.set(TYPE, type);
+    }
+
+    public String getRepoId() {
+        return $proxy.get(REPO_ID);
+    }
+
+    public void setRepoId(String repoId) {
+        $proxy.set(REPO_ID, repoId);
+    }
+
+    public String getPath() {
+        return $proxy.get(PATH);
+    }
+
+    public void setPath(String path) {
+        $proxy.set(PATH, path);
     }
 
     public String getDownloadUrl() {
@@ -531,20 +547,20 @@ public class RepoFile extends AbstractRepoFile implements Persistable {
         $proxy.set(NAME, name);
     }
 
-    public String getPath() {
-        return $proxy.get(PATH);
+    public String getGitUrl() {
+        return $proxy.get(GIT_URL);
     }
 
-    public void setPath(String path) {
-        $proxy.set(PATH, path);
+    public void setGitUrl(String gitUrl) {
+        $proxy.set(GIT_URL, gitUrl);
     }
 
-    public FilesType getType() {
-        return $proxy.get(TYPE);
+    public String getLogin() {
+        return $proxy.get(LOGIN);
     }
 
-    public void setType(FilesType type) {
-        $proxy.set(TYPE, type);
+    public void setLogin(String login) {
+        $proxy.set(LOGIN, login);
     }
 
     public String getUrl() {
@@ -555,20 +571,12 @@ public class RepoFile extends AbstractRepoFile implements Persistable {
         $proxy.set(URL, url);
     }
 
-    public String getRepoId() {
-        return $proxy.get(REPO_ID);
+    public long getSize() {
+        return $proxy.get(SIZE);
     }
 
-    public void setRepoId(String repoId) {
-        $proxy.set(REPO_ID, repoId);
-    }
-
-    public String getGitUrl() {
-        return $proxy.get(GIT_URL);
-    }
-
-    public void setGitUrl(String gitUrl) {
-        $proxy.set(GIT_URL, gitUrl);
+    public void setSize(long size) {
+        $proxy.set(SIZE, size);
     }
 
     public String getHtmlUrl() {
@@ -577,14 +585,6 @@ public class RepoFile extends AbstractRepoFile implements Persistable {
 
     public void setHtmlUrl(String htmlUrl) {
         $proxy.set(HTML_URL, htmlUrl);
-    }
-
-    public String getSha() {
-        return $proxy.get(SHA);
-    }
-
-    public void setSha(String sha) {
-        $proxy.set(SHA, sha);
     }
 
     @Override

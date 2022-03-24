@@ -38,13 +38,6 @@ import io.requery.Entity;
 import io.requery.Key;
 import io.requery.Persistable;
 
-import static com.fastaccess.data.dao.model.PullRequest.ID;
-import static com.fastaccess.data.dao.model.PullRequest.LOGIN;
-import static com.fastaccess.data.dao.model.PullRequest.NUMBER;
-import static com.fastaccess.data.dao.model.PullRequest.REPO_ID;
-import static com.fastaccess.data.dao.model.PullRequest.STATE;
-import static com.fastaccess.data.dao.model.PullRequest.UPDATED_AT;
-
 /**
  * Created by Kosh on 16 Mar 2017, 7:39 PM
  */
@@ -108,8 +101,8 @@ import static com.fastaccess.data.dao.model.PullRequest.UPDATED_AT;
             try {
                 BlockingEntityStore<Persistable> dataSource = App.getInstance().getDataStore().toBlocking();
                 dataSource.delete(PullRequest.class)
-                        .where(REPO_ID.equal(repoId)
-                                .and(LOGIN.equal(login)))
+                        .where(PullRequest.REPO_ID.equal(repoId)
+                                .and(PullRequest.LOGIN.equal(login)))
                         .get()
                         .value();
                 if (!models.isEmpty()) {
@@ -132,10 +125,10 @@ import static com.fastaccess.data.dao.model.PullRequest.UPDATED_AT;
                                                             @NonNull IssueState issueState) {
         return App.getInstance().getDataStore()
                 .select(PullRequest.class)
-                .where(REPO_ID.equal(repoId)
-                        .and(LOGIN.equal(login))
-                        .and(STATE.equal(issueState)))
-                .orderBy(UPDATED_AT.desc())
+                .where(PullRequest.REPO_ID.equal(repoId)
+                        .and(PullRequest.LOGIN.equal(login))
+                        .and(PullRequest.STATE.equal(issueState)))
+                .orderBy(PullRequest.UPDATED_AT.desc())
                 .get()
                 .observable()
                 .toList();
@@ -144,7 +137,7 @@ import static com.fastaccess.data.dao.model.PullRequest.UPDATED_AT;
     public static Observable<PullRequest> getPullRequestById(long id) {
         return App.getInstance().getDataStore()
                 .select(PullRequest.class)
-                .where(ID.eq(id))
+                .where(PullRequest.ID.eq(id))
                 .get()
                 .observable();
     }
@@ -152,9 +145,9 @@ import static com.fastaccess.data.dao.model.PullRequest.UPDATED_AT;
     public static Observable<PullRequest> getPullRequestByNumber(int number, @NonNull String repoId, @NonNull String login) {
         return App.getInstance().getDataStore()
                 .select(PullRequest.class)
-                .where(REPO_ID.equal(repoId)
-                        .and(LOGIN.equal(login))
-                        .and(NUMBER.equal(number)))
+                .where(PullRequest.REPO_ID.equal(repoId)
+                        .and(PullRequest.LOGIN.equal(login))
+                        .and(PullRequest.NUMBER.equal(number)))
                 .get()
                 .observable();
     }

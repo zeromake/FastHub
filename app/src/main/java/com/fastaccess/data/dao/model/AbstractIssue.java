@@ -32,13 +32,6 @@ import io.requery.Entity;
 import io.requery.Key;
 import io.requery.Persistable;
 
-import static com.fastaccess.data.dao.model.Issue.ID;
-import static com.fastaccess.data.dao.model.Issue.LOGIN;
-import static com.fastaccess.data.dao.model.Issue.NUMBER;
-import static com.fastaccess.data.dao.model.Issue.REPO_ID;
-import static com.fastaccess.data.dao.model.Issue.STATE;
-import static com.fastaccess.data.dao.model.Issue.UPDATED_AT;
-
 /**
  * Created by Kosh on 16 Mar 2017, 7:34 PM
  */
@@ -85,7 +78,7 @@ import static com.fastaccess.data.dao.model.Issue.UPDATED_AT;
             try {
                 BlockingEntityStore<Persistable> dataSource = App.getInstance().getDataStore().toBlocking();
                 dataSource.delete(Issue.class)
-                        .where(REPO_ID.equal(repoId).and(LOGIN.equal(login)))
+                        .where(Issue.REPO_ID.equal(repoId).and(Issue.LOGIN.equal(login)))
                         .get()
                         .value();
                 if (!models.isEmpty()) {
@@ -106,10 +99,10 @@ import static com.fastaccess.data.dao.model.Issue.UPDATED_AT;
 
     public static Single<List<Issue>> getIssues(@NonNull String repoId, @NonNull String login, @NonNull IssueState issueState) {
         return App.getInstance().getDataStore().select(Issue.class)
-                .where(REPO_ID.equal(repoId)
-                        .and(LOGIN.equal(login))
-                        .and(STATE.equal(issueState)))
-                .orderBy(UPDATED_AT.desc())
+                .where(Issue.REPO_ID.equal(repoId)
+                        .and(Issue.LOGIN.equal(login))
+                        .and(Issue.STATE.equal(issueState)))
+                .orderBy(Issue.UPDATED_AT.desc())
                 .get()
                 .observable()
                 .toList();
@@ -118,7 +111,7 @@ import static com.fastaccess.data.dao.model.Issue.UPDATED_AT;
     public static Observable<Issue> getIssue(long id) {
         return App.getInstance().getDataStore()
                 .select(Issue.class)
-                .where(ID.equal(id))
+                .where(Issue.ID.equal(id))
                 .get()
                 .observable();
     }
@@ -126,9 +119,9 @@ import static com.fastaccess.data.dao.model.Issue.UPDATED_AT;
     public static Observable<Issue> getIssueByNumber(int number, String repoId, String login) {
         return App.getInstance().getDataStore()
                 .select(Issue.class)
-                .where(NUMBER.equal(number)
-                        .and(REPO_ID.eq(repoId))
-                        .and(LOGIN.eq(login)))
+                .where(Issue.NUMBER.equal(number)
+                        .and(Issue.REPO_ID.eq(repoId))
+                        .and(Issue.LOGIN.eq(login)))
                 .get()
                 .observable();
     }

@@ -22,11 +22,6 @@ import io.requery.Generated;
 import io.requery.Key;
 import io.requery.Persistable;
 
-import static com.fastaccess.data.dao.model.PinnedRepos.ENTRY_COUNT;
-import static com.fastaccess.data.dao.model.PinnedRepos.ID;
-import static com.fastaccess.data.dao.model.PinnedRepos.LOGIN;
-import static com.fastaccess.data.dao.model.PinnedRepos.REPO_FULL_NAME;
-
 /**
  * Created by Kosh on 25 Mar 2017, 7:29 PM
  */
@@ -64,15 +59,15 @@ import static com.fastaccess.data.dao.model.PinnedRepos.REPO_FULL_NAME;
 
     @Nullable public static PinnedRepos get(long id) {
         return App.getInstance().getDataStore().select(PinnedRepos.class)
-                .where(ID.eq(id))
+                .where(PinnedRepos.ID.eq(id))
                 .get()
                 .firstOrNull();
     }
 
     @Nullable public static PinnedRepos get(@NonNull String repoFullName) {
         return App.getInstance().getDataStore().toBlocking().select(PinnedRepos.class)
-                .where(REPO_FULL_NAME.eq(repoFullName).and(LOGIN.eq(Login.getUser().getLogin()))
-                        .or(REPO_FULL_NAME.eq(repoFullName)))
+                .where(PinnedRepos.REPO_FULL_NAME.eq(repoFullName).and(PinnedRepos.LOGIN.eq(Login.getUser().getLogin()))
+                        .or(PinnedRepos.REPO_FULL_NAME.eq(repoFullName)))
                 .get()
                 .firstOrNull();
     }
@@ -95,9 +90,9 @@ import static com.fastaccess.data.dao.model.PinnedRepos.REPO_FULL_NAME;
 
     @NonNull public static Single<List<PinnedRepos>> getMyPinnedRepos() {
         return App.getInstance().getDataStore().select(PinnedRepos.class)
-                .where(LOGIN.eq(Login.getUser().getLogin())
-                        .or(LOGIN.isNull()))
-                .orderBy(ENTRY_COUNT.desc(), ID.desc())
+                .where(PinnedRepos.LOGIN.eq(Login.getUser().getLogin())
+                        .or(PinnedRepos.LOGIN.isNull()))
+                .orderBy(PinnedRepos.ENTRY_COUNT.desc(), PinnedRepos.ID.desc())
                 .get()
                 .observable()
                 .toList();
@@ -106,8 +101,8 @@ import static com.fastaccess.data.dao.model.PinnedRepos.REPO_FULL_NAME;
 
     @NonNull public static Observable<List<PinnedRepos>> getMenuRepos() {
         return App.getInstance().getDataStore().select(PinnedRepos.class)
-                .where(LOGIN.eq(Login.getUser().getLogin()))
-                .orderBy(ENTRY_COUNT.desc(), ID.desc())
+                .where(PinnedRepos.LOGIN.eq(Login.getUser().getLogin()))
+                .orderBy(PinnedRepos.ENTRY_COUNT.desc(), PinnedRepos.ID.desc())
                 .limit(5)
                 .get()
                 .observable()
@@ -144,7 +139,7 @@ import static com.fastaccess.data.dao.model.PinnedRepos.REPO_FULL_NAME;
 
     public static void delete(long id) {
         App.getInstance().getDataStore().delete(PinnedRepos.class)
-                .where(ID.eq(id))
+                .where(PinnedRepos.ID.eq(id))
                 .get()
                 .value();
     }

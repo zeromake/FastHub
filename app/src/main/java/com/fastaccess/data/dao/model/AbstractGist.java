@@ -32,9 +32,6 @@ import io.requery.Entity;
 import io.requery.Key;
 import io.requery.Persistable;
 
-import static com.fastaccess.data.dao.model.Gist.ID;
-import static com.fastaccess.data.dao.model.Gist.OWNER_NAME;
-
 /**
  * Created by Kosh on 16 Mar 2017, 7:32 PM
  */
@@ -75,7 +72,7 @@ import static com.fastaccess.data.dao.model.Gist.OWNER_NAME;
                                 .value();
                         if (!models.isEmpty()) {
                             for (Gist gistModel : models) {
-                                dataSource.delete(Gist.class).where(ID.eq(gistModel.getId())).get().value();
+                                dataSource.delete(Gist.class).where(Gist.ID.eq(gistModel.getId())).get().value();
                                 gistModel.setOwnerName(ownerName);
                                 dataSource.insert(gistModel);
                             }
@@ -84,7 +81,7 @@ import static com.fastaccess.data.dao.model.Gist.OWNER_NAME;
                         App.getInstance().getDataStore().toBlocking()
                                 .delete(Gist.class)
                                 .where(Gist.OWNER_NAME.notEqual(ownerName)
-                                        .or(OWNER_NAME.isNull()))
+                                        .or(Gist.OWNER_NAME.isNull()))
                                 .get()
                                 .value();
                     }

@@ -30,11 +30,6 @@ import io.requery.Key;
 import io.requery.Persistable;
 import io.requery.Transient;
 
-import static com.fastaccess.data.dao.model.IssueEvent.CREATED_AT;
-import static com.fastaccess.data.dao.model.IssueEvent.ISSUE_ID;
-import static com.fastaccess.data.dao.model.IssueEvent.LOGIN;
-import static com.fastaccess.data.dao.model.IssueEvent.REPO_ID;
-
 /**
  * Created by Kosh on 16 Mar 2017, 7:33 PM
  */
@@ -70,9 +65,9 @@ import static com.fastaccess.data.dao.model.IssueEvent.REPO_ID;
             try {
                 BlockingEntityStore<Persistable> dataSource = App.getInstance().getDataStore().toBlocking();
                 dataSource.delete(IssueEvent.class)
-                        .where(LOGIN.equal(login)
-                                .and(REPO_ID.equal(repoId))
-                                .and(ISSUE_ID.equal(issueId)))
+                        .where(IssueEvent.LOGIN.equal(login)
+                                .and(IssueEvent.REPO_ID.equal(repoId))
+                                .and(IssueEvent.ISSUE_ID.equal(issueId)))
                         .get()
                         .value();
                 if (!models.isEmpty()) {
@@ -96,10 +91,10 @@ import static com.fastaccess.data.dao.model.IssueEvent.REPO_ID;
                                                @NonNull String issueId) {
         return App.getInstance().getDataStore()
                 .select(IssueEvent.class)
-                .where(LOGIN.equal(login)
-                        .and(REPO_ID.equal(repoId))
-                        .and(ISSUE_ID.equal(issueId)))
-                .orderBy(CREATED_AT.desc())
+                .where(IssueEvent.LOGIN.equal(login)
+                        .and(IssueEvent.REPO_ID.equal(repoId))
+                        .and(IssueEvent.ISSUE_ID.equal(issueId)))
+                .orderBy(IssueEvent.CREATED_AT.desc())
                 .get()
                 .observable()
                 .toList();

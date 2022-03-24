@@ -238,7 +238,7 @@ public class PinnedRepos extends AbstractPinnedRepos implements Persistable, Par
     .addAttribute(PINNED_REPO)
     .build();
 
-    public static final Creator<PinnedRepos> CREATOR = new Creator<PinnedRepos>() {
+    public static final Parcelable.Creator<PinnedRepos> CREATOR = new Parcelable.Creator<PinnedRepos>() {
         @Override
         public PinnedRepos createFromParcel(Parcel source) {
             return PARCELER.readFromParcel(source);

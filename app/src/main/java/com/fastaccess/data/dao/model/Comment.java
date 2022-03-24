@@ -135,166 +135,6 @@ public class Comment extends AbstractComment implements Persistable {
     .setConverter(new com.fastaccess.data.dao.converters.ReactionsConverter())
     .build();
 
-    public static final StringAttribute<Comment, String> AUTHOR_ASSOCIATION = 
-    new AttributeBuilder<Comment, String>("authorAssociation", String.class)
-    .setProperty(new Property<Comment, String>() {
-        @Override
-        public String get(Comment entity) {
-            return entity.authorAssociation;
-        }
-
-        @Override
-        public void set(Comment entity, String value) {
-            entity.authorAssociation = value;
-        }
-    })
-    .setPropertyName("authorAssociation")
-    .setPropertyState(new Property<Comment, PropertyState>() {
-        @Override
-        public PropertyState get(Comment entity) {
-            return entity.$authorAssociation_state;
-        }
-
-        @Override
-        public void set(Comment entity, PropertyState value) {
-            entity.$authorAssociation_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Comment, String> LOGIN = 
-    new AttributeBuilder<Comment, String>("login", String.class)
-    .setProperty(new Property<Comment, String>() {
-        @Override
-        public String get(Comment entity) {
-            return entity.login;
-        }
-
-        @Override
-        public void set(Comment entity, String value) {
-            entity.login = value;
-        }
-    })
-    .setPropertyName("login")
-    .setPropertyState(new Property<Comment, PropertyState>() {
-        @Override
-        public PropertyState get(Comment entity) {
-            return entity.$login_state;
-        }
-
-        @Override
-        public void set(Comment entity, PropertyState value) {
-            entity.$login_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Comment, String> BODY_HTML = 
-    new AttributeBuilder<Comment, String>("bodyHtml", String.class)
-    .setProperty(new Property<Comment, String>() {
-        @Override
-        public String get(Comment entity) {
-            return entity.bodyHtml;
-        }
-
-        @Override
-        public void set(Comment entity, String value) {
-            entity.bodyHtml = value;
-        }
-    })
-    .setPropertyName("bodyHtml")
-    .setPropertyState(new Property<Comment, PropertyState>() {
-        @Override
-        public PropertyState get(Comment entity) {
-            return entity.$bodyHtml_state;
-        }
-
-        @Override
-        public void set(Comment entity, PropertyState value) {
-            entity.$bodyHtml_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Comment, String> GIST_ID = 
-    new AttributeBuilder<Comment, String>("gistId", String.class)
-    .setProperty(new Property<Comment, String>() {
-        @Override
-        public String get(Comment entity) {
-            return entity.gistId;
-        }
-
-        @Override
-        public void set(Comment entity, String value) {
-            entity.gistId = value;
-        }
-    })
-    .setPropertyName("gistId")
-    .setPropertyState(new Property<Comment, PropertyState>() {
-        @Override
-        public PropertyState get(Comment entity) {
-            return entity.$gistId_state;
-        }
-
-        @Override
-        public void set(Comment entity, PropertyState value) {
-            entity.$gistId_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Comment, String> URL = 
-    new AttributeBuilder<Comment, String>("url", String.class)
-    .setProperty(new Property<Comment, String>() {
-        @Override
-        public String get(Comment entity) {
-            return entity.url;
-        }
-
-        @Override
-        public void set(Comment entity, String value) {
-            entity.url = value;
-        }
-    })
-    .setPropertyName("url")
-    .setPropertyState(new Property<Comment, PropertyState>() {
-        @Override
-        public PropertyState get(Comment entity) {
-            return entity.$url_state;
-        }
-
-        @Override
-        public void set(Comment entity, PropertyState value) {
-            entity.$url_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
     public static final NumericAttribute<Comment, Date> UPDATED_AT = 
     new AttributeBuilder<Comment, Date>("updatedAt", Date.class)
     .setProperty(new Property<Comment, Date>() {
@@ -318,6 +158,70 @@ public class Comment extends AbstractComment implements Persistable {
         @Override
         public void set(Comment entity, PropertyState value) {
             entity.$updatedAt_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildNumeric();
+
+    public static final StringAttribute<Comment, String> PATH = 
+    new AttributeBuilder<Comment, String>("path", String.class)
+    .setProperty(new Property<Comment, String>() {
+        @Override
+        public String get(Comment entity) {
+            return entity.path;
+        }
+
+        @Override
+        public void set(Comment entity, String value) {
+            entity.path = value;
+        }
+    })
+    .setPropertyName("path")
+    .setPropertyState(new Property<Comment, PropertyState>() {
+        @Override
+        public PropertyState get(Comment entity) {
+            return entity.$path_state;
+        }
+
+        @Override
+        public void set(Comment entity, PropertyState value) {
+            entity.$path_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final NumericAttribute<Comment, Date> CREATED_AT = 
+    new AttributeBuilder<Comment, Date>("createdAt", Date.class)
+    .setProperty(new Property<Comment, Date>() {
+        @Override
+        public Date get(Comment entity) {
+            return entity.createdAt;
+        }
+
+        @Override
+        public void set(Comment entity, Date value) {
+            entity.createdAt = value;
+        }
+    })
+    .setPropertyName("createdAt")
+    .setPropertyState(new Property<Comment, PropertyState>() {
+        @Override
+        public PropertyState get(Comment entity) {
+            return entity.$createdAt_state;
+        }
+
+        @Override
+        public void set(Comment entity, PropertyState value) {
+            entity.$createdAt_state = value;
         }
     })
     .setGenerated(false)
@@ -401,29 +305,285 @@ public class Comment extends AbstractComment implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final StringAttribute<Comment, String> PULL_REQUEST_ID = 
-    new AttributeBuilder<Comment, String>("pullRequestId", String.class)
+    public static final StringAttribute<Comment, String> AUTHOR_ASSOCIATION = 
+    new AttributeBuilder<Comment, String>("authorAssociation", String.class)
     .setProperty(new Property<Comment, String>() {
         @Override
         public String get(Comment entity) {
-            return entity.pullRequestId;
+            return entity.authorAssociation;
         }
 
         @Override
         public void set(Comment entity, String value) {
-            entity.pullRequestId = value;
+            entity.authorAssociation = value;
         }
     })
-    .setPropertyName("pullRequestId")
+    .setPropertyName("authorAssociation")
     .setPropertyState(new Property<Comment, PropertyState>() {
         @Override
         public PropertyState get(Comment entity) {
-            return entity.$pullRequestId_state;
+            return entity.$authorAssociation_state;
         }
 
         @Override
         public void set(Comment entity, PropertyState value) {
-            entity.$pullRequestId_state = value;
+            entity.$authorAssociation_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Comment, String> BODY = 
+    new AttributeBuilder<Comment, String>("body", String.class)
+    .setProperty(new Property<Comment, String>() {
+        @Override
+        public String get(Comment entity) {
+            return entity.body;
+        }
+
+        @Override
+        public void set(Comment entity, String value) {
+            entity.body = value;
+        }
+    })
+    .setPropertyName("body")
+    .setPropertyState(new Property<Comment, PropertyState>() {
+        @Override
+        public PropertyState get(Comment entity) {
+            return entity.$body_state;
+        }
+
+        @Override
+        public void set(Comment entity, PropertyState value) {
+            entity.$body_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Comment, String> REPO_ID = 
+    new AttributeBuilder<Comment, String>("repoId", String.class)
+    .setProperty(new Property<Comment, String>() {
+        @Override
+        public String get(Comment entity) {
+            return entity.repoId;
+        }
+
+        @Override
+        public void set(Comment entity, String value) {
+            entity.repoId = value;
+        }
+    })
+    .setPropertyName("repoId")
+    .setPropertyState(new Property<Comment, PropertyState>() {
+        @Override
+        public PropertyState get(Comment entity) {
+            return entity.$repoId_state;
+        }
+
+        @Override
+        public void set(Comment entity, PropertyState value) {
+            entity.$repoId_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Comment, String> LOGIN = 
+    new AttributeBuilder<Comment, String>("login", String.class)
+    .setProperty(new Property<Comment, String>() {
+        @Override
+        public String get(Comment entity) {
+            return entity.login;
+        }
+
+        @Override
+        public void set(Comment entity, String value) {
+            entity.login = value;
+        }
+    })
+    .setPropertyName("login")
+    .setPropertyState(new Property<Comment, PropertyState>() {
+        @Override
+        public PropertyState get(Comment entity) {
+            return entity.$login_state;
+        }
+
+        @Override
+        public void set(Comment entity, PropertyState value) {
+            entity.$login_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Comment, String> URL = 
+    new AttributeBuilder<Comment, String>("url", String.class)
+    .setProperty(new Property<Comment, String>() {
+        @Override
+        public String get(Comment entity) {
+            return entity.url;
+        }
+
+        @Override
+        public void set(Comment entity, String value) {
+            entity.url = value;
+        }
+    })
+    .setPropertyName("url")
+    .setPropertyState(new Property<Comment, PropertyState>() {
+        @Override
+        public PropertyState get(Comment entity) {
+            return entity.$url_state;
+        }
+
+        @Override
+        public void set(Comment entity, PropertyState value) {
+            entity.$url_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Comment, String> ISSUE_ID = 
+    new AttributeBuilder<Comment, String>("issueId", String.class)
+    .setProperty(new Property<Comment, String>() {
+        @Override
+        public String get(Comment entity) {
+            return entity.issueId;
+        }
+
+        @Override
+        public void set(Comment entity, String value) {
+            entity.issueId = value;
+        }
+    })
+    .setPropertyName("issueId")
+    .setPropertyState(new Property<Comment, PropertyState>() {
+        @Override
+        public PropertyState get(Comment entity) {
+            return entity.$issueId_state;
+        }
+
+        @Override
+        public void set(Comment entity, PropertyState value) {
+            entity.$issueId_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Comment, String> GIST_ID = 
+    new AttributeBuilder<Comment, String>("gistId", String.class)
+    .setProperty(new Property<Comment, String>() {
+        @Override
+        public String get(Comment entity) {
+            return entity.gistId;
+        }
+
+        @Override
+        public void set(Comment entity, String value) {
+            entity.gistId = value;
+        }
+    })
+    .setPropertyName("gistId")
+    .setPropertyState(new Property<Comment, PropertyState>() {
+        @Override
+        public PropertyState get(Comment entity) {
+            return entity.$gistId_state;
+        }
+
+        @Override
+        public void set(Comment entity, PropertyState value) {
+            entity.$gistId_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Comment, String> BODY_HTML = 
+    new AttributeBuilder<Comment, String>("bodyHtml", String.class)
+    .setProperty(new Property<Comment, String>() {
+        @Override
+        public String get(Comment entity) {
+            return entity.bodyHtml;
+        }
+
+        @Override
+        public void set(Comment entity, String value) {
+            entity.bodyHtml = value;
+        }
+    })
+    .setPropertyName("bodyHtml")
+    .setPropertyState(new Property<Comment, PropertyState>() {
+        @Override
+        public PropertyState get(Comment entity) {
+            return entity.$bodyHtml_state;
+        }
+
+        @Override
+        public void set(Comment entity, PropertyState value) {
+            entity.$bodyHtml_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Comment, String> HTML_URL = 
+    new AttributeBuilder<Comment, String>("htmlUrl", String.class)
+    .setProperty(new Property<Comment, String>() {
+        @Override
+        public String get(Comment entity) {
+            return entity.htmlUrl;
+        }
+
+        @Override
+        public void set(Comment entity, String value) {
+            entity.htmlUrl = value;
+        }
+    })
+    .setPropertyName("htmlUrl")
+    .setPropertyState(new Property<Comment, PropertyState>() {
+        @Override
+        public PropertyState get(Comment entity) {
+            return entity.$htmlUrl_state;
+        }
+
+        @Override
+        public void set(Comment entity, PropertyState value) {
+            entity.$htmlUrl_state = value;
         }
     })
     .setGenerated(false)
@@ -475,29 +635,29 @@ public class Comment extends AbstractComment implements Persistable {
     .setUnique(false)
     .buildNumeric();
 
-    public static final StringAttribute<Comment, String> PATH = 
-    new AttributeBuilder<Comment, String>("path", String.class)
+    public static final StringAttribute<Comment, String> PULL_REQUEST_ID = 
+    new AttributeBuilder<Comment, String>("pullRequestId", String.class)
     .setProperty(new Property<Comment, String>() {
         @Override
         public String get(Comment entity) {
-            return entity.path;
+            return entity.pullRequestId;
         }
 
         @Override
         public void set(Comment entity, String value) {
-            entity.path = value;
+            entity.pullRequestId = value;
         }
     })
-    .setPropertyName("path")
+    .setPropertyName("pullRequestId")
     .setPropertyState(new Property<Comment, PropertyState>() {
         @Override
         public PropertyState get(Comment entity) {
-            return entity.$path_state;
+            return entity.$pullRequestId_state;
         }
 
         @Override
         public void set(Comment entity, PropertyState value) {
-            entity.$path_state = value;
+            entity.$pullRequestId_state = value;
         }
     })
     .setGenerated(false)
@@ -506,166 +666,6 @@ public class Comment extends AbstractComment implements Persistable {
     .setNullable(true)
     .setUnique(false)
     .buildString();
-
-    public static final StringAttribute<Comment, String> REPO_ID = 
-    new AttributeBuilder<Comment, String>("repoId", String.class)
-    .setProperty(new Property<Comment, String>() {
-        @Override
-        public String get(Comment entity) {
-            return entity.repoId;
-        }
-
-        @Override
-        public void set(Comment entity, String value) {
-            entity.repoId = value;
-        }
-    })
-    .setPropertyName("repoId")
-    .setPropertyState(new Property<Comment, PropertyState>() {
-        @Override
-        public PropertyState get(Comment entity) {
-            return entity.$repoId_state;
-        }
-
-        @Override
-        public void set(Comment entity, PropertyState value) {
-            entity.$repoId_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Comment, String> ISSUE_ID = 
-    new AttributeBuilder<Comment, String>("issueId", String.class)
-    .setProperty(new Property<Comment, String>() {
-        @Override
-        public String get(Comment entity) {
-            return entity.issueId;
-        }
-
-        @Override
-        public void set(Comment entity, String value) {
-            entity.issueId = value;
-        }
-    })
-    .setPropertyName("issueId")
-    .setPropertyState(new Property<Comment, PropertyState>() {
-        @Override
-        public PropertyState get(Comment entity) {
-            return entity.$issueId_state;
-        }
-
-        @Override
-        public void set(Comment entity, PropertyState value) {
-            entity.$issueId_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Comment, String> BODY = 
-    new AttributeBuilder<Comment, String>("body", String.class)
-    .setProperty(new Property<Comment, String>() {
-        @Override
-        public String get(Comment entity) {
-            return entity.body;
-        }
-
-        @Override
-        public void set(Comment entity, String value) {
-            entity.body = value;
-        }
-    })
-    .setPropertyName("body")
-    .setPropertyState(new Property<Comment, PropertyState>() {
-        @Override
-        public PropertyState get(Comment entity) {
-            return entity.$body_state;
-        }
-
-        @Override
-        public void set(Comment entity, PropertyState value) {
-            entity.$body_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Comment, String> HTML_URL = 
-    new AttributeBuilder<Comment, String>("htmlUrl", String.class)
-    .setProperty(new Property<Comment, String>() {
-        @Override
-        public String get(Comment entity) {
-            return entity.htmlUrl;
-        }
-
-        @Override
-        public void set(Comment entity, String value) {
-            entity.htmlUrl = value;
-        }
-    })
-    .setPropertyName("htmlUrl")
-    .setPropertyState(new Property<Comment, PropertyState>() {
-        @Override
-        public PropertyState get(Comment entity) {
-            return entity.$htmlUrl_state;
-        }
-
-        @Override
-        public void set(Comment entity, PropertyState value) {
-            entity.$htmlUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final NumericAttribute<Comment, Date> CREATED_AT = 
-    new AttributeBuilder<Comment, Date>("createdAt", Date.class)
-    .setProperty(new Property<Comment, Date>() {
-        @Override
-        public Date get(Comment entity) {
-            return entity.createdAt;
-        }
-
-        @Override
-        public void set(Comment entity, Date value) {
-            entity.createdAt = value;
-        }
-    })
-    .setPropertyName("createdAt")
-    .setPropertyState(new Property<Comment, PropertyState>() {
-        @Override
-        public PropertyState get(Comment entity) {
-            return entity.$createdAt_state;
-        }
-
-        @Override
-        public void set(Comment entity, PropertyState value) {
-            entity.$createdAt_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildNumeric();
 
     public static final Type<Comment> $TYPE = new TypeBuilder<Comment>(Comment.class, "Comment")
     .setBaseType(AbstractComment.class)
@@ -700,8 +700,8 @@ public class Comment extends AbstractComment implements Persistable {
     .addAttribute(COMMIT_ID)
     .addAttribute(LINE)
     .addAttribute(AUTHOR_ASSOCIATION)
-    .addAttribute(LOGIN)
     .addAttribute(UPDATED_AT)
+    .addAttribute(LOGIN)
     .addAttribute(ID)
     .addAttribute(HTML_URL)
     .addAttribute(BODY)
@@ -713,37 +713,37 @@ public class Comment extends AbstractComment implements Persistable {
 
     private PropertyState $reactions_state;
 
-    private PropertyState $authorAssociation_state;
-
-    private PropertyState $login_state;
-
-    private PropertyState $bodyHtml_state;
-
-    private PropertyState $gistId_state;
-
-    private PropertyState $url_state;
-
     private PropertyState $updatedAt_state;
+
+    private PropertyState $path_state;
+
+    private PropertyState $createdAt_state;
 
     private PropertyState $line_state;
 
     private PropertyState $commitId_state;
 
-    private PropertyState $pullRequestId_state;
-
-    private PropertyState $position_state;
-
-    private PropertyState $path_state;
-
-    private PropertyState $repoId_state;
-
-    private PropertyState $issueId_state;
+    private PropertyState $authorAssociation_state;
 
     private PropertyState $body_state;
 
+    private PropertyState $repoId_state;
+
+    private PropertyState $login_state;
+
+    private PropertyState $url_state;
+
+    private PropertyState $issueId_state;
+
+    private PropertyState $gistId_state;
+
+    private PropertyState $bodyHtml_state;
+
     private PropertyState $htmlUrl_state;
 
-    private PropertyState $createdAt_state;
+    private PropertyState $position_state;
+
+    private PropertyState $pullRequestId_state;
 
     private final transient EntityProxy<Comment> $proxy = new EntityProxy<Comment>(this, $TYPE);
 
@@ -778,52 +778,28 @@ public class Comment extends AbstractComment implements Persistable {
         $proxy.set(REACTIONS, reactions);
     }
 
-    public String getAuthorAssociation() {
-        return $proxy.get(AUTHOR_ASSOCIATION);
-    }
-
-    public void setAuthorAssociation(String authorAssociation) {
-        $proxy.set(AUTHOR_ASSOCIATION, authorAssociation);
-    }
-
-    public String getLogin() {
-        return $proxy.get(LOGIN);
-    }
-
-    public void setLogin(String login) {
-        $proxy.set(LOGIN, login);
-    }
-
-    public String getBodyHtml() {
-        return $proxy.get(BODY_HTML);
-    }
-
-    public void setBodyHtml(String bodyHtml) {
-        $proxy.set(BODY_HTML, bodyHtml);
-    }
-
-    public String getGistId() {
-        return $proxy.get(GIST_ID);
-    }
-
-    public void setGistId(String gistId) {
-        $proxy.set(GIST_ID, gistId);
-    }
-
-    public String getUrl() {
-        return $proxy.get(URL);
-    }
-
-    public void setUrl(String url) {
-        $proxy.set(URL, url);
-    }
-
     public Date getUpdatedAt() {
         return $proxy.get(UPDATED_AT);
     }
 
     public void setUpdatedAt(Date updatedAt) {
         $proxy.set(UPDATED_AT, updatedAt);
+    }
+
+    public String getPath() {
+        return $proxy.get(PATH);
+    }
+
+    public void setPath(String path) {
+        $proxy.set(PATH, path);
+    }
+
+    public Date getCreatedAt() {
+        return $proxy.get(CREATED_AT);
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        $proxy.set(CREATED_AT, createdAt);
     }
 
     public int getLine() {
@@ -842,44 +818,12 @@ public class Comment extends AbstractComment implements Persistable {
         $proxy.set(COMMIT_ID, commitId);
     }
 
-    public String getPullRequestId() {
-        return $proxy.get(PULL_REQUEST_ID);
+    public String getAuthorAssociation() {
+        return $proxy.get(AUTHOR_ASSOCIATION);
     }
 
-    public void setPullRequestId(String pullRequestId) {
-        $proxy.set(PULL_REQUEST_ID, pullRequestId);
-    }
-
-    public int getPosition() {
-        return $proxy.get(POSITION);
-    }
-
-    public void setPosition(int position) {
-        $proxy.set(POSITION, position);
-    }
-
-    public String getPath() {
-        return $proxy.get(PATH);
-    }
-
-    public void setPath(String path) {
-        $proxy.set(PATH, path);
-    }
-
-    public String getRepoId() {
-        return $proxy.get(REPO_ID);
-    }
-
-    public void setRepoId(String repoId) {
-        $proxy.set(REPO_ID, repoId);
-    }
-
-    public String getIssueId() {
-        return $proxy.get(ISSUE_ID);
-    }
-
-    public void setIssueId(String issueId) {
-        $proxy.set(ISSUE_ID, issueId);
+    public void setAuthorAssociation(String authorAssociation) {
+        $proxy.set(AUTHOR_ASSOCIATION, authorAssociation);
     }
 
     public String getBody() {
@@ -890,6 +834,54 @@ public class Comment extends AbstractComment implements Persistable {
         $proxy.set(BODY, body);
     }
 
+    public String getRepoId() {
+        return $proxy.get(REPO_ID);
+    }
+
+    public void setRepoId(String repoId) {
+        $proxy.set(REPO_ID, repoId);
+    }
+
+    public String getLogin() {
+        return $proxy.get(LOGIN);
+    }
+
+    public void setLogin(String login) {
+        $proxy.set(LOGIN, login);
+    }
+
+    public String getUrl() {
+        return $proxy.get(URL);
+    }
+
+    public void setUrl(String url) {
+        $proxy.set(URL, url);
+    }
+
+    public String getIssueId() {
+        return $proxy.get(ISSUE_ID);
+    }
+
+    public void setIssueId(String issueId) {
+        $proxy.set(ISSUE_ID, issueId);
+    }
+
+    public String getGistId() {
+        return $proxy.get(GIST_ID);
+    }
+
+    public void setGistId(String gistId) {
+        $proxy.set(GIST_ID, gistId);
+    }
+
+    public String getBodyHtml() {
+        return $proxy.get(BODY_HTML);
+    }
+
+    public void setBodyHtml(String bodyHtml) {
+        $proxy.set(BODY_HTML, bodyHtml);
+    }
+
     public String getHtmlUrl() {
         return $proxy.get(HTML_URL);
     }
@@ -898,12 +890,20 @@ public class Comment extends AbstractComment implements Persistable {
         $proxy.set(HTML_URL, htmlUrl);
     }
 
-    public Date getCreatedAt() {
-        return $proxy.get(CREATED_AT);
+    public int getPosition() {
+        return $proxy.get(POSITION);
     }
 
-    public void setCreatedAt(Date createdAt) {
-        $proxy.set(CREATED_AT, createdAt);
+    public void setPosition(int position) {
+        $proxy.set(POSITION, position);
+    }
+
+    public String getPullRequestId() {
+        return $proxy.get(PULL_REQUEST_ID);
+    }
+
+    public void setPullRequestId(String pullRequestId) {
+        $proxy.set(PULL_REQUEST_ID, pullRequestId);
     }
 
     @Override

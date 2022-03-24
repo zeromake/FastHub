@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.pm.ShortcutManager
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.fastaccess.data.dao.model.Models
+import com.fastaccess.data.dao.Models
 import com.fastaccess.helper.DeviceNameGetter
 import com.fastaccess.helper.PrefHelper.init
 import com.fastaccess.helper.SettingsDataStore
@@ -26,10 +26,10 @@ import io.requery.sql.TableCreationMode
 class App : Application() {
     val dataStore: ReactiveEntityStore<Persistable> by lazy {
         val model = Models.DEFAULT
-        val source = DatabaseSource(this, model, "FastHub-DB", 18)
+        val source = DatabaseSource(this, model, "FastHubRE-DB", 18)
         val configuration = source.configuration
         if (BuildConfig.DEBUG) {
-            source.setTableCreationMode(TableCreationMode.CREATE_NOT_EXISTS)
+            source.setTableCreationMode(TableCreationMode.CREATE)
         }
         ReactiveSupport.toReactiveStore(EntityDataStore(configuration))
     }

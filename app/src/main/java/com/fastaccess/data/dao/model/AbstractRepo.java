@@ -30,13 +30,6 @@ import io.requery.Key;
 import io.requery.Nullable;
 import io.requery.Persistable;
 
-import static com.fastaccess.data.dao.model.Repo.FULL_NAME;
-import static com.fastaccess.data.dao.model.Repo.ID;
-import static com.fastaccess.data.dao.model.Repo.REPOS_OWNER;
-import static com.fastaccess.data.dao.model.Repo.STARRED_USER;
-import static com.fastaccess.data.dao.model.Repo.STATUSES_URL;
-import static com.fastaccess.data.dao.model.Repo.UPDATED_AT;
-
 /**
  * Created by Kosh on 16 Mar 2017, 7:54 PM
  */
@@ -135,7 +128,7 @@ import static com.fastaccess.data.dao.model.Repo.UPDATED_AT;
     public static Maybe<Repo> getRepo(@NonNull String name, @NonNull String login) {
         return App.getInstance().getDataStore()
                 .select(Repo.class)
-                .where(FULL_NAME.eq(login + "/" + name))
+                .where(Repo.FULL_NAME.eq(login + "/" + name))
                 .get()
                 .maybe();
     }
@@ -143,7 +136,7 @@ import static com.fastaccess.data.dao.model.Repo.UPDATED_AT;
     public static Repo getRepo(long id) {
         return App.getInstance().getDataStore()
                 .select(Repo.class)
-                .where(ID.eq(id))
+                .where(Repo.ID.eq(id))
                 .get()
                 .firstOrNull();
     }
@@ -156,7 +149,7 @@ import static com.fastaccess.data.dao.model.Repo.UPDATED_AT;
                     BlockingEntityStore<Persistable> dataSource = App.getInstance().getDataStore().toBlocking();
                     if (login.getLogin().equalsIgnoreCase(starredUser)) {
                         dataSource.delete(Repo.class)
-                                .where(STARRED_USER.eq(starredUser))
+                                .where(Repo.STARRED_USER.eq(starredUser))
                                 .get()
                                 .value();
                         if (!models.isEmpty()) {
@@ -168,8 +161,8 @@ import static com.fastaccess.data.dao.model.Repo.UPDATED_AT;
                         }
                     } else {
                         dataSource.delete(Repo.class)
-                                .where(STARRED_USER.notEqual(login.getLogin())
-                                        .or(STATUSES_URL.isNull()))
+                                .where(Repo.STARRED_USER.notEqual(login.getLogin())
+                                        .or(Repo.STATUSES_URL.isNull()))
                                 .get()
                                 .value();
                     }
@@ -188,7 +181,7 @@ import static com.fastaccess.data.dao.model.Repo.UPDATED_AT;
                     BlockingEntityStore<Persistable> dataSource = App.getInstance().getDataStore().toBlocking();
                     if (login.getLogin().equalsIgnoreCase(reposOwner)) {
                         dataSource.delete(Repo.class)
-                                .where(REPOS_OWNER.eq(reposOwner))
+                                .where(Repo.REPOS_OWNER.eq(reposOwner))
                                 .get()
                                 .value();
                         if (!models.isEmpty()) {
@@ -200,8 +193,8 @@ import static com.fastaccess.data.dao.model.Repo.UPDATED_AT;
                         }
                     } else {
                         dataSource.delete(Repo.class)
-                                .where(REPOS_OWNER.notEqual(login.getLogin())
-                                        .or(REPOS_OWNER.isNull()))
+                                .where(Repo.REPOS_OWNER.notEqual(login.getLogin())
+                                        .or(Repo.REPOS_OWNER.isNull()))
                                 .get()
                                 .value();
                     }
@@ -217,8 +210,8 @@ import static com.fastaccess.data.dao.model.Repo.UPDATED_AT;
     public static Single<List<Repo>> getStarred(@NonNull String starredUser) {
         return App.getInstance().getDataStore()
                 .select(Repo.class)
-                .where(STARRED_USER.eq(starredUser))
-                .orderBy(UPDATED_AT.desc())
+                .where(Repo.STARRED_USER.eq(starredUser))
+                .orderBy(Repo.UPDATED_AT.desc())
                 .get()
                 .observable()
                 .toList();
@@ -227,8 +220,8 @@ import static com.fastaccess.data.dao.model.Repo.UPDATED_AT;
     public static Single<List<Repo>> getMyRepos(@NonNull String reposOwner) {
         return App.getInstance().getDataStore()
                 .select(Repo.class)
-                .where(REPOS_OWNER.eq(reposOwner))
-                .orderBy(UPDATED_AT.desc())
+                .where(Repo.REPOS_OWNER.eq(reposOwner))
+                .orderBy(Repo.UPDATED_AT.desc())
                 .get()
                 .observable()
                 .toList();

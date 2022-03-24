@@ -255,514 +255,6 @@ public class Login extends AbstractLogin implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final StringAttribute<Login, String> GRAVATAR_ID = 
-    new AttributeBuilder<Login, String>("gravatarId", String.class)
-    .setProperty(new Property<Login, String>() {
-        @Override
-        public String get(Login entity) {
-            return entity.gravatarId;
-        }
-
-        @Override
-        public void set(Login entity, String value) {
-            entity.gravatarId = value;
-        }
-    })
-    .setPropertyName("gravatarId")
-    .setPropertyState(new Property<Login, PropertyState>() {
-        @Override
-        public PropertyState get(Login entity) {
-            return entity.$gravatarId_state;
-        }
-
-        @Override
-        public void set(Login entity, PropertyState value) {
-            entity.$gravatarId_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Login, String> RECEIVED_EVENTS_URL = 
-    new AttributeBuilder<Login, String>("receivedEventsUrl", String.class)
-    .setProperty(new Property<Login, String>() {
-        @Override
-        public String get(Login entity) {
-            return entity.receivedEventsUrl;
-        }
-
-        @Override
-        public void set(Login entity, String value) {
-            entity.receivedEventsUrl = value;
-        }
-    })
-    .setPropertyName("receivedEventsUrl")
-    .setPropertyState(new Property<Login, PropertyState>() {
-        @Override
-        public PropertyState get(Login entity) {
-            return entity.$receivedEventsUrl_state;
-        }
-
-        @Override
-        public void set(Login entity, PropertyState value) {
-            entity.$receivedEventsUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Login, String> BIO = 
-    new AttributeBuilder<Login, String>("bio", String.class)
-    .setProperty(new Property<Login, String>() {
-        @Override
-        public String get(Login entity) {
-            return entity.bio;
-        }
-
-        @Override
-        public void set(Login entity, String value) {
-            entity.bio = value;
-        }
-    })
-    .setPropertyName("bio")
-    .setPropertyState(new Property<Login, PropertyState>() {
-        @Override
-        public PropertyState get(Login entity) {
-            return entity.$bio_state;
-        }
-
-        @Override
-        public void set(Login entity, PropertyState value) {
-            entity.$bio_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final NumericAttribute<Login, Long> FOLLOWING = 
-    new AttributeBuilder<Login, Long>("following", long.class)
-    .setProperty(new LongProperty<Login>() {
-        @Override
-        public Long get(Login entity) {
-            return entity.following;
-        }
-
-        @Override
-        public void set(Login entity, Long value) {
-            entity.following = value;
-        }
-
-        @Override
-        public long getLong(Login entity) {
-            return entity.following;
-        }
-
-        @Override
-        public void setLong(Login entity, long value) {
-            entity.following = value;
-        }
-    })
-    .setPropertyName("following")
-    .setPropertyState(new Property<Login, PropertyState>() {
-        @Override
-        public PropertyState get(Login entity) {
-            return entity.$following_state;
-        }
-
-        @Override
-        public void set(Login entity, PropertyState value) {
-            entity.$following_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(false)
-    .setUnique(false)
-    .buildNumeric();
-
-    public static final NumericAttribute<Login, Integer> CONTRIBUTIONS = 
-    new AttributeBuilder<Login, Integer>("contributions", int.class)
-    .setProperty(new IntProperty<Login>() {
-        @Override
-        public Integer get(Login entity) {
-            return entity.contributions;
-        }
-
-        @Override
-        public void set(Login entity, Integer value) {
-            entity.contributions = value;
-        }
-
-        @Override
-        public int getInt(Login entity) {
-            return entity.contributions;
-        }
-
-        @Override
-        public void setInt(Login entity, int value) {
-            entity.contributions = value;
-        }
-    })
-    .setPropertyName("contributions")
-    .setPropertyState(new Property<Login, PropertyState>() {
-        @Override
-        public PropertyState get(Login entity) {
-            return entity.$contributions_state;
-        }
-
-        @Override
-        public void set(Login entity, PropertyState value) {
-            entity.$contributions_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(false)
-    .setUnique(false)
-    .buildNumeric();
-
-    public static final StringAttribute<Login, String> AVATAR_URL = 
-    new AttributeBuilder<Login, String>("avatarUrl", String.class)
-    .setProperty(new Property<Login, String>() {
-        @Override
-        public String get(Login entity) {
-            return entity.avatarUrl;
-        }
-
-        @Override
-        public void set(Login entity, String value) {
-            entity.avatarUrl = value;
-        }
-    })
-    .setPropertyName("avatarUrl")
-    .setPropertyState(new Property<Login, PropertyState>() {
-        @Override
-        public PropertyState get(Login entity) {
-            return entity.$avatarUrl_state;
-        }
-
-        @Override
-        public void set(Login entity, PropertyState value) {
-            entity.$avatarUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Login, String> EMAIL = 
-    new AttributeBuilder<Login, String>("email", String.class)
-    .setProperty(new Property<Login, String>() {
-        @Override
-        public String get(Login entity) {
-            return entity.email;
-        }
-
-        @Override
-        public void set(Login entity, String value) {
-            entity.email = value;
-        }
-    })
-    .setPropertyName("email")
-    .setPropertyState(new Property<Login, PropertyState>() {
-        @Override
-        public PropertyState get(Login entity) {
-            return entity.$email_state;
-        }
-
-        @Override
-        public void set(Login entity, PropertyState value) {
-            entity.$email_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Login, String> STARRED_URL = 
-    new AttributeBuilder<Login, String>("starredUrl", String.class)
-    .setProperty(new Property<Login, String>() {
-        @Override
-        public String get(Login entity) {
-            return entity.starredUrl;
-        }
-
-        @Override
-        public void set(Login entity, String value) {
-            entity.starredUrl = value;
-        }
-    })
-    .setPropertyName("starredUrl")
-    .setPropertyState(new Property<Login, PropertyState>() {
-        @Override
-        public PropertyState get(Login entity) {
-            return entity.$starredUrl_state;
-        }
-
-        @Override
-        public void set(Login entity, PropertyState value) {
-            entity.$starredUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Login, String> ORGANIZATIONS_URL = 
-    new AttributeBuilder<Login, String>("organizationsUrl", String.class)
-    .setProperty(new Property<Login, String>() {
-        @Override
-        public String get(Login entity) {
-            return entity.organizationsUrl;
-        }
-
-        @Override
-        public void set(Login entity, String value) {
-            entity.organizationsUrl = value;
-        }
-    })
-    .setPropertyName("organizationsUrl")
-    .setPropertyState(new Property<Login, PropertyState>() {
-        @Override
-        public PropertyState get(Login entity) {
-            return entity.$organizationsUrl_state;
-        }
-
-        @Override
-        public void set(Login entity, PropertyState value) {
-            entity.$organizationsUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Login, String> LOCATION = 
-    new AttributeBuilder<Login, String>("location", String.class)
-    .setProperty(new Property<Login, String>() {
-        @Override
-        public String get(Login entity) {
-            return entity.location;
-        }
-
-        @Override
-        public void set(Login entity, String value) {
-            entity.location = value;
-        }
-    })
-    .setPropertyName("location")
-    .setPropertyState(new Property<Login, PropertyState>() {
-        @Override
-        public PropertyState get(Login entity) {
-            return entity.$location_state;
-        }
-
-        @Override
-        public void set(Login entity, PropertyState value) {
-            entity.$location_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final NumericAttribute<Login, Long> PUBLIC_GISTS = 
-    new AttributeBuilder<Login, Long>("publicGists", long.class)
-    .setProperty(new LongProperty<Login>() {
-        @Override
-        public Long get(Login entity) {
-            return entity.publicGists;
-        }
-
-        @Override
-        public void set(Login entity, Long value) {
-            entity.publicGists = value;
-        }
-
-        @Override
-        public long getLong(Login entity) {
-            return entity.publicGists;
-        }
-
-        @Override
-        public void setLong(Login entity, long value) {
-            entity.publicGists = value;
-        }
-    })
-    .setPropertyName("publicGists")
-    .setPropertyState(new Property<Login, PropertyState>() {
-        @Override
-        public PropertyState get(Login entity) {
-            return entity.$publicGists_state;
-        }
-
-        @Override
-        public void set(Login entity, PropertyState value) {
-            entity.$publicGists_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(false)
-    .setUnique(false)
-    .buildNumeric();
-
-    public static final QueryAttribute<Login, Boolean> SITE_ADMIN = 
-    new AttributeBuilder<Login, Boolean>("siteAdmin", boolean.class)
-    .setProperty(new BooleanProperty<Login>() {
-        @Override
-        public Boolean get(Login entity) {
-            return entity.siteAdmin;
-        }
-
-        @Override
-        public void set(Login entity, Boolean value) {
-            entity.siteAdmin = value;
-        }
-
-        @Override
-        public boolean getBoolean(Login entity) {
-            return entity.siteAdmin;
-        }
-
-        @Override
-        public void setBoolean(Login entity, boolean value) {
-            entity.siteAdmin = value;
-        }
-    })
-    .setPropertyName("siteAdmin")
-    .setPropertyState(new Property<Login, PropertyState>() {
-        @Override
-        public PropertyState get(Login entity) {
-            return entity.$siteAdmin_state;
-        }
-
-        @Override
-        public void set(Login entity, PropertyState value) {
-            entity.$siteAdmin_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(false)
-    .setUnique(false)
-    .build();
-
-    public static final QueryAttribute<Login, Boolean> HIREABLE = 
-    new AttributeBuilder<Login, Boolean>("hireable", boolean.class)
-    .setProperty(new BooleanProperty<Login>() {
-        @Override
-        public Boolean get(Login entity) {
-            return entity.hireable;
-        }
-
-        @Override
-        public void set(Login entity, Boolean value) {
-            entity.hireable = value;
-        }
-
-        @Override
-        public boolean getBoolean(Login entity) {
-            return entity.hireable;
-        }
-
-        @Override
-        public void setBoolean(Login entity, boolean value) {
-            entity.hireable = value;
-        }
-    })
-    .setPropertyName("hireable")
-    .setPropertyState(new Property<Login, PropertyState>() {
-        @Override
-        public PropertyState get(Login entity) {
-            return entity.$hireable_state;
-        }
-
-        @Override
-        public void set(Login entity, PropertyState value) {
-            entity.$hireable_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(false)
-    .setUnique(false)
-    .build();
-
-    public static final NumericAttribute<Login, Long> FOLLOWERS = 
-    new AttributeBuilder<Login, Long>("followers", long.class)
-    .setProperty(new LongProperty<Login>() {
-        @Override
-        public Long get(Login entity) {
-            return entity.followers;
-        }
-
-        @Override
-        public void set(Login entity, Long value) {
-            entity.followers = value;
-        }
-
-        @Override
-        public long getLong(Login entity) {
-            return entity.followers;
-        }
-
-        @Override
-        public void setLong(Login entity, long value) {
-            entity.followers = value;
-        }
-    })
-    .setPropertyName("followers")
-    .setPropertyState(new Property<Login, PropertyState>() {
-        @Override
-        public PropertyState get(Login entity) {
-            return entity.$followers_state;
-        }
-
-        @Override
-        public void set(Login entity, PropertyState value) {
-            entity.$followers_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(false)
-    .setUnique(false)
-    .buildNumeric();
-
     public static final StringAttribute<Login, String> GISTS_URL = 
     new AttributeBuilder<Login, String>("gistsUrl", String.class)
     .setProperty(new Property<Login, String>() {
@@ -794,70 +286,6 @@ public class Login extends AbstractLogin implements Persistable {
     .setNullable(true)
     .setUnique(false)
     .buildString();
-
-    public static final StringAttribute<Login, String> TOKEN = 
-    new AttributeBuilder<Login, String>("token", String.class)
-    .setProperty(new Property<Login, String>() {
-        @Override
-        public String get(Login entity) {
-            return entity.token;
-        }
-
-        @Override
-        public void set(Login entity, String value) {
-            entity.token = value;
-        }
-    })
-    .setPropertyName("token")
-    .setPropertyState(new Property<Login, PropertyState>() {
-        @Override
-        public PropertyState get(Login entity) {
-            return entity.$token_state;
-        }
-
-        @Override
-        public void set(Login entity, PropertyState value) {
-            entity.$token_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final NumericAttribute<Login, Date> UPDATED_AT = 
-    new AttributeBuilder<Login, Date>("updatedAt", Date.class)
-    .setProperty(new Property<Login, Date>() {
-        @Override
-        public Date get(Login entity) {
-            return entity.updatedAt;
-        }
-
-        @Override
-        public void set(Login entity, Date value) {
-            entity.updatedAt = value;
-        }
-    })
-    .setPropertyName("updatedAt")
-    .setPropertyState(new Property<Login, PropertyState>() {
-        @Override
-        public PropertyState get(Login entity) {
-            return entity.$updatedAt_state;
-        }
-
-        @Override
-        public void set(Login entity, PropertyState value) {
-            entity.$updatedAt_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildNumeric();
 
     public static final StringAttribute<Login, String> REPOS_URL = 
     new AttributeBuilder<Login, String>("reposUrl", String.class)
@@ -891,38 +319,6 @@ public class Login extends AbstractLogin implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final NumericAttribute<Login, Date> CREATED_AT = 
-    new AttributeBuilder<Login, Date>("createdAt", Date.class)
-    .setProperty(new Property<Login, Date>() {
-        @Override
-        public Date get(Login entity) {
-            return entity.createdAt;
-        }
-
-        @Override
-        public void set(Login entity, Date value) {
-            entity.createdAt = value;
-        }
-    })
-    .setPropertyName("createdAt")
-    .setPropertyState(new Property<Login, PropertyState>() {
-        @Override
-        public PropertyState get(Login entity) {
-            return entity.$createdAt_state;
-        }
-
-        @Override
-        public void set(Login entity, PropertyState value) {
-            entity.$createdAt_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildNumeric();
-
     public static final StringAttribute<Login, String> SUBSCRIPTIONS_URL = 
     new AttributeBuilder<Login, String>("subscriptionsUrl", String.class)
     .setProperty(new Property<Login, String>() {
@@ -946,144 +342,6 @@ public class Login extends AbstractLogin implements Persistable {
         @Override
         public void set(Login entity, PropertyState value) {
             entity.$subscriptionsUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final NumericAttribute<Login, Long> PUBLIC_REPOS = 
-    new AttributeBuilder<Login, Long>("publicRepos", long.class)
-    .setProperty(new LongProperty<Login>() {
-        @Override
-        public Long get(Login entity) {
-            return entity.publicRepos;
-        }
-
-        @Override
-        public void set(Login entity, Long value) {
-            entity.publicRepos = value;
-        }
-
-        @Override
-        public long getLong(Login entity) {
-            return entity.publicRepos;
-        }
-
-        @Override
-        public void setLong(Login entity, long value) {
-            entity.publicRepos = value;
-        }
-    })
-    .setPropertyName("publicRepos")
-    .setPropertyState(new Property<Login, PropertyState>() {
-        @Override
-        public PropertyState get(Login entity) {
-            return entity.$publicRepos_state;
-        }
-
-        @Override
-        public void set(Login entity, PropertyState value) {
-            entity.$publicRepos_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(false)
-    .setUnique(false)
-    .buildNumeric();
-
-    public static final StringAttribute<Login, String> URL = 
-    new AttributeBuilder<Login, String>("url", String.class)
-    .setProperty(new Property<Login, String>() {
-        @Override
-        public String get(Login entity) {
-            return entity.url;
-        }
-
-        @Override
-        public void set(Login entity, String value) {
-            entity.url = value;
-        }
-    })
-    .setPropertyName("url")
-    .setPropertyState(new Property<Login, PropertyState>() {
-        @Override
-        public PropertyState get(Login entity) {
-            return entity.$url_state;
-        }
-
-        @Override
-        public void set(Login entity, PropertyState value) {
-            entity.$url_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Login, String> FOLLOWERS_URL = 
-    new AttributeBuilder<Login, String>("followersUrl", String.class)
-    .setProperty(new Property<Login, String>() {
-        @Override
-        public String get(Login entity) {
-            return entity.followersUrl;
-        }
-
-        @Override
-        public void set(Login entity, String value) {
-            entity.followersUrl = value;
-        }
-    })
-    .setPropertyName("followersUrl")
-    .setPropertyState(new Property<Login, PropertyState>() {
-        @Override
-        public PropertyState get(Login entity) {
-            return entity.$followersUrl_state;
-        }
-
-        @Override
-        public void set(Login entity, PropertyState value) {
-            entity.$followersUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Login, String> TYPE = 
-    new AttributeBuilder<Login, String>("type", String.class)
-    .setProperty(new Property<Login, String>() {
-        @Override
-        public String get(Login entity) {
-            return entity.type;
-        }
-
-        @Override
-        public void set(Login entity, String value) {
-            entity.type = value;
-        }
-    })
-    .setPropertyName("type")
-    .setPropertyState(new Property<Login, PropertyState>() {
-        @Override
-        public PropertyState get(Login entity) {
-            return entity.$type_state;
-        }
-
-        @Override
-        public void set(Login entity, PropertyState value) {
-            entity.$type_state = value;
         }
     })
     .setGenerated(false)
@@ -1125,29 +383,29 @@ public class Login extends AbstractLogin implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final StringAttribute<Login, String> BLOG = 
-    new AttributeBuilder<Login, String>("blog", String.class)
+    public static final StringAttribute<Login, String> FOLLOWERS_URL = 
+    new AttributeBuilder<Login, String>("followersUrl", String.class)
     .setProperty(new Property<Login, String>() {
         @Override
         public String get(Login entity) {
-            return entity.blog;
+            return entity.followersUrl;
         }
 
         @Override
         public void set(Login entity, String value) {
-            entity.blog = value;
+            entity.followersUrl = value;
         }
     })
-    .setPropertyName("blog")
+    .setPropertyName("followersUrl")
     .setPropertyState(new Property<Login, PropertyState>() {
         @Override
         public PropertyState get(Login entity) {
-            return entity.$blog_state;
+            return entity.$followersUrl_state;
         }
 
         @Override
         public void set(Login entity, PropertyState value) {
-            entity.$blog_state = value;
+            entity.$followersUrl_state = value;
         }
     })
     .setGenerated(false)
@@ -1157,29 +415,61 @@ public class Login extends AbstractLogin implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final StringAttribute<Login, String> HTML_URL = 
-    new AttributeBuilder<Login, String>("htmlUrl", String.class)
+    public static final StringAttribute<Login, String> TOKEN = 
+    new AttributeBuilder<Login, String>("token", String.class)
     .setProperty(new Property<Login, String>() {
         @Override
         public String get(Login entity) {
-            return entity.htmlUrl;
+            return entity.token;
         }
 
         @Override
         public void set(Login entity, String value) {
-            entity.htmlUrl = value;
+            entity.token = value;
         }
     })
-    .setPropertyName("htmlUrl")
+    .setPropertyName("token")
     .setPropertyState(new Property<Login, PropertyState>() {
         @Override
         public PropertyState get(Login entity) {
-            return entity.$htmlUrl_state;
+            return entity.$token_state;
         }
 
         @Override
         public void set(Login entity, PropertyState value) {
-            entity.$htmlUrl_state = value;
+            entity.$token_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Login, String> EVENTS_URL = 
+    new AttributeBuilder<Login, String>("eventsUrl", String.class)
+    .setProperty(new Property<Login, String>() {
+        @Override
+        public String get(Login entity) {
+            return entity.eventsUrl;
+        }
+
+        @Override
+        public void set(Login entity, String value) {
+            entity.eventsUrl = value;
+        }
+    })
+    .setPropertyName("eventsUrl")
+    .setPropertyState(new Property<Login, PropertyState>() {
+        @Override
+        public PropertyState get(Login entity) {
+            return entity.$eventsUrl_state;
+        }
+
+        @Override
+        public void set(Login entity, PropertyState value) {
+            entity.$eventsUrl_state = value;
         }
     })
     .setGenerated(false)
@@ -1253,29 +543,739 @@ public class Login extends AbstractLogin implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final StringAttribute<Login, String> EVENTS_URL = 
-    new AttributeBuilder<Login, String>("eventsUrl", String.class)
-    .setProperty(new Property<Login, String>() {
+    public static final NumericAttribute<Login, Long> FOLLOWING = 
+    new AttributeBuilder<Login, Long>("following", long.class)
+    .setProperty(new LongProperty<Login>() {
         @Override
-        public String get(Login entity) {
-            return entity.eventsUrl;
+        public Long get(Login entity) {
+            return entity.following;
         }
 
         @Override
-        public void set(Login entity, String value) {
-            entity.eventsUrl = value;
+        public void set(Login entity, Long value) {
+            entity.following = value;
+        }
+
+        @Override
+        public long getLong(Login entity) {
+            return entity.following;
+        }
+
+        @Override
+        public void setLong(Login entity, long value) {
+            entity.following = value;
         }
     })
-    .setPropertyName("eventsUrl")
+    .setPropertyName("following")
     .setPropertyState(new Property<Login, PropertyState>() {
         @Override
         public PropertyState get(Login entity) {
-            return entity.$eventsUrl_state;
+            return entity.$following_state;
         }
 
         @Override
         public void set(Login entity, PropertyState value) {
-            entity.$eventsUrl_state = value;
+            entity.$following_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .buildNumeric();
+
+    public static final StringAttribute<Login, String> ORGANIZATIONS_URL = 
+    new AttributeBuilder<Login, String>("organizationsUrl", String.class)
+    .setProperty(new Property<Login, String>() {
+        @Override
+        public String get(Login entity) {
+            return entity.organizationsUrl;
+        }
+
+        @Override
+        public void set(Login entity, String value) {
+            entity.organizationsUrl = value;
+        }
+    })
+    .setPropertyName("organizationsUrl")
+    .setPropertyState(new Property<Login, PropertyState>() {
+        @Override
+        public PropertyState get(Login entity) {
+            return entity.$organizationsUrl_state;
+        }
+
+        @Override
+        public void set(Login entity, PropertyState value) {
+            entity.$organizationsUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Login, String> RECEIVED_EVENTS_URL = 
+    new AttributeBuilder<Login, String>("receivedEventsUrl", String.class)
+    .setProperty(new Property<Login, String>() {
+        @Override
+        public String get(Login entity) {
+            return entity.receivedEventsUrl;
+        }
+
+        @Override
+        public void set(Login entity, String value) {
+            entity.receivedEventsUrl = value;
+        }
+    })
+    .setPropertyName("receivedEventsUrl")
+    .setPropertyState(new Property<Login, PropertyState>() {
+        @Override
+        public PropertyState get(Login entity) {
+            return entity.$receivedEventsUrl_state;
+        }
+
+        @Override
+        public void set(Login entity, PropertyState value) {
+            entity.$receivedEventsUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final NumericAttribute<Login, Long> PUBLIC_REPOS = 
+    new AttributeBuilder<Login, Long>("publicRepos", long.class)
+    .setProperty(new LongProperty<Login>() {
+        @Override
+        public Long get(Login entity) {
+            return entity.publicRepos;
+        }
+
+        @Override
+        public void set(Login entity, Long value) {
+            entity.publicRepos = value;
+        }
+
+        @Override
+        public long getLong(Login entity) {
+            return entity.publicRepos;
+        }
+
+        @Override
+        public void setLong(Login entity, long value) {
+            entity.publicRepos = value;
+        }
+    })
+    .setPropertyName("publicRepos")
+    .setPropertyState(new Property<Login, PropertyState>() {
+        @Override
+        public PropertyState get(Login entity) {
+            return entity.$publicRepos_state;
+        }
+
+        @Override
+        public void set(Login entity, PropertyState value) {
+            entity.$publicRepos_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .buildNumeric();
+
+    public static final QueryAttribute<Login, Boolean> SITE_ADMIN = 
+    new AttributeBuilder<Login, Boolean>("siteAdmin", boolean.class)
+    .setProperty(new BooleanProperty<Login>() {
+        @Override
+        public Boolean get(Login entity) {
+            return entity.siteAdmin;
+        }
+
+        @Override
+        public void set(Login entity, Boolean value) {
+            entity.siteAdmin = value;
+        }
+
+        @Override
+        public boolean getBoolean(Login entity) {
+            return entity.siteAdmin;
+        }
+
+        @Override
+        public void setBoolean(Login entity, boolean value) {
+            entity.siteAdmin = value;
+        }
+    })
+    .setPropertyName("siteAdmin")
+    .setPropertyState(new Property<Login, PropertyState>() {
+        @Override
+        public PropertyState get(Login entity) {
+            return entity.$siteAdmin_state;
+        }
+
+        @Override
+        public void set(Login entity, PropertyState value) {
+            entity.$siteAdmin_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .build();
+
+    public static final StringAttribute<Login, String> TYPE = 
+    new AttributeBuilder<Login, String>("type", String.class)
+    .setProperty(new Property<Login, String>() {
+        @Override
+        public String get(Login entity) {
+            return entity.type;
+        }
+
+        @Override
+        public void set(Login entity, String value) {
+            entity.type = value;
+        }
+    })
+    .setPropertyName("type")
+    .setPropertyState(new Property<Login, PropertyState>() {
+        @Override
+        public PropertyState get(Login entity) {
+            return entity.$type_state;
+        }
+
+        @Override
+        public void set(Login entity, PropertyState value) {
+            entity.$type_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final NumericAttribute<Login, Date> UPDATED_AT = 
+    new AttributeBuilder<Login, Date>("updatedAt", Date.class)
+    .setProperty(new Property<Login, Date>() {
+        @Override
+        public Date get(Login entity) {
+            return entity.updatedAt;
+        }
+
+        @Override
+        public void set(Login entity, Date value) {
+            entity.updatedAt = value;
+        }
+    })
+    .setPropertyName("updatedAt")
+    .setPropertyState(new Property<Login, PropertyState>() {
+        @Override
+        public PropertyState get(Login entity) {
+            return entity.$updatedAt_state;
+        }
+
+        @Override
+        public void set(Login entity, PropertyState value) {
+            entity.$updatedAt_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildNumeric();
+
+    public static final StringAttribute<Login, String> STARRED_URL = 
+    new AttributeBuilder<Login, String>("starredUrl", String.class)
+    .setProperty(new Property<Login, String>() {
+        @Override
+        public String get(Login entity) {
+            return entity.starredUrl;
+        }
+
+        @Override
+        public void set(Login entity, String value) {
+            entity.starredUrl = value;
+        }
+    })
+    .setPropertyName("starredUrl")
+    .setPropertyState(new Property<Login, PropertyState>() {
+        @Override
+        public PropertyState get(Login entity) {
+            return entity.$starredUrl_state;
+        }
+
+        @Override
+        public void set(Login entity, PropertyState value) {
+            entity.$starredUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Login, String> BIO = 
+    new AttributeBuilder<Login, String>("bio", String.class)
+    .setProperty(new Property<Login, String>() {
+        @Override
+        public String get(Login entity) {
+            return entity.bio;
+        }
+
+        @Override
+        public void set(Login entity, String value) {
+            entity.bio = value;
+        }
+    })
+    .setPropertyName("bio")
+    .setPropertyState(new Property<Login, PropertyState>() {
+        @Override
+        public PropertyState get(Login entity) {
+            return entity.$bio_state;
+        }
+
+        @Override
+        public void set(Login entity, PropertyState value) {
+            entity.$bio_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Login, String> LOCATION = 
+    new AttributeBuilder<Login, String>("location", String.class)
+    .setProperty(new Property<Login, String>() {
+        @Override
+        public String get(Login entity) {
+            return entity.location;
+        }
+
+        @Override
+        public void set(Login entity, String value) {
+            entity.location = value;
+        }
+    })
+    .setPropertyName("location")
+    .setPropertyState(new Property<Login, PropertyState>() {
+        @Override
+        public PropertyState get(Login entity) {
+            return entity.$location_state;
+        }
+
+        @Override
+        public void set(Login entity, PropertyState value) {
+            entity.$location_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final QueryAttribute<Login, Boolean> HIREABLE = 
+    new AttributeBuilder<Login, Boolean>("hireable", boolean.class)
+    .setProperty(new BooleanProperty<Login>() {
+        @Override
+        public Boolean get(Login entity) {
+            return entity.hireable;
+        }
+
+        @Override
+        public void set(Login entity, Boolean value) {
+            entity.hireable = value;
+        }
+
+        @Override
+        public boolean getBoolean(Login entity) {
+            return entity.hireable;
+        }
+
+        @Override
+        public void setBoolean(Login entity, boolean value) {
+            entity.hireable = value;
+        }
+    })
+    .setPropertyName("hireable")
+    .setPropertyState(new Property<Login, PropertyState>() {
+        @Override
+        public PropertyState get(Login entity) {
+            return entity.$hireable_state;
+        }
+
+        @Override
+        public void set(Login entity, PropertyState value) {
+            entity.$hireable_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .build();
+
+    public static final NumericAttribute<Login, Long> PUBLIC_GISTS = 
+    new AttributeBuilder<Login, Long>("publicGists", long.class)
+    .setProperty(new LongProperty<Login>() {
+        @Override
+        public Long get(Login entity) {
+            return entity.publicGists;
+        }
+
+        @Override
+        public void set(Login entity, Long value) {
+            entity.publicGists = value;
+        }
+
+        @Override
+        public long getLong(Login entity) {
+            return entity.publicGists;
+        }
+
+        @Override
+        public void setLong(Login entity, long value) {
+            entity.publicGists = value;
+        }
+    })
+    .setPropertyName("publicGists")
+    .setPropertyState(new Property<Login, PropertyState>() {
+        @Override
+        public PropertyState get(Login entity) {
+            return entity.$publicGists_state;
+        }
+
+        @Override
+        public void set(Login entity, PropertyState value) {
+            entity.$publicGists_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .buildNumeric();
+
+    public static final StringAttribute<Login, String> HTML_URL = 
+    new AttributeBuilder<Login, String>("htmlUrl", String.class)
+    .setProperty(new Property<Login, String>() {
+        @Override
+        public String get(Login entity) {
+            return entity.htmlUrl;
+        }
+
+        @Override
+        public void set(Login entity, String value) {
+            entity.htmlUrl = value;
+        }
+    })
+    .setPropertyName("htmlUrl")
+    .setPropertyState(new Property<Login, PropertyState>() {
+        @Override
+        public PropertyState get(Login entity) {
+            return entity.$htmlUrl_state;
+        }
+
+        @Override
+        public void set(Login entity, PropertyState value) {
+            entity.$htmlUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Login, String> EMAIL = 
+    new AttributeBuilder<Login, String>("email", String.class)
+    .setProperty(new Property<Login, String>() {
+        @Override
+        public String get(Login entity) {
+            return entity.email;
+        }
+
+        @Override
+        public void set(Login entity, String value) {
+            entity.email = value;
+        }
+    })
+    .setPropertyName("email")
+    .setPropertyState(new Property<Login, PropertyState>() {
+        @Override
+        public PropertyState get(Login entity) {
+            return entity.$email_state;
+        }
+
+        @Override
+        public void set(Login entity, PropertyState value) {
+            entity.$email_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final NumericAttribute<Login, Date> CREATED_AT = 
+    new AttributeBuilder<Login, Date>("createdAt", Date.class)
+    .setProperty(new Property<Login, Date>() {
+        @Override
+        public Date get(Login entity) {
+            return entity.createdAt;
+        }
+
+        @Override
+        public void set(Login entity, Date value) {
+            entity.createdAt = value;
+        }
+    })
+    .setPropertyName("createdAt")
+    .setPropertyState(new Property<Login, PropertyState>() {
+        @Override
+        public PropertyState get(Login entity) {
+            return entity.$createdAt_state;
+        }
+
+        @Override
+        public void set(Login entity, PropertyState value) {
+            entity.$createdAt_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildNumeric();
+
+    public static final StringAttribute<Login, String> BLOG = 
+    new AttributeBuilder<Login, String>("blog", String.class)
+    .setProperty(new Property<Login, String>() {
+        @Override
+        public String get(Login entity) {
+            return entity.blog;
+        }
+
+        @Override
+        public void set(Login entity, String value) {
+            entity.blog = value;
+        }
+    })
+    .setPropertyName("blog")
+    .setPropertyState(new Property<Login, PropertyState>() {
+        @Override
+        public PropertyState get(Login entity) {
+            return entity.$blog_state;
+        }
+
+        @Override
+        public void set(Login entity, PropertyState value) {
+            entity.$blog_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final NumericAttribute<Login, Long> FOLLOWERS = 
+    new AttributeBuilder<Login, Long>("followers", long.class)
+    .setProperty(new LongProperty<Login>() {
+        @Override
+        public Long get(Login entity) {
+            return entity.followers;
+        }
+
+        @Override
+        public void set(Login entity, Long value) {
+            entity.followers = value;
+        }
+
+        @Override
+        public long getLong(Login entity) {
+            return entity.followers;
+        }
+
+        @Override
+        public void setLong(Login entity, long value) {
+            entity.followers = value;
+        }
+    })
+    .setPropertyName("followers")
+    .setPropertyState(new Property<Login, PropertyState>() {
+        @Override
+        public PropertyState get(Login entity) {
+            return entity.$followers_state;
+        }
+
+        @Override
+        public void set(Login entity, PropertyState value) {
+            entity.$followers_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .buildNumeric();
+
+    public static final StringAttribute<Login, String> AVATAR_URL = 
+    new AttributeBuilder<Login, String>("avatarUrl", String.class)
+    .setProperty(new Property<Login, String>() {
+        @Override
+        public String get(Login entity) {
+            return entity.avatarUrl;
+        }
+
+        @Override
+        public void set(Login entity, String value) {
+            entity.avatarUrl = value;
+        }
+    })
+    .setPropertyName("avatarUrl")
+    .setPropertyState(new Property<Login, PropertyState>() {
+        @Override
+        public PropertyState get(Login entity) {
+            return entity.$avatarUrl_state;
+        }
+
+        @Override
+        public void set(Login entity, PropertyState value) {
+            entity.$avatarUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final NumericAttribute<Login, Integer> CONTRIBUTIONS = 
+    new AttributeBuilder<Login, Integer>("contributions", int.class)
+    .setProperty(new IntProperty<Login>() {
+        @Override
+        public Integer get(Login entity) {
+            return entity.contributions;
+        }
+
+        @Override
+        public void set(Login entity, Integer value) {
+            entity.contributions = value;
+        }
+
+        @Override
+        public int getInt(Login entity) {
+            return entity.contributions;
+        }
+
+        @Override
+        public void setInt(Login entity, int value) {
+            entity.contributions = value;
+        }
+    })
+    .setPropertyName("contributions")
+    .setPropertyState(new Property<Login, PropertyState>() {
+        @Override
+        public PropertyState get(Login entity) {
+            return entity.$contributions_state;
+        }
+
+        @Override
+        public void set(Login entity, PropertyState value) {
+            entity.$contributions_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .buildNumeric();
+
+    public static final StringAttribute<Login, String> URL = 
+    new AttributeBuilder<Login, String>("url", String.class)
+    .setProperty(new Property<Login, String>() {
+        @Override
+        public String get(Login entity) {
+            return entity.url;
+        }
+
+        @Override
+        public void set(Login entity, String value) {
+            entity.url = value;
+        }
+    })
+    .setPropertyName("url")
+    .setPropertyState(new Property<Login, PropertyState>() {
+        @Override
+        public PropertyState get(Login entity) {
+            return entity.$url_state;
+        }
+
+        @Override
+        public void set(Login entity, PropertyState value) {
+            entity.$url_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Login, String> GRAVATAR_ID = 
+    new AttributeBuilder<Login, String>("gravatarId", String.class)
+    .setProperty(new Property<Login, String>() {
+        @Override
+        public String get(Login entity) {
+            return entity.gravatarId;
+        }
+
+        @Override
+        public void set(Login entity, String value) {
+            entity.gravatarId = value;
+        }
+    })
+    .setPropertyName("gravatarId")
+    .setPropertyState(new Property<Login, PropertyState>() {
+        @Override
+        public PropertyState get(Login entity) {
+            return entity.$gravatarId_state;
+        }
+
+        @Override
+        public void set(Login entity, PropertyState value) {
+            entity.$gravatarId_state = value;
         }
     })
     .setGenerated(false)
@@ -1304,8 +1304,8 @@ public class Login extends AbstractLogin implements Persistable {
             return entity.$proxy;
         }
     })
-    .addAttribute(LOCATION)
     .addAttribute(SUBSCRIPTIONS_URL)
+    .addAttribute(LOCATION)
     .addAttribute(CREATED_AT)
     .addAttribute(OTP_CODE)
     .addAttribute(STARRED_URL)
@@ -1321,19 +1321,19 @@ public class Login extends AbstractLogin implements Persistable {
     .addAttribute(UPDATED_AT)
     .addAttribute(ID)
     .addAttribute(HTML_URL)
-    .addAttribute(AVATAR_URL)
     .addAttribute(EVENTS_URL)
+    .addAttribute(AVATAR_URL)
     .addAttribute(ENTERPRISE_URL)
-    .addAttribute(HIREABLE)
     .addAttribute(TOKEN)
     .addAttribute(TYPE)
+    .addAttribute(HIREABLE)
     .addAttribute(IS_LOGGED_IN)
     .addAttribute(PUBLIC_REPOS)
     .addAttribute(SITE_ADMIN)
     .addAttribute(BIO)
     .addAttribute(GISTS_URL)
-    .addAttribute(CONTRIBUTIONS)
     .addAttribute(REPOS_URL)
+    .addAttribute(CONTRIBUTIONS)
     .addAttribute(ORGANIZATIONS_URL)
     .addAttribute(COMPANY)
     .addAttribute(NAME)
@@ -1354,65 +1354,65 @@ public class Login extends AbstractLogin implements Persistable {
 
     private PropertyState $login_state;
 
-    private PropertyState $gravatarId_state;
-
-    private PropertyState $receivedEventsUrl_state;
-
-    private PropertyState $bio_state;
-
-    private PropertyState $following_state;
-
-    private PropertyState $contributions_state;
-
-    private PropertyState $avatarUrl_state;
-
-    private PropertyState $email_state;
-
-    private PropertyState $starredUrl_state;
-
-    private PropertyState $organizationsUrl_state;
-
-    private PropertyState $location_state;
-
-    private PropertyState $publicGists_state;
-
-    private PropertyState $siteAdmin_state;
-
-    private PropertyState $hireable_state;
-
-    private PropertyState $followers_state;
-
     private PropertyState $gistsUrl_state;
-
-    private PropertyState $token_state;
-
-    private PropertyState $updatedAt_state;
 
     private PropertyState $reposUrl_state;
 
-    private PropertyState $createdAt_state;
-
     private PropertyState $subscriptionsUrl_state;
-
-    private PropertyState $publicRepos_state;
-
-    private PropertyState $url_state;
-
-    private PropertyState $followersUrl_state;
-
-    private PropertyState $type_state;
 
     private PropertyState $company_state;
 
-    private PropertyState $blog_state;
+    private PropertyState $followersUrl_state;
 
-    private PropertyState $htmlUrl_state;
+    private PropertyState $token_state;
+
+    private PropertyState $eventsUrl_state;
 
     private PropertyState $name_state;
 
     private PropertyState $followingUrl_state;
 
-    private PropertyState $eventsUrl_state;
+    private PropertyState $following_state;
+
+    private PropertyState $organizationsUrl_state;
+
+    private PropertyState $receivedEventsUrl_state;
+
+    private PropertyState $publicRepos_state;
+
+    private PropertyState $siteAdmin_state;
+
+    private PropertyState $type_state;
+
+    private PropertyState $updatedAt_state;
+
+    private PropertyState $starredUrl_state;
+
+    private PropertyState $bio_state;
+
+    private PropertyState $location_state;
+
+    private PropertyState $hireable_state;
+
+    private PropertyState $publicGists_state;
+
+    private PropertyState $htmlUrl_state;
+
+    private PropertyState $email_state;
+
+    private PropertyState $createdAt_state;
+
+    private PropertyState $blog_state;
+
+    private PropertyState $followers_state;
+
+    private PropertyState $avatarUrl_state;
+
+    private PropertyState $contributions_state;
+
+    private PropertyState $url_state;
+
+    private PropertyState $gravatarId_state;
 
     private final transient EntityProxy<Login> $proxy = new EntityProxy<Login>(this, $TYPE);
 
@@ -1471,140 +1471,12 @@ public class Login extends AbstractLogin implements Persistable {
         $proxy.set(LOGIN, login);
     }
 
-    public String getGravatarId() {
-        return $proxy.get(GRAVATAR_ID);
-    }
-
-    public void setGravatarId(String gravatarId) {
-        $proxy.set(GRAVATAR_ID, gravatarId);
-    }
-
-    public String getReceivedEventsUrl() {
-        return $proxy.get(RECEIVED_EVENTS_URL);
-    }
-
-    public void setReceivedEventsUrl(String receivedEventsUrl) {
-        $proxy.set(RECEIVED_EVENTS_URL, receivedEventsUrl);
-    }
-
-    public String getBio() {
-        return $proxy.get(BIO);
-    }
-
-    public void setBio(String bio) {
-        $proxy.set(BIO, bio);
-    }
-
-    public long getFollowing() {
-        return $proxy.get(FOLLOWING);
-    }
-
-    public void setFollowing(long following) {
-        $proxy.set(FOLLOWING, following);
-    }
-
-    public int getContributions() {
-        return $proxy.get(CONTRIBUTIONS);
-    }
-
-    public void setContributions(int contributions) {
-        $proxy.set(CONTRIBUTIONS, contributions);
-    }
-
-    public String getAvatarUrl() {
-        return $proxy.get(AVATAR_URL);
-    }
-
-    public void setAvatarUrl(String avatarUrl) {
-        $proxy.set(AVATAR_URL, avatarUrl);
-    }
-
-    public String getEmail() {
-        return $proxy.get(EMAIL);
-    }
-
-    public void setEmail(String email) {
-        $proxy.set(EMAIL, email);
-    }
-
-    public String getStarredUrl() {
-        return $proxy.get(STARRED_URL);
-    }
-
-    public void setStarredUrl(String starredUrl) {
-        $proxy.set(STARRED_URL, starredUrl);
-    }
-
-    public String getOrganizationsUrl() {
-        return $proxy.get(ORGANIZATIONS_URL);
-    }
-
-    public void setOrganizationsUrl(String organizationsUrl) {
-        $proxy.set(ORGANIZATIONS_URL, organizationsUrl);
-    }
-
-    public String getLocation() {
-        return $proxy.get(LOCATION);
-    }
-
-    public void setLocation(String location) {
-        $proxy.set(LOCATION, location);
-    }
-
-    public long getPublicGists() {
-        return $proxy.get(PUBLIC_GISTS);
-    }
-
-    public void setPublicGists(long publicGists) {
-        $proxy.set(PUBLIC_GISTS, publicGists);
-    }
-
-    public boolean isSiteAdmin() {
-        return $proxy.get(SITE_ADMIN);
-    }
-
-    public void setSiteAdmin(boolean siteAdmin) {
-        $proxy.set(SITE_ADMIN, siteAdmin);
-    }
-
-    public boolean isHireable() {
-        return $proxy.get(HIREABLE);
-    }
-
-    public void setHireable(boolean hireable) {
-        $proxy.set(HIREABLE, hireable);
-    }
-
-    public long getFollowers() {
-        return $proxy.get(FOLLOWERS);
-    }
-
-    public void setFollowers(long followers) {
-        $proxy.set(FOLLOWERS, followers);
-    }
-
     public String getGistsUrl() {
         return $proxy.get(GISTS_URL);
     }
 
     public void setGistsUrl(String gistsUrl) {
         $proxy.set(GISTS_URL, gistsUrl);
-    }
-
-    public String getToken() {
-        return $proxy.get(TOKEN);
-    }
-
-    public void setToken(String token) {
-        $proxy.set(TOKEN, token);
-    }
-
-    public Date getUpdatedAt() {
-        return $proxy.get(UPDATED_AT);
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        $proxy.set(UPDATED_AT, updatedAt);
     }
 
     public String getReposUrl() {
@@ -1615,52 +1487,12 @@ public class Login extends AbstractLogin implements Persistable {
         $proxy.set(REPOS_URL, reposUrl);
     }
 
-    public Date getCreatedAt() {
-        return $proxy.get(CREATED_AT);
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        $proxy.set(CREATED_AT, createdAt);
-    }
-
     public String getSubscriptionsUrl() {
         return $proxy.get(SUBSCRIPTIONS_URL);
     }
 
     public void setSubscriptionsUrl(String subscriptionsUrl) {
         $proxy.set(SUBSCRIPTIONS_URL, subscriptionsUrl);
-    }
-
-    public long getPublicRepos() {
-        return $proxy.get(PUBLIC_REPOS);
-    }
-
-    public void setPublicRepos(long publicRepos) {
-        $proxy.set(PUBLIC_REPOS, publicRepos);
-    }
-
-    public String getUrl() {
-        return $proxy.get(URL);
-    }
-
-    public void setUrl(String url) {
-        $proxy.set(URL, url);
-    }
-
-    public String getFollowersUrl() {
-        return $proxy.get(FOLLOWERS_URL);
-    }
-
-    public void setFollowersUrl(String followersUrl) {
-        $proxy.set(FOLLOWERS_URL, followersUrl);
-    }
-
-    public String getType() {
-        return $proxy.get(TYPE);
-    }
-
-    public void setType(String type) {
-        $proxy.set(TYPE, type);
     }
 
     public String getCompany() {
@@ -1671,20 +1503,28 @@ public class Login extends AbstractLogin implements Persistable {
         $proxy.set(COMPANY, company);
     }
 
-    public String getBlog() {
-        return $proxy.get(BLOG);
+    public String getFollowersUrl() {
+        return $proxy.get(FOLLOWERS_URL);
     }
 
-    public void setBlog(String blog) {
-        $proxy.set(BLOG, blog);
+    public void setFollowersUrl(String followersUrl) {
+        $proxy.set(FOLLOWERS_URL, followersUrl);
     }
 
-    public String getHtmlUrl() {
-        return $proxy.get(HTML_URL);
+    public String getToken() {
+        return $proxy.get(TOKEN);
     }
 
-    public void setHtmlUrl(String htmlUrl) {
-        $proxy.set(HTML_URL, htmlUrl);
+    public void setToken(String token) {
+        $proxy.set(TOKEN, token);
+    }
+
+    public String getEventsUrl() {
+        return $proxy.get(EVENTS_URL);
+    }
+
+    public void setEventsUrl(String eventsUrl) {
+        $proxy.set(EVENTS_URL, eventsUrl);
     }
 
     public String getName() {
@@ -1703,12 +1543,172 @@ public class Login extends AbstractLogin implements Persistable {
         $proxy.set(FOLLOWING_URL, followingUrl);
     }
 
-    public String getEventsUrl() {
-        return $proxy.get(EVENTS_URL);
+    public long getFollowing() {
+        return $proxy.get(FOLLOWING);
     }
 
-    public void setEventsUrl(String eventsUrl) {
-        $proxy.set(EVENTS_URL, eventsUrl);
+    public void setFollowing(long following) {
+        $proxy.set(FOLLOWING, following);
+    }
+
+    public String getOrganizationsUrl() {
+        return $proxy.get(ORGANIZATIONS_URL);
+    }
+
+    public void setOrganizationsUrl(String organizationsUrl) {
+        $proxy.set(ORGANIZATIONS_URL, organizationsUrl);
+    }
+
+    public String getReceivedEventsUrl() {
+        return $proxy.get(RECEIVED_EVENTS_URL);
+    }
+
+    public void setReceivedEventsUrl(String receivedEventsUrl) {
+        $proxy.set(RECEIVED_EVENTS_URL, receivedEventsUrl);
+    }
+
+    public long getPublicRepos() {
+        return $proxy.get(PUBLIC_REPOS);
+    }
+
+    public void setPublicRepos(long publicRepos) {
+        $proxy.set(PUBLIC_REPOS, publicRepos);
+    }
+
+    public boolean isSiteAdmin() {
+        return $proxy.get(SITE_ADMIN);
+    }
+
+    public void setSiteAdmin(boolean siteAdmin) {
+        $proxy.set(SITE_ADMIN, siteAdmin);
+    }
+
+    public String getType() {
+        return $proxy.get(TYPE);
+    }
+
+    public void setType(String type) {
+        $proxy.set(TYPE, type);
+    }
+
+    public Date getUpdatedAt() {
+        return $proxy.get(UPDATED_AT);
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        $proxy.set(UPDATED_AT, updatedAt);
+    }
+
+    public String getStarredUrl() {
+        return $proxy.get(STARRED_URL);
+    }
+
+    public void setStarredUrl(String starredUrl) {
+        $proxy.set(STARRED_URL, starredUrl);
+    }
+
+    public String getBio() {
+        return $proxy.get(BIO);
+    }
+
+    public void setBio(String bio) {
+        $proxy.set(BIO, bio);
+    }
+
+    public String getLocation() {
+        return $proxy.get(LOCATION);
+    }
+
+    public void setLocation(String location) {
+        $proxy.set(LOCATION, location);
+    }
+
+    public boolean isHireable() {
+        return $proxy.get(HIREABLE);
+    }
+
+    public void setHireable(boolean hireable) {
+        $proxy.set(HIREABLE, hireable);
+    }
+
+    public long getPublicGists() {
+        return $proxy.get(PUBLIC_GISTS);
+    }
+
+    public void setPublicGists(long publicGists) {
+        $proxy.set(PUBLIC_GISTS, publicGists);
+    }
+
+    public String getHtmlUrl() {
+        return $proxy.get(HTML_URL);
+    }
+
+    public void setHtmlUrl(String htmlUrl) {
+        $proxy.set(HTML_URL, htmlUrl);
+    }
+
+    public String getEmail() {
+        return $proxy.get(EMAIL);
+    }
+
+    public void setEmail(String email) {
+        $proxy.set(EMAIL, email);
+    }
+
+    public Date getCreatedAt() {
+        return $proxy.get(CREATED_AT);
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        $proxy.set(CREATED_AT, createdAt);
+    }
+
+    public String getBlog() {
+        return $proxy.get(BLOG);
+    }
+
+    public void setBlog(String blog) {
+        $proxy.set(BLOG, blog);
+    }
+
+    public long getFollowers() {
+        return $proxy.get(FOLLOWERS);
+    }
+
+    public void setFollowers(long followers) {
+        $proxy.set(FOLLOWERS, followers);
+    }
+
+    public String getAvatarUrl() {
+        return $proxy.get(AVATAR_URL);
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        $proxy.set(AVATAR_URL, avatarUrl);
+    }
+
+    public int getContributions() {
+        return $proxy.get(CONTRIBUTIONS);
+    }
+
+    public void setContributions(int contributions) {
+        $proxy.set(CONTRIBUTIONS, contributions);
+    }
+
+    public String getUrl() {
+        return $proxy.get(URL);
+    }
+
+    public void setUrl(String url) {
+        $proxy.set(URL, url);
+    }
+
+    public String getGravatarId() {
+        return $proxy.get(GRAVATAR_ID);
+    }
+
+    public void setGravatarId(String gravatarId) {
+        $proxy.set(GRAVATAR_ID, gravatarId);
     }
 
     @Override

@@ -100,6 +100,38 @@ public class ViewerFile extends AbstractViewerFile implements Persistable {
     .setUnique(true)
     .buildString();
 
+    public static final StringAttribute<ViewerFile, String> CONTENT = 
+    new AttributeBuilder<ViewerFile, String>("content", String.class)
+    .setProperty(new Property<ViewerFile, String>() {
+        @Override
+        public String get(ViewerFile entity) {
+            return entity.content;
+        }
+
+        @Override
+        public void set(ViewerFile entity, String value) {
+            entity.content = value;
+        }
+    })
+    .setPropertyName("content")
+    .setPropertyState(new Property<ViewerFile, PropertyState>() {
+        @Override
+        public PropertyState get(ViewerFile entity) {
+            return entity.$content_state;
+        }
+
+        @Override
+        public void set(ViewerFile entity, PropertyState value) {
+            entity.$content_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
     public static final QueryAttribute<ViewerFile, Boolean> REPO = 
     new AttributeBuilder<ViewerFile, Boolean>("repo", boolean.class)
     .setProperty(new BooleanProperty<ViewerFile>() {
@@ -184,38 +216,6 @@ public class ViewerFile extends AbstractViewerFile implements Persistable {
     .setUnique(false)
     .build();
 
-    public static final StringAttribute<ViewerFile, String> CONTENT = 
-    new AttributeBuilder<ViewerFile, String>("content", String.class)
-    .setProperty(new Property<ViewerFile, String>() {
-        @Override
-        public String get(ViewerFile entity) {
-            return entity.content;
-        }
-
-        @Override
-        public void set(ViewerFile entity, String value) {
-            entity.content = value;
-        }
-    })
-    .setPropertyName("content")
-    .setPropertyState(new Property<ViewerFile, PropertyState>() {
-        @Override
-        public PropertyState get(ViewerFile entity) {
-            return entity.$content_state;
-        }
-
-        @Override
-        public void set(ViewerFile entity, PropertyState value) {
-            entity.$content_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
     public static final Type<ViewerFile> $TYPE = new TypeBuilder<ViewerFile>(ViewerFile.class, "ViewerFile")
     .setBaseType(AbstractViewerFile.class)
     .setCacheable(true)
@@ -246,11 +246,11 @@ public class ViewerFile extends AbstractViewerFile implements Persistable {
 
     private PropertyState $fullUrl_state;
 
+    private PropertyState $content_state;
+
     private PropertyState $repo_state;
 
     private PropertyState $markdown_state;
-
-    private PropertyState $content_state;
 
     private final transient EntityProxy<ViewerFile> $proxy = new EntityProxy<ViewerFile>(this, $TYPE);
 
@@ -273,6 +273,14 @@ public class ViewerFile extends AbstractViewerFile implements Persistable {
         $proxy.set(FULL_URL, fullUrl);
     }
 
+    public String getContent() {
+        return $proxy.get(CONTENT);
+    }
+
+    public void setContent(String content) {
+        $proxy.set(CONTENT, content);
+    }
+
     public boolean isRepo() {
         return $proxy.get(REPO);
     }
@@ -287,14 +295,6 @@ public class ViewerFile extends AbstractViewerFile implements Persistable {
 
     public void setMarkdown(boolean markdown) {
         $proxy.set(MARKDOWN, markdown);
-    }
-
-    public String getContent() {
-        return $proxy.get(CONTENT);
-    }
-
-    public void setContent(String content) {
-        $proxy.set(CONTENT, content);
     }
 
     @Override

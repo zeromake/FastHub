@@ -136,6 +136,70 @@ public class Release extends AbstractRelease implements Persistable {
     .setConverter(new com.fastaccess.data.dao.converters.ReleasesAssetsConverter())
     .build();
 
+    public static final StringAttribute<Release, String> ASSETS_URL = 
+    new AttributeBuilder<Release, String>("assetsUrl", String.class)
+    .setProperty(new Property<Release, String>() {
+        @Override
+        public String get(Release entity) {
+            return entity.assetsUrl;
+        }
+
+        @Override
+        public void set(Release entity, String value) {
+            entity.assetsUrl = value;
+        }
+    })
+    .setPropertyName("assetsUrl")
+    .setPropertyState(new Property<Release, PropertyState>() {
+        @Override
+        public PropertyState get(Release entity) {
+            return entity.$assetsUrl_state;
+        }
+
+        @Override
+        public void set(Release entity, PropertyState value) {
+            entity.$assetsUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final NumericAttribute<Release, Date> CREATED_AT = 
+    new AttributeBuilder<Release, Date>("createdAt", Date.class)
+    .setProperty(new Property<Release, Date>() {
+        @Override
+        public Date get(Release entity) {
+            return entity.createdAt;
+        }
+
+        @Override
+        public void set(Release entity, Date value) {
+            entity.createdAt = value;
+        }
+    })
+    .setPropertyName("createdAt")
+    .setPropertyState(new Property<Release, PropertyState>() {
+        @Override
+        public PropertyState get(Release entity) {
+            return entity.$createdAt_state;
+        }
+
+        @Override
+        public void set(Release entity, PropertyState value) {
+            entity.$createdAt_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildNumeric();
+
     public static final StringAttribute<Release, String> TARGET_COMMITISH = 
     new AttributeBuilder<Release, String>("targetCommitish", String.class)
     .setProperty(new Property<Release, String>() {
@@ -168,6 +232,230 @@ public class Release extends AbstractRelease implements Persistable {
     .setUnique(false)
     .buildString();
 
+    public static final StringAttribute<Release, String> URL = 
+    new AttributeBuilder<Release, String>("url", String.class)
+    .setProperty(new Property<Release, String>() {
+        @Override
+        public String get(Release entity) {
+            return entity.url;
+        }
+
+        @Override
+        public void set(Release entity, String value) {
+            entity.url = value;
+        }
+    })
+    .setPropertyName("url")
+    .setPropertyState(new Property<Release, PropertyState>() {
+        @Override
+        public PropertyState get(Release entity) {
+            return entity.$url_state;
+        }
+
+        @Override
+        public void set(Release entity, PropertyState value) {
+            entity.$url_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Release, String> TAG_NAME = 
+    new AttributeBuilder<Release, String>("tagName", String.class)
+    .setProperty(new Property<Release, String>() {
+        @Override
+        public String get(Release entity) {
+            return entity.tagName;
+        }
+
+        @Override
+        public void set(Release entity, String value) {
+            entity.tagName = value;
+        }
+    })
+    .setPropertyName("tagName")
+    .setPropertyState(new Property<Release, PropertyState>() {
+        @Override
+        public PropertyState get(Release entity) {
+            return entity.$tagName_state;
+        }
+
+        @Override
+        public void set(Release entity, PropertyState value) {
+            entity.$tagName_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Release, String> BODY = 
+    new AttributeBuilder<Release, String>("body", String.class)
+    .setProperty(new Property<Release, String>() {
+        @Override
+        public String get(Release entity) {
+            return entity.body;
+        }
+
+        @Override
+        public void set(Release entity, String value) {
+            entity.body = value;
+        }
+    })
+    .setPropertyName("body")
+    .setPropertyState(new Property<Release, PropertyState>() {
+        @Override
+        public PropertyState get(Release entity) {
+            return entity.$body_state;
+        }
+
+        @Override
+        public void set(Release entity, PropertyState value) {
+            entity.$body_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Release, String> HTML_URL = 
+    new AttributeBuilder<Release, String>("htmlUrl", String.class)
+    .setProperty(new Property<Release, String>() {
+        @Override
+        public String get(Release entity) {
+            return entity.htmlUrl;
+        }
+
+        @Override
+        public void set(Release entity, String value) {
+            entity.htmlUrl = value;
+        }
+    })
+    .setPropertyName("htmlUrl")
+    .setPropertyState(new Property<Release, PropertyState>() {
+        @Override
+        public PropertyState get(Release entity) {
+            return entity.$htmlUrl_state;
+        }
+
+        @Override
+        public void set(Release entity, PropertyState value) {
+            entity.$htmlUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Release, String> NAME = 
+    new AttributeBuilder<Release, String>("name", String.class)
+    .setProperty(new Property<Release, String>() {
+        @Override
+        public String get(Release entity) {
+            return entity.name;
+        }
+
+        @Override
+        public void set(Release entity, String value) {
+            entity.name = value;
+        }
+    })
+    .setPropertyName("name")
+    .setPropertyState(new Property<Release, PropertyState>() {
+        @Override
+        public PropertyState get(Release entity) {
+            return entity.$name_state;
+        }
+
+        @Override
+        public void set(Release entity, PropertyState value) {
+            entity.$name_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Release, String> LOGIN = 
+    new AttributeBuilder<Release, String>("login", String.class)
+    .setProperty(new Property<Release, String>() {
+        @Override
+        public String get(Release entity) {
+            return entity.login;
+        }
+
+        @Override
+        public void set(Release entity, String value) {
+            entity.login = value;
+        }
+    })
+    .setPropertyName("login")
+    .setPropertyState(new Property<Release, PropertyState>() {
+        @Override
+        public PropertyState get(Release entity) {
+            return entity.$login_state;
+        }
+
+        @Override
+        public void set(Release entity, PropertyState value) {
+            entity.$login_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final NumericAttribute<Release, Date> PUBLISHED_AT = 
+    new AttributeBuilder<Release, Date>("publishedAt", Date.class)
+    .setProperty(new Property<Release, Date>() {
+        @Override
+        public Date get(Release entity) {
+            return entity.publishedAt;
+        }
+
+        @Override
+        public void set(Release entity, Date value) {
+            entity.publishedAt = value;
+        }
+    })
+    .setPropertyName("publishedAt")
+    .setPropertyState(new Property<Release, PropertyState>() {
+        @Override
+        public PropertyState get(Release entity) {
+            return entity.$publishedAt_state;
+        }
+
+        @Override
+        public void set(Release entity, PropertyState value) {
+            entity.$publishedAt_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildNumeric();
+
     public static final StringAttribute<Release, String> TARBALL_URL = 
     new AttributeBuilder<Release, String>("tarballUrl", String.class)
     .setProperty(new Property<Release, String>() {
@@ -191,6 +479,38 @@ public class Release extends AbstractRelease implements Persistable {
         @Override
         public void set(Release entity, PropertyState value) {
             entity.$tarballUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Release, String> REPO_ID = 
+    new AttributeBuilder<Release, String>("repoId", String.class)
+    .setProperty(new Property<Release, String>() {
+        @Override
+        public String get(Release entity) {
+            return entity.repoId;
+        }
+
+        @Override
+        public void set(Release entity, String value) {
+            entity.repoId = value;
+        }
+    })
+    .setPropertyName("repoId")
+    .setPropertyState(new Property<Release, PropertyState>() {
+        @Override
+        public PropertyState get(Release entity) {
+            return entity.$repoId_state;
+        }
+
+        @Override
+        public void set(Release entity, PropertyState value) {
+            entity.$repoId_state = value;
         }
     })
     .setGenerated(false)
@@ -274,326 +594,6 @@ public class Release extends AbstractRelease implements Persistable {
     .setUnique(false)
     .build();
 
-    public static final StringAttribute<Release, String> TAG_NAME = 
-    new AttributeBuilder<Release, String>("tagName", String.class)
-    .setProperty(new Property<Release, String>() {
-        @Override
-        public String get(Release entity) {
-            return entity.tagName;
-        }
-
-        @Override
-        public void set(Release entity, String value) {
-            entity.tagName = value;
-        }
-    })
-    .setPropertyName("tagName")
-    .setPropertyState(new Property<Release, PropertyState>() {
-        @Override
-        public PropertyState get(Release entity) {
-            return entity.$tagName_state;
-        }
-
-        @Override
-        public void set(Release entity, PropertyState value) {
-            entity.$tagName_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Release, String> LOGIN = 
-    new AttributeBuilder<Release, String>("login", String.class)
-    .setProperty(new Property<Release, String>() {
-        @Override
-        public String get(Release entity) {
-            return entity.login;
-        }
-
-        @Override
-        public void set(Release entity, String value) {
-            entity.login = value;
-        }
-    })
-    .setPropertyName("login")
-    .setPropertyState(new Property<Release, PropertyState>() {
-        @Override
-        public PropertyState get(Release entity) {
-            return entity.$login_state;
-        }
-
-        @Override
-        public void set(Release entity, PropertyState value) {
-            entity.$login_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final NumericAttribute<Release, Date> CREATED_AT = 
-    new AttributeBuilder<Release, Date>("createdAt", Date.class)
-    .setProperty(new Property<Release, Date>() {
-        @Override
-        public Date get(Release entity) {
-            return entity.createdAt;
-        }
-
-        @Override
-        public void set(Release entity, Date value) {
-            entity.createdAt = value;
-        }
-    })
-    .setPropertyName("createdAt")
-    .setPropertyState(new Property<Release, PropertyState>() {
-        @Override
-        public PropertyState get(Release entity) {
-            return entity.$createdAt_state;
-        }
-
-        @Override
-        public void set(Release entity, PropertyState value) {
-            entity.$createdAt_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildNumeric();
-
-    public static final StringAttribute<Release, String> REPO_ID = 
-    new AttributeBuilder<Release, String>("repoId", String.class)
-    .setProperty(new Property<Release, String>() {
-        @Override
-        public String get(Release entity) {
-            return entity.repoId;
-        }
-
-        @Override
-        public void set(Release entity, String value) {
-            entity.repoId = value;
-        }
-    })
-    .setPropertyName("repoId")
-    .setPropertyState(new Property<Release, PropertyState>() {
-        @Override
-        public PropertyState get(Release entity) {
-            return entity.$repoId_state;
-        }
-
-        @Override
-        public void set(Release entity, PropertyState value) {
-            entity.$repoId_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final NumericAttribute<Release, Date> PUBLISHED_AT = 
-    new AttributeBuilder<Release, Date>("publishedAt", Date.class)
-    .setProperty(new Property<Release, Date>() {
-        @Override
-        public Date get(Release entity) {
-            return entity.publishedAt;
-        }
-
-        @Override
-        public void set(Release entity, Date value) {
-            entity.publishedAt = value;
-        }
-    })
-    .setPropertyName("publishedAt")
-    .setPropertyState(new Property<Release, PropertyState>() {
-        @Override
-        public PropertyState get(Release entity) {
-            return entity.$publishedAt_state;
-        }
-
-        @Override
-        public void set(Release entity, PropertyState value) {
-            entity.$publishedAt_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildNumeric();
-
-    public static final StringAttribute<Release, String> BODY = 
-    new AttributeBuilder<Release, String>("body", String.class)
-    .setProperty(new Property<Release, String>() {
-        @Override
-        public String get(Release entity) {
-            return entity.body;
-        }
-
-        @Override
-        public void set(Release entity, String value) {
-            entity.body = value;
-        }
-    })
-    .setPropertyName("body")
-    .setPropertyState(new Property<Release, PropertyState>() {
-        @Override
-        public PropertyState get(Release entity) {
-            return entity.$body_state;
-        }
-
-        @Override
-        public void set(Release entity, PropertyState value) {
-            entity.$body_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Release, String> ZIP_BALL_URL = 
-    new AttributeBuilder<Release, String>("zipBallUrl", String.class)
-    .setProperty(new Property<Release, String>() {
-        @Override
-        public String get(Release entity) {
-            return entity.zipBallUrl;
-        }
-
-        @Override
-        public void set(Release entity, String value) {
-            entity.zipBallUrl = value;
-        }
-    })
-    .setPropertyName("zipBallUrl")
-    .setPropertyState(new Property<Release, PropertyState>() {
-        @Override
-        public PropertyState get(Release entity) {
-            return entity.$zipBallUrl_state;
-        }
-
-        @Override
-        public void set(Release entity, PropertyState value) {
-            entity.$zipBallUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Release, String> NAME = 
-    new AttributeBuilder<Release, String>("name", String.class)
-    .setProperty(new Property<Release, String>() {
-        @Override
-        public String get(Release entity) {
-            return entity.name;
-        }
-
-        @Override
-        public void set(Release entity, String value) {
-            entity.name = value;
-        }
-    })
-    .setPropertyName("name")
-    .setPropertyState(new Property<Release, PropertyState>() {
-        @Override
-        public PropertyState get(Release entity) {
-            return entity.$name_state;
-        }
-
-        @Override
-        public void set(Release entity, PropertyState value) {
-            entity.$name_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Release, String> URL = 
-    new AttributeBuilder<Release, String>("url", String.class)
-    .setProperty(new Property<Release, String>() {
-        @Override
-        public String get(Release entity) {
-            return entity.url;
-        }
-
-        @Override
-        public void set(Release entity, String value) {
-            entity.url = value;
-        }
-    })
-    .setPropertyName("url")
-    .setPropertyState(new Property<Release, PropertyState>() {
-        @Override
-        public PropertyState get(Release entity) {
-            return entity.$url_state;
-        }
-
-        @Override
-        public void set(Release entity, PropertyState value) {
-            entity.$url_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Release, String> HTML_URL = 
-    new AttributeBuilder<Release, String>("htmlUrl", String.class)
-    .setProperty(new Property<Release, String>() {
-        @Override
-        public String get(Release entity) {
-            return entity.htmlUrl;
-        }
-
-        @Override
-        public void set(Release entity, String value) {
-            entity.htmlUrl = value;
-        }
-    })
-    .setPropertyName("htmlUrl")
-    .setPropertyState(new Property<Release, PropertyState>() {
-        @Override
-        public PropertyState get(Release entity) {
-            return entity.$htmlUrl_state;
-        }
-
-        @Override
-        public void set(Release entity, PropertyState value) {
-            entity.$htmlUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
     public static final QueryAttribute<Release, Boolean> PRE_RELEASE = 
     new AttributeBuilder<Release, Boolean>("preRelease", boolean.class)
     .setProperty(new BooleanProperty<Release>() {
@@ -636,29 +636,29 @@ public class Release extends AbstractRelease implements Persistable {
     .setUnique(false)
     .build();
 
-    public static final StringAttribute<Release, String> ASSETS_URL = 
-    new AttributeBuilder<Release, String>("assetsUrl", String.class)
+    public static final StringAttribute<Release, String> ZIP_BALL_URL = 
+    new AttributeBuilder<Release, String>("zipBallUrl", String.class)
     .setProperty(new Property<Release, String>() {
         @Override
         public String get(Release entity) {
-            return entity.assetsUrl;
+            return entity.zipBallUrl;
         }
 
         @Override
         public void set(Release entity, String value) {
-            entity.assetsUrl = value;
+            entity.zipBallUrl = value;
         }
     })
-    .setPropertyName("assetsUrl")
+    .setPropertyName("zipBallUrl")
     .setPropertyState(new Property<Release, PropertyState>() {
         @Override
         public PropertyState get(Release entity) {
-            return entity.$assetsUrl_state;
+            return entity.$zipBallUrl_state;
         }
 
         @Override
         public void set(Release entity, PropertyState value) {
-            entity.$assetsUrl_state = value;
+            entity.$zipBallUrl_state = value;
         }
     })
     .setGenerated(false)
@@ -714,37 +714,37 @@ public class Release extends AbstractRelease implements Persistable {
 
     private PropertyState $assets_state;
 
+    private PropertyState $assetsUrl_state;
+
+    private PropertyState $createdAt_state;
+
     private PropertyState $targetCommitish_state;
 
+    private PropertyState $url_state;
+
+    private PropertyState $tagName_state;
+
+    private PropertyState $body_state;
+
+    private PropertyState $htmlUrl_state;
+
+    private PropertyState $name_state;
+
+    private PropertyState $login_state;
+
+    private PropertyState $publishedAt_state;
+
     private PropertyState $tarballUrl_state;
+
+    private PropertyState $repoId_state;
 
     private PropertyState $uploadUrl_state;
 
     private PropertyState $draft_state;
 
-    private PropertyState $tagName_state;
-
-    private PropertyState $login_state;
-
-    private PropertyState $createdAt_state;
-
-    private PropertyState $repoId_state;
-
-    private PropertyState $publishedAt_state;
-
-    private PropertyState $body_state;
-
-    private PropertyState $zipBallUrl_state;
-
-    private PropertyState $name_state;
-
-    private PropertyState $url_state;
-
-    private PropertyState $htmlUrl_state;
-
     private PropertyState $preRelease_state;
 
-    private PropertyState $assetsUrl_state;
+    private PropertyState $zipBallUrl_state;
 
     private final transient EntityProxy<Release> $proxy = new EntityProxy<Release>(this, $TYPE);
 
@@ -779,6 +779,22 @@ public class Release extends AbstractRelease implements Persistable {
         $proxy.set(ASSETS, assets);
     }
 
+    public String getAssetsUrl() {
+        return $proxy.get(ASSETS_URL);
+    }
+
+    public void setAssetsUrl(String assetsUrl) {
+        $proxy.set(ASSETS_URL, assetsUrl);
+    }
+
+    public Date getCreatedAt() {
+        return $proxy.get(CREATED_AT);
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        $proxy.set(CREATED_AT, createdAt);
+    }
+
     public String getTargetCommitish() {
         return $proxy.get(TARGET_COMMITISH);
     }
@@ -787,12 +803,76 @@ public class Release extends AbstractRelease implements Persistable {
         $proxy.set(TARGET_COMMITISH, targetCommitish);
     }
 
+    public String getUrl() {
+        return $proxy.get(URL);
+    }
+
+    public void setUrl(String url) {
+        $proxy.set(URL, url);
+    }
+
+    public String getTagName() {
+        return $proxy.get(TAG_NAME);
+    }
+
+    public void setTagName(String tagName) {
+        $proxy.set(TAG_NAME, tagName);
+    }
+
+    public String getBody() {
+        return $proxy.get(BODY);
+    }
+
+    public void setBody(String body) {
+        $proxy.set(BODY, body);
+    }
+
+    public String getHtmlUrl() {
+        return $proxy.get(HTML_URL);
+    }
+
+    public void setHtmlUrl(String htmlUrl) {
+        $proxy.set(HTML_URL, htmlUrl);
+    }
+
+    public String getName() {
+        return $proxy.get(NAME);
+    }
+
+    public void setName(String name) {
+        $proxy.set(NAME, name);
+    }
+
+    public String getLogin() {
+        return $proxy.get(LOGIN);
+    }
+
+    public void setLogin(String login) {
+        $proxy.set(LOGIN, login);
+    }
+
+    public Date getPublishedAt() {
+        return $proxy.get(PUBLISHED_AT);
+    }
+
+    public void setPublishedAt(Date publishedAt) {
+        $proxy.set(PUBLISHED_AT, publishedAt);
+    }
+
     public String getTarballUrl() {
         return $proxy.get(TARBALL_URL);
     }
 
     public void setTarballUrl(String tarballUrl) {
         $proxy.set(TARBALL_URL, tarballUrl);
+    }
+
+    public String getRepoId() {
+        return $proxy.get(REPO_ID);
+    }
+
+    public void setRepoId(String repoId) {
+        $proxy.set(REPO_ID, repoId);
     }
 
     public String getUploadUrl() {
@@ -811,86 +891,6 @@ public class Release extends AbstractRelease implements Persistable {
         $proxy.set(DRAFT, draft);
     }
 
-    public String getTagName() {
-        return $proxy.get(TAG_NAME);
-    }
-
-    public void setTagName(String tagName) {
-        $proxy.set(TAG_NAME, tagName);
-    }
-
-    public String getLogin() {
-        return $proxy.get(LOGIN);
-    }
-
-    public void setLogin(String login) {
-        $proxy.set(LOGIN, login);
-    }
-
-    public Date getCreatedAt() {
-        return $proxy.get(CREATED_AT);
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        $proxy.set(CREATED_AT, createdAt);
-    }
-
-    public String getRepoId() {
-        return $proxy.get(REPO_ID);
-    }
-
-    public void setRepoId(String repoId) {
-        $proxy.set(REPO_ID, repoId);
-    }
-
-    public Date getPublishedAt() {
-        return $proxy.get(PUBLISHED_AT);
-    }
-
-    public void setPublishedAt(Date publishedAt) {
-        $proxy.set(PUBLISHED_AT, publishedAt);
-    }
-
-    public String getBody() {
-        return $proxy.get(BODY);
-    }
-
-    public void setBody(String body) {
-        $proxy.set(BODY, body);
-    }
-
-    public String getZipBallUrl() {
-        return $proxy.get(ZIP_BALL_URL);
-    }
-
-    public void setZipBallUrl(String zipBallUrl) {
-        $proxy.set(ZIP_BALL_URL, zipBallUrl);
-    }
-
-    public String getName() {
-        return $proxy.get(NAME);
-    }
-
-    public void setName(String name) {
-        $proxy.set(NAME, name);
-    }
-
-    public String getUrl() {
-        return $proxy.get(URL);
-    }
-
-    public void setUrl(String url) {
-        $proxy.set(URL, url);
-    }
-
-    public String getHtmlUrl() {
-        return $proxy.get(HTML_URL);
-    }
-
-    public void setHtmlUrl(String htmlUrl) {
-        $proxy.set(HTML_URL, htmlUrl);
-    }
-
     public boolean isPreRelease() {
         return $proxy.get(PRE_RELEASE);
     }
@@ -899,12 +899,12 @@ public class Release extends AbstractRelease implements Persistable {
         $proxy.set(PRE_RELEASE, preRelease);
     }
 
-    public String getAssetsUrl() {
-        return $proxy.get(ASSETS_URL);
+    public String getZipBallUrl() {
+        return $proxy.get(ZIP_BALL_URL);
     }
 
-    public void setAssetsUrl(String assetsUrl) {
-        $proxy.set(ASSETS_URL, assetsUrl);
+    public void setZipBallUrl(String zipBallUrl) {
+        $proxy.set(ZIP_BALL_URL, zipBallUrl);
     }
 
     @Override

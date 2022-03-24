@@ -165,6 +165,20 @@
                             tools:text="Cum classis nocere"/>
 
                         <com.fastaccess.ui.widgets.FontTextView
+                            android:id="@+id/twitterLink"
+                            style="@style/Base.TextAppearance.AppCompat.Subhead"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:autoLink="web"
+                            android:background="@drawable/top_border"
+                            android:drawablePadding="@dimen/spacing_xs_large"
+                            android:drawableStart="@drawable/ic_insert_link"
+                            android:gravity="center|start"
+                            android:paddingBottom="@dimen/spacing_xs_large"
+                            android:paddingTop="@dimen/spacing_xs_large"
+                            tools:text="Cum classis nocere"/>
+
+                        <com.fastaccess.ui.widgets.FontTextView
                             android:id="@+id/joined"
                             style="@style/Base.TextAppearance.AppCompat.Subhead"
                             android:layout_width="match_parent"

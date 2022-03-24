@@ -17,10 +17,6 @@ import io.requery.Entity;
 import io.requery.Generated;
 import io.requery.Key;
 
-import static com.fastaccess.data.dao.model.PinnedIssues.ENTRY_COUNT;
-import static com.fastaccess.data.dao.model.PinnedIssues.ID;
-import static com.fastaccess.data.dao.model.PinnedIssues.LOGIN;
-
 /**
  * Created by Hashemsergani on 14.10.17.
  */
@@ -79,8 +75,8 @@ import static com.fastaccess.data.dao.model.PinnedIssues.LOGIN;
 
     @NonNull public static Single<List<Issue>> getMyPinnedIssues() {
         return App.getInstance().getDataStore().select(PinnedIssues.class)
-                .where(LOGIN.eq(Login.getUser().getLogin()).or(LOGIN.isNull()))
-                .orderBy(ENTRY_COUNT.desc(), ID.desc())
+                .where(PinnedIssues.LOGIN.eq(Login.getUser().getLogin()).or(PinnedIssues.LOGIN.isNull()))
+                .orderBy(PinnedIssues.ENTRY_COUNT.desc(), PinnedIssues.ID.desc())
                 .get()
                 .observable()
                 .map(PinnedIssues::getIssue)

@@ -439,578 +439,6 @@ public class PullRequest extends AbstractPullRequest implements Persistable {
     .setConverter(new com.fastaccess.data.dao.converters.ReactionsConverter())
     .build();
 
-    public static final StringAttribute<PullRequest, String> HTML_URL = 
-    new AttributeBuilder<PullRequest, String>("htmlUrl", String.class)
-    .setProperty(new Property<PullRequest, String>() {
-        @Override
-        public String get(PullRequest entity) {
-            return entity.htmlUrl;
-        }
-
-        @Override
-        public void set(PullRequest entity, String value) {
-            entity.htmlUrl = value;
-        }
-    })
-    .setPropertyName("htmlUrl")
-    .setPropertyState(new Property<PullRequest, PropertyState>() {
-        @Override
-        public PropertyState get(PullRequest entity) {
-            return entity.$htmlUrl_state;
-        }
-
-        @Override
-        public void set(PullRequest entity, PropertyState value) {
-            entity.$htmlUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<PullRequest, String> REPO_ID = 
-    new AttributeBuilder<PullRequest, String>("repoId", String.class)
-    .setProperty(new Property<PullRequest, String>() {
-        @Override
-        public String get(PullRequest entity) {
-            return entity.repoId;
-        }
-
-        @Override
-        public void set(PullRequest entity, String value) {
-            entity.repoId = value;
-        }
-    })
-    .setPropertyName("repoId")
-    .setPropertyState(new Property<PullRequest, PropertyState>() {
-        @Override
-        public PropertyState get(PullRequest entity) {
-            return entity.$repoId_state;
-        }
-
-        @Override
-        public void set(PullRequest entity, PropertyState value) {
-            entity.$repoId_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final NumericAttribute<PullRequest, Date> CLOSED_AT = 
-    new AttributeBuilder<PullRequest, Date>("closedAt", Date.class)
-    .setProperty(new Property<PullRequest, Date>() {
-        @Override
-        public Date get(PullRequest entity) {
-            return entity.closedAt;
-        }
-
-        @Override
-        public void set(PullRequest entity, Date value) {
-            entity.closedAt = value;
-        }
-    })
-    .setPropertyName("closedAt")
-    .setPropertyState(new Property<PullRequest, PropertyState>() {
-        @Override
-        public PropertyState get(PullRequest entity) {
-            return entity.$closedAt_state;
-        }
-
-        @Override
-        public void set(PullRequest entity, PropertyState value) {
-            entity.$closedAt_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildNumeric();
-
-    public static final NumericAttribute<PullRequest, Date> UPDATED_AT = 
-    new AttributeBuilder<PullRequest, Date>("updatedAt", Date.class)
-    .setProperty(new Property<PullRequest, Date>() {
-        @Override
-        public Date get(PullRequest entity) {
-            return entity.updatedAt;
-        }
-
-        @Override
-        public void set(PullRequest entity, Date value) {
-            entity.updatedAt = value;
-        }
-    })
-    .setPropertyName("updatedAt")
-    .setPropertyState(new Property<PullRequest, PropertyState>() {
-        @Override
-        public PropertyState get(PullRequest entity) {
-            return entity.$updatedAt_state;
-        }
-
-        @Override
-        public void set(PullRequest entity, PropertyState value) {
-            entity.$updatedAt_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildNumeric();
-
-    public static final QueryAttribute<PullRequest, Boolean> LOCKED = 
-    new AttributeBuilder<PullRequest, Boolean>("locked", boolean.class)
-    .setProperty(new BooleanProperty<PullRequest>() {
-        @Override
-        public Boolean get(PullRequest entity) {
-            return entity.locked;
-        }
-
-        @Override
-        public void set(PullRequest entity, Boolean value) {
-            entity.locked = value;
-        }
-
-        @Override
-        public boolean getBoolean(PullRequest entity) {
-            return entity.locked;
-        }
-
-        @Override
-        public void setBoolean(PullRequest entity, boolean value) {
-            entity.locked = value;
-        }
-    })
-    .setPropertyName("locked")
-    .setPropertyState(new Property<PullRequest, PropertyState>() {
-        @Override
-        public PropertyState get(PullRequest entity) {
-            return entity.$locked_state;
-        }
-
-        @Override
-        public void set(PullRequest entity, PropertyState value) {
-            entity.$locked_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(false)
-    .setUnique(false)
-    .build();
-
-    public static final StringAttribute<PullRequest, String> TITLE = 
-    new AttributeBuilder<PullRequest, String>("title", String.class)
-    .setProperty(new Property<PullRequest, String>() {
-        @Override
-        public String get(PullRequest entity) {
-            return entity.title;
-        }
-
-        @Override
-        public void set(PullRequest entity, String value) {
-            entity.title = value;
-        }
-    })
-    .setPropertyName("title")
-    .setPropertyState(new Property<PullRequest, PropertyState>() {
-        @Override
-        public PropertyState get(PullRequest entity) {
-            return entity.$title_state;
-        }
-
-        @Override
-        public void set(PullRequest entity, PropertyState value) {
-            entity.$title_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final QueryAttribute<PullRequest, Boolean> MERGABLE = 
-    new AttributeBuilder<PullRequest, Boolean>("mergable", boolean.class)
-    .setProperty(new BooleanProperty<PullRequest>() {
-        @Override
-        public Boolean get(PullRequest entity) {
-            return entity.mergable;
-        }
-
-        @Override
-        public void set(PullRequest entity, Boolean value) {
-            entity.mergable = value;
-        }
-
-        @Override
-        public boolean getBoolean(PullRequest entity) {
-            return entity.mergable;
-        }
-
-        @Override
-        public void setBoolean(PullRequest entity, boolean value) {
-            entity.mergable = value;
-        }
-    })
-    .setPropertyName("mergable")
-    .setPropertyState(new Property<PullRequest, PropertyState>() {
-        @Override
-        public PropertyState get(PullRequest entity) {
-            return entity.$mergable_state;
-        }
-
-        @Override
-        public void set(PullRequest entity, PropertyState value) {
-            entity.$mergable_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(false)
-    .setUnique(false)
-    .build();
-
-    public static final NumericAttribute<PullRequest, Integer> ADDITIONS = 
-    new AttributeBuilder<PullRequest, Integer>("additions", int.class)
-    .setProperty(new IntProperty<PullRequest>() {
-        @Override
-        public Integer get(PullRequest entity) {
-            return entity.additions;
-        }
-
-        @Override
-        public void set(PullRequest entity, Integer value) {
-            entity.additions = value;
-        }
-
-        @Override
-        public int getInt(PullRequest entity) {
-            return entity.additions;
-        }
-
-        @Override
-        public void setInt(PullRequest entity, int value) {
-            entity.additions = value;
-        }
-    })
-    .setPropertyName("additions")
-    .setPropertyState(new Property<PullRequest, PropertyState>() {
-        @Override
-        public PropertyState get(PullRequest entity) {
-            return entity.$additions_state;
-        }
-
-        @Override
-        public void set(PullRequest entity, PropertyState value) {
-            entity.$additions_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(false)
-    .setUnique(false)
-    .buildNumeric();
-
-    public static final StringAttribute<PullRequest, String> DIFF_URL = 
-    new AttributeBuilder<PullRequest, String>("diffUrl", String.class)
-    .setProperty(new Property<PullRequest, String>() {
-        @Override
-        public String get(PullRequest entity) {
-            return entity.diffUrl;
-        }
-
-        @Override
-        public void set(PullRequest entity, String value) {
-            entity.diffUrl = value;
-        }
-    })
-    .setPropertyName("diffUrl")
-    .setPropertyState(new Property<PullRequest, PropertyState>() {
-        @Override
-        public PropertyState get(PullRequest entity) {
-            return entity.$diffUrl_state;
-        }
-
-        @Override
-        public void set(PullRequest entity, PropertyState value) {
-            entity.$diffUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final NumericAttribute<PullRequest, Date> CREATED_AT = 
-    new AttributeBuilder<PullRequest, Date>("createdAt", Date.class)
-    .setProperty(new Property<PullRequest, Date>() {
-        @Override
-        public Date get(PullRequest entity) {
-            return entity.createdAt;
-        }
-
-        @Override
-        public void set(PullRequest entity, Date value) {
-            entity.createdAt = value;
-        }
-    })
-    .setPropertyName("createdAt")
-    .setPropertyState(new Property<PullRequest, PropertyState>() {
-        @Override
-        public PropertyState get(PullRequest entity) {
-            return entity.$createdAt_state;
-        }
-
-        @Override
-        public void set(PullRequest entity, PropertyState value) {
-            entity.$createdAt_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildNumeric();
-
-    public static final NumericAttribute<PullRequest, Integer> REVIEW_COMMENTS = 
-    new AttributeBuilder<PullRequest, Integer>("reviewComments", int.class)
-    .setProperty(new IntProperty<PullRequest>() {
-        @Override
-        public Integer get(PullRequest entity) {
-            return entity.reviewComments;
-        }
-
-        @Override
-        public void set(PullRequest entity, Integer value) {
-            entity.reviewComments = value;
-        }
-
-        @Override
-        public int getInt(PullRequest entity) {
-            return entity.reviewComments;
-        }
-
-        @Override
-        public void setInt(PullRequest entity, int value) {
-            entity.reviewComments = value;
-        }
-    })
-    .setPropertyName("reviewComments")
-    .setPropertyState(new Property<PullRequest, PropertyState>() {
-        @Override
-        public PropertyState get(PullRequest entity) {
-            return entity.$reviewComments_state;
-        }
-
-        @Override
-        public void set(PullRequest entity, PropertyState value) {
-            entity.$reviewComments_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(false)
-    .setUnique(false)
-    .buildNumeric();
-
-    public static final StringAttribute<PullRequest, String> BODY = 
-    new AttributeBuilder<PullRequest, String>("body", String.class)
-    .setProperty(new Property<PullRequest, String>() {
-        @Override
-        public String get(PullRequest entity) {
-            return entity.body;
-        }
-
-        @Override
-        public void set(PullRequest entity, String value) {
-            entity.body = value;
-        }
-    })
-    .setPropertyName("body")
-    .setPropertyState(new Property<PullRequest, PropertyState>() {
-        @Override
-        public PropertyState get(PullRequest entity) {
-            return entity.$body_state;
-        }
-
-        @Override
-        public void set(PullRequest entity, PropertyState value) {
-            entity.$body_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final QueryAttribute<PullRequest, Boolean> MERGEABLE = 
-    new AttributeBuilder<PullRequest, Boolean>("mergeable", boolean.class)
-    .setProperty(new BooleanProperty<PullRequest>() {
-        @Override
-        public Boolean get(PullRequest entity) {
-            return entity.mergeable;
-        }
-
-        @Override
-        public void set(PullRequest entity, Boolean value) {
-            entity.mergeable = value;
-        }
-
-        @Override
-        public boolean getBoolean(PullRequest entity) {
-            return entity.mergeable;
-        }
-
-        @Override
-        public void setBoolean(PullRequest entity, boolean value) {
-            entity.mergeable = value;
-        }
-    })
-    .setPropertyName("mergeable")
-    .setPropertyState(new Property<PullRequest, PropertyState>() {
-        @Override
-        public PropertyState get(PullRequest entity) {
-            return entity.$mergeable_state;
-        }
-
-        @Override
-        public void set(PullRequest entity, PropertyState value) {
-            entity.$mergeable_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(false)
-    .setUnique(false)
-    .build();
-
-    public static final NumericAttribute<PullRequest, Integer> CHANGED_FILES = 
-    new AttributeBuilder<PullRequest, Integer>("changedFiles", int.class)
-    .setProperty(new IntProperty<PullRequest>() {
-        @Override
-        public Integer get(PullRequest entity) {
-            return entity.changedFiles;
-        }
-
-        @Override
-        public void set(PullRequest entity, Integer value) {
-            entity.changedFiles = value;
-        }
-
-        @Override
-        public int getInt(PullRequest entity) {
-            return entity.changedFiles;
-        }
-
-        @Override
-        public void setInt(PullRequest entity, int value) {
-            entity.changedFiles = value;
-        }
-    })
-    .setPropertyName("changedFiles")
-    .setPropertyState(new Property<PullRequest, PropertyState>() {
-        @Override
-        public PropertyState get(PullRequest entity) {
-            return entity.$changedFiles_state;
-        }
-
-        @Override
-        public void set(PullRequest entity, PropertyState value) {
-            entity.$changedFiles_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(false)
-    .setUnique(false)
-    .buildNumeric();
-
-    public static final StringAttribute<PullRequest, String> URL = 
-    new AttributeBuilder<PullRequest, String>("url", String.class)
-    .setProperty(new Property<PullRequest, String>() {
-        @Override
-        public String get(PullRequest entity) {
-            return entity.url;
-        }
-
-        @Override
-        public void set(PullRequest entity, String value) {
-            entity.url = value;
-        }
-    })
-    .setPropertyName("url")
-    .setPropertyState(new Property<PullRequest, PropertyState>() {
-        @Override
-        public PropertyState get(PullRequest entity) {
-            return entity.$url_state;
-        }
-
-        @Override
-        public void set(PullRequest entity, PropertyState value) {
-            entity.$url_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final NumericAttribute<PullRequest, Date> MERGED_AT = 
-    new AttributeBuilder<PullRequest, Date>("mergedAt", Date.class)
-    .setProperty(new Property<PullRequest, Date>() {
-        @Override
-        public Date get(PullRequest entity) {
-            return entity.mergedAt;
-        }
-
-        @Override
-        public void set(PullRequest entity, Date value) {
-            entity.mergedAt = value;
-        }
-    })
-    .setPropertyName("mergedAt")
-    .setPropertyState(new Property<PullRequest, PropertyState>() {
-        @Override
-        public PropertyState get(PullRequest entity) {
-            return entity.$mergedAt_state;
-        }
-
-        @Override
-        public void set(PullRequest entity, PropertyState value) {
-            entity.$mergedAt_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildNumeric();
-
     public static final StringAttribute<PullRequest, String> LOGIN = 
     new AttributeBuilder<PullRequest, String>("login", String.class)
     .setProperty(new Property<PullRequest, String>() {
@@ -1042,154 +470,6 @@ public class PullRequest extends AbstractPullRequest implements Persistable {
     .setNullable(true)
     .setUnique(false)
     .buildString();
-
-    public static final NumericAttribute<PullRequest, Integer> COMMITS = 
-    new AttributeBuilder<PullRequest, Integer>("commits", int.class)
-    .setProperty(new IntProperty<PullRequest>() {
-        @Override
-        public Integer get(PullRequest entity) {
-            return entity.commits;
-        }
-
-        @Override
-        public void set(PullRequest entity, Integer value) {
-            entity.commits = value;
-        }
-
-        @Override
-        public int getInt(PullRequest entity) {
-            return entity.commits;
-        }
-
-        @Override
-        public void setInt(PullRequest entity, int value) {
-            entity.commits = value;
-        }
-    })
-    .setPropertyName("commits")
-    .setPropertyState(new Property<PullRequest, PropertyState>() {
-        @Override
-        public PropertyState get(PullRequest entity) {
-            return entity.$commits_state;
-        }
-
-        @Override
-        public void set(PullRequest entity, PropertyState value) {
-            entity.$commits_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(false)
-    .setUnique(false)
-    .buildNumeric();
-
-    public static final StringAttribute<PullRequest, String> MERGE_STATE = 
-    new AttributeBuilder<PullRequest, String>("mergeState", String.class)
-    .setProperty(new Property<PullRequest, String>() {
-        @Override
-        public String get(PullRequest entity) {
-            return entity.mergeState;
-        }
-
-        @Override
-        public void set(PullRequest entity, String value) {
-            entity.mergeState = value;
-        }
-    })
-    .setPropertyName("mergeState")
-    .setPropertyState(new Property<PullRequest, PropertyState>() {
-        @Override
-        public PropertyState get(PullRequest entity) {
-            return entity.$mergeState_state;
-        }
-
-        @Override
-        public void set(PullRequest entity, PropertyState value) {
-            entity.$mergeState_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final NumericAttribute<PullRequest, Integer> DELETIONS = 
-    new AttributeBuilder<PullRequest, Integer>("deletions", int.class)
-    .setProperty(new IntProperty<PullRequest>() {
-        @Override
-        public Integer get(PullRequest entity) {
-            return entity.deletions;
-        }
-
-        @Override
-        public void set(PullRequest entity, Integer value) {
-            entity.deletions = value;
-        }
-
-        @Override
-        public int getInt(PullRequest entity) {
-            return entity.deletions;
-        }
-
-        @Override
-        public void setInt(PullRequest entity, int value) {
-            entity.deletions = value;
-        }
-    })
-    .setPropertyName("deletions")
-    .setPropertyState(new Property<PullRequest, PropertyState>() {
-        @Override
-        public PropertyState get(PullRequest entity) {
-            return entity.$deletions_state;
-        }
-
-        @Override
-        public void set(PullRequest entity, PropertyState value) {
-            entity.$deletions_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(false)
-    .setUnique(false)
-    .buildNumeric();
-
-    public static final QueryAttribute<PullRequest, IssueState> STATE = 
-    new AttributeBuilder<PullRequest, IssueState>("state", IssueState.class)
-    .setProperty(new Property<PullRequest, IssueState>() {
-        @Override
-        public IssueState get(PullRequest entity) {
-            return entity.state;
-        }
-
-        @Override
-        public void set(PullRequest entity, IssueState value) {
-            entity.state = value;
-        }
-    })
-    .setPropertyName("state")
-    .setPropertyState(new Property<PullRequest, PropertyState>() {
-        @Override
-        public PropertyState get(PullRequest entity) {
-            return entity.$state_state;
-        }
-
-        @Override
-        public void set(PullRequest entity, PropertyState value) {
-            entity.$state_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .build();
 
     public static final StringAttribute<PullRequest, String> MERGE_COMMIT_SHA = 
     new AttributeBuilder<PullRequest, String>("mergeCommitSha", String.class)
@@ -1265,6 +545,430 @@ public class PullRequest extends AbstractPullRequest implements Persistable {
     .setUnique(false)
     .buildNumeric();
 
+    public static final QueryAttribute<PullRequest, Boolean> LOCKED = 
+    new AttributeBuilder<PullRequest, Boolean>("locked", boolean.class)
+    .setProperty(new BooleanProperty<PullRequest>() {
+        @Override
+        public Boolean get(PullRequest entity) {
+            return entity.locked;
+        }
+
+        @Override
+        public void set(PullRequest entity, Boolean value) {
+            entity.locked = value;
+        }
+
+        @Override
+        public boolean getBoolean(PullRequest entity) {
+            return entity.locked;
+        }
+
+        @Override
+        public void setBoolean(PullRequest entity, boolean value) {
+            entity.locked = value;
+        }
+    })
+    .setPropertyName("locked")
+    .setPropertyState(new Property<PullRequest, PropertyState>() {
+        @Override
+        public PropertyState get(PullRequest entity) {
+            return entity.$locked_state;
+        }
+
+        @Override
+        public void set(PullRequest entity, PropertyState value) {
+            entity.$locked_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .build();
+
+    public static final StringAttribute<PullRequest, String> BODY_HTML = 
+    new AttributeBuilder<PullRequest, String>("bodyHtml", String.class)
+    .setProperty(new Property<PullRequest, String>() {
+        @Override
+        public String get(PullRequest entity) {
+            return entity.bodyHtml;
+        }
+
+        @Override
+        public void set(PullRequest entity, String value) {
+            entity.bodyHtml = value;
+        }
+    })
+    .setPropertyName("bodyHtml")
+    .setPropertyState(new Property<PullRequest, PropertyState>() {
+        @Override
+        public PropertyState get(PullRequest entity) {
+            return entity.$bodyHtml_state;
+        }
+
+        @Override
+        public void set(PullRequest entity, PropertyState value) {
+            entity.$bodyHtml_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final NumericAttribute<PullRequest, Integer> ADDITIONS = 
+    new AttributeBuilder<PullRequest, Integer>("additions", int.class)
+    .setProperty(new IntProperty<PullRequest>() {
+        @Override
+        public Integer get(PullRequest entity) {
+            return entity.additions;
+        }
+
+        @Override
+        public void set(PullRequest entity, Integer value) {
+            entity.additions = value;
+        }
+
+        @Override
+        public int getInt(PullRequest entity) {
+            return entity.additions;
+        }
+
+        @Override
+        public void setInt(PullRequest entity, int value) {
+            entity.additions = value;
+        }
+    })
+    .setPropertyName("additions")
+    .setPropertyState(new Property<PullRequest, PropertyState>() {
+        @Override
+        public PropertyState get(PullRequest entity) {
+            return entity.$additions_state;
+        }
+
+        @Override
+        public void set(PullRequest entity, PropertyState value) {
+            entity.$additions_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .buildNumeric();
+
+    public static final NumericAttribute<PullRequest, Integer> DELETIONS = 
+    new AttributeBuilder<PullRequest, Integer>("deletions", int.class)
+    .setProperty(new IntProperty<PullRequest>() {
+        @Override
+        public Integer get(PullRequest entity) {
+            return entity.deletions;
+        }
+
+        @Override
+        public void set(PullRequest entity, Integer value) {
+            entity.deletions = value;
+        }
+
+        @Override
+        public int getInt(PullRequest entity) {
+            return entity.deletions;
+        }
+
+        @Override
+        public void setInt(PullRequest entity, int value) {
+            entity.deletions = value;
+        }
+    })
+    .setPropertyName("deletions")
+    .setPropertyState(new Property<PullRequest, PropertyState>() {
+        @Override
+        public PropertyState get(PullRequest entity) {
+            return entity.$deletions_state;
+        }
+
+        @Override
+        public void set(PullRequest entity, PropertyState value) {
+            entity.$deletions_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .buildNumeric();
+
+    public static final StringAttribute<PullRequest, String> HTML_URL = 
+    new AttributeBuilder<PullRequest, String>("htmlUrl", String.class)
+    .setProperty(new Property<PullRequest, String>() {
+        @Override
+        public String get(PullRequest entity) {
+            return entity.htmlUrl;
+        }
+
+        @Override
+        public void set(PullRequest entity, String value) {
+            entity.htmlUrl = value;
+        }
+    })
+    .setPropertyName("htmlUrl")
+    .setPropertyState(new Property<PullRequest, PropertyState>() {
+        @Override
+        public PropertyState get(PullRequest entity) {
+            return entity.$htmlUrl_state;
+        }
+
+        @Override
+        public void set(PullRequest entity, PropertyState value) {
+            entity.$htmlUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<PullRequest, String> DIFF_URL = 
+    new AttributeBuilder<PullRequest, String>("diffUrl", String.class)
+    .setProperty(new Property<PullRequest, String>() {
+        @Override
+        public String get(PullRequest entity) {
+            return entity.diffUrl;
+        }
+
+        @Override
+        public void set(PullRequest entity, String value) {
+            entity.diffUrl = value;
+        }
+    })
+    .setPropertyName("diffUrl")
+    .setPropertyState(new Property<PullRequest, PropertyState>() {
+        @Override
+        public PropertyState get(PullRequest entity) {
+            return entity.$diffUrl_state;
+        }
+
+        @Override
+        public void set(PullRequest entity, PropertyState value) {
+            entity.$diffUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<PullRequest, String> REPO_ID = 
+    new AttributeBuilder<PullRequest, String>("repoId", String.class)
+    .setProperty(new Property<PullRequest, String>() {
+        @Override
+        public String get(PullRequest entity) {
+            return entity.repoId;
+        }
+
+        @Override
+        public void set(PullRequest entity, String value) {
+            entity.repoId = value;
+        }
+    })
+    .setPropertyName("repoId")
+    .setPropertyState(new Property<PullRequest, PropertyState>() {
+        @Override
+        public PropertyState get(PullRequest entity) {
+            return entity.$repoId_state;
+        }
+
+        @Override
+        public void set(PullRequest entity, PropertyState value) {
+            entity.$repoId_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final NumericAttribute<PullRequest, Integer> REVIEW_COMMENTS = 
+    new AttributeBuilder<PullRequest, Integer>("reviewComments", int.class)
+    .setProperty(new IntProperty<PullRequest>() {
+        @Override
+        public Integer get(PullRequest entity) {
+            return entity.reviewComments;
+        }
+
+        @Override
+        public void set(PullRequest entity, Integer value) {
+            entity.reviewComments = value;
+        }
+
+        @Override
+        public int getInt(PullRequest entity) {
+            return entity.reviewComments;
+        }
+
+        @Override
+        public void setInt(PullRequest entity, int value) {
+            entity.reviewComments = value;
+        }
+    })
+    .setPropertyName("reviewComments")
+    .setPropertyState(new Property<PullRequest, PropertyState>() {
+        @Override
+        public PropertyState get(PullRequest entity) {
+            return entity.$reviewComments_state;
+        }
+
+        @Override
+        public void set(PullRequest entity, PropertyState value) {
+            entity.$reviewComments_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .buildNumeric();
+
+    public static final StringAttribute<PullRequest, String> MERGE_STATE = 
+    new AttributeBuilder<PullRequest, String>("mergeState", String.class)
+    .setProperty(new Property<PullRequest, String>() {
+        @Override
+        public String get(PullRequest entity) {
+            return entity.mergeState;
+        }
+
+        @Override
+        public void set(PullRequest entity, String value) {
+            entity.mergeState = value;
+        }
+    })
+    .setPropertyName("mergeState")
+    .setPropertyState(new Property<PullRequest, PropertyState>() {
+        @Override
+        public PropertyState get(PullRequest entity) {
+            return entity.$mergeState_state;
+        }
+
+        @Override
+        public void set(PullRequest entity, PropertyState value) {
+            entity.$mergeState_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<PullRequest, String> URL = 
+    new AttributeBuilder<PullRequest, String>("url", String.class)
+    .setProperty(new Property<PullRequest, String>() {
+        @Override
+        public String get(PullRequest entity) {
+            return entity.url;
+        }
+
+        @Override
+        public void set(PullRequest entity, String value) {
+            entity.url = value;
+        }
+    })
+    .setPropertyName("url")
+    .setPropertyState(new Property<PullRequest, PropertyState>() {
+        @Override
+        public PropertyState get(PullRequest entity) {
+            return entity.$url_state;
+        }
+
+        @Override
+        public void set(PullRequest entity, PropertyState value) {
+            entity.$url_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<PullRequest, String> MERGEABLE_STATE = 
+    new AttributeBuilder<PullRequest, String>("mergeableState", String.class)
+    .setProperty(new Property<PullRequest, String>() {
+        @Override
+        public String get(PullRequest entity) {
+            return entity.mergeableState;
+        }
+
+        @Override
+        public void set(PullRequest entity, String value) {
+            entity.mergeableState = value;
+        }
+    })
+    .setPropertyName("mergeableState")
+    .setPropertyState(new Property<PullRequest, PropertyState>() {
+        @Override
+        public PropertyState get(PullRequest entity) {
+            return entity.$mergeableState_state;
+        }
+
+        @Override
+        public void set(PullRequest entity, PropertyState value) {
+            entity.$mergeableState_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final NumericAttribute<PullRequest, Date> CLOSED_AT = 
+    new AttributeBuilder<PullRequest, Date>("closedAt", Date.class)
+    .setProperty(new Property<PullRequest, Date>() {
+        @Override
+        public Date get(PullRequest entity) {
+            return entity.closedAt;
+        }
+
+        @Override
+        public void set(PullRequest entity, Date value) {
+            entity.closedAt = value;
+        }
+    })
+    .setPropertyName("closedAt")
+    .setPropertyState(new Property<PullRequest, PropertyState>() {
+        @Override
+        public PropertyState get(PullRequest entity) {
+            return entity.$closedAt_state;
+        }
+
+        @Override
+        public void set(PullRequest entity, PropertyState value) {
+            entity.$closedAt_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildNumeric();
+
     public static final NumericAttribute<PullRequest, Integer> NUMBER = 
     new AttributeBuilder<PullRequest, Integer>("number", int.class)
     .setProperty(new IntProperty<PullRequest>() {
@@ -1307,69 +1011,89 @@ public class PullRequest extends AbstractPullRequest implements Persistable {
     .setUnique(false)
     .buildNumeric();
 
-    public static final StringAttribute<PullRequest, String> BODY_HTML = 
-    new AttributeBuilder<PullRequest, String>("bodyHtml", String.class)
-    .setProperty(new Property<PullRequest, String>() {
+    public static final NumericAttribute<PullRequest, Integer> COMMITS = 
+    new AttributeBuilder<PullRequest, Integer>("commits", int.class)
+    .setProperty(new IntProperty<PullRequest>() {
         @Override
-        public String get(PullRequest entity) {
-            return entity.bodyHtml;
+        public Integer get(PullRequest entity) {
+            return entity.commits;
         }
 
         @Override
-        public void set(PullRequest entity, String value) {
-            entity.bodyHtml = value;
+        public void set(PullRequest entity, Integer value) {
+            entity.commits = value;
+        }
+
+        @Override
+        public int getInt(PullRequest entity) {
+            return entity.commits;
+        }
+
+        @Override
+        public void setInt(PullRequest entity, int value) {
+            entity.commits = value;
         }
     })
-    .setPropertyName("bodyHtml")
+    .setPropertyName("commits")
     .setPropertyState(new Property<PullRequest, PropertyState>() {
         @Override
         public PropertyState get(PullRequest entity) {
-            return entity.$bodyHtml_state;
+            return entity.$commits_state;
         }
 
         @Override
         public void set(PullRequest entity, PropertyState value) {
-            entity.$bodyHtml_state = value;
+            entity.$commits_state = value;
         }
     })
     .setGenerated(false)
     .setReadOnly(false)
     .setLazy(false)
-    .setNullable(true)
+    .setNullable(false)
     .setUnique(false)
-    .buildString();
+    .buildNumeric();
 
-    public static final StringAttribute<PullRequest, String> PATCH_URL = 
-    new AttributeBuilder<PullRequest, String>("patchUrl", String.class)
-    .setProperty(new Property<PullRequest, String>() {
+    public static final QueryAttribute<PullRequest, Boolean> MERGABLE = 
+    new AttributeBuilder<PullRequest, Boolean>("mergable", boolean.class)
+    .setProperty(new BooleanProperty<PullRequest>() {
         @Override
-        public String get(PullRequest entity) {
-            return entity.patchUrl;
+        public Boolean get(PullRequest entity) {
+            return entity.mergable;
         }
 
         @Override
-        public void set(PullRequest entity, String value) {
-            entity.patchUrl = value;
+        public void set(PullRequest entity, Boolean value) {
+            entity.mergable = value;
+        }
+
+        @Override
+        public boolean getBoolean(PullRequest entity) {
+            return entity.mergable;
+        }
+
+        @Override
+        public void setBoolean(PullRequest entity, boolean value) {
+            entity.mergable = value;
         }
     })
-    .setPropertyName("patchUrl")
+    .setPropertyName("mergable")
     .setPropertyState(new Property<PullRequest, PropertyState>() {
         @Override
         public PropertyState get(PullRequest entity) {
-            return entity.$patchUrl_state;
+            return entity.$mergable_state;
         }
 
         @Override
         public void set(PullRequest entity, PropertyState value) {
-            entity.$patchUrl_state = value;
+            entity.$mergable_state = value;
         }
     })
     .setGenerated(false)
     .setReadOnly(false)
     .setLazy(false)
-    .setNullable(true)
+    .setNullable(false)
     .setUnique(false)
-    .buildString();
+    .build();
 
     public static final QueryAttribute<PullRequest, Boolean> MERGED = 
     new AttributeBuilder<PullRequest, Boolean>("merged", boolean.class)
@@ -1413,29 +1137,135 @@ public class PullRequest extends AbstractPullRequest implements Persistable {
     .setUnique(false)
     .build();
 
-    public static final StringAttribute<PullRequest, String> MERGEABLE_STATE = 
-    new AttributeBuilder<PullRequest, String>("mergeableState", String.class)
-    .setProperty(new Property<PullRequest, String>() {
+    public static final NumericAttribute<PullRequest, Date> UPDATED_AT = 
+    new AttributeBuilder<PullRequest, Date>("updatedAt", Date.class)
+    .setProperty(new Property<PullRequest, Date>() {
         @Override
-        public String get(PullRequest entity) {
-            return entity.mergeableState;
+        public Date get(PullRequest entity) {
+            return entity.updatedAt;
         }
 
         @Override
-        public void set(PullRequest entity, String value) {
-            entity.mergeableState = value;
+        public void set(PullRequest entity, Date value) {
+            entity.updatedAt = value;
         }
     })
-    .setPropertyName("mergeableState")
+    .setPropertyName("updatedAt")
     .setPropertyState(new Property<PullRequest, PropertyState>() {
         @Override
         public PropertyState get(PullRequest entity) {
-            return entity.$mergeableState_state;
+            return entity.$updatedAt_state;
         }
 
         @Override
         public void set(PullRequest entity, PropertyState value) {
-            entity.$mergeableState_state = value;
+            entity.$updatedAt_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildNumeric();
+
+    public static final QueryAttribute<PullRequest, IssueState> STATE = 
+    new AttributeBuilder<PullRequest, IssueState>("state", IssueState.class)
+    .setProperty(new Property<PullRequest, IssueState>() {
+        @Override
+        public IssueState get(PullRequest entity) {
+            return entity.state;
+        }
+
+        @Override
+        public void set(PullRequest entity, IssueState value) {
+            entity.state = value;
+        }
+    })
+    .setPropertyName("state")
+    .setPropertyState(new Property<PullRequest, PropertyState>() {
+        @Override
+        public PropertyState get(PullRequest entity) {
+            return entity.$state_state;
+        }
+
+        @Override
+        public void set(PullRequest entity, PropertyState value) {
+            entity.$state_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .build();
+
+    public static final NumericAttribute<PullRequest, Integer> CHANGED_FILES = 
+    new AttributeBuilder<PullRequest, Integer>("changedFiles", int.class)
+    .setProperty(new IntProperty<PullRequest>() {
+        @Override
+        public Integer get(PullRequest entity) {
+            return entity.changedFiles;
+        }
+
+        @Override
+        public void set(PullRequest entity, Integer value) {
+            entity.changedFiles = value;
+        }
+
+        @Override
+        public int getInt(PullRequest entity) {
+            return entity.changedFiles;
+        }
+
+        @Override
+        public void setInt(PullRequest entity, int value) {
+            entity.changedFiles = value;
+        }
+    })
+    .setPropertyName("changedFiles")
+    .setPropertyState(new Property<PullRequest, PropertyState>() {
+        @Override
+        public PropertyState get(PullRequest entity) {
+            return entity.$changedFiles_state;
+        }
+
+        @Override
+        public void set(PullRequest entity, PropertyState value) {
+            entity.$changedFiles_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .buildNumeric();
+
+    public static final StringAttribute<PullRequest, String> PATCH_URL = 
+    new AttributeBuilder<PullRequest, String>("patchUrl", String.class)
+    .setProperty(new Property<PullRequest, String>() {
+        @Override
+        public String get(PullRequest entity) {
+            return entity.patchUrl;
+        }
+
+        @Override
+        public void set(PullRequest entity, String value) {
+            entity.patchUrl = value;
+        }
+    })
+    .setPropertyName("patchUrl")
+    .setPropertyState(new Property<PullRequest, PropertyState>() {
+        @Override
+        public PropertyState get(PullRequest entity) {
+            return entity.$patchUrl_state;
+        }
+
+        @Override
+        public void set(PullRequest entity, PropertyState value) {
+            entity.$patchUrl_state = value;
         }
     })
     .setGenerated(false)
@@ -1444,6 +1274,176 @@ public class PullRequest extends AbstractPullRequest implements Persistable {
     .setNullable(true)
     .setUnique(false)
     .buildString();
+
+    public static final StringAttribute<PullRequest, String> BODY = 
+    new AttributeBuilder<PullRequest, String>("body", String.class)
+    .setProperty(new Property<PullRequest, String>() {
+        @Override
+        public String get(PullRequest entity) {
+            return entity.body;
+        }
+
+        @Override
+        public void set(PullRequest entity, String value) {
+            entity.body = value;
+        }
+    })
+    .setPropertyName("body")
+    .setPropertyState(new Property<PullRequest, PropertyState>() {
+        @Override
+        public PropertyState get(PullRequest entity) {
+            return entity.$body_state;
+        }
+
+        @Override
+        public void set(PullRequest entity, PropertyState value) {
+            entity.$body_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<PullRequest, String> TITLE = 
+    new AttributeBuilder<PullRequest, String>("title", String.class)
+    .setProperty(new Property<PullRequest, String>() {
+        @Override
+        public String get(PullRequest entity) {
+            return entity.title;
+        }
+
+        @Override
+        public void set(PullRequest entity, String value) {
+            entity.title = value;
+        }
+    })
+    .setPropertyName("title")
+    .setPropertyState(new Property<PullRequest, PropertyState>() {
+        @Override
+        public PropertyState get(PullRequest entity) {
+            return entity.$title_state;
+        }
+
+        @Override
+        public void set(PullRequest entity, PropertyState value) {
+            entity.$title_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final QueryAttribute<PullRequest, Boolean> MERGEABLE = 
+    new AttributeBuilder<PullRequest, Boolean>("mergeable", boolean.class)
+    .setProperty(new BooleanProperty<PullRequest>() {
+        @Override
+        public Boolean get(PullRequest entity) {
+            return entity.mergeable;
+        }
+
+        @Override
+        public void set(PullRequest entity, Boolean value) {
+            entity.mergeable = value;
+        }
+
+        @Override
+        public boolean getBoolean(PullRequest entity) {
+            return entity.mergeable;
+        }
+
+        @Override
+        public void setBoolean(PullRequest entity, boolean value) {
+            entity.mergeable = value;
+        }
+    })
+    .setPropertyName("mergeable")
+    .setPropertyState(new Property<PullRequest, PropertyState>() {
+        @Override
+        public PropertyState get(PullRequest entity) {
+            return entity.$mergeable_state;
+        }
+
+        @Override
+        public void set(PullRequest entity, PropertyState value) {
+            entity.$mergeable_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .build();
+
+    public static final NumericAttribute<PullRequest, Date> MERGED_AT = 
+    new AttributeBuilder<PullRequest, Date>("mergedAt", Date.class)
+    .setProperty(new Property<PullRequest, Date>() {
+        @Override
+        public Date get(PullRequest entity) {
+            return entity.mergedAt;
+        }
+
+        @Override
+        public void set(PullRequest entity, Date value) {
+            entity.mergedAt = value;
+        }
+    })
+    .setPropertyName("mergedAt")
+    .setPropertyState(new Property<PullRequest, PropertyState>() {
+        @Override
+        public PropertyState get(PullRequest entity) {
+            return entity.$mergedAt_state;
+        }
+
+        @Override
+        public void set(PullRequest entity, PropertyState value) {
+            entity.$mergedAt_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildNumeric();
+
+    public static final NumericAttribute<PullRequest, Date> CREATED_AT = 
+    new AttributeBuilder<PullRequest, Date>("createdAt", Date.class)
+    .setProperty(new Property<PullRequest, Date>() {
+        @Override
+        public Date get(PullRequest entity) {
+            return entity.createdAt;
+        }
+
+        @Override
+        public void set(PullRequest entity, Date value) {
+            entity.createdAt = value;
+        }
+    })
+    .setPropertyName("createdAt")
+    .setPropertyState(new Property<PullRequest, PropertyState>() {
+        @Override
+        public PropertyState get(PullRequest entity) {
+            return entity.$createdAt_state;
+        }
+
+        @Override
+        public void set(PullRequest entity, PropertyState value) {
+            entity.$createdAt_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildNumeric();
 
     public static final Type<PullRequest> $TYPE = new TypeBuilder<PullRequest>(PullRequest.class, "PullRequest")
     .setBaseType(AbstractPullRequest.class)
@@ -1469,8 +1469,8 @@ public class PullRequest extends AbstractPullRequest implements Persistable {
     .addAttribute(REPO_ID)
     .addAttribute(REVIEW_COMMENTS)
     .addAttribute(CREATED_AT)
-    .addAttribute(STATE)
     .addAttribute(COMMENTS)
+    .addAttribute(STATE)
     .addAttribute(MERGEABLE_STATE)
     .addAttribute(MILESTONE)
     .addAttribute(COMMITS)
@@ -1481,8 +1481,8 @@ public class PullRequest extends AbstractPullRequest implements Persistable {
     .addAttribute(ASSIGNEE)
     .addAttribute(CLOSED_BY)
     .addAttribute(MERGE_COMMIT_SHA)
-    .addAttribute(UPDATED_AT)
     .addAttribute(LOGIN)
+    .addAttribute(UPDATED_AT)
     .addAttribute(ID)
     .addAttribute(HTML_URL)
     .addAttribute(MERGABLE)
@@ -1492,8 +1492,8 @@ public class PullRequest extends AbstractPullRequest implements Persistable {
     .addAttribute(NUMBER)
     .addAttribute(LOCKED)
     .addAttribute(DIFF_URL)
-    .addAttribute(MERGEABLE)
     .addAttribute(PATCH_URL)
+    .addAttribute(MERGEABLE)
     .addAttribute(USER)
     .addAttribute(BODY_HTML)
     .addAttribute(CHANGED_FILES)
@@ -1502,8 +1502,8 @@ public class PullRequest extends AbstractPullRequest implements Persistable {
     .addAttribute(MERGED)
     .addAttribute(ADDITIONS)
     .addAttribute(MERGED_AT)
-    .addAttribute(BODY)
     .addAttribute(DELETIONS)
+    .addAttribute(BODY)
     .build();
 
     private PropertyState $id_state;
@@ -1530,61 +1530,61 @@ public class PullRequest extends AbstractPullRequest implements Persistable {
 
     private PropertyState $reactions_state;
 
-    private PropertyState $htmlUrl_state;
-
-    private PropertyState $repoId_state;
-
-    private PropertyState $closedAt_state;
-
-    private PropertyState $updatedAt_state;
-
-    private PropertyState $locked_state;
-
-    private PropertyState $title_state;
-
-    private PropertyState $mergable_state;
-
-    private PropertyState $additions_state;
-
-    private PropertyState $diffUrl_state;
-
-    private PropertyState $createdAt_state;
-
-    private PropertyState $reviewComments_state;
-
-    private PropertyState $body_state;
-
-    private PropertyState $mergeable_state;
-
-    private PropertyState $changedFiles_state;
-
-    private PropertyState $url_state;
-
-    private PropertyState $mergedAt_state;
-
     private PropertyState $login_state;
-
-    private PropertyState $commits_state;
-
-    private PropertyState $mergeState_state;
-
-    private PropertyState $deletions_state;
-
-    private PropertyState $state_state;
 
     private PropertyState $mergeCommitSha_state;
 
     private PropertyState $comments_state;
 
-    private PropertyState $number_state;
+    private PropertyState $locked_state;
 
     private PropertyState $bodyHtml_state;
 
-    private PropertyState $patchUrl_state;
+    private PropertyState $additions_state;
+
+    private PropertyState $deletions_state;
+
+    private PropertyState $htmlUrl_state;
+
+    private PropertyState $diffUrl_state;
+
+    private PropertyState $repoId_state;
+
+    private PropertyState $reviewComments_state;
+
+    private PropertyState $mergeState_state;
+
+    private PropertyState $url_state;
+
+    private PropertyState $mergeableState_state;
+
+    private PropertyState $closedAt_state;
+
+    private PropertyState $number_state;
+
+    private PropertyState $commits_state;
+
+    private PropertyState $mergable_state;
 
     private PropertyState $merged_state;
 
-    private PropertyState $mergeableState_state;
+    private PropertyState $updatedAt_state;
+
+    private PropertyState $state_state;
+
+    private PropertyState $changedFiles_state;
+
+    private PropertyState $patchUrl_state;
+
+    private PropertyState $body_state;
+
+    private PropertyState $title_state;
+
+    private PropertyState $mergeable_state;
+
+    private PropertyState $mergedAt_state;
+
+    private PropertyState $createdAt_state;
 
     private final transient EntityProxy<PullRequest> $proxy = new EntityProxy<PullRequest>(this, $TYPE);
 
@@ -1691,172 +1691,12 @@ public class PullRequest extends AbstractPullRequest implements Persistable {
         $proxy.set(REACTIONS, reactions);
     }
 
-    public String getHtmlUrl() {
-        return $proxy.get(HTML_URL);
-    }
-
-    public void setHtmlUrl(String htmlUrl) {
-        $proxy.set(HTML_URL, htmlUrl);
-    }
-
-    public String getRepoId() {
-        return $proxy.get(REPO_ID);
-    }
-
-    public void setRepoId(String repoId) {
-        $proxy.set(REPO_ID, repoId);
-    }
-
-    public Date getClosedAt() {
-        return $proxy.get(CLOSED_AT);
-    }
-
-    public void setClosedAt(Date closedAt) {
-        $proxy.set(CLOSED_AT, closedAt);
-    }
-
-    public Date getUpdatedAt() {
-        return $proxy.get(UPDATED_AT);
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        $proxy.set(UPDATED_AT, updatedAt);
-    }
-
-    public boolean isLocked() {
-        return $proxy.get(LOCKED);
-    }
-
-    public void setLocked(boolean locked) {
-        $proxy.set(LOCKED, locked);
-    }
-
-    public String getTitle() {
-        return $proxy.get(TITLE);
-    }
-
-    public void setTitle(String title) {
-        $proxy.set(TITLE, title);
-    }
-
-    public boolean isMergable() {
-        return $proxy.get(MERGABLE);
-    }
-
-    public void setMergable(boolean mergable) {
-        $proxy.set(MERGABLE, mergable);
-    }
-
-    public int getAdditions() {
-        return $proxy.get(ADDITIONS);
-    }
-
-    public void setAdditions(int additions) {
-        $proxy.set(ADDITIONS, additions);
-    }
-
-    public String getDiffUrl() {
-        return $proxy.get(DIFF_URL);
-    }
-
-    public void setDiffUrl(String diffUrl) {
-        $proxy.set(DIFF_URL, diffUrl);
-    }
-
-    public Date getCreatedAt() {
-        return $proxy.get(CREATED_AT);
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        $proxy.set(CREATED_AT, createdAt);
-    }
-
-    public int getReviewComments() {
-        return $proxy.get(REVIEW_COMMENTS);
-    }
-
-    public void setReviewComments(int reviewComments) {
-        $proxy.set(REVIEW_COMMENTS, reviewComments);
-    }
-
-    public String getBody() {
-        return $proxy.get(BODY);
-    }
-
-    public void setBody(String body) {
-        $proxy.set(BODY, body);
-    }
-
-    public boolean isMergeable() {
-        return $proxy.get(MERGEABLE);
-    }
-
-    public void setMergeable(boolean mergeable) {
-        $proxy.set(MERGEABLE, mergeable);
-    }
-
-    public int getChangedFiles() {
-        return $proxy.get(CHANGED_FILES);
-    }
-
-    public void setChangedFiles(int changedFiles) {
-        $proxy.set(CHANGED_FILES, changedFiles);
-    }
-
-    public String getUrl() {
-        return $proxy.get(URL);
-    }
-
-    public void setUrl(String url) {
-        $proxy.set(URL, url);
-    }
-
-    public Date getMergedAt() {
-        return $proxy.get(MERGED_AT);
-    }
-
-    public void setMergedAt(Date mergedAt) {
-        $proxy.set(MERGED_AT, mergedAt);
-    }
-
     public String getLogin() {
         return $proxy.get(LOGIN);
     }
 
     public void setLogin(String login) {
         $proxy.set(LOGIN, login);
-    }
-
-    public int getCommits() {
-        return $proxy.get(COMMITS);
-    }
-
-    public void setCommits(int commits) {
-        $proxy.set(COMMITS, commits);
-    }
-
-    public String getMergeState() {
-        return $proxy.get(MERGE_STATE);
-    }
-
-    public void setMergeState(String mergeState) {
-        $proxy.set(MERGE_STATE, mergeState);
-    }
-
-    public int getDeletions() {
-        return $proxy.get(DELETIONS);
-    }
-
-    public void setDeletions(int deletions) {
-        $proxy.set(DELETIONS, deletions);
-    }
-
-    public IssueState getState() {
-        return $proxy.get(STATE);
-    }
-
-    public void setState(IssueState state) {
-        $proxy.set(STATE, state);
     }
 
     public String getMergeCommitSha() {
@@ -1875,12 +1715,12 @@ public class PullRequest extends AbstractPullRequest implements Persistable {
         $proxy.set(COMMENTS, comments);
     }
 
-    public int getNumber() {
-        return $proxy.get(NUMBER);
+    public boolean isLocked() {
+        return $proxy.get(LOCKED);
     }
 
-    public void setNumber(int number) {
-        $proxy.set(NUMBER, number);
+    public void setLocked(boolean locked) {
+        $proxy.set(LOCKED, locked);
     }
 
     public String getBodyHtml() {
@@ -1891,12 +1731,108 @@ public class PullRequest extends AbstractPullRequest implements Persistable {
         $proxy.set(BODY_HTML, bodyHtml);
     }
 
-    public String getPatchUrl() {
-        return $proxy.get(PATCH_URL);
+    public int getAdditions() {
+        return $proxy.get(ADDITIONS);
     }
 
-    public void setPatchUrl(String patchUrl) {
-        $proxy.set(PATCH_URL, patchUrl);
+    public void setAdditions(int additions) {
+        $proxy.set(ADDITIONS, additions);
+    }
+
+    public int getDeletions() {
+        return $proxy.get(DELETIONS);
+    }
+
+    public void setDeletions(int deletions) {
+        $proxy.set(DELETIONS, deletions);
+    }
+
+    public String getHtmlUrl() {
+        return $proxy.get(HTML_URL);
+    }
+
+    public void setHtmlUrl(String htmlUrl) {
+        $proxy.set(HTML_URL, htmlUrl);
+    }
+
+    public String getDiffUrl() {
+        return $proxy.get(DIFF_URL);
+    }
+
+    public void setDiffUrl(String diffUrl) {
+        $proxy.set(DIFF_URL, diffUrl);
+    }
+
+    public String getRepoId() {
+        return $proxy.get(REPO_ID);
+    }
+
+    public void setRepoId(String repoId) {
+        $proxy.set(REPO_ID, repoId);
+    }
+
+    public int getReviewComments() {
+        return $proxy.get(REVIEW_COMMENTS);
+    }
+
+    public void setReviewComments(int reviewComments) {
+        $proxy.set(REVIEW_COMMENTS, reviewComments);
+    }
+
+    public String getMergeState() {
+        return $proxy.get(MERGE_STATE);
+    }
+
+    public void setMergeState(String mergeState) {
+        $proxy.set(MERGE_STATE, mergeState);
+    }
+
+    public String getUrl() {
+        return $proxy.get(URL);
+    }
+
+    public void setUrl(String url) {
+        $proxy.set(URL, url);
+    }
+
+    public String getMergeableState() {
+        return $proxy.get(MERGEABLE_STATE);
+    }
+
+    public void setMergeableState(String mergeableState) {
+        $proxy.set(MERGEABLE_STATE, mergeableState);
+    }
+
+    public Date getClosedAt() {
+        return $proxy.get(CLOSED_AT);
+    }
+
+    public void setClosedAt(Date closedAt) {
+        $proxy.set(CLOSED_AT, closedAt);
+    }
+
+    public int getNumber() {
+        return $proxy.get(NUMBER);
+    }
+
+    public void setNumber(int number) {
+        $proxy.set(NUMBER, number);
+    }
+
+    public int getCommits() {
+        return $proxy.get(COMMITS);
+    }
+
+    public void setCommits(int commits) {
+        $proxy.set(COMMITS, commits);
+    }
+
+    public boolean isMergable() {
+        return $proxy.get(MERGABLE);
+    }
+
+    public void setMergable(boolean mergable) {
+        $proxy.set(MERGABLE, mergable);
     }
 
     public boolean isMerged() {
@@ -1907,12 +1843,76 @@ public class PullRequest extends AbstractPullRequest implements Persistable {
         $proxy.set(MERGED, merged);
     }
 
-    public String getMergeableState() {
-        return $proxy.get(MERGEABLE_STATE);
+    public Date getUpdatedAt() {
+        return $proxy.get(UPDATED_AT);
     }
 
-    public void setMergeableState(String mergeableState) {
-        $proxy.set(MERGEABLE_STATE, mergeableState);
+    public void setUpdatedAt(Date updatedAt) {
+        $proxy.set(UPDATED_AT, updatedAt);
+    }
+
+    public IssueState getState() {
+        return $proxy.get(STATE);
+    }
+
+    public void setState(IssueState state) {
+        $proxy.set(STATE, state);
+    }
+
+    public int getChangedFiles() {
+        return $proxy.get(CHANGED_FILES);
+    }
+
+    public void setChangedFiles(int changedFiles) {
+        $proxy.set(CHANGED_FILES, changedFiles);
+    }
+
+    public String getPatchUrl() {
+        return $proxy.get(PATCH_URL);
+    }
+
+    public void setPatchUrl(String patchUrl) {
+        $proxy.set(PATCH_URL, patchUrl);
+    }
+
+    public String getBody() {
+        return $proxy.get(BODY);
+    }
+
+    public void setBody(String body) {
+        $proxy.set(BODY, body);
+    }
+
+    public String getTitle() {
+        return $proxy.get(TITLE);
+    }
+
+    public void setTitle(String title) {
+        $proxy.set(TITLE, title);
+    }
+
+    public boolean isMergeable() {
+        return $proxy.get(MERGEABLE);
+    }
+
+    public void setMergeable(boolean mergeable) {
+        $proxy.set(MERGEABLE, mergeable);
+    }
+
+    public Date getMergedAt() {
+        return $proxy.get(MERGED_AT);
+    }
+
+    public void setMergedAt(Date mergedAt) {
+        $proxy.set(MERGED_AT, mergedAt);
+    }
+
+    public Date getCreatedAt() {
+        return $proxy.get(CREATED_AT);
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        $proxy.set(CREATED_AT, createdAt);
     }
 
     @Override

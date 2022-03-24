@@ -234,6 +234,38 @@ public class Event extends AbstractEvent implements Persistable {
     .setUnique(false)
     .buildNumeric();
 
+    public static final QueryAttribute<Event, EventsType> TYPE = 
+    new AttributeBuilder<Event, EventsType>("type", EventsType.class)
+    .setProperty(new Property<Event, EventsType>() {
+        @Override
+        public EventsType get(Event entity) {
+            return entity.type;
+        }
+
+        @Override
+        public void set(Event entity, EventsType value) {
+            entity.type = value;
+        }
+    })
+    .setPropertyName("type")
+    .setPropertyState(new Property<Event, PropertyState>() {
+        @Override
+        public PropertyState get(Event entity) {
+            return entity.$type_state;
+        }
+
+        @Override
+        public void set(Event entity, PropertyState value) {
+            entity.$type_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .build();
+
     public static final QueryAttribute<Event, Boolean> PUBLIC_EVENT = 
     new AttributeBuilder<Event, Boolean>("publicEvent", boolean.class)
     .setProperty(new BooleanProperty<Event>() {
@@ -273,38 +305,6 @@ public class Event extends AbstractEvent implements Persistable {
     .setReadOnly(false)
     .setLazy(false)
     .setNullable(false)
-    .setUnique(false)
-    .build();
-
-    public static final QueryAttribute<Event, EventsType> TYPE = 
-    new AttributeBuilder<Event, EventsType>("type", EventsType.class)
-    .setProperty(new Property<Event, EventsType>() {
-        @Override
-        public EventsType get(Event entity) {
-            return entity.type;
-        }
-
-        @Override
-        public void set(Event entity, EventsType value) {
-            entity.type = value;
-        }
-    })
-    .setPropertyName("type")
-    .setPropertyState(new Property<Event, PropertyState>() {
-        @Override
-        public PropertyState get(Event entity) {
-            return entity.$type_state;
-        }
-
-        @Override
-        public void set(Event entity, PropertyState value) {
-            entity.$type_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
     .setUnique(false)
     .build();
 
@@ -349,9 +349,9 @@ public class Event extends AbstractEvent implements Persistable {
 
     private PropertyState $createdAt_state;
 
-    private PropertyState $publicEvent_state;
-
     private PropertyState $type_state;
+
+    private PropertyState $publicEvent_state;
 
     private final transient EntityProxy<Event> $proxy = new EntityProxy<Event>(this, $TYPE);
 
@@ -410,20 +410,20 @@ public class Event extends AbstractEvent implements Persistable {
         $proxy.set(CREATED_AT, createdAt);
     }
 
-    public boolean isPublicEvent() {
-        return $proxy.get(PUBLIC_EVENT);
-    }
-
-    public void setPublicEvent(boolean publicEvent) {
-        $proxy.set(PUBLIC_EVENT, publicEvent);
-    }
-
     public EventsType getType() {
         return $proxy.get(TYPE);
     }
 
     public void setType(EventsType type) {
         $proxy.set(TYPE, type);
+    }
+
+    public boolean isPublicEvent() {
+        return $proxy.get(PUBLIC_EVENT);
+    }
+
+    public void setPublicEvent(boolean publicEvent) {
+        $proxy.set(PUBLIC_EVENT, publicEvent);
     }
 
     @Override

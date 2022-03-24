@@ -370,134 +370,6 @@ public class IssueEvent extends AbstractIssueEvent implements Persistable {
     .setConverter(new com.fastaccess.data.dao.converters.LabelConverter())
     .build();
 
-    public static final StringAttribute<IssueEvent, String> COMMIT_URL = 
-    new AttributeBuilder<IssueEvent, String>("commitUrl", String.class)
-    .setProperty(new Property<IssueEvent, String>() {
-        @Override
-        public String get(IssueEvent entity) {
-            return entity.commitUrl;
-        }
-
-        @Override
-        public void set(IssueEvent entity, String value) {
-            entity.commitUrl = value;
-        }
-    })
-    .setPropertyName("commitUrl")
-    .setPropertyState(new Property<IssueEvent, PropertyState>() {
-        @Override
-        public PropertyState get(IssueEvent entity) {
-            return entity.$commitUrl_state;
-        }
-
-        @Override
-        public void set(IssueEvent entity, PropertyState value) {
-            entity.$commitUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final NumericAttribute<IssueEvent, Date> CREATED_AT = 
-    new AttributeBuilder<IssueEvent, Date>("createdAt", Date.class)
-    .setProperty(new Property<IssueEvent, Date>() {
-        @Override
-        public Date get(IssueEvent entity) {
-            return entity.createdAt;
-        }
-
-        @Override
-        public void set(IssueEvent entity, Date value) {
-            entity.createdAt = value;
-        }
-    })
-    .setPropertyName("createdAt")
-    .setPropertyState(new Property<IssueEvent, PropertyState>() {
-        @Override
-        public PropertyState get(IssueEvent entity) {
-            return entity.$createdAt_state;
-        }
-
-        @Override
-        public void set(IssueEvent entity, PropertyState value) {
-            entity.$createdAt_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildNumeric();
-
-    public static final StringAttribute<IssueEvent, String> URL = 
-    new AttributeBuilder<IssueEvent, String>("url", String.class)
-    .setProperty(new Property<IssueEvent, String>() {
-        @Override
-        public String get(IssueEvent entity) {
-            return entity.url;
-        }
-
-        @Override
-        public void set(IssueEvent entity, String value) {
-            entity.url = value;
-        }
-    })
-    .setPropertyName("url")
-    .setPropertyState(new Property<IssueEvent, PropertyState>() {
-        @Override
-        public PropertyState get(IssueEvent entity) {
-            return entity.$url_state;
-        }
-
-        @Override
-        public void set(IssueEvent entity, PropertyState value) {
-            entity.$url_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<IssueEvent, String> ISSUE_ID = 
-    new AttributeBuilder<IssueEvent, String>("issueId", String.class)
-    .setProperty(new Property<IssueEvent, String>() {
-        @Override
-        public String get(IssueEvent entity) {
-            return entity.issueId;
-        }
-
-        @Override
-        public void set(IssueEvent entity, String value) {
-            entity.issueId = value;
-        }
-    })
-    .setPropertyName("issueId")
-    .setPropertyState(new Property<IssueEvent, PropertyState>() {
-        @Override
-        public PropertyState get(IssueEvent entity) {
-            return entity.$issueId_state;
-        }
-
-        @Override
-        public void set(IssueEvent entity, PropertyState value) {
-            entity.$issueId_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
     public static final StringAttribute<IssueEvent, String> REPO_ID = 
     new AttributeBuilder<IssueEvent, String>("repoId", String.class)
     .setProperty(new Property<IssueEvent, String>() {
@@ -530,29 +402,29 @@ public class IssueEvent extends AbstractIssueEvent implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final StringAttribute<IssueEvent, String> COMMIT_ID = 
-    new AttributeBuilder<IssueEvent, String>("commitId", String.class)
+    public static final StringAttribute<IssueEvent, String> LOGIN = 
+    new AttributeBuilder<IssueEvent, String>("login", String.class)
     .setProperty(new Property<IssueEvent, String>() {
         @Override
         public String get(IssueEvent entity) {
-            return entity.commitId;
+            return entity.login;
         }
 
         @Override
         public void set(IssueEvent entity, String value) {
-            entity.commitId = value;
+            entity.login = value;
         }
     })
-    .setPropertyName("commitId")
+    .setPropertyName("login")
     .setPropertyState(new Property<IssueEvent, PropertyState>() {
         @Override
         public PropertyState get(IssueEvent entity) {
-            return entity.$commitId_state;
+            return entity.$login_state;
         }
 
         @Override
         public void set(IssueEvent entity, PropertyState value) {
-            entity.$commitId_state = value;
+            entity.$login_state = value;
         }
     })
     .setGenerated(false)
@@ -594,29 +466,29 @@ public class IssueEvent extends AbstractIssueEvent implements Persistable {
     .setUnique(false)
     .build();
 
-    public static final StringAttribute<IssueEvent, String> LOGIN = 
-    new AttributeBuilder<IssueEvent, String>("login", String.class)
+    public static final StringAttribute<IssueEvent, String> ISSUE_ID = 
+    new AttributeBuilder<IssueEvent, String>("issueId", String.class)
     .setProperty(new Property<IssueEvent, String>() {
         @Override
         public String get(IssueEvent entity) {
-            return entity.login;
+            return entity.issueId;
         }
 
         @Override
         public void set(IssueEvent entity, String value) {
-            entity.login = value;
+            entity.issueId = value;
         }
     })
-    .setPropertyName("login")
+    .setPropertyName("issueId")
     .setPropertyState(new Property<IssueEvent, PropertyState>() {
         @Override
         public PropertyState get(IssueEvent entity) {
-            return entity.$login_state;
+            return entity.$issueId_state;
         }
 
         @Override
         public void set(IssueEvent entity, PropertyState value) {
-            entity.$login_state = value;
+            entity.$issueId_state = value;
         }
     })
     .setGenerated(false)
@@ -625,6 +497,134 @@ public class IssueEvent extends AbstractIssueEvent implements Persistable {
     .setNullable(true)
     .setUnique(false)
     .buildString();
+
+    public static final StringAttribute<IssueEvent, String> COMMIT_URL = 
+    new AttributeBuilder<IssueEvent, String>("commitUrl", String.class)
+    .setProperty(new Property<IssueEvent, String>() {
+        @Override
+        public String get(IssueEvent entity) {
+            return entity.commitUrl;
+        }
+
+        @Override
+        public void set(IssueEvent entity, String value) {
+            entity.commitUrl = value;
+        }
+    })
+    .setPropertyName("commitUrl")
+    .setPropertyState(new Property<IssueEvent, PropertyState>() {
+        @Override
+        public PropertyState get(IssueEvent entity) {
+            return entity.$commitUrl_state;
+        }
+
+        @Override
+        public void set(IssueEvent entity, PropertyState value) {
+            entity.$commitUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<IssueEvent, String> COMMIT_ID = 
+    new AttributeBuilder<IssueEvent, String>("commitId", String.class)
+    .setProperty(new Property<IssueEvent, String>() {
+        @Override
+        public String get(IssueEvent entity) {
+            return entity.commitId;
+        }
+
+        @Override
+        public void set(IssueEvent entity, String value) {
+            entity.commitId = value;
+        }
+    })
+    .setPropertyName("commitId")
+    .setPropertyState(new Property<IssueEvent, PropertyState>() {
+        @Override
+        public PropertyState get(IssueEvent entity) {
+            return entity.$commitId_state;
+        }
+
+        @Override
+        public void set(IssueEvent entity, PropertyState value) {
+            entity.$commitId_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<IssueEvent, String> URL = 
+    new AttributeBuilder<IssueEvent, String>("url", String.class)
+    .setProperty(new Property<IssueEvent, String>() {
+        @Override
+        public String get(IssueEvent entity) {
+            return entity.url;
+        }
+
+        @Override
+        public void set(IssueEvent entity, String value) {
+            entity.url = value;
+        }
+    })
+    .setPropertyName("url")
+    .setPropertyState(new Property<IssueEvent, PropertyState>() {
+        @Override
+        public PropertyState get(IssueEvent entity) {
+            return entity.$url_state;
+        }
+
+        @Override
+        public void set(IssueEvent entity, PropertyState value) {
+            entity.$url_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final NumericAttribute<IssueEvent, Date> CREATED_AT = 
+    new AttributeBuilder<IssueEvent, Date>("createdAt", Date.class)
+    .setProperty(new Property<IssueEvent, Date>() {
+        @Override
+        public Date get(IssueEvent entity) {
+            return entity.createdAt;
+        }
+
+        @Override
+        public void set(IssueEvent entity, Date value) {
+            entity.createdAt = value;
+        }
+    })
+    .setPropertyName("createdAt")
+    .setPropertyState(new Property<IssueEvent, PropertyState>() {
+        @Override
+        public PropertyState get(IssueEvent entity) {
+            return entity.$createdAt_state;
+        }
+
+        @Override
+        public void set(IssueEvent entity, PropertyState value) {
+            entity.$createdAt_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildNumeric();
 
     public static final Type<IssueEvent> $TYPE = new TypeBuilder<IssueEvent>(IssueEvent.class, "IssueEvent")
     .setBaseType(AbstractIssueEvent.class)
@@ -654,8 +654,8 @@ public class IssueEvent extends AbstractIssueEvent implements Persistable {
     .addAttribute(COMMIT_URL)
     .addAttribute(ISSUE_ID)
     .addAttribute(MILESTONE)
-    .addAttribute(URL)
     .addAttribute(EVENT)
+    .addAttribute(URL)
     .addAttribute(COMMIT_ID)
     .addAttribute(ASSIGNEE)
     .addAttribute(SOURCE)
@@ -685,21 +685,21 @@ public class IssueEvent extends AbstractIssueEvent implements Persistable {
 
     private PropertyState $label_state;
 
-    private PropertyState $commitUrl_state;
-
-    private PropertyState $createdAt_state;
-
-    private PropertyState $url_state;
-
-    private PropertyState $issueId_state;
-
     private PropertyState $repoId_state;
 
-    private PropertyState $commitId_state;
+    private PropertyState $login_state;
 
     private PropertyState $event_state;
 
-    private PropertyState $login_state;
+    private PropertyState $issueId_state;
+
+    private PropertyState $commitUrl_state;
+
+    private PropertyState $commitId_state;
+
+    private PropertyState $url_state;
+
+    private PropertyState $createdAt_state;
 
     private final transient EntityProxy<IssueEvent> $proxy = new EntityProxy<IssueEvent>(this, $TYPE);
 
@@ -806,38 +806,6 @@ public class IssueEvent extends AbstractIssueEvent implements Persistable {
         $proxy.set(LABEL, label);
     }
 
-    public String getCommitUrl() {
-        return $proxy.get(COMMIT_URL);
-    }
-
-    public void setCommitUrl(String commitUrl) {
-        $proxy.set(COMMIT_URL, commitUrl);
-    }
-
-    public Date getCreatedAt() {
-        return $proxy.get(CREATED_AT);
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        $proxy.set(CREATED_AT, createdAt);
-    }
-
-    public String getUrl() {
-        return $proxy.get(URL);
-    }
-
-    public void setUrl(String url) {
-        $proxy.set(URL, url);
-    }
-
-    public String getIssueId() {
-        return $proxy.get(ISSUE_ID);
-    }
-
-    public void setIssueId(String issueId) {
-        $proxy.set(ISSUE_ID, issueId);
-    }
-
     public String getRepoId() {
         return $proxy.get(REPO_ID);
     }
@@ -846,12 +814,12 @@ public class IssueEvent extends AbstractIssueEvent implements Persistable {
         $proxy.set(REPO_ID, repoId);
     }
 
-    public String getCommitId() {
-        return $proxy.get(COMMIT_ID);
+    public String getLogin() {
+        return $proxy.get(LOGIN);
     }
 
-    public void setCommitId(String commitId) {
-        $proxy.set(COMMIT_ID, commitId);
+    public void setLogin(String login) {
+        $proxy.set(LOGIN, login);
     }
 
     public IssueEventType getEvent() {
@@ -862,12 +830,44 @@ public class IssueEvent extends AbstractIssueEvent implements Persistable {
         $proxy.set(EVENT, event);
     }
 
-    public String getLogin() {
-        return $proxy.get(LOGIN);
+    public String getIssueId() {
+        return $proxy.get(ISSUE_ID);
     }
 
-    public void setLogin(String login) {
-        $proxy.set(LOGIN, login);
+    public void setIssueId(String issueId) {
+        $proxy.set(ISSUE_ID, issueId);
+    }
+
+    public String getCommitUrl() {
+        return $proxy.get(COMMIT_URL);
+    }
+
+    public void setCommitUrl(String commitUrl) {
+        $proxy.set(COMMIT_URL, commitUrl);
+    }
+
+    public String getCommitId() {
+        return $proxy.get(COMMIT_ID);
+    }
+
+    public void setCommitId(String commitId) {
+        $proxy.set(COMMIT_ID, commitId);
+    }
+
+    public String getUrl() {
+        return $proxy.get(URL);
+    }
+
+    public void setUrl(String url) {
+        $proxy.set(URL, url);
+    }
+
+    public Date getCreatedAt() {
+        return $proxy.get(CREATED_AT);
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        $proxy.set(CREATED_AT, createdAt);
     }
 
     @Override

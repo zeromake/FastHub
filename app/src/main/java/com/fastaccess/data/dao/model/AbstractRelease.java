@@ -25,12 +25,6 @@ import io.requery.Key;
 import io.requery.Persistable;
 import io.requery.Table;
 
-
-import static com.fastaccess.data.dao.model.Release.CREATED_AT;
-import static com.fastaccess.data.dao.model.Release.ID;
-import static com.fastaccess.data.dao.model.Release.LOGIN;
-import static com.fastaccess.data.dao.model.Release.REPO_ID;
-
 /**
  * Created by Kosh on 16 Mar 2017, 7:40 PM
  */
@@ -88,8 +82,8 @@ public abstract class AbstractRelease implements Parcelable {
     public static Completable delete(@NonNull String repoId, @NonNull String login) {
         return App.getInstance().getDataStore()
                 .delete(Release.class)
-                .where(REPO_ID.eq(repoId)
-                        .and(LOGIN.eq(login)))
+                .where(Release.REPO_ID.eq(repoId)
+                        .and(Release.LOGIN.eq(login)))
                 .get()
                 .single()
                 .toCompletable();
@@ -98,7 +92,7 @@ public abstract class AbstractRelease implements Parcelable {
     public static Observable<Release> get(long id) {
         return App.getInstance().getDataStore()
                 .select(Release.class)
-                .where(ID.eq(id))
+                .where(Release.ID.eq(id))
                 .get()
                 .observable();
     }
@@ -106,9 +100,9 @@ public abstract class AbstractRelease implements Parcelable {
     public static Single<List<Release>> get(@NonNull String repoId, @NonNull String login) {
         return App.getInstance().getDataStore()
                 .select(Release.class)
-                .where(REPO_ID.eq(repoId)
-                        .and(LOGIN.eq(login)))
-                .orderBy(CREATED_AT.desc())
+                .where(Release.REPO_ID.eq(repoId)
+                        .and(Release.LOGIN.eq(login)))
+                .orderBy(Release.CREATED_AT.desc())
                 .get()
                 .observable()
                 .toList();

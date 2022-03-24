@@ -414,112 +414,6 @@ public class Commit extends AbstractCommit implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final StringAttribute<Commit, String> URL = 
-    new AttributeBuilder<Commit, String>("url", String.class)
-    .setProperty(new Property<Commit, String>() {
-        @Override
-        public String get(Commit entity) {
-            return entity.url;
-        }
-
-        @Override
-        public void set(Commit entity, String value) {
-            entity.url = value;
-        }
-    })
-    .setPropertyName("url")
-    .setPropertyState(new Property<Commit, PropertyState>() {
-        @Override
-        public PropertyState get(Commit entity) {
-            return entity.$url_state;
-        }
-
-        @Override
-        public void set(Commit entity, PropertyState value) {
-            entity.$url_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final NumericAttribute<Commit, Long> PULL_REQUEST_NUMBER = 
-    new AttributeBuilder<Commit, Long>("pullRequestNumber", long.class)
-    .setProperty(new LongProperty<Commit>() {
-        @Override
-        public Long get(Commit entity) {
-            return entity.pullRequestNumber;
-        }
-
-        @Override
-        public void set(Commit entity, Long value) {
-            entity.pullRequestNumber = value;
-        }
-
-        @Override
-        public long getLong(Commit entity) {
-            return entity.pullRequestNumber;
-        }
-
-        @Override
-        public void setLong(Commit entity, long value) {
-            entity.pullRequestNumber = value;
-        }
-    })
-    .setPropertyName("pullRequestNumber")
-    .setPropertyState(new Property<Commit, PropertyState>() {
-        @Override
-        public PropertyState get(Commit entity) {
-            return entity.$pullRequestNumber_state;
-        }
-
-        @Override
-        public void set(Commit entity, PropertyState value) {
-            entity.$pullRequestNumber_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(false)
-    .setUnique(false)
-    .buildNumeric();
-
-    public static final StringAttribute<Commit, String> HTML_URL = 
-    new AttributeBuilder<Commit, String>("htmlUrl", String.class)
-    .setProperty(new Property<Commit, String>() {
-        @Override
-        public String get(Commit entity) {
-            return entity.htmlUrl;
-        }
-
-        @Override
-        public void set(Commit entity, String value) {
-            entity.htmlUrl = value;
-        }
-    })
-    .setPropertyName("htmlUrl")
-    .setPropertyState(new Property<Commit, PropertyState>() {
-        @Override
-        public PropertyState get(Commit entity) {
-            return entity.$htmlUrl_state;
-        }
-
-        @Override
-        public void set(Commit entity, PropertyState value) {
-            entity.$htmlUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
     public static final StringAttribute<Commit, String> LOGIN = 
     new AttributeBuilder<Commit, String>("login", String.class)
     .setProperty(new Property<Commit, String>() {
@@ -626,6 +520,38 @@ public class Commit extends AbstractCommit implements Persistable {
     .setUnique(false)
     .buildString();
 
+    public static final StringAttribute<Commit, String> URL = 
+    new AttributeBuilder<Commit, String>("url", String.class)
+    .setProperty(new Property<Commit, String>() {
+        @Override
+        public String get(Commit entity) {
+            return entity.url;
+        }
+
+        @Override
+        public void set(Commit entity, String value) {
+            entity.url = value;
+        }
+    })
+    .setPropertyName("url")
+    .setPropertyState(new Property<Commit, PropertyState>() {
+        @Override
+        public PropertyState get(Commit entity) {
+            return entity.$url_state;
+        }
+
+        @Override
+        public void set(Commit entity, PropertyState value) {
+            entity.$url_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
     public static final StringAttribute<Commit, String> REPO_ID = 
     new AttributeBuilder<Commit, String>("repoId", String.class)
     .setProperty(new Property<Commit, String>() {
@@ -657,6 +583,80 @@ public class Commit extends AbstractCommit implements Persistable {
     .setNullable(true)
     .setUnique(false)
     .buildString();
+
+    public static final StringAttribute<Commit, String> HTML_URL = 
+    new AttributeBuilder<Commit, String>("htmlUrl", String.class)
+    .setProperty(new Property<Commit, String>() {
+        @Override
+        public String get(Commit entity) {
+            return entity.htmlUrl;
+        }
+
+        @Override
+        public void set(Commit entity, String value) {
+            entity.htmlUrl = value;
+        }
+    })
+    .setPropertyName("htmlUrl")
+    .setPropertyState(new Property<Commit, PropertyState>() {
+        @Override
+        public PropertyState get(Commit entity) {
+            return entity.$htmlUrl_state;
+        }
+
+        @Override
+        public void set(Commit entity, PropertyState value) {
+            entity.$htmlUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final NumericAttribute<Commit, Long> PULL_REQUEST_NUMBER = 
+    new AttributeBuilder<Commit, Long>("pullRequestNumber", long.class)
+    .setProperty(new LongProperty<Commit>() {
+        @Override
+        public Long get(Commit entity) {
+            return entity.pullRequestNumber;
+        }
+
+        @Override
+        public void set(Commit entity, Long value) {
+            entity.pullRequestNumber = value;
+        }
+
+        @Override
+        public long getLong(Commit entity) {
+            return entity.pullRequestNumber;
+        }
+
+        @Override
+        public void setLong(Commit entity, long value) {
+            entity.pullRequestNumber = value;
+        }
+    })
+    .setPropertyName("pullRequestNumber")
+    .setPropertyState(new Property<Commit, PropertyState>() {
+        @Override
+        public PropertyState get(Commit entity) {
+            return entity.$pullRequestNumber_state;
+        }
+
+        @Override
+        public void set(Commit entity, PropertyState value) {
+            entity.$pullRequestNumber_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .buildNumeric();
 
     public static final Type<Commit> $TYPE = new TypeBuilder<Commit>(Commit.class, "commit_table")
     .setBaseType(AbstractCommit.class)
@@ -719,19 +719,19 @@ public class Commit extends AbstractCommit implements Persistable {
 
     private PropertyState $ref_state;
 
-    private PropertyState $url_state;
-
-    private PropertyState $pullRequestNumber_state;
-
-    private PropertyState $htmlUrl_state;
-
     private PropertyState $login_state;
 
     private PropertyState $distincted_state;
 
     private PropertyState $sha_state;
 
+    private PropertyState $url_state;
+
     private PropertyState $repoId_state;
+
+    private PropertyState $htmlUrl_state;
+
+    private PropertyState $pullRequestNumber_state;
 
     private final transient EntityProxy<Commit> $proxy = new EntityProxy<Commit>(this, $TYPE);
 
@@ -826,30 +826,6 @@ public class Commit extends AbstractCommit implements Persistable {
         $proxy.set(REF, ref);
     }
 
-    public String getUrl() {
-        return $proxy.get(URL);
-    }
-
-    public void setUrl(String url) {
-        $proxy.set(URL, url);
-    }
-
-    public long getPullRequestNumber() {
-        return $proxy.get(PULL_REQUEST_NUMBER);
-    }
-
-    public void setPullRequestNumber(long pullRequestNumber) {
-        $proxy.set(PULL_REQUEST_NUMBER, pullRequestNumber);
-    }
-
-    public String getHtmlUrl() {
-        return $proxy.get(HTML_URL);
-    }
-
-    public void setHtmlUrl(String htmlUrl) {
-        $proxy.set(HTML_URL, htmlUrl);
-    }
-
     public String getLogin() {
         return $proxy.get(LOGIN);
     }
@@ -874,12 +850,36 @@ public class Commit extends AbstractCommit implements Persistable {
         $proxy.set(SHA, sha);
     }
 
+    public String getUrl() {
+        return $proxy.get(URL);
+    }
+
+    public void setUrl(String url) {
+        $proxy.set(URL, url);
+    }
+
     public String getRepoId() {
         return $proxy.get(REPO_ID);
     }
 
     public void setRepoId(String repoId) {
         $proxy.set(REPO_ID, repoId);
+    }
+
+    public String getHtmlUrl() {
+        return $proxy.get(HTML_URL);
+    }
+
+    public void setHtmlUrl(String htmlUrl) {
+        $proxy.set(HTML_URL, htmlUrl);
+    }
+
+    public long getPullRequestNumber() {
+        return $proxy.get(PULL_REQUEST_NUMBER);
+    }
+
+    public void setPullRequestNumber(long pullRequestNumber) {
+        $proxy.set(PULL_REQUEST_NUMBER, pullRequestNumber);
     }
 
     @Override

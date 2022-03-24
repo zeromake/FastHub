@@ -20,12 +20,6 @@ import io.requery.Key;
 import io.requery.Persistable;
 import io.requery.reactivex.ReactiveEntityStore;
 
-
-import static com.fastaccess.data.dao.model.RepoFile.LOGIN;
-import static com.fastaccess.data.dao.model.RepoFile.REPO_ID;
-import static com.fastaccess.data.dao.model.RepoFile.SHA;
-import static com.fastaccess.data.dao.model.RepoFile.TYPE;
-
 /**
  * Created by Kosh on 16 Mar 2017, 7:53 PM
  */
@@ -61,8 +55,8 @@ public abstract class AbstractRepoFile implements Parcelable {
     public static Observable<RepoFile> save(@NonNull List<RepoFile> models, @NonNull String login, @NonNull String repoId) {
         ReactiveEntityStore<Persistable> singleEntityStore = App.getInstance().getDataStore();
         return RxHelper.safeObservable(singleEntityStore.delete(RepoFile.class)
-                .where(REPO_ID.eq(repoId)
-                        .and(LOGIN.eq(login)))
+                .where(RepoFile.REPO_ID.eq(repoId)
+                        .and(RepoFile.LOGIN.eq(login)))
                 .get()
                 .single()
                 .toObservable()
@@ -77,9 +71,9 @@ public abstract class AbstractRepoFile implements Parcelable {
     public static Single<List<RepoFile>> getFiles(@NonNull String login, @NonNull String repoId) {
         return App.getInstance().getDataStore()
                 .select(RepoFile.class)
-                .where(REPO_ID.eq(repoId)
-                        .and(LOGIN.eq(login)))
-                .orderBy(TYPE.asc())
+                .where(RepoFile.REPO_ID.eq(repoId)
+                        .and(RepoFile.LOGIN.eq(login)))
+                .orderBy(RepoFile.TYPE.asc())
                 .get()
                 .observable()
                 .toList();
@@ -88,10 +82,10 @@ public abstract class AbstractRepoFile implements Parcelable {
     public static Observable<RepoFile> getFile(@NonNull String login, @NonNull String repoId, @NonNull String sha) {
         return App.getInstance().getDataStore()
                 .select(RepoFile.class)
-                .where(REPO_ID.eq(repoId)
-                        .and(LOGIN.eq(login))
-                        .and(SHA.eq(sha)))
-                .orderBy(TYPE.asc())
+                .where(RepoFile.REPO_ID.eq(repoId)
+                        .and(RepoFile.LOGIN.eq(login))
+                        .and(RepoFile.SHA.eq(sha)))
+                .orderBy(RepoFile.TYPE.asc())
                 .get()
                 .observable();
     }

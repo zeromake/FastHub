@@ -2,6 +2,7 @@ package com.fastaccess.data.dao.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 
 import com.fastaccess.App;
@@ -21,15 +22,6 @@ import io.requery.Convert;
 import io.requery.Entity;
 import io.requery.Key;
 import io.requery.Persistable;
-
-import static com.fastaccess.data.dao.model.Comment.COMMIT_ID;
-import static com.fastaccess.data.dao.model.Comment.GIST_ID;
-import static com.fastaccess.data.dao.model.Comment.ID;
-import static com.fastaccess.data.dao.model.Comment.ISSUE_ID;
-import static com.fastaccess.data.dao.model.Comment.LOGIN;
-import static com.fastaccess.data.dao.model.Comment.PULL_REQUEST_ID;
-import static com.fastaccess.data.dao.model.Comment.REPO_ID;
-import static com.fastaccess.data.dao.model.Comment.UPDATED_AT;
 
 /**
  * Created by Kosh on 16 Mar 2017, 7:24 PM
@@ -62,12 +54,12 @@ import static com.fastaccess.data.dao.model.Comment.UPDATED_AT;
             try {
                 BlockingEntityStore<Persistable> dataSource = App.getInstance().getDataStore().toBlocking();
                 dataSource.delete(Comment.class)
-                        .where(GIST_ID.equal(gistId))
+                        .where(Comment.GIST_ID.equal(gistId))
                         .get()
                         .value();
                 if (!models.isEmpty()) {
                     for (Comment model : models) {
-                        dataSource.delete(Comment.class).where(ID.eq(model.getId())).get().value();
+                        dataSource.delete(Comment.class).where(Comment.ID.eq(model.getId())).get().value();
                         model.setGistId(gistId);
                         dataSource.insert(model);
                     }
@@ -86,14 +78,14 @@ import static com.fastaccess.data.dao.model.Comment.UPDATED_AT;
             try {
                 BlockingEntityStore<Persistable> dataSource = App.getInstance().getDataStore().toBlocking();
                 dataSource.delete(Comment.class)
-                        .where(COMMIT_ID.equal(commitId)
-                                .and(REPO_ID.equal(repoId))
-                                .and(LOGIN.equal(login)))
+                        .where(Comment.COMMIT_ID.equal(commitId)
+                                .and(Comment.REPO_ID.equal(repoId))
+                                .and(Comment.LOGIN.equal(login)))
                         .get()
                         .value();
                 if (!models.isEmpty()) {
                     for (Comment model : models) {
-                        dataSource.delete(Comment.class).where(ID.eq(model.getId())).get().value();
+                        dataSource.delete(Comment.class).where(Comment.ID.eq(model.getId())).get().value();
                         model.setLogin(login);
                         model.setRepoId(repoId);
                         model.setCommitId(commitId);
@@ -111,8 +103,8 @@ import static com.fastaccess.data.dao.model.Comment.UPDATED_AT;
     public static Single<List<Comment>> getGistComments(@NonNull String gistId) {
         return App.getInstance().getDataStore()
                 .select(Comment.class)
-                .where(GIST_ID.equal(gistId))
-                .orderBy(UPDATED_AT.desc())
+                .where(Comment.GIST_ID.equal(gistId))
+                .orderBy(Comment.UPDATED_AT.desc())
                 .get()
                 .observable()
                 .toList();
@@ -122,10 +114,10 @@ import static com.fastaccess.data.dao.model.Comment.UPDATED_AT;
                                                           @NonNull String commitId) {
         return App.getInstance().getDataStore()
                 .select(Comment.class)
-                .where(REPO_ID.equal(repoId)
-                        .and(LOGIN.equal(login))
-                        .and(COMMIT_ID.equal(commitId)))
-                .orderBy(UPDATED_AT.desc())
+                .where(Comment.REPO_ID.equal(repoId)
+                        .and(Comment.LOGIN.equal(login))
+                        .and(Comment.COMMIT_ID.equal(commitId)))
+                .orderBy(Comment.UPDATED_AT.desc())
                 .get()
                 .observable()
                 .toList();
@@ -134,10 +126,10 @@ import static com.fastaccess.data.dao.model.Comment.UPDATED_AT;
     public static Single<List<Comment>> getIssueComments(@NonNull String repoId, @NonNull String login, @NonNull String issueId) {
         return App.getInstance().getDataStore()
                 .select(Comment.class)
-                .where(REPO_ID.equal(repoId)
-                        .and(LOGIN.equal(login))
-                        .and(ISSUE_ID.equal(issueId)))
-                .orderBy(UPDATED_AT.desc())
+                .where(Comment.REPO_ID.equal(repoId)
+                        .and(Comment.LOGIN.equal(login))
+                        .and(Comment.ISSUE_ID.equal(issueId)))
+                .orderBy(Comment.UPDATED_AT.desc())
                 .get()
                 .observable()
                 .toList();
@@ -147,10 +139,10 @@ import static com.fastaccess.data.dao.model.Comment.UPDATED_AT;
                                                                @NonNull String pullRequestId) {
         return App.getInstance().getDataStore()
                 .select(Comment.class)
-                .where(REPO_ID.equal(repoId)
-                        .and(LOGIN.equal(login))
-                        .and(PULL_REQUEST_ID.equal(pullRequestId)))
-                .orderBy(UPDATED_AT.desc())
+                .where(Comment.REPO_ID.equal(repoId)
+                        .and(Comment.LOGIN.equal(login))
+                        .and(Comment.PULL_REQUEST_ID.equal(pullRequestId)))
+                .orderBy(Comment.UPDATED_AT.desc())
                 .get()
                 .observable()
                 .toList();

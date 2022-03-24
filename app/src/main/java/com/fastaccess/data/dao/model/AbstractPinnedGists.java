@@ -14,10 +14,6 @@ import io.requery.Entity;
 import io.requery.Generated;
 import io.requery.Key;
 
-import static com.fastaccess.data.dao.model.PinnedGists.ENTRY_COUNT;
-import static com.fastaccess.data.dao.model.PinnedGists.ID;
-import static com.fastaccess.data.dao.model.PinnedGists.LOGIN;
-
 /**
  * Created by Hashemsergani on 14.10.17.
  */
@@ -64,8 +60,8 @@ import static com.fastaccess.data.dao.model.PinnedGists.LOGIN;
 
     @NonNull public static Single<List<Gist>> getMyPinnedGists() {
         return App.getInstance().getDataStore().select(PinnedGists.class)
-                .where(LOGIN.eq(Login.getUser().getLogin()).or(LOGIN.isNull()))
-                .orderBy(ENTRY_COUNT.desc(), ID.desc())
+                .where(PinnedGists.LOGIN.eq(Login.getUser().getLogin()).or(PinnedGists.LOGIN.isNull()))
+                .orderBy(PinnedGists.ENTRY_COUNT.desc(), PinnedGists.ID.desc())
                 .get()
                 .observable()
                 .map(PinnedGists::getGist)

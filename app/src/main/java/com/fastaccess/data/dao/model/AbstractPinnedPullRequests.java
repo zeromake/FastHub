@@ -17,10 +17,6 @@ import io.requery.Entity;
 import io.requery.Generated;
 import io.requery.Key;
 
-import static com.fastaccess.data.dao.model.PinnedPullRequests.ENTRY_COUNT;
-import static com.fastaccess.data.dao.model.PinnedPullRequests.ID;
-import static com.fastaccess.data.dao.model.PinnedPullRequests.LOGIN;
-
 /**
  * Created by Hashemsergani on 14.10.17.
  */
@@ -79,8 +75,8 @@ import static com.fastaccess.data.dao.model.PinnedPullRequests.LOGIN;
 
     @NonNull public static Single<List<PullRequest>> getMyPinnedPullRequests() {
         return App.getInstance().getDataStore().select(PinnedPullRequests.class)
-                .where(LOGIN.eq(Login.getUser().getLogin()).or(LOGIN.isNull()))
-                .orderBy(ENTRY_COUNT.desc(), ID.desc())
+                .where(PinnedPullRequests.LOGIN.eq(Login.getUser().getLogin()).or(PinnedPullRequests.LOGIN.isNull()))
+                .orderBy(PinnedPullRequests.ENTRY_COUNT.desc(), PinnedPullRequests.ID.desc())
                 .get()
                 .observable()
                 .map(PinnedPullRequests::getPullRequest)

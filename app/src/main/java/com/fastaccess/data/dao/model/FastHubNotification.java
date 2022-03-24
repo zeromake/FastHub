@@ -166,17 +166,17 @@ public class FastHubNotification extends AbstractFastHubNotification implements 
     .setUnique(false)
     .buildString();
 
-    public static final QueryAttribute<FastHubNotification, NotificationType> TYPE =
-    new AttributeBuilder<FastHubNotification, NotificationType>("type", NotificationType.class)
-    .setProperty(new Property<FastHubNotification, NotificationType>() {
+    public static final QueryAttribute<FastHubNotification, AbstractFastHubNotification.NotificationType> TYPE = 
+    new AttributeBuilder<FastHubNotification, AbstractFastHubNotification.NotificationType>("type", AbstractFastHubNotification.NotificationType.class)
+    .setProperty(new Property<FastHubNotification, AbstractFastHubNotification.NotificationType>() {
         @Override
-        public NotificationType get(FastHubNotification entity) {
+        public AbstractFastHubNotification.NotificationType get(FastHubNotification entity) {
             return entity.type;
         }
 
         @Override
         public void set(FastHubNotification entity,
-                NotificationType value) {
+                AbstractFastHubNotification.NotificationType value) {
             entity.type = value;
         }
     })
@@ -322,11 +322,11 @@ public class FastHubNotification extends AbstractFastHubNotification implements 
         $proxy.set(TITLE, title);
     }
 
-    public NotificationType getType() {
+    public AbstractFastHubNotification.NotificationType getType() {
         return $proxy.get(TYPE);
     }
 
-    public void setType(NotificationType type) {
+    public void setType(AbstractFastHubNotification.NotificationType type) {
         $proxy.set(TYPE, type);
     }
 

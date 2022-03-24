@@ -380,356 +380,6 @@ public class Repo extends AbstractRepo implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final QueryAttribute<Repo, Boolean> FORK = 
-    new AttributeBuilder<Repo, Boolean>("fork", boolean.class)
-    .setProperty(new BooleanProperty<Repo>() {
-        @Override
-        public Boolean get(Repo entity) {
-            return entity.fork;
-        }
-
-        @Override
-        public void set(Repo entity, Boolean value) {
-            entity.fork = value;
-        }
-
-        @Override
-        public boolean getBoolean(Repo entity) {
-            return entity.fork;
-        }
-
-        @Override
-        public void setBoolean(Repo entity, boolean value) {
-            entity.fork = value;
-        }
-    })
-    .setPropertyName("fork")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$fork_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$fork_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(false)
-    .setUnique(false)
-    .build();
-
-    public static final StringAttribute<Repo, String> CONTENTS_URL = 
-    new AttributeBuilder<Repo, String>("contentsUrl", String.class)
-    .setProperty(new Property<Repo, String>() {
-        @Override
-        public String get(Repo entity) {
-            return entity.contentsUrl;
-        }
-
-        @Override
-        public void set(Repo entity, String value) {
-            entity.contentsUrl = value;
-        }
-    })
-    .setPropertyName("contentsUrl")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$contentsUrl_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$contentsUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Repo, String> TAGS_URL = 
-    new AttributeBuilder<Repo, String>("tagsUrl", String.class)
-    .setProperty(new Property<Repo, String>() {
-        @Override
-        public String get(Repo entity) {
-            return entity.tagsUrl;
-        }
-
-        @Override
-        public void set(Repo entity, String value) {
-            entity.tagsUrl = value;
-        }
-    })
-    .setPropertyName("tagsUrl")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$tagsUrl_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$tagsUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Repo, String> HOMEPAGE = 
-    new AttributeBuilder<Repo, String>("homepage", String.class)
-    .setProperty(new Property<Repo, String>() {
-        @Override
-        public String get(Repo entity) {
-            return entity.homepage;
-        }
-
-        @Override
-        public void set(Repo entity, String value) {
-            entity.homepage = value;
-        }
-    })
-    .setPropertyName("homepage")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$homepage_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$homepage_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Repo, String> TREES_URL = 
-    new AttributeBuilder<Repo, String>("treesUrl", String.class)
-    .setProperty(new Property<Repo, String>() {
-        @Override
-        public String get(Repo entity) {
-            return entity.treesUrl;
-        }
-
-        @Override
-        public void set(Repo entity, String value) {
-            entity.treesUrl = value;
-        }
-    })
-    .setPropertyName("treesUrl")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$treesUrl_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$treesUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Repo, String> DEFAULT_BRANCH = 
-    new AttributeBuilder<Repo, String>("defaultBranch", String.class)
-    .setProperty(new Property<Repo, String>() {
-        @Override
-        public String get(Repo entity) {
-            return entity.defaultBranch;
-        }
-
-        @Override
-        public void set(Repo entity, String value) {
-            entity.defaultBranch = value;
-        }
-    })
-    .setPropertyName("defaultBranch")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$defaultBranch_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$defaultBranch_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Repo, String> ARCHIVE_URL = 
-    new AttributeBuilder<Repo, String>("archiveUrl", String.class)
-    .setProperty(new Property<Repo, String>() {
-        @Override
-        public String get(Repo entity) {
-            return entity.archiveUrl;
-        }
-
-        @Override
-        public void set(Repo entity, String value) {
-            entity.archiveUrl = value;
-        }
-    })
-    .setPropertyName("archiveUrl")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$archiveUrl_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$archiveUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Repo, String> KEYS_URL = 
-    new AttributeBuilder<Repo, String>("keysUrl", String.class)
-    .setProperty(new Property<Repo, String>() {
-        @Override
-        public String get(Repo entity) {
-            return entity.keysUrl;
-        }
-
-        @Override
-        public void set(Repo entity, String value) {
-            entity.keysUrl = value;
-        }
-    })
-    .setPropertyName("keysUrl")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$keysUrl_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$keysUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final NumericAttribute<Repo, Long> OPEN_ISSUES_COUNT = 
-    new AttributeBuilder<Repo, Long>("openIssuesCount", long.class)
-    .setProperty(new LongProperty<Repo>() {
-        @Override
-        public Long get(Repo entity) {
-            return entity.openIssuesCount;
-        }
-
-        @Override
-        public void set(Repo entity, Long value) {
-            entity.openIssuesCount = value;
-        }
-
-        @Override
-        public long getLong(Repo entity) {
-            return entity.openIssuesCount;
-        }
-
-        @Override
-        public void setLong(Repo entity, long value) {
-            entity.openIssuesCount = value;
-        }
-    })
-    .setPropertyName("openIssuesCount")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$openIssuesCount_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$openIssuesCount_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(false)
-    .setUnique(false)
-    .buildNumeric();
-
-    public static final QueryAttribute<Repo, Boolean> PRIVATE_X = 
-    new AttributeBuilder<Repo, Boolean>("privateX", boolean.class)
-    .setProperty(new BooleanProperty<Repo>() {
-        @Override
-        public Boolean get(Repo entity) {
-            return entity.privateX;
-        }
-
-        @Override
-        public void set(Repo entity, Boolean value) {
-            entity.privateX = value;
-        }
-
-        @Override
-        public boolean getBoolean(Repo entity) {
-            return entity.privateX;
-        }
-
-        @Override
-        public void setBoolean(Repo entity, boolean value) {
-            entity.privateX = value;
-        }
-    })
-    .setPropertyName("privateX")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$privateX_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$privateX_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(false)
-    .setUnique(false)
-    .build();
-
     public static final StringAttribute<Repo, String> DESCRIPTION = 
     new AttributeBuilder<Repo, String>("description", String.class)
     .setProperty(new Property<Repo, String>() {
@@ -762,145 +412,29 @@ public class Repo extends AbstractRepo implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final StringAttribute<Repo, String> NAME = 
-    new AttributeBuilder<Repo, String>("name", String.class)
+    public static final StringAttribute<Repo, String> HOMEPAGE = 
+    new AttributeBuilder<Repo, String>("homepage", String.class)
     .setProperty(new Property<Repo, String>() {
         @Override
         public String get(Repo entity) {
-            return entity.name;
+            return entity.homepage;
         }
 
         @Override
         public void set(Repo entity, String value) {
-            entity.name = value;
+            entity.homepage = value;
         }
     })
-    .setPropertyName("name")
+    .setPropertyName("homepage")
     .setPropertyState(new Property<Repo, PropertyState>() {
         @Override
         public PropertyState get(Repo entity) {
-            return entity.$name_state;
+            return entity.$homepage_state;
         }
 
         @Override
         public void set(Repo entity, PropertyState value) {
-            entity.$name_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final NumericAttribute<Repo, Long> STARGAZERS_COUNT = 
-    new AttributeBuilder<Repo, Long>("stargazersCount", long.class)
-    .setProperty(new LongProperty<Repo>() {
-        @Override
-        public Long get(Repo entity) {
-            return entity.stargazersCount;
-        }
-
-        @Override
-        public void set(Repo entity, Long value) {
-            entity.stargazersCount = value;
-        }
-
-        @Override
-        public long getLong(Repo entity) {
-            return entity.stargazersCount;
-        }
-
-        @Override
-        public void setLong(Repo entity, long value) {
-            entity.stargazersCount = value;
-        }
-    })
-    .setPropertyName("stargazersCount")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$stargazersCount_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$stargazersCount_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(false)
-    .setUnique(false)
-    .buildNumeric();
-
-    public static final QueryAttribute<Repo, Boolean> HAS_PAGES = 
-    new AttributeBuilder<Repo, Boolean>("hasPages", boolean.class)
-    .setProperty(new BooleanProperty<Repo>() {
-        @Override
-        public Boolean get(Repo entity) {
-            return entity.hasPages;
-        }
-
-        @Override
-        public void set(Repo entity, Boolean value) {
-            entity.hasPages = value;
-        }
-
-        @Override
-        public boolean getBoolean(Repo entity) {
-            return entity.hasPages;
-        }
-
-        @Override
-        public void setBoolean(Repo entity, boolean value) {
-            entity.hasPages = value;
-        }
-    })
-    .setPropertyName("hasPages")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$hasPages_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$hasPages_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(false)
-    .setUnique(false)
-    .build();
-
-    public static final StringAttribute<Repo, String> MIRROR_URL = 
-    new AttributeBuilder<Repo, String>("mirrorUrl", String.class)
-    .setProperty(new Property<Repo, String>() {
-        @Override
-        public String get(Repo entity) {
-            return entity.mirrorUrl;
-        }
-
-        @Override
-        public void set(Repo entity, String value) {
-            entity.mirrorUrl = value;
-        }
-    })
-    .setPropertyName("mirrorUrl")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$mirrorUrl_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$mirrorUrl_state = value;
+            entity.$homepage_state = value;
         }
     })
     .setGenerated(false)
@@ -952,6 +486,186 @@ public class Repo extends AbstractRepo implements Persistable {
     .setUnique(false)
     .buildNumeric();
 
+    public static final NumericAttribute<Repo, Long> SIZE = 
+    new AttributeBuilder<Repo, Long>("size", long.class)
+    .setProperty(new LongProperty<Repo>() {
+        @Override
+        public Long get(Repo entity) {
+            return entity.size;
+        }
+
+        @Override
+        public void set(Repo entity, Long value) {
+            entity.size = value;
+        }
+
+        @Override
+        public long getLong(Repo entity) {
+            return entity.size;
+        }
+
+        @Override
+        public void setLong(Repo entity, long value) {
+            entity.size = value;
+        }
+    })
+    .setPropertyName("size")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$size_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$size_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .buildNumeric();
+
+    public static final StringAttribute<Repo, String> ISSUE_EVENTS_URL = 
+    new AttributeBuilder<Repo, String>("issueEventsUrl", String.class)
+    .setProperty(new Property<Repo, String>() {
+        @Override
+        public String get(Repo entity) {
+            return entity.issueEventsUrl;
+        }
+
+        @Override
+        public void set(Repo entity, String value) {
+            entity.issueEventsUrl = value;
+        }
+    })
+    .setPropertyName("issueEventsUrl")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$issueEventsUrl_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$issueEventsUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Repo, String> NAME = 
+    new AttributeBuilder<Repo, String>("name", String.class)
+    .setProperty(new Property<Repo, String>() {
+        @Override
+        public String get(Repo entity) {
+            return entity.name;
+        }
+
+        @Override
+        public void set(Repo entity, String value) {
+            entity.name = value;
+        }
+    })
+    .setPropertyName("name")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$name_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$name_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Repo, String> TEAMS_URL = 
+    new AttributeBuilder<Repo, String>("teamsUrl", String.class)
+    .setProperty(new Property<Repo, String>() {
+        @Override
+        public String get(Repo entity) {
+            return entity.teamsUrl;
+        }
+
+        @Override
+        public void set(Repo entity, String value) {
+            entity.teamsUrl = value;
+        }
+    })
+    .setPropertyName("teamsUrl")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$teamsUrl_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$teamsUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final NumericAttribute<Repo, Long> STARGAZERS_COUNT = 
+    new AttributeBuilder<Repo, Long>("stargazersCount", long.class)
+    .setProperty(new LongProperty<Repo>() {
+        @Override
+        public Long get(Repo entity) {
+            return entity.stargazersCount;
+        }
+
+        @Override
+        public void set(Repo entity, Long value) {
+            entity.stargazersCount = value;
+        }
+
+        @Override
+        public long getLong(Repo entity) {
+            return entity.stargazersCount;
+        }
+
+        @Override
+        public void setLong(Repo entity, long value) {
+            entity.stargazersCount = value;
+        }
+    })
+    .setPropertyName("stargazersCount")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$stargazersCount_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$stargazersCount_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .buildNumeric();
+
     public static final StringAttribute<Repo, String> GIT_TAGS_URL = 
     new AttributeBuilder<Repo, String>("gitTagsUrl", String.class)
     .setProperty(new Property<Repo, String>() {
@@ -984,29 +698,29 @@ public class Repo extends AbstractRepo implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final StringAttribute<Repo, String> GIT_URL = 
-    new AttributeBuilder<Repo, String>("gitUrl", String.class)
+    public static final StringAttribute<Repo, String> GIT_COMMITS_URL = 
+    new AttributeBuilder<Repo, String>("gitCommitsUrl", String.class)
     .setProperty(new Property<Repo, String>() {
         @Override
         public String get(Repo entity) {
-            return entity.gitUrl;
+            return entity.gitCommitsUrl;
         }
 
         @Override
         public void set(Repo entity, String value) {
-            entity.gitUrl = value;
+            entity.gitCommitsUrl = value;
         }
     })
-    .setPropertyName("gitUrl")
+    .setPropertyName("gitCommitsUrl")
     .setPropertyState(new Property<Repo, PropertyState>() {
         @Override
         public PropertyState get(Repo entity) {
-            return entity.$gitUrl_state;
+            return entity.$gitCommitsUrl_state;
         }
 
         @Override
         public void set(Repo entity, PropertyState value) {
-            entity.$gitUrl_state = value;
+            entity.$gitCommitsUrl_state = value;
         }
     })
     .setGenerated(false)
@@ -1016,61 +730,29 @@ public class Repo extends AbstractRepo implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final NumericAttribute<Repo, Date> PUSHED_AT = 
-    new AttributeBuilder<Repo, Date>("pushedAt", Date.class)
-    .setProperty(new Property<Repo, Date>() {
-        @Override
-        public Date get(Repo entity) {
-            return entity.pushedAt;
-        }
-
-        @Override
-        public void set(Repo entity, Date value) {
-            entity.pushedAt = value;
-        }
-    })
-    .setPropertyName("pushedAt")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$pushedAt_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$pushedAt_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildNumeric();
-
-    public static final StringAttribute<Repo, String> FULL_NAME = 
-    new AttributeBuilder<Repo, String>("fullName", String.class)
+    public static final StringAttribute<Repo, String> MERGES_URL = 
+    new AttributeBuilder<Repo, String>("mergesUrl", String.class)
     .setProperty(new Property<Repo, String>() {
         @Override
         public String get(Repo entity) {
-            return entity.fullName;
+            return entity.mergesUrl;
         }
 
         @Override
         public void set(Repo entity, String value) {
-            entity.fullName = value;
+            entity.mergesUrl = value;
         }
     })
-    .setPropertyName("fullName")
+    .setPropertyName("mergesUrl")
     .setPropertyState(new Property<Repo, PropertyState>() {
         @Override
         public PropertyState get(Repo entity) {
-            return entity.$fullName_state;
+            return entity.$mergesUrl_state;
         }
 
         @Override
         public void set(Repo entity, PropertyState value) {
-            entity.$fullName_state = value;
+            entity.$mergesUrl_state = value;
         }
     })
     .setGenerated(false)
@@ -1080,61 +762,29 @@ public class Repo extends AbstractRepo implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final NumericAttribute<Repo, Date> UPDATED_AT = 
-    new AttributeBuilder<Repo, Date>("updatedAt", Date.class)
-    .setProperty(new Property<Repo, Date>() {
-        @Override
-        public Date get(Repo entity) {
-            return entity.updatedAt;
-        }
-
-        @Override
-        public void set(Repo entity, Date value) {
-            entity.updatedAt = value;
-        }
-    })
-    .setPropertyName("updatedAt")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$updatedAt_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$updatedAt_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildNumeric();
-
-    public static final StringAttribute<Repo, String> BLOBS_URL = 
-    new AttributeBuilder<Repo, String>("blobsUrl", String.class)
+    public static final StringAttribute<Repo, String> STARGAZERS_URL = 
+    new AttributeBuilder<Repo, String>("stargazersUrl", String.class)
     .setProperty(new Property<Repo, String>() {
         @Override
         public String get(Repo entity) {
-            return entity.blobsUrl;
+            return entity.stargazersUrl;
         }
 
         @Override
         public void set(Repo entity, String value) {
-            entity.blobsUrl = value;
+            entity.stargazersUrl = value;
         }
     })
-    .setPropertyName("blobsUrl")
+    .setPropertyName("stargazersUrl")
     .setPropertyState(new Property<Repo, PropertyState>() {
         @Override
         public PropertyState get(Repo entity) {
-            return entity.$blobsUrl_state;
+            return entity.$stargazersUrl_state;
         }
 
         @Override
         public void set(Repo entity, PropertyState value) {
-            entity.$blobsUrl_state = value;
+            entity.$stargazersUrl_state = value;
         }
     })
     .setGenerated(false)
@@ -1144,103 +794,29 @@ public class Repo extends AbstractRepo implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final QueryAttribute<Repo, Boolean> HAS_DOWNLOADS = 
-    new AttributeBuilder<Repo, Boolean>("hasDownloads", boolean.class)
-    .setProperty(new BooleanProperty<Repo>() {
-        @Override
-        public Boolean get(Repo entity) {
-            return entity.hasDownloads;
-        }
-
-        @Override
-        public void set(Repo entity, Boolean value) {
-            entity.hasDownloads = value;
-        }
-
-        @Override
-        public boolean getBoolean(Repo entity) {
-            return entity.hasDownloads;
-        }
-
-        @Override
-        public void setBoolean(Repo entity, boolean value) {
-            entity.hasDownloads = value;
-        }
-    })
-    .setPropertyName("hasDownloads")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$hasDownloads_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$hasDownloads_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(false)
-    .setUnique(false)
-    .build();
-
-    public static final StringAttribute<Repo, String> ISSUES_URL = 
-    new AttributeBuilder<Repo, String>("issuesUrl", String.class)
+    public static final StringAttribute<Repo, String> MIRROR_URL = 
+    new AttributeBuilder<Repo, String>("mirrorUrl", String.class)
     .setProperty(new Property<Repo, String>() {
         @Override
         public String get(Repo entity) {
-            return entity.issuesUrl;
+            return entity.mirrorUrl;
         }
 
         @Override
         public void set(Repo entity, String value) {
-            entity.issuesUrl = value;
+            entity.mirrorUrl = value;
         }
     })
-    .setPropertyName("issuesUrl")
+    .setPropertyName("mirrorUrl")
     .setPropertyState(new Property<Repo, PropertyState>() {
         @Override
         public PropertyState get(Repo entity) {
-            return entity.$issuesUrl_state;
+            return entity.$mirrorUrl_state;
         }
 
         @Override
         public void set(Repo entity, PropertyState value) {
-            entity.$issuesUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Repo, String> GIT_REFS_URL = 
-    new AttributeBuilder<Repo, String>("gitRefsUrl", String.class)
-    .setProperty(new Property<Repo, String>() {
-        @Override
-        public String get(Repo entity) {
-            return entity.gitRefsUrl;
-        }
-
-        @Override
-        public void set(Repo entity, String value) {
-            entity.gitRefsUrl = value;
-        }
-    })
-    .setPropertyName("gitRefsUrl")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$gitRefsUrl_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$gitRefsUrl_state = value;
+            entity.$mirrorUrl_state = value;
         }
     })
     .setGenerated(false)
@@ -1292,29 +868,1143 @@ public class Repo extends AbstractRepo implements Persistable {
     .setUnique(false)
     .buildNumeric();
 
-    public static final StringAttribute<Repo, String> LABELS_URL = 
-    new AttributeBuilder<Repo, String>("labelsUrl", String.class)
+    public static final StringAttribute<Repo, String> FORKS_URL = 
+    new AttributeBuilder<Repo, String>("forksUrl", String.class)
     .setProperty(new Property<Repo, String>() {
         @Override
         public String get(Repo entity) {
-            return entity.labelsUrl;
+            return entity.forksUrl;
         }
 
         @Override
         public void set(Repo entity, String value) {
-            entity.labelsUrl = value;
+            entity.forksUrl = value;
         }
     })
-    .setPropertyName("labelsUrl")
+    .setPropertyName("forksUrl")
     .setPropertyState(new Property<Repo, PropertyState>() {
         @Override
         public PropertyState get(Repo entity) {
-            return entity.$labelsUrl_state;
+            return entity.$forksUrl_state;
         }
 
         @Override
         public void set(Repo entity, PropertyState value) {
-            entity.$labelsUrl_state = value;
+            entity.$forksUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Repo, String> COMMITS_URL = 
+    new AttributeBuilder<Repo, String>("commitsUrl", String.class)
+    .setProperty(new Property<Repo, String>() {
+        @Override
+        public String get(Repo entity) {
+            return entity.commitsUrl;
+        }
+
+        @Override
+        public void set(Repo entity, String value) {
+            entity.commitsUrl = value;
+        }
+    })
+    .setPropertyName("commitsUrl")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$commitsUrl_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$commitsUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Repo, String> LANGUAGES_URL = 
+    new AttributeBuilder<Repo, String>("languagesUrl", String.class)
+    .setProperty(new Property<Repo, String>() {
+        @Override
+        public String get(Repo entity) {
+            return entity.languagesUrl;
+        }
+
+        @Override
+        public void set(Repo entity, String value) {
+            entity.languagesUrl = value;
+        }
+    })
+    .setPropertyName("languagesUrl")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$languagesUrl_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$languagesUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final NumericAttribute<Repo, Long> OPEN_ISSUES = 
+    new AttributeBuilder<Repo, Long>("openIssues", long.class)
+    .setProperty(new LongProperty<Repo>() {
+        @Override
+        public Long get(Repo entity) {
+            return entity.openIssues;
+        }
+
+        @Override
+        public void set(Repo entity, Long value) {
+            entity.openIssues = value;
+        }
+
+        @Override
+        public long getLong(Repo entity) {
+            return entity.openIssues;
+        }
+
+        @Override
+        public void setLong(Repo entity, long value) {
+            entity.openIssues = value;
+        }
+    })
+    .setPropertyName("openIssues")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$openIssues_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$openIssues_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .buildNumeric();
+
+    public static final StringAttribute<Repo, String> GIT_URL = 
+    new AttributeBuilder<Repo, String>("gitUrl", String.class)
+    .setProperty(new Property<Repo, String>() {
+        @Override
+        public String get(Repo entity) {
+            return entity.gitUrl;
+        }
+
+        @Override
+        public void set(Repo entity, String value) {
+            entity.gitUrl = value;
+        }
+    })
+    .setPropertyName("gitUrl")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$gitUrl_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$gitUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Repo, String> NOTIFICATIONS_URL = 
+    new AttributeBuilder<Repo, String>("notificationsUrl", String.class)
+    .setProperty(new Property<Repo, String>() {
+        @Override
+        public String get(Repo entity) {
+            return entity.notificationsUrl;
+        }
+
+        @Override
+        public void set(Repo entity, String value) {
+            entity.notificationsUrl = value;
+        }
+    })
+    .setPropertyName("notificationsUrl")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$notificationsUrl_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$notificationsUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final QueryAttribute<Repo, Boolean> PRIVATE_X = 
+    new AttributeBuilder<Repo, Boolean>("privateX", boolean.class)
+    .setProperty(new BooleanProperty<Repo>() {
+        @Override
+        public Boolean get(Repo entity) {
+            return entity.privateX;
+        }
+
+        @Override
+        public void set(Repo entity, Boolean value) {
+            entity.privateX = value;
+        }
+
+        @Override
+        public boolean getBoolean(Repo entity) {
+            return entity.privateX;
+        }
+
+        @Override
+        public void setBoolean(Repo entity, boolean value) {
+            entity.privateX = value;
+        }
+    })
+    .setPropertyName("privateX")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$privateX_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$privateX_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .build();
+
+    public static final NumericAttribute<Repo, Date> UPDATED_AT = 
+    new AttributeBuilder<Repo, Date>("updatedAt", Date.class)
+    .setProperty(new Property<Repo, Date>() {
+        @Override
+        public Date get(Repo entity) {
+            return entity.updatedAt;
+        }
+
+        @Override
+        public void set(Repo entity, Date value) {
+            entity.updatedAt = value;
+        }
+    })
+    .setPropertyName("updatedAt")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$updatedAt_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$updatedAt_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildNumeric();
+
+    public static final StringAttribute<Repo, String> ISSUES_URL = 
+    new AttributeBuilder<Repo, String>("issuesUrl", String.class)
+    .setProperty(new Property<Repo, String>() {
+        @Override
+        public String get(Repo entity) {
+            return entity.issuesUrl;
+        }
+
+        @Override
+        public void set(Repo entity, String value) {
+            entity.issuesUrl = value;
+        }
+    })
+    .setPropertyName("issuesUrl")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$issuesUrl_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$issuesUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final QueryAttribute<Repo, Boolean> HAS_ISSUES = 
+    new AttributeBuilder<Repo, Boolean>("hasIssues", boolean.class)
+    .setProperty(new BooleanProperty<Repo>() {
+        @Override
+        public Boolean get(Repo entity) {
+            return entity.hasIssues;
+        }
+
+        @Override
+        public void set(Repo entity, Boolean value) {
+            entity.hasIssues = value;
+        }
+
+        @Override
+        public boolean getBoolean(Repo entity) {
+            return entity.hasIssues;
+        }
+
+        @Override
+        public void setBoolean(Repo entity, boolean value) {
+            entity.hasIssues = value;
+        }
+    })
+    .setPropertyName("hasIssues")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$hasIssues_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$hasIssues_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .build();
+
+    public static final NumericAttribute<Repo, Long> OPEN_ISSUES_COUNT = 
+    new AttributeBuilder<Repo, Long>("openIssuesCount", long.class)
+    .setProperty(new LongProperty<Repo>() {
+        @Override
+        public Long get(Repo entity) {
+            return entity.openIssuesCount;
+        }
+
+        @Override
+        public void set(Repo entity, Long value) {
+            entity.openIssuesCount = value;
+        }
+
+        @Override
+        public long getLong(Repo entity) {
+            return entity.openIssuesCount;
+        }
+
+        @Override
+        public void setLong(Repo entity, long value) {
+            entity.openIssuesCount = value;
+        }
+    })
+    .setPropertyName("openIssuesCount")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$openIssuesCount_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$openIssuesCount_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .buildNumeric();
+
+    public static final QueryAttribute<Repo, Boolean> FORK = 
+    new AttributeBuilder<Repo, Boolean>("fork", boolean.class)
+    .setProperty(new BooleanProperty<Repo>() {
+        @Override
+        public Boolean get(Repo entity) {
+            return entity.fork;
+        }
+
+        @Override
+        public void set(Repo entity, Boolean value) {
+            entity.fork = value;
+        }
+
+        @Override
+        public boolean getBoolean(Repo entity) {
+            return entity.fork;
+        }
+
+        @Override
+        public void setBoolean(Repo entity, boolean value) {
+            entity.fork = value;
+        }
+    })
+    .setPropertyName("fork")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$fork_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$fork_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .build();
+
+    public static final StringAttribute<Repo, String> SSH_URL = 
+    new AttributeBuilder<Repo, String>("sshUrl", String.class)
+    .setProperty(new Property<Repo, String>() {
+        @Override
+        public String get(Repo entity) {
+            return entity.sshUrl;
+        }
+
+        @Override
+        public void set(Repo entity, String value) {
+            entity.sshUrl = value;
+        }
+    })
+    .setPropertyName("sshUrl")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$sshUrl_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$sshUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final NumericAttribute<Repo, Integer> NETWORK_COUNT = 
+    new AttributeBuilder<Repo, Integer>("networkCount", int.class)
+    .setProperty(new IntProperty<Repo>() {
+        @Override
+        public Integer get(Repo entity) {
+            return entity.networkCount;
+        }
+
+        @Override
+        public void set(Repo entity, Integer value) {
+            entity.networkCount = value;
+        }
+
+        @Override
+        public int getInt(Repo entity) {
+            return entity.networkCount;
+        }
+
+        @Override
+        public void setInt(Repo entity, int value) {
+            entity.networkCount = value;
+        }
+    })
+    .setPropertyName("networkCount")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$networkCount_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$networkCount_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .buildNumeric();
+
+    public static final StringAttribute<Repo, String> ASSIGNEES_URL = 
+    new AttributeBuilder<Repo, String>("assigneesUrl", String.class)
+    .setProperty(new Property<Repo, String>() {
+        @Override
+        public String get(Repo entity) {
+            return entity.assigneesUrl;
+        }
+
+        @Override
+        public void set(Repo entity, String value) {
+            entity.assigneesUrl = value;
+        }
+    })
+    .setPropertyName("assigneesUrl")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$assigneesUrl_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$assigneesUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Repo, String> RELEASES_URL = 
+    new AttributeBuilder<Repo, String>("releasesUrl", String.class)
+    .setProperty(new Property<Repo, String>() {
+        @Override
+        public String get(Repo entity) {
+            return entity.releasesUrl;
+        }
+
+        @Override
+        public void set(Repo entity, String value) {
+            entity.releasesUrl = value;
+        }
+    })
+    .setPropertyName("releasesUrl")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$releasesUrl_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$releasesUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Repo, String> TREES_URL = 
+    new AttributeBuilder<Repo, String>("treesUrl", String.class)
+    .setProperty(new Property<Repo, String>() {
+        @Override
+        public String get(Repo entity) {
+            return entity.treesUrl;
+        }
+
+        @Override
+        public void set(Repo entity, String value) {
+            entity.treesUrl = value;
+        }
+    })
+    .setPropertyName("treesUrl")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$treesUrl_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$treesUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Repo, String> URL = 
+    new AttributeBuilder<Repo, String>("url", String.class)
+    .setProperty(new Property<Repo, String>() {
+        @Override
+        public String get(Repo entity) {
+            return entity.url;
+        }
+
+        @Override
+        public void set(Repo entity, String value) {
+            entity.url = value;
+        }
+    })
+    .setPropertyName("url")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$url_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$url_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Repo, String> ARCHIVE_URL = 
+    new AttributeBuilder<Repo, String>("archiveUrl", String.class)
+    .setProperty(new Property<Repo, String>() {
+        @Override
+        public String get(Repo entity) {
+            return entity.archiveUrl;
+        }
+
+        @Override
+        public void set(Repo entity, String value) {
+            entity.archiveUrl = value;
+        }
+    })
+    .setPropertyName("archiveUrl")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$archiveUrl_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$archiveUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Repo, String> SUBSCRIBERS_URL = 
+    new AttributeBuilder<Repo, String>("subscribersUrl", String.class)
+    .setProperty(new Property<Repo, String>() {
+        @Override
+        public String get(Repo entity) {
+            return entity.subscribersUrl;
+        }
+
+        @Override
+        public void set(Repo entity, String value) {
+            entity.subscribersUrl = value;
+        }
+    })
+    .setPropertyName("subscribersUrl")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$subscribersUrl_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$subscribersUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Repo, String> COMPARE_URL = 
+    new AttributeBuilder<Repo, String>("compareUrl", String.class)
+    .setProperty(new Property<Repo, String>() {
+        @Override
+        public String get(Repo entity) {
+            return entity.compareUrl;
+        }
+
+        @Override
+        public void set(Repo entity, String value) {
+            entity.compareUrl = value;
+        }
+    })
+    .setPropertyName("compareUrl")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$compareUrl_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$compareUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final NumericAttribute<Repo, Long> FORKS_COUNT = 
+    new AttributeBuilder<Repo, Long>("forksCount", long.class)
+    .setProperty(new LongProperty<Repo>() {
+        @Override
+        public Long get(Repo entity) {
+            return entity.forksCount;
+        }
+
+        @Override
+        public void set(Repo entity, Long value) {
+            entity.forksCount = value;
+        }
+
+        @Override
+        public long getLong(Repo entity) {
+            return entity.forksCount;
+        }
+
+        @Override
+        public void setLong(Repo entity, long value) {
+            entity.forksCount = value;
+        }
+    })
+    .setPropertyName("forksCount")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$forksCount_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$forksCount_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .buildNumeric();
+
+    public static final StringAttribute<Repo, String> SUBSCRIPTION_URL = 
+    new AttributeBuilder<Repo, String>("subscriptionUrl", String.class)
+    .setProperty(new Property<Repo, String>() {
+        @Override
+        public String get(Repo entity) {
+            return entity.subscriptionUrl;
+        }
+
+        @Override
+        public void set(Repo entity, String value) {
+            entity.subscriptionUrl = value;
+        }
+    })
+    .setPropertyName("subscriptionUrl")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$subscriptionUrl_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$subscriptionUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Repo, String> KEYS_URL = 
+    new AttributeBuilder<Repo, String>("keysUrl", String.class)
+    .setProperty(new Property<Repo, String>() {
+        @Override
+        public String get(Repo entity) {
+            return entity.keysUrl;
+        }
+
+        @Override
+        public void set(Repo entity, String value) {
+            entity.keysUrl = value;
+        }
+    })
+    .setPropertyName("keysUrl")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$keysUrl_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$keysUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Repo, String> REPOS_OWNER = 
+    new AttributeBuilder<Repo, String>("reposOwner", String.class)
+    .setProperty(new Property<Repo, String>() {
+        @Override
+        public String get(Repo entity) {
+            return entity.reposOwner;
+        }
+
+        @Override
+        public void set(Repo entity, String value) {
+            entity.reposOwner = value;
+        }
+    })
+    .setPropertyName("reposOwner")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$reposOwner_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$reposOwner_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Repo, String> MILESTONES_URL = 
+    new AttributeBuilder<Repo, String>("milestonesUrl", String.class)
+    .setProperty(new Property<Repo, String>() {
+        @Override
+        public String get(Repo entity) {
+            return entity.milestonesUrl;
+        }
+
+        @Override
+        public void set(Repo entity, String value) {
+            entity.milestonesUrl = value;
+        }
+    })
+    .setPropertyName("milestonesUrl")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$milestonesUrl_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$milestonesUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Repo, String> BRANCHES_URL = 
+    new AttributeBuilder<Repo, String>("branchesUrl", String.class)
+    .setProperty(new Property<Repo, String>() {
+        @Override
+        public String get(Repo entity) {
+            return entity.branchesUrl;
+        }
+
+        @Override
+        public void set(Repo entity, String value) {
+            entity.branchesUrl = value;
+        }
+    })
+    .setPropertyName("branchesUrl")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$branchesUrl_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$branchesUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Repo, String> HTML_URL = 
+    new AttributeBuilder<Repo, String>("htmlUrl", String.class)
+    .setProperty(new Property<Repo, String>() {
+        @Override
+        public String get(Repo entity) {
+            return entity.htmlUrl;
+        }
+
+        @Override
+        public void set(Repo entity, String value) {
+            entity.htmlUrl = value;
+        }
+    })
+    .setPropertyName("htmlUrl")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$htmlUrl_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$htmlUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final QueryAttribute<Repo, Boolean> HAS_DOWNLOADS = 
+    new AttributeBuilder<Repo, Boolean>("hasDownloads", boolean.class)
+    .setProperty(new BooleanProperty<Repo>() {
+        @Override
+        public Boolean get(Repo entity) {
+            return entity.hasDownloads;
+        }
+
+        @Override
+        public void set(Repo entity, Boolean value) {
+            entity.hasDownloads = value;
+        }
+
+        @Override
+        public boolean getBoolean(Repo entity) {
+            return entity.hasDownloads;
+        }
+
+        @Override
+        public void setBoolean(Repo entity, boolean value) {
+            entity.hasDownloads = value;
+        }
+    })
+    .setPropertyName("hasDownloads")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$hasDownloads_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$hasDownloads_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .build();
+
+    public static final StringAttribute<Repo, String> HOOKS_URL = 
+    new AttributeBuilder<Repo, String>("hooksUrl", String.class)
+    .setProperty(new Property<Repo, String>() {
+        @Override
+        public String get(Repo entity) {
+            return entity.hooksUrl;
+        }
+
+        @Override
+        public void set(Repo entity, String value) {
+            entity.hooksUrl = value;
+        }
+    })
+    .setPropertyName("hooksUrl")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$hooksUrl_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$hooksUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final QueryAttribute<Repo, Boolean> HAS_PAGES = 
+    new AttributeBuilder<Repo, Boolean>("hasPages", boolean.class)
+    .setProperty(new BooleanProperty<Repo>() {
+        @Override
+        public Boolean get(Repo entity) {
+            return entity.hasPages;
+        }
+
+        @Override
+        public void set(Repo entity, Boolean value) {
+            entity.hasPages = value;
+        }
+
+        @Override
+        public boolean getBoolean(Repo entity) {
+            return entity.hasPages;
+        }
+
+        @Override
+        public void setBoolean(Repo entity, boolean value) {
+            entity.hasPages = value;
+        }
+    })
+    .setPropertyName("hasPages")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$hasPages_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$hasPages_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .build();
+
+    public static final StringAttribute<Repo, String> TAGS_URL = 
+    new AttributeBuilder<Repo, String>("tagsUrl", String.class)
+    .setProperty(new Property<Repo, String>() {
+        @Override
+        public String get(Repo entity) {
+            return entity.tagsUrl;
+        }
+
+        @Override
+        public void set(Repo entity, String value) {
+            entity.tagsUrl = value;
+        }
+    })
+    .setPropertyName("tagsUrl")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$tagsUrl_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$tagsUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Repo, String> ISSUE_COMMENT_URL = 
+    new AttributeBuilder<Repo, String>("issueCommentUrl", String.class)
+    .setProperty(new Property<Repo, String>() {
+        @Override
+        public String get(Repo entity) {
+            return entity.issueCommentUrl;
+        }
+
+        @Override
+        public void set(Repo entity, String value) {
+            entity.issueCommentUrl = value;
+        }
+    })
+    .setPropertyName("issueCommentUrl")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$issueCommentUrl_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$issueCommentUrl_state = value;
         }
     })
     .setGenerated(false)
@@ -1366,29 +2056,71 @@ public class Repo extends AbstractRepo implements Persistable {
     .setUnique(false)
     .buildNumeric();
 
-    public static final StringAttribute<Repo, String> HTML_URL = 
-    new AttributeBuilder<Repo, String>("htmlUrl", String.class)
-    .setProperty(new Property<Repo, String>() {
+    public static final QueryAttribute<Repo, Boolean> HAS_WIKI = 
+    new AttributeBuilder<Repo, Boolean>("hasWiki", boolean.class)
+    .setProperty(new BooleanProperty<Repo>() {
         @Override
-        public String get(Repo entity) {
-            return entity.htmlUrl;
+        public Boolean get(Repo entity) {
+            return entity.hasWiki;
         }
 
         @Override
-        public void set(Repo entity, String value) {
-            entity.htmlUrl = value;
+        public void set(Repo entity, Boolean value) {
+            entity.hasWiki = value;
+        }
+
+        @Override
+        public boolean getBoolean(Repo entity) {
+            return entity.hasWiki;
+        }
+
+        @Override
+        public void setBoolean(Repo entity, boolean value) {
+            entity.hasWiki = value;
         }
     })
-    .setPropertyName("htmlUrl")
+    .setPropertyName("hasWiki")
     .setPropertyState(new Property<Repo, PropertyState>() {
         @Override
         public PropertyState get(Repo entity) {
-            return entity.$htmlUrl_state;
+            return entity.$hasWiki_state;
         }
 
         @Override
         public void set(Repo entity, PropertyState value) {
-            entity.$htmlUrl_state = value;
+            entity.$hasWiki_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .build();
+
+    public static final StringAttribute<Repo, String> PULLS_URL = 
+    new AttributeBuilder<Repo, String>("pullsUrl", String.class)
+    .setProperty(new Property<Repo, String>() {
+        @Override
+        public String get(Repo entity) {
+            return entity.pullsUrl;
+        }
+
+        @Override
+        public void set(Repo entity, String value) {
+            entity.pullsUrl = value;
+        }
+    })
+    .setPropertyName("pullsUrl")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$pullsUrl_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$pullsUrl_state = value;
         }
     })
     .setGenerated(false)
@@ -1398,189 +2130,29 @@ public class Repo extends AbstractRepo implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final StringAttribute<Repo, String> FORKS_URL = 
-    new AttributeBuilder<Repo, String>("forksUrl", String.class)
+    public static final StringAttribute<Repo, String> GIT_REFS_URL = 
+    new AttributeBuilder<Repo, String>("gitRefsUrl", String.class)
     .setProperty(new Property<Repo, String>() {
         @Override
         public String get(Repo entity) {
-            return entity.forksUrl;
+            return entity.gitRefsUrl;
         }
 
         @Override
         public void set(Repo entity, String value) {
-            entity.forksUrl = value;
+            entity.gitRefsUrl = value;
         }
     })
-    .setPropertyName("forksUrl")
+    .setPropertyName("gitRefsUrl")
     .setPropertyState(new Property<Repo, PropertyState>() {
         @Override
         public PropertyState get(Repo entity) {
-            return entity.$forksUrl_state;
+            return entity.$gitRefsUrl_state;
         }
 
         @Override
         public void set(Repo entity, PropertyState value) {
-            entity.$forksUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Repo, String> SUBSCRIPTION_URL = 
-    new AttributeBuilder<Repo, String>("subscriptionUrl", String.class)
-    .setProperty(new Property<Repo, String>() {
-        @Override
-        public String get(Repo entity) {
-            return entity.subscriptionUrl;
-        }
-
-        @Override
-        public void set(Repo entity, String value) {
-            entity.subscriptionUrl = value;
-        }
-    })
-    .setPropertyName("subscriptionUrl")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$subscriptionUrl_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$subscriptionUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Repo, String> ISSUE_COMMENT_URL = 
-    new AttributeBuilder<Repo, String>("issueCommentUrl", String.class)
-    .setProperty(new Property<Repo, String>() {
-        @Override
-        public String get(Repo entity) {
-            return entity.issueCommentUrl;
-        }
-
-        @Override
-        public void set(Repo entity, String value) {
-            entity.issueCommentUrl = value;
-        }
-    })
-    .setPropertyName("issueCommentUrl")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$issueCommentUrl_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$issueCommentUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Repo, String> MILESTONES_URL = 
-    new AttributeBuilder<Repo, String>("milestonesUrl", String.class)
-    .setProperty(new Property<Repo, String>() {
-        @Override
-        public String get(Repo entity) {
-            return entity.milestonesUrl;
-        }
-
-        @Override
-        public void set(Repo entity, String value) {
-            entity.milestonesUrl = value;
-        }
-    })
-    .setPropertyName("milestonesUrl")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$milestonesUrl_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$milestonesUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Repo, String> SSH_URL = 
-    new AttributeBuilder<Repo, String>("sshUrl", String.class)
-    .setProperty(new Property<Repo, String>() {
-        @Override
-        public String get(Repo entity) {
-            return entity.sshUrl;
-        }
-
-        @Override
-        public void set(Repo entity, String value) {
-            entity.sshUrl = value;
-        }
-    })
-    .setPropertyName("sshUrl")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$sshUrl_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$sshUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Repo, String> SUBSCRIBERS_URL = 
-    new AttributeBuilder<Repo, String>("subscribersUrl", String.class)
-    .setProperty(new Property<Repo, String>() {
-        @Override
-        public String get(Repo entity) {
-            return entity.subscribersUrl;
-        }
-
-        @Override
-        public void set(Repo entity, String value) {
-            entity.subscribersUrl = value;
-        }
-    })
-    .setPropertyName("subscribersUrl")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$subscribersUrl_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$subscribersUrl_state = value;
+            entity.$gitRefsUrl_state = value;
         }
     })
     .setGenerated(false)
@@ -1622,29 +2194,29 @@ public class Repo extends AbstractRepo implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final StringAttribute<Repo, String> COLLABORATORS_URL = 
-    new AttributeBuilder<Repo, String>("collaboratorsUrl", String.class)
+    public static final StringAttribute<Repo, String> CLONE_URL = 
+    new AttributeBuilder<Repo, String>("cloneUrl", String.class)
     .setProperty(new Property<Repo, String>() {
         @Override
         public String get(Repo entity) {
-            return entity.collaboratorsUrl;
+            return entity.cloneUrl;
         }
 
         @Override
         public void set(Repo entity, String value) {
-            entity.collaboratorsUrl = value;
+            entity.cloneUrl = value;
         }
     })
-    .setPropertyName("collaboratorsUrl")
+    .setPropertyName("cloneUrl")
     .setPropertyState(new Property<Repo, PropertyState>() {
         @Override
         public PropertyState get(Repo entity) {
-            return entity.$collaboratorsUrl_state;
+            return entity.$cloneUrl_state;
         }
 
         @Override
         public void set(Repo entity, PropertyState value) {
-            entity.$collaboratorsUrl_state = value;
+            entity.$cloneUrl_state = value;
         }
     })
     .setGenerated(false)
@@ -1654,71 +2226,29 @@ public class Repo extends AbstractRepo implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final NumericAttribute<Repo, Long> SIZE = 
-    new AttributeBuilder<Repo, Long>("size", long.class)
-    .setProperty(new LongProperty<Repo>() {
-        @Override
-        public Long get(Repo entity) {
-            return entity.size;
-        }
-
-        @Override
-        public void set(Repo entity, Long value) {
-            entity.size = value;
-        }
-
-        @Override
-        public long getLong(Repo entity) {
-            return entity.size;
-        }
-
-        @Override
-        public void setLong(Repo entity, long value) {
-            entity.size = value;
-        }
-    })
-    .setPropertyName("size")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$size_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$size_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(false)
-    .setUnique(false)
-    .buildNumeric();
-
-    public static final StringAttribute<Repo, String> COMMITS_URL = 
-    new AttributeBuilder<Repo, String>("commitsUrl", String.class)
+    public static final StringAttribute<Repo, String> CONTENTS_URL = 
+    new AttributeBuilder<Repo, String>("contentsUrl", String.class)
     .setProperty(new Property<Repo, String>() {
         @Override
         public String get(Repo entity) {
-            return entity.commitsUrl;
+            return entity.contentsUrl;
         }
 
         @Override
         public void set(Repo entity, String value) {
-            entity.commitsUrl = value;
+            entity.contentsUrl = value;
         }
     })
-    .setPropertyName("commitsUrl")
+    .setPropertyName("contentsUrl")
     .setPropertyState(new Property<Repo, PropertyState>() {
         @Override
         public PropertyState get(Repo entity) {
-            return entity.$commitsUrl_state;
+            return entity.$contentsUrl_state;
         }
 
         @Override
         public void set(Repo entity, PropertyState value) {
-            entity.$commitsUrl_state = value;
+            entity.$contentsUrl_state = value;
         }
     })
     .setGenerated(false)
@@ -1728,47 +2258,37 @@ public class Repo extends AbstractRepo implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final NumericAttribute<Repo, Integer> NETWORK_COUNT = 
-    new AttributeBuilder<Repo, Integer>("networkCount", int.class)
-    .setProperty(new IntProperty<Repo>() {
+    public static final StringAttribute<Repo, String> FULL_NAME = 
+    new AttributeBuilder<Repo, String>("fullName", String.class)
+    .setProperty(new Property<Repo, String>() {
         @Override
-        public Integer get(Repo entity) {
-            return entity.networkCount;
+        public String get(Repo entity) {
+            return entity.fullName;
         }
 
         @Override
-        public void set(Repo entity, Integer value) {
-            entity.networkCount = value;
-        }
-
-        @Override
-        public int getInt(Repo entity) {
-            return entity.networkCount;
-        }
-
-        @Override
-        public void setInt(Repo entity, int value) {
-            entity.networkCount = value;
+        public void set(Repo entity, String value) {
+            entity.fullName = value;
         }
     })
-    .setPropertyName("networkCount")
+    .setPropertyName("fullName")
     .setPropertyState(new Property<Repo, PropertyState>() {
         @Override
         public PropertyState get(Repo entity) {
-            return entity.$networkCount_state;
+            return entity.$fullName_state;
         }
 
         @Override
         public void set(Repo entity, PropertyState value) {
-            entity.$networkCount_state = value;
+            entity.$fullName_state = value;
         }
     })
     .setGenerated(false)
     .setReadOnly(false)
     .setLazy(false)
-    .setNullable(false)
+    .setNullable(true)
     .setUnique(false)
-    .buildNumeric();
+    .buildString();
 
     public static final StringAttribute<Repo, String> STATUSES_URL = 
     new AttributeBuilder<Repo, String>("statusesUrl", String.class)
@@ -1834,29 +2354,61 @@ public class Repo extends AbstractRepo implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final StringAttribute<Repo, String> STARGAZERS_URL = 
-    new AttributeBuilder<Repo, String>("stargazersUrl", String.class)
-    .setProperty(new Property<Repo, String>() {
+    public static final NumericAttribute<Repo, Date> CREATED_AT = 
+    new AttributeBuilder<Repo, Date>("createdAt", Date.class)
+    .setProperty(new Property<Repo, Date>() {
         @Override
-        public String get(Repo entity) {
-            return entity.stargazersUrl;
+        public Date get(Repo entity) {
+            return entity.createdAt;
         }
 
         @Override
-        public void set(Repo entity, String value) {
-            entity.stargazersUrl = value;
+        public void set(Repo entity, Date value) {
+            entity.createdAt = value;
         }
     })
-    .setPropertyName("stargazersUrl")
+    .setPropertyName("createdAt")
     .setPropertyState(new Property<Repo, PropertyState>() {
         @Override
         public PropertyState get(Repo entity) {
-            return entity.$stargazersUrl_state;
+            return entity.$createdAt_state;
         }
 
         @Override
         public void set(Repo entity, PropertyState value) {
-            entity.$stargazersUrl_state = value;
+            entity.$createdAt_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildNumeric();
+
+    public static final StringAttribute<Repo, String> EVENTS_URL = 
+    new AttributeBuilder<Repo, String>("eventsUrl", String.class)
+    .setProperty(new Property<Repo, String>() {
+        @Override
+        public String get(Repo entity) {
+            return entity.eventsUrl;
+        }
+
+        @Override
+        public void set(Repo entity, String value) {
+            entity.eventsUrl = value;
+        }
+    })
+    .setPropertyName("eventsUrl")
+    .setPropertyState(new Property<Repo, PropertyState>() {
+        @Override
+        public PropertyState get(Repo entity) {
+            return entity.$eventsUrl_state;
+        }
+
+        @Override
+        public void set(Repo entity, PropertyState value) {
+            entity.$eventsUrl_state = value;
         }
     })
     .setGenerated(false)
@@ -1866,71 +2418,61 @@ public class Repo extends AbstractRepo implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final QueryAttribute<Repo, Boolean> HAS_WIKI = 
-    new AttributeBuilder<Repo, Boolean>("hasWiki", boolean.class)
-    .setProperty(new BooleanProperty<Repo>() {
+    public static final StringAttribute<Repo, String> BLOBS_URL = 
+    new AttributeBuilder<Repo, String>("blobsUrl", String.class)
+    .setProperty(new Property<Repo, String>() {
         @Override
-        public Boolean get(Repo entity) {
-            return entity.hasWiki;
+        public String get(Repo entity) {
+            return entity.blobsUrl;
         }
 
         @Override
-        public void set(Repo entity, Boolean value) {
-            entity.hasWiki = value;
-        }
-
-        @Override
-        public boolean getBoolean(Repo entity) {
-            return entity.hasWiki;
-        }
-
-        @Override
-        public void setBoolean(Repo entity, boolean value) {
-            entity.hasWiki = value;
+        public void set(Repo entity, String value) {
+            entity.blobsUrl = value;
         }
     })
-    .setPropertyName("hasWiki")
+    .setPropertyName("blobsUrl")
     .setPropertyState(new Property<Repo, PropertyState>() {
         @Override
         public PropertyState get(Repo entity) {
-            return entity.$hasWiki_state;
+            return entity.$blobsUrl_state;
         }
 
         @Override
         public void set(Repo entity, PropertyState value) {
-            entity.$hasWiki_state = value;
+            entity.$blobsUrl_state = value;
         }
     })
     .setGenerated(false)
     .setReadOnly(false)
     .setLazy(false)
-    .setNullable(false)
+    .setNullable(true)
     .setUnique(false)
-    .build();
+    .buildString();
 
-    public static final StringAttribute<Repo, String> GIT_COMMITS_URL = 
-    new AttributeBuilder<Repo, String>("gitCommitsUrl", String.class)
+    public static final StringAttribute<Repo, String> SVN_URL = 
+    new AttributeBuilder<Repo, String>("svnUrl", String.class)
     .setProperty(new Property<Repo, String>() {
         @Override
         public String get(Repo entity) {
-            return entity.gitCommitsUrl;
+            return entity.svnUrl;
         }
 
         @Override
         public void set(Repo entity, String value) {
-            entity.gitCommitsUrl = value;
+            entity.svnUrl = value;
         }
     })
-    .setPropertyName("gitCommitsUrl")
+    .setPropertyName("svnUrl")
     .setPropertyState(new Property<Repo, PropertyState>() {
         @Override
         public PropertyState get(Repo entity) {
-            return entity.$gitCommitsUrl_state;
+            return entity.$svnUrl_state;
         }
 
         @Override
         public void set(Repo entity, PropertyState value) {
-            entity.$gitCommitsUrl_state = value;
+            entity.$svnUrl_state = value;
         }
     })
     .setGenerated(false)
@@ -1972,29 +2514,29 @@ public class Repo extends AbstractRepo implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final StringAttribute<Repo, String> CLONE_URL = 
-    new AttributeBuilder<Repo, String>("cloneUrl", String.class)
+    public static final StringAttribute<Repo, String> DEFAULT_BRANCH = 
+    new AttributeBuilder<Repo, String>("defaultBranch", String.class)
     .setProperty(new Property<Repo, String>() {
         @Override
         public String get(Repo entity) {
-            return entity.cloneUrl;
+            return entity.defaultBranch;
         }
 
         @Override
         public void set(Repo entity, String value) {
-            entity.cloneUrl = value;
+            entity.defaultBranch = value;
         }
     })
-    .setPropertyName("cloneUrl")
+    .setPropertyName("defaultBranch")
     .setPropertyState(new Property<Repo, PropertyState>() {
         @Override
         public PropertyState get(Repo entity) {
-            return entity.$cloneUrl_state;
+            return entity.$defaultBranch_state;
         }
 
         @Override
         public void set(Repo entity, PropertyState value) {
-            entity.$cloneUrl_state = value;
+            entity.$defaultBranch_state = value;
         }
     })
     .setGenerated(false)
@@ -2004,29 +2546,29 @@ public class Repo extends AbstractRepo implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final StringAttribute<Repo, String> ISSUE_EVENTS_URL = 
-    new AttributeBuilder<Repo, String>("issueEventsUrl", String.class)
+    public static final StringAttribute<Repo, String> COLLABORATORS_URL = 
+    new AttributeBuilder<Repo, String>("collaboratorsUrl", String.class)
     .setProperty(new Property<Repo, String>() {
         @Override
         public String get(Repo entity) {
-            return entity.issueEventsUrl;
+            return entity.collaboratorsUrl;
         }
 
         @Override
         public void set(Repo entity, String value) {
-            entity.issueEventsUrl = value;
+            entity.collaboratorsUrl = value;
         }
     })
-    .setPropertyName("issueEventsUrl")
+    .setPropertyName("collaboratorsUrl")
     .setPropertyState(new Property<Repo, PropertyState>() {
         @Override
         public PropertyState get(Repo entity) {
-            return entity.$issueEventsUrl_state;
+            return entity.$collaboratorsUrl_state;
         }
 
         @Override
         public void set(Repo entity, PropertyState value) {
-            entity.$issueEventsUrl_state = value;
+            entity.$collaboratorsUrl_state = value;
         }
     })
     .setGenerated(false)
@@ -2036,465 +2578,29 @@ public class Repo extends AbstractRepo implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final StringAttribute<Repo, String> REPOS_OWNER = 
-    new AttributeBuilder<Repo, String>("reposOwner", String.class)
+    public static final StringAttribute<Repo, String> CONTRIBUTORS_URL = 
+    new AttributeBuilder<Repo, String>("contributorsUrl", String.class)
     .setProperty(new Property<Repo, String>() {
         @Override
         public String get(Repo entity) {
-            return entity.reposOwner;
+            return entity.contributorsUrl;
         }
 
         @Override
         public void set(Repo entity, String value) {
-            entity.reposOwner = value;
+            entity.contributorsUrl = value;
         }
     })
-    .setPropertyName("reposOwner")
+    .setPropertyName("contributorsUrl")
     .setPropertyState(new Property<Repo, PropertyState>() {
         @Override
         public PropertyState get(Repo entity) {
-            return entity.$reposOwner_state;
+            return entity.$contributorsUrl_state;
         }
 
         @Override
         public void set(Repo entity, PropertyState value) {
-            entity.$reposOwner_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final NumericAttribute<Repo, Date> CREATED_AT = 
-    new AttributeBuilder<Repo, Date>("createdAt", Date.class)
-    .setProperty(new Property<Repo, Date>() {
-        @Override
-        public Date get(Repo entity) {
-            return entity.createdAt;
-        }
-
-        @Override
-        public void set(Repo entity, Date value) {
-            entity.createdAt = value;
-        }
-    })
-    .setPropertyName("createdAt")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$createdAt_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$createdAt_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildNumeric();
-
-    public static final StringAttribute<Repo, String> LANGUAGES_URL = 
-    new AttributeBuilder<Repo, String>("languagesUrl", String.class)
-    .setProperty(new Property<Repo, String>() {
-        @Override
-        public String get(Repo entity) {
-            return entity.languagesUrl;
-        }
-
-        @Override
-        public void set(Repo entity, String value) {
-            entity.languagesUrl = value;
-        }
-    })
-    .setPropertyName("languagesUrl")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$languagesUrl_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$languagesUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final QueryAttribute<Repo, Boolean> HAS_ISSUES = 
-    new AttributeBuilder<Repo, Boolean>("hasIssues", boolean.class)
-    .setProperty(new BooleanProperty<Repo>() {
-        @Override
-        public Boolean get(Repo entity) {
-            return entity.hasIssues;
-        }
-
-        @Override
-        public void set(Repo entity, Boolean value) {
-            entity.hasIssues = value;
-        }
-
-        @Override
-        public boolean getBoolean(Repo entity) {
-            return entity.hasIssues;
-        }
-
-        @Override
-        public void setBoolean(Repo entity, boolean value) {
-            entity.hasIssues = value;
-        }
-    })
-    .setPropertyName("hasIssues")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$hasIssues_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$hasIssues_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(false)
-    .setUnique(false)
-    .build();
-
-    public static final StringAttribute<Repo, String> NOTIFICATIONS_URL = 
-    new AttributeBuilder<Repo, String>("notificationsUrl", String.class)
-    .setProperty(new Property<Repo, String>() {
-        @Override
-        public String get(Repo entity) {
-            return entity.notificationsUrl;
-        }
-
-        @Override
-        public void set(Repo entity, String value) {
-            entity.notificationsUrl = value;
-        }
-    })
-    .setPropertyName("notificationsUrl")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$notificationsUrl_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$notificationsUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Repo, String> BRANCHES_URL = 
-    new AttributeBuilder<Repo, String>("branchesUrl", String.class)
-    .setProperty(new Property<Repo, String>() {
-        @Override
-        public String get(Repo entity) {
-            return entity.branchesUrl;
-        }
-
-        @Override
-        public void set(Repo entity, String value) {
-            entity.branchesUrl = value;
-        }
-    })
-    .setPropertyName("branchesUrl")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$branchesUrl_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$branchesUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Repo, String> MERGES_URL = 
-    new AttributeBuilder<Repo, String>("mergesUrl", String.class)
-    .setProperty(new Property<Repo, String>() {
-        @Override
-        public String get(Repo entity) {
-            return entity.mergesUrl;
-        }
-
-        @Override
-        public void set(Repo entity, String value) {
-            entity.mergesUrl = value;
-        }
-    })
-    .setPropertyName("mergesUrl")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$mergesUrl_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$mergesUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Repo, String> RELEASES_URL = 
-    new AttributeBuilder<Repo, String>("releasesUrl", String.class)
-    .setProperty(new Property<Repo, String>() {
-        @Override
-        public String get(Repo entity) {
-            return entity.releasesUrl;
-        }
-
-        @Override
-        public void set(Repo entity, String value) {
-            entity.releasesUrl = value;
-        }
-    })
-    .setPropertyName("releasesUrl")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$releasesUrl_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$releasesUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final NumericAttribute<Repo, Long> FORKS_COUNT = 
-    new AttributeBuilder<Repo, Long>("forksCount", long.class)
-    .setProperty(new LongProperty<Repo>() {
-        @Override
-        public Long get(Repo entity) {
-            return entity.forksCount;
-        }
-
-        @Override
-        public void set(Repo entity, Long value) {
-            entity.forksCount = value;
-        }
-
-        @Override
-        public long getLong(Repo entity) {
-            return entity.forksCount;
-        }
-
-        @Override
-        public void setLong(Repo entity, long value) {
-            entity.forksCount = value;
-        }
-    })
-    .setPropertyName("forksCount")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$forksCount_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$forksCount_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(false)
-    .setUnique(false)
-    .buildNumeric();
-
-    public static final StringAttribute<Repo, String> ASSIGNEES_URL = 
-    new AttributeBuilder<Repo, String>("assigneesUrl", String.class)
-    .setProperty(new Property<Repo, String>() {
-        @Override
-        public String get(Repo entity) {
-            return entity.assigneesUrl;
-        }
-
-        @Override
-        public void set(Repo entity, String value) {
-            entity.assigneesUrl = value;
-        }
-    })
-    .setPropertyName("assigneesUrl")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$assigneesUrl_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$assigneesUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Repo, String> COMPARE_URL = 
-    new AttributeBuilder<Repo, String>("compareUrl", String.class)
-    .setProperty(new Property<Repo, String>() {
-        @Override
-        public String get(Repo entity) {
-            return entity.compareUrl;
-        }
-
-        @Override
-        public void set(Repo entity, String value) {
-            entity.compareUrl = value;
-        }
-    })
-    .setPropertyName("compareUrl")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$compareUrl_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$compareUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Repo, String> TEAMS_URL = 
-    new AttributeBuilder<Repo, String>("teamsUrl", String.class)
-    .setProperty(new Property<Repo, String>() {
-        @Override
-        public String get(Repo entity) {
-            return entity.teamsUrl;
-        }
-
-        @Override
-        public void set(Repo entity, String value) {
-            entity.teamsUrl = value;
-        }
-    })
-    .setPropertyName("teamsUrl")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$teamsUrl_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$teamsUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Repo, String> EVENTS_URL = 
-    new AttributeBuilder<Repo, String>("eventsUrl", String.class)
-    .setProperty(new Property<Repo, String>() {
-        @Override
-        public String get(Repo entity) {
-            return entity.eventsUrl;
-        }
-
-        @Override
-        public void set(Repo entity, String value) {
-            entity.eventsUrl = value;
-        }
-    })
-    .setPropertyName("eventsUrl")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$eventsUrl_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$eventsUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Repo, String> SVN_URL = 
-    new AttributeBuilder<Repo, String>("svnUrl", String.class)
-    .setProperty(new Property<Repo, String>() {
-        @Override
-        public String get(Repo entity) {
-            return entity.svnUrl;
-        }
-
-        @Override
-        public void set(Repo entity, String value) {
-            entity.svnUrl = value;
-        }
-    })
-    .setPropertyName("svnUrl")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$svnUrl_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$svnUrl_state = value;
+            entity.$contributorsUrl_state = value;
         }
     })
     .setGenerated(false)
@@ -2546,29 +2652,29 @@ public class Repo extends AbstractRepo implements Persistable {
     .setUnique(false)
     .buildNumeric();
 
-    public static final StringAttribute<Repo, String> URL = 
-    new AttributeBuilder<Repo, String>("url", String.class)
+    public static final StringAttribute<Repo, String> LABELS_URL = 
+    new AttributeBuilder<Repo, String>("labelsUrl", String.class)
     .setProperty(new Property<Repo, String>() {
         @Override
         public String get(Repo entity) {
-            return entity.url;
+            return entity.labelsUrl;
         }
 
         @Override
         public void set(Repo entity, String value) {
-            entity.url = value;
+            entity.labelsUrl = value;
         }
     })
-    .setPropertyName("url")
+    .setPropertyName("labelsUrl")
     .setPropertyState(new Property<Repo, PropertyState>() {
         @Override
         public PropertyState get(Repo entity) {
-            return entity.$url_state;
+            return entity.$labelsUrl_state;
         }
 
         @Override
         public void set(Repo entity, PropertyState value) {
-            entity.$url_state = value;
+            entity.$labelsUrl_state = value;
         }
     })
     .setGenerated(false)
@@ -2578,141 +2684,35 @@ public class Repo extends AbstractRepo implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final StringAttribute<Repo, String> HOOKS_URL = 
-    new AttributeBuilder<Repo, String>("hooksUrl", String.class)
-    .setProperty(new Property<Repo, String>() {
+    public static final NumericAttribute<Repo, Date> PUSHED_AT = 
+    new AttributeBuilder<Repo, Date>("pushedAt", Date.class)
+    .setProperty(new Property<Repo, Date>() {
         @Override
-        public String get(Repo entity) {
-            return entity.hooksUrl;
+        public Date get(Repo entity) {
+            return entity.pushedAt;
         }
 
         @Override
-        public void set(Repo entity, String value) {
-            entity.hooksUrl = value;
+        public void set(Repo entity, Date value) {
+            entity.pushedAt = value;
         }
     })
-    .setPropertyName("hooksUrl")
+    .setPropertyName("pushedAt")
     .setPropertyState(new Property<Repo, PropertyState>() {
         @Override
         public PropertyState get(Repo entity) {
-            return entity.$hooksUrl_state;
+            return entity.$pushedAt_state;
         }
 
         @Override
         public void set(Repo entity, PropertyState value) {
-            entity.$hooksUrl_state = value;
+            entity.$pushedAt_state = value;
         }
     })
     .setGenerated(false)
     .setReadOnly(false)
     .setLazy(false)
     .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Repo, String> PULLS_URL = 
-    new AttributeBuilder<Repo, String>("pullsUrl", String.class)
-    .setProperty(new Property<Repo, String>() {
-        @Override
-        public String get(Repo entity) {
-            return entity.pullsUrl;
-        }
-
-        @Override
-        public void set(Repo entity, String value) {
-            entity.pullsUrl = value;
-        }
-    })
-    .setPropertyName("pullsUrl")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$pullsUrl_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$pullsUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final StringAttribute<Repo, String> CONTRIBUTORS_URL = 
-    new AttributeBuilder<Repo, String>("contributorsUrl", String.class)
-    .setProperty(new Property<Repo, String>() {
-        @Override
-        public String get(Repo entity) {
-            return entity.contributorsUrl;
-        }
-
-        @Override
-        public void set(Repo entity, String value) {
-            entity.contributorsUrl = value;
-        }
-    })
-    .setPropertyName("contributorsUrl")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$contributorsUrl_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$contributorsUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final NumericAttribute<Repo, Long> OPEN_ISSUES = 
-    new AttributeBuilder<Repo, Long>("openIssues", long.class)
-    .setProperty(new LongProperty<Repo>() {
-        @Override
-        public Long get(Repo entity) {
-            return entity.openIssues;
-        }
-
-        @Override
-        public void set(Repo entity, Long value) {
-            entity.openIssues = value;
-        }
-
-        @Override
-        public long getLong(Repo entity) {
-            return entity.openIssues;
-        }
-
-        @Override
-        public void setLong(Repo entity, long value) {
-            entity.openIssues = value;
-        }
-    })
-    .setPropertyName("openIssues")
-    .setPropertyState(new Property<Repo, PropertyState>() {
-        @Override
-        public PropertyState get(Repo entity) {
-            return entity.$openIssues_state;
-        }
-
-        @Override
-        public void set(Repo entity, PropertyState value) {
-            entity.$openIssues_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(false)
     .setUnique(false)
     .buildNumeric();
 
@@ -2737,8 +2737,8 @@ public class Repo extends AbstractRepo implements Persistable {
     })
     .addAttribute(OPEN_ISSUES)
     .addAttribute(PERMISSIONS)
-    .addAttribute(COLLABORATORS_URL)
     .addAttribute(CREATED_AT)
+    .addAttribute(COLLABORATORS_URL)
     .addAttribute(COMPARE_URL)
     .addAttribute(SVN_URL)
     .addAttribute(ARCHIVE_URL)
@@ -2753,26 +2753,26 @@ public class Repo extends AbstractRepo implements Persistable {
     .addAttribute(TAGS_URL)
     .addAttribute(PARENT)
     .addAttribute(DOWNLOADS_URL)
-    .addAttribute(TREES_URL)
     .addAttribute(UPDATED_AT)
+    .addAttribute(TREES_URL)
     .addAttribute(HAS_WIKI)
     .addAttribute(ID)
-    .addAttribute(HTML_URL)
     .addAttribute(TEAMS_URL)
-    .addAttribute(SUBSCRIPTION_URL)
+    .addAttribute(HTML_URL)
     .addAttribute(COMMITS_URL)
+    .addAttribute(SUBSCRIPTION_URL)
     .addAttribute(EVENTS_URL)
     .addAttribute(LICENSE)
     .addAttribute(LANGUAGE)
     .addAttribute(HOOKS_URL)
-    .addAttribute(DEFAULT_BRANCH)
-    .addAttribute(KEYS_URL)
     .addAttribute(SIZE)
+    .addAttribute(KEYS_URL)
+    .addAttribute(DEFAULT_BRANCH)
     .addAttribute(SUBSCRIBERS_URL)
     .addAttribute(STARGAZERS_COUNT)
+    .addAttribute(FORKS_COUNT)
     .addAttribute(HAS_PAGES)
     .addAttribute(CLONE_URL)
-    .addAttribute(FORKS_COUNT)
     .addAttribute(FORKS)
     .addAttribute(GIT_TAGS_URL)
     .addAttribute(COMMENTS_URL)
@@ -2783,12 +2783,12 @@ public class Repo extends AbstractRepo implements Persistable {
     .addAttribute(ISSUE_COMMENT_URL)
     .addAttribute(LANGUAGES_URL)
     .addAttribute(HAS_PROJECTS)
-    .addAttribute(MILESTONES_URL)
     .addAttribute(RELEASES_URL)
+    .addAttribute(MILESTONES_URL)
     .addAttribute(FORKS_URL)
     .addAttribute(MERGES_URL)
-    .addAttribute(SUBS_COUNT)
     .addAttribute(URL)
+    .addAttribute(SUBS_COUNT)
     .addAttribute(ORGANIZATION)
     .addAttribute(PULLS_URL)
     .addAttribute(DESCRIPTION)
@@ -2835,141 +2835,141 @@ public class Repo extends AbstractRepo implements Persistable {
 
     private PropertyState $language_state;
 
-    private PropertyState $fork_state;
-
-    private PropertyState $contentsUrl_state;
-
-    private PropertyState $tagsUrl_state;
+    private PropertyState $description_state;
 
     private PropertyState $homepage_state;
 
-    private PropertyState $treesUrl_state;
-
-    private PropertyState $defaultBranch_state;
-
-    private PropertyState $archiveUrl_state;
-
-    private PropertyState $keysUrl_state;
-
-    private PropertyState $openIssuesCount_state;
-
-    private PropertyState $privateX_state;
-
-    private PropertyState $description_state;
-
-    private PropertyState $name_state;
-
-    private PropertyState $stargazersCount_state;
-
-    private PropertyState $hasPages_state;
-
-    private PropertyState $mirrorUrl_state;
-
     private PropertyState $forks_state;
-
-    private PropertyState $gitTagsUrl_state;
-
-    private PropertyState $gitUrl_state;
-
-    private PropertyState $pushedAt_state;
-
-    private PropertyState $fullName_state;
-
-    private PropertyState $updatedAt_state;
-
-    private PropertyState $blobsUrl_state;
-
-    private PropertyState $hasDownloads_state;
-
-    private PropertyState $issuesUrl_state;
-
-    private PropertyState $gitRefsUrl_state;
-
-    private PropertyState $watchersCount_state;
-
-    private PropertyState $labelsUrl_state;
-
-    private PropertyState $subsCount_state;
-
-    private PropertyState $htmlUrl_state;
-
-    private PropertyState $forksUrl_state;
-
-    private PropertyState $subscriptionUrl_state;
-
-    private PropertyState $issueCommentUrl_state;
-
-    private PropertyState $milestonesUrl_state;
-
-    private PropertyState $sshUrl_state;
-
-    private PropertyState $subscribersUrl_state;
-
-    private PropertyState $commentsUrl_state;
-
-    private PropertyState $collaboratorsUrl_state;
 
     private PropertyState $size_state;
 
+    private PropertyState $issueEventsUrl_state;
+
+    private PropertyState $name_state;
+
+    private PropertyState $teamsUrl_state;
+
+    private PropertyState $stargazersCount_state;
+
+    private PropertyState $gitTagsUrl_state;
+
+    private PropertyState $gitCommitsUrl_state;
+
+    private PropertyState $mergesUrl_state;
+
+    private PropertyState $stargazersUrl_state;
+
+    private PropertyState $mirrorUrl_state;
+
+    private PropertyState $watchersCount_state;
+
+    private PropertyState $forksUrl_state;
+
     private PropertyState $commitsUrl_state;
 
+    private PropertyState $languagesUrl_state;
+
+    private PropertyState $openIssues_state;
+
+    private PropertyState $gitUrl_state;
+
+    private PropertyState $notificationsUrl_state;
+
+    private PropertyState $privateX_state;
+
+    private PropertyState $updatedAt_state;
+
+    private PropertyState $issuesUrl_state;
+
+    private PropertyState $hasIssues_state;
+
+    private PropertyState $openIssuesCount_state;
+
+    private PropertyState $fork_state;
+
+    private PropertyState $sshUrl_state;
+
     private PropertyState $networkCount_state;
+
+    private PropertyState $assigneesUrl_state;
+
+    private PropertyState $releasesUrl_state;
+
+    private PropertyState $treesUrl_state;
+
+    private PropertyState $url_state;
+
+    private PropertyState $archiveUrl_state;
+
+    private PropertyState $subscribersUrl_state;
+
+    private PropertyState $compareUrl_state;
+
+    private PropertyState $forksCount_state;
+
+    private PropertyState $subscriptionUrl_state;
+
+    private PropertyState $keysUrl_state;
+
+    private PropertyState $reposOwner_state;
+
+    private PropertyState $milestonesUrl_state;
+
+    private PropertyState $branchesUrl_state;
+
+    private PropertyState $htmlUrl_state;
+
+    private PropertyState $hasDownloads_state;
+
+    private PropertyState $hooksUrl_state;
+
+    private PropertyState $hasPages_state;
+
+    private PropertyState $tagsUrl_state;
+
+    private PropertyState $issueCommentUrl_state;
+
+    private PropertyState $subsCount_state;
+
+    private PropertyState $hasWiki_state;
+
+    private PropertyState $pullsUrl_state;
+
+    private PropertyState $gitRefsUrl_state;
+
+    private PropertyState $commentsUrl_state;
+
+    private PropertyState $cloneUrl_state;
+
+    private PropertyState $contentsUrl_state;
+
+    private PropertyState $fullName_state;
 
     private PropertyState $statusesUrl_state;
 
     private PropertyState $downloadsUrl_state;
 
-    private PropertyState $stargazersUrl_state;
-
-    private PropertyState $hasWiki_state;
-
-    private PropertyState $gitCommitsUrl_state;
-
-    private PropertyState $starredUser_state;
-
-    private PropertyState $cloneUrl_state;
-
-    private PropertyState $issueEventsUrl_state;
-
-    private PropertyState $reposOwner_state;
-
     private PropertyState $createdAt_state;
-
-    private PropertyState $languagesUrl_state;
-
-    private PropertyState $hasIssues_state;
-
-    private PropertyState $notificationsUrl_state;
-
-    private PropertyState $branchesUrl_state;
-
-    private PropertyState $mergesUrl_state;
-
-    private PropertyState $releasesUrl_state;
-
-    private PropertyState $forksCount_state;
-
-    private PropertyState $assigneesUrl_state;
-
-    private PropertyState $compareUrl_state;
-
-    private PropertyState $teamsUrl_state;
 
     private PropertyState $eventsUrl_state;
 
+    private PropertyState $blobsUrl_state;
+
     private PropertyState $svnUrl_state;
 
-    private PropertyState $watchers_state;
+    private PropertyState $starredUser_state;
 
-    private PropertyState $url_state;
+    private PropertyState $defaultBranch_state;
 
-    private PropertyState $hooksUrl_state;
-
-    private PropertyState $pullsUrl_state;
+    private PropertyState $collaboratorsUrl_state;
 
     private PropertyState $contributorsUrl_state;
 
-    private PropertyState $openIssues_state;
+    private PropertyState $watchers_state;
+
+    private PropertyState $labelsUrl_state;
+
+    private PropertyState $pushedAt_state;
 
     private final transient EntityProxy<Repo> $proxy = new EntityProxy<Repo>(this, $TYPE);
 
@@ -3060,28 +3060,12 @@ public class Repo extends AbstractRepo implements Persistable {
         $proxy.set(LANGUAGE, language);
     }
 
-    public boolean isFork() {
-        return $proxy.get(FORK);
+    public String getDescription() {
+        return $proxy.get(DESCRIPTION);
     }
 
-    public void setFork(boolean fork) {
-        $proxy.set(FORK, fork);
-    }
-
-    public String getContentsUrl() {
-        return $proxy.get(CONTENTS_URL);
-    }
-
-    public void setContentsUrl(String contentsUrl) {
-        $proxy.set(CONTENTS_URL, contentsUrl);
-    }
-
-    public String getTagsUrl() {
-        return $proxy.get(TAGS_URL);
-    }
-
-    public void setTagsUrl(String tagsUrl) {
-        $proxy.set(TAGS_URL, tagsUrl);
+    public void setDescription(String description) {
+        $proxy.set(DESCRIPTION, description);
     }
 
     public String getHomepage() {
@@ -3092,268 +3076,12 @@ public class Repo extends AbstractRepo implements Persistable {
         $proxy.set(HOMEPAGE, homepage);
     }
 
-    public String getTreesUrl() {
-        return $proxy.get(TREES_URL);
-    }
-
-    public void setTreesUrl(String treesUrl) {
-        $proxy.set(TREES_URL, treesUrl);
-    }
-
-    public String getDefaultBranch() {
-        return $proxy.get(DEFAULT_BRANCH);
-    }
-
-    public void setDefaultBranch(String defaultBranch) {
-        $proxy.set(DEFAULT_BRANCH, defaultBranch);
-    }
-
-    public String getArchiveUrl() {
-        return $proxy.get(ARCHIVE_URL);
-    }
-
-    public void setArchiveUrl(String archiveUrl) {
-        $proxy.set(ARCHIVE_URL, archiveUrl);
-    }
-
-    public String getKeysUrl() {
-        return $proxy.get(KEYS_URL);
-    }
-
-    public void setKeysUrl(String keysUrl) {
-        $proxy.set(KEYS_URL, keysUrl);
-    }
-
-    public long getOpenIssuesCount() {
-        return $proxy.get(OPEN_ISSUES_COUNT);
-    }
-
-    public void setOpenIssuesCount(long openIssuesCount) {
-        $proxy.set(OPEN_ISSUES_COUNT, openIssuesCount);
-    }
-
-    public boolean isPrivateX() {
-        return $proxy.get(PRIVATE_X);
-    }
-
-    public void setPrivateX(boolean privateX) {
-        $proxy.set(PRIVATE_X, privateX);
-    }
-
-    public String getDescription() {
-        return $proxy.get(DESCRIPTION);
-    }
-
-    public void setDescription(String description) {
-        $proxy.set(DESCRIPTION, description);
-    }
-
-    public String getName() {
-        return $proxy.get(NAME);
-    }
-
-    public void setName(String name) {
-        $proxy.set(NAME, name);
-    }
-
-    public long getStargazersCount() {
-        return $proxy.get(STARGAZERS_COUNT);
-    }
-
-    public void setStargazersCount(long stargazersCount) {
-        $proxy.set(STARGAZERS_COUNT, stargazersCount);
-    }
-
-    public boolean isHasPages() {
-        return $proxy.get(HAS_PAGES);
-    }
-
-    public void setHasPages(boolean hasPages) {
-        $proxy.set(HAS_PAGES, hasPages);
-    }
-
-    public String getMirrorUrl() {
-        return $proxy.get(MIRROR_URL);
-    }
-
-    public void setMirrorUrl(String mirrorUrl) {
-        $proxy.set(MIRROR_URL, mirrorUrl);
-    }
-
     public long getForks() {
         return $proxy.get(FORKS);
     }
 
     public void setForks(long forks) {
         $proxy.set(FORKS, forks);
-    }
-
-    public String getGitTagsUrl() {
-        return $proxy.get(GIT_TAGS_URL);
-    }
-
-    public void setGitTagsUrl(String gitTagsUrl) {
-        $proxy.set(GIT_TAGS_URL, gitTagsUrl);
-    }
-
-    public String getGitUrl() {
-        return $proxy.get(GIT_URL);
-    }
-
-    public void setGitUrl(String gitUrl) {
-        $proxy.set(GIT_URL, gitUrl);
-    }
-
-    public Date getPushedAt() {
-        return $proxy.get(PUSHED_AT);
-    }
-
-    public void setPushedAt(Date pushedAt) {
-        $proxy.set(PUSHED_AT, pushedAt);
-    }
-
-    public String getFullName() {
-        return $proxy.get(FULL_NAME);
-    }
-
-    public void setFullName(String fullName) {
-        $proxy.set(FULL_NAME, fullName);
-    }
-
-    public Date getUpdatedAt() {
-        return $proxy.get(UPDATED_AT);
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        $proxy.set(UPDATED_AT, updatedAt);
-    }
-
-    public String getBlobsUrl() {
-        return $proxy.get(BLOBS_URL);
-    }
-
-    public void setBlobsUrl(String blobsUrl) {
-        $proxy.set(BLOBS_URL, blobsUrl);
-    }
-
-    public boolean isHasDownloads() {
-        return $proxy.get(HAS_DOWNLOADS);
-    }
-
-    public void setHasDownloads(boolean hasDownloads) {
-        $proxy.set(HAS_DOWNLOADS, hasDownloads);
-    }
-
-    public String getIssuesUrl() {
-        return $proxy.get(ISSUES_URL);
-    }
-
-    public void setIssuesUrl(String issuesUrl) {
-        $proxy.set(ISSUES_URL, issuesUrl);
-    }
-
-    public String getGitRefsUrl() {
-        return $proxy.get(GIT_REFS_URL);
-    }
-
-    public void setGitRefsUrl(String gitRefsUrl) {
-        $proxy.set(GIT_REFS_URL, gitRefsUrl);
-    }
-
-    public long getWatchersCount() {
-        return $proxy.get(WATCHERS_COUNT);
-    }
-
-    public void setWatchersCount(long watchersCount) {
-        $proxy.set(WATCHERS_COUNT, watchersCount);
-    }
-
-    public String getLabelsUrl() {
-        return $proxy.get(LABELS_URL);
-    }
-
-    public void setLabelsUrl(String labelsUrl) {
-        $proxy.set(LABELS_URL, labelsUrl);
-    }
-
-    public int getSubsCount() {
-        return $proxy.get(SUBS_COUNT);
-    }
-
-    public void setSubsCount(int subsCount) {
-        $proxy.set(SUBS_COUNT, subsCount);
-    }
-
-    public String getHtmlUrl() {
-        return $proxy.get(HTML_URL);
-    }
-
-    public void setHtmlUrl(String htmlUrl) {
-        $proxy.set(HTML_URL, htmlUrl);
-    }
-
-    public String getForksUrl() {
-        return $proxy.get(FORKS_URL);
-    }
-
-    public void setForksUrl(String forksUrl) {
-        $proxy.set(FORKS_URL, forksUrl);
-    }
-
-    public String getSubscriptionUrl() {
-        return $proxy.get(SUBSCRIPTION_URL);
-    }
-
-    public void setSubscriptionUrl(String subscriptionUrl) {
-        $proxy.set(SUBSCRIPTION_URL, subscriptionUrl);
-    }
-
-    public String getIssueCommentUrl() {
-        return $proxy.get(ISSUE_COMMENT_URL);
-    }
-
-    public void setIssueCommentUrl(String issueCommentUrl) {
-        $proxy.set(ISSUE_COMMENT_URL, issueCommentUrl);
-    }
-
-    public String getMilestonesUrl() {
-        return $proxy.get(MILESTONES_URL);
-    }
-
-    public void setMilestonesUrl(String milestonesUrl) {
-        $proxy.set(MILESTONES_URL, milestonesUrl);
-    }
-
-    public String getSshUrl() {
-        return $proxy.get(SSH_URL);
-    }
-
-    public void setSshUrl(String sshUrl) {
-        $proxy.set(SSH_URL, sshUrl);
-    }
-
-    public String getSubscribersUrl() {
-        return $proxy.get(SUBSCRIBERS_URL);
-    }
-
-    public void setSubscribersUrl(String subscribersUrl) {
-        $proxy.set(SUBSCRIBERS_URL, subscribersUrl);
-    }
-
-    public String getCommentsUrl() {
-        return $proxy.get(COMMENTS_URL);
-    }
-
-    public void setCommentsUrl(String commentsUrl) {
-        $proxy.set(COMMENTS_URL, commentsUrl);
-    }
-
-    public String getCollaboratorsUrl() {
-        return $proxy.get(COLLABORATORS_URL);
-    }
-
-    public void setCollaboratorsUrl(String collaboratorsUrl) {
-        $proxy.set(COLLABORATORS_URL, collaboratorsUrl);
     }
 
     public long getSize() {
@@ -3364,6 +3092,94 @@ public class Repo extends AbstractRepo implements Persistable {
         $proxy.set(SIZE, size);
     }
 
+    public String getIssueEventsUrl() {
+        return $proxy.get(ISSUE_EVENTS_URL);
+    }
+
+    public void setIssueEventsUrl(String issueEventsUrl) {
+        $proxy.set(ISSUE_EVENTS_URL, issueEventsUrl);
+    }
+
+    public String getName() {
+        return $proxy.get(NAME);
+    }
+
+    public void setName(String name) {
+        $proxy.set(NAME, name);
+    }
+
+    public String getTeamsUrl() {
+        return $proxy.get(TEAMS_URL);
+    }
+
+    public void setTeamsUrl(String teamsUrl) {
+        $proxy.set(TEAMS_URL, teamsUrl);
+    }
+
+    public long getStargazersCount() {
+        return $proxy.get(STARGAZERS_COUNT);
+    }
+
+    public void setStargazersCount(long stargazersCount) {
+        $proxy.set(STARGAZERS_COUNT, stargazersCount);
+    }
+
+    public String getGitTagsUrl() {
+        return $proxy.get(GIT_TAGS_URL);
+    }
+
+    public void setGitTagsUrl(String gitTagsUrl) {
+        $proxy.set(GIT_TAGS_URL, gitTagsUrl);
+    }
+
+    public String getGitCommitsUrl() {
+        return $proxy.get(GIT_COMMITS_URL);
+    }
+
+    public void setGitCommitsUrl(String gitCommitsUrl) {
+        $proxy.set(GIT_COMMITS_URL, gitCommitsUrl);
+    }
+
+    public String getMergesUrl() {
+        return $proxy.get(MERGES_URL);
+    }
+
+    public void setMergesUrl(String mergesUrl) {
+        $proxy.set(MERGES_URL, mergesUrl);
+    }
+
+    public String getStargazersUrl() {
+        return $proxy.get(STARGAZERS_URL);
+    }
+
+    public void setStargazersUrl(String stargazersUrl) {
+        $proxy.set(STARGAZERS_URL, stargazersUrl);
+    }
+
+    public String getMirrorUrl() {
+        return $proxy.get(MIRROR_URL);
+    }
+
+    public void setMirrorUrl(String mirrorUrl) {
+        $proxy.set(MIRROR_URL, mirrorUrl);
+    }
+
+    public long getWatchersCount() {
+        return $proxy.get(WATCHERS_COUNT);
+    }
+
+    public void setWatchersCount(long watchersCount) {
+        $proxy.set(WATCHERS_COUNT, watchersCount);
+    }
+
+    public String getForksUrl() {
+        return $proxy.get(FORKS_URL);
+    }
+
+    public void setForksUrl(String forksUrl) {
+        $proxy.set(FORKS_URL, forksUrl);
+    }
+
     public String getCommitsUrl() {
         return $proxy.get(COMMITS_URL);
     }
@@ -3372,12 +3188,316 @@ public class Repo extends AbstractRepo implements Persistable {
         $proxy.set(COMMITS_URL, commitsUrl);
     }
 
+    public String getLanguagesUrl() {
+        return $proxy.get(LANGUAGES_URL);
+    }
+
+    public void setLanguagesUrl(String languagesUrl) {
+        $proxy.set(LANGUAGES_URL, languagesUrl);
+    }
+
+    public long getOpenIssues() {
+        return $proxy.get(OPEN_ISSUES);
+    }
+
+    public void setOpenIssues(long openIssues) {
+        $proxy.set(OPEN_ISSUES, openIssues);
+    }
+
+    public String getGitUrl() {
+        return $proxy.get(GIT_URL);
+    }
+
+    public void setGitUrl(String gitUrl) {
+        $proxy.set(GIT_URL, gitUrl);
+    }
+
+    public String getNotificationsUrl() {
+        return $proxy.get(NOTIFICATIONS_URL);
+    }
+
+    public void setNotificationsUrl(String notificationsUrl) {
+        $proxy.set(NOTIFICATIONS_URL, notificationsUrl);
+    }
+
+    public boolean isPrivateX() {
+        return $proxy.get(PRIVATE_X);
+    }
+
+    public void setPrivateX(boolean privateX) {
+        $proxy.set(PRIVATE_X, privateX);
+    }
+
+    public Date getUpdatedAt() {
+        return $proxy.get(UPDATED_AT);
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        $proxy.set(UPDATED_AT, updatedAt);
+    }
+
+    public String getIssuesUrl() {
+        return $proxy.get(ISSUES_URL);
+    }
+
+    public void setIssuesUrl(String issuesUrl) {
+        $proxy.set(ISSUES_URL, issuesUrl);
+    }
+
+    public boolean isHasIssues() {
+        return $proxy.get(HAS_ISSUES);
+    }
+
+    public void setHasIssues(boolean hasIssues) {
+        $proxy.set(HAS_ISSUES, hasIssues);
+    }
+
+    public long getOpenIssuesCount() {
+        return $proxy.get(OPEN_ISSUES_COUNT);
+    }
+
+    public void setOpenIssuesCount(long openIssuesCount) {
+        $proxy.set(OPEN_ISSUES_COUNT, openIssuesCount);
+    }
+
+    public boolean isFork() {
+        return $proxy.get(FORK);
+    }
+
+    public void setFork(boolean fork) {
+        $proxy.set(FORK, fork);
+    }
+
+    public String getSshUrl() {
+        return $proxy.get(SSH_URL);
+    }
+
+    public void setSshUrl(String sshUrl) {
+        $proxy.set(SSH_URL, sshUrl);
+    }
+
     public int getNetworkCount() {
         return $proxy.get(NETWORK_COUNT);
     }
 
     public void setNetworkCount(int networkCount) {
         $proxy.set(NETWORK_COUNT, networkCount);
+    }
+
+    public String getAssigneesUrl() {
+        return $proxy.get(ASSIGNEES_URL);
+    }
+
+    public void setAssigneesUrl(String assigneesUrl) {
+        $proxy.set(ASSIGNEES_URL, assigneesUrl);
+    }
+
+    public String getReleasesUrl() {
+        return $proxy.get(RELEASES_URL);
+    }
+
+    public void setReleasesUrl(String releasesUrl) {
+        $proxy.set(RELEASES_URL, releasesUrl);
+    }
+
+    public String getTreesUrl() {
+        return $proxy.get(TREES_URL);
+    }
+
+    public void setTreesUrl(String treesUrl) {
+        $proxy.set(TREES_URL, treesUrl);
+    }
+
+    public String getUrl() {
+        return $proxy.get(URL);
+    }
+
+    public void setUrl(String url) {
+        $proxy.set(URL, url);
+    }
+
+    public String getArchiveUrl() {
+        return $proxy.get(ARCHIVE_URL);
+    }
+
+    public void setArchiveUrl(String archiveUrl) {
+        $proxy.set(ARCHIVE_URL, archiveUrl);
+    }
+
+    public String getSubscribersUrl() {
+        return $proxy.get(SUBSCRIBERS_URL);
+    }
+
+    public void setSubscribersUrl(String subscribersUrl) {
+        $proxy.set(SUBSCRIBERS_URL, subscribersUrl);
+    }
+
+    public String getCompareUrl() {
+        return $proxy.get(COMPARE_URL);
+    }
+
+    public void setCompareUrl(String compareUrl) {
+        $proxy.set(COMPARE_URL, compareUrl);
+    }
+
+    public long getForksCount() {
+        return $proxy.get(FORKS_COUNT);
+    }
+
+    public void setForksCount(long forksCount) {
+        $proxy.set(FORKS_COUNT, forksCount);
+    }
+
+    public String getSubscriptionUrl() {
+        return $proxy.get(SUBSCRIPTION_URL);
+    }
+
+    public void setSubscriptionUrl(String subscriptionUrl) {
+        $proxy.set(SUBSCRIPTION_URL, subscriptionUrl);
+    }
+
+    public String getKeysUrl() {
+        return $proxy.get(KEYS_URL);
+    }
+
+    public void setKeysUrl(String keysUrl) {
+        $proxy.set(KEYS_URL, keysUrl);
+    }
+
+    public String getReposOwner() {
+        return $proxy.get(REPOS_OWNER);
+    }
+
+    public void setReposOwner(String reposOwner) {
+        $proxy.set(REPOS_OWNER, reposOwner);
+    }
+
+    public String getMilestonesUrl() {
+        return $proxy.get(MILESTONES_URL);
+    }
+
+    public void setMilestonesUrl(String milestonesUrl) {
+        $proxy.set(MILESTONES_URL, milestonesUrl);
+    }
+
+    public String getBranchesUrl() {
+        return $proxy.get(BRANCHES_URL);
+    }
+
+    public void setBranchesUrl(String branchesUrl) {
+        $proxy.set(BRANCHES_URL, branchesUrl);
+    }
+
+    public String getHtmlUrl() {
+        return $proxy.get(HTML_URL);
+    }
+
+    public void setHtmlUrl(String htmlUrl) {
+        $proxy.set(HTML_URL, htmlUrl);
+    }
+
+    public boolean isHasDownloads() {
+        return $proxy.get(HAS_DOWNLOADS);
+    }
+
+    public void setHasDownloads(boolean hasDownloads) {
+        $proxy.set(HAS_DOWNLOADS, hasDownloads);
+    }
+
+    public String getHooksUrl() {
+        return $proxy.get(HOOKS_URL);
+    }
+
+    public void setHooksUrl(String hooksUrl) {
+        $proxy.set(HOOKS_URL, hooksUrl);
+    }
+
+    public boolean isHasPages() {
+        return $proxy.get(HAS_PAGES);
+    }
+
+    public void setHasPages(boolean hasPages) {
+        $proxy.set(HAS_PAGES, hasPages);
+    }
+
+    public String getTagsUrl() {
+        return $proxy.get(TAGS_URL);
+    }
+
+    public void setTagsUrl(String tagsUrl) {
+        $proxy.set(TAGS_URL, tagsUrl);
+    }
+
+    public String getIssueCommentUrl() {
+        return $proxy.get(ISSUE_COMMENT_URL);
+    }
+
+    public void setIssueCommentUrl(String issueCommentUrl) {
+        $proxy.set(ISSUE_COMMENT_URL, issueCommentUrl);
+    }
+
+    public int getSubsCount() {
+        return $proxy.get(SUBS_COUNT);
+    }
+
+    public void setSubsCount(int subsCount) {
+        $proxy.set(SUBS_COUNT, subsCount);
+    }
+
+    public boolean isHasWiki() {
+        return $proxy.get(HAS_WIKI);
+    }
+
+    public void setHasWiki(boolean hasWiki) {
+        $proxy.set(HAS_WIKI, hasWiki);
+    }
+
+    public String getPullsUrl() {
+        return $proxy.get(PULLS_URL);
+    }
+
+    public void setPullsUrl(String pullsUrl) {
+        $proxy.set(PULLS_URL, pullsUrl);
+    }
+
+    public String getGitRefsUrl() {
+        return $proxy.get(GIT_REFS_URL);
+    }
+
+    public void setGitRefsUrl(String gitRefsUrl) {
+        $proxy.set(GIT_REFS_URL, gitRefsUrl);
+    }
+
+    public String getCommentsUrl() {
+        return $proxy.get(COMMENTS_URL);
+    }
+
+    public void setCommentsUrl(String commentsUrl) {
+        $proxy.set(COMMENTS_URL, commentsUrl);
+    }
+
+    public String getCloneUrl() {
+        return $proxy.get(CLONE_URL);
+    }
+
+    public void setCloneUrl(String cloneUrl) {
+        $proxy.set(CLONE_URL, cloneUrl);
+    }
+
+    public String getContentsUrl() {
+        return $proxy.get(CONTENTS_URL);
+    }
+
+    public void setContentsUrl(String contentsUrl) {
+        $proxy.set(CONTENTS_URL, contentsUrl);
+    }
+
+    public String getFullName() {
+        return $proxy.get(FULL_NAME);
+    }
+
+    public void setFullName(String fullName) {
+        $proxy.set(FULL_NAME, fullName);
     }
 
     public String getStatusesUrl() {
@@ -3396,148 +3516,12 @@ public class Repo extends AbstractRepo implements Persistable {
         $proxy.set(DOWNLOADS_URL, downloadsUrl);
     }
 
-    public String getStargazersUrl() {
-        return $proxy.get(STARGAZERS_URL);
-    }
-
-    public void setStargazersUrl(String stargazersUrl) {
-        $proxy.set(STARGAZERS_URL, stargazersUrl);
-    }
-
-    public boolean isHasWiki() {
-        return $proxy.get(HAS_WIKI);
-    }
-
-    public void setHasWiki(boolean hasWiki) {
-        $proxy.set(HAS_WIKI, hasWiki);
-    }
-
-    public String getGitCommitsUrl() {
-        return $proxy.get(GIT_COMMITS_URL);
-    }
-
-    public void setGitCommitsUrl(String gitCommitsUrl) {
-        $proxy.set(GIT_COMMITS_URL, gitCommitsUrl);
-    }
-
-    public String getStarredUser() {
-        return $proxy.get(STARRED_USER);
-    }
-
-    public void setStarredUser(String starredUser) {
-        $proxy.set(STARRED_USER, starredUser);
-    }
-
-    public String getCloneUrl() {
-        return $proxy.get(CLONE_URL);
-    }
-
-    public void setCloneUrl(String cloneUrl) {
-        $proxy.set(CLONE_URL, cloneUrl);
-    }
-
-    public String getIssueEventsUrl() {
-        return $proxy.get(ISSUE_EVENTS_URL);
-    }
-
-    public void setIssueEventsUrl(String issueEventsUrl) {
-        $proxy.set(ISSUE_EVENTS_URL, issueEventsUrl);
-    }
-
-    public String getReposOwner() {
-        return $proxy.get(REPOS_OWNER);
-    }
-
-    public void setReposOwner(String reposOwner) {
-        $proxy.set(REPOS_OWNER, reposOwner);
-    }
-
     public Date getCreatedAt() {
         return $proxy.get(CREATED_AT);
     }
 
     public void setCreatedAt(Date createdAt) {
         $proxy.set(CREATED_AT, createdAt);
-    }
-
-    public String getLanguagesUrl() {
-        return $proxy.get(LANGUAGES_URL);
-    }
-
-    public void setLanguagesUrl(String languagesUrl) {
-        $proxy.set(LANGUAGES_URL, languagesUrl);
-    }
-
-    public boolean isHasIssues() {
-        return $proxy.get(HAS_ISSUES);
-    }
-
-    public void setHasIssues(boolean hasIssues) {
-        $proxy.set(HAS_ISSUES, hasIssues);
-    }
-
-    public String getNotificationsUrl() {
-        return $proxy.get(NOTIFICATIONS_URL);
-    }
-
-    public void setNotificationsUrl(String notificationsUrl) {
-        $proxy.set(NOTIFICATIONS_URL, notificationsUrl);
-    }
-
-    public String getBranchesUrl() {
-        return $proxy.get(BRANCHES_URL);
-    }
-
-    public void setBranchesUrl(String branchesUrl) {
-        $proxy.set(BRANCHES_URL, branchesUrl);
-    }
-
-    public String getMergesUrl() {
-        return $proxy.get(MERGES_URL);
-    }
-
-    public void setMergesUrl(String mergesUrl) {
-        $proxy.set(MERGES_URL, mergesUrl);
-    }
-
-    public String getReleasesUrl() {
-        return $proxy.get(RELEASES_URL);
-    }
-
-    public void setReleasesUrl(String releasesUrl) {
-        $proxy.set(RELEASES_URL, releasesUrl);
-    }
-
-    public long getForksCount() {
-        return $proxy.get(FORKS_COUNT);
-    }
-
-    public void setForksCount(long forksCount) {
-        $proxy.set(FORKS_COUNT, forksCount);
-    }
-
-    public String getAssigneesUrl() {
-        return $proxy.get(ASSIGNEES_URL);
-    }
-
-    public void setAssigneesUrl(String assigneesUrl) {
-        $proxy.set(ASSIGNEES_URL, assigneesUrl);
-    }
-
-    public String getCompareUrl() {
-        return $proxy.get(COMPARE_URL);
-    }
-
-    public void setCompareUrl(String compareUrl) {
-        $proxy.set(COMPARE_URL, compareUrl);
-    }
-
-    public String getTeamsUrl() {
-        return $proxy.get(TEAMS_URL);
-    }
-
-    public void setTeamsUrl(String teamsUrl) {
-        $proxy.set(TEAMS_URL, teamsUrl);
     }
 
     public String getEventsUrl() {
@@ -3548,6 +3532,14 @@ public class Repo extends AbstractRepo implements Persistable {
         $proxy.set(EVENTS_URL, eventsUrl);
     }
 
+    public String getBlobsUrl() {
+        return $proxy.get(BLOBS_URL);
+    }
+
+    public void setBlobsUrl(String blobsUrl) {
+        $proxy.set(BLOBS_URL, blobsUrl);
+    }
+
     public String getSvnUrl() {
         return $proxy.get(SVN_URL);
     }
@@ -3556,36 +3548,28 @@ public class Repo extends AbstractRepo implements Persistable {
         $proxy.set(SVN_URL, svnUrl);
     }
 
-    public long getWatchers() {
-        return $proxy.get(WATCHERS);
+    public String getStarredUser() {
+        return $proxy.get(STARRED_USER);
     }
 
-    public void setWatchers(long watchers) {
-        $proxy.set(WATCHERS, watchers);
+    public void setStarredUser(String starredUser) {
+        $proxy.set(STARRED_USER, starredUser);
     }
 
-    public String getUrl() {
-        return $proxy.get(URL);
+    public String getDefaultBranch() {
+        return $proxy.get(DEFAULT_BRANCH);
     }
 
-    public void setUrl(String url) {
-        $proxy.set(URL, url);
+    public void setDefaultBranch(String defaultBranch) {
+        $proxy.set(DEFAULT_BRANCH, defaultBranch);
     }
 
-    public String getHooksUrl() {
-        return $proxy.get(HOOKS_URL);
+    public String getCollaboratorsUrl() {
+        return $proxy.get(COLLABORATORS_URL);
     }
 
-    public void setHooksUrl(String hooksUrl) {
-        $proxy.set(HOOKS_URL, hooksUrl);
-    }
-
-    public String getPullsUrl() {
-        return $proxy.get(PULLS_URL);
-    }
-
-    public void setPullsUrl(String pullsUrl) {
-        $proxy.set(PULLS_URL, pullsUrl);
+    public void setCollaboratorsUrl(String collaboratorsUrl) {
+        $proxy.set(COLLABORATORS_URL, collaboratorsUrl);
     }
 
     public String getContributorsUrl() {
@@ -3596,12 +3580,28 @@ public class Repo extends AbstractRepo implements Persistable {
         $proxy.set(CONTRIBUTORS_URL, contributorsUrl);
     }
 
-    public long getOpenIssues() {
-        return $proxy.get(OPEN_ISSUES);
+    public long getWatchers() {
+        return $proxy.get(WATCHERS);
     }
 
-    public void setOpenIssues(long openIssues) {
-        $proxy.set(OPEN_ISSUES, openIssues);
+    public void setWatchers(long watchers) {
+        $proxy.set(WATCHERS, watchers);
+    }
+
+    public String getLabelsUrl() {
+        return $proxy.get(LABELS_URL);
+    }
+
+    public void setLabelsUrl(String labelsUrl) {
+        $proxy.set(LABELS_URL, labelsUrl);
+    }
+
+    public Date getPushedAt() {
+        return $proxy.get(PUSHED_AT);
+    }
+
+    public void setPushedAt(Date pushedAt) {
+        $proxy.set(PUSHED_AT, pushedAt);
     }
 
     @Override

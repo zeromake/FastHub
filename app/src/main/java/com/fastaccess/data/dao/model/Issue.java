@@ -405,29 +405,29 @@ public class Issue extends AbstractIssue implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final StringAttribute<Issue, String> HTML_URL = 
-    new AttributeBuilder<Issue, String>("htmlUrl", String.class)
+    public static final StringAttribute<Issue, String> URL = 
+    new AttributeBuilder<Issue, String>("url", String.class)
     .setProperty(new Property<Issue, String>() {
         @Override
         public String get(Issue entity) {
-            return entity.htmlUrl;
+            return entity.url;
         }
 
         @Override
         public void set(Issue entity, String value) {
-            entity.htmlUrl = value;
+            entity.url = value;
         }
     })
-    .setPropertyName("htmlUrl")
+    .setPropertyName("url")
     .setPropertyState(new Property<Issue, PropertyState>() {
         @Override
         public PropertyState get(Issue entity) {
-            return entity.$htmlUrl_state;
+            return entity.$url_state;
         }
 
         @Override
         public void set(Issue entity, PropertyState value) {
-            entity.$htmlUrl_state = value;
+            entity.$url_state = value;
         }
     })
     .setGenerated(false)
@@ -436,134 +436,6 @@ public class Issue extends AbstractIssue implements Persistable {
     .setNullable(true)
     .setUnique(false)
     .buildString();
-
-    public static final StringAttribute<Issue, String> LOGIN = 
-    new AttributeBuilder<Issue, String>("login", String.class)
-    .setProperty(new Property<Issue, String>() {
-        @Override
-        public String get(Issue entity) {
-            return entity.login;
-        }
-
-        @Override
-        public void set(Issue entity, String value) {
-            entity.login = value;
-        }
-    })
-    .setPropertyName("login")
-    .setPropertyState(new Property<Issue, PropertyState>() {
-        @Override
-        public PropertyState get(Issue entity) {
-            return entity.$login_state;
-        }
-
-        @Override
-        public void set(Issue entity, PropertyState value) {
-            entity.$login_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final NumericAttribute<Issue, Date> CREATED_AT = 
-    new AttributeBuilder<Issue, Date>("createdAt", Date.class)
-    .setProperty(new Property<Issue, Date>() {
-        @Override
-        public Date get(Issue entity) {
-            return entity.createdAt;
-        }
-
-        @Override
-        public void set(Issue entity, Date value) {
-            entity.createdAt = value;
-        }
-    })
-    .setPropertyName("createdAt")
-    .setPropertyState(new Property<Issue, PropertyState>() {
-        @Override
-        public PropertyState get(Issue entity) {
-            return entity.$createdAt_state;
-        }
-
-        @Override
-        public void set(Issue entity, PropertyState value) {
-            entity.$createdAt_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildNumeric();
-
-    public static final StringAttribute<Issue, String> BODY_HTML = 
-    new AttributeBuilder<Issue, String>("bodyHtml", String.class)
-    .setProperty(new Property<Issue, String>() {
-        @Override
-        public String get(Issue entity) {
-            return entity.bodyHtml;
-        }
-
-        @Override
-        public void set(Issue entity, String value) {
-            entity.bodyHtml = value;
-        }
-    })
-    .setPropertyName("bodyHtml")
-    .setPropertyState(new Property<Issue, PropertyState>() {
-        @Override
-        public PropertyState get(Issue entity) {
-            return entity.$bodyHtml_state;
-        }
-
-        @Override
-        public void set(Issue entity, PropertyState value) {
-            entity.$bodyHtml_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final QueryAttribute<Issue, IssueState> STATE = 
-    new AttributeBuilder<Issue, IssueState>("state", IssueState.class)
-    .setProperty(new Property<Issue, IssueState>() {
-        @Override
-        public IssueState get(Issue entity) {
-            return entity.state;
-        }
-
-        @Override
-        public void set(Issue entity, IssueState value) {
-            entity.state = value;
-        }
-    })
-    .setPropertyName("state")
-    .setPropertyState(new Property<Issue, PropertyState>() {
-        @Override
-        public PropertyState get(Issue entity) {
-            return entity.$state_state;
-        }
-
-        @Override
-        public void set(Issue entity, PropertyState value) {
-            entity.$state_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .build();
 
     public static final StringAttribute<Issue, String> REPO_ID = 
     new AttributeBuilder<Issue, String>("repoId", String.class)
@@ -597,154 +469,6 @@ public class Issue extends AbstractIssue implements Persistable {
     .setUnique(false)
     .buildString();
 
-    public static final StringAttribute<Issue, String> REPO_URL = 
-    new AttributeBuilder<Issue, String>("repoUrl", String.class)
-    .setProperty(new Property<Issue, String>() {
-        @Override
-        public String get(Issue entity) {
-            return entity.repoUrl;
-        }
-
-        @Override
-        public void set(Issue entity, String value) {
-            entity.repoUrl = value;
-        }
-    })
-    .setPropertyName("repoUrl")
-    .setPropertyState(new Property<Issue, PropertyState>() {
-        @Override
-        public PropertyState get(Issue entity) {
-            return entity.$repoUrl_state;
-        }
-
-        @Override
-        public void set(Issue entity, PropertyState value) {
-            entity.$repoUrl_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildString();
-
-    public static final QueryAttribute<Issue, Boolean> LOCKED = 
-    new AttributeBuilder<Issue, Boolean>("locked", boolean.class)
-    .setProperty(new BooleanProperty<Issue>() {
-        @Override
-        public Boolean get(Issue entity) {
-            return entity.locked;
-        }
-
-        @Override
-        public void set(Issue entity, Boolean value) {
-            entity.locked = value;
-        }
-
-        @Override
-        public boolean getBoolean(Issue entity) {
-            return entity.locked;
-        }
-
-        @Override
-        public void setBoolean(Issue entity, boolean value) {
-            entity.locked = value;
-        }
-    })
-    .setPropertyName("locked")
-    .setPropertyState(new Property<Issue, PropertyState>() {
-        @Override
-        public PropertyState get(Issue entity) {
-            return entity.$locked_state;
-        }
-
-        @Override
-        public void set(Issue entity, PropertyState value) {
-            entity.$locked_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(false)
-    .setUnique(false)
-    .build();
-
-    public static final NumericAttribute<Issue, Integer> COMMENTS = 
-    new AttributeBuilder<Issue, Integer>("comments", int.class)
-    .setProperty(new IntProperty<Issue>() {
-        @Override
-        public Integer get(Issue entity) {
-            return entity.comments;
-        }
-
-        @Override
-        public void set(Issue entity, Integer value) {
-            entity.comments = value;
-        }
-
-        @Override
-        public int getInt(Issue entity) {
-            return entity.comments;
-        }
-
-        @Override
-        public void setInt(Issue entity, int value) {
-            entity.comments = value;
-        }
-    })
-    .setPropertyName("comments")
-    .setPropertyState(new Property<Issue, PropertyState>() {
-        @Override
-        public PropertyState get(Issue entity) {
-            return entity.$comments_state;
-        }
-
-        @Override
-        public void set(Issue entity, PropertyState value) {
-            entity.$comments_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(false)
-    .setUnique(false)
-    .buildNumeric();
-
-    public static final NumericAttribute<Issue, Date> CLOSED_AT = 
-    new AttributeBuilder<Issue, Date>("closedAt", Date.class)
-    .setProperty(new Property<Issue, Date>() {
-        @Override
-        public Date get(Issue entity) {
-            return entity.closedAt;
-        }
-
-        @Override
-        public void set(Issue entity, Date value) {
-            entity.closedAt = value;
-        }
-    })
-    .setPropertyName("closedAt")
-    .setPropertyState(new Property<Issue, PropertyState>() {
-        @Override
-        public PropertyState get(Issue entity) {
-            return entity.$closedAt_state;
-        }
-
-        @Override
-        public void set(Issue entity, PropertyState value) {
-            entity.$closedAt_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildNumeric();
-
     public static final StringAttribute<Issue, String> BODY = 
     new AttributeBuilder<Issue, String>("body", String.class)
     .setProperty(new Property<Issue, String>() {
@@ -768,6 +492,70 @@ public class Issue extends AbstractIssue implements Persistable {
         @Override
         public void set(Issue entity, PropertyState value) {
             entity.$body_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final NumericAttribute<Issue, Date> UPDATED_AT = 
+    new AttributeBuilder<Issue, Date>("updatedAt", Date.class)
+    .setProperty(new Property<Issue, Date>() {
+        @Override
+        public Date get(Issue entity) {
+            return entity.updatedAt;
+        }
+
+        @Override
+        public void set(Issue entity, Date value) {
+            entity.updatedAt = value;
+        }
+    })
+    .setPropertyName("updatedAt")
+    .setPropertyState(new Property<Issue, PropertyState>() {
+        @Override
+        public PropertyState get(Issue entity) {
+            return entity.$updatedAt_state;
+        }
+
+        @Override
+        public void set(Issue entity, PropertyState value) {
+            entity.$updatedAt_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildNumeric();
+
+    public static final StringAttribute<Issue, String> BODY_HTML = 
+    new AttributeBuilder<Issue, String>("bodyHtml", String.class)
+    .setProperty(new Property<Issue, String>() {
+        @Override
+        public String get(Issue entity) {
+            return entity.bodyHtml;
+        }
+
+        @Override
+        public void set(Issue entity, String value) {
+            entity.bodyHtml = value;
+        }
+    })
+    .setPropertyName("bodyHtml")
+    .setPropertyState(new Property<Issue, PropertyState>() {
+        @Override
+        public PropertyState get(Issue entity) {
+            return entity.$bodyHtml_state;
+        }
+
+        @Override
+        public void set(Issue entity, PropertyState value) {
+            entity.$bodyHtml_state = value;
         }
     })
     .setGenerated(false)
@@ -819,29 +607,241 @@ public class Issue extends AbstractIssue implements Persistable {
     .setUnique(false)
     .buildNumeric();
 
-    public static final NumericAttribute<Issue, Date> UPDATED_AT = 
-    new AttributeBuilder<Issue, Date>("updatedAt", Date.class)
-    .setProperty(new Property<Issue, Date>() {
+    public static final StringAttribute<Issue, String> LOGIN = 
+    new AttributeBuilder<Issue, String>("login", String.class)
+    .setProperty(new Property<Issue, String>() {
         @Override
-        public Date get(Issue entity) {
-            return entity.updatedAt;
+        public String get(Issue entity) {
+            return entity.login;
         }
 
         @Override
-        public void set(Issue entity, Date value) {
-            entity.updatedAt = value;
+        public void set(Issue entity, String value) {
+            entity.login = value;
         }
     })
-    .setPropertyName("updatedAt")
+    .setPropertyName("login")
     .setPropertyState(new Property<Issue, PropertyState>() {
         @Override
         public PropertyState get(Issue entity) {
-            return entity.$updatedAt_state;
+            return entity.$login_state;
         }
 
         @Override
         public void set(Issue entity, PropertyState value) {
-            entity.$updatedAt_state = value;
+            entity.$login_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final NumericAttribute<Issue, Integer> COMMENTS = 
+    new AttributeBuilder<Issue, Integer>("comments", int.class)
+    .setProperty(new IntProperty<Issue>() {
+        @Override
+        public Integer get(Issue entity) {
+            return entity.comments;
+        }
+
+        @Override
+        public void set(Issue entity, Integer value) {
+            entity.comments = value;
+        }
+
+        @Override
+        public int getInt(Issue entity) {
+            return entity.comments;
+        }
+
+        @Override
+        public void setInt(Issue entity, int value) {
+            entity.comments = value;
+        }
+    })
+    .setPropertyName("comments")
+    .setPropertyState(new Property<Issue, PropertyState>() {
+        @Override
+        public PropertyState get(Issue entity) {
+            return entity.$comments_state;
+        }
+
+        @Override
+        public void set(Issue entity, PropertyState value) {
+            entity.$comments_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .buildNumeric();
+
+    public static final QueryAttribute<Issue, IssueState> STATE = 
+    new AttributeBuilder<Issue, IssueState>("state", IssueState.class)
+    .setProperty(new Property<Issue, IssueState>() {
+        @Override
+        public IssueState get(Issue entity) {
+            return entity.state;
+        }
+
+        @Override
+        public void set(Issue entity, IssueState value) {
+            entity.state = value;
+        }
+    })
+    .setPropertyName("state")
+    .setPropertyState(new Property<Issue, PropertyState>() {
+        @Override
+        public PropertyState get(Issue entity) {
+            return entity.$state_state;
+        }
+
+        @Override
+        public void set(Issue entity, PropertyState value) {
+            entity.$state_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .build();
+
+    public static final QueryAttribute<Issue, Boolean> LOCKED = 
+    new AttributeBuilder<Issue, Boolean>("locked", boolean.class)
+    .setProperty(new BooleanProperty<Issue>() {
+        @Override
+        public Boolean get(Issue entity) {
+            return entity.locked;
+        }
+
+        @Override
+        public void set(Issue entity, Boolean value) {
+            entity.locked = value;
+        }
+
+        @Override
+        public boolean getBoolean(Issue entity) {
+            return entity.locked;
+        }
+
+        @Override
+        public void setBoolean(Issue entity, boolean value) {
+            entity.locked = value;
+        }
+    })
+    .setPropertyName("locked")
+    .setPropertyState(new Property<Issue, PropertyState>() {
+        @Override
+        public PropertyState get(Issue entity) {
+            return entity.$locked_state;
+        }
+
+        @Override
+        public void set(Issue entity, PropertyState value) {
+            entity.$locked_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .build();
+
+    public static final StringAttribute<Issue, String> REPO_URL = 
+    new AttributeBuilder<Issue, String>("repoUrl", String.class)
+    .setProperty(new Property<Issue, String>() {
+        @Override
+        public String get(Issue entity) {
+            return entity.repoUrl;
+        }
+
+        @Override
+        public void set(Issue entity, String value) {
+            entity.repoUrl = value;
+        }
+    })
+    .setPropertyName("repoUrl")
+    .setPropertyState(new Property<Issue, PropertyState>() {
+        @Override
+        public PropertyState get(Issue entity) {
+            return entity.$repoUrl_state;
+        }
+
+        @Override
+        public void set(Issue entity, PropertyState value) {
+            entity.$repoUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final StringAttribute<Issue, String> HTML_URL = 
+    new AttributeBuilder<Issue, String>("htmlUrl", String.class)
+    .setProperty(new Property<Issue, String>() {
+        @Override
+        public String get(Issue entity) {
+            return entity.htmlUrl;
+        }
+
+        @Override
+        public void set(Issue entity, String value) {
+            entity.htmlUrl = value;
+        }
+    })
+    .setPropertyName("htmlUrl")
+    .setPropertyState(new Property<Issue, PropertyState>() {
+        @Override
+        public PropertyState get(Issue entity) {
+            return entity.$htmlUrl_state;
+        }
+
+        @Override
+        public void set(Issue entity, PropertyState value) {
+            entity.$htmlUrl_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildString();
+
+    public static final NumericAttribute<Issue, Date> CREATED_AT = 
+    new AttributeBuilder<Issue, Date>("createdAt", Date.class)
+    .setProperty(new Property<Issue, Date>() {
+        @Override
+        public Date get(Issue entity) {
+            return entity.createdAt;
+        }
+
+        @Override
+        public void set(Issue entity, Date value) {
+            entity.createdAt = value;
+        }
+    })
+    .setPropertyName("createdAt")
+    .setPropertyState(new Property<Issue, PropertyState>() {
+        @Override
+        public PropertyState get(Issue entity) {
+            return entity.$createdAt_state;
+        }
+
+        @Override
+        public void set(Issue entity, PropertyState value) {
+            entity.$createdAt_state = value;
         }
     })
     .setGenerated(false)
@@ -851,29 +851,29 @@ public class Issue extends AbstractIssue implements Persistable {
     .setUnique(false)
     .buildNumeric();
 
-    public static final StringAttribute<Issue, String> URL = 
-    new AttributeBuilder<Issue, String>("url", String.class)
-    .setProperty(new Property<Issue, String>() {
+    public static final NumericAttribute<Issue, Date> CLOSED_AT = 
+    new AttributeBuilder<Issue, Date>("closedAt", Date.class)
+    .setProperty(new Property<Issue, Date>() {
         @Override
-        public String get(Issue entity) {
-            return entity.url;
+        public Date get(Issue entity) {
+            return entity.closedAt;
         }
 
         @Override
-        public void set(Issue entity, String value) {
-            entity.url = value;
+        public void set(Issue entity, Date value) {
+            entity.closedAt = value;
         }
     })
-    .setPropertyName("url")
+    .setPropertyName("closedAt")
     .setPropertyState(new Property<Issue, PropertyState>() {
         @Override
         public PropertyState get(Issue entity) {
-            return entity.$url_state;
+            return entity.$closedAt_state;
         }
 
         @Override
         public void set(Issue entity, PropertyState value) {
-            entity.$url_state = value;
+            entity.$closedAt_state = value;
         }
     })
     .setGenerated(false)
@@ -881,7 +881,7 @@ public class Issue extends AbstractIssue implements Persistable {
     .setLazy(false)
     .setNullable(true)
     .setUnique(false)
-    .buildString();
+    .buildNumeric();
 
     public static final Type<Issue> $TYPE = new TypeBuilder<Issue>(Issue.class, "Issue")
     .setBaseType(AbstractIssue.class)
@@ -905,15 +905,15 @@ public class Issue extends AbstractIssue implements Persistable {
     .addAttribute(ASSIGNEES)
     .addAttribute(REPO_ID)
     .addAttribute(CREATED_AT)
-    .addAttribute(STATE)
     .addAttribute(COMMENTS)
+    .addAttribute(STATE)
     .addAttribute(MILESTONE)
     .addAttribute(PULL_REQUEST)
     .addAttribute(URL)
     .addAttribute(ASSIGNEE)
     .addAttribute(CLOSED_BY)
-    .addAttribute(LOGIN)
     .addAttribute(UPDATED_AT)
+    .addAttribute(LOGIN)
     .addAttribute(ID)
     .addAttribute(HTML_URL)
     .addAttribute(LABELS)
@@ -951,33 +951,33 @@ public class Issue extends AbstractIssue implements Persistable {
 
     private PropertyState $title_state;
 
-    private PropertyState $htmlUrl_state;
-
-    private PropertyState $login_state;
-
-    private PropertyState $createdAt_state;
-
-    private PropertyState $bodyHtml_state;
-
-    private PropertyState $state_state;
+    private PropertyState $url_state;
 
     private PropertyState $repoId_state;
 
-    private PropertyState $repoUrl_state;
-
-    private PropertyState $locked_state;
-
-    private PropertyState $comments_state;
-
-    private PropertyState $closedAt_state;
-
     private PropertyState $body_state;
-
-    private PropertyState $number_state;
 
     private PropertyState $updatedAt_state;
 
-    private PropertyState $url_state;
+    private PropertyState $bodyHtml_state;
+
+    private PropertyState $number_state;
+
+    private PropertyState $login_state;
+
+    private PropertyState $comments_state;
+
+    private PropertyState $state_state;
+
+    private PropertyState $locked_state;
+
+    private PropertyState $repoUrl_state;
+
+    private PropertyState $htmlUrl_state;
+
+    private PropertyState $createdAt_state;
+
+    private PropertyState $closedAt_state;
 
     private final transient EntityProxy<Issue> $proxy = new EntityProxy<Issue>(this, $TYPE);
 
@@ -1076,44 +1076,12 @@ public class Issue extends AbstractIssue implements Persistable {
         $proxy.set(TITLE, title);
     }
 
-    public String getHtmlUrl() {
-        return $proxy.get(HTML_URL);
+    public String getUrl() {
+        return $proxy.get(URL);
     }
 
-    public void setHtmlUrl(String htmlUrl) {
-        $proxy.set(HTML_URL, htmlUrl);
-    }
-
-    public String getLogin() {
-        return $proxy.get(LOGIN);
-    }
-
-    public void setLogin(String login) {
-        $proxy.set(LOGIN, login);
-    }
-
-    public Date getCreatedAt() {
-        return $proxy.get(CREATED_AT);
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        $proxy.set(CREATED_AT, createdAt);
-    }
-
-    public String getBodyHtml() {
-        return $proxy.get(BODY_HTML);
-    }
-
-    public void setBodyHtml(String bodyHtml) {
-        $proxy.set(BODY_HTML, bodyHtml);
-    }
-
-    public IssueState getState() {
-        return $proxy.get(STATE);
-    }
-
-    public void setState(IssueState state) {
-        $proxy.set(STATE, state);
+    public void setUrl(String url) {
+        $proxy.set(URL, url);
     }
 
     public String getRepoId() {
@@ -1124,52 +1092,12 @@ public class Issue extends AbstractIssue implements Persistable {
         $proxy.set(REPO_ID, repoId);
     }
 
-    public String getRepoUrl() {
-        return $proxy.get(REPO_URL);
-    }
-
-    public void setRepoUrl(String repoUrl) {
-        $proxy.set(REPO_URL, repoUrl);
-    }
-
-    public boolean isLocked() {
-        return $proxy.get(LOCKED);
-    }
-
-    public void setLocked(boolean locked) {
-        $proxy.set(LOCKED, locked);
-    }
-
-    public int getComments() {
-        return $proxy.get(COMMENTS);
-    }
-
-    public void setComments(int comments) {
-        $proxy.set(COMMENTS, comments);
-    }
-
-    public Date getClosedAt() {
-        return $proxy.get(CLOSED_AT);
-    }
-
-    public void setClosedAt(Date closedAt) {
-        $proxy.set(CLOSED_AT, closedAt);
-    }
-
     public String getBody() {
         return $proxy.get(BODY);
     }
 
     public void setBody(String body) {
         $proxy.set(BODY, body);
-    }
-
-    public int getNumber() {
-        return $proxy.get(NUMBER);
-    }
-
-    public void setNumber(int number) {
-        $proxy.set(NUMBER, number);
     }
 
     public Date getUpdatedAt() {
@@ -1180,12 +1108,84 @@ public class Issue extends AbstractIssue implements Persistable {
         $proxy.set(UPDATED_AT, updatedAt);
     }
 
-    public String getUrl() {
-        return $proxy.get(URL);
+    public String getBodyHtml() {
+        return $proxy.get(BODY_HTML);
     }
 
-    public void setUrl(String url) {
-        $proxy.set(URL, url);
+    public void setBodyHtml(String bodyHtml) {
+        $proxy.set(BODY_HTML, bodyHtml);
+    }
+
+    public int getNumber() {
+        return $proxy.get(NUMBER);
+    }
+
+    public void setNumber(int number) {
+        $proxy.set(NUMBER, number);
+    }
+
+    public String getLogin() {
+        return $proxy.get(LOGIN);
+    }
+
+    public void setLogin(String login) {
+        $proxy.set(LOGIN, login);
+    }
+
+    public int getComments() {
+        return $proxy.get(COMMENTS);
+    }
+
+    public void setComments(int comments) {
+        $proxy.set(COMMENTS, comments);
+    }
+
+    public IssueState getState() {
+        return $proxy.get(STATE);
+    }
+
+    public void setState(IssueState state) {
+        $proxy.set(STATE, state);
+    }
+
+    public boolean isLocked() {
+        return $proxy.get(LOCKED);
+    }
+
+    public void setLocked(boolean locked) {
+        $proxy.set(LOCKED, locked);
+    }
+
+    public String getRepoUrl() {
+        return $proxy.get(REPO_URL);
+    }
+
+    public void setRepoUrl(String repoUrl) {
+        $proxy.set(REPO_URL, repoUrl);
+    }
+
+    public String getHtmlUrl() {
+        return $proxy.get(HTML_URL);
+    }
+
+    public void setHtmlUrl(String htmlUrl) {
+        $proxy.set(HTML_URL, htmlUrl);
+    }
+
+    public Date getCreatedAt() {
+        return $proxy.get(CREATED_AT);
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        $proxy.set(CREATED_AT, createdAt);
+    }
+
+    public Date getClosedAt() {
+        return $proxy.get(CLOSED_AT);
+    }
+
+    public void setClosedAt(Date closedAt) {
+        $proxy.set(CLOSED_AT, closedAt);
     }
 
     @Override

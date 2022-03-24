@@ -180,6 +180,112 @@ public class Notification extends AbstractNotification implements Persistable {
     .setConverter(new com.fastaccess.data.dao.converters.NotificationSubjectConverter())
     .build();
 
+    public static final NumericAttribute<Notification, Date> LAST_READ_AT = 
+    new AttributeBuilder<Notification, Date>("lastReadAt", Date.class)
+    .setProperty(new Property<Notification, Date>() {
+        @Override
+        public Date get(Notification entity) {
+            return entity.lastReadAt;
+        }
+
+        @Override
+        public void set(Notification entity, Date value) {
+            entity.lastReadAt = value;
+        }
+    })
+    .setPropertyName("lastReadAt")
+    .setPropertyState(new Property<Notification, PropertyState>() {
+        @Override
+        public PropertyState get(Notification entity) {
+            return entity.$lastReadAt_state;
+        }
+
+        @Override
+        public void set(Notification entity, PropertyState value) {
+            entity.$lastReadAt_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .buildNumeric();
+
+    public static final QueryAttribute<Notification, Boolean> UNREAD = 
+    new AttributeBuilder<Notification, Boolean>("unread", boolean.class)
+    .setProperty(new BooleanProperty<Notification>() {
+        @Override
+        public Boolean get(Notification entity) {
+            return entity.unread;
+        }
+
+        @Override
+        public void set(Notification entity, Boolean value) {
+            entity.unread = value;
+        }
+
+        @Override
+        public boolean getBoolean(Notification entity) {
+            return entity.unread;
+        }
+
+        @Override
+        public void setBoolean(Notification entity, boolean value) {
+            entity.unread = value;
+        }
+    })
+    .setPropertyName("unread")
+    .setPropertyState(new Property<Notification, PropertyState>() {
+        @Override
+        public PropertyState get(Notification entity) {
+            return entity.$unread_state;
+        }
+
+        @Override
+        public void set(Notification entity, PropertyState value) {
+            entity.$unread_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(false)
+    .setUnique(false)
+    .build();
+
+    public static final QueryAttribute<Notification, NotificationReason> REASON = 
+    new AttributeBuilder<Notification, NotificationReason>("reason", NotificationReason.class)
+    .setProperty(new Property<Notification, NotificationReason>() {
+        @Override
+        public NotificationReason get(Notification entity) {
+            return entity.reason;
+        }
+
+        @Override
+        public void set(Notification entity, NotificationReason value) {
+            entity.reason = value;
+        }
+    })
+    .setPropertyName("reason")
+    .setPropertyState(new Property<Notification, PropertyState>() {
+        @Override
+        public PropertyState get(Notification entity) {
+            return entity.$reason_state;
+        }
+
+        @Override
+        public void set(Notification entity, PropertyState value) {
+            entity.$reason_state = value;
+        }
+    })
+    .setGenerated(false)
+    .setReadOnly(false)
+    .setLazy(false)
+    .setNullable(true)
+    .setUnique(false)
+    .build();
+
     public static final StringAttribute<Notification, String> URL = 
     new AttributeBuilder<Notification, String>("url", String.class)
     .setProperty(new Property<Notification, String>() {
@@ -244,112 +350,6 @@ public class Notification extends AbstractNotification implements Persistable {
     .setUnique(false)
     .buildNumeric();
 
-    public static final QueryAttribute<Notification, NotificationReason> REASON = 
-    new AttributeBuilder<Notification, NotificationReason>("reason", NotificationReason.class)
-    .setProperty(new Property<Notification, NotificationReason>() {
-        @Override
-        public NotificationReason get(Notification entity) {
-            return entity.reason;
-        }
-
-        @Override
-        public void set(Notification entity, NotificationReason value) {
-            entity.reason = value;
-        }
-    })
-    .setPropertyName("reason")
-    .setPropertyState(new Property<Notification, PropertyState>() {
-        @Override
-        public PropertyState get(Notification entity) {
-            return entity.$reason_state;
-        }
-
-        @Override
-        public void set(Notification entity, PropertyState value) {
-            entity.$reason_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .build();
-
-    public static final QueryAttribute<Notification, Boolean> UNREAD = 
-    new AttributeBuilder<Notification, Boolean>("unread", boolean.class)
-    .setProperty(new BooleanProperty<Notification>() {
-        @Override
-        public Boolean get(Notification entity) {
-            return entity.unread;
-        }
-
-        @Override
-        public void set(Notification entity, Boolean value) {
-            entity.unread = value;
-        }
-
-        @Override
-        public boolean getBoolean(Notification entity) {
-            return entity.unread;
-        }
-
-        @Override
-        public void setBoolean(Notification entity, boolean value) {
-            entity.unread = value;
-        }
-    })
-    .setPropertyName("unread")
-    .setPropertyState(new Property<Notification, PropertyState>() {
-        @Override
-        public PropertyState get(Notification entity) {
-            return entity.$unread_state;
-        }
-
-        @Override
-        public void set(Notification entity, PropertyState value) {
-            entity.$unread_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(false)
-    .setUnique(false)
-    .build();
-
-    public static final NumericAttribute<Notification, Date> LAST_READ_AT = 
-    new AttributeBuilder<Notification, Date>("lastReadAt", Date.class)
-    .setProperty(new Property<Notification, Date>() {
-        @Override
-        public Date get(Notification entity) {
-            return entity.lastReadAt;
-        }
-
-        @Override
-        public void set(Notification entity, Date value) {
-            entity.lastReadAt = value;
-        }
-    })
-    .setPropertyName("lastReadAt")
-    .setPropertyState(new Property<Notification, PropertyState>() {
-        @Override
-        public PropertyState get(Notification entity) {
-            return entity.$lastReadAt_state;
-        }
-
-        @Override
-        public void set(Notification entity, PropertyState value) {
-            entity.$lastReadAt_state = value;
-        }
-    })
-    .setGenerated(false)
-    .setReadOnly(false)
-    .setLazy(false)
-    .setNullable(true)
-    .setUnique(false)
-    .buildNumeric();
-
     public static final Type<Notification> $TYPE = new TypeBuilder<Notification>(Notification.class, "Notification")
     .setBaseType(AbstractNotification.class)
     .setCacheable(true)
@@ -388,15 +388,15 @@ public class Notification extends AbstractNotification implements Persistable {
 
     private PropertyState $subject_state;
 
-    private PropertyState $url_state;
-
-    private PropertyState $updatedAt_state;
-
-    private PropertyState $reason_state;
+    private PropertyState $lastReadAt_state;
 
     private PropertyState $unread_state;
 
-    private PropertyState $lastReadAt_state;
+    private PropertyState $reason_state;
+
+    private PropertyState $url_state;
+
+    private PropertyState $updatedAt_state;
 
     private final transient EntityProxy<Notification> $proxy = new EntityProxy<Notification>(this, $TYPE);
 
@@ -439,6 +439,30 @@ public class Notification extends AbstractNotification implements Persistable {
         $proxy.set(SUBJECT, subject);
     }
 
+    public Date getLastReadAt() {
+        return $proxy.get(LAST_READ_AT);
+    }
+
+    public void setLastReadAt(Date lastReadAt) {
+        $proxy.set(LAST_READ_AT, lastReadAt);
+    }
+
+    public boolean isUnread() {
+        return $proxy.get(UNREAD);
+    }
+
+    public void setUnread(boolean unread) {
+        $proxy.set(UNREAD, unread);
+    }
+
+    public NotificationReason getReason() {
+        return $proxy.get(REASON);
+    }
+
+    public void setReason(NotificationReason reason) {
+        $proxy.set(REASON, reason);
+    }
+
     public String getUrl() {
         return $proxy.get(URL);
     }
@@ -453,30 +477,6 @@ public class Notification extends AbstractNotification implements Persistable {
 
     public void setUpdatedAt(Date updatedAt) {
         $proxy.set(UPDATED_AT, updatedAt);
-    }
-
-    public NotificationReason getReason() {
-        return $proxy.get(REASON);
-    }
-
-    public void setReason(NotificationReason reason) {
-        $proxy.set(REASON, reason);
-    }
-
-    public boolean isUnread() {
-        return $proxy.get(UNREAD);
-    }
-
-    public void setUnread(boolean unread) {
-        $proxy.set(UNREAD, unread);
-    }
-
-    public Date getLastReadAt() {
-        return $proxy.get(LAST_READ_AT);
-    }
-
-    public void setLastReadAt(Date lastReadAt) {
-        $proxy.set(LAST_READ_AT, lastReadAt);
     }
 
     @Override

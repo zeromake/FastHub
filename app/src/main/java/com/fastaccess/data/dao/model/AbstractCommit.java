@@ -33,12 +33,6 @@ import io.requery.Nullable;
 import io.requery.Persistable;
 import io.requery.Table;
 
-import static com.fastaccess.data.dao.model.Commit.ID;
-import static com.fastaccess.data.dao.model.Commit.LOGIN;
-import static com.fastaccess.data.dao.model.Commit.PULL_REQUEST_NUMBER;
-import static com.fastaccess.data.dao.model.Commit.REPO_ID;
-import static com.fastaccess.data.dao.model.Commit.SHA;
-
 @Entity @Table(name = "commit_table")
 public abstract class AbstractCommit implements Parcelable {
     @Key @Generated long id;
@@ -69,12 +63,12 @@ public abstract class AbstractCommit implements Parcelable {
             try {
                 BlockingEntityStore<Persistable> dataSource = App.getInstance().getDataStore().toBlocking();
                 dataSource.delete(Commit.class)
-                        .where(REPO_ID.eq(repoId).and(LOGIN.eq(login)))
+                        .where(Commit.REPO_ID.eq(repoId).and(Commit.LOGIN.eq(login)))
                         .get()
                         .value();
                 if (!models.isEmpty()) {
                     for (Commit commitModel : models) {
-                        dataSource.delete(Commit.class).where(ID.eq(commitModel.getId())).get().value();
+                        dataSource.delete(Commit.class).where(Commit.ID.eq(commitModel.getId())).get().value();
                         commitModel.setRepoId(repoId);
                         commitModel.setLogin(login);
                         dataSource.insert(commitModel);
@@ -93,14 +87,14 @@ public abstract class AbstractCommit implements Parcelable {
             try {
                 BlockingEntityStore<Persistable> dataSource = App.getInstance().getDataStore().toBlocking();
                 dataSource.delete(Commit.class)
-                        .where(REPO_ID.eq(repoId)
-                                .and(LOGIN.eq(login))
-                                .and(PULL_REQUEST_NUMBER.eq(number)))
+                        .where(Commit.REPO_ID.eq(repoId)
+                                .and(Commit.LOGIN.eq(login))
+                                .and(Commit.PULL_REQUEST_NUMBER.eq(number)))
                         .get()
                         .value();
                 if (!models.isEmpty()) {
                     for (Commit commitModel : models) {
-                        dataSource.delete(Commit.class).where(ID.eq(commitModel.getId())).get().value();
+                        dataSource.delete(Commit.class).where(Commit.ID.eq(commitModel.getId())).get().value();
                         commitModel.setRepoId(repoId);
                         commitModel.setLogin(login);
                         commitModel.setPullRequestNumber(number);
@@ -118,9 +112,9 @@ public abstract class AbstractCommit implements Parcelable {
     public static Single<List<Commit>> getCommits(@NonNull String repoId, @NonNull String login) {
         return App.getInstance().getDataStore()
                 .select(Commit.class)
-                .where(REPO_ID.eq(repoId)
-                        .and(LOGIN.eq(login))
-                        .and(PULL_REQUEST_NUMBER.eq(0L)))
+                .where(Commit.REPO_ID.eq(repoId)
+                        .and(Commit.LOGIN.eq(login))
+                        .and(Commit.PULL_REQUEST_NUMBER.eq(0L)))
                 .get()
                 .observable()
                 .toList();
@@ -129,9 +123,9 @@ public abstract class AbstractCommit implements Parcelable {
     public static Single<List<Commit>> getCommits(@NonNull String repoId, @NonNull String login, long pullRequestNumber) {
         return App.getInstance().getDataStore()
                 .select(Commit.class)
-                .where(REPO_ID.eq(repoId)
-                        .and(LOGIN.eq(login))
-                        .and(PULL_REQUEST_NUMBER.eq(pullRequestNumber)))
+                .where(Commit.REPO_ID.eq(repoId)
+                        .and(Commit.LOGIN.eq(login))
+                        .and(Commit.PULL_REQUEST_NUMBER.eq(pullRequestNumber)))
                 .get()
                 .observable()
                 .toList();
@@ -140,9 +134,9 @@ public abstract class AbstractCommit implements Parcelable {
     public static Observable<Commit> getCommit(@NonNull String sha, @NonNull String repoId, @NonNull String login) {
         return App.getInstance().getDataStore()
                 .select(Commit.class)
-                .where(REPO_ID.eq(repoId)
-                        .and(LOGIN.eq(login))
-                        .and(SHA.eq(sha)))
+                .where(Commit.REPO_ID.eq(repoId)
+                        .and(Commit.LOGIN.eq(login))
+                        .and(Commit.SHA.eq(sha)))
                 .limit(1)
                 .get()
                 .observable();

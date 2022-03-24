@@ -66,6 +66,8 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View, ProfileOve
 
     var link: FontTextView? = null
 
+    var twitter: FontTextView? = null
+
     var joined: FontTextView? = null
 
     var following: FontButton? = null
@@ -151,6 +153,7 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View, ProfileOve
         this.location = view.findViewById(R.id.location)
         this.email = view.findViewById(R.id.email)
         this.link = view.findViewById(R.id.link)
+        this.twitter = view.findViewById(R.id.twitterLink)
         this.joined = view.findViewById(R.id.joined)
         this.following = view.findViewById(R.id.following)
         this.followers = view.findViewById(R.id.followers)
@@ -271,6 +274,12 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View, ProfileOve
         } else {
             link!!.text = userModel.blog!!
             link!!.visibility = View.VISIBLE
+        }
+        if (InputHelper.isEmpty(userModel.twitter)) {
+            twitter!!.visibility = View.GONE
+        } else {
+            twitter!!.text = userModel.twitter!!
+            twitter!!.visibility = View.VISIBLE
         }
         if (InputHelper.isEmpty(userModel.createdAt)) {
             joined!!.visibility = View.GONE

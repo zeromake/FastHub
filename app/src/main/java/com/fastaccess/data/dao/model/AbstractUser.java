@@ -21,11 +21,6 @@ import io.requery.Persistable;
 import io.requery.Table;
 import io.requery.Transient;
 
-import static com.fastaccess.data.dao.model.User.FOLLOWER_NAME;
-import static com.fastaccess.data.dao.model.User.FOLLOWING_NAME;
-import static com.fastaccess.data.dao.model.User.ID;
-import static com.fastaccess.data.dao.model.User.LOGIN;
-
 /**
  * Created by Kosh on 16 Mar 2017, 7:55 PM
  */
@@ -52,6 +47,7 @@ public abstract class AbstractUser implements Parcelable {
     String name;
     String company;
     String blog;
+    String twitter_username;
     String location;
     String email;
     boolean hireable;
@@ -83,7 +79,7 @@ public abstract class AbstractUser implements Parcelable {
     @Nullable public static User getUser(String login) {
         return App.getInstance().getDataStore()
                 .select(User.class)
-                .where(LOGIN.eq(login))
+                .where(User.LOGIN.eq(login))
                 .get()
                 .firstOrNull();
     }
@@ -91,7 +87,7 @@ public abstract class AbstractUser implements Parcelable {
     @Nullable public static User getUser(long id) {
         return App.getInstance().getDataStore()
                 .select(User.class)
-                .where(ID.eq(id))
+                .where(User.ID.eq(id))
                 .get()
                 .firstOrNull();
     }
@@ -104,7 +100,7 @@ public abstract class AbstractUser implements Parcelable {
                     BlockingEntityStore<Persistable> dataSource = App.getInstance().getDataStore().toBlocking();
                     if (login.getLogin().equalsIgnoreCase(followingName)) {
                         dataSource.delete(User.class)
-                                .where(FOLLOWING_NAME.eq(followingName))
+                                .where(User.FOLLOWING_NAME.eq(followingName))
                                 .get()
                                 .value();
                         if (!models.isEmpty()) {
@@ -137,7 +133,7 @@ public abstract class AbstractUser implements Parcelable {
                     BlockingEntityStore<Persistable> dataSource = App.getInstance().getDataStore().toBlocking();
                     if (login.getLogin().equalsIgnoreCase(followerName)) {
                         dataSource.delete(User.class)
-                                .where(FOLLOWER_NAME.eq(followerName))
+                                .where(User.FOLLOWER_NAME.eq(followerName))
                                 .get()
                                 .value();
                         if (!models.isEmpty()) {
@@ -165,7 +161,7 @@ public abstract class AbstractUser implements Parcelable {
     @NonNull public static Single<List<User>> getUserFollowerList(@NonNull String following) {
         return App.getInstance().getDataStore()
                 .select(User.class)
-                .where(FOLLOWING_NAME.eq(following))
+                .where(User.FOLLOWING_NAME.eq(following))
                 .get()
                 .observable()
                 .toList();
@@ -174,7 +170,7 @@ public abstract class AbstractUser implements Parcelable {
     @NonNull public static Single<List<User>> getUserFollowingList(@NonNull String follower) {
         return App.getInstance().getDataStore()
                 .select(User.class)
-                .where(FOLLOWER_NAME.eq(follower))
+                .where(User.FOLLOWER_NAME.eq(follower))
                 .get()
                 .observable()
                 .toList();
@@ -207,6 +203,7 @@ public abstract class AbstractUser implements Parcelable {
         dest.writeString(this.name);
         dest.writeString(this.company);
         dest.writeString(this.blog);
+        dest.writeString(this.twitter_username);
         dest.writeString(this.location);
         dest.writeString(this.email);
         dest.writeByte(this.hireable ? (byte) 1 : (byte) 0);
@@ -246,6 +243,7 @@ public abstract class AbstractUser implements Parcelable {
         this.name = in.readString();
         this.company = in.readString();
         this.blog = in.readString();
+        this.twitter_username = in.readString();
         this.location = in.readString();
         this.email = in.readString();
         this.hireable = in.readByte() != 0;
