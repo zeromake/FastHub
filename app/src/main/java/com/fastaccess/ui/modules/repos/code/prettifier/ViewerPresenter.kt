@@ -211,7 +211,7 @@ class ViewerPresenter : BasePresenter<ViewerMvp.View>(), ViewerMvp.Presenter {
                     model.context = baseUrl.toString()
 //                    getRepoService(isEnterprise).convertReadmeToHtml(model)
 
-                    makeRestCall(Observable.just("null")) { string: String? ->
+                    makeRestCall(getRepoService(isEnterprise).convertReadmeToHtml(model)) { string: String? ->
                         isMarkDown = true
                         downloadedStream = string
                         fileModel.isMarkdown = true
