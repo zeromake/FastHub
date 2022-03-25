@@ -102,10 +102,6 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
                     ProfileGistsFragment.newInstance(login)
                 ),
                 FragmentPagerAdapterModel(
-                    context.getString(R.string.gists),
-                    PackagesFragment.newInstance(login)
-                ),
-                FragmentPagerAdapterModel(
                     context.getString(R.string.followers),
                     ProfileFollowersFragment.newInstance(login)
                 ),
