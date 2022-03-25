@@ -41,8 +41,8 @@ jobs:
           java-version: 11
       - name: Decode secrets
         run: |
-          echo ${{ secrets.SECRETS_FILE }} | base64 --decode > app/secrets.properties &&
-          echo ${{ secrets.SECRETS_KEYS }} | base64 --decode > app/keys_release.jks
+          echo -n ${{ secrets.SECRETS_FILE }} | base64 --decode > app/secrets.properties &&
+          echo -n ${{ secrets.SECRETS_KEYS }} | base64 --decode > app/keys_release.jks
       - name: Build APK
         run: bash ./gradlew assembleRelease --stacktrace
       - name: Create Release
