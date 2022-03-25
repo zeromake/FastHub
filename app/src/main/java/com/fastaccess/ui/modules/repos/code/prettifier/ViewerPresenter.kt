@@ -15,7 +15,6 @@ import com.fastaccess.provider.markdown.MarkDownProvider.isMarkdown
 import com.fastaccess.provider.rest.RestProvider.getErrorCode
 import com.fastaccess.provider.rest.RestProvider.getRepoService
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
-import io.reactivex.Observable
 
 /**
  * Created by Kosh on 27 Nov 2016, 3:43 PM

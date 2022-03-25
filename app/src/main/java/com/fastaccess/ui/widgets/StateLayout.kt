@@ -1,13 +1,13 @@
 package com.fastaccess.ui.widgets
 
 import android.content.Context
-import androidx.core.widget.NestedScrollView
-import com.fastaccess.R
-import androidx.annotation.StringRes
 import android.os.Parcelable
 import android.util.AttributeSet
+import androidx.annotation.StringRes
+import androidx.core.widget.NestedScrollView
 import com.evernote.android.state.State
 import com.evernote.android.state.StateSaver
+import com.fastaccess.R
 import com.fastaccess.utils.setOnThrottleClickListener
 
 /**

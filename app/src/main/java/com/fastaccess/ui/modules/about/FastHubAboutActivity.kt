@@ -20,8 +20,8 @@ import com.fastaccess.R
 import com.fastaccess.helper.ActivityHelper
 import com.fastaccess.provider.tasks.version.CheckVersionService
 import com.fastaccess.provider.theme.ThemeEngine.applyForAbout
-import com.fastaccess.ui.modules.main.donation.DonationActivity
 import com.fastaccess.ui.modules.changelog.ChangelogBottomSheetDialog
+import com.fastaccess.ui.modules.main.donation.DonationActivity
 import com.fastaccess.ui.modules.repos.RepoPagerActivity
 import com.fastaccess.ui.modules.repos.issues.create.CreateIssueActivity
 import com.fastaccess.ui.modules.user.UserPagerActivity.Companion.startActivity

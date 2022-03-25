@@ -2,10 +2,10 @@ package com.zzhoujay.markdown.style
 
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.text.style.ReplacementSpan
+import android.graphics.Paint.FontMetricsInt
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
-import android.graphics.Paint.FontMetricsInt
+import android.text.style.ReplacementSpan
 
 /**
  * Created by zhou on 16-7-2.

@@ -6,12 +6,12 @@ import com.fastaccess.R
 import com.fastaccess.data.dao.TimelineModel
 import com.fastaccess.helper.ParseDateFormat
 import com.fastaccess.provider.timeline.HtmlHelper
+import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 import com.fastaccess.ui.widgets.AvatarLayout
 import com.fastaccess.ui.widgets.FontTextView
 import com.fastaccess.ui.widgets.ForegroundImageView
 import com.fastaccess.ui.widgets.SpannableBuilder
-import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
-import com.fastaccess.ui.base.adapter.BaseViewHolder
 
 /**
  * Created by Kosh on 13 Dec 2016, 1:42 AM

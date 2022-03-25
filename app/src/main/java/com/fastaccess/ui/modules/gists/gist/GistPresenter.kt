@@ -9,7 +9,6 @@ import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.RxHelper
 import com.fastaccess.provider.rest.RestProvider.getGistService
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
-import net.grandcentrix.thirtyinch.ViewAction
 import retrofit2.Response
 
 /**

@@ -2,8 +2,8 @@ package com.fastaccess.ui.modules.trending.fragment
 
 
 import com.fastaccess.data.dao.TrendingModel
-import com.fastaccess.ui.base.mvp.BaseMvp
 import com.fastaccess.ui.base.adapter.BaseViewHolder
+import com.fastaccess.ui.base.mvp.BaseMvp
 
 /**
  * Created by Kosh on 30 May 2017, 11:03 PM

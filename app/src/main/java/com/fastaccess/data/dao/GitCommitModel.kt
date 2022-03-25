@@ -1,9 +1,9 @@
 package com.fastaccess.data.dao
 
-import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
 import android.os.Parcel
+import android.os.Parcelable
 import com.fastaccess.data.dao.model.User
+import com.google.gson.annotations.SerializedName
 
 /**
  * Created by Kosh on 08 Dec 2016, 8:59 PM

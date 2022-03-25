@@ -11,7 +11,6 @@ import com.fastaccess.helper.RxHelper;
 import java.util.Date;
 import java.util.List;
 
-
 import io.reactivex.Observable;
 import io.requery.BlockingEntityStore;
 import io.requery.Entity;

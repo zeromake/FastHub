@@ -2,9 +2,7 @@ package com.fastaccess.ui.modules.filter.chooser
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import com.fastaccess.R
 import com.fastaccess.ui.base.BaseBottomSheetDialog
 import com.fastaccess.utils.setOnThrottleClickListener

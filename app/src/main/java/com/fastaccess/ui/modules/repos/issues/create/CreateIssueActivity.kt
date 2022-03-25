@@ -15,7 +15,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.transition.TransitionManager
-import com.danielstone.materialaboutlibrary.ConvenienceBuilder
 import com.evernote.android.state.State
 import com.fastaccess.App
 import com.fastaccess.BuildConfig

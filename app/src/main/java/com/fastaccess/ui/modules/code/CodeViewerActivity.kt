@@ -15,11 +15,11 @@ import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.provider.rest.RestProvider
-import com.fastaccess.provider.scheme.LinkParserHelper.isGitHubBlobImage
-import com.fastaccess.provider.scheme.LinkParserHelper.minifyGitHubImageUri
 import com.fastaccess.provider.scheme.LinkParserHelper.getEnterpriseGistUrl
 import com.fastaccess.provider.scheme.LinkParserHelper.getGistId
 import com.fastaccess.provider.scheme.LinkParserHelper.isEnterprise
+import com.fastaccess.provider.scheme.LinkParserHelper.isGitHubBlobImage
+import com.fastaccess.provider.scheme.LinkParserHelper.minifyGitHubImageUri
 import com.fastaccess.ui.base.BaseActivity
 import com.fastaccess.ui.base.mvp.BaseMvp
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter

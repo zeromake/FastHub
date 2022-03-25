@@ -3,14 +3,10 @@ package com.fastaccess.provider.theme
 import android.app.Activity
 import android.app.ActivityManager
 import android.app.Application
-import android.content.Context
 import android.graphics.BitmapFactory
-import android.graphics.drawable.Icon
 import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.annotation.StyleRes
 import com.danielstone.materialaboutlibrary.MaterialAboutActivity
-import com.fastaccess.App
 import com.fastaccess.R
 import com.fastaccess.helper.Logger
 import com.fastaccess.helper.PrefGetter

@@ -1,7 +1,7 @@
 package com.fastaccess.data.dao.timeline
 
-import android.os.Parcelable
 import android.os.Parcel
+import android.os.Parcelable
 import java.util.*
 
 class AuthorModel : Parcelable {

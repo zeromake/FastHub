@@ -4,10 +4,10 @@ import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
 import com.fastaccess.R
-import com.fastaccess.ui.widgets.FontTextView
+import com.fastaccess.github.GetPinnedReposQuery
 import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
 import com.fastaccess.ui.base.adapter.BaseViewHolder
-import com.fastaccess.github.GetPinnedReposQuery
+import com.fastaccess.ui.widgets.FontTextView
 import java.text.NumberFormat
 
 /**

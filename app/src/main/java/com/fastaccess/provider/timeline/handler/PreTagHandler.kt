@@ -1,17 +1,17 @@
 package com.fastaccess.provider.timeline.handler
 
 import android.graphics.Color
-import net.nightwhistler.htmlspanner.handlers.PreHandler
-import androidx.annotation.ColorInt
-import com.fastaccess.helper.PrefGetter.ThemeType
-import org.htmlcleaner.ContentNode
-import org.htmlcleaner.TagNode
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.BackgroundColorSpan
-import com.fastaccess.helper.PrefGetter
 import android.text.style.ForegroundColorSpan
 import android.text.style.TypefaceSpan
+import androidx.annotation.ColorInt
+import com.fastaccess.helper.PrefGetter
+import com.fastaccess.helper.PrefGetter.ThemeType
+import net.nightwhistler.htmlspanner.handlers.PreHandler
+import org.htmlcleaner.ContentNode
+import org.htmlcleaner.TagNode
 
 /**
  * Created by Kosh on 22 Apr 2017, 1:07 PM

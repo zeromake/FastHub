@@ -1,8 +1,7 @@
 package com.fastaccess.data.dao
 
-import android.os.Parcelable
 import android.os.Parcel
-import com.fastaccess.data.dao.MilestoneModel
+import android.os.Parcelable
 import com.fastaccess.data.dao.model.User
 import java.util.*
 

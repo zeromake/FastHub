@@ -1,12 +1,11 @@
 package com.fastaccess.ui.widgets
 
-import androidx.appcompat.widget.AppCompatEditText
-import android.view.inputmethod.EditorInfo
-import com.fastaccess.helper.TypeFaceHelper
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
-import java.lang.Exception
+import android.view.inputmethod.EditorInfo
+import androidx.appcompat.widget.AppCompatEditText
+import com.fastaccess.helper.TypeFaceHelper
 import com.fastaccess.provider.crash.Report
 
 /**

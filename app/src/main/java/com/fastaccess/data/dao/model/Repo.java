@@ -2,9 +2,15 @@
 package com.fastaccess.data.dao.model;
 
 import android.os.Parcel;
+
 import com.fastaccess.data.dao.LicenseModel;
 import com.fastaccess.data.dao.RepoPermissionsModel;
 import com.fastaccess.data.dao.TopicsModel;
+
+import java.util.Date;
+
+import javax.annotation.Generated;
+
 import io.requery.Persistable;
 import io.requery.meta.AttributeBuilder;
 import io.requery.meta.NumericAttribute;
@@ -20,13 +26,6 @@ import io.requery.proxy.Property;
 import io.requery.proxy.PropertyState;
 import io.requery.util.function.Function;
 import io.requery.util.function.Supplier;
-import java.lang.Boolean;
-import java.lang.Integer;
-import java.lang.Long;
-import java.lang.Override;
-import java.lang.String;
-import java.util.Date;
-import javax.annotation.Generated;
 
 @Generated("io.requery.processor.EntityProcessor")
 public class Repo extends AbstractRepo implements Persistable {

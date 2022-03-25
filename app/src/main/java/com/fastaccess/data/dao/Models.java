@@ -22,9 +22,11 @@ import com.fastaccess.data.dao.model.RepoFile;
 import com.fastaccess.data.dao.model.SearchHistory;
 import com.fastaccess.data.dao.model.User;
 import com.fastaccess.data.dao.model.ViewerFile;
+
+import javax.annotation.Generated;
+
 import io.requery.meta.EntityModel;
 import io.requery.meta.EntityModelBuilder;
-import javax.annotation.Generated;
 
 @Generated("io.requery.processor.EntityProcessor")
 public class Models {

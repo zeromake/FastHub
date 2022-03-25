@@ -2,8 +2,8 @@ package com.fastaccess.provider.markdown.extension.emoji.internal
 
 import com.fastaccess.provider.markdown.extension.emoji.Emoji
 import org.commonmark.node.Node
-import org.commonmark.renderer.html.HtmlNodeRendererContext
 import org.commonmark.renderer.NodeRenderer
+import org.commonmark.renderer.html.HtmlNodeRendererContext
 import org.commonmark.renderer.html.HtmlWriter
 
 class EmojiNodeRenderer(private val context: HtmlNodeRendererContext) : NodeRenderer {

@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ProgressBar
 import android.widget.Spinner
-import androidx.appcompat.widget.AppCompatSpinner
 import com.fastaccess.R
 import com.fastaccess.helper.PrefGetter
 import com.fastaccess.ui.adapter.SpinnerAdapter

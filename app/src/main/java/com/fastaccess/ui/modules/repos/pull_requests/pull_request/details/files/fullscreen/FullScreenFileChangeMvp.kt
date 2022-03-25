@@ -2,9 +2,9 @@ package com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.files
 
 import android.content.Intent
 import com.fastaccess.data.dao.CommitLinesModel
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 import com.fastaccess.ui.base.mvp.BaseMvp
 import com.fastaccess.ui.modules.reviews.callback.ReviewCommentListener
-import com.fastaccess.ui.base.adapter.BaseViewHolder
 
 /**
  * Created by Hashemsergani on 24.09.17.

@@ -1,11 +1,10 @@
 package com.fastaccess.ui.modules.repos.reactions
 
-import com.fastaccess.ui.base.mvp.BaseMvp.FAView
-import com.fastaccess.provider.rest.loadmore.OnLoadMore
-import com.fastaccess.ui.base.mvp.BaseMvp.PaginationListener
 import android.os.Bundle
 import com.fastaccess.data.dao.model.User
-import java.util.ArrayList
+import com.fastaccess.provider.rest.loadmore.OnLoadMore
+import com.fastaccess.ui.base.mvp.BaseMvp.FAView
+import com.fastaccess.ui.base.mvp.BaseMvp.PaginationListener
 
 /**
  * Created by Kosh on 11 Apr 2017, 11:19 AM

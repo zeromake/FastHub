@@ -2,6 +2,7 @@ package com.fastaccess.data.dao.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 
 import com.fastaccess.App;
@@ -86,7 +87,7 @@ public abstract class AbstractRelease implements Parcelable {
                         .and(Release.LOGIN.eq(login)))
                 .get()
                 .single()
-                .toCompletable();
+                .ignoreElement();
     }
 
     public static Observable<Release> get(long id) {

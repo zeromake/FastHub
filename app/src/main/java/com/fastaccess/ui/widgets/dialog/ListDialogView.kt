@@ -1,23 +1,20 @@
 package com.fastaccess.ui.widgets.dialog
 
 import android.content.Context
-import android.os.Parcelable
-import com.fastaccess.ui.base.BaseDialogFragment
-import com.fastaccess.ui.base.adapter.BaseViewHolder
-import com.fastaccess.R
-import com.fastaccess.ui.widgets.FontTextView
-import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
-import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.os.Parcelable
 import android.view.View
-import android.view.ViewGroup
+import com.fastaccess.R
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler
 import com.fastaccess.ui.adapter.SimpleListAdapter
+import com.fastaccess.ui.base.BaseDialogFragment
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 import com.fastaccess.ui.base.mvp.BaseMvp
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
-import java.util.ArrayList
+import com.fastaccess.ui.widgets.FontTextView
+import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
+import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
 
 /**
  * Created by Kosh on 31 Dec 2016, 3:19 PM

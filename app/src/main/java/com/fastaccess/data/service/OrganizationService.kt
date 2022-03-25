@@ -1,13 +1,13 @@
 package com.fastaccess.data.service
 
 import com.fastaccess.data.dao.Pageable
-import retrofit2.http.GET
 import com.fastaccess.data.dao.TeamsModel
 import com.fastaccess.data.dao.model.Event
 import com.fastaccess.data.dao.model.Repo
 import com.fastaccess.data.dao.model.User
 import io.reactivex.Observable
 import retrofit2.Response
+import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.QueryMap

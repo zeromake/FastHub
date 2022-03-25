@@ -1,14 +1,13 @@
 package com.fastaccess.provider.scheme
 
 import android.net.Uri
-import android.webkit.MimeTypeMap
-import com.fastaccess.helper.InputHelper
-import com.fastaccess.helper.PrefGetter
 import android.text.TextUtils
+import android.webkit.MimeTypeMap
 import com.annimon.stream.Optional
 import com.annimon.stream.Stream
+import com.fastaccess.helper.InputHelper
 import com.fastaccess.helper.ObjectsCompat
-import java.lang.Exception
+import com.fastaccess.helper.PrefGetter
 import java.util.*
 
 /**

@@ -2,17 +2,12 @@ package com.fastaccess.ui.modules.main.donation
 
 import android.os.Bundle
 import android.view.View
-import com.fastaccess.App
-import com.fastaccess.BuildConfig
 import com.fastaccess.R
 import com.fastaccess.helper.AnimHelper.animateVisibility
-import com.fastaccess.helper.AppHelper
-import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.PrefGetter
 import com.fastaccess.ui.base.BaseActivity
 import com.fastaccess.ui.base.mvp.BaseMvp
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
-import com.fastaccess.ui.modules.main.premium.PremiumActivity.Companion.startActivity
 import com.fastaccess.ui.modules.repos.RepoPagerActivity
 import com.fastaccess.utils.setOnThrottleClickListener
 import com.google.android.material.appbar.AppBarLayout

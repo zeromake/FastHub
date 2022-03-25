@@ -1,6 +1,5 @@
 package com.fastaccess.data.dao.converters
 
-import com.fastaccess.data.dao.converters.BaseConverter
 import com.fastaccess.data.dao.CommitListModel
 
 /**

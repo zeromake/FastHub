@@ -4,10 +4,10 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.widget.Toolbar
-import it.sephiroth.android.library.bottomnavigation.VerticalScrollingBehavior
-import it.sephiroth.android.library.bottomnavigation.BottomNavigation
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.appbar.AppBarLayout
+import it.sephiroth.android.library.bottomnavigation.BottomNavigation
+import it.sephiroth.android.library.bottomnavigation.VerticalScrollingBehavior
 
 class TabletBehavior(context: Context, attrs: AttributeSet) :
     VerticalScrollingBehavior<BottomNavigation>(context, attrs) {

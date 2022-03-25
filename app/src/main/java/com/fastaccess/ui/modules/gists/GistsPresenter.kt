@@ -1,15 +1,12 @@
 package com.fastaccess.ui.modules.gists
 
 import android.view.View
-import com.fastaccess.data.dao.Pageable
 import com.fastaccess.data.dao.model.Gist
 import com.fastaccess.helper.RxHelper
 import com.fastaccess.provider.rest.RestProvider
 import com.fastaccess.provider.rest.RestProvider.getGistService
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 import com.fastaccess.ui.modules.gists.gist.GistActivity.Companion.createIntent
-import io.reactivex.functions.Consumer
-import net.grandcentrix.thirtyinch.ViewAction
 
 /**
  * Created by Kosh on 11 Nov 2016, 12:36 PM

@@ -5,7 +5,6 @@ import com.fastaccess.github.PullRequestTimelineQuery
 import com.fastaccess.github.type.PullRequestReviewState
 import com.fastaccess.helper.Logger
 import com.fastaccess.helper.ParseDateFormat
-import java.util.ArrayList
 
 /**
  * Created by kosh on 20/08/2017.

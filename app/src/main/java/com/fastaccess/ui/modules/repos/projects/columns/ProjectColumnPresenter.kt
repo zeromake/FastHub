@@ -12,7 +12,6 @@ import com.fastaccess.helper.RxHelper
 import com.fastaccess.provider.rest.RestProvider
 import com.fastaccess.provider.scheme.SchemeParser
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
-import java.util.*
 
 /**
  * Created by Hashemsergani on 11.09.17.

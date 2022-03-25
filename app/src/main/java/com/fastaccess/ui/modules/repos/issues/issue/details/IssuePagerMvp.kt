@@ -1,18 +1,17 @@
 package com.fastaccess.ui.modules.repos.issues.issue.details
 
-import com.fastaccess.ui.base.mvp.BaseMvp.FAView
-import com.fastaccess.ui.modules.repos.extras.labels.LabelsMvp.SelectedLabelsListener
-import com.fastaccess.ui.modules.repos.extras.assignees.AssigneesMvp.SelectedAssigneesListener
-import com.fastaccess.ui.modules.editor.comment.CommentEditorFragment.CommentListener
-import com.fastaccess.ui.modules.repos.extras.locking.LockIssuePrCallback
-import com.fastaccess.data.dao.MilestoneModel
-import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
 import android.content.Intent
 import android.os.Bundle
 import com.fastaccess.data.dao.LabelModel
+import com.fastaccess.data.dao.MilestoneModel
 import com.fastaccess.data.dao.model.Issue
 import com.fastaccess.data.dao.model.User
-import java.util.ArrayList
+import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
+import com.fastaccess.ui.base.mvp.BaseMvp.FAView
+import com.fastaccess.ui.modules.editor.comment.CommentEditorFragment.CommentListener
+import com.fastaccess.ui.modules.repos.extras.assignees.AssigneesMvp.SelectedAssigneesListener
+import com.fastaccess.ui.modules.repos.extras.labels.LabelsMvp.SelectedLabelsListener
+import com.fastaccess.ui.modules.repos.extras.locking.LockIssuePrCallback
 
 /**
  * Created by Kosh on 10 Dec 2016, 9:21 AM

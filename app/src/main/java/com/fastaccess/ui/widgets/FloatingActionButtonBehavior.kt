@@ -4,11 +4,11 @@ import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup.MarginLayoutParams
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import it.sephiroth.android.library.bottomnavigation.BottomNavigation
 import com.google.android.material.snackbar.Snackbar.SnackbarLayout
-import android.view.ViewGroup.MarginLayoutParams
+import it.sephiroth.android.library.bottomnavigation.BottomNavigation
 import it.sephiroth.android.library.bottomnavigation.MiscUtils
 
 class FloatingActionButtonBehavior : CoordinatorLayout.Behavior<FloatingActionButton> {

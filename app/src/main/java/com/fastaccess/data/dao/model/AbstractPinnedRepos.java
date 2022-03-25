@@ -1,12 +1,12 @@
 package com.fastaccess.data.dao.model;
 
 import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.fastaccess.App;
 import com.fastaccess.data.dao.converters.RepoConverter;
-import com.fastaccess.helper.Logger;
 import com.fastaccess.helper.RxHelper;
 
 import java.util.List;
@@ -14,13 +14,11 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
-import io.requery.BlockingEntityStore;
 import io.requery.Column;
 import io.requery.Convert;
 import io.requery.Entity;
 import io.requery.Generated;
 import io.requery.Key;
-import io.requery.Persistable;
 
 /**
  * Created by Kosh on 25 Mar 2017, 7:29 PM

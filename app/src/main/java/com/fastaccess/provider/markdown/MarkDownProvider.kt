@@ -13,7 +13,6 @@ import com.fastaccess.helper.Logger.e
 import com.fastaccess.provider.markdown.extension.emoji.EmojiExtension
 import com.fastaccess.provider.markdown.extension.mention.MentionExtension
 import com.fastaccess.provider.timeline.HtmlHelper.htmlIntoTextView
-import net.nightwhistler.htmlspanner.HtmlSpanner
 import org.commonmark.ext.autolink.AutolinkExtension
 import org.commonmark.ext.front.matter.YamlFrontMatterExtension
 import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension

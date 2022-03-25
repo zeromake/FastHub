@@ -1,8 +1,7 @@
 package com.fastaccess.data.dao.types
 
-import com.fastaccess.R
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
+import com.fastaccess.R
 
 /**
  * Created by Kosh on 17 Feb 2017, 7:45 PM

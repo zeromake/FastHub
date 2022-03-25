@@ -1,10 +1,10 @@
 package com.fastaccess.ui.adapter
 
-import com.fastaccess.ui.base.adapter.BaseViewHolder
-import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
-import com.fastaccess.ui.adapter.viewholder.SimpleViewHolder
 import android.view.ViewGroup
 import com.fastaccess.R
+import com.fastaccess.ui.adapter.viewholder.SimpleViewHolder
+import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 
 open class SimpleListAdapter<O>(data: MutableList<O>, listener: BaseViewHolder.OnItemClickListener<O>) :
     BaseRecyclerAdapter<O, SimpleViewHolder<O>, BaseViewHolder.OnItemClickListener<O>>(

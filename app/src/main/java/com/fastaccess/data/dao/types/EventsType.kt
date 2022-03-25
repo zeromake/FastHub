@@ -1,9 +1,8 @@
 package com.fastaccess.data.dao.types
 
-import androidx.annotation.StringRes
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import com.fastaccess.R
-import android.annotation.SuppressLint
 
 enum class EventsType(
     @field:StringRes @param:StringRes val type: Int = R.string.unknown,

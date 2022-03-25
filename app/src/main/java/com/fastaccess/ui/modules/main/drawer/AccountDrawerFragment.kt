@@ -2,9 +2,7 @@ package com.fastaccess.ui.modules.main.drawer
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.fastaccess.R
@@ -17,13 +15,13 @@ import com.fastaccess.ui.adapter.LoginAdapter
 import com.fastaccess.ui.adapter.PinnedReposAdapter
 import com.fastaccess.ui.base.BaseActivity
 import com.fastaccess.ui.base.BaseFragment
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 import com.fastaccess.ui.modules.login.chooser.LoginChooserActivity
 import com.fastaccess.ui.modules.main.MainMvp
 import com.fastaccess.ui.modules.main.premium.PremiumActivity
 import com.fastaccess.ui.modules.pinned.PinnedReposActivity
 import com.fastaccess.ui.modules.user.UserPagerActivity
-import com.fastaccess.ui.base.adapter.BaseViewHolder
 import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
 
 /**

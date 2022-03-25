@@ -3,7 +3,6 @@ package com.fastaccess.ui.modules.login
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import androidx.annotation.StringRes
@@ -20,7 +19,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import es.dmoral.toasty.Toasty
-import io.reactivex.functions.Action
 
 /**
  * Created by Kosh on 08 Feb 2017, 9:10 PM

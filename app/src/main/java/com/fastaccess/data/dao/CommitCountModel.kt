@@ -1,9 +1,7 @@
 package com.fastaccess.data.dao
 
-import android.os.Parcelable
 import android.os.Parcel
-import com.fastaccess.data.dao.CommitCountModel
-import java.util.ArrayList
+import android.os.Parcelable
 
 /**
  * Created by Kosh on 01 Apr 2017, 12:42 PM

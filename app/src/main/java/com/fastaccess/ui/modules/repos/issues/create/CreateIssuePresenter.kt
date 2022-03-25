@@ -15,7 +15,6 @@ import com.fastaccess.provider.rest.RestProvider.getIssueService
 import com.fastaccess.provider.rest.RestProvider.getPullRequestService
 import com.fastaccess.provider.rest.RestProvider.getRepoService
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
-import net.grandcentrix.thirtyinch.ViewAction
 
 /**
  * Created by Kosh on 19 Feb 2017, 12:18 PM

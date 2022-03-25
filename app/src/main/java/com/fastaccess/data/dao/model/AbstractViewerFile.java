@@ -2,17 +2,18 @@ package com.fastaccess.data.dao.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 
 import com.fastaccess.App;
 import com.fastaccess.helper.RxHelper;
 
+import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.requery.Column;
 import io.requery.Entity;
 import io.requery.Generated;
 import io.requery.Key;
-
-import io.reactivex.Observable;import io.reactivex.Single;
 
 /**
  * Created by Kosh on 06 Dec 2016, 10:42 PM

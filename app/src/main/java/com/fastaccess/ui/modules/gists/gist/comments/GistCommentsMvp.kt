@@ -5,8 +5,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.fastaccess.data.dao.model.Comment
 import com.fastaccess.data.dao.model.User
 import com.fastaccess.provider.rest.loadmore.OnLoadMore
-import com.fastaccess.ui.base.mvp.BaseMvp.*
 import com.fastaccess.ui.base.adapter.BaseViewHolder
+import com.fastaccess.ui.base.mvp.BaseMvp.*
 
 /**
  * Created by Kosh on 20 Nov 2016, 11:10 AM

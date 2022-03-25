@@ -1,8 +1,8 @@
 package com.fastaccess.data.dao
 
+import android.os.Parcel
 import android.os.Parcelable
 import com.fastaccess.helper.InputHelper
-import android.os.Parcel
 import java.util.*
 
 /**

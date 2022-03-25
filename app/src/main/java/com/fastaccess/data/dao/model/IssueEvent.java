@@ -2,11 +2,18 @@
 package com.fastaccess.data.dao.model;
 
 import android.os.Parcel;
+
 import com.fastaccess.data.dao.LabelModel;
 import com.fastaccess.data.dao.MilestoneModel;
 import com.fastaccess.data.dao.RenameModel;
 import com.fastaccess.data.dao.TeamsModel;
 import com.fastaccess.data.dao.types.IssueEventType;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Generated;
+
 import io.requery.Persistable;
 import io.requery.meta.AttributeBuilder;
 import io.requery.meta.NumericAttribute;
@@ -20,13 +27,6 @@ import io.requery.proxy.Property;
 import io.requery.proxy.PropertyState;
 import io.requery.util.function.Function;
 import io.requery.util.function.Supplier;
-import java.lang.Long;
-import java.lang.Object;
-import java.lang.Override;
-import java.lang.String;
-import java.util.Date;
-import java.util.List;
-import javax.annotation.Generated;
 
 @Generated("io.requery.processor.EntityProcessor")
 public class IssueEvent extends AbstractIssueEvent implements Persistable {

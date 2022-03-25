@@ -2,6 +2,9 @@
 package com.fastaccess.data.dao.model;
 
 import android.os.Parcel;
+
+import javax.annotation.Generated;
+
 import io.requery.Persistable;
 import io.requery.meta.AttributeBuilder;
 import io.requery.meta.StringAttribute;
@@ -12,9 +15,6 @@ import io.requery.proxy.Property;
 import io.requery.proxy.PropertyState;
 import io.requery.util.function.Function;
 import io.requery.util.function.Supplier;
-import java.lang.Override;
-import java.lang.String;
-import javax.annotation.Generated;
 
 @Generated("io.requery.processor.EntityProcessor")
 public class SearchHistory extends AbstractSearchHistory implements Persistable {

@@ -1,11 +1,9 @@
 package com.fastaccess.data.dao
 
-import android.os.Parcelable
 import android.os.Parcel
+import android.os.Parcelable
 import com.fastaccess.helper.InputHelper
 import com.fastaccess.ui.widgets.DiffLineSpan
-import java.lang.NumberFormatException
-import java.util.*
 import kotlin.math.abs
 
 /**

@@ -1,8 +1,7 @@
 package com.fastaccess.data.dao
 
-import android.os.Parcelable
 import android.os.Parcel
-import com.fastaccess.data.dao.MergeResponseModel
+import android.os.Parcelable
 
 /**
  * Created by Kosh on 16 Dec 2016, 11:40 PM

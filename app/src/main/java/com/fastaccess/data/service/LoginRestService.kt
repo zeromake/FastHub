@@ -1,8 +1,8 @@
 package com.fastaccess.data.service
 
-import com.fastaccess.data.dao.model.Login
-import com.fastaccess.data.dao.AuthModel
 import com.fastaccess.data.dao.AccessTokenModel
+import com.fastaccess.data.dao.AuthModel
+import com.fastaccess.data.dao.model.Login
 import io.reactivex.Observable
 import retrofit2.http.*
 

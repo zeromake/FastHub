@@ -1,11 +1,11 @@
 package com.fastaccess.ui.adapter.viewholder
 
-import androidx.transition.ChangeBounds
-import androidx.transition.TransitionManager
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.TextView
+import androidx.transition.ChangeBounds
+import androidx.transition.TransitionManager
 import com.fastaccess.R
 import com.fastaccess.data.dao.model.Comment
 import com.fastaccess.helper.InputHelper
@@ -16,11 +16,10 @@ import com.fastaccess.provider.scheme.LinkParserHelper
 import com.fastaccess.provider.timeline.handler.drawable.DrawableGetter
 import com.fastaccess.ui.adapter.CommitCommentsAdapter
 import com.fastaccess.ui.adapter.callback.OnToggleView
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 import com.fastaccess.ui.widgets.AvatarLayout
 import com.fastaccess.ui.widgets.FontTextView
 import com.fastaccess.ui.widgets.ForegroundImageView
-import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
-import com.fastaccess.ui.base.adapter.BaseViewHolder
 import java.util.*
 
 /**

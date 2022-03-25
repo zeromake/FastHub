@@ -1,8 +1,8 @@
 package com.fastaccess.data.dao.timeline
 
+import android.os.Parcel
 import android.os.Parcelable
 import com.fastaccess.data.dao.ReactionsModel
-import android.os.Parcel
 import com.fastaccess.data.dao.model.Comment
 import com.fastaccess.data.dao.model.User
 import java.util.*

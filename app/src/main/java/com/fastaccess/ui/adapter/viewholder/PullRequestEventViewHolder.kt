@@ -2,26 +2,26 @@ package com.fastaccess.ui.adapter.viewholder
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import androidx.core.content.ContextCompat
 import android.text.style.BackgroundColorSpan
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import com.fastaccess.R
 import com.fastaccess.data.dao.timeline.PullRequestTimelineModel
+import com.fastaccess.github.PullRequestTimelineQuery
+import com.fastaccess.github.type.StatusState
 import com.fastaccess.helper.ParseDateFormat
 import com.fastaccess.helper.PrefGetter
 import com.fastaccess.helper.ViewHelper
 import com.fastaccess.provider.scheme.LinkParserHelper
 import com.fastaccess.provider.timeline.HtmlHelper
+import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 import com.fastaccess.ui.widgets.AvatarLayout
 import com.fastaccess.ui.widgets.FontTextView
 import com.fastaccess.ui.widgets.ForegroundImageView
 import com.fastaccess.ui.widgets.SpannableBuilder
-import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
-import com.fastaccess.ui.base.adapter.BaseViewHolder
 import com.zzhoujay.markdown.style.CodeSpan
-import com.fastaccess.github.PullRequestTimelineQuery
-import com.fastaccess.github.type.StatusState
 
 /**
  * Created by kosh on 03/08/2017.

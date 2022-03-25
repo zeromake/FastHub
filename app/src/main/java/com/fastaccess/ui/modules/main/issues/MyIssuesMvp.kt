@@ -1,15 +1,12 @@
 package com.fastaccess.ui.modules.main.issues
 
-import com.fastaccess.ui.base.mvp.BaseMvp.FAView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.fastaccess.data.dao.model.Issue
 import com.fastaccess.data.dao.types.IssueState
-import com.fastaccess.provider.rest.loadmore.OnLoadMore
-import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
-import com.fastaccess.ui.base.mvp.BaseMvp.PaginationListener
 import com.fastaccess.data.dao.types.MyIssuesType
+import com.fastaccess.provider.rest.loadmore.OnLoadMore
 import com.fastaccess.ui.base.adapter.BaseViewHolder
-import java.util.ArrayList
+import com.fastaccess.ui.base.mvp.BaseMvp.*
 
 /**
  * Created by Kosh on 25 Mar 2017, 11:39 PM

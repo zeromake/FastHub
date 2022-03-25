@@ -13,7 +13,6 @@ import com.fastaccess.helper.InputHelper
 import com.fastaccess.helper.RxHelper
 import com.fastaccess.provider.rest.ApolloProvider.getApollo
 import com.fastaccess.provider.rest.RestProvider
-import com.fastaccess.provider.rest.RestProvider.getRepoService
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 import com.fastaccess.ui.widgets.contributions.ContributionsDay
 import com.fastaccess.ui.widgets.contributions.ContributionsHtmlProvider

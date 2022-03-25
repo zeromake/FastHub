@@ -26,7 +26,6 @@ import com.fastaccess.ui.modules.main.drawer.AccountDrawerFragment
 import com.fastaccess.ui.modules.main.drawer.MainDrawerFragment
 import com.fastaccess.ui.modules.parser.LinksParserActivity
 import es.dmoral.toasty.Toasty
-import java.lang.Deprecated
 
 /**
  * Created by Kosh on 12/12/15 10:51 PM

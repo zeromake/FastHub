@@ -1,7 +1,7 @@
 package com.fastaccess.data.service
 
-import com.fastaccess.data.dao.CreateGistModel
 import com.fastaccess.data.dao.CommentRequestModel
+import com.fastaccess.data.dao.CreateGistModel
 import com.fastaccess.data.dao.Pageable
 import com.fastaccess.data.dao.model.Comment
 import com.fastaccess.data.dao.model.Gist

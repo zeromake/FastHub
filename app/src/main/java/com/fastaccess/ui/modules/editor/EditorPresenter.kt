@@ -4,7 +4,6 @@ import com.fastaccess.data.dao.CommentRequestModel
 import com.fastaccess.data.dao.EditReviewCommentModel
 import com.fastaccess.data.dao.model.Comment
 import com.fastaccess.helper.BundleConstant
-import com.fastaccess.helper.BundleConstant.ExtraType.*
 import com.fastaccess.helper.InputHelper
 import com.fastaccess.provider.rest.RestProvider
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter

@@ -1,11 +1,10 @@
 package com.fastaccess.provider.timeline.handler
 
-import net.nightwhistler.htmlspanner.TagNodeHandler
-import org.htmlcleaner.TagNode
 import android.text.SpannableStringBuilder
-import com.fastaccess.provider.timeline.handler.HrSpan
 import android.text.Spanned
+import net.nightwhistler.htmlspanner.TagNodeHandler
 import net.nightwhistler.htmlspanner.spans.CenterSpan
+import org.htmlcleaner.TagNode
 
 /**
  * Created by kosh on 30/07/2017.

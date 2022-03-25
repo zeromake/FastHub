@@ -2,11 +2,9 @@ package com.fastaccess.ui.modules.main.notifications
 
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.FragmentManager
 import android.text.Html
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import com.fastaccess.R
 import com.fastaccess.data.dao.model.AbstractFastHubNotification.NotificationType
 import com.fastaccess.data.dao.model.FastHubNotification

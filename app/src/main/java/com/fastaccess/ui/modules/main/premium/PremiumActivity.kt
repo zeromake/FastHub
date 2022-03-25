@@ -5,18 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.FrameLayout
-import android.widget.TextView
-import com.fastaccess.BuildConfig
 import com.fastaccess.R
-import com.fastaccess.helper.*
+import com.fastaccess.helper.AnimHelper
+import com.fastaccess.helper.AppHelper
+import com.fastaccess.helper.PrefGetter
 import com.fastaccess.ui.base.BaseActivity
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 import com.fastaccess.ui.modules.repos.RepoPagerActivity
 import com.fastaccess.utils.setOnThrottleClickListener
-import io.reactivex.Observable
-import io.reactivex.disposables.Disposable
 
 /**
  * Created by kosh on 13/07/2017.

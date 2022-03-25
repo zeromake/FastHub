@@ -1,10 +1,10 @@
 package com.fastaccess.ui.modules.gists.gist
 
-import com.fastaccess.ui.base.mvp.BaseMvp.FAView
-import com.fastaccess.ui.modules.editor.comment.CommentEditorFragment.CommentListener
-import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
 import android.content.Intent
 import com.fastaccess.data.dao.model.Gist
+import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
+import com.fastaccess.ui.base.mvp.BaseMvp.FAView
+import com.fastaccess.ui.modules.editor.comment.CommentEditorFragment.CommentListener
 
 /**
  * Created by Kosh on 12 Nov 2016, 12:17 PM

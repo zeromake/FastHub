@@ -1,7 +1,6 @@
 package com.fastaccess.helper
 
 import android.text.format.DateUtils
-import java.lang.Exception
 import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
