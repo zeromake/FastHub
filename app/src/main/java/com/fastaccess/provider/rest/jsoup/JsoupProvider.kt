@@ -2,6 +2,7 @@ package com.fastaccess.provider.rest.jsoup
 
 import com.fastaccess.BuildConfig
 import com.fastaccess.data.service.ScrapService
+import com.fastaccess.provider.rest.HttpProvider
 import com.fastaccess.provider.rest.interceptors.AuthenticationInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -16,15 +17,9 @@ object JsoupProvider {
     private var okHttpClient: OkHttpClient? = null
     private fun provideOkHttpClient(): OkHttpClient {
         if (okHttpClient == null) {
-            val client = OkHttpClient.Builder()
-            if (BuildConfig.DEBUG) {
-                client.addInterceptor(
-                    HttpLoggingInterceptor()
-                        .setLevel(HttpLoggingInterceptor.Level.BODY)
-                )
-            }
-            client.addInterceptor(AuthenticationInterceptor(true))
-            okHttpClient = client.build()
+            okHttpClient = HttpProvider.provideOkHttpClient(
+                AuthenticationInterceptor(true)
+            )
         }
         return okHttpClient!!
     }

@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.evernote.android.state.State
@@ -17,7 +18,7 @@ import com.fastaccess.data.dao.model.Comment
 import com.fastaccess.data.dao.model.Issue
 import com.fastaccess.data.dao.model.User
 import com.fastaccess.data.dao.types.ReactionTypes
-import com.fastaccess.helper.ActivityHelper.startReveal
+import com.fastaccess.helper.ActivityHelper.startLauncher
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler.Companion.start
 import com.fastaccess.helper.Logger.e
@@ -30,6 +31,7 @@ import com.fastaccess.ui.base.BaseFragment
 import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.editor.EditorActivity
 import com.fastaccess.ui.modules.editor.comment.CommentEditorFragment.CommentListener
+import com.fastaccess.ui.modules.repos.issues.create.CreateIssueActivity
 import com.fastaccess.ui.modules.repos.issues.issue.details.IssuePagerMvp.IssuePrCallback
 import com.fastaccess.ui.modules.repos.reactions.ReactionsDialogFragment
 import com.fastaccess.ui.widgets.StateLayout
@@ -211,7 +213,7 @@ class IssueTimelineFragment : BaseFragment<IssueTimelineMvp.View, IssueTimelineP
                 requireActivity().findViewById<View>(
                     R.id.fab
                 ) else recycler!!
-        startReveal(this, intent, view, BundleConstant.REQUEST_CODE)
+        startLauncher(launcher, intent, view)
     }
 
     override fun onRemove(timelineModel: TimelineModel) {
@@ -250,7 +252,10 @@ class IssueTimelineFragment : BaseFragment<IssueTimelineMvp.View, IssueTimelineP
                 .put(BundleConstant.EXTRA_THREE, issue!!.number)
                 .put(BundleConstant.EXTRA, "@" + user!!.login)
                 .put(BundleConstant.EXTRA_TYPE, BundleConstant.ExtraType.NEW_ISSUE_COMMENT_EXTRA)
-                .putStringArrayList("participants", getUsersByTimeline(adapter!!.data.filterNotNull()))
+                .putStringArrayList(
+                    "participants",
+                    getUsersByTimeline(adapter!!.data.filterNotNull())
+                )
                 .put(BundleConstant.IS_ENTERPRISE, isEnterprise)
                 .put("message", message)
                 .end()
@@ -258,9 +263,9 @@ class IssueTimelineFragment : BaseFragment<IssueTimelineMvp.View, IssueTimelineP
         val view =
             if (activity != null && requireActivity().findViewById<View?>(R.id.fab) != null)
                 requireActivity().findViewById<View>(
-                R.id.fab
-            ) else recycler!!
-        startReveal(this, intent, view, BundleConstant.REQUEST_CODE)
+                    R.id.fab
+                ) else recycler!!
+        startLauncher(launcher, intent, view)
     }
 
     override fun showReactionsPopup(
@@ -328,39 +333,46 @@ class IssueTimelineFragment : BaseFragment<IssueTimelineMvp.View, IssueTimelineP
         }
     }
 
+    override fun onEditHeader(issue: Issue) {
+        CreateIssueActivity.startForResult(
+            this.requireActivity(),
+            launcher,
+            issue.login,
+            issue.repoId,
+            issue,
+            isEnterprise
+        )
+    }
+
     @SuppressLint("NotifyDataSetChanged")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == BundleConstant.REQUEST_CODE) {
-                if (data == null) {
-                    onRefresh()
-                    return
-                }
-                val bundle = data.extras
-                if (bundle != null) {
-                    val isNew = bundle.getBoolean(BundleConstant.EXTRA)
-                    val commentsModel: Comment? = bundle.getParcelable(BundleConstant.ITEM)
-                    if (commentsModel == null) {
-                        onRefresh() // shit happens, refresh()?
-                        return
-                    }
-                    adapter!!.notifyDataSetChanged()
-                    if (isNew) {
-                        adapter!!.addItem(constructComment(commentsModel))
-                        recycler!!.smoothScrollToPosition(adapter!!.itemCount)
-                    } else {
-                        val position = adapter!!.getItem(constructComment(commentsModel))
-                        if (position != -1) {
-                            adapter!!.swapItem(constructComment(commentsModel), position)
-                            recycler!!.smoothScrollToPosition(position)
-                        } else {
-                            adapter!!.addItem(constructComment(commentsModel))
-                            recycler!!.smoothScrollToPosition(adapter!!.itemCount)
-                        }
-                    }
+    private val launcher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        val data = it.data
+        if (it.resultCode == Activity.RESULT_OK) {
+            if (data == null || data.extras == null) {
+                onRefresh()
+                return@registerForActivityResult
+            }
+            val bundle = data.extras!!
+            val isNew = bundle.getBoolean(BundleConstant.EXTRA)
+            val commentsModel: Comment? = bundle.getParcelable(BundleConstant.ITEM)
+            if (commentsModel == null) {
+                onRefresh() // shit happens, refresh()?
+                return@registerForActivityResult
+            }
+            adapter!!.notifyDataSetChanged()
+            if (isNew) {
+                adapter!!.addItem(constructComment(commentsModel))
+                recycler!!.smoothScrollToPosition(adapter!!.itemCount)
+            } else {
+                val position = adapter!!.getItem(constructComment(commentsModel))
+                if (position != -1) {
+                    adapter!!.swapItem(constructComment(commentsModel), position)
+                    recycler!!.smoothScrollToPosition(position)
                 } else {
-                    onRefresh() // bundle size is too large? refresh the api
+                    adapter!!.addItem(constructComment(commentsModel))
+                    recycler!!.smoothScrollToPosition(adapter!!.itemCount)
                 }
             }
         }

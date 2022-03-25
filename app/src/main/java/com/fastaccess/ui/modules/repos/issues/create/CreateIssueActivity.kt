@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.transition.TransitionManager
@@ -159,7 +160,7 @@ class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresent
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        description!!.setOnTouchListener {_, event ->
+        description!!.setOnTouchListener { _, event ->
             onTouch(event)
         }
         submit!!.setOnThrottleClickListener {
@@ -267,10 +268,11 @@ class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresent
         )
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+    private val launcher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
         AppHelper.hideKeyboard(title!!)
-        presenter!!.onActivityForResult(resultCode, requestCode, data)
+        presenter!!.onActivityForResult(it.resultCode, BundleConstant.REQUEST_CODE, it.data)
     }
 
     override fun onBackPressed() {
@@ -314,7 +316,7 @@ class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresent
                     .put(BundleConstant.IS_ENTERPRISE, isEnterprise)
                     .end()
             )
-            ActivityHelper.startReveal(this, intent, submit!!, BundleConstant.REQUEST_CODE)
+            ActivityHelper.startLauncher(launcher, intent, submit!!)
             return true
         }
         return false
@@ -395,10 +397,9 @@ class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresent
     }
 
     companion object {
-        @SuppressWarnings("deprecation")
-        @Deprecated("use registerForActivityResult")
         fun startForResult(
             fragment: Fragment,
+            launcher: ActivityResultLauncher<Intent>,
             login: String,
             repoId: String,
             isEnterprise: Boolean
@@ -421,17 +422,19 @@ class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresent
             val view = if (fragment.activity != null) fragment.requireActivity()
                 .findViewById<View>(R.id.fab) else null
             if (view != null) {
-                ActivityHelper.startReveal(fragment, intent, view, BundleConstant.REQUEST_CODE)
+                ActivityHelper.startLauncher(launcher, intent, view)
             } else {
-                fragment.startActivityForResult(intent, BundleConstant.REQUEST_CODE)
+                launcher.launch(intent)
             }
         }
 
-        @SuppressWarnings("deprecation")
-        @Deprecated("use registerForActivityResult")
         fun startForResult(
-            activity: Activity, login: String, repoId: String,
-            issueModel: Issue?, isEnterprise: Boolean
+            activity: Activity,
+            launcher: ActivityResultLauncher<Intent>,
+            login: String,
+            repoId: String,
+            issueModel: Issue?,
+            isEnterprise: Boolean
         ) {
             if (issueModel != null) {
                 val intent = Intent(activity, CreateIssueActivity::class.java)
@@ -445,18 +448,20 @@ class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresent
                 )
                 val view = activity.findViewById<View>(R.id.fab)
                 if (view != null) {
-                    startForResult(activity, intent, view)
+                    startForResult(launcher, intent, view)
                 } else {
-                    activity.startActivityForResult(intent, BundleConstant.REQUEST_CODE)
+                    launcher.launch(intent)
                 }
             }
         }
 
-        @SuppressWarnings("deprecation")
-        @Deprecated("use registerForActivityResult")
         fun startForResult(
-            activity: Activity, login: String, repoId: String,
-            pullRequestModel: PullRequest?, isEnterprise: Boolean
+            activity: Activity,
+            launcher: ActivityResultLauncher<Intent>,
+            login: String,
+            repoId: String,
+            pullRequestModel: PullRequest?,
+            isEnterprise: Boolean
         ) {
             if (pullRequestModel != null) {
                 val intent = Intent(activity, CreateIssueActivity::class.java)
@@ -470,9 +475,9 @@ class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresent
                 )
                 val view = activity.findViewById<View>(R.id.fab)
                 if (view != null) {
-                    startForResult(activity, intent, view)
+                    startForResult(launcher, intent, view)
                 } else {
-                    activity.startActivityForResult(intent, BundleConstant.REQUEST_CODE)
+                    launcher.launch(intent)
                 }
             }
         }
@@ -506,12 +511,6 @@ class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresent
                     .end()
             )
             return intent
-        }
-
-        @SuppressWarnings("deprecation")
-        @Deprecated("use registerForActivityResult")
-        fun startForResult(activity: Activity, intent: Intent, view: View) {
-            ActivityHelper.startReveal(activity, intent, view, BundleConstant.REQUEST_CODE)
         }
 
         fun startForResult(

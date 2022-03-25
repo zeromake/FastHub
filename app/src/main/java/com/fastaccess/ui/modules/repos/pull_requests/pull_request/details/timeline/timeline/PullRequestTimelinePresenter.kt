@@ -29,7 +29,6 @@ import com.fastaccess.provider.timeline.ReactionsProvider.ReactionType
 import com.fastaccess.provider.timeline.TimelineConverter.convert
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 import com.fastaccess.ui.modules.filter.issues.FilterIssuesActivity
-import com.fastaccess.ui.modules.repos.issues.create.CreateIssueActivity
 import io.reactivex.Observable
 
 /**
@@ -160,13 +159,9 @@ class PullRequestTimelinePresenter : BasePresenter<PullRequestTimelineMvp.View>(
                                 view!!.onReply(item.pullRequest!!.user, item.pullRequest!!.bodyHtml)
                             }
                             R.id.edit -> {
-                                val activity = ActivityHelper.getActivity(v.context)
-                                    ?: return@setOnMenuItemClickListener false
-                                CreateIssueActivity.startForResult(
-                                    activity,
-                                    item.pullRequest!!.login, item.pullRequest!!.repoId,
-                                    item.pullRequest, isEnterprise
-                                )
+                                sendToView {
+                                    it.onEditHeader(item.pullRequest!!)
+                                }
                             }
                             R.id.share -> {
                                 ActivityHelper.shareUrl(v.context, item.pullRequest!!.htmlUrl)

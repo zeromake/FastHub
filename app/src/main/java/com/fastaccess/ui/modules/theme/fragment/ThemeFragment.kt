@@ -2,21 +2,21 @@ package com.fastaccess.ui.modules.theme.fragment
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import androidx.appcompat.widget.Toolbar
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.Toolbar
 import com.fastaccess.R
 import com.fastaccess.helper.*
 import com.fastaccess.ui.base.BaseFragment
 import com.fastaccess.ui.modules.main.donation.DonateActivity
 import com.fastaccess.ui.modules.main.premium.PremiumActivity
 import com.fastaccess.ui.widgets.SpannableBuilder
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 /**
  * Created by Kosh on 08 Jun 2017, 10:53 PM
@@ -86,11 +86,12 @@ class ThemeFragment : BaseFragment<ThemeFragmentMvp.View, ThemeFragmentPresenter
             }
         }
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            val productKey = data?.getStringExtra(BundleConstant.ITEM)
+    private val launcher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        val data = result.data
+        if (result.resultCode == Activity.RESULT_OK && data != null) {
+            val productKey = data.getStringExtra(BundleConstant.ITEM)
             productKey?.let {
                 when (it) {
                     getString(R.string.amlod_theme_purchase) -> setTheme(getString(R.string.amlod_theme_mode))
@@ -126,7 +127,7 @@ class ThemeFragment : BaseFragment<ThemeFragmentMvp.View, ThemeFragmentPresenter
         if (PrefGetter.isBluishEnabled || PrefGetter.isProEnabled) {
             setTheme(getString(R.string.bluish_theme))
         } else {
-            DonateActivity.start(this, getString(R.string.theme_bluish_purchase))
+            DonateActivity.start(requireContext(), launcher, getString(R.string.theme_bluish_purchase))
         }
     }
 
@@ -135,7 +136,7 @@ class ThemeFragment : BaseFragment<ThemeFragmentMvp.View, ThemeFragmentPresenter
         if (PrefGetter.isAmlodEnabled || PrefGetter.isProEnabled) {
             setTheme(getString(R.string.amlod_theme_mode))
         } else {
-            DonateActivity.start(this, getString(R.string.amlod_theme_purchase))
+            DonateActivity.start(requireContext(), launcher, getString(R.string.amlod_theme_purchase))
         }
     }
 

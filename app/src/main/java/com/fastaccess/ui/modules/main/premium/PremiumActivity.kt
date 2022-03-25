@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.transition.TransitionManager
 import com.fastaccess.BuildConfig
 import com.fastaccess.R
@@ -46,22 +47,30 @@ class PremiumActivity : BaseActivity<PremiumMvp.View, PremiumPresenter>(), Premi
 
     override val isSecured: Boolean = true
 
-    fun onBuyAll() {
+    private val launcher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        if (it.resultCode == RESULT_OK) {
+            successResult()
+        }
+    }
+
+    private fun onBuyAll() {
         if (!isGoogleSupported()) return
         val price = buyAll.tag as? Long?
-        DonateActivity.start(this, allFeaturesKey, price, buyAll.text.toString())
+        DonateActivity.start(this, launcher, allFeaturesKey, price, buyAll.text.toString())
     }
 
-    fun onBuyPro() {
+    private fun onBuyPro() {
         if (!isGoogleSupported()) return
         val price = proPriceText.tag as? Long?
-        DonateActivity.start(this, proKey, price, proPriceText.text.toString())
+        DonateActivity.start(this, launcher, proKey, price, proPriceText.text.toString())
     }
 
-    fun onBuyEnterprise() {
+    private fun onBuyEnterprise() {
         if (!isGoogleSupported()) return
         val price = enterpriseText.tag as? Long?
-        DonateActivity.start(this, enterpriseKey, price, enterpriseText.text.toString())
+        DonateActivity.start(this, launcher, enterpriseKey, price, enterpriseText.text.toString())
     }
 
 
@@ -109,13 +118,6 @@ class PremiumActivity : BaseActivity<PremiumMvp.View, PremiumPresenter>(), Premi
                     }
                 }
             }, { t -> t.printStackTrace() })
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            successResult()
-        }
     }
 
     private fun successResult() {

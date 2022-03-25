@@ -150,15 +150,9 @@ class IssueTimelinePresenter : BasePresenter<IssueTimelineMvp.View>(), IssueTime
                                 view!!.onReply(item.issue!!.user, item.issue!!.body)
                             }
                             R.id.edit -> {
-                                val activity = ActivityHelper.getActivity(v.context)
-                                    ?: return@setOnMenuItemClickListener false
-                                CreateIssueActivity.startForResult(
-                                    activity,
-                                    item.issue!!.login,
-                                    item.issue!!.repoId,
-                                    item.issue,
-                                    isEnterprise
-                                )
+                                sendToView {
+                                    it.onEditHeader(item.issue!!)
+                                }
                             }
                             R.id.share -> {
                                 ActivityHelper.shareUrl(v.context, item.issue!!.htmlUrl)

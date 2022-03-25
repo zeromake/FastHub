@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import com.fastaccess.BuildConfig
 import com.fastaccess.R
@@ -80,7 +81,8 @@ class DonateActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FAView
 
     companion object {
         fun start(
-            context: Activity,
+            context: Context,
+            launcher: ActivityResultLauncher<Intent>,
             product: String?,
             price: Long? = 0,
             priceText: String? = null
@@ -93,25 +95,7 @@ class DonateActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FAView
                     .put(BundleConstant.EXTRA_FIVE, priceText)
                     .end()
             )
-            context.startActivityForResult(intent, BundleConstant.REQUEST_CODE)
-        }
-
-        @Deprecated("")
-        fun start(
-            context: Fragment,
-            product: String?,
-            price: Long? = 0,
-            priceText: String? = null
-        ) {
-            val intent = Intent(context.context, DonateActivity::class.java)
-            intent.putExtras(
-                Bundler.start()
-                    .put(BundleConstant.EXTRA, product)
-                    .put(BundleConstant.EXTRA_FOUR, price)
-                    .put(BundleConstant.EXTRA_FIVE, priceText)
-                    .end()
-            )
-            context.startActivityForResult(intent, BundleConstant.REQUEST_CODE)
+            launcher.launch(intent)
         }
 
         fun enableProduct(productKey: String?, context: Context) {

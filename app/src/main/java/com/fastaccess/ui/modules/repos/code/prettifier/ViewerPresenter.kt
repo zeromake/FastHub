@@ -15,7 +15,6 @@ import com.fastaccess.provider.markdown.MarkDownProvider.isMarkdown
 import com.fastaccess.provider.rest.RestProvider.getErrorCode
 import com.fastaccess.provider.rest.RestProvider.getRepoService
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
-import io.reactivex.Observable
 
 /**
  * Created by Kosh on 27 Nov 2016, 3:43 PM
@@ -209,9 +208,8 @@ class ViewerPresenter : BasePresenter<ViewerMvp.View>(), ViewerMvp.Presenter {
                         }
                     }
                     model.context = baseUrl.toString()
-//                    getRepoService(isEnterprise).convertReadmeToHtml(model)
-
-                    makeRestCall(Observable.just("null")) { string: String? ->
+                    val obs = getRepoService(isEnterprise).convertReadmeToHtml(model)
+                    makeRestCall(obs) { string: String? ->
                         isMarkDown = true
                         downloadedStream = string
                         fileModel.isMarkdown = true

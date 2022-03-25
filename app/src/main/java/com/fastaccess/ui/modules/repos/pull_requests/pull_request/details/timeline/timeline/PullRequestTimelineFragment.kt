@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.evernote.android.state.State
@@ -17,7 +18,7 @@ import com.fastaccess.data.dao.model.Comment
 import com.fastaccess.data.dao.model.PullRequest
 import com.fastaccess.data.dao.model.User
 import com.fastaccess.data.dao.types.ReactionTypes
-import com.fastaccess.helper.ActivityHelper.startReveal
+import com.fastaccess.helper.ActivityHelper.startLauncher
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler.Companion.start
 import com.fastaccess.provider.rest.loadmore.OnLoadMore
@@ -28,6 +29,7 @@ import com.fastaccess.ui.base.BaseFragment
 import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.editor.EditorActivity
 import com.fastaccess.ui.modules.editor.comment.CommentEditorFragment.CommentListener
+import com.fastaccess.ui.modules.repos.issues.create.CreateIssueActivity
 import com.fastaccess.ui.modules.repos.issues.issue.details.IssuePagerMvp.IssuePrCallback
 import com.fastaccess.ui.modules.repos.reactions.ReactionsDialogFragment.Companion.newInstance
 import com.fastaccess.ui.widgets.StateLayout
@@ -211,7 +213,7 @@ class PullRequestTimelineFragment :
                 .end()
         )
         val view = fromView
-        startReveal(this, intent, view, BundleConstant.REQUEST_CODE)
+        startLauncher(launcher, intent, view)
     }
 
     override fun onEditReviewComment(
@@ -242,7 +244,7 @@ class PullRequestTimelineFragment :
                 .end()
         )
         val view = fromView
-        startReveal(this, intent, view, BundleConstant.REVIEW_REQUEST_CODE)
+        startLauncher(reviewLauncher, intent, view)
     }
 
     override fun onRemove(timelineModel: TimelineModel) {
@@ -280,7 +282,7 @@ class PullRequestTimelineFragment :
                 .end()
         )
         val view = fromView
-        startReveal(this, intent, view, BundleConstant.REQUEST_CODE)
+        startLauncher(launcher, intent, view)
     }
 
     override fun onHandleComment(text: String, bundle: Bundle?) {
@@ -311,7 +313,7 @@ class PullRequestTimelineFragment :
                 .end()
         )
         val view = fromView
-        startReveal(this, intent, view, BundleConstant.REVIEW_REQUEST_CODE)
+        startLauncher(reviewLauncher, intent, view)
     }
 
     override fun addComment(timelineModel: TimelineModel) {
@@ -326,6 +328,17 @@ class PullRequestTimelineFragment :
     override fun onHideBlockingProgress() {
         hideProgress()
         super.hideProgress()
+    }
+
+    override fun onEditHeader(pr: PullRequest) {
+        CreateIssueActivity.startForResult(
+            requireActivity(),
+            launcher,
+            pr.login,
+            pr.repoId,
+            pr,
+            isEnterprise
+        )
     }
 
     override fun showReactionsPopup(
@@ -383,62 +396,79 @@ class PullRequestTimelineFragment :
         onSetHeader(TimelineModel(pullRequest))
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
+    private val launcher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        val data = it.data
+        if (it.resultCode == Activity.RESULT_OK) {
             if (data == null) {
                 onRefresh()
-                return
+                return@registerForActivityResult
             }
-            val bundle = data.extras
-            if (bundle != null) {
+
+            data.extras?.let { bundle ->
                 val isNew = bundle.getBoolean(BundleConstant.EXTRA)
-                if (requestCode == BundleConstant.REQUEST_CODE) {
-                    val commentsModel: Comment? = bundle.getParcelable(BundleConstant.ITEM)
-                    if (commentsModel == null) {
-                        onRefresh() // bundle size is too large? refresh the api
-                        return
-                    }
-                    if (isNew) {
+                val commentsModel: Comment? = bundle.getParcelable(BundleConstant.ITEM)
+                if (commentsModel == null) {
+                    onRefresh() // bundle size is too large? refresh the api
+                    return@let
+                }
+                if (isNew) {
+                    adapter!!.addItem(constructComment(commentsModel))
+                    recycler!!.smoothScrollToPosition(adapter!!.itemCount)
+                } else {
+                    val position = adapter!!.getItem(constructComment(commentsModel))
+                    if (position != -1) {
+                        adapter!!.swapItem(constructComment(commentsModel), position)
+                        recycler!!.smoothScrollToPosition(position)
+                    } else {
                         adapter!!.addItem(constructComment(commentsModel))
                         recycler!!.smoothScrollToPosition(adapter!!.itemCount)
-                    } else {
-                        val position = adapter!!.getItem(constructComment(commentsModel))
-                        if (position != -1) {
-                            adapter!!.swapItem(constructComment(commentsModel), position)
-                            recycler!!.smoothScrollToPosition(position)
-                        } else {
-                            adapter!!.addItem(constructComment(commentsModel))
-                            recycler!!.smoothScrollToPosition(adapter!!.itemCount)
-                        }
-                    }
-                } else if (requestCode == BundleConstant.REVIEW_REQUEST_CODE) {
-                    val commentModel: EditReviewCommentModel? =
-                        bundle.getParcelable(BundleConstant.ITEM)
-                    if (commentModel == null) {
-                        onRefresh() // bundle size is too large? refresh the api
-                        return
-                    }
-                    val timelineModel = adapter!!.getItem(commentModel.groupPosition)
-                    if (isNew) {
-                        if (timelineModel!!.groupedReviewModel != null && timelineModel.groupedReviewModel!!.comments != null) {
-                            timelineModel.groupedReviewModel!!.comments!!.add(commentModel.commentModel!!)
-                            adapter!!.notifyItemChanged(commentModel.groupPosition)
-                        } else {
-                            onRefresh()
-                        }
-                    } else {
-                        if (timelineModel!!.groupedReviewModel != null && timelineModel.groupedReviewModel!!.comments != null) {
-                            timelineModel.groupedReviewModel!!.comments!![commentModel.commentPosition] =
-                                commentModel.commentModel!!
-                            adapter!!.notifyItemChanged(commentModel.groupPosition)
-                        } else {
-                            onRefresh()
-                        }
                     }
                 }
-            } else {
-                onRefresh() // bundle size is too large? refresh the api
+            }
+        }
+    }
+
+
+    private val reviewLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        val data = it.data
+        if (it.resultCode == Activity.RESULT_OK) {
+            if (data == null) {
+                onRefresh()
+                return@registerForActivityResult
+            }
+            data.extras?.let { bundle ->
+                val isNew = bundle.getBoolean(BundleConstant.EXTRA)
+                val commentModel: EditReviewCommentModel? =
+                    bundle.getParcelable(BundleConstant.ITEM)
+                if (commentModel == null) {
+                    onRefresh() // bundle size is too large? refresh the api
+                    return@let
+                }
+                val timelineModel = adapter!!.getItem(commentModel.groupPosition)
+                if (isNew) {
+                    if (timelineModel!!.groupedReviewModel != null
+                        && timelineModel.groupedReviewModel!!.comments != null
+                    ) {
+                        timelineModel.groupedReviewModel!!.comments!!.add(commentModel.commentModel!!)
+                        adapter!!.notifyItemChanged(commentModel.groupPosition)
+                    } else {
+                        onRefresh()
+                    }
+                } else {
+                    if (timelineModel!!.groupedReviewModel != null
+                        && timelineModel.groupedReviewModel!!.comments != null
+                    ) {
+                        timelineModel.groupedReviewModel!!.comments!![commentModel.commentPosition] =
+                            commentModel.commentModel!!
+                        adapter!!.notifyItemChanged(commentModel.groupPosition)
+                    } else {
+                        onRefresh()
+                    }
+                }
             }
         }
     }

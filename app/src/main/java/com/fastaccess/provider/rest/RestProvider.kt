@@ -43,17 +43,11 @@ object RestProvider {
 
     fun provideOkHttpClient(): OkHttpClient {
         if (okHttpClient == null) {
-            val client = OkHttpClient.Builder()
-            if (BuildConfig.DEBUG) {
-                client.addInterceptor(
-                    HttpLoggingInterceptor()
-                        .setLevel(HttpLoggingInterceptor.Level.BODY)
-                )
-            }
-            client.addInterceptor(AuthenticationInterceptor())
-            client.addInterceptor(PaginationInterceptor())
-            client.addInterceptor(ContentTypeInterceptor())
-            okHttpClient = client.build()
+            okHttpClient = HttpProvider.provideOkHttpClient(
+                AuthenticationInterceptor(),
+                PaginationInterceptor(),
+                ContentTypeInterceptor(),
+            )
         }
         return okHttpClient!!
     }

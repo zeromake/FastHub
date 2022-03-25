@@ -26,15 +26,9 @@ object LoginProvider {
         .create()
 
     private fun provideOkHttpClient(authToken: String?, otp: String?): OkHttpClient {
-        val client = OkHttpClient.Builder()
-        if (BuildConfig.DEBUG) {
-            client.addInterceptor(
-                HttpLoggingInterceptor()
-                    .setLevel(HttpLoggingInterceptor.Level.BODY)
-            )
-        }
-        client.addInterceptor(AuthenticationInterceptor(authToken, otp))
-        return client.build()
+        return HttpProvider.provideOkHttpClient(
+            AuthenticationInterceptor(authToken, otp)
+        )
     }
 
     private fun provideRetrofit(

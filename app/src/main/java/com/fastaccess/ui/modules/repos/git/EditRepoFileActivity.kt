@@ -138,30 +138,6 @@ class EditRepoFileActivity : BaseActivity<EditRepoFileMvp.View, EditRepoFilePres
     }
 
     companion object {
-//        const val EDIT_RQ = 2017
-//
-//        @Deprecated("use registerForActivityResult")
-//        fun startForResult(activity: Activity, model: EditRepoFileModel, isEnterprise: Boolean) {
-//            val bundle = Bundler.start()
-//                    .put(BundleConstant.IS_ENTERPRISE, isEnterprise)
-//                    .put(BundleConstant.ITEM, model)
-//                    .end()
-//            val intent = Intent(activity, EditRepoFileActivity::class.java)
-//            intent.putExtras(bundle)
-//            activity.startActivityForResult(intent, EDIT_RQ)
-//        }
-//
-//        @Deprecated("use registerForActivityResult")
-//        fun startForResult(fragment: Fragment, model: EditRepoFileModel, isEnterprise: Boolean) {
-//            val bundle = Bundler.start()
-//                    .put(BundleConstant.IS_ENTERPRISE, isEnterprise)
-//                    .put(BundleConstant.ITEM, model)
-//                    .end()
-//            val intent = Intent(fragment.context, EditRepoFileActivity::class.java)
-//            intent.putExtras(bundle)
-//            fragment.startActivityForResult(intent, EDIT_RQ)
-//        }
-
         fun startForResult(
             context: Context,
             launcher: ActivityResultLauncher<Intent>,

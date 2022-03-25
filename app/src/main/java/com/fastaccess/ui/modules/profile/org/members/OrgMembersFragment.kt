@@ -78,9 +78,9 @@ class OrgMembersFragment : BaseFragment<OrgMembersMvp.View, OrgMembersPresenter>
         stateLayout!!.hideProgress()
     }
 
-    override fun showErrorMessage(message: String) {
+    override fun showErrorMessage(msgRes: String) {
         showReload()
-        super.showErrorMessage(message)
+        super.showErrorMessage(msgRes)
     }
 
     override fun showMessage(titleRes: Int, msgRes: Int) {

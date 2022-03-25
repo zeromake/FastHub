@@ -1,9 +1,9 @@
 package com.fastaccess.ui.modules.profile.gists
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fastaccess.R
@@ -99,21 +99,23 @@ class ProfileGistsFragment : BaseFragment<ProfileGistsMvp.View, ProfileGistsPres
     override val loadMore: OnLoadMore<String>
         get() {
             if (onLoadMore == null) {
-                onLoadMore = OnLoadMore(presenter, requireArguments().getString(BundleConstant.EXTRA))
+                onLoadMore =
+                    OnLoadMore(presenter, requireArguments().getString(BundleConstant.EXTRA))
             }
             return onLoadMore!!
         }
 
     override fun onStartGistView(gistId: String) {
-        startActivityForResult(
+        launcher.launch(
             createIntent(requireContext(), gistId, isEnterprise),
-            BundleConstant.REQUEST_CODE
         )
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == BundleConstant.REQUEST_CODE) {
+    private val launcher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        val data = it.data
+        if (it.resultCode == Activity.RESULT_OK) {
             if (data != null && data.extras != null) {
                 val gistsModel: Gist? = data.extras!!.getParcelable(BundleConstant.ITEM)
                 if (gistsModel != null && adapter != null) {

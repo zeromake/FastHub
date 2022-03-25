@@ -65,9 +65,9 @@ android {
     }
 }
 
-kapt {
-    keepJavacAnnotationProcessors = true
-}
+//kapt {
+//    keepJavacAnnotationProcessors = true
+//}
 
 apollo {
     packageName.set("com.fastaccess.github")

@@ -2,6 +2,7 @@ package com.fastaccess.ui.modules.main.donation
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import com.fastaccess.App
 import com.fastaccess.BuildConfig
 import com.fastaccess.R
@@ -49,7 +50,7 @@ class DonationActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FAVi
             R.id.twenty,
             R.id.premium,
         ).map { root.findViewById<View>(it) }.setOnThrottleClickListener {
-            when(it.id) {
+            when (it.id) {
                 R.id.two -> onProceed(getString(R.string.donation_product_1))
                 R.id.five -> onProceed(getString(R.string.donation_product_2))
                 R.id.ten -> onProceed(getString(R.string.donation_product_3))
@@ -65,9 +66,13 @@ class DonationActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FAVi
         return BasePresenter()
     }
 
+    private val launcher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {}
+
     private fun onProceed(productKey: String) {
         if (AppHelper.isGoogleAvailable(this)) {
-            start(this, productKey, null, null)
+            start(this, launcher, productKey, null, null)
         } else {
             showErrorMessage(getString(R.string.google_play_service_error))
         }

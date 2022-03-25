@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -84,7 +85,7 @@ open class PullRequestPagerActivity :
     var isOpened = false
     private var commentEditorFragment: CommentEditorFragment? = null
 
-    fun onTitleClick() {
+    private fun onTitleClick() {
         if (presenter!!.pullRequest != null && !isEmpty(
                 presenter!!.pullRequest!!.title
             )
@@ -95,11 +96,11 @@ open class PullRequestPagerActivity :
             .show(supportFragmentManager, MessageDialogView.TAG)
     }
 
-    fun onSubmitReviews() {
+    private fun onSubmitReviews() {
         addPrReview()
     }
 
-    fun onCancelReviews() {
+    private fun onCancelReviews() {
         newInstance(
             getString(R.string.cancel_reviews), getString(R.string.confirm_message),
             false, Bundler.start()
@@ -154,21 +155,22 @@ open class PullRequestPagerActivity :
         if (presenter!!.showToRepoBtn()) showNavToRepoItem()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK) {
-            if (requestCode == BundleConstant.REQUEST_CODE) {
-                if (data == null) return
-                val bundle = data.extras
-                val pullRequest: PullRequest? = bundle!!.getParcelable(BundleConstant.ITEM)
-                if (pullRequest != null) {
-                    presenter!!.onUpdatePullRequest(pullRequest)
-                } else {
-                    presenter!!.onRefresh()
-                }
+
+    private val launcher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        val data = it.data
+        if (it.resultCode == RESULT_OK && data != null) {
+            val bundle = data.extras
+            val pullRequest: PullRequest? = bundle!!.getParcelable(BundleConstant.ITEM)
+            if (pullRequest != null) {
+                presenter!!.onUpdatePullRequest(pullRequest)
+            } else {
+                presenter!!.onRefresh()
             }
         }
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.pull_request_menu, menu)
@@ -220,6 +222,7 @@ open class PullRequestPagerActivity :
         } else if (item.itemId == R.id.edit) {
             CreateIssueActivity.startForResult(
                 this,
+                launcher,
                 presenter!!.login!!,
                 presenter!!.repoId!!,
                 pullRequest,

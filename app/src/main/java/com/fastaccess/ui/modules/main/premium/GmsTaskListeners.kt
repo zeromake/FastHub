@@ -16,7 +16,7 @@ class GmsTaskListeners private constructor() {
                     return@OnCompleteListener
                 }
                 if (!emitter.isDisposed) {
-                    emitter.onSuccess(task.result)
+                    emitter.onSuccess(task.result!!)
                 }
             }
         }

@@ -12,7 +12,7 @@ import com.fastaccess.helper.TypeFaceHelper.generateTypeface
 import com.fastaccess.provider.colors.ColorsProvider
 import com.fastaccess.provider.crash.Report
 import com.fastaccess.provider.emoji.EmojiManager
-import com.google.firebase.messaging.FirebaseMessaging
+import com.fastaccess.provider.rest.DnsProvider
 import com.miguelbcr.io.rx_billing_service.RxBillingService
 import es.dmoral.toasty.Toasty
 import io.requery.Persistable
@@ -52,12 +52,12 @@ class App : Application() {
 
     private fun init() {
         Report.init(applicationContext)
+        DnsProvider.instance.init(applicationContext)
         RxBillingService.register(this)
         deleteDatabase("database.db")
         dataStore
         setupPreference()
         generateTypeface(this)
-        //        NotificationSchedulerJobTask.scheduleJob(this);
         if (BuildConfig.DEBUG) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                 initShortcut()
@@ -66,11 +66,6 @@ class App : Application() {
         EmojiManager.load()
         ColorsProvider.load()
         DeviceNameGetter.instance.loadDevice()
-        try {
-            FirebaseMessaging.getInstance().subscribeToTopic("FastHub")
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
         Toasty.Config.getInstance().allowQueue(true).apply()
     }
 

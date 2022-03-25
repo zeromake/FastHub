@@ -26,7 +26,6 @@ import com.fastaccess.ui.modules.main.drawer.AccountDrawerFragment
 import com.fastaccess.ui.modules.main.drawer.MainDrawerFragment
 import com.fastaccess.ui.modules.parser.LinksParserActivity
 import es.dmoral.toasty.Toasty
-import java.lang.Deprecated
 
 /**
  * Created by Kosh on 12/12/15 10:51 PM
@@ -134,22 +133,6 @@ object ActivityHelper {
         activity.startActivity(intent, options.toBundle())
     }
 
-    @SuppressWarnings("deprecation")
-    @kotlin.Deprecated("use registerForActivityResult")
-    @JvmStatic
-    fun startReveal(activity: Activity, intent: Intent?, sharedElement: View, requestCode: Int) {
-        if (!isAppAnimationDisabled) {
-            val options = ActivityOptionsCompat.makeClipRevealAnimation(
-                sharedElement, sharedElement.width / 2,
-                sharedElement.height / 2,
-                sharedElement.width, sharedElement.height
-            )
-            activity.startActivityForResult(intent, requestCode, options.toBundle())
-        } else {
-            activity.startActivityForResult(intent, requestCode)
-        }
-    }
-
 
     @JvmStatic
     fun startLauncher(
@@ -169,21 +152,6 @@ object ActivityHelper {
         }
     }
 
-    @SuppressWarnings("deprecation")
-    @kotlin.Deprecated("use registerForActivityResult")
-    @JvmStatic
-    fun startReveal(fragment: Fragment, intent: Intent?, sharedElement: View, requestCode: Int) {
-        if (!isAppAnimationDisabled) {
-            val options = ActivityOptionsCompat.makeClipRevealAnimation(
-                sharedElement, sharedElement.width / 2,
-                sharedElement.height / 2,
-                sharedElement.width, sharedElement.height
-            )
-            fragment.startActivityForResult(intent, requestCode, options.toBundle())
-        } else {
-            fragment.startActivityForResult(intent, requestCode)
-        }
-    }
 
     fun startReveal(activity: Activity, intent: Intent?, sharedElement: View) {
         if (!isAppAnimationDisabled) {
