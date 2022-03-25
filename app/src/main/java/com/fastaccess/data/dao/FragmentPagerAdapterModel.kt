@@ -83,6 +83,8 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
         fun buildForProfile(context: Context, login: String): List<FragmentPagerAdapterModel> {
             return listOf(
                 FragmentPagerAdapterModel(context.getString(R.string.overview), newInstance(login)),
+                FragmentPagerAdapterModel(context.getString(R.string.readme),
+                    ViewerFragment.newInstance(String.format("https://api.github.com/repos/%s/%s", login, login), isRepo = true)),
                 FragmentPagerAdapterModel(
                     context.getString(R.string.feed),
                     FeedsFragment.newInstance(login, false)

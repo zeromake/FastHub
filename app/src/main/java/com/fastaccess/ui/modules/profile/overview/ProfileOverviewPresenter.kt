@@ -37,7 +37,6 @@ class ProfileOverviewPresenter : BasePresenter<ProfileOverviewMvp.View>(),
     override val orgs: MutableList<User> = mutableListOf()
     override val nodes: MutableList<GetPinnedReposQuery.Node> = mutableListOf()
     override val contributions: MutableList<ContributionsDay> = mutableListOf()
-    override var readmeFetch: Boolean = false
     override fun onCheckFollowStatus(login: String) {
         if (!TextUtils.equals(login, Login.getUser().login)) {
             manageDisposable(RxHelper.getObservable(
@@ -72,10 +71,6 @@ class ProfileOverviewPresenter : BasePresenter<ProfileOverviewMvp.View>(),
     override fun onError(throwable: Throwable) {
         val statusCode = RestProvider.getErrorCode(throwable)
         if (statusCode == 404) {
-            if (readmeFetch){ 
-                readmeFetch = false 
-                return 
-            } 
             sendToView { it?.onUserNotFound() }
             return
         }
@@ -99,7 +94,6 @@ class ProfileOverviewPresenter : BasePresenter<ProfileOverviewMvp.View>(),
                 .doOnComplete {
                     loadPinnedRepos(login!!)
                     loadOrgs()
-                    loadProfileREADME()
                 }) { userModel: User ->
                 onSendUserToView(userModel)
                 userModel.save(userModel)
@@ -218,30 +212,6 @@ class ProfileOverviewPresenter : BasePresenter<ProfileOverviewMvp.View>(),
                 }
             }) { obj: Throwable -> obj.printStackTrace() })
     }
-
-    private fun loadProfileREADME() { 
-        readmeFetch = true 
-        val isMe = login.equals( 
-            if (Login.getUser() != null) Login.getUser().login else "", 
-            ignoreCase = true 
-        ) 
-        var user = login 
-        if (isMe) { 
-            user = Login.getUser().login 
-        } 
-        val url = String.format("https://api.github.com/repos/%s/%s/readme", user, user) 
-        val htmlUrl = String.format("https://github.com/%s%s", user, user) 
-        val observable = getRepoService(isEnterprise).getReadmeHtml(url) 
-        makeRestCall( 
-            observable 
-        ) { content: String? -> 
-            sendToView { view: ProfileOverviewMvp.View -> 
-                view.onSetMdText( 
-                    content!!, htmlUrl, false 
-                ) 
-            } 
-        } 
-    } 
 
     companion object {
         private const val URL = "https://github.com/users/%s/contributions"

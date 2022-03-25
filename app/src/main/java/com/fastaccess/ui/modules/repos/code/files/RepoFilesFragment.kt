@@ -29,7 +29,6 @@ import com.fastaccess.provider.rest.RestProvider.downloadFile
 import com.fastaccess.ui.adapter.RepoFilesAdapter
 import com.fastaccess.ui.base.BaseFragment
 import com.fastaccess.ui.delegate.viewFind
-import com.fastaccess.ui.modules.code.CodeViewerActivity
 import com.fastaccess.ui.modules.code.CodeViewerActivity.Companion.startActivity
 import com.fastaccess.ui.modules.main.premium.PremiumActivity.Companion.startActivity
 import com.fastaccess.ui.modules.repos.RepoPagerMvp

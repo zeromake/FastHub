@@ -8,7 +8,7 @@ import androidx.lifecycle.LifecycleOwner
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-inline fun <reified T : View> Fragment.viewFind(@IdRes id: Int) =
+inline fun <reified T : View> viewFind(@IdRes id: Int) =
     FragmentViewFindDelegate<T>(id)
 
 internal object UNINITIALIZED

@@ -19,7 +19,6 @@ interface ProfileOverviewMvp {
         fun onInitOrgs(orgs: List<User>)
         fun onUserNotFound()
         fun onInitPinnedRepos(nodes: List<GetPinnedReposQuery.Node>)
-        fun onSetMdText(text: String, baseUrl: String, replace: Boolean)
     }
 
     interface Presenter : FAPresenter {
@@ -35,6 +34,5 @@ interface ProfileOverviewMvp {
         val contributions: MutableList<ContributionsDay>
         val nodes: List<GetPinnedReposQuery.Node>
         val login: String?
-        var readmeFetch: Boolean
     }
 }

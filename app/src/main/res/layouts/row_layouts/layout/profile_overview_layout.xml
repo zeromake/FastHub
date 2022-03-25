@@ -89,21 +89,6 @@
 
                     <include layout="@layout/profile_follow_action_layout"/>
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:layout_behavior="@string/scroll_behavior">
-
-                        <com.prettifier.pretty.PrettifyWebView
-                            android:id="@+id/readmeWebView"
-                            android:layout_width="match_parent"
-                            android:layout_marginBottom="8dp"
-                            android:layout_height="wrap_content"
-                            app:webview_background="?android:windowBackground"
-                            android:visibility="gone"
-                            tools:visibility="visible"/>
-                    </FrameLayout>
-
                     <LinearLayout
                         android:id="@+id/section_container"
                         android:layout_width="match_parent"
@@ -116,7 +101,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:drawablePadding="@dimen/spacing_xs_large"
-                            android:drawableStart="@drawable/ic_group"
+                            android:drawableStart="@drawable/ic_baseline_business"
                             android:gravity="center|start"
                             android:paddingBottom="@dimen/spacing_xs_large"
                             android:paddingTop="@dimen/spacing_xs_large"
@@ -158,21 +143,21 @@
                             android:autoLink="web"
                             android:background="@drawable/top_border"
                             android:drawablePadding="@dimen/spacing_xs_large"
-                            android:drawableStart="@drawable/ic_insert_link"
+                            android:drawableStart="@drawable/ic_baseline_web"
                             android:gravity="center|start"
                             android:paddingBottom="@dimen/spacing_xs_large"
                             android:paddingTop="@dimen/spacing_xs_large"
                             tools:text="Cum classis nocere"/>
 
                         <com.fastaccess.ui.widgets.FontTextView
-                            android:id="@+id/twitterLink"
+                            android:id="@+id/twitter_link"
                             style="@style/Base.TextAppearance.AppCompat.Subhead"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:autoLink="web"
                             android:background="@drawable/top_border"
                             android:drawablePadding="@dimen/spacing_xs_large"
-                            android:drawableStart="@drawable/ic_insert_link"
+                            android:drawableStart="@drawable/ic_twitter"
                             android:gravity="center|start"
                             android:paddingBottom="@dimen/spacing_xs_large"
                             android:paddingTop="@dimen/spacing_xs_large"

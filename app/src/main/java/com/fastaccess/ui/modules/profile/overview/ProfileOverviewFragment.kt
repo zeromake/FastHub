@@ -3,15 +3,12 @@ package com.fastaccess.ui.modules.profile.overview
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.LinearLayout
 import androidx.annotation.StringRes
 import androidx.cardview.widget.CardView
-import androidx.core.widget.NestedScrollView
 import androidx.transition.AutoTransition
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
@@ -27,6 +24,7 @@ import com.fastaccess.ui.adapter.ProfileOrgsAdapter
 import com.fastaccess.ui.adapter.ProfilePinnedReposAdapter
 import com.fastaccess.ui.base.BaseFragment
 import com.fastaccess.ui.base.adapter.BaseViewHolder
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.profile.ProfilePagerMvp
 import com.fastaccess.ui.widgets.AvatarLayout
 import com.fastaccess.ui.widgets.FontButton
@@ -36,7 +34,6 @@ import com.fastaccess.ui.widgets.contributions.GitHubContributionsView
 import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
 import com.fastaccess.ui.widgets.recyclerview.layout_manager.GridManager
 import com.fastaccess.utils.setOnThrottleClickListener
-import com.prettifier.pretty.PrettifyWebView
 
 /**
  * Created by Kosh on 03 Dec 2016, 9:16 AM
@@ -44,58 +41,29 @@ import com.prettifier.pretty.PrettifyWebView
 class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View, ProfileOverviewPresenter>(),
     ProfileOverviewMvp.View {
 
-    var contributionsCaption: FontTextView? = null
-
-    var organizationsCaption: FontTextView? = null
-
-    var userInformation: LinearLayout? = null
-
-    var username: FontTextView? = null
-
-    var fullname: FontTextView? = null
-
-    var description: FontTextView? = null
-
-    var avatarLayout: AvatarLayout? = null
-
-    var organization: FontTextView? = null
-
-    var location: FontTextView? = null
-
-    var email: FontTextView? = null
-
-    var link: FontTextView? = null
-
-    var twitter: FontTextView? = null
-
-    var joined: FontTextView? = null
-
-    var following: FontButton? = null
-
-    var followers: FontButton? = null
-
-    var progress: View? = null
-
-    private var followBtn: Button? = null
-
-    var orgsList: DynamicRecyclerView? = null
-
-    private var orgsCard: CardView? = null
-
-    var parentView: NestedScrollView? = null
-
-    var contributionView: GitHubContributionsView? = null
-
-    var contributionCard: CardView? = null
-
-    private var pinnedReposTextView: FontTextView? = null
-
-    var pinnedList: DynamicRecyclerView? = null
-
-    var pinnedReposCard: CardView? = null
-
-    var readmeWebView:
-            PrettifyWebView? = null
+    private val contributionsCaption: FontTextView by viewFind(R.id.contributionsCaption)
+    private val organizationsCaption: FontTextView by viewFind(R.id.organizationsCaption)
+    private val username: FontTextView by viewFind(R.id.username)
+    private val fullname: FontTextView by viewFind(R.id.fullname)
+    private val description: FontTextView by viewFind(R.id.description)
+    private val avatarLayout: AvatarLayout by viewFind(R.id.avatarLayout)
+    private val organization: FontTextView by viewFind(R.id.organization)
+    private val location: FontTextView by viewFind(R.id.location)
+    private val email: FontTextView by viewFind(R.id.email)
+    private val link: FontTextView by viewFind(R.id.link)
+    private val twitter: FontTextView by viewFind(R.id.twitter_link)
+    private val joined: FontTextView by viewFind(R.id.joined)
+    private val following: FontButton by viewFind(R.id.following)
+    private val followers: FontButton by viewFind(R.id.followers)
+    private val progress: View by viewFind(R.id.progress)
+    private val followBtn: Button by viewFind(R.id.followBtn)
+    private val orgsList: DynamicRecyclerView by viewFind(R.id.orgsList)
+    private val orgsCard: CardView by viewFind(R.id.orgsCard)
+    private val contributionView: GitHubContributionsView? by viewFind(R.id.contributionView)
+    private val contributionCard: CardView by viewFind(R.id.contributionCard)
+    private val pinnedReposTextView: FontTextView? by viewFind(R.id.pinnedReposTextView)
+    private val pinnedList: DynamicRecyclerView by viewFind(R.id.pinnedList)
+    private val pinnedReposCard: CardView by viewFind(R.id.pinnedReposCard)
 
     @State
     var userModel: User? = null
@@ -111,7 +79,7 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View, ProfileOve
             }
             R.id.followBtn -> {
                 presenter!!.onFollowButtonClicked(presenter!!.login!!)
-                followBtn!!.isEnabled = false
+                followBtn.isEnabled = false
             }
         }
     }
@@ -142,32 +110,7 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View, ProfileOve
     }
 
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
-        this.contributionsCaption = view.findViewById(R.id.contributionsCaption)
-        this.organizationsCaption = view.findViewById(R.id.organizationsCaption)
-        this.userInformation = view.findViewById(R.id.userInformation)
-        this.username = view.findViewById(R.id.username)
-        this.fullname = view.findViewById(R.id.fullname)
-        this.description = view.findViewById(R.id.description)
-        this.avatarLayout = view.findViewById(R.id.avatarLayout)
-        this.organization = view.findViewById(R.id.organization)
-        this.location = view.findViewById(R.id.location)
-        this.email = view.findViewById(R.id.email)
-        this.link = view.findViewById(R.id.link)
-        this.twitter = view.findViewById(R.id.twitterLink)
-        this.joined = view.findViewById(R.id.joined)
-        this.following = view.findViewById(R.id.following)
-        this.followers = view.findViewById(R.id.followers)
-        this.progress = view.findViewById(R.id.progress)
-        this.followBtn = view.findViewById(R.id.followBtn)
-        this.orgsList = view.findViewById(R.id.orgsList)
-        this.orgsCard = view.findViewById(R.id.orgsCard)
-        this.parentView = view.findViewById(R.id.parentView)
-        this.contributionView = view.findViewById(R.id.contributionView)
-        this.contributionCard = view.findViewById(R.id.contributionCard)
-        this.pinnedReposTextView = view.findViewById(R.id.pinnedReposTextView)
-        this.pinnedList = view.findViewById(R.id.pinnedList)
-        this.pinnedReposCard = view.findViewById(R.id.pinnedReposCard)
-        this.readmeWebView = view.findViewById(R.id.readmeWebView)
+
         listOf(
             R.id.following, R.id.followers, R.id.followBtn
         ).map { view.findViewById<View>(it) }.setOnThrottleClickListener {
@@ -190,7 +133,7 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View, ProfileOve
             }
         }
         if (isMeOrOrganization) {
-            followBtn!!.visibility = View.GONE
+            followBtn.visibility = View.GONE
         }
     }
 
@@ -200,7 +143,7 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View, ProfileOve
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onInitViews(userModel: User?) {
-        progress!!.visibility = View.GONE
+        progress.visibility = View.GONE
         userModel ?: return
         if (profileCallback != null) profileCallback!!.onCheckType(userModel.isOrganizationType)
         if (view != null) {
@@ -225,25 +168,25 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View, ProfileOve
             }
         }
         this.userModel = userModel
-        followBtn!!.visibility = if (!isMeOrOrganization) View.VISIBLE else View.GONE
+        followBtn.visibility = if (!isMeOrOrganization) View.VISIBLE else View.GONE
         if (userModel.login != null) {
-            username!!.text = userModel.login
+            username.text = userModel.login
         }
         if (userModel.name != null) {
-            fullname!!.text = userModel.name
+            fullname.text = userModel.name
         }
         if (userModel.bio != null) {
-            description!!.text = EmojiParser.parseToUnicode(userModel.bio)
+            description.text = EmojiParser.parseToUnicode(userModel.bio)
         } else {
-            description!!.visibility = View.GONE
+            description.visibility = View.GONE
         }
-        avatarLayout!!.setUrl(
+        avatarLayout.setUrl(
             userModel.avatarUrl, null,
             isOrg = false,
             isEnterprise = false,
             reload = true
         )
-        avatarLayout!!.findViewById<View>(R.id.avatar)
+        avatarLayout.findViewById<View>(R.id.avatar)
             .setOnTouchListener { _: View?, event: MotionEvent ->
                 if (event.action == MotionEvent.ACTION_UP) {
                     ActivityHelper.startCustomTab(requireActivity(), userModel.avatarUrl)
@@ -252,47 +195,47 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View, ProfileOve
                 false
             }
         if (InputHelper.isEmpty(userModel.company)) {
-            organization!!.visibility = View.GONE
+            organization.visibility = View.GONE
         } else {
-            organization!!.text = userModel.company
-            organization!!.visibility = View.VISIBLE
+            organization.text = userModel.company
+            organization.visibility = View.VISIBLE
         }
         if (InputHelper.isEmpty(userModel.location)) {
-            location!!.visibility = View.GONE
+            location.visibility = View.GONE
         } else {
-            location!!.text = userModel.location
-            location!!.visibility = View.VISIBLE
+            location.text = userModel.location
+            location.visibility = View.VISIBLE
         }
         if (InputHelper.isEmpty(userModel.email)) {
-            email!!.visibility = View.GONE
+            email.visibility = View.GONE
         } else {
-            email!!.text = userModel.email
-            email!!.visibility = View.VISIBLE
+            email.text = userModel.email
+            email.visibility = View.VISIBLE
         }
         if (InputHelper.isEmpty(userModel.blog)) {
-            link!!.visibility = View.GONE
+            link.visibility = View.GONE
         } else {
-            link!!.text = userModel.blog!!
-            link!!.visibility = View.VISIBLE
+            link.text = userModel.blog!!
+            link.visibility = View.VISIBLE
         }
         if (InputHelper.isEmpty(userModel.twitter)) {
-            twitter!!.visibility = View.GONE
+            twitter.visibility = View.GONE
         } else {
-            twitter!!.text = userModel.twitter!!
-            twitter!!.visibility = View.VISIBLE
+            twitter.text = String.format("https://twitter.com/%s", userModel.twitter!!)
+            twitter.visibility = View.VISIBLE
         }
         if (InputHelper.isEmpty(userModel.createdAt)) {
-            joined!!.visibility = View.GONE
+            joined.visibility = View.GONE
         } else {
-            joined!!.text = ParseDateFormat.getTimeAgo(userModel.createdAt!!)
-            joined!!.visibility = View.VISIBLE
+            joined.text = ParseDateFormat.getTimeAgo(userModel.createdAt!!)
+            joined.visibility = View.VISIBLE
         }
-        followers!!.text = SpannableBuilder.builder()
+        followers.text = SpannableBuilder.builder()
             .append(getString(R.string.followers))
             .append(" (")
             .bold(userModel.followers.toString())
             .append(")")
-        following!!.text = SpannableBuilder.builder()
+        following.text = SpannableBuilder.builder()
             .append(getString(R.string.following))
             .append(" (")
             .bold(userModel.following.toString())
@@ -303,9 +246,9 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View, ProfileOve
         hideProgress()
         if (isMeOrOrganization) return
         if (presenter!!.isSuccessResponse) {
-            followBtn!!.isEnabled = true
-            followBtn!!.isActivated = presenter!!.isFollowing
-            followBtn!!.text =
+            followBtn.isEnabled = true
+            followBtn.isActivated = presenter!!.isFollowing
+            followBtn.text =
                 if (presenter!!.isFollowing) getString(R.string.unfollow) else getString(R.string.follow)
         }
     }
@@ -315,25 +258,25 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View, ProfileOve
         if (show) {
             contributionView!!.onResponse()
         }
-        contributionCard!!.visibility = if (show) View.VISIBLE else View.GONE
-        contributionsCaption!!.visibility =
+        contributionCard.visibility = if (show) View.VISIBLE else View.GONE
+        contributionsCaption.visibility =
             if (show) View.VISIBLE else View.GONE
     }
 
     override fun onInitOrgs(orgs: List<User>) {
         if (orgs.isNotEmpty()) {
-            orgsList!!.isNestedScrollingEnabled = false
+            orgsList.isNestedScrollingEnabled = false
             val adapter = ProfileOrgsAdapter()
             adapter.addItems(orgs)
-            orgsList!!.adapter = adapter
-            orgsCard!!.visibility = View.VISIBLE
-            organizationsCaption!!.visibility = View.VISIBLE
-            (orgsList!!.layoutManager as GridManager?)!!.iconSize =
+            orgsList.adapter = adapter
+            orgsCard.visibility = View.VISIBLE
+            organizationsCaption.visibility = View.VISIBLE
+            (orgsList.layoutManager as GridManager?)!!.iconSize =
                 resources.getDimensionPixelSize(R.dimen.header_icon_zie) + resources
                     .getDimensionPixelSize(R.dimen.spacing_xs_large)
         } else {
-            organizationsCaption!!.visibility = View.GONE
-            orgsCard!!.visibility = View.GONE
+            organizationsCaption.visibility = View.GONE
+            orgsCard.visibility = View.GONE
         }
     }
 
@@ -345,7 +288,7 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View, ProfileOve
         if (pinnedReposTextView == null) return
         if (nodes.isNotEmpty()) {
             pinnedReposTextView!!.visibility = View.VISIBLE
-            pinnedReposCard!!.visibility = View.VISIBLE
+            pinnedReposCard.visibility = View.VISIBLE
             val adapter = ProfilePinnedReposAdapter(nodes.toMutableList())
             adapter.listener =
                 object : BaseViewHolder.OnItemClickListener<GetPinnedReposQuery.Node> {
@@ -364,27 +307,20 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View, ProfileOve
                     ) {
                     }
                 }
-            pinnedList!!.addDivider()
-            pinnedList!!.adapter = adapter
+            pinnedList.addDivider()
+            pinnedList.adapter = adapter
         } else {
             pinnedReposTextView!!.visibility = View.GONE
-            pinnedReposCard!!.visibility = View.GONE
+            pinnedReposCard.visibility = View.GONE
         }
     }
 
-    override fun onSetMdText(text: String, baseUrl: String, replace: Boolean) {
-        hideProgress()
-        readmeWebView!!.visibility = View.VISIBLE
-        readmeWebView!!.setGithubContentWithReplace(text, baseUrl, replace);
-        requireActivity().invalidateOptionsMenu();
-    }
-
     override fun showProgress(@StringRes resId: Int) {
-        progress!!.visibility = View.VISIBLE
+        progress.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-        progress!!.visibility = View.GONE
+        progress.visibility = View.GONE
     }
 
     override fun showErrorMessage(msgRes: String) {
