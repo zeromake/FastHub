@@ -15,13 +15,13 @@ fun loadConfig(): HashMap<String, String> {
     configs["IMGUR_SECRET"] = "03025033403196a4b68b48f0738e67ef136ad64f"
     try {
         val inputFile = rootProject.file("${rootProject.projectDir}\\app\\secrets.properties")
-        logger.info("Secrets found!\nLoading release credentials...")
+        println("Secrets found!\nLoading FastHub-RE credentials...")
         inputFile.forEachLine {
             val data = it.split("=")
             configs[data[0]] = data[1]
         }
     } catch (e: Exception) {
-        logger.info("Secrets not found!\nUsing debugging credentials...")
+        println("Secrets not found!\nUsing demo credentials...")
     }
     return configs
 }
@@ -31,12 +31,13 @@ val config = loadConfig()
 android {
     namespace = "com.fastaccess"
     compileSdk = 31
+    buildToolsVersion = "31.0.0"
     defaultConfig {
         applicationId = "com.fastaccess.github.revival"
         minSdk = 21
         targetSdk = 31
-        versionCode = 474
-        versionName = "4.7.4"
+        versionCode = 475
+        versionName = "4.7.5"
         buildConfigField("String", "GITHUB_APP_ID", "\"com.fastaccess.github.revival\"")
         buildConfigField("String", "GITHUB_CLIENT_ID", "\"${config["GITHUB_CLIENT_ID"]}\"")
         buildConfigField("String", "GITHUB_SECRET", "\"${config["GITHUB_SECRET"]}\"")
@@ -55,9 +56,9 @@ android {
         }
         create("release") {
             storeFile = file("${rootProject.projectDir}\\app\\keys_release.jks")
-            storePassword = config["STORE_PASSWORD"]
-            keyPassword = config["KEY_PASSWORD"]
-            keyAlias = "key0"
+            storePassword = config["PASSWORD"]
+            keyPassword = config["PASSWORD"]
+            keyAlias = config["KEY_ALIAS"]
         }
     }
     buildTypes {
@@ -156,8 +157,8 @@ dependencies {
 
     // okhttp3
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.9.3"))
-    implementation("com.squareup.okhttp3:okhttp")
-    implementation("com.squareup.okhttp3:logging-interceptor")
+    implementation("com.squareup.okhttp3:okhttp:4.9.3")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
 
     // stream
     implementation("com.annimon:stream:1.2.2")
