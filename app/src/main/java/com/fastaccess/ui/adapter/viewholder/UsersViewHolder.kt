@@ -41,6 +41,7 @@ class UsersViewHolder private constructor(
         date.visibility = if (!isContributor) View.GONE else View.VISIBLE
         if (isContributor) {
             menu.visibility = View.VISIBLE
+            menu.setOnClickListener(this::onLongClick)
             date.text = String.format(
                 "%s (%s)",
                 date.resources.getString(R.string.commits),

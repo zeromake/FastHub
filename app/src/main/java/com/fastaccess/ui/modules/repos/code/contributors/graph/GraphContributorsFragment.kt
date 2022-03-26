@@ -81,7 +81,7 @@ class GraphContributorsFragment : BaseDialogFragment<BaseMvp.FAView, BasePresent
     }
 
     private fun getDateString(calendar: Calendar): String {
-        return "${calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ROOT)} ${calendar.get(Calendar.DAY_OF_MONTH)} ${calendar.get(Calendar.YEAR)}"
+        return "${calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ROOT)} ${calendar.get(Calendar.DAY_OF_MONTH)}, ${calendar.get(Calendar.YEAR)}"
     }
 
     companion object {

@@ -88,5 +88,7 @@ class RepoContributorsPresenter : BasePresenter<RepoContributorsMvp.View>(),
     }
 
     override fun onItemClick(position: Int, v: View?, item: User) {}
-    override fun onItemLongClick(position: Int, v: View?, item: User) {}
+    override fun onItemLongClick(position: Int, v: View?, item: User) {
+        onShowPopupMenu(v!!,position)
+    }
 }
