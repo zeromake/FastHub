@@ -122,6 +122,9 @@ dependencies {
     implementation("androidx.compose.ui:ui:1.1.1")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("androidx.core:core-splashscreen:1.0.0-beta01")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
+    implementation("androidx.core:core-ktx:1.7.0")
 
     // thirtyinch
     implementation("com.github.Grandcentrix.ThirtyInch:thirtyinch:v1.0.1")
@@ -196,8 +199,9 @@ dependencies {
     implementation("com.atlassian.commonmark:commonmark-ext-ins:0.17.0")
     implementation("com.atlassian.commonmark:commonmark-ext-yaml-front-matter:0.17.0")
 
-    // kotlin std
+    // kotlin std & coroutines
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.10")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
 
     // jsoup
     implementation("org.jsoup:jsoup:1.14.3")

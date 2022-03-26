@@ -12,9 +12,11 @@ import com.fastaccess.provider.rest.loadmore.OnLoadMore
 import com.fastaccess.ui.adapter.UsersAdapter
 import com.fastaccess.ui.base.BaseFragment
 import com.fastaccess.ui.delegate.viewFind
+import com.fastaccess.ui.modules.repos.code.contributors.graph.GraphContributorsFragment
 import com.fastaccess.ui.widgets.StateLayout
 import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
 import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
+
 
 /**
  * Created by Kosh on 03 Dec 2016, 3:56 PM
@@ -110,6 +112,13 @@ class RepoContributorsFragment :
     override fun onScrollTop(index: Int) {
         super.onScrollTop(index)
         if (recycler != null) recycler!!.scrollToPosition(0)
+    }
+
+    override fun onShowGraph(user: User) {
+        val login = requireArguments().getString(BundleConstant.EXTRA)
+        val repoId = requireArguments().getString(BundleConstant.ID)
+        GraphContributorsFragment.newInstance(login!!, repoId!!, user.login)
+            .show(childFragmentManager, "GraphContributorsFragment")
     }
 
     private fun showReload() {

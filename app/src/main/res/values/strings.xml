@@ -612,4 +612,5 @@
     <string name="default_downloader" translatable="false">default_browser</string>
     <string name="download_setting_dialog">Select downloader</string>
     <string name="download_setting_title">Set downloader</string>
+    <string name="show_contribution_graph">Show graph</string>
 </resources>

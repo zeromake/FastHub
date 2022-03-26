@@ -3,6 +3,7 @@ package com.fastaccess.data.service
 import com.fastaccess.data.dao.*
 import com.fastaccess.data.dao.model.*
 import io.reactivex.Observable
+import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -135,6 +136,9 @@ interface RepoService {
         @Path("repo") repo: String,
         @Query("page") page: Int
     ): Observable<Pageable<User>>
+
+    @GET("repos/{owner}/{repo}/stats/contributors")
+    suspend fun getContributorsStats(@Path("owner") owner: String, @Path("repo") repo: String): ResponseBody
 
     @GET("repos/{owner}/{repo}/commits/{sha}")
     @Headers("Accept: application/vnd.github.VERSION.full+json, application/vnd.github.squirrel-girl-preview")

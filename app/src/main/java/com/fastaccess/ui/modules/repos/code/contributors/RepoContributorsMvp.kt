@@ -1,6 +1,7 @@
 package com.fastaccess.ui.modules.repos.code.contributors
 
 import android.os.Bundle
+import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.fastaccess.data.dao.model.User
 import com.fastaccess.provider.rest.loadmore.OnLoadMore
@@ -14,6 +15,7 @@ interface RepoContributorsMvp {
     interface View : FAView, OnRefreshListener, android.view.View.OnClickListener {
         fun onNotifyAdapter(items: List<User>?, page: Int)
         val loadMore: OnLoadMore<String>
+        fun onShowGraph(user: User)
     }
 
     interface Presenter : FAPresenter, BaseViewHolder.OnItemClickListener<User>,
@@ -21,5 +23,6 @@ interface RepoContributorsMvp {
         fun onFragmentCreated(bundle: Bundle)
         fun onWorkOffline()
         val users: ArrayList<User>
+        fun onShowPopupMenu(view: android.view.View, position: Int)
     }
 }

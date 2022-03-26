@@ -9,6 +9,7 @@ import com.fastaccess.ui.adapter.UsersAdapter
 import com.fastaccess.ui.base.adapter.BaseViewHolder
 import com.fastaccess.ui.widgets.AvatarLayout
 import com.fastaccess.ui.widgets.FontTextView
+import com.fastaccess.ui.widgets.ForegroundImageView
 
 /**
  * Created by Kosh on 11 Nov 2016, 2:08 PM
@@ -21,6 +22,7 @@ class UsersViewHolder private constructor(
     var avatar: AvatarLayout = itemView.findViewById(R.id.avatarLayout)
     var title: FontTextView = itemView.findViewById(R.id.title)
     var date: FontTextView = itemView.findViewById(R.id.date)
+    var menu: ForegroundImageView = itemView.findViewById(R.id.menu)
     override fun onClick(v: View) {
         if (isFilter) {
             super.onClick(v)
@@ -38,6 +40,7 @@ class UsersViewHolder private constructor(
         title.text = user.login
         date.visibility = if (!isContributor) View.GONE else View.VISIBLE
         if (isContributor) {
+            menu.visibility = View.VISIBLE
             date.text = String.format(
                 "%s (%s)",
                 date.resources.getString(R.string.commits),

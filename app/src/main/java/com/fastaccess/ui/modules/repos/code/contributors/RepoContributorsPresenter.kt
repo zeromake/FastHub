@@ -2,11 +2,14 @@ package com.fastaccess.ui.modules.repos.code.contributors
 
 import android.os.Bundle
 import android.view.View
+import android.widget.PopupMenu
+import com.fastaccess.R
 import com.fastaccess.data.dao.model.User
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.provider.rest.RestProvider.getRepoService
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
+
 
 /**
  * Created by Kosh on 03 Dec 2016, 3:48 PM
@@ -65,6 +68,23 @@ class RepoContributorsPresenter : BasePresenter<RepoContributorsMvp.View>(),
 
     override fun onWorkOffline() {
         sendToView { it.hideProgress() }
+    }
+
+    override fun onShowPopupMenu(view: View, position: Int) {
+        val popupMenu = PopupMenu(view.context, view)
+        popupMenu.inflate(R.menu.repo_contributors_menu)
+        popupMenu.setOnMenuItemClickListener { item ->
+            if (item.itemId == R.id.action_show_graph) {
+                sendToView { view: RepoContributorsMvp.View ->
+                    view.onShowGraph(
+                        users[position]
+                    )
+                }
+                return@setOnMenuItemClickListener true
+            }
+            false
+        }
+        popupMenu.show()
     }
 
     override fun onItemClick(position: Int, v: View?, item: User) {}
