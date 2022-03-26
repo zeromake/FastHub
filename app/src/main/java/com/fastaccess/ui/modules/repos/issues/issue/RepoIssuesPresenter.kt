@@ -51,7 +51,7 @@ class RepoIssuesPresenter : BasePresenter<RepoIssuesMvp.View>(), RepoIssuesMvp.P
         if (page == 1) {
             onCallCountApi(issueState!!)
             lastPage = Int.MAX_VALUE
-            sendToView { view: RepoIssuesMvp.View -> view.loadMore?.reset() }
+            sendToView { view: RepoIssuesMvp.View -> view.loadMore.reset() }
         }
         if (page > lastPage || lastPage == 0) {
             sendToView { it.hideProgress() }

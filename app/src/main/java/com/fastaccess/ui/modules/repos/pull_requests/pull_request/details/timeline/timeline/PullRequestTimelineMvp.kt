@@ -73,6 +73,7 @@ interface PullRequestTimelineMvp {
         fun addComment(timelineModel: TimelineModel)
         val namesToTag: ArrayList<String>
         fun onHideBlockingProgress()
+        fun onEditHeader(pr: PullRequest)
     }
 
     interface Presenter : FAPresenter, BaseViewHolder.OnItemClickListener<TimelineModel>,

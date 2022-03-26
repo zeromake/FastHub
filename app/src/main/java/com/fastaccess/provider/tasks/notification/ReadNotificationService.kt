@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.core.app.NotificationCompat
-import com.annimon.stream.LongStream
 import com.fastaccess.R
 import com.fastaccess.helper.AppHelper.cancelNotification
 import com.fastaccess.helper.BundleConstant
@@ -101,7 +100,7 @@ class ReadNotificationService : IntentService("ReadNotificationService") {
 
     private fun markMultiAsRead(ids: LongArray?) {
         if (ids != null && ids.isNotEmpty()) {
-            LongStream.of(*ids).forEach { id: Long -> markSingleAsRead(id) }
+            ids.forEach { id: Long -> markSingleAsRead(id) }
         }
     }
 

@@ -2,9 +2,9 @@ package com.fastaccess.ui.modules.repos.issues.issue
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fastaccess.R
@@ -98,22 +98,24 @@ class RepoOpenedIssuesFragment : BaseFragment<RepoIssuesMvp.View, RepoIssuesPres
         fastScroller!!.attachRecyclerView(recycler!!)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == BundleConstant.REQUEST_CODE) {
+    private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == Activity.RESULT_OK) {
                 onRefresh()
                 if (pagerCallback != null) pagerCallback!!.setCurrentItem(0, false)
-            } else if (requestCode == RepoIssuesMvp.ISSUE_REQUEST_CODE && data != null) {
-                val isClose = data.extras!!.getBoolean(BundleConstant.EXTRA)
-                val isOpened = data.extras!!.getBoolean(BundleConstant.EXTRA_TWO)
-                if (isClose) {
-                    if (pagerCallback != null) pagerCallback!!.setCurrentItem(1, true)
-                    onRefresh()
-                } else if (isOpened) {
-                    onRefresh()
-                } //else ignore!
-            }
+        }
+    }
+
+    private val issueLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        val data = it.data
+        if (it.resultCode == Activity.RESULT_OK && data != null) {
+            val isClose = data.extras!!.getBoolean(BundleConstant.EXTRA)
+            val isOpened = data.extras!!.getBoolean(BundleConstant.EXTRA_TWO)
+            if (isClose) {
+                if (pagerCallback != null) pagerCallback!!.setCurrentItem(1, true)
+                onRefresh()
+            } else if (isOpened) {
+                onRefresh()
+            } //else ignore!
         }
     }
 
@@ -154,7 +156,7 @@ class RepoOpenedIssuesFragment : BaseFragment<RepoIssuesMvp.View, RepoIssuesPres
         val login = presenter!!.login()
         val repoId = presenter!!.repoId()
         if (!isEmpty(login) && !isEmpty(repoId)) {
-            CreateIssueActivity.startForResult(this, login, repoId, isEnterprise)
+            CreateIssueActivity.startForResult(this, launcher, login, repoId, isEnterprise)
         }
     }
 
@@ -163,11 +165,11 @@ class RepoOpenedIssuesFragment : BaseFragment<RepoIssuesMvp.View, RepoIssuesPres
     }
 
     override fun onOpenIssue(parser: PullsIssuesParser) {
-        startActivityForResult(
+        issueLauncher.launch(
             IssuePagerActivity.createIntent(
                 requireContext(), parser.repoId!!, parser.login!!,
                 parser.number, false, isEnterprise
-            ), RepoIssuesMvp.ISSUE_REQUEST_CODE
+            )
         )
     }
 

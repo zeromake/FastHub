@@ -133,23 +133,6 @@ object ActivityHelper {
         activity.startActivity(intent, options.toBundle())
     }
 
-    @SuppressWarnings("deprecation")
-    @kotlin.Deprecated("use registerForActivityResult")
-    @JvmStatic
-    fun startReveal(activity: Activity, intent: Intent?, sharedElement: View, requestCode: Int) {
-        if (!isAppAnimationDisabled) {
-            val options = ActivityOptionsCompat.makeClipRevealAnimation(
-                sharedElement, sharedElement.width / 2,
-                sharedElement.height / 2,
-                sharedElement.width, sharedElement.height
-            )
-            activity.startActivityForResult(intent, requestCode, options.toBundle())
-        } else {
-            activity.startActivityForResult(intent, requestCode)
-        }
-    }
-
-
     @JvmStatic
     fun startLauncher(
         launcher: ActivityResultLauncher<Intent>,
@@ -165,22 +148,6 @@ object ActivityHelper {
             launcher.launch(intent, options)
         } else {
             launcher.launch(intent)
-        }
-    }
-
-    @SuppressWarnings("deprecation")
-    @kotlin.Deprecated("use registerForActivityResult")
-    @JvmStatic
-    fun startReveal(fragment: Fragment, intent: Intent?, sharedElement: View, requestCode: Int) {
-        if (!isAppAnimationDisabled) {
-            val options = ActivityOptionsCompat.makeClipRevealAnimation(
-                sharedElement, sharedElement.width / 2,
-                sharedElement.height / 2,
-                sharedElement.width, sharedElement.height
-            )
-            fragment.startActivityForResult(intent, requestCode, options.toBundle())
-        } else {
-            fragment.startActivityForResult(intent, requestCode)
         }
     }
 

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fastaccess.R
@@ -105,15 +106,14 @@ class ProfileGistsFragment : BaseFragment<ProfileGistsMvp.View, ProfileGistsPres
         }
 
     override fun onStartGistView(gistId: String) {
-        startActivityForResult(
-            createIntent(requireContext(), gistId, isEnterprise),
-            BundleConstant.REQUEST_CODE
+        launcher.launch(
+            createIntent(requireContext(), gistId, isEnterprise)
         )
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == BundleConstant.REQUEST_CODE) {
+    private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        val data = it.data
+        if (it.resultCode == Activity.RESULT_OK) {
             if (data != null && data.extras != null) {
                 val gistsModel: Gist? = data.extras!!.getParcelable(BundleConstant.ITEM)
                 if (gistsModel != null && adapter != null) {

@@ -39,7 +39,7 @@ class DonationActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FAVi
             R.id.two,
             R.id.five,
         ).map { root.findViewById<View>(it) }.setOnThrottleClickListener {
-            when(it.id) {
+            when (it.id) {
                 R.id.two -> {
                     PrefGetter.setProItems()
                     PrefGetter.setEnterpriseItem()

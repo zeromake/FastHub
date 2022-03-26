@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener
 import com.evernote.android.state.State
@@ -74,7 +75,7 @@ class IssuePagerActivity : BaseActivity<IssuePagerMvp.View, IssuePagerPresenter>
     override val data: Issue?
         get() = presenter?.issue
 
-    fun onTitleClick() {
+    private fun onTitleClick() {
         if (presenter!!.issue != null && !isEmpty(
                 presenter!!.issue!!.title
             )
@@ -123,16 +124,14 @@ class IssuePagerActivity : BaseActivity<IssuePagerMvp.View, IssuePagerPresenter>
         if (presenter!!.showToRepoBtn()) showNavToRepoItem()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK && data != null) {
-            if (requestCode == BundleConstant.REQUEST_CODE) {
-                val bundle = data.extras
-                if (bundle != null) {
-                    val issueModel: Issue? = bundle.getParcelable(BundleConstant.ITEM)
-                    if (issueModel != null) {
-                        presenter!!.onUpdateIssue(issueModel)
-                    }
+    private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        val data = it.data
+        if (it.resultCode == RESULT_OK && data != null) {
+            val bundle = data.extras
+            if (bundle != null) {
+                val issueModel: Issue? = bundle.getParcelable(BundleConstant.ITEM)
+                if (issueModel != null) {
+                    presenter!!.onUpdateIssue(issueModel)
                 }
             }
         }
@@ -196,8 +195,12 @@ class IssuePagerActivity : BaseActivity<IssuePagerMvp.View, IssuePagerPresenter>
             }
             R.id.edit -> {
                 CreateIssueActivity.startForResult(
-                    this, presenter!!.login!!, presenter!!.repoId!!,
-                    presenter!!.issue, isEnterprise
+                    this,
+                    launcher,
+                    presenter!!.login!!,
+                    presenter!!.repoId!!,
+                    presenter!!.issue,
+                    isEnterprise
                 )
                 return true
             }

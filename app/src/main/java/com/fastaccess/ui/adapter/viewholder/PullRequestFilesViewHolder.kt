@@ -104,12 +104,11 @@ class PullRequestFilesViewHolder private constructor(
                             toggleClose = true
                         }
                     } else {
+                        toggleClose = true
                         Toasty.warning(
                             itemView.context,
                             itemView.resources.getString(R.string.too_large_changes)
                         ).show()
-                        toggleClose = true
-                        return
                     }
                 } else {
                     patch!!.swapAdapter(null, true)

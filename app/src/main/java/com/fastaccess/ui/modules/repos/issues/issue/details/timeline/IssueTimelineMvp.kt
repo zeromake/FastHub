@@ -46,6 +46,7 @@ interface IssueTimelineMvp {
         fun onHideBlockingProgress()
         val commentId: Long
         fun addComment(timelineModel: TimelineModel?, index: Int)
+        fun onEditHeader(issue: Issue)
     }
 
     interface Presenter : FAPresenter, BaseViewHolder.OnItemClickListener<TimelineModel>,
