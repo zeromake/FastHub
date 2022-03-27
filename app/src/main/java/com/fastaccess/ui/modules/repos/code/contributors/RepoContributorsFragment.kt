@@ -124,8 +124,13 @@ class RepoContributorsFragment :
 
     override fun onShowGraph(user: User) {
         val data: GraphStatModel.ContributionStats? = stats?.contributions?.find { it ->  it.author.login == user.login}
-        GraphContributorsFragment.newInstance(data)
-            .show(childFragmentManager, "GraphContributorsFragment")
+        if(data != null) {
+            GraphContributorsFragment.newInstance(data)
+                .show(childFragmentManager, "GraphContributorsFragment")
+        } else {
+            showMessage(R.string.error, R.string.network_error)
+            onRefresh()
+        }
     }
 
     private fun showReload() {
