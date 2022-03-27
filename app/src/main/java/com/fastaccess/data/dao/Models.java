@@ -6,6 +6,7 @@ import com.fastaccess.data.dao.model.Commit;
 import com.fastaccess.data.dao.model.Event;
 import com.fastaccess.data.dao.model.FastHubNotification;
 import com.fastaccess.data.dao.model.Gist;
+import com.fastaccess.data.dao.model.GitHubPackage;
 import com.fastaccess.data.dao.model.Issue;
 import com.fastaccess.data.dao.model.IssueEvent;
 import com.fastaccess.data.dao.model.Login;
@@ -36,6 +37,7 @@ public class Models {
     .addType(Event.$TYPE)
     .addType(FastHubNotification.$TYPE)
     .addType(Gist.$TYPE)
+    .addType(GitHubPackage.$TYPE)
     .addType(Issue.$TYPE)
     .addType(IssueEvent.$TYPE)
     .addType(Login.$TYPE)

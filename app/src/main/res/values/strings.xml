@@ -395,6 +395,7 @@
     <string name="no_followings">No followings</string>
     <string name="no_repos">No repositories</string>
     <string name="no_starred_repos">No starred repositories</string>
+    <string name="no_packages">No packages</string>
     <string name="no_commits">No commits</string>
     <string name="no_contributors">No contributors</string>
     <string name="no_releases">No releases</string>

@@ -2,32 +2,17 @@ package com.fastaccess.data.dao.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import androidx.annotation.NonNull;
-
-import com.annimon.stream.Collectors;
-import com.annimon.stream.LongStream;
-import com.annimon.stream.Stream;
 import com.fastaccess.App;
-import com.fastaccess.data.dao.FilesListModel;
-import com.fastaccess.data.dao.GithubFileModel;
-import com.fastaccess.data.dao.converters.GitHubFilesConverter;
 import com.fastaccess.data.dao.converters.UserConverter;
-import com.fastaccess.helper.InputHelper;
 import com.fastaccess.helper.RxHelper;
-import com.fastaccess.ui.widgets.SpannableBuilder;
-import com.google.gson.annotations.SerializedName;
-
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 import io.requery.BlockingEntityStore;
-import io.requery.Column;
 import io.requery.Convert;
 import io.requery.Entity;
 import io.requery.Key;
@@ -38,8 +23,7 @@ import io.requery.Persistable;
  */
 
 @Entity() public abstract class AbstractGitHubPackage implements Parcelable {
-    @SerializedName("internal_id") @Key long id;
-    @SerializedName("id") String packageId;
+    @Key long id;
     @Convert(UserConverter.class) User owner;
     String name;
     String package_type;
@@ -51,33 +35,22 @@ import io.requery.Persistable;
     Date updated_at;
     String description;
 
-    public AbstractGitHubPackage() {}
+    public Single<GitHubPackage> save(GitHubPackage entity) {
+        return RxHelper.getSingle(App.getInstance().getDataStore().upsert(entity));
+    }
 
-    public static Disposable save(@NonNull List<GitHubPackage> models, @NonNull String ownerName) {
+    public static Disposable save(@NonNull List<GitHubPackage> models, @NonNull long id) {
         return RxHelper.getSingle(Single.fromPublisher(s -> {
             try {
-                Login login = Login.getUser();
-                if (login != null) {
-                    if (login.getLogin().equalsIgnoreCase(ownerName)) {
-                        BlockingEntityStore<Persistable> dataSource = App.getInstance().getDataStore().toBlocking();
-                        dataSource.delete(GitHubPackage.class)
-                                .where(GitHubPackage.OWNER_NAME.equal(ownerName))
-                                .get()
-                                .value();
-                        if (!models.isEmpty()) {
-                            for (GitHubPackage packageModel : models) {
-                                dataSource.delete(GitHubPackage.class).where(GitHubPackage.ID.eq(packageModel.getId())).get().value();
-                                packageModel.setOwnerName(ownerName);
-                                dataSource.insert(packageModel);
-                            }
-                        }
-                    } else {
-                        App.getInstance().getDataStore().toBlocking()
-                                .delete(GitHubPackage.class)
-                                .where(GitHubPackage.OWNER_NAME.notEqual(ownerName)
-                                        .or(GitHubPackage.OWNER_NAME.isNull()))
-                                .get()
-                                .value();
+                BlockingEntityStore<Persistable> dataSource = App.getInstance().getDataStore().toBlocking();
+                dataSource.delete(GitHubPackage.class)
+                        .where(GitHubPackage.ID.equal(id))
+                        .get()
+                        .value();
+                if (!models.isEmpty()) {
+                    for (GitHubPackage packageModel : models) {
+                        dataSource.delete(GitHubPackage.class).where(GitHubPackage.ID.eq(packageModel.getId())).get().value();
+                        dataSource.insert(packageModel);
                     }
                 }
                 s.onNext("");
@@ -88,99 +61,31 @@ import io.requery.Persistable;
         })).subscribe(o -> {/*donothing*/}, Throwable::printStackTrace);
     }
 
-    @NonNull public static Single<List<Gist>> getMyPackages(@NonNull String ownerName) {
+    @NonNull public static Single<List<GitHubPackage>> getPackagesOf(@NonNull String ownerName) {
         return App.getInstance()
                 .getDataStore()
                 .select(GitHubPackage.class)
-                .where(GitHubPackage.OWNER_NAME.equal(ownerName))
                 .get()
                 .observable()
+                .filter(it -> it.owner.login.equals(ownerName))
                 .toList();
     }
 
-    @NonNull public static Single<List<Gist>> getPackages() {
+    public static Observable<GitHubPackage> getPackage(@NonNull Long packageId) {
         return App.getInstance()
                 .getDataStore()
                 .select(GitHubPackage.class)
-                .where(GitHubPackage.OWNER_NAME.isNull())
-                .get()
-                .observable()
-                .toList();
-    }
-
-    public static Observable<Gist> getGist(@NonNull String gistId) {
-        return App.getInstance()
-                .getDataStore()
-                .select(Gist.class)
-                .where(Gist.GIST_ID.eq(gistId))
+                .where(GitHubPackage.ID.eq(packageId))
                 .get()
                 .observable();
     }
 
-    @Override public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AbstractGitHubPackage that = (AbstractGitHubPackage) o;
-        return url != null ? url.equals(that.url) : that.url == null;
-    }
-
-    @Override public int hashCode() {
-        return url != null ? url.hashCode() : 0;
-    }
-
-    @NonNull public SpannableBuilder getDisplayTitle(boolean isFromProfile) {
-        return getDisplayTitle(isFromProfile, false);
-    }
-
-    @NonNull public SpannableBuilder getDisplayTitle(boolean isFromProfile, boolean gistView) {
-        SpannableBuilder spannableBuilder = SpannableBuilder.builder();
-        boolean addDescription = true;
-        if (!isFromProfile) {
-            if (owner != null) {
-                spannableBuilder.bold(owner.getLogin());
-            } else if (user != null) {
-                spannableBuilder.bold(user.getLogin());
-            } else {
-                spannableBuilder.bold("Anonymous");
-            }
-            if (!gistView) {
-                List<FilesListModel> files = getFilesAsList();
-                if (!files.isEmpty()) {
-                    FilesListModel filesListModel = files.get(0);
-                    if (!InputHelper.isEmpty(filesListModel.getFilename()) && filesListModel.getFilename().trim().length() > 2) {
-                        spannableBuilder.append(" ").append("/").append(" ")
-                                .append(filesListModel.getFilename());
-                        addDescription = false;
-                    }
-                }
-            }
-        }
-        if (!InputHelper.isEmpty(description) && addDescription) {
-            if (!InputHelper.isEmpty(spannableBuilder.toString())) {
-                spannableBuilder.append(" ").append("/").append(" ");
-            }
-            spannableBuilder.append(description);
-        }
-        if (InputHelper.isEmpty(spannableBuilder.toString())) {
-            if (isFromProfile) {
-                List<FilesListModel> files = getFilesAsList();
-                if (!files.isEmpty()) {
-                    FilesListModel filesListModel = files.get(0);
-                    if (!InputHelper.isEmpty(filesListModel.getFilename()) && filesListModel.getFilename().trim().length() > 2) {
-                        spannableBuilder.append(" ")
-                                .append(filesListModel.getFilename());
-                    }
-                }
-            }
-        }
-        return spannableBuilder;
-    }
+    public AbstractGitHubPackage() {}
 
     @Override public int describeContents() { return 0; }
 
     @Override public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(this.id);
-        dest.writeString(this.packageId);
         dest.writeParcelable(this.owner, flags);
         dest.writeString(this.name);
         dest.writeString(this.package_type);
@@ -195,7 +100,6 @@ import io.requery.Persistable;
 
     protected AbstractGitHubPackage(Parcel in) {
         this.id = in.readLong();
-        this.packageId = in.readString();
         this.owner = in.readParcelable(User.class.getClassLoader());
         this.name = in.readString();
         this.package_type = in.readString();
