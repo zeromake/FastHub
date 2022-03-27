@@ -18,6 +18,7 @@ import com.fastaccess.data.dao.model.Login
 import com.fastaccess.data.dao.model.User
 import com.fastaccess.github.GetPinnedReposQuery
 import com.fastaccess.helper.*
+import com.fastaccess.provider.crash.Report
 import com.fastaccess.provider.emoji.EmojiParser
 import com.fastaccess.provider.scheme.SchemeParser
 import com.fastaccess.ui.adapter.ProfileOrgsAdapter
@@ -153,9 +154,14 @@ class ProfileOverviewFragment : BaseFragment<ProfileOverviewMvp.View, ProfileOve
                     AutoTransition().addListener(object : Transition.TransitionListener {
                         override fun onTransitionStart(transition: Transition) {}
                         override fun onTransitionEnd(transition: Transition) {
-                            if (contributionView != null) presenter!!.onLoadContributionWidget(
-                                contributionView!!
-                            )
+                            try {
+                                if (contributionView != null) presenter!!.onLoadContributionWidget(
+                                    contributionView!!
+                                )
+                            }
+                            catch (e: Exception) {
+                                Report.reportCatchException(e)
+                            }
                         }
 
                         override fun onTransitionCancel(transition: Transition) {}
