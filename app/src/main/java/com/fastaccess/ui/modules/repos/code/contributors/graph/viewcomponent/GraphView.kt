@@ -202,5 +202,5 @@ class GraphView @JvmOverloads constructor(
 
     private fun Int.dp() = this * Resources.getSystem().displayMetrics.density
     private fun Int.sp() = this * Resources.getSystem().displayMetrics.scaledDensity
-    private fun Calendar.getMonth() = getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.ROOT) ?: ""
+    private fun Calendar.getMonth() = getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()) ?: ""
 }

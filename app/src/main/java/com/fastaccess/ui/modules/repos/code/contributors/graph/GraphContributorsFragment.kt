@@ -19,7 +19,10 @@ import java.util.*
 
 class GraphContributorsFragment : BaseDialogFragment<BaseMvp.FAView, BasePresenter<BaseMvp.FAView>>() {
     val toolbar: Toolbar by viewFind(R.id.toolbar)
-    val titleView: TextView by viewFind(R.id.titleView)
+    val timelineTitle: TextView by viewFind(R.id.graphTimelineTitle)
+    val commitsCount: TextView by viewFind(R.id.commitsCount)
+    val additionsCount: TextView by viewFind(R.id.additionsCount)
+    val deletionCount: TextView by viewFind(R.id.deletionsCount)
     private val graphView: GraphView by viewFind(R.id.graphView)
 
     override fun providePresenter(): BasePresenter<BaseMvp.FAView> = BasePresenter()
@@ -27,9 +30,7 @@ class GraphContributorsFragment : BaseDialogFragment<BaseMvp.FAView, BasePresent
     override fun fragmentLayout(): Int = R.layout.dialog_contribution_graph
 
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
-        toolbar.setNavigationIcon(R.drawable.ic_clear)
         toolbar.setNavigationOnClickListener { dismiss() }
-        toolbar.title = "${getString(R.string.contributions)} (${arguments?.getInt("total")})"
         val weeks: List<GraphStatModel.ContributionStats.Week> = Gson().fromJson(
             arguments?.getString("weeks"), object: TypeToken<ArrayList<GraphStatModel.ContributionStats.Week>>() {}.type)
         val firstDate = Calendar.getInstance().apply {
@@ -38,7 +39,13 @@ class GraphContributorsFragment : BaseDialogFragment<BaseMvp.FAView, BasePresent
         val lastDate = Calendar.getInstance().apply {
             time = Date(weeks.last().starting_week * 1000)
         }
-        titleView.text = "${getDateString(firstDate)} - ${getDateString(lastDate)}"
+        val additions: Int = weeks.fold(0) {acc, w -> acc+w.additions}
+        val deletions: Int = weeks.fold(0) {acc, w -> acc+w.deletions}
+        val commits = "${getString(R.string.commits)} (${"%,d".format(arguments?.getInt("total"))})"
+        timelineTitle.text = getString(R.string.graph_timeline_text, getDateString(firstDate), getDateString(lastDate))
+        commitsCount.text = commits
+        additionsCount.text = getString(R.string.additions, "%,d".format(additions))
+        deletionCount.text = getString(R.string.deletions, "%,d".format(deletions))
         graphView.graphData = weeks
         graphView.visibility = View.VISIBLE
     }

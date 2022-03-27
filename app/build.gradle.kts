@@ -196,9 +196,8 @@ dependencies {
     implementation("com.atlassian.commonmark:commonmark-ext-ins:0.17.0")
     implementation("com.atlassian.commonmark:commonmark-ext-yaml-front-matter:0.17.0")
 
-    // kotlin std & coroutines
+    // kotlin std
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.10")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
 
     // jsoup
     implementation("org.jsoup:jsoup:1.14.3")

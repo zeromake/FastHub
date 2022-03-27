@@ -11,6 +11,8 @@
     <string name="gists" translatable="false">Gists</string>
     <string name="readme" translatable="false">Readme</string>
     <string name="commits" translatable="false">Commits</string>
+    <string name="additions" translatable="false">Additions (%1$s) lines</string>
+    <string name="deletions" translatable="false">Deletions (%1$s) lines</string>
     <string name="repos" translatable="false">Repositories</string>
     <string name="forked" translatable="false">Forked</string>
     <string name="starred" translatable="false">Starred</string>
@@ -124,6 +126,7 @@
     <string name="unlock" translatable="false">Unlock</string>
     <string name="unlock_everything" translatable="false">Unlock Everything</string>
     <string name="feeds" translatable="false">Feeds</string>
+    <string name="graph_timeline_text" translatable="false">%1$s - %2$s</string>
     <!-- END OF DO NOT COPY, START COPYING FROM LINE BELOW -->
 
     <!--Please DO NOT translate github terms, such as Pull Request, Issues, Commits & etc.-->
@@ -613,4 +616,5 @@
     <string name="download_setting_dialog">Select downloader</string>
     <string name="download_setting_title">Set downloader</string>
     <string name="show_contribution_graph">Show graph</string>
+    <string name="contributions_stats_text">Contribution\'s Statistics:</string>
 </resources>
