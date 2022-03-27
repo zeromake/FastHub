@@ -138,7 +138,8 @@ interface RepoService {
     ): Observable<Pageable<User>>
 
     @GET("repos/{owner}/{repo}/stats/contributors")
-    suspend fun getContributorsStats(@Path("owner") owner: String, @Path("repo") repo: String): ResponseBody
+    @Headers("Accept: application/vnd.github.v3+json")
+    fun getContributorsStats(@Path("owner") owner: String, @Path("repo") repo: String): Observable<ResponseBody>
 
     @GET("repos/{owner}/{repo}/commits/{sha}")
     @Headers("Accept: application/vnd.github.VERSION.full+json, application/vnd.github.squirrel-girl-preview")

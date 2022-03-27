@@ -1,4 +1,4 @@
-package com.fastaccess.ui.modules.repos.code.contributors.graph
+package com.fastaccess.ui.modules.repos.code.contributors.graph.viewcomponent
 
 import android.content.Context
 import android.content.res.Resources
@@ -8,6 +8,7 @@ import android.view.View
 import androidx.core.content.withStyledAttributes
 import androidx.core.graphics.withClip
 import com.fastaccess.R
+import com.fastaccess.ui.modules.repos.code.contributors.graph.model.GraphStatModel
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.round

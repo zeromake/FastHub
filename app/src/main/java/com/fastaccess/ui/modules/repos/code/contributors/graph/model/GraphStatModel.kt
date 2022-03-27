@@ -1,8 +1,9 @@
-package com.fastaccess.ui.modules.repos.code.contributors.graph
+package com.fastaccess.ui.modules.repos.code.contributors.graph.model
 
 import com.google.gson.annotations.SerializedName
 
 data class GraphStatModel(
+    @SerializedName("items")
     val contributions: List<ContributionStats>
 ) {
     data class ContributionStats(
