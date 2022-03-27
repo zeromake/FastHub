@@ -122,9 +122,6 @@ dependencies {
     implementation("androidx.compose.ui:ui:1.1.1")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("androidx.core:core-splashscreen:1.0.0-beta01")
-    //implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
-    //implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
-    //implementation("androidx.core:core-ktx:1.7.0")
 
     // thirtyinch
     implementation("com.github.Grandcentrix.ThirtyInch:thirtyinch:v1.0.1")

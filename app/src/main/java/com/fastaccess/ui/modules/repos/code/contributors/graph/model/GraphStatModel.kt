@@ -1,18 +1,24 @@
 package com.fastaccess.ui.modules.repos.code.contributors.graph.model
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class GraphStatModel(
     @SerializedName("items")
     val contributions: List<ContributionStats>
 ) {
     data class ContributionStats(
+        @SerializedName("author")
         val author: Author,
+        @SerializedName("total")
         val total: Int,
+        @SerializedName("weeks")
         val weeks: List<Week>
     ) {
         data class Author(
+            @SerializedName("login")
             val login: String,
+            @SerializedName("id")
             val id: Int,
             @SerializedName("node_id")
             val nodeId: String,
@@ -54,6 +60,6 @@ data class GraphStatModel(
             val deletions: Int,
             @SerializedName("w")
             val starting_week: Long
-        )
+        ): Serializable
     }
 }

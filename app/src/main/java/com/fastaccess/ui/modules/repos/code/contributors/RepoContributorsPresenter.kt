@@ -9,6 +9,10 @@ import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.provider.rest.RestProvider.getRepoService
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
+import com.fastaccess.ui.modules.repos.code.contributors.graph.model.GraphStatModel
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import okhttp3.ResponseBody
 
 
 /**
@@ -85,6 +89,18 @@ class RepoContributorsPresenter : BasePresenter<RepoContributorsMvp.View>(),
             false
         }
         popupMenu.show()
+    }
+
+    override fun retrieveStats(owner: String, repoID: String) {
+        val observable = getRepoService(isEnterprise).getContributorsStats(
+            owner,
+            repoID
+        )
+        makeRestCall(observable) { response: ResponseBody ->
+            val statsModel: GraphStatModel? =
+                Gson().fromJson(response.string(), object : TypeToken<GraphStatModel>() {}.type)
+            sendToView { view -> view.stats = statsModel }
+        }
     }
 
     override fun onItemClick(position: Int, v: View?, item: User) {}

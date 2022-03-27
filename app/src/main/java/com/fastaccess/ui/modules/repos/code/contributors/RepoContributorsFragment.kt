@@ -13,6 +13,7 @@ import com.fastaccess.ui.adapter.UsersAdapter
 import com.fastaccess.ui.base.BaseFragment
 import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.repos.code.contributors.graph.GraphContributorsFragment
+import com.fastaccess.ui.modules.repos.code.contributors.graph.model.GraphStatModel
 import com.fastaccess.ui.widgets.StateLayout
 import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
 import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
@@ -30,6 +31,7 @@ class RepoContributorsFragment :
     val fastScroller: RecyclerViewFastScroller? by viewFind(R.id.fastScroller)
     private var onLoadMore: OnLoadMore<String>? = null
     private var adapter: UsersAdapter? = null
+    override var stats: GraphStatModel? = null
     override fun onNotifyAdapter(items: List<User>?, page: Int) {
         hideProgress()
         if (items == null || items.isEmpty()) {
@@ -67,6 +69,9 @@ class RepoContributorsFragment :
             onRefresh()
         }
         fastScroller!!.attachRecyclerView(recycler!!)
+        presenter!!.retrieveStats(
+            requireArguments().getString(BundleConstant.EXTRA)!!,
+            requireArguments().getString(BundleConstant.ID)!!)
     }
 
     override fun providePresenter(): RepoContributorsPresenter {
@@ -103,6 +108,9 @@ class RepoContributorsFragment :
 
     override fun onRefresh() {
         presenter!!.onCallApi(1, requireArguments().getString(BundleConstant.EXTRA))
+        presenter!!.retrieveStats(
+            requireArguments().getString(BundleConstant.EXTRA)!!,
+            requireArguments().getString(BundleConstant.ID)!!)
     }
 
     override fun onClick(view: View) {
@@ -115,9 +123,8 @@ class RepoContributorsFragment :
     }
 
     override fun onShowGraph(user: User) {
-        val login = requireArguments().getString(BundleConstant.EXTRA)
-        val repoId = requireArguments().getString(BundleConstant.ID)
-        GraphContributorsFragment.newInstance(login!!, repoId!!, user.login)
+        val data: GraphStatModel.ContributionStats? = stats?.contributions?.find { it ->  it.author.login == user.login}
+        GraphContributorsFragment.newInstance(data)
             .show(childFragmentManager, "GraphContributorsFragment")
     }
 
