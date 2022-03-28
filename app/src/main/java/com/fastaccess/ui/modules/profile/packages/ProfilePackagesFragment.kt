@@ -79,6 +79,7 @@ class ProfilePackagesFragment : BaseFragment<ProfilePackagesMvp.View, ProfilePac
         }
         packagesType!!.onItemSelectedListener = this
         packagesType!!.setSelection(0)
+        presenter!!.isOrg = requireArguments().getBoolean(BundleConstant.EXTRA_TWO)
         stateLayout!!.setEmptyText(R.string.no_packages)
         stateLayout!!.setOnReloadListener(this)
         refresh!!.setOnRefreshListener(this)
@@ -146,15 +147,22 @@ class ProfilePackagesFragment : BaseFragment<ProfilePackagesMvp.View, ProfilePac
     }
 
     companion object {
-        fun newInstance(username: String): ProfilePackagesFragment {
+        fun newInstance(username: String, isOrg: Boolean = false): ProfilePackagesFragment {
             val view = ProfilePackagesFragment()
-            view.arguments = start().put(BundleConstant.EXTRA, username).end()
+            view.arguments = start()
+                .put(BundleConstant.EXTRA, username)
+                .put(BundleConstant.EXTRA_TWO, isOrg)
+                .end()
             return view
         }
     }
 
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-        presenter!!.onTypeChanged(packagesType!!.selectedItem.toString(), requireArguments().getString(BundleConstant.EXTRA))
+        val selectedItem = packagesType!!.selectedItem.toString()
+        if(!presenter!!.selectedType.equals(selectedItem)) {
+            presenter!!.selectedType = selectedItem
+            onRefresh()
+        }
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {}

@@ -373,6 +373,10 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
                     OrgReposFragment.newInstance(login)
                 ),
                 FragmentPagerAdapterModel(
+                    context.getString(R.string.packages),
+                    ProfilePackagesFragment.newInstance(login, true)
+                ),
+                FragmentPagerAdapterModel(
                     context.getString(R.string.people),
                     OrgMembersFragment.newInstance(login)
                 ),
