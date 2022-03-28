@@ -165,11 +165,11 @@ class UserPagerActivity : BaseActivity<UserPagerMvp.View, UserPagerPresenter>(),
     }
 
     override fun onNavigateToFollowers() {
-        pager.currentItem = 6
+        pager.currentItem = 7
     }
 
     override fun onNavigateToFollowing() {
-        pager.currentItem = 7
+        pager.currentItem = 8
     }
 
     override fun onInitOrg(isMember: Boolean) {
