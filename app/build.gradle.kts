@@ -34,7 +34,7 @@ android {
     buildToolsVersion = "31.0.0"
     defaultConfig {
         applicationId = "com.fastaccess.github.revival"
-        minSdk = 21
+        minSdk = 23
         targetSdk = 31
         versionCode = 475
         versionName = "4.7.5"
