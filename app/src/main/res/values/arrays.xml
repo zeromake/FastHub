@@ -183,6 +183,15 @@
         <item>spam</item>
     </string-array>
 
+    <string-array name="packages_type_array" translatable="false">
+        <item>npm</item>
+        <item>maven</item>
+        <item>rubygems</item>
+        <item>nuget</item>
+        <item>docker</item>
+        <item>container</item>
+    </string-array>
+
     <!-- EmojiCompat Downloadable Fonts Arrays -->
     <array name="fonts_certificate" translatable="false">
         <item>@array/com_google_android_gms_fonts_certs_dev</item>

@@ -61,23 +61,14 @@ import io.requery.Persistable;
         })).subscribe(o -> {/*donothing*/}, Throwable::printStackTrace);
     }
 
-    @NonNull public static Single<List<GitHubPackage>> getPackagesOf(@NonNull String ownerName) {
+    @NonNull public static Single<List<GitHubPackage>> getPackagesOf(@NonNull String ownerName, @NonNull String package_type) {
         return App.getInstance()
                 .getDataStore()
                 .select(GitHubPackage.class)
                 .get()
                 .observable()
-                .filter(it -> it.owner.login.equals(ownerName))
+                .filter(it -> it.owner.login.equals(ownerName) && it.package_type.equals(package_type))
                 .toList();
-    }
-
-    public static Observable<GitHubPackage> getPackage(@NonNull Long packageId) {
-        return App.getInstance()
-                .getDataStore()
-                .select(GitHubPackage.class)
-                .where(GitHubPackage.ID.eq(packageId))
-                .get()
-                .observable();
     }
 
     public AbstractGitHubPackage() {}

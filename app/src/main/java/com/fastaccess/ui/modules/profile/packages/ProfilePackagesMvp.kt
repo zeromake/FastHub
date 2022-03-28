@@ -16,5 +16,7 @@ interface ProfilePackagesMvp {
         PaginationListener<String> {
         val packages: ArrayList<GitHubPackage>
         fun onWorkOffline(login: String)
+        fun onTypeChanged(package_type: String, parameter: String?)
+        var defaultType: String?
     }
 }

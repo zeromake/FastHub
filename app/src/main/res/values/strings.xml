@@ -310,6 +310,7 @@
     <string name="unknown">Unknown</string>
     <string name="commented_on_commit">Commented on commit</string>
     <string name="switch_branch">Switch branch</string>
+    <string name="switch_package_type">Package Type</string>
     <string name="assignees">Assignees</string>
     <string name="edit">Edit</string>
     <string name="edited">\u2022 edited</string>

@@ -3,6 +3,9 @@ package com.fastaccess.ui.modules.profile.packages
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.annotation.StringRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fastaccess.R
@@ -15,16 +18,18 @@ import com.fastaccess.ui.adapter.ReposAdapter
 import com.fastaccess.ui.base.BaseFragment
 import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.repos.RepoPagerMvp.TabsBadgeListener
+import com.fastaccess.ui.widgets.FontTextView
 import com.fastaccess.ui.widgets.StateLayout
 import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
 import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
 
 class ProfilePackagesFragment : BaseFragment<ProfilePackagesMvp.View, ProfilePackagesPresenter>(),
-    ProfilePackagesMvp.View {
+    ProfilePackagesMvp.View, AdapterView.OnItemSelectedListener {
     val recycler: DynamicRecyclerView? by viewFind(R.id.recycler)
     val refresh: SwipeRefreshLayout? by viewFind(R.id.refresh)
     val stateLayout: StateLayout? by viewFind(R.id.stateLayout)
     val fastScroller: RecyclerViewFastScroller? by viewFind(R.id.fastScroller)
+    val packagesType: Spinner? by viewFind(R.id.packages_type)
     private var onLoadMore: OnLoadMore<String>? = null
     private var adapter: PackagesAdapter? = null
     private var tabsBadgeListener: TabsBadgeListener? = null
@@ -57,13 +62,23 @@ class ProfilePackagesFragment : BaseFragment<ProfilePackagesMvp.View, ProfilePac
     }
 
     override fun fragmentLayout(): Int {
-        return R.layout.micro_grid_refresh_list
+        return R.layout.packages_with_chooser_layout
     }
 
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
         if (arguments == null) {
             throw NullPointerException("Bundle is null, username is required")
         }
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.packages_type_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            packagesType!!.adapter = adapter
+        }
+        packagesType!!.onItemSelectedListener = this
+        packagesType!!.setSelection(0)
         stateLayout!!.setEmptyText(R.string.no_packages)
         stateLayout!!.setOnReloadListener(this)
         refresh!!.setOnRefreshListener(this)
@@ -137,4 +152,10 @@ class ProfilePackagesFragment : BaseFragment<ProfilePackagesMvp.View, ProfilePac
             return view
         }
     }
+
+    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+        presenter!!.onTypeChanged(packagesType!!.selectedItem.toString(), requireArguments().getString(BundleConstant.EXTRA))
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {}
 }

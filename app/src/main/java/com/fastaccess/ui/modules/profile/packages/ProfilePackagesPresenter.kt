@@ -1,5 +1,6 @@
 package com.fastaccess.ui.modules.profile.packages
 
+import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
 import com.fastaccess.data.dao.model.GitHubPackage
@@ -14,6 +15,7 @@ class ProfilePackagesPresenter : BasePresenter<ProfilePackagesMvp.View>(),
     override var currentPage = 0
     override var previousTotal = 0
     private var lastPage = Int.MAX_VALUE
+    override var defaultType: String? = "npm"
     override fun onError(throwable: Throwable) {
         sendToView { view ->
             if (view.loadMore.parameter != null) {
@@ -35,7 +37,7 @@ class ProfilePackagesPresenter : BasePresenter<ProfilePackagesMvp.View>(),
             sendToView { it.hideProgress() }
             return false
         }
-        val observable = getUserService(isEnterprise).getPackages(parameter, "container", page)
+        val observable = getUserService(isEnterprise).getPackages(parameter, defaultType!!, page)
         makeRestCall(
             observable
         ) { packageModelPageable ->
@@ -54,7 +56,7 @@ class ProfilePackagesPresenter : BasePresenter<ProfilePackagesMvp.View>(),
         if (packages.isEmpty()) {
             manageDisposable(
                 getObservable(
-                    GitHubPackage.getPackagesOf(login).toObservable()
+                    GitHubPackage.getPackagesOf(login, defaultType!!).toObservable()
                 ).subscribe { packageModels ->
                     sendToView { view ->
                         view.onNotifyAdapter(packageModels, 1)
@@ -62,6 +64,13 @@ class ProfilePackagesPresenter : BasePresenter<ProfilePackagesMvp.View>(),
                 })
         } else {
             sendToView { it.hideProgress() }
+        }
+    }
+
+    override fun onTypeChanged(package_type: String, parameter: String?) {
+        if (!TextUtils.equals(package_type, defaultType)) {
+            defaultType = package_type
+            onCallApi(1, parameter)
         }
     }
 
