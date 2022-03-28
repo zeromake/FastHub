@@ -26,7 +26,7 @@ import io.requery.sql.TableCreationMode
 class App : Application() {
     val dataStore: ReactiveEntityStore<Persistable> by lazy {
         val model = Models.DEFAULT
-        val source = DatabaseSource(this, model, "FastHubRE-DB", 18)
+        val source = DatabaseSource(this, model, "FastHubRE-DB", 19)
         val configuration = source.configuration
         if (BuildConfig.DEBUG) {
             source.setTableCreationMode(TableCreationMode.CREATE)
