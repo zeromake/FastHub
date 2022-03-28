@@ -14,6 +14,7 @@
     <string name="additions" translatable="false">Additions (%1$s) lines</string>
     <string name="deletions" translatable="false">Deletions (%1$s) lines</string>
     <string name="repos" translatable="false">Repositories</string>
+    <string name="packages" translatable="false">Packages</string>
     <string name="forked" translatable="false">Forked</string>
     <string name="starred" translatable="false">Starred</string>
     <string name="icon_transition" translatable="false">profile_image_transition</string>
@@ -312,6 +313,7 @@
     <string name="unknown">Unknown</string>
     <string name="commented_on_commit">Commented on commit</string>
     <string name="switch_branch">Switch branch</string>
+    <string name="switch_package_type">Package Type</string>
     <string name="assignees">Assignees</string>
     <string name="edit">Edit</string>
     <string name="edited">\u2022 edited</string>
@@ -398,6 +400,7 @@
     <string name="no_followings">No followings</string>
     <string name="no_repos">No repositories</string>
     <string name="no_starred_repos">No starred repositories</string>
+    <string name="no_packages">No packages</string>
     <string name="no_commits">No commits</string>
     <string name="no_contributors">No contributors</string>
     <string name="no_releases">No releases</string>

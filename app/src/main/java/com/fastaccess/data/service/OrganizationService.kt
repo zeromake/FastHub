@@ -3,6 +3,7 @@ package com.fastaccess.data.service
 import com.fastaccess.data.dao.Pageable
 import com.fastaccess.data.dao.TeamsModel
 import com.fastaccess.data.dao.model.Event
+import com.fastaccess.data.dao.model.GitHubPackage
 import com.fastaccess.data.dao.model.Repo
 import com.fastaccess.data.dao.model.User
 import io.reactivex.Observable
@@ -64,4 +65,11 @@ interface OrganizationService {
         @QueryMap(encoded = true) filterParams: Map<String, String>,
         @Query("page") page: Int
     ): Observable<Pageable<Repo>>
+
+    @GET("orgs/{org}/packages")
+    fun getPackages(
+        @Path("org") username: String,
+        @Query("package_type") package_type: String,
+        @Query("page") page: Int
+    ): Observable<Pageable<GitHubPackage>>
 }
