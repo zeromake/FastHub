@@ -38,6 +38,7 @@ interface UserRestService {
     @GET("users/{username}/packages")
     fun getPackages(
         @Path("username") username: String,
+        @Query("package_type") package_type: String,
         @Query("page") page: Int
     ): Observable<Pageable<GitHubPackage>>
 

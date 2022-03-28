@@ -19,9 +19,6 @@ import com.fastaccess.ui.widgets.StateLayout
 import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
 import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
 
-/**
- * Created by Kosh on 03 Dec 2016, 3:56 PM
- */
 class ProfilePackagesFragment : BaseFragment<ProfilePackagesMvp.View, ProfilePackagesPresenter>(),
     ProfilePackagesMvp.View {
     val recycler: DynamicRecyclerView? by viewFind(R.id.recycler)

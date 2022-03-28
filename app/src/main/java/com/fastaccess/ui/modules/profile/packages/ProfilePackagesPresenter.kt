@@ -1,6 +1,7 @@
 package com.fastaccess.ui.modules.profile.packages
 
 import android.view.View
+import android.widget.Toast
 import com.fastaccess.data.dao.model.GitHubPackage
 import com.fastaccess.helper.RxHelper.getObservable
 import com.fastaccess.provider.rest.RestProvider.getUserService
@@ -34,7 +35,7 @@ class ProfilePackagesPresenter : BasePresenter<ProfilePackagesMvp.View>(),
             sendToView { it.hideProgress() }
             return false
         }
-        val observable = getUserService(isEnterprise).getPackages(parameter, page)
+        val observable = getUserService(isEnterprise).getPackages(parameter, "container", page)
         makeRestCall(
             observable
         ) { packageModelPageable ->
@@ -65,7 +66,8 @@ class ProfilePackagesPresenter : BasePresenter<ProfilePackagesMvp.View>(),
     }
 
     override fun onItemClick(position: Int, v: View?, item: GitHubPackage) {
-        launchUri(v!!.context, item.htmlUrl)
+        //launchUri(v!!.context, item.htmlUrl)
+        Toast.makeText(v?.context, "You found a package!", Toast.LENGTH_SHORT).show()
     }
 
     override fun onItemLongClick(position: Int, v: View?, item: GitHubPackage) {}
