@@ -72,7 +72,7 @@ open class PullRequestPagerActivity :
     val size: FontTextView? by lazy { viewFind(R.id.size) }
     val date: FontTextView? by lazy { viewFind(R.id.date) }
     val tabs: TabLayout? by lazy { viewFind(R.id.tabs) }
-    val pager: ViewPagerView? by lazy { viewFind(R.id.startGist) }
+    val pager: ViewPagerView? by lazy { viewFind(R.id.pager) }
     val fab: FloatingActionButton? by lazy { viewFind(R.id.fab) }
     val detailsIcon: View? by lazy { viewFind(R.id.detailsIcon) }
     private val reviewsCount: FontTextView? by lazy { viewFind(R.id.reviewsCount) }
