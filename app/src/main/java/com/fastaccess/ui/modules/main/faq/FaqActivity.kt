@@ -1,4 +1,4 @@
-package com.fastaccess.ui.modules.main.playstore
+package com.fastaccess.ui.modules.main.faq
 
 import android.os.Bundle
 import android.view.View
@@ -14,14 +14,14 @@ import com.fastaccess.utils.setOnThrottleClickListener
 /**
  * Created by Hashemsergani on 21.09.17.
  */
-class PlayStoreWarningActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FAView>>() {
+class FaqActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FAView>>() {
 
     fun onDone() {
         PrefGetter.setPlayStoreWarningShowed()
         finish()
     }
 
-    override fun layout(): Int = R.layout.playstore_review_layout_warning
+    override fun layout(): Int = R.layout.faq_view_layout
 
     override val isTransparent: Boolean = true
 

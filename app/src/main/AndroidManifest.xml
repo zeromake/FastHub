@@ -269,7 +269,7 @@
                 android:value=".ui.modules.user.UserPagerActivity" />
         </activity>
 
-        <activity android:name=".ui.modules.main.playstore.PlayStoreWarningActivity" />
+        <activity android:name=".ui.modules.main.faq.FaqActivity" />
 
         <activity
             android:name=".ui.modules.repos.pull_requests.pull_request.details.files.fullscreen.FullScreenFileChangeActivity"

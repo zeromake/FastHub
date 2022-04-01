@@ -440,12 +440,9 @@
         もしくは、Access Tokenを用いてsigin inしてください。</p>
 
         <h5>• 問題が起こりました！ / FastHubチームに提案したいことがあります！</h5>
-        <p>https://github.com/k0shk0sh/FastHub/issues/newを開いて、問題点や新機能リクエストのIssueを作成してください。
+        <p>https://github.com/LightDestory/FastHub-RE/issues/newを開いて、問題点や新機能リクエストのIssueを作成してください。
         ただし、似たようなIssueが前に投稿されていないか調べてみることをおすすめします。
         あらゆる重複したIssueは重複とラベル付され、即座にcloseされます。</p>
-
-        <h5>• PROMO CODEはどうやったら入手できますか？</h5>
-        <p>その計画はもはや存在していません。</p>
     ]]></string>
     <string name="faq">FAQ</string>
     <string name="comments_added_successfully">コメントが正常に追加されました。</string>

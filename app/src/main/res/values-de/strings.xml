@@ -425,7 +425,7 @@
         <p>Wenn du ein öffentliches Organisations-Repo bearbeiten willst, wende dich bitte an deine Organisation, um den Zugang für FastHub genehmigen zu lassen oder verwende den entsprechenden Access Token!.</p>
 
         <h5>• Ich habe einen Fehler gefunden oder habe Verbesserungsvorschläge!</h5>
-        <p>Gehe zu https://github.com/k0shk0sh/FastHub/issues/new und erstelle ein neues Issue für Bugmeldungen oder Feature Requests. Bitte suche aber vor dem Erstellen nach bereits existierenden Tickets. Jede doppelte Anfrage wird sofort als Duplikat markiert und geschlossen.</p>
+        <p>Gehe zu https://github.com/LightDestory/FastHub-RE/issues/new und erstelle ein neues Issue für Bugmeldungen oder Feature Requests. Bitte suche aber vor dem Erstellen nach bereits existierenden Tickets. Jede doppelte Anfrage wird sofort als Duplikat markiert und geschlossen.</p>
     ]]></string>
     <string name="faq">FAQ</string>
     <string name="comments_added_successfully">Kommentare erfolgreich hinzugefügt</string>

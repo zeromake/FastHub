@@ -16,7 +16,7 @@ import com.fastaccess.ui.modules.about.FastHubAboutActivity
 import com.fastaccess.ui.modules.gists.GistsListActivity
 import com.fastaccess.ui.modules.main.MainActivity
 import com.fastaccess.ui.modules.main.MainMvp
-import com.fastaccess.ui.modules.main.playstore.PlayStoreWarningActivity
+import com.fastaccess.ui.modules.main.faq.FaqActivity
 import com.fastaccess.ui.modules.notification.NotificationActivity
 import com.fastaccess.ui.modules.pinned.PinnedReposActivity
 import com.fastaccess.ui.modules.repos.RepoPagerActivity
@@ -98,7 +98,7 @@ class MainDrawerFragment :
                     R.id.faq -> activity.startActivity(
                         Intent(
                             activity,
-                            PlayStoreWarningActivity::class.java
+                            FaqActivity::class.java
                         )
                     )
                 }
