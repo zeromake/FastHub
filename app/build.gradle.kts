@@ -4,7 +4,7 @@ plugins {
     id("kotlin-parcelize")
     id("kotlin-kapt")
     id("com.apollographql.apollo3").version("3.1.0")
-    id("com.mikepenz.aboutlibraries.plugin").version("10.0.0-rc02")
+    id("com.mikepenz.aboutlibraries.plugin").version("10.0.1")
 }
 
 fun loadConfig(): HashMap<String, String> {
@@ -119,9 +119,8 @@ dependencies {
     implementation("androidx.legacy:legacy-preference-v14:1.0.0")
     implementation("androidx.browser:browser:1.4.0")
     implementation("androidx.palette:palette-ktx:1.0.0")
-    implementation("androidx.compose.ui:ui:1.1.1")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    implementation("androidx.core:core-splashscreen:1.0.0-beta01")
+    implementation("androidx.core:core-splashscreen:1.0.0-beta02")
 
     // thirtyinch
     implementation("com.github.Grandcentrix.ThirtyInch:thirtyinch:v1.0.1")
@@ -178,9 +177,8 @@ dependencies {
 //    kapt("io.requery:requery-processor:1.6.0")
 
     // about lib
-    implementation("com.mikepenz:aboutlibraries-core:10.0.0")
-    implementation("com.mikepenz:aboutlibraries:10.0.0")
-    implementation("com.mikepenz:aboutlibraries-compose:10.0.0")
+    implementation("com.mikepenz:aboutlibraries-core:10.0.1")
+    implementation("com.mikepenz:aboutlibraries:10.0.1")
 
     // HtmlSpanner
     implementation("com.github.NightWhistler:HtmlSpanner:0.4")
