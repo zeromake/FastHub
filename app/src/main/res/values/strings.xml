@@ -3,6 +3,10 @@
 
     <string name="app_name" translatable="false">FastHub-RE</string>
     <string name="app_name_full" translatable="false">FastHub-RE for Android</string>
+    <string name="app_description" translatable="false">Revival attempt for FastHub the ultimate GitHub client for Android.</string>
+    <string name="original_app_name" translatable="false">FastHub</string>
+    <string name="original_app_state" translatable="false">[Abandoned] FastHub</string>
+    <string name="original_app_author" translatable="false">Kosh Sergani (k0shk0sh)</string>
     <string name="linear_layout_manager" translatable="false">com.fastaccess.ui.widgets.recyclerview.layout_manager.LinearManager</string>
     <string name="grid_layout_manager" translatable="false">com.fastaccess.ui.widgets.recyclerview.layout_manager.GridManager</string>
     <string name="staggered_layout_manager" translatable="false">com.fastaccess.ui.widgets.recyclerview.layout_manager.StaggeredManager</string>
@@ -38,6 +42,7 @@
     <string name="gist" translatable="false">Gist</string>
     <string name="back_slash" translatable="false">/</string>
     <string name="fork_repo_hint" translatable="false">Fork repo</string>
+    <string name="open_repo_hint" translatable="false">Open Repository</string>
     <string name="bbn_fab_default_behavior" translatable="false">com.fastaccess.ui.widgets.FloatingActionButtonBehavior</string>
     <string name="created_gist" translatable="false">@string/gist</string>
     <string name="gollum" translatable="false">Wiki</string>
@@ -75,7 +80,8 @@
     <string name="amber_theme_mode" translatable="false">Amber</string>
     <string name="orange_theme_mode" translatable="false">Orange</string>
     <string name="deep_orange_theme_mode" translatable="false">Deep Orange</string>
-    <string name="logo_designer" formatted="true" translatable="false">Logo Designer (%s)</string>
+    <string name="current_logo_designer" formatted="true" translatable="false">Current Logo Designer (%s)</string>
+    <string name="old_logo_designer" formatted="true" translatable="false">Old Logo Designer (%s)</string>
     <string name="google_plus" translatable="false">Google+</string>
     <string name="twitter" translatable="false">Twitter</string>
     <string name="posting_reaction" formatted="true" translatable="false">Posting reaction %s</string>
@@ -128,9 +134,12 @@
     <string name="unlock_everything" translatable="false">Unlock Everything</string>
     <string name="feeds" translatable="false">Feeds</string>
     <string name="graph_timeline_text" translatable="false">%1$s - %2$s</string>
+    <string name="unlock_all" translatable="false">Unlock all features</string>
+    <string name="unlock_all_description" translatable="false">Please, do not forget to support the developers!</string>
     <!-- END OF DO NOT COPY, START COPYING FROM LINE BELOW -->
 
     <!--Please DO NOT translate github terms, such as Pull Request, Issues, Commits & etc.-->
+    <string name="original_app_author_desc" translatable="false">The original author of FastHub, now unmaintained</string>
     <string name="in_progress">Loading, please wait…</string>
     <string name="action">Action</string>
     <string name="settings">Settings</string>
@@ -361,6 +370,7 @@
     <string name="report_issue">Report an issue</string>
     <string name="report_issue_here">Having an issue? Report it here</string>
     <string name="about">About</string>
+    <string name="misc">Miscellaneous</string>
     <string name="notification_settings">Notifications</string>
     <string name="turn_off">Turn off</string>
     <string name="unauthorized_user">Unauthorized user</string>
@@ -462,6 +472,7 @@
     <string name="wrap_code_summary">Wrap code in code viewer by default</string>
     <string name="wrap_code_title">Wrap Code</string>
     <string name="open_source_libs">Open source libraries</string>
+    <string name="open_source_libs_desc">List of all the libraries used to make the app</string>
     <string name="enable_notification_sound_summary">Enable notification sound once a notification is received.</string>
     <string name="enable_notification_sound_title">Enable Notification Sound</string>
     <string name="enable_notification_title">Enable Notifications</string>
