@@ -29,7 +29,7 @@ import java.lang.reflect.Modifier
  * Created by Kosh on 08 Feb 2017, 8:37 PM
  */
 object RestProvider {
-    const val PAGE_SIZE = 10
+    const val PAGE_SIZE = 30
     private var okHttpClient: OkHttpClient? = null
 
     @JvmField

@@ -31,6 +31,7 @@ class GistsPresenter : BasePresenter<GistsMvp.View>(), GistsMvp.Presenter {
             sendToView { it.hideProgress() }
             return false
         }
+        currentPage = page
         makeRestCall(getGistService(isEnterprise).getPublicGists(RestProvider.PAGE_SIZE, page)
         ) { listResponse ->
             lastPage = listResponse.last
