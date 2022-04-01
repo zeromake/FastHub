@@ -244,7 +244,7 @@ class UserPagerActivity : BaseActivity<UserPagerMvp.View, UserPagerPresenter>(),
             fragment.onRepoFilterClicked()
         } else {
             val fragment = pager.adapter!!
-                .instantiateItem(pager, 2) as ProfileReposFragment
+                .instantiateItem(pager, 3) as ProfileReposFragment
             fragment.onRepoFilterClicked()
         }
     }
@@ -305,7 +305,7 @@ class UserPagerActivity : BaseActivity<UserPagerMvp.View, UserPagerPresenter>(),
                 }
             }
         } else {
-            if (position == 2) {
+            if (position == 3) {
                 fab.show()
             } else {
                 fab.hide()
