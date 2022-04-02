@@ -93,6 +93,7 @@
     <string name="pull_request_reviews" translatable="false">Pull Request Reviews</string>
     <string name="review_changes" translatable="false">Review Changes</string>
     <string name="enterprise" translatable="false">Enterprise</string>
+    <string name="enterprise_note" translatable="false">Note for Enterprise use</string>
     <string name="endpoint_hint" translatable="false">example.com</string>
     <string name="no_branches" translatable="false">No Branches or Tags</string>
     <string name="pro_features" translatable="false">PRO Features</string>
@@ -384,6 +385,7 @@
     <string name="marking_as_read">Marking notification as read</string>
     <string name="forking_gist">Forking gist</string>
     <string name="login_using_your_default_browser">Login using your default browser (OAuth)</string>
+    <string name="login_using_your_PAT">Login using your Personal Access Token (Recommended)</string>
     <string name="or_character">OR</string>
     <string name="mark_notification_title">Disable Notification Read Status</string>
     <string name="mark_notification_summary">Disable marking as read upon clicking a notification.</string>

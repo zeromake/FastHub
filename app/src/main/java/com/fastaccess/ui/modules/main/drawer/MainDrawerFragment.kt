@@ -72,13 +72,6 @@ class MainDrawerFragment :
                             0
                         )
                     }
-                    R.id.settings -> activity.onOpenSettings()
-                    R.id.about -> activity.startActivity(
-                        Intent(
-                            activity,
-                            FastHubAboutActivity::class.java
-                        )
-                    )
                     R.id.orgs -> activity.onOpenOrgsDialog()
                     R.id.notifications -> activity.startActivity(
                         Intent(
@@ -99,6 +92,13 @@ class MainDrawerFragment :
                         Intent(
                             activity,
                             FaqActivity::class.java
+                        )
+                    )
+                    R.id.settings -> activity.onOpenSettings()
+                    R.id.about -> activity.startActivity(
+                        Intent(
+                            activity,
+                            FastHubAboutActivity::class.java
                         )
                     )
                 }
