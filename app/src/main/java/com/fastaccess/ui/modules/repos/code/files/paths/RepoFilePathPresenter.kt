@@ -3,7 +3,6 @@ package com.fastaccess.ui.modules.repos.code.files.paths
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import com.annimon.stream.Objects
 import com.fastaccess.data.dao.model.RepoFile
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.InputHelper.isEmpty
@@ -38,8 +37,8 @@ class RepoFilePathPresenter : BasePresenter<RepoFilePathMvp.View>(),
         if (bundle != null) {
             repoId = bundle.getString(BundleConstant.ID)
             login = bundle.getString(BundleConstant.EXTRA)
-            path = Objects.toString(bundle.getString(BundleConstant.EXTRA_TWO), "")
-            defaultBranch = Objects.toString(bundle.getString(BundleConstant.EXTRA_THREE), "master")
+            path = bundle.getString(BundleConstant.EXTRA_TWO) ?: ""
+            defaultBranch = bundle.getString(BundleConstant.EXTRA_THREE) ?: "master"
             val forceAppend = bundle.getBoolean(BundleConstant.EXTRA_FOUR)
             if (isEmpty(repoId) || isEmpty(login)) {
                 throw NullPointerException(

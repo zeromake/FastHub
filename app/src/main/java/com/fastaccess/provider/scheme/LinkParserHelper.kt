@@ -37,7 +37,6 @@ object LinkParserHelper {
             .findFirst()
     }
 
-    @JvmStatic
     fun getBlobBuilder(uri: Uri): Uri {
         val isSvg =
             "svg".equals(MimeTypeMap.getFileExtensionFromUrl(uri.toString()), ignoreCase = true)
@@ -57,6 +56,50 @@ object LinkParserHelper {
             .appendPath(repo)
             .appendPath("contents")
         for (i in 4 until segments.size) {
+            urlBuilder.appendPath(segments[i])
+        }
+        if (uri.queryParameterNames != null) {
+            for (query in uri.queryParameterNames) {
+                urlBuilder.appendQueryParameter(query, uri.getQueryParameter(query))
+            }
+        }
+        if (uri.encodedFragment != null) {
+            urlBuilder.encodedFragment(uri.encodedFragment)
+        }
+        urlBuilder.appendQueryParameter("ref", branch)
+        return urlBuilder.build()
+    }
+
+    fun getUrlBuilder(uri: Uri): Uri? {
+        return when {
+            uri.host == "raw.githubusercontent.com" -> {
+                getRawBuilder(uri)
+            }
+            uri.host == "github.com" && uri.pathSegments.size > 2 && uri.pathSegments[2] == "blob" -> {
+                getBlobBuilder(uri)
+            }
+            else -> null
+        }
+    }
+
+    private fun getRawBuilder(uri: Uri): Uri {
+        val isSvg =
+            "svg".equals(MimeTypeMap.getFileExtensionFromUrl(uri.toString()), ignoreCase = true)
+        val segments = uri.pathSegments
+        if (isSvg) {
+            return uri.buildUpon().authority(RAW_AUTHORITY).build()
+        }
+        val urlBuilder = Uri.Builder()
+        val owner = segments[0]
+        val repo = segments[1]
+        val branch = segments[2]
+        urlBuilder.scheme("https")
+            .authority(API_AUTHORITY)
+            .appendPath("repos")
+            .appendPath(owner)
+            .appendPath(repo)
+            .appendPath("contents")
+        for (i in 3 until segments.size) {
             urlBuilder.appendPath(segments[i])
         }
         if (uri.queryParameterNames != null) {

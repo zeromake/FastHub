@@ -122,10 +122,12 @@ class RepoFilesPresenter : BasePresenter<RepoFilesMvp.View>(), RepoFilesMvp.Pres
 
     override fun onCallApi(toAppend: RepoFile?) {
         if (repoId == null || login == null) return
+        val formatPath =
+            if (path!!.isNotEmpty() && path!![0] == '/') path!!.substring(1) else path!!
         manageDisposable(
             getObservable(
                 getRepoService(isEnterprise).getRepoFiles(
-                    login!!, repoId!!, path!!, ref!!
+                    login!!, repoId!!, formatPath, ref!!
                 )
             ).subscribe { response: okhttp3.ResponseBody ->
                 val bytes = response.string()

@@ -18,10 +18,6 @@ import com.fastaccess.provider.scheme.LinkParserHelper.HOST_GISTS_RAW
 import com.fastaccess.provider.scheme.LinkParserHelper.IGNORED_LIST
 import com.fastaccess.provider.scheme.LinkParserHelper.PROTOCOL_HTTPS
 import com.fastaccess.provider.scheme.LinkParserHelper.RAW_AUTHORITY
-import com.fastaccess.provider.scheme.LinkParserHelper.getBlobBuilder
-import com.fastaccess.provider.scheme.LinkParserHelper.getEndpoint
-import com.fastaccess.provider.scheme.LinkParserHelper.isEnterprise
-import com.fastaccess.provider.scheme.LinkParserHelper.returnNonNull
 import com.fastaccess.ui.modules.code.CodeViewerActivity
 import com.fastaccess.ui.modules.filter.issues.FilterIssuesActivity
 import com.fastaccess.ui.modules.gists.gist.GistActivity
@@ -107,7 +103,8 @@ object SchemeParser {
 
     private fun getIntentForURI(context: Context, data: Uri, showRepoBtn: Boolean): Intent? {
         val authority = data.authority
-        val isEnterprise = PrefGetter.isEnterprise && isEnterprise(authority ?: data.toString())
+        val isEnterprise =
+            PrefGetter.isEnterprise && LinkParserHelper.isEnterprise(authority ?: data.toString())
         if (HOST_GISTS == data.host || "gist".equals(data.pathSegments[0], ignoreCase = true)) {
             val extension = MimeTypeMap.getFileExtensionFromUrl(data.toString())
             if (!InputHelper.isEmpty(extension) && !MarkDownProvider.isArchive(data.lastPathSegment)) {
@@ -144,7 +141,7 @@ object SchemeParser {
                 val blob = getBlob(context, data)
                 val label = getLabel(context, data)
                 val search = getSearchIntent(context, data)
-                val intentOptional = returnNonNull(
+                val intentOptional = LinkParserHelper.returnNonNull(
                     trending,
                     projects,
                     search,
@@ -234,7 +231,7 @@ object SchemeParser {
         }
         return if (issueNumber < 1) null else PullRequestPagerActivity.createIntent(
             context, repo!!, owner!!, issueNumber, showRepoBtn,
-            isEnterprise(uri.toString()), commentId ?: 0
+            LinkParserHelper.isEnterprise(uri.toString()), commentId ?: 0
         )
     }
 
@@ -273,7 +270,7 @@ object SchemeParser {
         }
         return if (issueNumber < 1) null else IssuePagerActivity.createIntent(
             context, repo!!, owner!!, issueNumber, showRepoBtn,
-            isEnterprise(uri.toString()), commentId ?: 0
+            LinkParserHelper.isEnterprise(uri.toString()), commentId ?: 0
         )
     }
 
@@ -340,7 +337,7 @@ object SchemeParser {
             if (projectId != null && projectId > 0) {
                 return getIntent(
                     context, owner, repoName, projectId.toLong(),
-                    isEnterprise(uri.toString())
+                    LinkParserHelper.isEnterprise(uri.toString())
                 )
             }
         }
@@ -374,7 +371,7 @@ object SchemeParser {
             return null
         }
         val isEnterprise =
-            PrefGetter.isEnterprise && Uri.parse(getEndpoint(PrefGetter.enterpriseUrl!!)).authority
+            PrefGetter.isEnterprise && Uri.parse(LinkParserHelper.getEndpoint(PrefGetter.enterpriseUrl!!)).authority
                 .equals(uri.authority, ignoreCase = true)
         if (uri.authority == HOST_DEFAULT || uri.authority == API_AUTHORITY || isEnterprise) {
             val segments = uri.pathSegments
@@ -484,12 +481,12 @@ object SchemeParser {
         val segmentTwo = segments[2]
         val extension = MimeTypeMap.getFileExtensionFromUrl(uri.toString())
         if (InputHelper.isEmpty(extension) || TextUtils.isDigitsOnly(extension)) {
-            val urlBuilder = getBlobBuilder(uri)
+            val urlBuilder = LinkParserHelper.getUrlBuilder(uri)
+            urlBuilder ?: return null
             return RepoFilesActivity.getIntent(context, urlBuilder.toString())
         }
         if (segmentTwo == "blob" || segmentTwo == "tree") {
-            val urlBuilder = getBlobBuilder(uri)
-            Logger.e(urlBuilder)
+            val urlBuilder = LinkParserHelper.getBlobBuilder(uri)
             return CodeViewerActivity.createIntent(context, urlBuilder.toString(), uri.toString())
         } else {
             val authority = uri.authority
