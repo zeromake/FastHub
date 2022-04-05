@@ -1,12 +1,10 @@
 package com.fastaccess.provider.scheme
 
 import android.net.Uri
+import android.text.TextUtils
 import android.webkit.MimeTypeMap
 import com.fastaccess.helper.InputHelper
 import com.fastaccess.helper.PrefGetter
-import android.text.TextUtils
-import com.fastaccess.helper.ObjectsCompat
-import java.lang.Exception
 import java.util.*
 
 /**
@@ -20,7 +18,6 @@ object LinkParserHelper {
     const val RAW_AUTHORITY = "raw.githubusercontent.com"
     const val API_AUTHORITY = "api.github.com"
 
-    @JvmField
     val IGNORED_LIST: List<String> = listOf(
         "notifications", "settings", "blog",
         "explore", "dashboard", "repositories",
@@ -28,11 +25,8 @@ object LinkParserHelper {
         "contact", "about", "logos", "login", "pricing", ""
     )
 
-    @JvmStatic
-    @SafeVarargs
     fun <T> returnNonNull(vararg t: T?): T? {
-
-        return t.firstOrNull()
+        return t.firstOrNull { it != null }
     }
 
     fun getBlobBuilder(uri: Uri): Uri {
@@ -70,10 +64,10 @@ object LinkParserHelper {
 
     fun getUrlBuilder(uri: Uri): Uri? {
         return when {
-            uri.host == "raw.githubusercontent.com" -> {
+            uri.host == RAW_AUTHORITY -> {
                 getRawBuilder(uri)
             }
-            uri.host == "github.com" && uri.pathSegments.size > 2 && uri.pathSegments[2] == "blob" -> {
+            uri.host == HOST_DEFAULT && uri.pathSegments.size > 2 && uri.pathSegments[2] == "blob" -> {
                 getBlobBuilder(uri)
             }
             else -> null
@@ -85,7 +79,7 @@ object LinkParserHelper {
             "svg".equals(MimeTypeMap.getFileExtensionFromUrl(uri.toString()), ignoreCase = true)
         val segments = uri.pathSegments
         if (isSvg) {
-            return uri.buildUpon().authority(RAW_AUTHORITY).build()
+            return uri
         }
         val urlBuilder = Uri.Builder()
         val owner = segments[0]
