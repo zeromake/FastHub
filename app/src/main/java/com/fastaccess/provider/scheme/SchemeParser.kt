@@ -7,8 +7,6 @@ import android.content.Intent
 import android.net.Uri
 import android.text.TextUtils
 import android.webkit.MimeTypeMap
-import com.annimon.stream.Optional
-import com.annimon.stream.Stream
 import com.fastaccess.helper.*
 import com.fastaccess.provider.markdown.MarkDownProvider
 import com.fastaccess.provider.scheme.LinkParserHelper.API_AUTHORITY
@@ -159,19 +157,17 @@ object SchemeParser {
                     repoWikiIntent,
                     blob
                 )
-                val empty = Optional.empty<Intent>()
-                return if (intentOptional.isPresent && intentOptional !== empty) {
-                    val intent = intentOptional.get()
+                return if (intentOptional != null) {
                     if (isEnterprise) {
-                        if (intent.extras != null) {
-                            val bundle = intent.extras
+                        if (intentOptional.extras != null) {
+                            val bundle = intentOptional.extras
                             bundle!!.putBoolean(BundleConstant.IS_ENTERPRISE, true)
-                            intent.putExtras(bundle)
+                            intentOptional.putExtras(bundle)
                         } else {
-                            intent.putExtra(BundleConstant.IS_ENTERPRISE, true)
+                            intentOptional.putExtra(BundleConstant.IS_ENTERPRISE, true)
                         }
                     }
-                    intent
+                    intentOptional
                 } else {
                     val intent = getGeneralRepo(context, data)
                     if (isEnterprise) {
@@ -396,14 +392,13 @@ object SchemeParser {
     }
 
     private fun getCommits(context: Context, uri: Uri, showRepoBtn: Boolean): Intent? {
-        val segments = Stream.of(uri.pathSegments)
+        val segments = uri.pathSegments
             .filter { value: String ->
                 !value.equals(
                     "api",
                     ignoreCase = true
                 ) || !value.equals("v3", ignoreCase = true)
             }
-            .toList()
         if (segments.isEmpty() || segments.size < 3) return null
         var login: String? = null
         var repoId: String? = null
@@ -423,14 +418,13 @@ object SchemeParser {
     }
 
     private fun getCommit(context: Context, uri: Uri, showRepoBtn: Boolean): Intent? {
-        val segments = Stream.of(uri.pathSegments)
+        val segments = uri.pathSegments
             .filter { value: String ->
                 !value.equals(
                     "api",
                     ignoreCase = true
                 ) || !value.equals("v3", ignoreCase = true)
             }
-            .toList()
         if (segments.size < 3 || "commit" != segments[2]) return null
         val login = segments[0]
         val repoId = segments[1]

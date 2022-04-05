@@ -5,8 +5,6 @@ import android.webkit.MimeTypeMap
 import com.fastaccess.helper.InputHelper
 import com.fastaccess.helper.PrefGetter
 import android.text.TextUtils
-import com.annimon.stream.Optional
-import com.annimon.stream.Stream
 import com.fastaccess.helper.ObjectsCompat
 import java.lang.Exception
 import java.util.*
@@ -32,9 +30,9 @@ object LinkParserHelper {
 
     @JvmStatic
     @SafeVarargs
-    fun <T> returnNonNull(vararg t: T): Optional<T> {
-        return Stream.of(*t).filter { obj: T -> ObjectsCompat.nonNull(obj) }
-            .findFirst()
+    fun <T> returnNonNull(vararg t: T?): T? {
+
+        return t.firstOrNull()
     }
 
     fun getBlobBuilder(uri: Uri): Uri {

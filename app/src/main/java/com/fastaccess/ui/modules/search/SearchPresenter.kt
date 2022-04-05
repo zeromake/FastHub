@@ -2,7 +2,6 @@ package com.fastaccess.ui.modules.search
 
 import android.widget.AutoCompleteTextView
 import androidx.viewpager.widget.ViewPager
-import com.annimon.stream.Stream
 import com.fastaccess.R
 import com.fastaccess.data.dao.model.SearchHistory
 import com.fastaccess.helper.AppHelper.hideKeyboard
@@ -50,8 +49,8 @@ class SearchPresenter : BasePresenter<SearchMvp.View>(), SearchMvp.Presenter {
             users.onQueueSearch(query)
             issues.onQueueSearch(query)
             code.onQueueSearch(query, true)
-            val noneMatch = Stream.of(hints)
-                .noneMatch { value: SearchHistory -> value.text.equals(query, ignoreCase = true) }
+            val noneMatch = hints
+                .any { value -> !value.text.equals(query, ignoreCase = true) }
             if (noneMatch) {
                 val searchHistory = SearchHistory(query)
                 manageObservable(searchHistory.save(searchHistory).toObservable())

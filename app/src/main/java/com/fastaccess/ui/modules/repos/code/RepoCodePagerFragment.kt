@@ -3,8 +3,6 @@ package com.fastaccess.ui.modules.repos.code
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.annimon.stream.Objects
-import com.annimon.stream.Stream
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.FragmentPagerAdapterModel.Companion.buildForRepoCode
@@ -49,14 +47,14 @@ class RepoCodePagerFragment : BaseFragment<RepoCodePagerMvp.View, RepoCodePagerP
                 childFragmentManager,
                 buildForRepoCode(
                     requireContext(), repoId!!, login!!, url!!,
-                    Objects.toString(defaultBranch, "master"), htmlUrl!!
+                    defaultBranch?:"master", htmlUrl!!
                 )
             )
             tabs!!.tabMode = TabLayout.MODE_SCROLLABLE
             tabs!!.setupWithViewPager(pager)
         }
         if (savedInstanceState != null && counts.isNotEmpty()) {
-            Stream.of(counts).forEach { model: TabsCountStateModel -> updateCount(model) }
+            counts.forEach { model: TabsCountStateModel -> updateCount(model) }
         }
         tabs!!.addOnTabSelectedListener(object : TabLayout.ViewPagerOnTabSelectedListener(pager) {
             override fun onTabReselected(tab: TabLayout.Tab) {

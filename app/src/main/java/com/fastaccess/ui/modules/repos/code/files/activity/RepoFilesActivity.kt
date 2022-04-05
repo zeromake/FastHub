@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
-import com.annimon.stream.Objects
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.NameParser
@@ -56,8 +55,7 @@ class RepoFilesActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FAV
             login = bundle!!.getString(BundleConstant.EXTRA)
             repoId = bundle.getString(BundleConstant.ID)
             val path = bundle.getString(BundleConstant.EXTRA_TWO)
-            val defaultBranch =
-                Objects.toString(bundle.getString(BundleConstant.EXTRA_THREE), "master")
+            val defaultBranch = bundle.getString(BundleConstant.EXTRA_THREE)?: "master"
             supportFragmentManager.beginTransaction()
                 .add(
                     R.id.fragmentContainer,

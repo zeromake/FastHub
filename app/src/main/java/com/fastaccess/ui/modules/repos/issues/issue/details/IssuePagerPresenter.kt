@@ -3,7 +3,6 @@ package com.fastaccess.ui.modules.repos.issues.issue.details
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import com.annimon.stream.Stream
 import com.fastaccess.R
 import com.fastaccess.data.dao.*
 import com.fastaccess.data.dao.IssueRequestModel.Companion.clone
@@ -240,7 +239,7 @@ class IssuePagerPresenter : BasePresenter<IssuePagerMvp.View>(), IssuePagerMvp.P
     override fun onPutAssignees(users: ArrayList<User>) {
         val assigneesRequestModel = AssigneesRequestModel()
         val assignees = ArrayList<String>()
-        Stream.of(users).forEach { userModel: User -> assignees.add(userModel.login) }
+        users.forEach { userModel: User -> assignees.add(userModel.login) }
         assigneesRequestModel.assignees = if (assignees.isEmpty())
             issue!!.assignees.map { obj -> obj!!.login }.toList() else assignees
         makeRestCall(

@@ -16,7 +16,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.ColorInt
-import com.annimon.stream.IntStream
 import com.fastaccess.R
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.google.android.material.tabs.TabLayout
@@ -223,8 +222,9 @@ object ViewHelper {
         if (layout != null) {
             val lines = layout.lineCount
             if (lines > 0) {
-                return IntStream.range(0, lines)
-                    .anyMatch { line: Int -> layout.getEllipsisCount(line) > 0 }
+                return (0 until lines).any {
+                    layout.getEllipsisCount(it) > 0
+                }
             }
         }
         return false

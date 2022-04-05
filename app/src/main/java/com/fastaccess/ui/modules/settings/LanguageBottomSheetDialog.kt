@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
-import com.annimon.stream.Stream
 import com.fastaccess.R
 import com.fastaccess.data.dao.AppLanguageModel
 import com.fastaccess.helper.Logger
@@ -50,14 +49,13 @@ class LanguageBottomSheetDialog : BaseBottomSheetDialog() {
         this.radioGroup = view.findViewById(R.id.picker)
         val language = PrefGetter.getAppLanguage(resources)
         val values = resources.getStringArray(R.array.languages_array_values)
-        val languageModels = Stream.of(*resources.getStringArray(R.array.languages_array))
+        val languageModels = resources.getStringArray(R.array.languages_array)
             .mapIndexed { index: Int, s: String? ->
                 AppLanguageModel(
                     values[index], s
                 )
             }
-            .sortBy { it.label!! }
-            .toList()
+            .sortedBy { it.label!! }
         val padding = resources.getDimensionPixelSize(R.dimen.spacing_xs_large)
         for (i in languageModels.indices) {
             val radioButtonView = RadioButton(context)
