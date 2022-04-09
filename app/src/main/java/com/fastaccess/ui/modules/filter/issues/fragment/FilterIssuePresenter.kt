@@ -1,7 +1,7 @@
 package com.fastaccess.ui.modules.filter.issues.fragment
 
 import android.view.View
-import com.fastaccess.data.dao.model.Issue
+import com.fastaccess.data.entity.Issue
 import com.fastaccess.provider.rest.RestProvider.getSearchService
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 

@@ -4,7 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.User
 import com.fastaccess.helper.ViewHelper.getWindowBackground
 import com.fastaccess.provider.scheme.LinkParserHelper.isEnterprise
 import com.fastaccess.ui.adapter.AssigneesAdapter

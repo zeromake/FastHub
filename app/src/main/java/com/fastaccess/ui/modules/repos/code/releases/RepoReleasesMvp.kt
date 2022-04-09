@@ -4,7 +4,7 @@ import com.fastaccess.ui.base.mvp.BaseMvp.FAView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.fastaccess.ui.widgets.dialog.ListDialogView.OnSimpleItemSelection
 import com.fastaccess.data.dao.SimpleUrlsModel
-import com.fastaccess.data.dao.model.Release
+import com.fastaccess.data.entity.Release
 import com.fastaccess.provider.rest.loadmore.OnLoadMore
 import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
 import com.fastaccess.ui.base.mvp.BaseMvp.PaginationListener

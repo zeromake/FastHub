@@ -2,7 +2,7 @@ package com.fastaccess.ui.adapter
 
 import android.view.ViewGroup
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.FastHubNotification
+import com.fastaccess.data.entity.FastHubNotification
 import com.fastaccess.ui.adapter.viewholder.FastHubNotificationViewHolder
 import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
 import com.fastaccess.ui.base.adapter.BaseViewHolder

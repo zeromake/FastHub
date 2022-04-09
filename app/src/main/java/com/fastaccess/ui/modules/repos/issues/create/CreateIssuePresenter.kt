@@ -6,7 +6,11 @@ import com.fastaccess.BuildConfig
 import com.fastaccess.R
 import com.fastaccess.data.dao.*
 import com.fastaccess.data.dao.IssueRequestModel.Companion.clone
-import com.fastaccess.data.dao.model.*
+import com.fastaccess.data.entity.Issue
+import com.fastaccess.data.entity.PullRequest
+import com.fastaccess.data.entity.Release
+import com.fastaccess.data.entity.User
+import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.InputHelper.toString
@@ -15,7 +19,6 @@ import com.fastaccess.provider.rest.RestProvider.getIssueService
 import com.fastaccess.provider.rest.RestProvider.getPullRequestService
 import com.fastaccess.provider.rest.RestProvider.getRepoService
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
-import net.grandcentrix.thirtyinch.ViewAction
 
 /**
  * Created by Kosh on 19 Feb 2017, 12:18 PM
@@ -24,18 +27,21 @@ class CreateIssuePresenter : BasePresenter<CreateIssueMvp.View>(), CreateIssueMv
     @com.evernote.android.state.State
     override var isCollaborator = false
     override fun checkAuthority(login: String, repoId: String) {
-        manageViewDisposable(
-            getObservable(
-                getRepoService(isEnterprise).isCollaborator(
-                    login,
-                    repoId,
-                    Login.getUser().login
-                )
-            )
-                .subscribe({ booleanResponse ->
-                    isCollaborator = booleanResponse.code() == 204
-                    sendToView { it.onShowIssueMisc() }
-                }) { obj -> obj.printStackTrace() })
+        val disposable = getObservable(
+            LoginDao.getUser()
+                .toObservable()
+                .flatMap {
+                    getRepoService(isEnterprise).isCollaborator(
+                        login,
+                        repoId,
+                        it.or().login!!,
+                    )
+                }
+        ).subscribe({ booleanResponse ->
+            isCollaborator = booleanResponse.code() == 204
+            sendToView { it.onShowIssueMisc() }
+        }) { obj -> obj.printStackTrace() }
+        manageViewDisposable(disposable)
     }
 
     override fun onActivityForResult(resultCode: Int, requestCode: Int, intent: Intent?) {
@@ -73,7 +79,7 @@ class CreateIssuePresenter : BasePresenter<CreateIssueMvp.View>(), CreateIssueMv
                         createIssue.labels = ArrayList(labels.mapNotNull { it.name })
                     }
                     if (users != null && users.isNotEmpty()) {
-                        createIssue.assignees = ArrayList(users.map { it.login })
+                        createIssue.assignees = ArrayList(users.map { it.login!! })
                     }
                     if (milestoneModel != null) {
                         createIssue.milestone = milestoneModel.number.toLong()
@@ -206,7 +212,7 @@ class CreateIssuePresenter : BasePresenter<CreateIssueMvp.View>(), CreateIssueMv
             getRepoService(false).getLatestRelease("k0shk0sh", "FastHub"),
             { release: Release? ->
                 if (release != null) {
-                    if (!BuildConfig.VERSION_NAME.contains(release.tagName)) {
+                    if (!BuildConfig.VERSION_NAME.contains(release.tagName!!)) {
                         sendToView { it.onShowUpdate() }
                     } else {
                         sendToView { it.hideProgress() }

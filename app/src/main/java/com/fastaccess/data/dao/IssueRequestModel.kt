@@ -2,8 +2,8 @@ package com.fastaccess.data.dao
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.fastaccess.data.dao.model.Issue
-import com.fastaccess.data.dao.model.PullRequest
+import com.fastaccess.data.entity.Issue
+import com.fastaccess.data.entity.PullRequest
 import com.fastaccess.data.dao.types.IssueState
 import com.fastaccess.utils.ParcelUtil
 
@@ -41,15 +41,15 @@ class IssueRequestModel : Parcelable {
         fun clone(issue: Issue, toClose: Boolean): IssueRequestModel {
             val model = IssueRequestModel()
             if (issue.labels != null) {
-                model.labels = (issue.labels.filter {
+                model.labels = (issue.labels!!.filter {
                     it.name != null
                 }.map {
                     it.name!!
                 })
             }
-            model.assignee = (if (issue.assignee != null) issue.assignee.name else null)
+            model.assignee = (if (issue.assignee != null) issue.assignee!!.name else null)
             model.body = (issue.body)
-            model.milestone = (if (issue.milestone != null) issue.milestone.number else null)
+            model.milestone = (if (issue.milestone != null) issue.milestone!!.number else null)
             model.state =
                 (if (toClose) if (issue.state == IssueState.closed) IssueState.open else IssueState.closed else issue.state)
             model.title = (issue.title)
@@ -60,16 +60,16 @@ class IssueRequestModel : Parcelable {
         fun clone(issue: PullRequest, toClose: Boolean): IssueRequestModel {
             val model = IssueRequestModel()
             if (issue.labels != null) {
-                model.labels = (issue.labels.filter {
+                model.labels = (issue.labels!!.filter {
                     it.name != null
                 }.map {
                     it.name!!
                 })
             }
-            model.base = (if (issue.base != null) issue.base.ref else "master")
-            model.assignee = (if (issue.assignee != null) issue.assignee.name else null)
+            model.base = (if (issue.base != null) issue.base!!.ref else "master")
+            model.assignee = (if (issue.assignee != null) issue.assignee!!.name else null)
             model.body = (issue.body)
-            model.milestone = (if (issue.milestone != null) issue.milestone.number else null)
+            model.milestone = (if (issue.milestone != null) issue.milestone!!.number else null)
             model.state =
                 (if (toClose) if (issue.state == IssueState.closed) IssueState.open else IssueState.closed else issue.state)
             model.title = (issue.title)

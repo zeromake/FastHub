@@ -1,7 +1,8 @@
 package com.fastaccess.ui.modules.profile.org
 
 import android.os.Bundle
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.User
+import com.fastaccess.data.entity.dao.UserDao
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.provider.rest.RestProvider.getOrgService
@@ -36,7 +37,9 @@ class OrgProfileOverviewPresenter : BasePresenter<OrgProfileOverviewMvp.View>(),
     }
 
     override fun onWorkOffline(login: String) {
-        onSendUserToView(User.getUser(login))
+        manageObservable(UserDao.getUser(login).toObservable()) {
+            onSendUserToView(it.get())
+        }
     }
 
 

@@ -1,8 +1,9 @@
 package com.fastaccess.ui.modules.pinned.repo
 
 import android.view.View
-import com.fastaccess.data.dao.model.AbstractPinnedRepos
-import com.fastaccess.data.dao.model.PinnedRepos
+import com.fastaccess.data.entity.PinnedRepos
+import com.fastaccess.data.entity.dao.PinnedReposDao
+import com.fastaccess.helper.RxHelper
 import com.fastaccess.provider.scheme.SchemeParser.launchUri
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 
@@ -19,16 +20,19 @@ class PinnedReposPresenter : BasePresenter<PinnedReposMvp.View>(), PinnedReposMv
     }
 
     override fun onReload() {
-        manageDisposable(AbstractPinnedRepos.getMyPinnedRepos()
-            .subscribe({ repos ->
-                sendToView { view -> view.onNotifyAdapter(repos) }
-            }) {
-                sendToView { view -> view.onNotifyAdapter(null) }
-            })
+        manageDisposable(
+            RxHelper.getObservable(
+                PinnedReposDao.getMyPinnedRepos().toObservable()
+            )
+                .subscribe({ repos ->
+                    sendToView { view -> view.onNotifyAdapter(repos) }
+                }) {
+                    sendToView { view -> view.onNotifyAdapter(null) }
+                })
     }
 
     override fun onItemClick(position: Int, v: View?, item: PinnedRepos) {
-        launchUri(v!!.context, item.pinnedRepo.htmlUrl)
+        launchUri(v!!.context, item.pinnedRepo!!.htmlUrl!!)
     }
 
     override fun onItemLongClick(position: Int, v: View?, item: PinnedRepos) {

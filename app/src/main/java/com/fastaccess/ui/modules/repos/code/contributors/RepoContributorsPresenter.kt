@@ -2,7 +2,7 @@ package com.fastaccess.ui.modules.repos.code.contributors
 
 import android.os.Bundle
 import android.view.View
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.User
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.provider.rest.RestProvider.getRepoService

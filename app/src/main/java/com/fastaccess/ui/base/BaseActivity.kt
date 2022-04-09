@@ -27,8 +27,8 @@ import com.evernote.android.state.State
 import com.evernote.android.state.StateSaver
 import com.fastaccess.App
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.FastHubNotification
-import com.fastaccess.data.dao.model.Login
+import com.fastaccess.data.entity.dao.FastHubNotificationDao
+import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.helper.*
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.PrefGetter.isNavDrawerHintShowed
@@ -144,7 +144,8 @@ abstract class BaseActivity<V : FAView, P : BasePresenter<V>> : TiActivity<P, V>
         if (!validateAuth()) return
         if (savedInstanceState == null) {
             if (showInAppNotifications()) {
-                show(supportFragmentManager)
+                // Todo disposable
+                val disposable = show(supportFragmentManager)
             }
         }
         showChangelog()
@@ -200,7 +201,7 @@ abstract class BaseActivity<V : FAView, P : BasePresenter<V>> : TiActivity<P, V>
     }
 
     override val isLoggedIn: Boolean
-        get() = Login.getUser() != null
+        get() = !LoginDao.getUser().blockingGet().isEmpty()
 
     override fun showProgress(@StringRes resId: Int) {
         showProgress(resId, true)
@@ -230,8 +231,7 @@ abstract class BaseActivity<V : FAView, P : BasePresenter<V>> : TiActivity<P, V>
             token = null
             otpCode = null
             resetEnterprise()
-            Login.logout()
-            true
+            LoginDao.logout().blockingGet()
         }).subscribe {
             glide.clearMemory()
             val intent = Intent(this, LoginChooserActivity::class.java)
@@ -585,7 +585,7 @@ abstract class BaseActivity<V : FAView, P : BasePresenter<V>> : TiActivity<P, V>
     }
 
     private fun showInAppNotifications(): Boolean {
-        return FastHubNotification.hasNotifications()
+        return FastHubNotificationDao.hasNotifications().blockingGet()
     }
 
 //    private val mainDrawerMenu: Menu?

@@ -4,7 +4,7 @@ import com.fastaccess.ui.base.mvp.BaseMvp.FAView
 import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
 import com.fastaccess.data.dao.FilesListModel
 import com.fastaccess.data.dao.CreateGistModel
-import com.fastaccess.data.dao.model.Gist
+import com.fastaccess.data.entity.Gist
 import java.util.HashMap
 
 /**

@@ -4,7 +4,7 @@ import com.fastaccess.ui.base.mvp.BaseMvp.FAView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import net.grandcentrix.thirtyinch.callonmainthread.CallOnMainThread
 import com.fastaccess.data.dao.GroupedNotificationModel
-import com.fastaccess.data.dao.model.Notification
+import com.fastaccess.data.entity.Notification
 import com.fastaccess.ui.base.adapter.BaseViewHolder
 
 /**

@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.PinnedRepos
+import com.fastaccess.data.entity.PinnedRepos
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.ParseDateFormat.Companion.getTimeAgo
 import com.fastaccess.provider.colors.ColorsProvider.getColorAsColor
@@ -33,30 +33,30 @@ class PinnedReposViewHolder private constructor(
     var language: FontTextView? = itemView.findViewById(R.id.language)
     var forked: String
     var privateRepo: String
-    var forkColor: Int
+    private var forkColor: Int
     var privateColor: Int
     override fun bind(t: PinnedRepos) {
         val repo = t.pinnedRepo ?: return
         when {
-            repo.isFork -> {
+            repo.fork -> {
                 title.text = builder()
                     .append(" $forked ", LabelSpan(forkColor))
                     .append(" ")
-                    .append(repo.name, LabelSpan(Color.TRANSPARENT))
+                    .append(repo.name!!, LabelSpan(Color.TRANSPARENT))
             }
-            repo.isPrivateX -> {
+            repo.privateX -> {
                 title.text = builder()
                     .append(" $privateRepo ", LabelSpan(privateColor))
                     .append(" ")
-                    .append(repo.name, LabelSpan(Color.TRANSPARENT))
+                    .append(repo.name!!, LabelSpan(Color.TRANSPARENT))
             }
             else -> {
                 title.text = repo.fullName
             }
         }
-        val avatar = if (repo.owner != null) repo.owner.avatarUrl else null
-        val login = if (repo.owner != null) repo.owner.login else null
-        val isOrg = repo.owner != null && repo.owner.isOrganizationType
+        val avatar = if (repo.owner != null) repo.owner!!.avatarUrl else null
+        val login = if (repo.owner != null) repo.owner!!.login else null
+        val isOrg = repo.owner != null && repo.owner!!.isOrganizationType
         if (avatarLayout != null) {
             avatarLayout!!.visibility = View.VISIBLE
             avatarLayout!!.setUrl(avatar, login, isOrg, isEnterprise(repo.htmlUrl))
@@ -68,7 +68,7 @@ class PinnedReposViewHolder private constructor(
             date!!.text = getTimeAgo(repo.updatedAt)
             if (!isEmpty(repo.language)) {
                 language!!.text = repo.language
-                language!!.setTextColor(getColorAsColor(repo.language, language!!.context))
+                language!!.setTextColor(getColorAsColor(repo.language!!, language!!.context))
                 language!!.visibility = View.VISIBLE
             }
         }
@@ -91,11 +91,11 @@ class PinnedReposViewHolder private constructor(
     }
 
     init {
-        val `$$context` = itemView.context
-        val `$$res` = `$$context`.resources
-        forked = `$$res`.getString(R.string.forked)
-        privateRepo = `$$res`.getString(R.string.private_repo)
-        forkColor = ContextCompat.getColor(`$$context`, R.color.material_indigo_700)
-        privateColor = ContextCompat.getColor(`$$context`, R.color.material_grey_700)
+        val context = itemView.context
+        val res = context.resources
+        forked = res.getString(R.string.forked)
+        privateRepo = res.getString(R.string.private_repo)
+        forkColor = ContextCompat.getColor(context, R.color.material_indigo_700)
+        privateColor = ContextCompat.getColor(context, R.color.material_grey_700)
     }
 }

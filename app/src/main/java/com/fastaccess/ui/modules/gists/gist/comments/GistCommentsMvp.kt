@@ -2,8 +2,8 @@ package com.fastaccess.ui.modules.gists.gist.comments
 
 import android.os.Bundle
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
-import com.fastaccess.data.dao.model.Comment
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.Comment
+import com.fastaccess.data.entity.User
 import com.fastaccess.provider.rest.loadmore.OnLoadMore
 import com.fastaccess.ui.base.mvp.BaseMvp.*
 import com.fastaccess.ui.base.adapter.BaseViewHolder

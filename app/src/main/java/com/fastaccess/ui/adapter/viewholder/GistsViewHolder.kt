@@ -3,7 +3,7 @@ package com.fastaccess.ui.adapter.viewholder
 import android.view.View
 import android.view.ViewGroup
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.Gist
+import com.fastaccess.data.entity.Gist
 import com.fastaccess.helper.ParseDateFormat.Companion.getTimeAgo
 import com.fastaccess.provider.scheme.LinkParserHelper.isEnterprise
 import com.fastaccess.ui.adapter.GistsAdapter
@@ -27,12 +27,12 @@ class GistsViewHolder private constructor(
         if (!isFromProfile) {
             if (avatar != null) {
                 val url =
-                    if (t.owner != null) t.owner.avatarUrl else (if (t.user != null) t.user.avatarUrl else null)!!
+                    if (t.owner != null) t.owner!!.avatarUrl else (if (t.user != null) t.user!!.avatarUrl else null)!!
                 val login =
-                    if (t.owner != null) t.owner.login else (if (t.user != null) t.user.login else null)!!
+                    if (t.owner != null) t.owner!!.login else (if (t.user != null) t.user!!.login else null)!!
                 avatar.setUrl(
                     url, login, false, isEnterprise(
-                        if (t.owner != null) t.owner.htmlUrl else if (t.user != null) t.user.htmlUrl else null
+                        if (t.owner != null) t.owner!!.htmlUrl else if (t.user != null) t.user!!.htmlUrl else null
                     )
                 )
             }

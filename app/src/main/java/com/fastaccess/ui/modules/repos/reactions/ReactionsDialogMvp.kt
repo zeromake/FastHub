@@ -4,7 +4,7 @@ import com.fastaccess.ui.base.mvp.BaseMvp.FAView
 import com.fastaccess.provider.rest.loadmore.OnLoadMore
 import com.fastaccess.ui.base.mvp.BaseMvp.PaginationListener
 import android.os.Bundle
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.User
 import java.util.ArrayList
 
 /**

@@ -2,7 +2,7 @@ package com.fastaccess.ui.modules.search.users
 
 import android.view.View
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.User
 import com.fastaccess.provider.rest.RestProvider.getSearchService
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 

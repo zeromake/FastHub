@@ -1,10 +1,10 @@
 package com.fastaccess.data.service
 
 import com.fastaccess.data.dao.Pageable
-import com.fastaccess.data.dao.model.Event
-import com.fastaccess.data.dao.model.Login
-import com.fastaccess.data.dao.model.Repo
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.Event
+import com.fastaccess.data.entity.Login
+import com.fastaccess.data.entity.Repo
+import com.fastaccess.data.entity.User
 import io.reactivex.Observable
 import retrofit2.Response
 import retrofit2.http.*

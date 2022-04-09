@@ -1,7 +1,7 @@
 package com.fastaccess.ui.modules.gists.starred
 
 import android.view.View
-import com.fastaccess.data.dao.model.Gist
+import com.fastaccess.data.entity.Gist
 import com.fastaccess.provider.rest.RestProvider.getGistService
 import com.fastaccess.provider.scheme.SchemeParser.launchUri
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
@@ -33,7 +33,8 @@ class StarredGistsPresenter : BasePresenter<StarredGistsMvp.View>(),
             sendToView { it.hideProgress() }
             return false
         }
-        makeRestCall(getGistService(isEnterprise).getStarredGists(page)
+        makeRestCall(
+            getGistService(isEnterprise).getStarredGists(page)
         ) { listResponse ->
             lastPage = listResponse.last
             sendToView { view ->
@@ -48,7 +49,7 @@ class StarredGistsPresenter : BasePresenter<StarredGistsMvp.View>(),
 
     override fun onWorkOffline(login: String) {} // do nothing for now.
     override fun onItemClick(position: Int, v: View?, item: Gist) {
-        launchUri(v!!.context, item.htmlUrl)
+        launchUri(v!!.context, item.htmlUrl!!)
     }
 
     override fun onItemLongClick(position: Int, v: View?, item: Gist) {}

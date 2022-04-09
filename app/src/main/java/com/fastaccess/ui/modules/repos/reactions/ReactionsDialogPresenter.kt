@@ -3,7 +3,7 @@ package com.fastaccess.ui.modules.repos.reactions
 import android.os.Bundle
 import com.fastaccess.data.dao.Pageable
 import com.fastaccess.data.dao.ReactionsModel
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.User
 import com.fastaccess.data.dao.types.ReactionTypes
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.provider.rest.RestProvider.getReactionsService

@@ -13,7 +13,7 @@ import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.FragmentPagerAdapterModel.Companion.buildForSearch
 import com.fastaccess.data.dao.TabsCountStateModel
-import com.fastaccess.data.dao.model.SearchHistory
+import com.fastaccess.data.entity.SearchHistory
 import com.fastaccess.helper.AnimHelper.animateVisibility
 import com.fastaccess.helper.ViewHelper.getTabTextView
 import com.fastaccess.ui.adapter.FragmentsPagerAdapter

@@ -5,7 +5,7 @@ import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
 import android.content.Intent
 import android.net.Uri
 import com.fastaccess.data.dao.AccessTokenModel
-import com.fastaccess.data.dao.model.Login
+import com.fastaccess.data.entity.Login
 
 /**
  * Created by Kosh on 09 Nov 2016, 9:41 PM

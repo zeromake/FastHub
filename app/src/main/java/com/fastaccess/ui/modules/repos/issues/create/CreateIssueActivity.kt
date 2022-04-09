@@ -24,9 +24,9 @@ import com.fastaccess.R
 import com.fastaccess.data.dao.LabelListModel
 import com.fastaccess.data.dao.LabelModel
 import com.fastaccess.data.dao.MilestoneModel
-import com.fastaccess.data.dao.model.Issue
-import com.fastaccess.data.dao.model.PullRequest
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.Issue
+import com.fastaccess.data.entity.PullRequest
+import com.fastaccess.data.entity.User
 import com.fastaccess.helper.*
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.InputHelper.toString
@@ -188,12 +188,12 @@ class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresent
             if (issue != null) {
                 e(issue!!.labels, issue!!.milestone, issue!!.assignees)
                 if (issue!!.labels != null) {
-                    onSelectedLabels(ArrayList(issue!!.labels.filterNotNull()))
+                    onSelectedLabels(ArrayList(issue!!.labels!!.filterNotNull()))
                 }
                 if (issue!!.assignees != null) {
                     onSelectedAssignees(
                         ArrayList(
-                            issue!!.assignees.filterNotNull()
+                            issue!!.assignees!!.filterNotNull()
                         ), false
                     )
                 }
@@ -205,18 +205,18 @@ class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresent
                     if (title!!.editText != null) title!!.editText!!.setText(issue!!.title)
                 }
                 if (!isEmpty(issue!!.body)) {
-                    onSetCode(issue!!.body)
+                    onSetCode(issue!!.body!!)
                 }
             }
             if (pullRequest != null) {
                 if (pullRequest!!.labels != null) {
-                    onSelectedLabels(ArrayList(pullRequest!!.labels.filterNotNull()))
+                    onSelectedLabels(ArrayList(pullRequest!!.labels!!.filterNotNull()))
                 }
                 if (pullRequest!!.assignees != null) {
-                    users.addAll(pullRequest!!.assignees.filterNotNull())
+                    users.addAll(pullRequest!!.assignees!!.filterNotNull())
                     onSelectedAssignees(
                         ArrayList(
-                            pullRequest!!.assignees.filterNotNull()
+                            pullRequest!!.assignees!!.filterNotNull()
                         ), false
                     )
                 }
@@ -229,7 +229,7 @@ class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresent
                         .setText(pullRequest!!.title)
                 }
                 if (!isEmpty(pullRequest!!.body)) {
-                    onSetCode(pullRequest!!.body)
+                    onSetCode(pullRequest!!.body!!)
                 }
             }
         }

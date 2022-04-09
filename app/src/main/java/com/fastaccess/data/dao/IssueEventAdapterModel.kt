@@ -1,9 +1,9 @@
 package com.fastaccess.data.dao
 
 import android.os.Parcelable
-import com.fastaccess.data.dao.model.IssueEvent
+import com.fastaccess.data.entity.IssueEvent
 import android.os.Parcel
-import com.fastaccess.data.dao.model.Issue
+import com.fastaccess.data.entity.Issue
 import java.util.ArrayList
 
 /**

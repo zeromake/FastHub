@@ -18,11 +18,11 @@ import com.fastaccess.data.dao.FragmentPagerAdapterModel.Companion.buildForPullR
 import com.fastaccess.data.dao.LabelModel
 import com.fastaccess.data.dao.MilestoneModel
 import com.fastaccess.data.dao.ReviewRequestModel
-import com.fastaccess.data.dao.model.Login
-import com.fastaccess.data.dao.model.PinnedPullRequests
-import com.fastaccess.data.dao.model.PullRequest
-import com.fastaccess.data.dao.model.User
 import com.fastaccess.data.dao.types.IssueState
+import com.fastaccess.data.entity.PullRequest
+import com.fastaccess.data.entity.User
+import com.fastaccess.data.entity.dao.LoginDao
+import com.fastaccess.data.entity.dao.PinnedPullRequestsDao
 import com.fastaccess.helper.ActivityHelper
 import com.fastaccess.helper.AnimHelper.mimicFabVisibility
 import com.fastaccess.helper.BundleConstant
@@ -72,7 +72,7 @@ open class PullRequestPagerActivity :
     val size: FontTextView? by lazy { viewFind(R.id.size) }
     val date: FontTextView? by lazy { viewFind(R.id.date) }
     val tabs: TabLayout? by lazy { viewFind(R.id.tabs) }
-    val pager: ViewPagerView? by lazy { viewFind(R.id.startGist) }
+    val pager: ViewPagerView? by lazy { viewFind(R.id.pager) }
     val fab: FloatingActionButton? by lazy { viewFind(R.id.fab) }
     val detailsIcon: View? by lazy { viewFind(R.id.detailsIcon) }
     private val reviewsCount: FontTextView? by lazy { viewFind(R.id.reviewsCount) }
@@ -91,7 +91,7 @@ open class PullRequestPagerActivity :
             )
         ) newInstance(
             String.format("%s/%s", presenter!!.login, presenter!!.repoId),
-            presenter!!.pullRequest!!.title, isMarkDown = false, hideCancel = true
+            presenter!!.pullRequest!!.title!!, isMarkDown = false, hideCancel = true
         )
             .show(supportFragmentManager, MessageDialogView.TAG)
     }
@@ -185,7 +185,7 @@ open class PullRequestPagerActivity :
         }
         val pullRequest = presenter!!.pullRequest ?: return false
         if (item.itemId == R.id.share) {
-            ActivityHelper.shareUrl(this, pullRequest.htmlUrl)
+            ActivityHelper.shareUrl(this, pullRequest.htmlUrl!!)
             return true
         } else if (item.itemId == R.id.closeIssue) {
             newInstance(
@@ -258,7 +258,7 @@ open class PullRequestPagerActivity :
                     .show(supportFragmentManager, "MergePullRequestDialogFragment")
             }
         } else if (item.itemId == R.id.browser) {
-            ActivityHelper.startCustomTab(this, pullRequest.htmlUrl)
+            ActivityHelper.startCustomTab(this, pullRequest.htmlUrl!!)
             return true
         } else if (item.itemId == R.id.reviewChanges) {
             if (isProEnabled) {
@@ -308,9 +308,9 @@ open class PullRequestPagerActivity :
         assignees.isVisible = isCollaborator || isRepoOwner
         edit.isVisible = isCollaborator || isRepoOwner || isOwner
         if (presenter!!.pullRequest != null) {
-            val isPinned = PinnedPullRequests.isPinned(
+            val isPinned = PinnedPullRequestsDao.isPinned(
                 presenter!!.pullRequest!!.id
-            )
+            ).blockingGet()
             pinUnpin.icon = if (isPinned) ContextCompat.getDrawable(
                 this,
                 R.drawable.ic_pin_filled
@@ -541,13 +541,14 @@ open class PullRequestPagerActivity :
     private fun addPrReview() {
         val pullRequest = presenter!!.pullRequest ?: return
         val author =
-            (if (pullRequest.user != null) pullRequest.user else if (pullRequest.head != null && pullRequest.head.author != null) pullRequest.head.author else pullRequest.user)
+            (if (pullRequest.user != null) pullRequest.user else if (pullRequest.head != null && pullRequest.head!!.author != null) pullRequest.head!!.author else pullRequest.user)
                 ?: return
         val requestModel = ReviewRequestModel()
         requestModel.comments =
             if (presenter.commitComment.isEmpty()) null else presenter.commitComment
-        requestModel.commitId = pullRequest.head.sha
-        val isAuthor = Login.getUser().login.equals(author.login, ignoreCase = true)
+        requestModel.commitId = pullRequest.head!!.sha
+        val isAuthor =
+            LoginDao.getUser().blockingGet().or().login.equals(author.login, ignoreCase = true)
         startForResult(
             requestModel,
             presenter!!.repoId!!,
@@ -555,7 +556,7 @@ open class PullRequestPagerActivity :
             pullRequest.number.toLong(),
             isAuthor,
             isEnterprise,
-            pullRequest.isMerged
+            pullRequest.merged
                     || pullRequest.state === IssueState.closed
         )
             .show(supportFragmentManager, ReviewChangesFragment::class.java.simpleName)

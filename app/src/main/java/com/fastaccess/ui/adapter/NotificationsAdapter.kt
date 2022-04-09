@@ -50,7 +50,7 @@ class NotificationsAdapter :
             (holder as NotificationsHeaderViewHolder).bind(getItem(position)!!)
             if (hideClear) if (getItem(
                     (position + 1).coerceAtMost(itemCount - 1)
-                )!!.notification!!.isUnread
+                )!!.notification!!.unread
             ) {
                 holder.itemView.findViewById<View>(R.id.markAsRead).visibility =
                     View.VISIBLE

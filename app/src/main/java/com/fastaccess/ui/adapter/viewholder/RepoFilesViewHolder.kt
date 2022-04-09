@@ -4,7 +4,7 @@ import android.text.format.Formatter
 import android.view.View
 import android.view.ViewGroup
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.RepoFile
+import com.fastaccess.data.entity.RepoFile
 import com.fastaccess.data.dao.types.FilesType
 import com.fastaccess.ui.adapter.RepoFilesAdapter
 import com.fastaccess.ui.base.adapter.BaseViewHolder
@@ -34,8 +34,8 @@ class RepoFilesViewHolder private constructor(
     override fun bind(t: RepoFile) {
         contentTypeImage.contentDescription = String.format("%s %s", t.name, file)
         title.text = t.name
-        if (t.type != null && t.type.icon != 0) {
-            contentTypeImage.setImageResource(t.type.icon)
+        if (t.type != null && t.type!!.icon != 0) {
+            contentTypeImage.setImageResource(t.type!!.icon)
             if (t.type === FilesType.file) {
                 size.text = Formatter.formatFileSize(size.context, t.size)
                 size.visibility = View.VISIBLE

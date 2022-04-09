@@ -8,7 +8,7 @@ import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
 import com.fastaccess.ui.base.mvp.BaseMvp.PaginationListener
 import android.os.Bundle
 import android.view.View
-import com.fastaccess.data.dao.model.PullRequest
+import com.fastaccess.data.entity.PullRequest
 import com.fastaccess.data.dao.types.IssueState
 import com.fastaccess.ui.base.adapter.BaseViewHolder
 import java.util.ArrayList

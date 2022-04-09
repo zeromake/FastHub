@@ -3,7 +3,7 @@ package com.fastaccess.ui.modules.main.pullrequests
 import android.view.View
 import com.fastaccess.ui.base.mvp.BaseMvp.FAView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
-import com.fastaccess.data.dao.model.PullRequest
+import com.fastaccess.data.entity.PullRequest
 import com.fastaccess.data.dao.types.IssueState
 import com.fastaccess.provider.rest.loadmore.OnLoadMore
 import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter

@@ -11,7 +11,7 @@ import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
 import com.fastaccess.ui.base.adapter.BaseViewHolder
 import com.fastaccess.ui.base.mvp.BaseMvp.PaginationListener
 import android.os.Bundle
-import com.fastaccess.data.dao.model.Event
+import com.fastaccess.data.entity.Event
 
 /**
  * Created by Kosh on 11 Nov 2016, 12:35 PM

@@ -2,7 +2,8 @@ package com.fastaccess.ui.modules.profile.org.repos
 
 import android.view.View
 import com.fastaccess.data.dao.FilterOptionsModel
-import com.fastaccess.data.dao.model.Repo
+import com.fastaccess.data.entity.Repo
+import com.fastaccess.data.entity.dao.RepoDao
 import com.fastaccess.helper.RxHelper.getObservable
 import com.fastaccess.provider.rest.RestProvider.getOrgService
 import com.fastaccess.provider.scheme.SchemeParser.launchUri
@@ -42,15 +43,18 @@ class OrgReposPresenter : BasePresenter<OrgReposMvp.View>(), OrgReposMvp.Present
             return false
         }
         filterOptions.isOrg = true
-        makeRestCall(getOrgService(isEnterprise).getOrgRepos(
-            parameter,
-            filterOptions.getQueryMap(),
-            page
-        )
+        makeRestCall(
+            getOrgService(isEnterprise).getOrgRepos(
+                parameter,
+                filterOptions.getQueryMap(),
+                page
+            )
         ) { repoModelPageable ->
             lastPage = repoModelPageable.last
             if (currentPage == 1) {
-                manageDisposable(Repo.saveMyRepos(repoModelPageable.items!!, parameter))
+                manageObservable(
+                    RepoDao.saveMyRepos(repoModelPageable.items!!, parameter).toObservable()
+                )
             }
             sendToView { view ->
                 view.onNotifyAdapter(
@@ -66,7 +70,7 @@ class OrgReposPresenter : BasePresenter<OrgReposMvp.View>(), OrgReposMvp.Present
         if (repos.isEmpty()) {
             manageDisposable(
                 getObservable(
-                    Repo.getMyRepos(login).toObservable()
+                    RepoDao.getMyRepos(login).toObservable()
                 ).subscribe { repoModels ->
                     sendToView { view: OrgReposMvp.View ->
                         view.onNotifyAdapter(
@@ -89,7 +93,7 @@ class OrgReposPresenter : BasePresenter<OrgReposMvp.View>(), OrgReposMvp.Present
     }
 
     override fun onItemClick(position: Int, v: View?, item: Repo) {
-        launchUri(v!!.context, item.htmlUrl)
+        launchUri(v!!.context, item.htmlUrl!!)
     }
 
     override fun onItemLongClick(position: Int, v: View?, item: Repo) {}

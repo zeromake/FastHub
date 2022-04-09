@@ -1,7 +1,7 @@
 package com.fastaccess.data.dao
 
-import com.fastaccess.data.dao.model.Notification
-import com.fastaccess.data.dao.model.Repo
+import com.fastaccess.data.entity.Notification
+import com.fastaccess.data.entity.Repo
 import com.fastaccess.helper.InputHelper
 import java.util.*
 
@@ -45,15 +45,15 @@ class GroupedNotificationModel {
             val models: MutableList<GroupedNotificationModel> = ArrayList()
             if (items.isEmpty()) return models
             val grouped: Map<Repo, List<Notification>?> = items.asSequence()
-                .filter { value: Notification -> !value.isUnread }
-                .groupByTo(mutableMapOf()) { it.repository }
+                .filter { value: Notification -> !value.unread }
+                .groupByTo(mutableMapOf()) { it.repository!! }
 
             grouped.asSequence()
                 .filter { (_, value) -> value != null && value.isNotEmpty() }
                 .forEach { (repo, notifications) ->
                     models.add(GroupedNotificationModel(repo))
                     notifications?.asSequence()?.sortedWith { o1: Notification, o2: Notification ->
-                        o2.updatedAt.compareTo(o1.updatedAt)
+                        o2.updatedAt!!.compareTo(o1.updatedAt)
                     }?.forEach { notification: Notification ->
                         models.add(
                             GroupedNotificationModel(

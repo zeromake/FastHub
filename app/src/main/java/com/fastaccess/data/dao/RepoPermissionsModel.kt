@@ -1,8 +1,7 @@
 package com.fastaccess.data.dao
 
-import android.os.Parcelable
 import android.os.Parcel
-import com.fastaccess.data.dao.RepoPermissionsModel
+import android.os.Parcelable
 
 /**
  * Created by Kosh on 03 Dec 2016, 11:12 AM
@@ -12,7 +11,7 @@ open class RepoPermissionsModel : Parcelable {
     var push = false
     var pull = false
 
-    constructor() {}
+    constructor()
 
     override fun describeContents(): Int {
         return 0

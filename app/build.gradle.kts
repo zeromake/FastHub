@@ -88,7 +88,7 @@ dependencies {
     implementation("androidx.palette:palette-ktx:1.0.0")
     implementation("androidx.compose.ui:ui:1.1.1")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    implementation("androidx.core:core-splashscreen:1.0.0-beta01")
+    implementation("androidx.core:core-splashscreen:1.0.0-beta02")
 
     // thirtyinch
     implementation("com.github.Grandcentrix.ThirtyInch:thirtyinch:v1.0.1")
@@ -140,8 +140,8 @@ dependencies {
     implementation("com.github.daniel-stoneuk:material-about-library:2.1.0")
 
     // requery
-    implementation("io.requery:requery:1.6.0")
-    implementation("io.requery:requery-android:1.6.0")
+//    implementation("io.requery:requery:1.6.0")
+//    implementation("io.requery:requery-android:1.6.0")
 //    kapt("io.requery:requery-processor:1.6.0")
 
     // about lib
@@ -164,7 +164,7 @@ dependencies {
     implementation("com.atlassian.commonmark:commonmark-ext-yaml-front-matter:0.17.0")
 
     // firebase
-    implementation("com.google.firebase:firebase-core:20.1.1")
+    implementation("com.google.firebase:firebase-core:20.1.2")
     implementation("com.google.firebase:firebase-messaging:23.0.2")
     implementation("com.google.firebase:firebase-database:20.0.4")
 //    implementation("com.firebase:firebase-jobdispatcher:0.8.6")
@@ -215,6 +215,16 @@ dependencies {
     implementation("com.tencent.bugly:crashreport:4.0.0")
 
 
+    // objectbox
+    implementation("io.objectbox:objectbox-kotlin:3.1.2")
+    implementation("io.objectbox:objectbox-rxjava:3.1.2")
+    debugImplementation("io.objectbox:objectbox-android-objectbrowser:3.1.2")
+    releaseImplementation("io.objectbox:objectbox-android:3.1.2")
+
+
+    // cache
+//    implementation("com.github.ben-manes.caffeine:caffeine:3.0.6")
+
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:4.4.0")
     testImplementation("org.assertj:assertj-core:3.22.0")
@@ -228,6 +238,7 @@ dependencies {
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.8.1")
 }
 
+apply(plugin = "io.objectbox")
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8

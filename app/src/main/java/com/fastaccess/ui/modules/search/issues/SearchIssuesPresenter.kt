@@ -2,7 +2,7 @@ package com.fastaccess.ui.modules.search.issues
 
 import android.view.View
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.Issue
+import com.fastaccess.data.entity.Issue
 import com.fastaccess.provider.rest.RestProvider.getSearchService
 import com.fastaccess.provider.scheme.SchemeParser.launchUri
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
@@ -46,7 +46,7 @@ class SearchIssuesPresenter : BasePresenter<SearchIssuesMvp.View>(),
     }
 
     override fun onItemClick(position: Int, v: View?, item: Issue) {
-        launchUri(v!!.context, item.htmlUrl)
+        launchUri(v!!.context, item.htmlUrl!!)
     }
 
     override fun onItemLongClick(position: Int, v: View?, item: Issue) {

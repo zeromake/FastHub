@@ -1,6 +1,6 @@
 package com.fastaccess.ui.modules.repos.extras.assignees
 
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.User
 import com.fastaccess.ui.base.mvp.BaseMvp.FAView
 import com.fastaccess.ui.adapter.AssigneesAdapter.OnSelectAssignee
 import java.util.ArrayList

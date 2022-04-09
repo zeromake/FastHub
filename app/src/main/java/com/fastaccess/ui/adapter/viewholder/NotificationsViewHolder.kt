@@ -30,16 +30,16 @@ class NotificationsViewHolder private constructor(
     private val showUnreadState: Boolean
     override fun bind(t: GroupedNotificationModel) {
         val thread = t.notification
-        if (thread != null && thread.subject != null) {
-            title.text = thread.subject.title
+        if (thread?.subject != null) {
+            title.text = thread.subject!!.title
             val cardBackground = getCardBackground(itemView.context)
             val color: Int
             date.text = getTimeAgo(thread.updatedAt)
             markAsRead.visibility =
-                if (thread.isUnread) View.VISIBLE else View.GONE
-            if (thread.subject.type != null) {
-                notificationType.setImageResource(thread.subject.type!!.drawableRes)
-                notificationType.contentDescription = thread.subject.type!!.name
+                if (thread.unread) View.VISIBLE else View.GONE
+            if (thread.subject!!.type != null) {
+                notificationType.setImageResource(thread.subject!!.type!!.drawableRes)
+                notificationType.contentDescription = thread.subject!!.type!!.name
             } else {
                 notificationType.setImageResource(R.drawable.ic_info_outline)
             }
@@ -50,10 +50,10 @@ class NotificationsViewHolder private constructor(
                 } else {
                     ContextCompat.getColor(itemView.context, R.color.material_blue_grey_200)
                 }
-                (itemView as CardView).setCardBackgroundColor(if (thread.isUnread) color else cardBackground)
+                (itemView as CardView).setCardBackgroundColor(if (thread.unread) color else cardBackground)
             } else {
                 repoName.visibility = View.VISIBLE
-                repoName.text = thread.repository.fullName
+                repoName.text = thread.repository!!.fullName
             }
         }
     }

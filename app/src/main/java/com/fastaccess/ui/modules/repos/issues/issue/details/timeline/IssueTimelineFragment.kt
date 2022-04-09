@@ -14,9 +14,9 @@ import com.fastaccess.R
 import com.fastaccess.data.dao.TimelineModel
 import com.fastaccess.data.dao.TimelineModel.Companion.constructComment
 import com.fastaccess.data.dao.TimelineModel.Companion.constructHeader
-import com.fastaccess.data.dao.model.Comment
-import com.fastaccess.data.dao.model.Issue
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.Comment
+import com.fastaccess.data.entity.Issue
+import com.fastaccess.data.entity.User
 import com.fastaccess.data.dao.types.ReactionTypes
 import com.fastaccess.helper.ActivityHelper.startLauncher
 import com.fastaccess.helper.BundleConstant
@@ -138,7 +138,7 @@ class IssueTimelineFragment : BaseFragment<IssueTimelineMvp.View, IssueTimelineP
         adapter = if (issueCallback != null && issueCallback!!.data != null) {
             IssuesTimelineAdapter(
                 presenter!!.events, this, true,
-                this, issueCallback!!.data!!.login, issueCallback!!.data!!.user.login
+                this, issueCallback!!.data!!.login, issueCallback!!.data!!.user!!.login
             )
         } else {
             IssuesTimelineAdapter(
@@ -238,7 +238,7 @@ class IssueTimelineFragment : BaseFragment<IssueTimelineMvp.View, IssueTimelineP
 
     override fun onTagUser(user: User?) {
         if (commentsCallback != null) if (user != null) {
-            commentsCallback!!.onTagUser(user.login)
+            commentsCallback!!.onTagUser(user.login!!)
         }
     }
 
@@ -337,8 +337,8 @@ class IssueTimelineFragment : BaseFragment<IssueTimelineMvp.View, IssueTimelineP
         CreateIssueActivity.startForResult(
             this.requireActivity(),
             launcher,
-            issue.login,
-            issue.repoId,
+            issue.login!!,
+            issue.repoId!!,
             issue,
             isEnterprise
         )

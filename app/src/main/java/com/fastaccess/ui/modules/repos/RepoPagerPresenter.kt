@@ -4,14 +4,15 @@ import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.AbstractPinnedRepos
-import com.fastaccess.data.dao.model.Login
-import com.fastaccess.data.dao.model.PinnedRepos
-import com.fastaccess.data.dao.model.Repo
+import com.fastaccess.data.entity.Repo
+import com.fastaccess.data.entity.dao.LoginDao
+import com.fastaccess.data.entity.dao.PinnedReposDao
+import com.fastaccess.data.entity.dao.RepoDao
 import com.fastaccess.helper.ActivityHelper.getVisibleFragment
 import com.fastaccess.helper.AppHelper.getFragmentByTag
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.RxHelper.getObservable
+import com.fastaccess.helper.RxHelper.getSingle
 import com.fastaccess.provider.rest.RestProvider.getErrorCode
 import com.fastaccess.provider.rest.RestProvider.getRepoService
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
@@ -22,6 +23,7 @@ import com.fastaccess.ui.modules.repos.projects.RepoProjectsFragmentPager
 import com.fastaccess.ui.modules.repos.projects.RepoProjectsFragmentPager.Companion.TAG
 import com.fastaccess.ui.modules.repos.projects.RepoProjectsFragmentPager.Companion.newInstance
 import com.fastaccess.ui.modules.repos.pull_requests.RepoPullRequestPagerFragment
+import com.fastaccess.utils.Optional
 import io.reactivex.Observable
 
 /**
@@ -55,22 +57,27 @@ class RepoPagerPresenter : BasePresenter<RepoPagerMvp.View>(), RepoPagerMvp.Pres
     var isCollaborator = false
     private fun callApi(navTyp: Int) {
         if (isEmpty(login) || isEmpty(repoId)) return
-        makeRestCall(
-            Observable.zip(getRepoService(isEnterprise).getRepo(login(),
-                repoId()
-            ),
+        val observable = LoginDao.getUser().toObservable().flatMap {
+            Observable.zip(
+                getRepoService(isEnterprise).getRepo(
+                    login(),
+                    repoId()
+                ),
                 getRepoService(isEnterprise).isCollaborator(
                     login!!,
                     repoId!!,
-                    Login.getUser().login
+                    it.or().login!!
                 )
             ) { repo1, booleanResponse ->
                 isCollaborator = booleanResponse.code() == 204
                 repo1
             }
-        ) { repoModel: Repo? ->
+        }
+        makeRestCall(
+            observable
+        ) { repoModel: Repo ->
             repo = repoModel
-            manageDisposable(repo!!.save(repo))
+            manageObservable(RepoDao.save(repo!!).toObservable())
             updatePinned(repoModel)
             sendToView { view ->
                 view.onInitRepo()
@@ -92,7 +99,7 @@ class RepoPagerPresenter : BasePresenter<RepoPagerMvp.View>(), RepoPagerMvp.Pres
     }
 
     override fun onUpdatePinnedEntry(repoId: String, login: String) {
-        manageDisposable(PinnedRepos.updateEntry("$login/$repoId"))
+        manageObservable(PinnedReposDao.updateEntry("$login/$repoId").toObservable())
     }
 
     override fun onActivityCreate(repoId: String, login: String, navTyp: Int) {
@@ -116,7 +123,8 @@ class RepoPagerPresenter : BasePresenter<RepoPagerMvp.View>(), RepoPagerMvp.Pres
 
     override val isRepoOwner: Boolean
         get() = if (repo != null && repo!!.owner != null) {
-            repo!!.owner.login == Login.getUser().login || isCollaborator
+            val login = LoginDao.getUser().blockingGet().or()
+            repo!!.owner!!.login == login.login || isCollaborator
         } else false
 
     override fun onWatch() {
@@ -203,13 +211,13 @@ class RepoPagerPresenter : BasePresenter<RepoPagerMvp.View>(), RepoPagerMvp.Pres
     override fun onWorkOffline() {
         if (!isEmpty(login()) && !isEmpty(repoId())) {
             manageDisposable(
-                getObservable(
-                    Repo.getRepo(
+                getSingle(
+                    RepoDao.getRepo(
                         repoId!!, login!!
-                    ).toObservable()
+                    )
                 )
-                    .subscribe({ repoModel: Repo? ->
-                        repo = repoModel
+                    .subscribe({ repoModel: Optional<Repo> ->
+                        repo = repoModel.get()
                         if (repo != null) {
                             sendToView { view ->
                                 view.onInitRepo()
@@ -252,7 +260,7 @@ class RepoPagerPresenter : BasePresenter<RepoPagerMvp.View>(), RepoPagerMvp.Pres
                     onAddAndHide(
                         fragmentManager, RepoCodePagerFragment.newInstance(
                             repoId(), login(),
-                            repo!!.htmlUrl, repo!!.url, repo!!.defaultBranch
+                            repo!!.htmlUrl!!, repo!!.url!!, repo!!.defaultBranch!!
                         ), currentVisible
                     )
                 } else {
@@ -263,14 +271,14 @@ class RepoPagerPresenter : BasePresenter<RepoPagerMvp.View>(), RepoPagerMvp.Pres
                 onAddAndHide(
                     fragmentManager, RepoCodePagerFragment.newInstance(
                         repoId(), login(),
-                        repo!!.htmlUrl, repo!!.url, repo!!.defaultBranch
+                        repo!!.htmlUrl!!, repo!!.url!!, repo!!.defaultBranch!!
                     ), currentVisible
                 )
             } else {
                 onShowHideFragment(fragmentManager, codePagerView, currentVisible)
             }
             RepoPagerMvp.ISSUES -> {
-                if (!repo!!.isHasIssues) {
+                if (!repo!!.hasIssues) {
                     sendToView { view ->
                         view.showMessage(
                             R.string.error,
@@ -321,7 +329,11 @@ class RepoPagerPresenter : BasePresenter<RepoPagerMvp.View>(), RepoPagerMvp.Pres
 
     }
 
-    override fun onAddAndHide(fragmentManager: FragmentManager, toAdd: Fragment?, toHide: Fragment?) {
+    override fun onAddAndHide(
+        fragmentManager: FragmentManager,
+        toAdd: Fragment?,
+        toHide: Fragment?
+    ) {
         if (toAdd != null && toHide != null) {
             fragmentManager
                 .beginTransaction()
@@ -335,9 +347,10 @@ class RepoPagerPresenter : BasePresenter<RepoPagerMvp.View>(), RepoPagerMvp.Pres
 
     override fun onDeleteRepo() {
         if (isRepoOwner) {
-            makeRestCall(getRepoService(isEnterprise).deleteRepo(
-                login!!, repoId!!
-            )
+            makeRestCall(
+                getRepoService(isEnterprise).deleteRepo(
+                    login!!, repoId!!
+                )
             ) { booleanResponse ->
                 if (booleanResponse.code() == 204) {
 //                            if (repo != null) repo.delete().execute();
@@ -350,8 +363,9 @@ class RepoPagerPresenter : BasePresenter<RepoPagerMvp.View>(), RepoPagerMvp.Pres
 
     override fun onPinUnpinRepo() {
         if (repo == null) return
-        val isPinned = AbstractPinnedRepos.pinUpin(repo!!)
-        sendToView { view -> view.onRepoPinned(isPinned) }
+        manageObservable(PinnedReposDao.pinUpin(repo!!).toObservable()) {
+            sendToView { view -> view.onRepoPinned(it) }
+        }
     }
 
     override fun updatePinned(forks: Int, stars: Int, watching: Int) {
@@ -362,7 +376,7 @@ class RepoPagerPresenter : BasePresenter<RepoPagerMvp.View>(), RepoPagerMvp.Pres
     }
 
     override fun onMenuItemSelect(@IdRes itemId: Int, position: Int, fromUser: Boolean) {
-        if (itemId == R.id.issues && repo != null && !repo!!.isHasIssues) {
+        if (itemId == R.id.issues && repo != null && !repo!!.hasIssues) {
             sendToView { it.disableIssueTab() }
             return
         }
@@ -373,10 +387,16 @@ class RepoPagerPresenter : BasePresenter<RepoPagerMvp.View>(), RepoPagerMvp.Pres
 
     override fun onMenuItemReselect(@IdRes itemId: Int, position: Int, fromUser: Boolean) {}
     private fun updatePinned(repoModel: Repo?) {
-        val pinnedRepos = PinnedRepos.get(repoModel!!.fullName)
-        if (pinnedRepos != null) {
-            pinnedRepos.pinnedRepo = repoModel
-            manageObservable(PinnedRepos.update(pinnedRepos).toObservable())
-        }
+        manageObservable(
+            PinnedReposDao.get(
+                repoModel!!.fullName!!
+            ).toObservable().flatMap {
+                if (it.isEmpty()) {
+                    return@flatMap Observable.empty()
+                }
+                val item = it.or()
+                item.pinnedRepo = repoModel
+                PinnedReposDao.update(item).toObservable()
+            })
     }
 }

@@ -11,7 +11,7 @@ import androidx.annotation.StringRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fastaccess.R
 import com.fastaccess.data.dao.GroupedNotificationModel
-import com.fastaccess.data.dao.model.Notification
+import com.fastaccess.data.entity.Notification
 import com.fastaccess.helper.Bundler
 import com.fastaccess.provider.scheme.SchemeParser.launchUri
 import com.fastaccess.provider.tasks.notification.ReadNotificationService

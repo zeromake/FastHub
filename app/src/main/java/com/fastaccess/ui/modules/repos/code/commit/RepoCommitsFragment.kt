@@ -7,7 +7,7 @@ import androidx.annotation.StringRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fastaccess.R
 import com.fastaccess.data.dao.BranchesModel
-import com.fastaccess.data.dao.model.Commit
+import com.fastaccess.data.entity.Commit
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler.Companion.start
 import com.fastaccess.provider.rest.loadmore.OnLoadMore

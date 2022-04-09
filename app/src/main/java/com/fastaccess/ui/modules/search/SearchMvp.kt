@@ -1,7 +1,7 @@
 package com.fastaccess.ui.modules.search
 
 import com.fastaccess.ui.base.mvp.BaseMvp.FAView
-import com.fastaccess.data.dao.model.SearchHistory
+import com.fastaccess.data.entity.SearchHistory
 import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
 import androidx.viewpager.widget.ViewPager
 import android.widget.AutoCompleteTextView

@@ -7,7 +7,7 @@ import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
 import com.fastaccess.ui.base.adapter.BaseViewHolder
 import com.fastaccess.ui.base.mvp.BaseMvp.PaginationListener
 import android.os.Bundle
-import com.fastaccess.data.dao.model.Commit
+import com.fastaccess.data.entity.Commit
 
 /**
  * Created by Kosh on 03 Dec 2016, 3:45 PM

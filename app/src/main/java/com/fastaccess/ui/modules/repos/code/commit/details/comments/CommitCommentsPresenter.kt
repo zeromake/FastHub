@@ -9,12 +9,15 @@ import com.fastaccess.data.dao.CommentRequestModel
 import com.fastaccess.data.dao.TimelineModel
 import com.fastaccess.data.dao.TimelineModel.Companion.construct
 import com.fastaccess.data.dao.TimelineModel.Companion.constructComment
-import com.fastaccess.data.dao.model.Comment
-import com.fastaccess.data.dao.model.Login
+import com.fastaccess.data.entity.Comment
+import com.fastaccess.data.entity.Login
 import com.fastaccess.data.dao.types.ReactionTypes
+import com.fastaccess.data.entity.dao.CommentDao
+import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.helper.ActivityHelper.shareUrl
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.RxHelper.getObservable
+import com.fastaccess.helper.RxHelper.getSingle
 import com.fastaccess.provider.rest.RestProvider.getRepoService
 import com.fastaccess.provider.timeline.CommentsHelper.isOwner
 import com.fastaccess.provider.timeline.ReactionsProvider
@@ -59,13 +62,17 @@ class CommitCommentsPresenter : BasePresenter<CommitCommentsMvp.View>(),
             return false
         }
         if (page == 1) {
-            manageObservable(getRepoService(isEnterprise).isCollaborator(
-                login!!, repoId!!,
-                Login.getUser().login
-            )
-                .doOnNext { booleanResponse ->
-                    isCollaborator = booleanResponse.code() == 204
-                }
+            manageObservable(
+                LoginDao.getUser().toObservable()
+                    .flatMap {
+                        getRepoService(isEnterprise).isCollaborator(
+                            login!!, repoId!!,
+                            it.or().login!!
+                        )
+                    }
+                    .doOnNext { booleanResponse ->
+                        isCollaborator = booleanResponse.code() == 204
+                    }
             )
         }
         makeRestCall(getRepoService(isEnterprise).getCommitComments(
@@ -127,8 +134,8 @@ class CommitCommentsPresenter : BasePresenter<CommitCommentsMvp.View>(),
     override fun onWorkOffline() {
         if (comments.isEmpty()) {
             manageDisposable(
-                getObservable(Comment.getCommitComments(repoId(), login(), sha!!).toObservable())
-                    .flatMap { obj: List<Comment>? -> construct(obj) }
+                getObservable(CommentDao.getCommitComments(repoId(), login(), sha!!).toObservable())
+                    .flatMap { obj -> construct(obj) }
                     .subscribe { models ->
                         sendToView { view ->
                             view.onNotifyAdapter(
@@ -194,8 +201,8 @@ class CommitCommentsPresenter : BasePresenter<CommitCommentsMvp.View>(),
             if (v.id == R.id.commentMenu) {
                 val popupMenu = PopupMenu(v.context, v)
                 popupMenu.inflate(R.menu.comments_menu)
-                val username = Login.getUser().login
-                val isOwner = isOwner(username, login!!, comment!!.user.login) || isCollaborator
+                val username = LoginDao.getUser().blockingGet().or().login!!
+                val isOwner = isOwner(username, login!!, comment!!.user!!.login!!) || isCollaborator
                 popupMenu.menu.findItem(R.id.delete).isVisible = isOwner
                 popupMenu.menu.findItem(R.id.edit).isVisible = isOwner
                 popupMenu.setOnMenuItemClickListener { item1: MenuItem ->
@@ -211,7 +218,7 @@ class CommitCommentsPresenter : BasePresenter<CommitCommentsMvp.View>(),
                             view!!.onEditComment(comment)
                         }
                         R.id.share -> {
-                            shareUrl(v.context, comment.htmlUrl)
+                            shareUrl(v.context, comment.htmlUrl!!)
                         }
                     }
                     true

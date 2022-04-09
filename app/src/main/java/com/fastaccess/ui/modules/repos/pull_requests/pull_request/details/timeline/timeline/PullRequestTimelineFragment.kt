@@ -14,9 +14,9 @@ import com.fastaccess.data.dao.EditReviewCommentModel
 import com.fastaccess.data.dao.ReviewCommentModel
 import com.fastaccess.data.dao.TimelineModel
 import com.fastaccess.data.dao.TimelineModel.Companion.constructComment
-import com.fastaccess.data.dao.model.Comment
-import com.fastaccess.data.dao.model.PullRequest
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.Comment
+import com.fastaccess.data.entity.PullRequest
+import com.fastaccess.data.entity.User
 import com.fastaccess.data.dao.types.ReactionTypes
 import com.fastaccess.helper.ActivityHelper.startLauncher
 import com.fastaccess.helper.BundleConstant
@@ -114,8 +114,14 @@ class PullRequestTimelineFragment :
         }
         val isMerged = presenter!!.isMerged(pullRequest)
         adapter = IssuesTimelineAdapter(
-            presenter!!.events, this, true,
-            this, isMerged, presenter, pullRequest!!.login, pullRequest!!.user.login
+            presenter!!.events,
+            this,
+            true,
+            this,
+            isMerged,
+            presenter,
+            pullRequest!!.login,
+            pullRequest!!.user!!.login
         )
         stateLayout!!.setEmptyText(R.string.no_events)
         recycler!!.setEmptyView(stateLayout!!, refresh)
@@ -334,8 +340,8 @@ class PullRequestTimelineFragment :
         CreateIssueActivity.startForResult(
             requireActivity(),
             launcher,
-            pr.login,
-            pr.repoId,
+            pr.login!!,
+            pr.repoId!!,
             pr,
             isEnterprise
         )

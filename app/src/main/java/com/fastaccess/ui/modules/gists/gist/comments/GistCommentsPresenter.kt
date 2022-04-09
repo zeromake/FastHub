@@ -7,8 +7,9 @@ import android.view.View
 import android.widget.PopupMenu
 import com.fastaccess.R
 import com.fastaccess.data.dao.CommentRequestModel
-import com.fastaccess.data.dao.model.Comment
-import com.fastaccess.data.dao.model.Login
+import com.fastaccess.data.entity.Comment
+import com.fastaccess.data.entity.dao.CommentDao
+import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.RxHelper
 import com.fastaccess.provider.rest.RestProvider
@@ -49,11 +50,13 @@ class GistCommentsPresenter : BasePresenter<GistCommentsMvp.View>(),
         ) { listResponse ->
             lastPage = listResponse.last
             if (currentPage == 1) {
-                manageDisposable(Comment.saveForGist(listResponse.items!!, parameter))
+                manageObservable(
+                    CommentDao.saveForGist(listResponse.items!!, parameter).toObservable()
+                )
             }
             sendToView { view: GistCommentsMvp.View? ->
                 view?.onNotifyAdapter(
-                    listResponse.items?: listOf(),
+                    listResponse.items ?: listOf(),
                     page
                 )
             }
@@ -90,7 +93,9 @@ class GistCommentsPresenter : BasePresenter<GistCommentsMvp.View>(),
 
     override fun onWorkOffline(gistId: String) {
         if (comments.isEmpty()) {
-            manageDisposable(RxHelper.getObservable(Comment.getGistComments(gistId).toObservable())
+            manageDisposable(RxHelper.getObservable(
+                CommentDao.getGistComments(gistId).toObservable()
+            )
                 .subscribe { localComments: List<Comment> ->
                     sendToView { view ->
                         view?.onNotifyAdapter(
@@ -130,11 +135,11 @@ class GistCommentsPresenter : BasePresenter<GistCommentsMvp.View>(),
         if (v.id == R.id.toggle || v.id == R.id.toggleHolder) {
             val popupMenu = PopupMenu(v.context, v)
             popupMenu.inflate(R.menu.comments_menu)
-            val username = Login.getUser().login
+            val username = LoginDao.getUser().blockingGet().or().login!!
             popupMenu.menu.findItem(R.id.delete).isVisible =
-                username.equals(item.user.login, ignoreCase = true)
+                username.equals(item.user!!.login, ignoreCase = true)
             popupMenu.menu.findItem(R.id.edit).isVisible =
-                username.equals(item.user.login, ignoreCase = true)
+                username.equals(item.user!!.login, ignoreCase = true)
             popupMenu.setOnMenuItemClickListener { item1: MenuItem ->
                 view ?: return@setOnMenuItemClickListener false
                 when (item1.itemId) {
@@ -142,7 +147,7 @@ class GistCommentsPresenter : BasePresenter<GistCommentsMvp.View>(),
                         view!!.onShowDeleteMsg(item.id)
                     }
                     R.id.reply -> {
-                        view!!.onReply(item.user, item.body)
+                        view!!.onReply(item.user!!, item.body!!)
                     }
                     R.id.edit -> {
                         view!!.onEditComment(item)
@@ -157,9 +162,13 @@ class GistCommentsPresenter : BasePresenter<GistCommentsMvp.View>(),
     override fun onItemLongClick(position: Int, v: View?, item: Comment) {
         v ?: return
         if (v.id == R.id.toggle) {
-            view?.onReply(item.user, item.body)
+            view?.onReply(item.user!!, item.body!!)
         } else {
-            if (item.user != null && TextUtils.equals(item.user.login, Login.getUser().login)) {
+            if (item.user != null && TextUtils.equals(
+                    item.user!!.login,
+                    LoginDao.getUser().blockingGet().or().login
+                )
+            ) {
                 view?.onShowDeleteMsg(item.id)
             } else {
                 onItemClick(position, v, item)

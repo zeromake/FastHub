@@ -4,7 +4,7 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import android.os.Parcel
 import com.fastaccess.data.dao.BranchesModel
-import com.fastaccess.data.dao.model.Commit
+import com.fastaccess.data.entity.Commit
 
 /**
  * Created by Kosh on 03 Mar 2017, 9:08 PM

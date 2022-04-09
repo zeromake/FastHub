@@ -4,8 +4,9 @@ import android.os.Bundle
 import android.view.View
 import com.fastaccess.data.dao.Pageable
 import com.fastaccess.data.dao.PullsIssuesParser.Companion.getForIssue
-import com.fastaccess.data.dao.model.Issue
+import com.fastaccess.data.entity.Issue
 import com.fastaccess.data.dao.types.IssueState
+import com.fastaccess.data.entity.dao.IssueDao
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.RxHelper.getObservable
@@ -86,7 +87,9 @@ class RepoIssuesPresenter : BasePresenter<RepoIssuesMvp.View>(), RepoIssuesMvp.P
             }
             .doOnNext { filtered: List<Issue>? ->
                 if (currentPage == 1) {
-                    Issue.save(filtered!!, repoId!!, login!!)
+                    manageObservable(
+                        IssueDao.save(filtered!!, repoId!!, login!!).toObservable()
+                    )
                 }
             }
         ) { issues ->
@@ -108,7 +111,7 @@ class RepoIssuesPresenter : BasePresenter<RepoIssuesMvp.View>(), RepoIssuesMvp.P
         if (issues.isEmpty()) {
             manageDisposable(
                 getSingle(
-                    Issue.getIssues(
+                    IssueDao.getIssues(
                         repoId!!, login!!, issueState!!
                     )
                 )
@@ -136,7 +139,7 @@ class RepoIssuesPresenter : BasePresenter<RepoIssuesMvp.View>(), RepoIssuesMvp.P
     }
 
     override fun onItemClick(position: Int, v: View?, item: Issue) {
-        val parser = getForIssue(item.htmlUrl)
+        val parser = getForIssue(item.htmlUrl!!)
         if (parser != null && view != null) {
             view!!.onOpenIssue(parser)
         }

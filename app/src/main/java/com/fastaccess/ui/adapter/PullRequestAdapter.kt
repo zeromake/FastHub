@@ -1,7 +1,7 @@
 package com.fastaccess.ui.adapter
 
 import android.view.ViewGroup
-import com.fastaccess.data.dao.model.PullRequest
+import com.fastaccess.data.entity.PullRequest
 import com.fastaccess.ui.adapter.viewholder.PullRequestViewHolder
 import com.fastaccess.ui.adapter.viewholder.PullRequestViewHolder.Companion.newInstance
 import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter

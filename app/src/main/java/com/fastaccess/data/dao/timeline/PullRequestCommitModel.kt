@@ -2,7 +2,7 @@ package com.fastaccess.data.dao.timeline
 
 import android.os.Parcelable
 import android.os.Parcel
-import com.fastaccess.data.dao.model.Comment
+import com.fastaccess.data.entity.Comment
 import com.fastaccess.data.dao.timeline.PullRequestCommitModel
 
 /**

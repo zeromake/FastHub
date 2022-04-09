@@ -14,10 +14,10 @@ import com.fastaccess.R
 import com.fastaccess.data.dao.FragmentPagerAdapterModel.Companion.buildForIssues
 import com.fastaccess.data.dao.LabelModel
 import com.fastaccess.data.dao.MilestoneModel
-import com.fastaccess.data.dao.model.Issue
-import com.fastaccess.data.dao.model.PinnedIssues
-import com.fastaccess.data.dao.model.User
 import com.fastaccess.data.dao.types.IssueState
+import com.fastaccess.data.entity.Issue
+import com.fastaccess.data.entity.User
+import com.fastaccess.data.entity.dao.PinnedIssuesDao
 import com.fastaccess.helper.ActivityHelper
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler
@@ -81,7 +81,7 @@ class IssuePagerActivity : BaseActivity<IssuePagerMvp.View, IssuePagerPresenter>
             )
         ) newInstance(
             String.format("%s/%s", presenter!!.login, presenter!!.repoId),
-            presenter!!.issue!!.title, isMarkDown = false, hideCancel = true
+            presenter!!.issue!!.title!!, isMarkDown = false, hideCancel = true
         )
             .show(supportFragmentManager, MessageDialogView.TAG)
     }
@@ -156,7 +156,7 @@ class IssuePagerActivity : BaseActivity<IssuePagerMvp.View, IssuePagerPresenter>
         val issueModel = presenter!!.issue ?: return false
         when (item.itemId) {
             R.id.share -> {
-                ActivityHelper.shareUrl(this, presenter!!.issue!!.htmlUrl)
+                ActivityHelper.shareUrl(this, presenter!!.issue!!.htmlUrl!!)
                 return true
             }
             R.id.closeIssue -> {
@@ -231,7 +231,7 @@ class IssuePagerActivity : BaseActivity<IssuePagerMvp.View, IssuePagerPresenter>
                 return true
             }
             R.id.browser -> {
-                ActivityHelper.startCustomTab(this, issueModel.htmlUrl)
+                ActivityHelper.startCustomTab(this, issueModel.htmlUrl!!)
                 return true
             }
             R.id.pinUnpin -> {
@@ -268,7 +268,7 @@ class IssuePagerActivity : BaseActivity<IssuePagerMvp.View, IssuePagerPresenter>
         labels.isVisible = presenter!!.isRepoOwner || isCollaborator
         closeIssue.isVisible = isOwner || isCollaborator
         if (presenter!!.issue != null) {
-            val isPinned = PinnedIssues.isPinned(presenter!!.issue!!.id)
+            val isPinned = PinnedIssuesDao.isPinned(presenter!!.issue!!.id).blockingGet()
             pinUnpin.icon = if (isPinned) ContextCompat.getDrawable(
                 this,
                 R.drawable.ic_pin_filled
@@ -452,12 +452,12 @@ class IssuePagerActivity : BaseActivity<IssuePagerMvp.View, IssuePagerPresenter>
             val username: String
             val parsedDate: CharSequence
             if (issueModel.state === IssueState.closed) {
-                username = if (issueModel.closedBy != null) issueModel.closedBy.login else "N/A"
+                username = if (issueModel.closedBy != null) issueModel.closedBy!!.login!! else "N/A"
                 parsedDate =
                     if (issueModel.closedAt != null) getTimeAgo(issueModel.closedAt) else "N/A"
             } else {
                 parsedDate = getTimeAgo(issueModel.createdAt)
-                username = if (issueModel.user != null) issueModel.user.login else "N/A"
+                username = if (issueModel.user != null) issueModel.user!!.login!! else "N/A"
             }
             date!!.text = builder()
                 .append(
@@ -469,7 +469,7 @@ class IssuePagerActivity : BaseActivity<IssuePagerMvp.View, IssuePagerPresenter>
                     )
                 )
                 .append(" ")
-                .append(getString(issueModel.state.status))
+                .append(getString(issueModel.state!!.status))
                 .append(" ").append(getString(R.string.by)).append(" ").append(username).append(" ")
                 .append(parsedDate)
             avatarLayout!!.setUrl(

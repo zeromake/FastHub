@@ -5,7 +5,8 @@ import android.os.Bundle
 import android.webkit.MimeTypeMap
 import com.fastaccess.R
 import com.fastaccess.data.dao.MarkdownModel
-import com.fastaccess.data.dao.model.ViewerFile
+import com.fastaccess.data.entity.ViewerFile
+import com.fastaccess.data.entity.dao.ViewerFileDao
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.RxHelper.getObservable
@@ -107,21 +108,22 @@ class ViewerPresenter : BasePresenter<ViewerMvp.View>(), ViewerMvp.Presenter {
     override fun onWorkOffline() {
         if (downloadedStream == null) {
             manageDisposable(
-                getObservable(ViewerFile.get(url!!))
-                    .subscribe({ fileModel: ViewerFile? ->
+                getObservable(ViewerFileDao.get(url!!).toObservable())
+                    .subscribe({ opt ->
+                        val fileModel = opt.get()
                         if (fileModel != null) {
                             isImage = isImage(fileModel.fullUrl)
                             if (isImage) {
                                 sendToView { view ->
                                     view.onSetImageUrl(
-                                        fileModel.fullUrl,
+                                        fileModel.fullUrl!!,
                                         false
                                     )
                                 }
                             } else {
                                 downloadedStream = fileModel.content
-                                isRepo = fileModel.isRepo
-                                isMarkDown = fileModel.isMarkdown
+                                isRepo = fileModel.repo
+                                isMarkDown = fileModel.markdown
                                 sendToView { view ->
                                     if (isRepo || isMarkDown) {
                                         view.onSetMdText(
@@ -182,9 +184,9 @@ class ViewerPresenter : BasePresenter<ViewerMvp.View>(), ViewerMvp.Presenter {
             val fileModel = ViewerFile()
             fileModel.content = downloadedStream
             fileModel.fullUrl = url
-            fileModel.isRepo = isRepo
+            fileModel.repo = isRepo
             if (isRepo) {
-                fileModel.isMarkdown = true
+                fileModel.markdown = true
                 isMarkDown = true
                 isRepo = true
                 sendToView { view ->
@@ -212,9 +214,9 @@ class ViewerPresenter : BasePresenter<ViewerMvp.View>(), ViewerMvp.Presenter {
                     makeRestCall(obs) { string: String? ->
                         isMarkDown = true
                         downloadedStream = string
-                        fileModel.isMarkdown = true
+                        fileModel.markdown = true
                         fileModel.content = downloadedStream
-                        manageObservable(fileModel.save(fileModel).toObservable())
+                        manageObservable(ViewerFileDao.save(fileModel).toObservable())
                         sendToView { view ->
                             view.onSetMdText(
                                 downloadedStream!!,
@@ -226,14 +228,14 @@ class ViewerPresenter : BasePresenter<ViewerMvp.View>(), ViewerMvp.Presenter {
                     }
                     return@makeRestCall
                 }
-                fileModel.isMarkdown = false
+                fileModel.markdown = false
                 sendToView { view ->
                     view.onSetCode(
                         downloadedStream!!
                     )
                 }
             }
-            manageObservable(fileModel.save(fileModel).toObservable())
+            manageObservable(ViewerFileDao.save(fileModel).toObservable())
         }
     }
 

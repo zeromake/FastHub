@@ -1,7 +1,8 @@
 package com.fastaccess.ui.modules.profile.following
 
 import android.view.View
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.User
+import com.fastaccess.data.entity.dao.UserDao
 import com.fastaccess.helper.RxHelper.getSingle
 import com.fastaccess.provider.rest.RestProvider.getUserService
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
@@ -36,11 +37,14 @@ class ProfileFollowingPresenter : BasePresenter<ProfileFollowingMvp.View>(),
             sendToView { it.hideProgress() }
             return false
         }
-        makeRestCall(getUserService(isEnterprise).getFollowing(parameter, page)
+        makeRestCall(
+            getUserService(isEnterprise).getFollowing(parameter, page)
         ) { response ->
             lastPage = response.last
             if (currentPage == 1) {
-                manageDisposable(User.saveUserFollowingList(response.items!!, parameter))
+                manageObservable(
+                    UserDao.saveUserFollowingList(response.items!!, parameter).toObservable()
+                )
             }
             sendToView { view ->
                 view.onNotifyAdapter(
@@ -54,7 +58,9 @@ class ProfileFollowingPresenter : BasePresenter<ProfileFollowingMvp.View>(),
 
     override fun onWorkOffline(login: String) {
         if (following.isEmpty()) {
-            manageDisposable(getSingle(User.getUserFollowingList(login)).subscribe { userModels ->
+            manageDisposable(getSingle(
+                UserDao.getUserFollowingList(login).toList()
+            ).subscribe { userModels ->
                 sendToView { view: ProfileFollowingMvp.View ->
                     view.onNotifyAdapter(
                         userModels,

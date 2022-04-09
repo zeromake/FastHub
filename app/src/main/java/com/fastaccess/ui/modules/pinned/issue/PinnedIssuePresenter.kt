@@ -1,9 +1,11 @@
 package com.fastaccess.ui.modules.pinned.issue
 
 import android.view.View
-import com.fastaccess.data.dao.model.Issue
-import com.fastaccess.data.dao.model.PinnedIssues
+import com.fastaccess.data.entity.Issue
+import com.fastaccess.data.entity.PinnedIssues
+import com.fastaccess.data.entity.dao.PinnedIssuesDao
 import com.fastaccess.helper.InputHelper.isEmpty
+import com.fastaccess.helper.RxHelper
 import com.fastaccess.provider.scheme.SchemeParser.launchUri
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 
@@ -20,16 +22,19 @@ class PinnedIssuePresenter : BasePresenter<PinnedIssueMvp.View>(), PinnedIssueMv
     }
 
     override fun onReload() {
-        manageDisposable(PinnedIssues.getMyPinnedIssues()
-            .subscribe({ repos ->
-                sendToView { view: PinnedIssueMvp.View -> view.onNotifyAdapter(repos) }
-            }) {
-                sendToView { view: PinnedIssueMvp.View -> view.onNotifyAdapter(null) }
-            })
+        manageDisposable(
+            RxHelper.getObservable(
+                PinnedIssuesDao.getMyPinnedIssues().toObservable()
+            )
+                .subscribe({ repos ->
+                    sendToView { view: PinnedIssueMvp.View -> view.onNotifyAdapter(repos) }
+                }) {
+                    sendToView { view: PinnedIssueMvp.View -> view.onNotifyAdapter(null) }
+                })
     }
 
     override fun onItemClick(position: Int, v: View?, item: Issue) {
-        launchUri(v!!.context, if (!isEmpty(item.htmlUrl)) item.htmlUrl else item.url)
+        launchUri(v!!.context, if (!isEmpty(item.htmlUrl)) item.htmlUrl!! else item.url!!)
     }
 
     override fun onItemLongClick(position: Int, v: View?, item: Issue) {

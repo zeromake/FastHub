@@ -6,7 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.Login
+import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.helper.PrefGetter
 import com.fastaccess.ui.base.BaseActivity
 import com.fastaccess.ui.base.BaseFragment
@@ -40,7 +40,7 @@ class MainDrawerFragment :
         if (requireActivity() is OnDrawerMenuCreatedListener) requireActivity() as OnDrawerMenuCreatedListener else null
     }
     private val mainNav: NavigationView by viewFind(R.id.mainNav)
-    private val userModel by lazy { Login.getUser() }
+    private val userModel by lazy { LoginDao.getUser().blockingGet().get() }
 
     override fun fragmentLayout() = R.layout.main_nav_fragment_layout
 
@@ -67,7 +67,7 @@ class MainDrawerFragment :
                     R.id.profile -> userModel?.let {
                         UserPagerActivity.startActivity(
                             activity,
-                            it.login,
+                            it.login!!,
                             false,
                             PrefGetter.isEnterprise,
                             0
@@ -94,7 +94,12 @@ class MainDrawerFragment :
                         )
                     )
                     R.id.openFastHub -> activity.startActivity(
-                        RepoPagerActivity.createIntent(activity, "FastHub", "k0shk0sh", RepoPagerMvp.ISSUES)
+                        RepoPagerActivity.createIntent(
+                            activity,
+                            "FastHub",
+                            "k0shk0sh",
+                            RepoPagerMvp.ISSUES
+                        )
                     )
                     R.id.faq -> activity.startActivity(
                         Intent(

@@ -17,8 +17,8 @@ import android.content.Intent
 import android.os.Bundle
 import com.fastaccess.ui.widgets.SpannableBuilder
 import com.fastaccess.data.dao.LabelModel
-import com.fastaccess.data.dao.model.PullRequest
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.PullRequest
+import com.fastaccess.data.entity.User
 import java.util.ArrayList
 
 /**

@@ -5,7 +5,8 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import androidx.core.app.NotificationCompat
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.FastHubNotification
+import com.fastaccess.data.entity.FastHubNotification
+import com.fastaccess.data.entity.dao.FastHubNotificationDao
 import com.fastaccess.provider.rest.RestProvider
 import com.fastaccess.ui.modules.main.MainActivity.Companion.launchMain
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -29,7 +30,7 @@ class PushNotificationService : FirebaseMessagingService() {
                     FastHubNotification::class.java
                 )
             fastHubNotification.date = date
-            FastHubNotification.save(fastHubNotification)
+            FastHubNotificationDao.save(fastHubNotification)
         } else if (remoteMessage.notification != null) {
             var title = remoteMessage.notification!!.title
             var body = remoteMessage.notification!!.body

@@ -6,7 +6,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.User
 import com.fastaccess.ui.adapter.UsersAdapter
 import com.fastaccess.ui.base.BaseDialogFragment
 import com.fastaccess.ui.delegate.viewFind

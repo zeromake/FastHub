@@ -7,7 +7,7 @@ import androidx.annotation.StringRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.evernote.android.state.State
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.PullRequest
+import com.fastaccess.data.entity.PullRequest
 import com.fastaccess.data.dao.types.IssueState
 import com.fastaccess.data.dao.types.MyIssuesType
 import com.fastaccess.helper.BundleConstant

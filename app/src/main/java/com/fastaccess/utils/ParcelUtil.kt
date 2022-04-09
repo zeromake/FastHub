@@ -2,6 +2,7 @@ package com.fastaccess.utils
 
 import android.os.Parcel
 import android.os.Parcelable
+import java.util.*
 
 class ParcelUtil {
     companion object {

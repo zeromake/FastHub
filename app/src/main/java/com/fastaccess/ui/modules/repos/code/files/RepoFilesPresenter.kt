@@ -6,7 +6,8 @@ import com.fastaccess.data.dao.CommitRequestModel
 import com.fastaccess.data.dao.FileOrTree
 import com.fastaccess.data.dao.Pageable
 import com.fastaccess.data.dao.RepoPathsManager
-import com.fastaccess.data.dao.model.RepoFile
+import com.fastaccess.data.entity.RepoFile
+import com.fastaccess.data.entity.dao.RepoFileDao
 import com.fastaccess.helper.RxHelper.getObservable
 import com.fastaccess.provider.rest.RestProvider.getContentService
 import com.fastaccess.provider.rest.RestProvider.getRepoService
@@ -51,7 +52,7 @@ class RepoFilesPresenter : BasePresenter<RepoFilesMvp.View>(), RepoFilesMvp.Pres
     }
 
     override fun onItemLongClick(position: Int, v: View?, item: RepoFile) {
-        startActivity(v!!.context, login!!, repoId!!, ref!!, item.path, isEnterprise)
+        startActivity(v!!.context, login!!, repoId!!, ref!!, item.path!!, isEnterprise)
     }
 
     override fun onError(throwable: Throwable) {
@@ -63,16 +64,16 @@ class RepoFilesPresenter : BasePresenter<RepoFilesMvp.View>(), RepoFilesMvp.Pres
         if (repoId == null || login == null || files.isNotEmpty()) return
         manageDisposable(
             getObservable(
-                RepoFile.getFiles(
+                RepoFileDao.getFiles(
                     login!!, repoId!!
                 ).toObservable()
             )
                 .flatMap { response ->
                     Observable.fromIterable(response)
-                        .filter { repoFile: RepoFile? -> repoFile != null && repoFile.type != null }
+                        .filter { repoFile: RepoFile? -> repoFile?.type != null }
                         .sorted { repoFile: RepoFile, repoFile2: RepoFile ->
-                            repoFile2.type.compareTo(
-                                repoFile.type
+                            repoFile2.type!!.compareTo(
+                                repoFile.type!!
                             )
                         }
                 }
@@ -90,8 +91,8 @@ class RepoFilesPresenter : BasePresenter<RepoFilesMvp.View>(), RepoFilesMvp.Pres
                     return@flatMap Observable.fromIterable(response.items)
                         .filter { repoFile: RepoFile -> repoFile.type != null }
                         .sorted { repoFile: RepoFile, repoFile2: RepoFile ->
-                            repoFile2.type.compareTo(
-                                repoFile.type
+                            repoFile2.type!!.compareTo(
+                                repoFile.type!!
                             )
                         }
                 }
@@ -101,7 +102,7 @@ class RepoFilesPresenter : BasePresenter<RepoFilesMvp.View>(), RepoFilesMvp.Pres
         ) { response ->
             files.clear()
             if (response != null) {
-                manageObservable(RepoFile.save(response, login!!, repoId!!))
+                manageObservable(RepoFileDao.save(response, login!!, repoId!!).toObservable())
                 pathsModel.setFiles(ref!!, path!!, response)
                 files.addAll(response)
             }
@@ -176,10 +177,10 @@ class RepoFilesPresenter : BasePresenter<RepoFilesMvp.View>(), RepoFilesMvp.Pres
     }
 
     override fun onDeleteFile(message: String, item: RepoFile, branch: String) {
-        val body = CommitRequestModel(message, null, item.sha, branch)
+        val body = CommitRequestModel(message, null, item.sha!!, branch)
         makeRestCall(
             getContentService(isEnterprise)
-                .deleteFile(login!!, repoId!!, item.path, ref!!, body)
+                .deleteFile(login!!, repoId!!, item.path!!, ref!!, body)
         ) {
             sendToView { it.onRefresh() }
         }

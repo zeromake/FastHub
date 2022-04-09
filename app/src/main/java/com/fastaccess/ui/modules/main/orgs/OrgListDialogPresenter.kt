@@ -1,7 +1,7 @@
 package com.fastaccess.ui.modules.main.orgs
 
 import com.fastaccess.data.dao.Pageable
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.User
 import com.fastaccess.helper.PrefGetter
 import com.fastaccess.provider.rest.RestProvider.getOrgService
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter

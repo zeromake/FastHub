@@ -3,9 +3,10 @@ package com.fastaccess.ui.modules.profile.repos
 import android.text.TextUtils
 import android.view.View
 import com.fastaccess.data.dao.FilterOptionsModel
-import com.fastaccess.data.dao.model.Login
-import com.fastaccess.data.dao.model.Repo
-import com.fastaccess.helper.RxHelper.getObservable
+import com.fastaccess.data.entity.Repo
+import com.fastaccess.data.entity.dao.LoginDao
+import com.fastaccess.data.entity.dao.RepoDao
+import com.fastaccess.helper.RxHelper.getSingle
 import com.fastaccess.provider.rest.RestProvider.getUserService
 import com.fastaccess.provider.scheme.SchemeParser.launchUri
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
@@ -33,7 +34,7 @@ class ProfileReposPresenter : BasePresenter<ProfileReposMvp.View>(),
 
     override fun onCallApi(page: Int, parameter: String?): Boolean {
         if (currentLoggedIn == null) {
-            currentLoggedIn = Login.getUser().login
+            currentLoggedIn = LoginDao.getUser().blockingGet().or().login
         }
         if (parameter == null) {
             throw NullPointerException("Username is null")
@@ -49,18 +50,24 @@ class ProfileReposPresenter : BasePresenter<ProfileReposMvp.View>(),
         }
         val isProfile = TextUtils.equals(currentLoggedIn, username)
         filterOptions.setIsPersonalProfile(isProfile)
-        makeRestCall(if (isProfile) getUserService(isEnterprise).getRepos(
-            filterOptions.getQueryMap(),
-            page
-        ) else getUserService(isEnterprise).getRepos(
-            parameter,
-            filterOptions.getQueryMap(),
-            page
-        )
+        makeRestCall(
+            if (isProfile) getUserService(isEnterprise).getRepos(
+                filterOptions.getQueryMap(),
+                page
+            ) else getUserService(isEnterprise).getRepos(
+                parameter,
+                filterOptions.getQueryMap(),
+                page
+            )
         ) { repoModelPageable ->
             lastPage = repoModelPageable.last
             if (currentPage == 1) {
-                manageDisposable(Repo.saveMyRepos(repoModelPageable.items!!, parameter))
+                manageObservable(
+                    RepoDao.saveMyRepos(
+                        repoModelPageable.items!!,
+                        parameter,
+                    ).toObservable()
+                )
             }
             sendToView { view ->
                 view.onNotifyAdapter(
@@ -75,8 +82,8 @@ class ProfileReposPresenter : BasePresenter<ProfileReposMvp.View>(),
     override fun onWorkOffline(login: String) {
         if (repos.isEmpty()) {
             manageDisposable(
-                getObservable(
-                    Repo.getMyRepos(login).toObservable()
+                getSingle(
+                    RepoDao.getMyRepos(login)
                 ).subscribe { repoModels ->
                     sendToView { view ->
                         view.onNotifyAdapter(
@@ -91,7 +98,7 @@ class ProfileReposPresenter : BasePresenter<ProfileReposMvp.View>(),
     }
 
     override fun onItemClick(position: Int, v: View?, item: Repo) {
-        launchUri(v!!.context, item.htmlUrl)
+        launchUri(v!!.context, item.htmlUrl!!)
     }
 
     override fun onItemLongClick(position: Int, v: View?, item: Repo) {}

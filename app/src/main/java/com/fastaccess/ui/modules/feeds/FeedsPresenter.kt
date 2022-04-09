@@ -6,9 +6,10 @@ import android.view.View
 import com.fastaccess.data.dao.NameParser
 import com.fastaccess.data.dao.Pageable
 import com.fastaccess.data.dao.SimpleUrlsModel
-import com.fastaccess.data.dao.model.Event
-import com.fastaccess.data.dao.model.Login
 import com.fastaccess.data.dao.types.EventsType
+import com.fastaccess.data.entity.Event
+import com.fastaccess.data.entity.dao.EventDao
+import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.helper.*
 import com.fastaccess.provider.rest.RestProvider
 import com.fastaccess.provider.scheme.LinkParserHelper.isEnterprise
@@ -52,13 +53,13 @@ class FeedsPresenter : BasePresenter<FeedsMvp.View>(), FeedsMvp.Presenter {
             return false
         }
         currentPage = page
-        val login = Login.getUser() ?: return false
+        val login = LoginDao.getUser().blockingGet().get() ?: return false
         // I can't understand how this could possibly be reached lol.
         Logger.e(isOrg)
         val observable: Observable<Pageable<Event>> = if (user != null) {
             if (isOrg) {
                 RestProvider.getOrgService(isEnterprise)
-                    .getReceivedEvents(login.login, user!!, page)
+                    .getReceivedEvents(login.login!!, user!!, page)
             } else {
                 RestProvider.getUserService(
                     if (login.login.equals(
@@ -72,15 +73,15 @@ class FeedsPresenter : BasePresenter<FeedsMvp.View>(), FeedsMvp.Presenter {
             }
         } else {
             RestProvider.getUserService(PrefGetter.isEnterprise)
-                .getReceivedEvents(login.login, page)
+                .getReceivedEvents(login.login!!, page)
         }
         makeRestCall(observable) { response ->
             lastPage = response.last
             val items = response.items ?: listOf()
-            if (currentPage == 1) {
+            if (currentPage == 1 && user != null) {
 //                events.clear()
 //                events.addAll(items)
-                manageDisposable(Event.save(items, user))
+                manageObservable(EventDao.save(items, user!!).toObservable())
             }
             sendToView { view ->
                 view?.onNotifyAdapter(
@@ -107,15 +108,17 @@ class FeedsPresenter : BasePresenter<FeedsMvp.View>(), FeedsMvp.Presenter {
 
     override fun onWorkOffline() {
         if (events.isEmpty() && InputHelper.isEmpty(user)) {
-            manageDisposable(RxHelper.getObservable(
-                Event.getEvents(Login.getUser().login).toObservable()
+            val observable = RxHelper.getObservable(
+                LoginDao.getUser().flatMap {
+                    EventDao.getEvents(it.or().login!!)
+                }.toObservable()
             )
+            manageDisposable(observable
                 .subscribe({ modelList ->
                     if (modelList != null) {
-//                        events.addAll(modelList.filterNotNull())
                         sendToView { view ->
                             view?.onNotifyAdapter(
-                                modelList.filterNotNull(),
+                                modelList,
                                 1
                             )
                         }
@@ -130,8 +133,7 @@ class FeedsPresenter : BasePresenter<FeedsMvp.View>(), FeedsMvp.Presenter {
         v ?: return
         if (item.type === EventsType.ForkEvent) {
             val parser = NameParser(
-                item.repo.url,
-//                item.payload.forkee?.htmlUrl
+                item.repo!!.url,
             )
             RepoPagerActivity.startRepoPager(v.context, parser)
         } else {
@@ -145,7 +147,7 @@ class FeedsPresenter : BasePresenter<FeedsMvp.View>(), FeedsMvp.Presenter {
                             )
                         }
                     } else {
-                        val repoModel = item.repo
+                        val repoModel = item.repo!!
                         val nameParser = NameParser(repoModel.url)
                         val intent = CommitPagerActivity.createIntent(
                             v.context, nameParser.name!!,
@@ -175,7 +177,7 @@ class FeedsPresenter : BasePresenter<FeedsMvp.View>(), FeedsMvp.Presenter {
                         ignoreCase = true
                     )
                 ) {
-                    val repoModel = item.repo
+                    val repoModel = item.repo!!
                     val nameParser = NameParser(repoModel.url)
                     v.context.startActivity(
                         ReleasesListActivity.getIntent(
@@ -184,11 +186,11 @@ class FeedsPresenter : BasePresenter<FeedsMvp.View>(), FeedsMvp.Presenter {
                         )
                     )
                 } else if (item.type === EventsType.GollumEvent) {
-                    val repoModel = item.repo
+                    val repoModel = item.repo!!
                     val parser = NameParser(repoModel.url)
                     v.context.startActivity(getWiki(v.context, parser.name, parser.username))
                 } else {
-                    val repoModel = item.repo
+                    val repoModel = item.repo!!
                     val parser = NameParser(repoModel.url)
                     RepoPagerActivity.startRepoPager(v.context, parser)
                 }
@@ -200,13 +202,15 @@ class FeedsPresenter : BasePresenter<FeedsMvp.View>(), FeedsMvp.Presenter {
         v ?: return
         if (item.type === EventsType.ForkEvent) {
             if (view != null) {
+                val payload = item.payload!!
+                val repo = item.repo!!
                 view!!.onOpenRepoChooser(
                     listOf(
                         SimpleUrlsModel(
-                            item.payload.forkee!!.fullName,
-                            item.payload.forkee!!.htmlUrl
+                            payload.forkee!!.fullName!!,
+                            payload.forkee!!.htmlUrl
                         ),
-                        SimpleUrlsModel(item.repo.name, item.repo.url),
+                        SimpleUrlsModel(repo.name!!, repo.url),
                     )
                 )
             }

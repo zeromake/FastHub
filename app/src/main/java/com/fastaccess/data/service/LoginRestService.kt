@@ -1,6 +1,6 @@
 package com.fastaccess.data.service
 
-import com.fastaccess.data.dao.model.Login
+import com.fastaccess.data.entity.Login
 import com.fastaccess.data.dao.AuthModel
 import com.fastaccess.data.dao.AccessTokenModel
 import io.reactivex.Observable

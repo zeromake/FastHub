@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.Gist
-import com.fastaccess.data.dao.model.PinnedGists
+import com.fastaccess.data.entity.Gist
+import com.fastaccess.data.entity.dao.PinnedGistsDao
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler
 import com.fastaccess.ui.adapter.GistsAdapter
@@ -72,8 +72,9 @@ class PinnedGistFragment : BaseFragment<PinnedGistMvp.View, PinnedGistPresenter>
         if (bundle != null && isOk) {
             val id = bundle.getLong(BundleConstant.ID)
             val position = bundle.getInt(BundleConstant.EXTRA)
-            PinnedGists.delete(id)
-            adapter!!.removeItem(position)
+            presenter.manageObservable(PinnedGistsDao.delete(id).toObservable()) {
+                adapter!!.removeItem(position)
+            }
         }
     }
 

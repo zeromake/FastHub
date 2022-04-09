@@ -5,7 +5,8 @@ import com.fastaccess.R
 import com.fastaccess.data.dao.GroupedNotificationModel
 import com.fastaccess.data.dao.GroupedNotificationModel.Companion.onlyNotifications
 import com.fastaccess.data.dao.Pageable
-import com.fastaccess.data.dao.model.Notification
+import com.fastaccess.data.entity.Notification
+import com.fastaccess.data.entity.dao.NotificationDao
 import com.fastaccess.helper.ParseDateFormat.Companion.lastWeekDate
 import com.fastaccess.helper.PrefGetter
 import com.fastaccess.helper.PrefGetter.isMarkAsReadEnabled
@@ -25,13 +26,13 @@ class UnreadNotificationsPresenter : BasePresenter<UnreadNotificationMvp.View>()
         v ?: return
         val notification = item.notification
         if (v.id == R.id.markAsRead) {
-            if (notification!!.isUnread) markAsRead(position, v, notification)
+            if (notification!!.unread) markAsRead(position, v, notification)
         } else {
-            if (notification!!.subject != null && notification.subject.url != null) {
-                if (notification.isUnread && !isMarkAsReadEnabled) {
+            if (notification!!.subject != null && notification.subject!!.url != null) {
+                if (notification.unread && !isMarkAsReadEnabled) {
                     markAsRead(position, v, notification)
                 }
-                if (view != null) view!!.onClick(notification.subject.url!!)
+                if (view != null) view!!.onClick(notification.subject!!.url!!)
             }
         }
     }
@@ -40,7 +41,7 @@ class UnreadNotificationsPresenter : BasePresenter<UnreadNotificationMvp.View>()
     override fun onWorkOffline() {
         if (notifications.isEmpty()) {
             manageDisposable(RxHelper.getObservable(
-                Notification.getUnreadNotifications().toObservable()
+                NotificationDao.getUnreadNotifications().toObservable()
             )
                 .flatMap { notifications: List<Notification?>? ->
                     Observable.just(
@@ -62,11 +63,11 @@ class UnreadNotificationsPresenter : BasePresenter<UnreadNotificationMvp.View>()
     override fun onMarkAllAsRead(data: List<GroupedNotificationModel>) {
         manageDisposable(RxHelper.getObservable(Observable.fromIterable(data))
             .filter { group: GroupedNotificationModel? -> group != null && group.type == GroupedNotificationModel.ROW }
-            .filter { group: GroupedNotificationModel? -> group!!.notification != null && group.notification!!.isUnread }
+            .filter { group: GroupedNotificationModel? -> group!!.notification != null && group.notification!!.unread }
             .map { it.notification!! }
             .subscribe({ notification: Notification ->
-                notification.isUnread = false
-                manageDisposable(notification.save(notification))
+                notification.unread = false
+                manageObservable(NotificationDao.save(notification).toObservable())
                 sendToView { view ->
                     view?.onReadNotification(
                         notification
@@ -83,8 +84,8 @@ class UnreadNotificationsPresenter : BasePresenter<UnreadNotificationMvp.View>()
         val observable = RestProvider.getNotificationService(PrefGetter.isEnterprise)
             .getNotifications(lastWeekDate).flatMap { response: Pageable<Notification> ->
                 val items = response.items ?: listOf()
-                manageDisposable(
-                    Notification.save(items)
+                manageObservable(
+                    NotificationDao.save(items).toObservable()
                 )
                 Observable.just(onlyNotifications(items))
             }
@@ -100,8 +101,8 @@ class UnreadNotificationsPresenter : BasePresenter<UnreadNotificationMvp.View>()
     }
 
     private fun markAsRead(position: Int, v: View, item: Notification?) {
-        item!!.isUnread = false
-        manageDisposable(item.save(item))
+        item!!.unread = false
+        manageObservable(NotificationDao.save(item).toObservable())
         sendToView { view -> view?.onRemove(position) }
         ReadNotificationService.start(v.context, item.id)
     }

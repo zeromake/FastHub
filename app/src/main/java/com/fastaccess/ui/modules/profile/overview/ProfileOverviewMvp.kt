@@ -3,7 +3,7 @@ package com.fastaccess.ui.modules.profile.overview
 import com.fastaccess.ui.base.mvp.BaseMvp.FAView
 import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
 import android.os.Bundle
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.User
 import com.fastaccess.github.GetPinnedReposQuery
 import com.fastaccess.ui.widgets.contributions.GitHubContributionsView
 import com.fastaccess.ui.widgets.contributions.ContributionsDay

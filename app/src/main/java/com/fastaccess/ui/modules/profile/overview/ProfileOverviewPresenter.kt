@@ -5,8 +5,9 @@ import android.os.Bundle
 import android.text.TextUtils
 import com.apollographql.apollo3.rx2.Rx2Apollo
 import com.fastaccess.data.dao.Pageable
-import com.fastaccess.data.dao.model.Login
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.User
+import com.fastaccess.data.entity.dao.LoginDao
+import com.fastaccess.data.entity.dao.UserDao
 import com.fastaccess.github.GetPinnedReposQuery
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.InputHelper
@@ -37,19 +38,19 @@ class ProfileOverviewPresenter : BasePresenter<ProfileOverviewMvp.View>(),
     override val nodes: MutableList<GetPinnedReposQuery.Node> = mutableListOf()
     override val contributions: MutableList<ContributionsDay> = mutableListOf()
     override fun onCheckFollowStatus(login: String) {
-        if (!TextUtils.equals(login, Login.getUser().login)) {
-            manageDisposable(RxHelper.getObservable(
-                RestProvider.getUserService(
-                    isEnterprise
-                ).getFollowStatus(login)
-            )
-                .subscribe({ booleanResponse: Response<Boolean> ->
-                    isSuccessResponse = true
-                    isFollowing = booleanResponse.code() == 204
-                    sendToView {
-                        it?.invalidateFollowBtn()
-                    }
-                }) { obj: Throwable -> obj.printStackTrace() })
+        manageObservable(LoginDao.getUser().toObservable().flatMap {
+            if (it.isEmpty() || TextUtils.equals(login, it.or().login)) {
+                return@flatMap Observable.empty()
+            }
+            RestProvider.getUserService(
+                isEnterprise
+            ).getFollowStatus(login)
+        }) { booleanResponse ->
+            isSuccessResponse = true
+            isFollowing = booleanResponse.code() == 204
+            sendToView {
+                it?.invalidateFollowBtn()
+            }
         }
     }
 
@@ -95,7 +96,7 @@ class ProfileOverviewPresenter : BasePresenter<ProfileOverviewMvp.View>(),
                     loadOrgs()
                 }) { userModel: User ->
                 onSendUserToView(userModel)
-                userModel.save(userModel)
+                manageObservable(UserDao.save(userModel).toObservable())
                 if (userModel.type != null && userModel.type.equals(
                         "user",
                         ignoreCase = true
@@ -136,8 +137,13 @@ class ProfileOverviewPresenter : BasePresenter<ProfileOverviewMvp.View>(),
     }
 
     override fun onWorkOffline(login: String) {
-        val userModel = User.getUser(login) ?: return
-        onSendUserToView(userModel)
+        manageObservable(
+            UserDao.getUser(login).toObservable()
+        ) {
+            if (!it.isEmpty()) {
+                onSendUserToView(it.or())
+            }
+        }
     }
 
     override fun onSendUserToView(userModel: User) {
@@ -189,27 +195,27 @@ class ProfileOverviewPresenter : BasePresenter<ProfileOverviewMvp.View>(),
     }
 
     private fun loadOrgs() {
-        val isMe = login.equals(
-            if (Login.getUser() != null) Login.getUser().login else "",
-            ignoreCase = true
-        )
-        manageDisposable(RxHelper.getObservable(
+        val observable = LoginDao.getUser().toObservable().flatMap {
+            val isMe = login.equals(
+                if (!it.isEmpty()) it.or().login!! else "",
+                ignoreCase = true
+            )
             if (isMe) RestProvider.getOrgService(
                 isEnterprise
             ).myOrganizations else RestProvider.getOrgService(isEnterprise).getMyOrganizations(
                 login!!
             )
-        )
-            .subscribe({ response: Pageable<User>? ->
-                if (response?.items != null) {
-                    orgs.addAll(response.items!!)
-                }
-                sendToView { view ->
-                    view?.onInitOrgs(
-                        orgs
-                    )
-                }
-            }) { obj: Throwable -> obj.printStackTrace() })
+        }
+        manageObservable(observable) {response: Pageable<User>->
+            if (response.items != null) {
+                orgs.addAll(response.items!!)
+            }
+            sendToView { view ->
+                view?.onInitOrgs(
+                    orgs
+                )
+            }
+        }
     }
 
     companion object {

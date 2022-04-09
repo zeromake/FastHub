@@ -2,7 +2,7 @@ package com.fastaccess.ui.adapter.viewholder
 
 import android.view.View
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.FastHubNotification
+import com.fastaccess.data.entity.FastHubNotification
 import com.fastaccess.helper.ParseDateFormat
 import com.fastaccess.ui.adapter.FastHubNotificationsAdapter
 import com.fastaccess.ui.base.adapter.BaseViewHolder
@@ -26,7 +26,7 @@ open class FastHubNotificationViewHolder(
         if (t.date != null) {
             date.text = ParseDateFormat.getTimeAgo(t.date)
         }
-        type.text = t.type.name.replace("_", " ")
+        type.text = t.type!!.name.replace("_", " ")
     }
 
 }

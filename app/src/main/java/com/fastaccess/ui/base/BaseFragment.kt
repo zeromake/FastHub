@@ -9,7 +9,7 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.view.ContextThemeWrapper
 import com.evernote.android.state.StateSaver
-import com.fastaccess.data.dao.model.Login
+import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.helper.RxHelper
 import com.fastaccess.ui.base.mvp.BaseMvp.FAView
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
@@ -106,7 +106,7 @@ abstract class BaseFragment<V : FAView, P : BasePresenter<V>> : TiFragment<P, V>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (Login.getUser() != null) {
+        if (!LoginDao.getUser().blockingGet().isEmpty()) {
             onFragmentCreated(view, savedInstanceState)
         }
     }

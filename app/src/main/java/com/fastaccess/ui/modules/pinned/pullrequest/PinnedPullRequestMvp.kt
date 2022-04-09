@@ -1,6 +1,6 @@
 package com.fastaccess.ui.modules.pinned.pullrequest
 
-import com.fastaccess.data.dao.model.PullRequest
+import com.fastaccess.data.entity.PullRequest
 import com.fastaccess.ui.base.adapter.BaseViewHolder
 import com.fastaccess.ui.base.mvp.BaseMvp.FAView
 import java.util.ArrayList

@@ -1,8 +1,8 @@
 package com.fastaccess.data.service
 
 import com.fastaccess.data.dao.*
-import com.fastaccess.data.dao.model.Commit
-import com.fastaccess.data.dao.model.PullRequest
+import com.fastaccess.data.entity.Commit
+import com.fastaccess.data.entity.PullRequest
 import io.reactivex.Observable
 import retrofit2.Response
 import retrofit2.http.*

@@ -1,15 +1,15 @@
 package com.fastaccess.ui.modules.gists.gist
 
 import android.content.Intent
-import com.fastaccess.data.dao.model.Gist
-import com.fastaccess.data.dao.model.Login
-import com.fastaccess.data.dao.model.PinnedGists
+import com.fastaccess.data.entity.Gist
+import com.fastaccess.data.entity.dao.GistDao
+import com.fastaccess.data.entity.dao.LoginDao
+import com.fastaccess.data.entity.dao.PinnedGistsDao
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.RxHelper
 import com.fastaccess.provider.rest.RestProvider.getGistService
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
-import net.grandcentrix.thirtyinch.ViewAction
 import retrofit2.Response
 
 /**
@@ -39,7 +39,7 @@ class GistPresenter : BasePresenter<GistMvp.View>(), GistMvp.Presenter {
         gistId = bundle!!.getString(BundleConstant.EXTRA)
         when {
             gist != null -> {
-                checkStarring(gist!!.gistId)
+                checkStarring(gist!!.gistId!!)
                 sendToView { it.onSetupDetails() }
             }
             gistId != null -> {
@@ -55,7 +55,7 @@ class GistPresenter : BasePresenter<GistMvp.View>(), GistMvp.Presenter {
         if (gist == null) return
         manageDisposable(RxHelper.getObservable(
             getGistService(isEnterprise).deleteGist(
-                gist!!.gistId
+                gist!!.gistId!!
             )
         )
             .doOnSubscribe { onSubscribed(false) }
@@ -76,7 +76,9 @@ class GistPresenter : BasePresenter<GistMvp.View>(), GistMvp.Presenter {
     }
 
     override val isOwner: Boolean
-        get() = gist != null && gist!!.owner != null && gist!!.owner.login == Login.getUser().login
+        get() = gist != null
+                && gist!!.owner != null
+                && gist!!.owner!!.login == LoginDao.getUser().blockingGet().or().login
 
     override fun onStarGist() {
         isStarred = !isStarred
@@ -97,7 +99,8 @@ class GistPresenter : BasePresenter<GistMvp.View>(), GistMvp.Presenter {
     }
 
     override fun checkStarring(gistId: String) {
-        makeRestCall(getGistService(isEnterprise).checkGistStar(gistId)
+        makeRestCall(
+            getGistService(isEnterprise).checkGistStar(gistId)
         ) { booleanResponse ->
             isStarred = booleanResponse.code() == 204
             sendToView { view: GistMvp.View ->
@@ -110,7 +113,7 @@ class GistPresenter : BasePresenter<GistMvp.View>(), GistMvp.Presenter {
 
     override fun onWorkOffline(gistId: String) {
         if (gist == null) {
-            manageDisposable(RxHelper.getObservable(Gist.getGist(gistId))
+            manageDisposable(RxHelper.getObservable(GistDao.getGist(gistId))
                 .subscribe { gistsModel ->
                     gist = gistsModel
                     sendToView { it.onSetupDetails() }
@@ -120,12 +123,14 @@ class GistPresenter : BasePresenter<GistMvp.View>(), GistMvp.Presenter {
 
     override fun onPinUnpinGist() {
         if (gist == null) return
-        PinnedGists.pinUpin(gist!!)
-        sendToView { view: GistMvp.View ->
-            view.onUpdatePinIcon(
-                gist!!
-            )
+        manageObservable(RxHelper.getObservable(PinnedGistsDao.pinUpin(gist!!).toObservable())) {
+            sendToView { view: GistMvp.View ->
+                view.onUpdatePinIcon(
+                    gist!!
+                )
+            }
         }
+
     }
 
     override fun callApi() {

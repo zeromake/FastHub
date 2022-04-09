@@ -2,63 +2,63 @@ package com.fastaccess.data.dao
 
 import android.content.Context
 import androidx.fragment.app.Fragment
-import com.fastaccess.ui.modules.profile.overview.ProfileOverviewFragment.Companion.newInstance
-import com.fastaccess.ui.modules.theme.fragment.ThemeFragment.Companion.newInstance
-import com.fastaccess.ui.modules.repos.extras.branches.BranchesFragment.Companion.newInstance
-import com.fastaccess.ui.modules.repos.projects.list.RepoProjectFragment.Companion.newInstance
-import com.fastaccess.ui.modules.repos.projects.columns.ProjectColumnFragment.Companion.newInstance
 import com.fastaccess.R
+import com.fastaccess.data.dao.types.IssueState
+import com.fastaccess.data.dao.types.MyIssuesType
+import com.fastaccess.data.entity.Commit
+import com.fastaccess.data.entity.Gist
+import com.fastaccess.data.entity.PullRequest
+import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.ui.modules.feeds.FeedsFragment
-import com.fastaccess.ui.modules.profile.repos.ProfileReposFragment
-import com.fastaccess.ui.modules.profile.starred.ProfileStarredFragment
-import com.fastaccess.ui.modules.profile.gists.ProfileGistsFragment
-import com.fastaccess.ui.modules.profile.followers.ProfileFollowersFragment
-import com.fastaccess.ui.modules.profile.following.ProfileFollowingFragment
-import com.fastaccess.ui.modules.repos.code.prettifier.ViewerFragment
-import com.fastaccess.ui.modules.repos.code.files.paths.RepoFilePathFragment
-import com.fastaccess.ui.modules.repos.code.commit.RepoCommitsFragment
-import com.fastaccess.ui.modules.repos.code.releases.RepoReleasesFragment
-import com.fastaccess.ui.modules.search.repos.SearchReposFragment
-import com.fastaccess.ui.modules.search.users.SearchUsersFragment
-import com.fastaccess.ui.modules.search.issues.SearchIssuesFragment
-import com.fastaccess.ui.modules.search.code.SearchCodeFragment
-import com.fastaccess.ui.modules.repos.issues.issue.details.timeline.IssueTimelineFragment
-import com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.timeline.timeline.PullRequestTimelineFragment
-import com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.commits.PullRequestCommitsFragment
-import com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.files.PullRequestFilesFragment
-import com.fastaccess.ui.modules.repos.issues.issue.RepoOpenedIssuesFragment
-import com.fastaccess.ui.modules.repos.issues.issue.RepoClosedIssuesFragment
-import com.fastaccess.ui.modules.repos.pull_requests.pull_request.RepoPullRequestFragment
-import com.fastaccess.ui.modules.repos.code.commit.details.files.CommitFilesFragment
-import com.fastaccess.ui.modules.repos.code.commit.details.comments.CommitCommentsFragment
-import com.fastaccess.ui.modules.gists.gist.files.GistFilesListFragment
+import com.fastaccess.ui.modules.gists.GistsFragment
 import com.fastaccess.ui.modules.gists.gist.comments.GistCommentsFragment
-import com.fastaccess.ui.modules.notification.unread.UnreadNotificationsFragment
+import com.fastaccess.ui.modules.gists.gist.files.GistFilesListFragment
+import com.fastaccess.ui.modules.gists.starred.StarredGistsFragment
+import com.fastaccess.ui.modules.main.drawer.AccountDrawerFragment
+import com.fastaccess.ui.modules.main.drawer.MainDrawerFragment
+import com.fastaccess.ui.modules.main.issues.MyIssuesFragment
+import com.fastaccess.ui.modules.main.pullrequests.MyPullRequestFragment
 import com.fastaccess.ui.modules.notification.all.AllNotificationsFragment
 import com.fastaccess.ui.modules.notification.fasthub.FastHubNotificationsFragment
-import com.fastaccess.data.dao.model.Login
-import com.fastaccess.ui.modules.gists.starred.StarredGistsFragment
-import com.fastaccess.ui.modules.gists.GistsFragment
-import com.fastaccess.ui.modules.main.issues.MyIssuesFragment
-import com.fastaccess.data.dao.types.MyIssuesType
-import com.fastaccess.ui.modules.main.pullrequests.MyPullRequestFragment
+import com.fastaccess.ui.modules.notification.unread.UnreadNotificationsFragment
+import com.fastaccess.ui.modules.pinned.gist.PinnedGistFragment
+import com.fastaccess.ui.modules.pinned.issue.PinnedIssueFragment
+import com.fastaccess.ui.modules.pinned.pullrequest.PinnedPullRequestFragment
+import com.fastaccess.ui.modules.pinned.repo.PinnedReposFragment
+import com.fastaccess.ui.modules.profile.followers.ProfileFollowersFragment
+import com.fastaccess.ui.modules.profile.following.ProfileFollowingFragment
+import com.fastaccess.ui.modules.profile.gists.ProfileGistsFragment
 import com.fastaccess.ui.modules.profile.org.OrgProfileOverviewFragment
-import com.fastaccess.ui.modules.profile.org.repos.OrgReposFragment
 import com.fastaccess.ui.modules.profile.org.members.OrgMembersFragment
+import com.fastaccess.ui.modules.profile.org.repos.OrgReposFragment
 import com.fastaccess.ui.modules.profile.org.teams.OrgTeamFragment
 import com.fastaccess.ui.modules.profile.org.teams.details.members.TeamMembersFragment
 import com.fastaccess.ui.modules.profile.org.teams.details.repos.TeamReposFragment
-import com.fastaccess.data.dao.model.Commit
-import com.fastaccess.data.dao.model.Gist
-import com.fastaccess.data.dao.model.PullRequest
-import com.fastaccess.data.dao.types.IssueState
-import com.fastaccess.ui.modules.pinned.repo.PinnedReposFragment
-import com.fastaccess.ui.modules.pinned.issue.PinnedIssueFragment
-import com.fastaccess.ui.modules.pinned.pullrequest.PinnedPullRequestFragment
-import com.fastaccess.ui.modules.pinned.gist.PinnedGistFragment
-import com.fastaccess.ui.modules.main.drawer.MainDrawerFragment
-import com.fastaccess.ui.modules.main.drawer.AccountDrawerFragment
+import com.fastaccess.ui.modules.profile.overview.ProfileOverviewFragment.Companion.newInstance
+import com.fastaccess.ui.modules.profile.repos.ProfileReposFragment
+import com.fastaccess.ui.modules.profile.starred.ProfileStarredFragment
+import com.fastaccess.ui.modules.repos.code.commit.RepoCommitsFragment
+import com.fastaccess.ui.modules.repos.code.commit.details.comments.CommitCommentsFragment
+import com.fastaccess.ui.modules.repos.code.commit.details.files.CommitFilesFragment
 import com.fastaccess.ui.modules.repos.code.contributors.RepoContributorsFragment
+import com.fastaccess.ui.modules.repos.code.files.paths.RepoFilePathFragment
+import com.fastaccess.ui.modules.repos.code.prettifier.ViewerFragment
+import com.fastaccess.ui.modules.repos.code.releases.RepoReleasesFragment
+import com.fastaccess.ui.modules.repos.extras.branches.BranchesFragment.Companion.newInstance
+import com.fastaccess.ui.modules.repos.issues.issue.RepoClosedIssuesFragment
+import com.fastaccess.ui.modules.repos.issues.issue.RepoOpenedIssuesFragment
+import com.fastaccess.ui.modules.repos.issues.issue.details.timeline.IssueTimelineFragment
+import com.fastaccess.ui.modules.repos.projects.columns.ProjectColumnFragment.Companion.newInstance
+import com.fastaccess.ui.modules.repos.projects.list.RepoProjectFragment.Companion.newInstance
+import com.fastaccess.ui.modules.repos.pull_requests.pull_request.RepoPullRequestFragment
+import com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.commits.PullRequestCommitsFragment
+import com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.files.PullRequestFilesFragment
+import com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.timeline.timeline.PullRequestTimelineFragment
+import com.fastaccess.ui.modules.search.code.SearchCodeFragment
+import com.fastaccess.ui.modules.search.issues.SearchIssuesFragment
+import com.fastaccess.ui.modules.search.repos.SearchReposFragment
+import com.fastaccess.ui.modules.search.users.SearchUsersFragment
+import com.fastaccess.ui.modules.theme.fragment.ThemeFragment.Companion.newInstance
 
 /**
  * Created by Kosh on 03 Dec 2016, 9:26 AM
@@ -190,7 +190,7 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
                 ),
                 FragmentPagerAdapterModel(
                     context.getString(R.string.commits),
-                    PullRequestCommitsFragment.newInstance(repoId, login, number.toLong())
+                    PullRequestCommitsFragment.newInstance(repoId!!, login!!, number.toLong())
                 ),
                 FragmentPagerAdapterModel(
                     context.getString(R.string.files),
@@ -235,13 +235,13 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
 
         @JvmStatic
         fun buildForCommit(context: Context, commitModel: Commit): List<FragmentPagerAdapterModel> {
-            val login = commitModel.login
-            val repoId = commitModel.repoId
-            val sha = commitModel.sha
+            val login = commitModel.login!!
+            val repoId = commitModel.repoId!!
+            val sha = commitModel.sha!!
             return listOf(
                 FragmentPagerAdapterModel(
                     context.getString(R.string.files),
-                    CommitFilesFragment.newInstance(commitModel.sha, commitModel.files)
+                    CommitFilesFragment.newInstance(sha, commitModel.files)
                 ),
                 FragmentPagerAdapterModel(
                     context.getString(R.string.comments),
@@ -255,13 +255,12 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
             return listOf(
                 FragmentPagerAdapterModel(
                     context.getString(R.string.files), GistFilesListFragment.newInstance(
-                        gistsModel
-                            .filesAsList, false
+                        gistsModel.getFilesAsList(), false
                     )
                 ),
                 FragmentPagerAdapterModel(
                     context.getString(R.string.comments),
-                    GistCommentsFragment.newInstance(gistsModel.gistId)
+                    GistCommentsFragment.newInstance(gistsModel.gistId!!)
                 )
             )
         }
@@ -288,8 +287,9 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
         fun buildForGists(context: Context): List<FragmentPagerAdapterModel> {
             return listOf(
                 FragmentPagerAdapterModel(
-                    context.getString(R.string.my_gists), ProfileGistsFragment
-                        .newInstance(Login.getUser().login)
+                    context.getString(R.string.my_gists),
+                    ProfileGistsFragment
+                        .newInstance(LoginDao.getUser().blockingGet().or().login!!)
                 ),
                 FragmentPagerAdapterModel(
                     context.getString(R.string.starred),

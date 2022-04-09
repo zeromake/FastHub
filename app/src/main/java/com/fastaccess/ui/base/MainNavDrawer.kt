@@ -6,7 +6,8 @@ import android.view.View
 import android.widget.TextView
 import com.fastaccess.R
 import com.fastaccess.data.dao.FragmentPagerAdapterModel
-import com.fastaccess.data.dao.model.Login
+import com.fastaccess.data.entity.Login
+import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.helper.PrefGetter
 import com.fastaccess.ui.adapter.FragmentsPagerAdapter
 import com.fastaccess.ui.widgets.AvatarLayout
@@ -31,7 +32,7 @@ class MainNavDrawer(val view: BaseActivity<*, *>, private val extraNav: Navigati
 
     fun setupView() {
         val view = extraNav?.getHeaderView(0) ?: return
-        val userModel: Login? = Login.getUser()
+        val userModel: Login? = LoginDao.getUser().blockingGet().get()
         userModel?.let {
             (view.findViewById<View>(R.id.navAvatarLayout) as AvatarLayout).setUrl(
                 it.avatarUrl, null, false,

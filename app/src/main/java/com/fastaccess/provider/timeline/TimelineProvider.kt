@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.text.style.BackgroundColorSpan
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.User
 import com.fastaccess.data.dao.timeline.GenericEvent
 import com.fastaccess.data.dao.types.IssueEventType
 import com.fastaccess.helper.InputHelper.isEmpty
@@ -36,7 +36,7 @@ object TimelineProvider {
             val thisString = context.getString(R.string.this_value)
             val `in` = context.getString(R.string.in_value)
             if (event === IssueEventType.labeled || event === IssueEventType.unlabeled) {
-                spannableBuilder.bold(if (issueEventModel.actor != null) issueEventModel.actor!!.login else "anonymous")
+                spannableBuilder.bold(if (issueEventModel.actor != null) issueEventModel.actor!!.login!! else "anonymous")
                 spannableBuilder.append(" ").append(event.name.replace("_".toRegex(), " "))
                 val labelModel = issueEventModel.label!!
                 val color = Color.parseColor("#" + labelModel.color)
@@ -59,7 +59,7 @@ object TimelineProvider {
                     user = issueEventModel.author
                 }
                 if (user != null) {
-                    spannableBuilder.bold(user.login)
+                    spannableBuilder.bold(user.login!!)
                 }
                 if ((event === IssueEventType.review_requested || event === IssueEventType.review_dismissed ||
                             event === IssueEventType.review_request_removed) && user != null
@@ -101,7 +101,7 @@ object TimelineProvider {
                             .append(if (event === IssueEventType.assigned) "assigned" else "unassigned")
                         spannableBuilder
                             .append(" ")
-                            .bold(if (issueEventModel.assignee != null) issueEventModel.assignee!!.login else "")
+                            .bold(if (issueEventModel.assignee != null) issueEventModel.assignee!!.login!! else "")
                     }
                 } else if (event === IssueEventType.locked || event === IssueEventType.unlocked) {
                     spannableBuilder
@@ -161,7 +161,7 @@ object TimelineProvider {
                                 title.url(substring(sourceModel.commit!!.sha))
                             }
                             sourceModel.repository != null -> {
-                                title.url(sourceModel.repository!!.name)
+                                title.url(sourceModel.repository!!.name!!)
                             }
                         }
                         if (!isEmpty(title)) {
@@ -217,7 +217,7 @@ object TimelineProvider {
                 .append(" ")
                 .append("team")
         } else if (reviewer != null && !user.login.equals(reviewer.login, ignoreCase = true)) {
-            spannableBuilder.bold(issueEventModel.requestedReviewer!!.login)
+            spannableBuilder.bold(issueEventModel.requestedReviewer!!.login!!)
         }
     }
 

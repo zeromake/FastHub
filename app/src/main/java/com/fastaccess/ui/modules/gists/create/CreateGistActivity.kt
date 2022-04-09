@@ -10,8 +10,8 @@ import androidx.activity.result.ActivityResultLauncher
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.FilesListModel
-import com.fastaccess.data.dao.model.Gist
-import com.fastaccess.data.dao.model.Login
+import com.fastaccess.data.entity.Gist
+import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler
 import com.fastaccess.helper.InputHelper.isEmpty
@@ -172,13 +172,13 @@ class CreateGistActivity : BaseActivity<CreateGistMvp.View, CreateGistPresenter>
         @JvmStatic
         private fun putBundle(gistsModel: Gist, starter: Intent) {
             val login =
-                if (gistsModel.owner != null) gistsModel.owner.login else if (gistsModel.user != null) gistsModel.user.login else ""
+                if (gistsModel.owner != null) gistsModel.owner!!.login else if (gistsModel.user != null) gistsModel.user!!.login else ""
             starter.putExtras(
                 Bundler.start()
-                    .putParcelableArrayList(BundleConstant.ITEM, gistsModel.filesAsList)
+                    .putParcelableArrayList(BundleConstant.ITEM, gistsModel.getFilesAsList())
                     .put(
                         BundleConstant.EXTRA,
-                        Login.getUser().login.equals(login, ignoreCase = true)
+                        LoginDao.getUser().blockingGet().or().login.equals(login, ignoreCase = true)
                     )
                     .put(BundleConstant.ID, gistsModel.gistId)
                     .put(BundleConstant.EXTRA_TWO, gistsModel.description)

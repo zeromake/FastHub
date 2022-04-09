@@ -3,7 +3,7 @@ package com.fastaccess.data.dao
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import android.os.Parcel
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.User
 import com.fastaccess.github.PullRequestTimelineQuery
 import java.util.ArrayList
 

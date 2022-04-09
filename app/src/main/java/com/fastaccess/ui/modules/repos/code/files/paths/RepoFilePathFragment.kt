@@ -12,8 +12,8 @@ import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.BranchesModel
 import com.fastaccess.data.dao.EditRepoFileModel
-import com.fastaccess.data.dao.model.Login
-import com.fastaccess.data.dao.model.RepoFile
+import com.fastaccess.data.entity.RepoFile
+import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler.Companion.start
 import com.fastaccess.helper.InputHelper.isEmpty
@@ -247,7 +247,7 @@ class RepoFilePathFragment : BaseFragment<RepoFilePathMvp.View, RepoFilePathPres
         }
         refs = presenter!!.defaultBranch
         branches!!.text = refs
-        if (Login.getUser().login.equals(
+        if (LoginDao.getUser().blockingGet().or().login.equals(
                 presenter!!.login,
                 ignoreCase = true
             ) || repoCallback != null && repoCallback!!.isCollaborator

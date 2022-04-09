@@ -10,8 +10,8 @@ import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
 import android.content.Intent
 import android.os.Bundle
 import com.fastaccess.data.dao.LabelModel
-import com.fastaccess.data.dao.model.Issue
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.Issue
+import com.fastaccess.data.entity.User
 import java.util.ArrayList
 
 /**

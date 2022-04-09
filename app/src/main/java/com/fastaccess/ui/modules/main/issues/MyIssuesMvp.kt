@@ -2,7 +2,7 @@ package com.fastaccess.ui.modules.main.issues
 
 import com.fastaccess.ui.base.mvp.BaseMvp.FAView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
-import com.fastaccess.data.dao.model.Issue
+import com.fastaccess.data.entity.Issue
 import com.fastaccess.data.dao.types.IssueState
 import com.fastaccess.provider.rest.loadmore.OnLoadMore
 import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter

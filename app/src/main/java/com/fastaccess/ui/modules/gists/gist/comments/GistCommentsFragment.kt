@@ -11,8 +11,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.SparseBooleanArrayParcelable
-import com.fastaccess.data.dao.model.Comment
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.Comment
+import com.fastaccess.data.entity.User
 import com.fastaccess.helper.ActivityHelper
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.BundleConstant.ExtraType
@@ -219,7 +219,7 @@ class GistCommentsFragment : BaseFragment<GistCommentsMvp.View, GistCommentsPres
 
     override fun onTagUser(user: User) {
         if (commentsCallback != null) {
-            commentsCallback!!.onTagUser(user.login)
+            commentsCallback!!.onTagUser(user.login!!)
         }
     }
 

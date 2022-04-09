@@ -2,7 +2,7 @@ package com.fastaccess.ui.modules.gists.create
 
 import com.fastaccess.data.dao.CreateGistModel
 import com.fastaccess.data.dao.FilesListModel
-import com.fastaccess.data.dao.model.Gist
+import com.fastaccess.data.entity.Gist
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.InputHelper.toString
 import com.fastaccess.provider.rest.RestProvider

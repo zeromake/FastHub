@@ -1,6 +1,6 @@
 package com.fastaccess.data.dao
 
-import com.fastaccess.data.dao.model.RepoFile
+import com.fastaccess.data.entity.RepoFile
 
 /**
  * Created by Kosh on 12 Apr 2017, 1:12 PM

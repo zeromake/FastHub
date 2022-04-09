@@ -3,7 +3,7 @@ package com.fastaccess.ui.modules.profile.org
 import com.fastaccess.ui.base.mvp.BaseMvp.FAView
 import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
 import android.os.Bundle
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.User
 
 /**
  * Created by Kosh on 03 Dec 2016, 7:59 AM

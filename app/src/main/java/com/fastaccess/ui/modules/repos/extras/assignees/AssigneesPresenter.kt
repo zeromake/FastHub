@@ -1,6 +1,6 @@
 package com.fastaccess.ui.modules.repos.extras.assignees
 
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.User
 import com.fastaccess.provider.rest.RestProvider.getRepoService
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 

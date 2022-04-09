@@ -18,7 +18,7 @@ import androidx.transition.TransitionManager
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.EditReviewCommentModel
-import com.fastaccess.data.dao.model.Comment
+import com.fastaccess.data.entity.Comment
 import com.fastaccess.helper.*
 import com.fastaccess.provider.emoji.Emoji
 import com.fastaccess.provider.markdown.MarkDownProvider

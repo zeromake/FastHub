@@ -14,9 +14,11 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener
 import com.fastaccess.R
 import com.fastaccess.data.dao.FragmentPagerAdapterModel.Companion.buildForGist
-import com.fastaccess.data.dao.model.Gist
-import com.fastaccess.data.dao.model.Login
-import com.fastaccess.data.dao.model.PinnedGists
+import com.fastaccess.data.entity.Gist
+import com.fastaccess.data.entity.Login
+import com.fastaccess.data.entity.PinnedGists
+import com.fastaccess.data.entity.dao.LoginDao
+import com.fastaccess.data.entity.dao.PinnedGistsDao
 import com.fastaccess.helper.ActivityHelper
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler
@@ -66,10 +68,10 @@ class GistActivity : BaseActivity<GistMvp.View, GistPresenter>(), GistMvp.View {
     private var iconColor = 0
     private var commentEditorFragment: CommentEditorFragment? = null
 
-    fun onTitleClick() {
+    private fun onTitleClick() {
         if (presenter!!.gist != null && !isEmpty(presenter!!.gist!!.description)) newInstance(
             getString(R.string.details),
-            presenter!!.gist!!.description,
+            presenter!!.gist!!.description!!,
             isMarkDown = false,
             hideCancel = true
         )
@@ -85,7 +87,7 @@ class GistActivity : BaseActivity<GistMvp.View, GistPresenter>(), GistMvp.View {
             R.id.startGist -> {
                 startForGist(
                     this,
-                    presenter!!.gist!!.gistId,
+                    presenter!!.gist!!.gistId!!,
                     if (presenter!!.isStarred) GithubActionService.UNSTAR_GIST else GithubActionService.STAR_GIST,
                     isEnterprise
                 )
@@ -93,12 +95,12 @@ class GistActivity : BaseActivity<GistMvp.View, GistPresenter>(), GistMvp.View {
             }
             R.id.forkGist -> {
                 startForGist(
-                    this, presenter!!.gist!!.gistId,
+                    this, presenter!!.gist!!.gistId!!,
                     GithubActionService.FORK_GIST, isEnterprise
                 )
                 presenter!!.onForkGist()
             }
-            R.id.browser -> ActivityHelper.startCustomTab(this, presenter!!.gist!!.htmlUrl)
+            R.id.browser -> ActivityHelper.startCustomTab(this, presenter!!.gist!!.htmlUrl!!)
         }
     }
 
@@ -188,7 +190,7 @@ class GistActivity : BaseActivity<GistMvp.View, GistPresenter>(), GistMvp.View {
             R.id.share -> {
                 if (presenter!!.gist != null) ActivityHelper.shareUrl(
                     this,
-                    presenter!!.gist!!.htmlUrl
+                    presenter!!.gist!!.htmlUrl!!
                 )
                 return true
             }
@@ -258,24 +260,24 @@ class GistActivity : BaseActivity<GistMvp.View, GistPresenter>(), GistMvp.View {
         val gistsModel = presenter!!.gist ?: return
         onUpdatePinIcon(gistsModel)
         val url =
-            if (gistsModel.owner != null) gistsModel.owner.avatarUrl else if (gistsModel.user != null) gistsModel.user.avatarUrl else ""
+            if (gistsModel.owner != null) gistsModel.owner!!.avatarUrl else if (gistsModel.user != null) gistsModel.user!!.avatarUrl else ""
         val login =
-            if (gistsModel.owner != null) gistsModel.owner.login else if (gistsModel.user != null) gistsModel.user.login else ""
+            if (gistsModel.owner != null) gistsModel.owner!!.login else if (gistsModel.user != null) gistsModel.user!!.login else ""
         avatarLayout!!.setUrl(url, login, false, isEnterprise(gistsModel.htmlUrl))
-        title!!.text = gistsModel.getDisplayTitle(false, true)
-        setTaskName(gistsModel.getDisplayTitle(false, true).toString())
-        edit!!.visibility = if (Login.getUser().login == login) View.VISIBLE else View.GONE
+        title!!.text = gistsModel.getDisplayTitle(isFromProfile = false, gistView = true)
+        setTaskName(gistsModel.getDisplayTitle(isFromProfile = false, gistView = true).toString())
+        edit!!.visibility = if (LoginDao.getUser().blockingGet().or().login == login) View.VISIBLE else View.GONE
         detailsIcon!!.visibility = if (isEmpty(gistsModel.description) || !ViewHelper.isEllipsed(
                 title!!
             )
         ) View.GONE else View.VISIBLE
-        if (gistsModel.createdAt.before(gistsModel.updatedAt)) {
+        if (gistsModel.createdAt!!.before(gistsModel.updatedAt)) {
             date!!.text =
                 String.format("%s %s", getTimeAgo(gistsModel.createdAt), getString(R.string.edited))
         } else {
             date!!.text = getTimeAgo(gistsModel.createdAt)
         }
-        size!!.text = Formatter.formatFileSize(this, gistsModel.size)
+        size!!.text = Formatter.formatFileSize(this, gistsModel.getSize())
         pager!!.adapter =
             FragmentsPagerAdapter(supportFragmentManager, buildForGist(this, gistsModel))
         pager!!.currentItem = 0
@@ -300,9 +302,9 @@ class GistActivity : BaseActivity<GistMvp.View, GistPresenter>(), GistMvp.View {
 
     override fun onUpdatePinIcon(gist: Gist) {
         pinUnpin!!.setImageDrawable(
-            if (PinnedGists.isPinned(
+            if (PinnedGistsDao.isPinned(
                     gist.gistId.hashCode().toLong()
-                )
+                ).blockingGet()
             ) ContextCompat.getDrawable(
                 this,
                 R.drawable.ic_pin_filled

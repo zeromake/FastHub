@@ -3,8 +3,8 @@ package com.fastaccess.ui.modules.repos.extras.misc
 import android.os.Bundle
 import android.view.View
 import com.fastaccess.data.dao.Pageable
-import com.fastaccess.data.dao.model.Repo
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.Repo
+import com.fastaccess.data.entity.User
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.provider.rest.RestProvider.getRepoService
@@ -63,10 +63,10 @@ class RepoMiscPresenter internal constructor(arguments: Bundle?) :
                 makeRestCall(getRepoService(isEnterprise).getForks(
                     owner!!, repo!!, page
                 )
-                    .flatMap<List<User>> { repoPageable: Pageable<Repo> ->
+                    .flatMap { repoPageable ->
                         lastPage = repoPageable.last
                         Observable.fromIterable(repoPageable.items)
-                            .map { obj: Repo -> obj.owner }
+                            .map { obj: Repo -> obj.owner!! }
                             .toList()
                             .toObservable()
                     }) { owners ->

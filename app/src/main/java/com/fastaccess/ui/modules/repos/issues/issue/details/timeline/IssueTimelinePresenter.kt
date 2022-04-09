@@ -9,10 +9,11 @@ import com.fastaccess.R
 import com.fastaccess.data.dao.CommentRequestModel
 import com.fastaccess.data.dao.TimelineModel
 import com.fastaccess.data.dao.TimelineModel.Companion.constructComment
-import com.fastaccess.data.dao.model.Comment
-import com.fastaccess.data.dao.model.Issue
-import com.fastaccess.data.dao.model.Login
+import com.fastaccess.data.entity.Comment
+import com.fastaccess.data.entity.Issue
+import com.fastaccess.data.entity.Login
 import com.fastaccess.data.dao.types.ReactionTypes
+import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.helper.ActivityHelper
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.InputHelper.isEmpty
@@ -63,9 +64,13 @@ class IssueTimelinePresenter : BasePresenter<IssueTimelineMvp.View>(), IssueTime
                 if (v!!.id == R.id.commentMenu) {
                     val popupMenu = PopupMenu(v.context, v)
                     popupMenu.inflate(R.menu.comments_menu)
-                    val username = Login.getUser().login
+                    val username = LoginDao.getUser().blockingGet().or().login!!
                     val isOwner =
-                        isOwner(username, issue.login, item.comment!!.user.login) || isCollaborator
+                        isOwner(
+                            username,
+                            issue.login!!,
+                            item.comment!!.user!!.login!!
+                        ) || isCollaborator
                     popupMenu.menu.findItem(R.id.delete).isVisible = isOwner
                     popupMenu.menu.findItem(R.id.edit).isVisible = isOwner
                     popupMenu.setOnMenuItemClickListener { item1: MenuItem ->
@@ -81,7 +86,7 @@ class IssueTimelinePresenter : BasePresenter<IssueTimelineMvp.View>(), IssueTime
                                 view!!.onEditComment(item.comment!!)
                             }
                             R.id.share -> {
-                                ActivityHelper.shareUrl(v.context, item.comment!!.htmlUrl)
+                                ActivityHelper.shareUrl(v.context, item.comment!!.htmlUrl!!)
                             }
                         }
                         true
@@ -96,14 +101,19 @@ class IssueTimelinePresenter : BasePresenter<IssueTimelineMvp.View>(), IssueTime
                     launchUri(v!!.context, Uri.parse(issueEventModel.commitUrl))
                 } else if (issueEventModel.label != null) {
                     FilterIssuesActivity.startActivity(
-                        v!!, issue.login, issue.repoId, true,
-                        isOpen = true, isEnterprise = isEnterprise, criteria = "label:\"" + issueEventModel.label!!.name + "\""
+                        v!!,
+                        issue.login!!,
+                        issue.repoId!!,
+                        true,
+                        isOpen = true,
+                        isEnterprise = isEnterprise,
+                        criteria = "label:\"" + issueEventModel.label!!.name + "\""
                     )
                 } else if (issueEventModel.milestone != null) {
                     FilterIssuesActivity.startActivity(
                         v!!,
-                        issue.login,
-                        issue.repoId,
+                        issue.login!!,
+                        issue.repoId!!,
                         isIssue = true,
                         isOpen = true,
                         isEnterprise = isEnterprise,
@@ -111,24 +121,29 @@ class IssueTimelinePresenter : BasePresenter<IssueTimelineMvp.View>(), IssueTime
                     )
                 } else if (issueEventModel.assignee != null) {
                     FilterIssuesActivity.startActivity(
-                        v!!, issue.login, issue.repoId, isIssue = true,
-                        isOpen = true, isEnterprise = isEnterprise, criteria = "assignee:\"" + issueEventModel.assignee!!.login + "\""
+                        v!!,
+                        issue.login!!,
+                        issue.repoId!!,
+                        isIssue = true,
+                        isOpen = true,
+                        isEnterprise = isEnterprise,
+                        criteria = "assignee:\"" + issueEventModel.assignee!!.login + "\""
                     )
                 } else {
                     val sourceModel = issueEventModel.source
                     if (sourceModel != null) {
                         when {
                             sourceModel.commit != null -> {
-                                launchUri(v!!.context, sourceModel.commit!!.url)
+                                launchUri(v!!.context, sourceModel.commit!!.url!!)
                             }
                             sourceModel.pullRequest != null -> {
-                                launchUri(v!!.context, sourceModel.pullRequest!!.url)
+                                launchUri(v!!.context, sourceModel.pullRequest!!.url!!)
                             }
                             sourceModel.issue != null -> {
-                                launchUri(v!!.context, sourceModel.issue!!.htmlUrl)
+                                launchUri(v!!.context, sourceModel.issue!!.htmlUrl!!)
                             }
                             sourceModel.repository != null -> {
-                                launchUri(v!!.context, sourceModel.repository!!.url)
+                                launchUri(v!!.context, sourceModel.repository!!.url!!)
                             }
                         }
                     }
@@ -137,10 +152,11 @@ class IssueTimelinePresenter : BasePresenter<IssueTimelineMvp.View>(), IssueTime
                 if (v!!.id == R.id.commentMenu) {
                     val popupMenu = PopupMenu(v.context, v)
                     popupMenu.inflate(R.menu.comments_menu)
-                    val username = Login.getUser().login
+                    val username = LoginDao.getUser().blockingGet().or().login
                     val isOwner = isOwner(
-                        username, item.issue!!.login,
-                        item.issue!!.user.login
+                        username!!,
+                        item.issue!!.login!!,
+                        item.issue!!.user!!.login!!
                     ) || isCollaborator
                     popupMenu.menu.findItem(R.id.edit).isVisible = isOwner
                     popupMenu.setOnMenuItemClickListener { item1: MenuItem ->
@@ -155,7 +171,7 @@ class IssueTimelinePresenter : BasePresenter<IssueTimelineMvp.View>(), IssueTime
                                 }
                             }
                             R.id.share -> {
-                                ActivityHelper.shareUrl(v.context, item.issue!!.htmlUrl)
+                                ActivityHelper.shareUrl(v.context, item.issue!!.htmlUrl!!)
                             }
                         }
                         true
@@ -185,13 +201,19 @@ class IssueTimelinePresenter : BasePresenter<IssueTimelineMvp.View>(), IssueTime
                         if (item.type == TimelineModel.HEADER) {
                             view!!.showReactionsPopup(
                                 type,
-                                login,
-                                repoId,
+                                login!!,
+                                repoId!!,
                                 item.issue!!.number.toLong(),
                                 true
                             )
                         } else {
-                            view!!.showReactionsPopup(type, login, repoId, item.comment!!.id, false)
+                            view!!.showReactionsPopup(
+                                type,
+                                login!!,
+                                repoId!!,
+                                item.comment!!.id,
+                                false,
+                            )
                         }
                     } else {
                         onItemClick(position, v, item)
@@ -215,10 +237,12 @@ class IssueTimelinePresenter : BasePresenter<IssueTimelineMvp.View>(), IssueTime
             val commId = bundle.getLong(BundleConstant.EXTRA, 0)
             if (commId != 0L) {
                 if (view == null || view!!.issue == null) return
-                val issue = view!!.issue
+                val issue = view!!.issue!!
                 makeRestCall(
                     getIssueService(isEnterprise).deleteIssueComment(
-                        issue!!.login, issue.repoId, commId
+                        issue.login!!,
+                        issue.repoId!!,
+                        commId
                     )
                 ) { booleanResponse ->
                     sendToView { view ->
@@ -267,8 +291,8 @@ class IssueTimelinePresenter : BasePresenter<IssueTimelineMvp.View>(), IssueTime
                 commentRequestModel.body = text
                 manageDisposable(RxHelper.getObservable(
                     getIssueService(isEnterprise).createIssueComment(
-                        issue.login, issue
-                            .repoId,
+                        issue.login!!,
+                        issue.repoId!!,
                         issue.number, commentRequestModel
                     )
                 )
@@ -315,18 +339,21 @@ class IssueTimelinePresenter : BasePresenter<IssueTimelineMvp.View>(), IssueTime
         val login = parameter.login
         val repoId = parameter.repoId
         if (page == 1) {
-            manageObservable(getRepoService(isEnterprise).isCollaborator(
-                login, repoId,
-                Login.getUser().login
-            )
-                .doOnNext { booleanResponse ->
-                    isCollaborator = booleanResponse.code() == 204
-                }
+            manageObservable(
+                LoginDao.getUser().toObservable()
+                    .flatMap {
+                        getRepoService(isEnterprise).isCollaborator(
+                            login!!, repoId!!,
+                            it.or().login!!
+                        )
+                    }.doOnNext { booleanResponse ->
+                        isCollaborator = booleanResponse.code() == 204
+                    }
             )
         }
         val number = parameter.number
         val observable = getIssueService(isEnterprise)
-            .getTimeline(login, repoId, number, page)
+            .getTimeline(login!!, repoId!!, number, page)
             .flatMap { response ->
                 lastPage = response.last
                 convert(response.items)

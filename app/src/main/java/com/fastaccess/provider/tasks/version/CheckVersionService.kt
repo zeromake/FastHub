@@ -14,13 +14,17 @@ import com.google.firebase.messaging.EnhancedIntentService
  */
 class CheckVersionService : EnhancedIntentService() {
     override fun handleIntent(p0: Intent) {
-        val d = RxHelper.getObservable(RestProvider.getRepoService(false)
-                .getLatestRelease("k0shk0sh", "FastHub"))
-                .subscribe({ t ->
-                    t?.let {
-                        Toast.makeText(App.getInstance(), if (BuildConfig.VERSION_NAME.contains(it.tagName))
-                            R.string.up_to_date else R.string.new_version, Toast.LENGTH_LONG).show()
-                    }
-                }, { throwable -> throwable.printStackTrace() })
+        val d = RxHelper.getObservable(
+            RestProvider.getRepoService(false)
+                .getLatestRelease("k0shk0sh", "FastHub")
+        )
+            .subscribe({ t ->
+                t?.let {
+                    Toast.makeText(
+                        App.getInstance(), if (BuildConfig.VERSION_NAME.contains(it.tagName!!))
+                            R.string.up_to_date else R.string.new_version, Toast.LENGTH_LONG
+                    ).show()
+                }
+            }, { throwable -> throwable.printStackTrace() })
     }
 }

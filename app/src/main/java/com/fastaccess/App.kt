@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.pm.ShortcutManager
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.fastaccess.data.dao.model.Models
+import com.fastaccess.data.db.ObjectBox
 import com.fastaccess.helper.DeviceNameGetter
 import com.fastaccess.helper.PrefHelper.init
 import com.fastaccess.helper.SettingsDataStore
@@ -15,26 +15,20 @@ import com.fastaccess.provider.emoji.EmojiManager
 import com.fastaccess.provider.rest.DnsProvider
 import com.miguelbcr.io.rx_billing_service.RxBillingService
 import es.dmoral.toasty.Toasty
-import io.requery.Persistable
-import io.requery.android.sqlite.DatabaseSource
-import io.requery.reactivex.ReactiveEntityStore
-import io.requery.reactivex.ReactiveSupport
-import io.requery.sql.EntityDataStore
-import io.requery.sql.TableCreationMode
 
 /**
  * Created by Kosh on 03 Feb 2017, 12:07 AM
  */
 class App : Application() {
-    val dataStore: ReactiveEntityStore<Persistable> by lazy {
-        val model = Models.DEFAULT
-        val source = DatabaseSource(this, model, "FastHub-DB", 18)
-        val configuration = source.configuration
-        if (BuildConfig.DEBUG) {
-            source.setTableCreationMode(TableCreationMode.CREATE_NOT_EXISTS)
-        }
-        ReactiveSupport.toReactiveStore(EntityDataStore(configuration))
-    }
+//    val dataStore: ReactiveEntityStore<Persistable> by lazy {
+//        val model = Models.DEFAULT
+//        val source = DatabaseSource(this, model, "FastHub-DB", 18)
+//        val configuration = source.configuration
+//        if (BuildConfig.DEBUG) {
+//            source.setTableCreationMode(TableCreationMode.CREATE_NOT_EXISTS)
+//        }
+//        ReactiveSupport.toReactiveStore(EntityDataStore(configuration))
+//    }
 
     override fun onCreate() {
         super.onCreate()
@@ -52,10 +46,10 @@ class App : Application() {
 
     private fun init() {
         Report.init(applicationContext)
+        ObjectBox.init(applicationContext)
         DnsProvider.instance.init(applicationContext)
         RxBillingService.register(this)
         deleteDatabase("database.db")
-        dataStore
         setupPreference()
         generateTypeface(this)
         if (BuildConfig.DEBUG) {

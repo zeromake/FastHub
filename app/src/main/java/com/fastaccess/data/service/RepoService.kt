@@ -1,7 +1,7 @@
 package com.fastaccess.data.service
 
 import com.fastaccess.data.dao.*
-import com.fastaccess.data.dao.model.*
+import com.fastaccess.data.entity.*
 import io.reactivex.Observable
 import retrofit2.Response
 import retrofit2.http.*

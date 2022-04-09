@@ -6,9 +6,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.fastaccess.data.dao.EditReviewCommentModel
 import com.fastaccess.data.dao.ReviewCommentModel
 import com.fastaccess.data.dao.TimelineModel
-import com.fastaccess.data.dao.model.Comment
-import com.fastaccess.data.dao.model.PullRequest
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.Comment
+import com.fastaccess.data.entity.PullRequest
+import com.fastaccess.data.entity.User
 import com.fastaccess.data.dao.types.ReactionTypes
 import com.fastaccess.provider.rest.loadmore.OnLoadMore
 import com.fastaccess.provider.timeline.ReactionsProvider.ReactionType

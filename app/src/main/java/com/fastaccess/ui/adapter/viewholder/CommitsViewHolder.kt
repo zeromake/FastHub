@@ -3,7 +3,7 @@ package com.fastaccess.ui.adapter.viewholder
 import android.view.View
 import android.view.ViewGroup
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.Commit
+import com.fastaccess.data.entity.Commit
 import com.fastaccess.helper.InputHelper.toNA
 import com.fastaccess.helper.ParseDateFormat.Companion.getTimeAgo
 import com.fastaccess.provider.scheme.LinkParserHelper.isEnterprise
@@ -23,13 +23,13 @@ class CommitsViewHolder private constructor(
     val title: FontTextView? = itemView.findViewById(R.id.title)
     val avatarLayout: AvatarLayout? = itemView.findViewById(R.id.avatarLayout)
     var details: FontTextView? = itemView.findViewById(R.id.details)
-    var commentsNo: FontTextView? = itemView.findViewById(R.id.commentsNo)
+    private var commentsNo: FontTextView? = itemView.findViewById(R.id.commentsNo)
     override fun bind(t: Commit) {
-        title!!.text = t.gitCommit.message
+        title!!.text = t.gitCommit!!.message
         val login =
-            if (t.author != null) t.author.login else t.gitCommit.author!!.login
-        val avatar = if (t.author != null) t.author.avatarUrl else null
-        val date = t.gitCommit.author!!.date
+            if (t.author != null) t.author!!.login else t.gitCommit!!.author!!.login
+        val avatar = if (t.author != null) t.author!!.avatarUrl else null
+        val date = t.gitCommit!!.author!!.date
         details!!.text = builder()
             .bold(toNA(login))
             .append(" ")
@@ -38,11 +38,11 @@ class CommitsViewHolder private constructor(
             avatar,
             login,
             false,
-            isEnterprise(if (t.author != null) t.author.url else t.gitCommit.author!!.htmlUrl)
+            isEnterprise(if (t.author != null) t.author!!.url else t.gitCommit!!.author!!.htmlUrl)
         )
         avatarLayout.visibility = View.VISIBLE
-        if (t.gitCommit != null && t.gitCommit.commentCount > 0) {
-            commentsNo!!.text = if (t.gitCommit != null) t.gitCommit.commentCount.toString() else 0.toString()
+        if (t.gitCommit != null && t.gitCommit!!.commentCount > 0) {
+            commentsNo!!.text = if (t.gitCommit != null) t.gitCommit!!.commentCount.toString() else 0.toString()
             commentsNo!!.visibility = View.VISIBLE
         } else {
             commentsNo!!.visibility = View.GONE

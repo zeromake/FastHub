@@ -9,7 +9,7 @@ import androidx.annotation.StringRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fastaccess.R
 import com.fastaccess.data.dao.PullsIssuesParser
-import com.fastaccess.data.dao.model.PullRequest
+import com.fastaccess.data.entity.PullRequest
 import com.fastaccess.data.dao.types.IssueState
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler
