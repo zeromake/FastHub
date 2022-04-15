@@ -83,7 +83,7 @@ class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresent
     @State
     var users = ArrayList<User>()
     private var alertDialog: AlertDialog? = null
-    private var savedText: CharSequence? = null
+    private var savedText: CharSequence = ""
     override fun onSetCode(charSequence: CharSequence) {
         savedText = charSequence
         setMdText(description!!, toString(savedText))
@@ -319,7 +319,7 @@ class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresent
     fun onClick() {
         presenter!!.onSubmit(
             toString(title),
-            savedText!!,
+            savedText,
             login!!,
             repoId!!,
             issue,
