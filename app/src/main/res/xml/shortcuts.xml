@@ -9,7 +9,7 @@
             android:action="android.intent.action.VIEW"
             android:data="fasthub://myIssues"
             android:targetClass="com.fastaccess.ui.modules.main.MainActivity"
-            android:targetPackage="com.fastaccess.github" />
+            android:targetPackage="com.fastaccess.github.revival" />
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
     <shortcut
@@ -22,7 +22,7 @@
             android:action="android.intent.action.VIEW"
             android:data="fasthub://myPulls"
             android:targetClass="com.fastaccess.ui.modules.main.MainActivity"
-            android:targetPackage="com.fastaccess.github" />
+            android:targetPackage="com.fastaccess.github.revival" />
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
     <shortcut
@@ -35,7 +35,7 @@
             android:action="android.intent.action.VIEW"
             android:data="fasthub://profile"
             android:targetClass="com.fastaccess.ui.modules.user.UserPagerActivity"
-            android:targetPackage="com.fastaccess.github" />
+            android:targetPackage="com.fastaccess.github.revival" />
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
     <shortcut
@@ -48,7 +48,7 @@
             android:action="android.intent.action.VIEW"
             android:data="fasthub://pinned"
             android:targetClass="com.fastaccess.ui.modules.pinned.PinnedReposActivity"
-            android:targetPackage="com.fastaccess.github" />
+            android:targetPackage="com.fastaccess.github.revival" />
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
 </shortcuts>

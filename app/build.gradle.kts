@@ -34,7 +34,7 @@ android {
     buildToolsVersion = "31.0.0"
     defaultConfig {
         applicationId = "com.fastaccess.github.revival"
-        minSdk = 23
+        minSdk = 25
         targetSdk = 31
         versionCode = 477
         versionName = "4.7.7"
@@ -226,12 +226,6 @@ dependencies {
     // androidx javax annotation
     implementation("org.glassfish:javax.annotation:10.0-b28")
     implementation("androidx.annotation:annotation:1.3.0")
-
-
-    // shortbread
-    implementation("com.github.matthiasrobbers:shortbread:1.4.0")
-//    kapt("com.github.matthiasrobbers:shortbread-compiler:1.4.0")
-
 
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:4.4.0")
