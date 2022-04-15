@@ -54,6 +54,7 @@ class ProfileStarredPresenter : BasePresenter<ProfileStarredMvp.View>(),
         } else {
             observable = getUserService(isEnterprise).getStarred(parameter, page)
         }
+        currentPage = page
         makeRestCall(
             observable
         ) { repoModelPageable ->

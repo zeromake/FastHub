@@ -53,6 +53,7 @@ class RepoPullRequestPresenter : BasePresenter<RepoPullRequestMvp.View>(),
             return false
         }
         if (repoId == null || login == null) return false
+        currentPage = page
         makeRestCall(
             getPullRequestService(isEnterprise).getPullRequests(
                 login!!, repoId!!, parameter.name, page

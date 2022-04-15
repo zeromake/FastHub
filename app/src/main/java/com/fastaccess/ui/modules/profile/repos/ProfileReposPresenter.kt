@@ -49,6 +49,7 @@ class ProfileReposPresenter : BasePresenter<ProfileReposMvp.View>(),
         }
         val isProfile = TextUtils.equals(currentLoggedIn, username)
         filterOptions.setIsPersonalProfile(isProfile)
+        currentPage = page
         makeRestCall(if (isProfile) getUserService(isEnterprise).getRepos(
             filterOptions.getQueryMap(),
             page

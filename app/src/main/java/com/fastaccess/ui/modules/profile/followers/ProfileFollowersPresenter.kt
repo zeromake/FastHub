@@ -36,6 +36,7 @@ class ProfileFollowersPresenter : BasePresenter<ProfileFollowersMvp.View>(),
             sendToView { it.hideProgress() }
             return false
         }
+        currentPage = page
         makeRestCall(
             getUserService(isEnterprise).getFollowers(parameter, page)
         ) { response ->

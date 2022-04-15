@@ -41,6 +41,7 @@ class ProfilePackagesPresenter : BasePresenter<ProfilePackagesMvp.View>(),
         val observable =
             if (!isOrg) getUserService(isEnterprise).getPackages(parameter, selectedType!!, page)
             else getOrgService(isEnterprise).getPackages(parameter, selectedType!!, page)
+        currentPage = page
         makeRestCall(
             observable
         ) { packageModelPageable ->

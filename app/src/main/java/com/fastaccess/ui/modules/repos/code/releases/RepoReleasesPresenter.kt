@@ -43,6 +43,7 @@ class RepoReleasesPresenter : BasePresenter<RepoReleasesMvp.View>(),
             return false
         }
         if (repoId == null || login == null) return false
+        currentPage = page
         makeRestCall(getRepoService(isEnterprise).getReleases(
             login!!, repoId!!, page
         )

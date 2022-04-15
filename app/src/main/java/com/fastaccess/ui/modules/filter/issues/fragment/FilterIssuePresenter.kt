@@ -32,6 +32,7 @@ class FilterIssuePresenter : BasePresenter<FilterIssuesMvp.View>(), FilterIssues
             sendToView { it.hideProgress() }
             return false
         }
+        currentPage = page
         makeRestCall(getSearchService(isEnterprise).searchIssues(parameter, page.toLong())
         ) { issues ->
             lastPage = issues.last

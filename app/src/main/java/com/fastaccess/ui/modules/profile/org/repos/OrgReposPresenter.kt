@@ -42,6 +42,7 @@ class OrgReposPresenter : BasePresenter<OrgReposMvp.View>(), OrgReposMvp.Present
             return false
         }
         filterOptions.isOrg = true
+        currentPage = page
         makeRestCall(getOrgService(isEnterprise).getOrgRepos(
             parameter,
             filterOptions.getQueryMap(),
