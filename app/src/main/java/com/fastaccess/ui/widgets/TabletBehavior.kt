@@ -30,22 +30,6 @@ class TabletBehavior(context: Context, attrs: AttributeSet) :
         return true
     }
 
-    override fun onDependentViewRemoved(
-        parent: CoordinatorLayout,
-        child: BottomNavigation,
-        dependency: View
-    ) {
-        super.onDependentViewRemoved(parent, child, dependency)
-    }
-
-    override fun onLayoutChild(
-        parent: CoordinatorLayout,
-        child: BottomNavigation,
-        layoutDirection: Int
-    ): Boolean {
-        return super.onLayoutChild(parent, child, layoutDirection)
-    }
-
     override fun onNestedVerticalOverScroll(
         coordinatorLayout: CoordinatorLayout,
         child: BottomNavigation,

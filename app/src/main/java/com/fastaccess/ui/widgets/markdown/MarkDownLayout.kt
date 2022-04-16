@@ -24,8 +24,8 @@ import com.google.android.material.snackbar.Snackbar
  * Created by kosh on 11/08/2017.
  */
 class MarkDownLayout : LinearLayout {
-    lateinit var editorIconsHolder: HorizontalScrollView
-    lateinit var addEmojiView: View
+    private lateinit var editorIconsHolder: HorizontalScrollView
+    private lateinit var addEmojiView: View
 
     private val sentFromFastHub: String by lazy {
         "\n\n_" + resources.getString(R.string.sent_from_fasthub, AppHelper.deviceName, "",
@@ -69,7 +69,7 @@ class MarkDownLayout : LinearLayout {
         super.onDetachedFromWindow()
     }
 
-    fun onViewMarkDown() {
+    private fun onViewMarkDown() {
         markdownListener?.let {
             it.getEditText().let { editText ->
                 TransitionManager.beginDelayedTransition(this)
@@ -92,7 +92,7 @@ class MarkDownLayout : LinearLayout {
         }
     }
 
-    fun onActions(v: View) {
+    private fun onActions(v: View) {
         markdownListener?.let {
             it.getEditText().let { editText ->
                 if (!editText.isEnabled) {

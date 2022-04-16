@@ -2,8 +2,6 @@ package com.fastaccess
 
 import android.app.Application
 import android.content.pm.ShortcutManager
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.fastaccess.data.dao.Models
 import com.fastaccess.helper.DeviceNameGetter
 import com.fastaccess.helper.PrefHelper.init
@@ -40,7 +38,6 @@ class App : Application() {
         init()
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     private fun initShortcut() {
         val shortcutManager = this.applicationContext.getSystemService(
             ShortcutManager::class.java
@@ -53,11 +50,9 @@ class App : Application() {
         dataStore
         setupPreference()
         generateTypeface(this)
-        NotificationSchedulerJobTask.scheduleJob(this);
+        NotificationSchedulerJobTask.scheduleJob(this)
         if (BuildConfig.DEBUG) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                 initShortcut()
-            }
         }
         EmojiManager.load()
         ColorsProvider.load()

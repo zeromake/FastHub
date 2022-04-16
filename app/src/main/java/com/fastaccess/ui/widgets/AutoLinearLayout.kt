@@ -157,7 +157,7 @@ class AutoLinearLayout : FrameLayout {
         }
         //plus last child width
         if (columnHeight != 0) {
-            maxColumnHeight = Math.max(maxColumnHeight, columnHeight)
+            maxColumnHeight = maxColumnHeight.coerceAtLeast(columnHeight)
             totalWidth += columnMaxWidth
         }
 

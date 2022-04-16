@@ -17,7 +17,7 @@ import androidx.viewpager.widget.ViewPager
 class ViewPagerView : ViewPager {
     private var isEnabled = false
 
-    constructor(context: Context?) : super(context!!) {}
+    constructor(context: Context?) : super(context!!)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
         val attrsArray = intArrayOf(attr.enabled)
         val array = context.obtainStyledAttributes(attrs, attrsArray)

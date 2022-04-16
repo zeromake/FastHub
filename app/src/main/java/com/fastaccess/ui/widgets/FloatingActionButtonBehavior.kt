@@ -17,10 +17,6 @@ class FloatingActionButtonBehavior : CoordinatorLayout.Behavior<FloatingActionBu
     constructor() : super() {}
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {}
 
-    override fun onAttachedToLayoutParams(lp: CoordinatorLayout.LayoutParams) {
-         super.onAttachedToLayoutParams(lp);
-    }
-
     override fun layoutDependsOn(
         parent: CoordinatorLayout,
         child: FloatingActionButton,
