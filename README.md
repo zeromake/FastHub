@@ -109,8 +109,8 @@ To build a debug version you can just import the project and start the building 
 
 To build your own release application you need to create a `secrets.properties` inside `/app/` with your custom credentials:
 
-- **STORE_PASSWORD**=`here`
-- **KEY_PASSWORD**=`here`
+- **PASSWORD**=`here`
+- **KEY_ALIAS**=`here`
 - **GITHUB_CLIENT_ID**=`here`
 - **GITHUB_SECRET**=`here`
 - **IMGUR_CLIENT_ID**=`here`
@@ -120,14 +120,13 @@ Then, create your own keystore and put it in `/app/keys_release.jks`.
 
 ## :book: Spec / Open-Source libraries:
 
-- Minimum **SDK 21**, _but AppCompat is used all the way ;-)_
-- [**Kotlin**](https://github.com/JetBrains/kotlin) all new modules starting from 2.5.3 will be written in **#Kotlin**.
+- Minimum **SDK 25**
+- [**Kotlin**](https://github.com/JetBrains/kotlin)
 - **MVP**-architecture: [**ThirtyInch**](https://github.com/grandcentrix/ThirtyInch) because its ThirtyInch.
 - [**RxJava2**](https://github.com/ReactiveX/RxJava) & [**RxAndroid**](https://github.com/ReactiveX/RxAndroid) for Retrofit & background threads
 - [**Retrofit**](https://github.com/square/retrofit) for constructing the REST API
 - [**Requery**](https://github.com/requery/requery/) for offline-mode
 - [**Stream API**](https://github.com/aNNiMON/Lightweight-Stream-API) for dealing with `Collections`
-- [**ButterKnife**](https://github.com/JakeWharton/butterknife) for view binding
 - [**Android State**](https://github.com/evernote/android-state) for saving instance states
 - [**Material-BottomNavigation**](https://github.com/sephiroth74/Material-BottomNavigation) for `BottomBar` tabs
 - [**FastHub Contribution View**](https://github.com/KaustubhPatange/fasthub-contribution-view) for the contribution listing
