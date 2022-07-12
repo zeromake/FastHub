@@ -2,12 +2,10 @@ package com.fastaccess.provider.timeline.handler
 
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.text.style.ReplacementSpan
 import android.graphics.Paint.FontMetricsInt
 import android.graphics.Rect
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.ColorDrawable
 import android.text.style.LineHeightSpan
+import android.text.style.ReplacementSpan
 
 class HrSpan internal constructor(private val color: Int, private val width: Int) :
     ReplacementSpan(), LineHeightSpan {

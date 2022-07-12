@@ -4,8 +4,8 @@ import android.text.format.Formatter
 import android.view.View
 import android.view.ViewGroup
 import com.fastaccess.R
-import com.fastaccess.data.entity.RepoFile
 import com.fastaccess.data.dao.types.FilesType
+import com.fastaccess.data.entity.RepoFile
 import com.fastaccess.ui.adapter.RepoFilesAdapter
 import com.fastaccess.ui.base.adapter.BaseViewHolder
 import com.fastaccess.ui.widgets.FontTextView

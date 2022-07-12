@@ -3,7 +3,6 @@ package com.fastaccess.data.entity.dao
 import com.fastaccess.data.db.ObjectBox
 import com.fastaccess.data.entity.PinnedPullRequests
 import com.fastaccess.data.entity.PinnedPullRequests_
-import com.fastaccess.data.entity.PinnedRepos
 import com.fastaccess.data.entity.PullRequest
 import com.fastaccess.utils.Optional
 import com.fastaccess.utils.equal

@@ -124,9 +124,7 @@ class IssuePagerActivity : BaseActivity<IssuePagerMvp.View, IssuePagerPresenter>
         if (presenter!!.showToRepoBtn()) showNavToRepoItem()
     }
 
-    private val launcher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {
+    private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         val data = it.data
         if (it.resultCode == RESULT_OK && data != null) {
             val bundle = data.extras

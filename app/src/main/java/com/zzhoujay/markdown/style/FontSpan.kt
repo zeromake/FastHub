@@ -1,9 +1,9 @@
 package com.zzhoujay.markdown.style
 
 import android.annotation.SuppressLint
-import android.text.style.StyleSpan
 import android.text.ParcelableSpan
 import android.text.TextPaint
+import android.text.style.StyleSpan
 
 /**
  * Created by zhou on 2016/11/10.

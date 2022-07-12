@@ -78,7 +78,7 @@ class SpannableBuilder private constructor() : SpannableStringBuilder() {
         return this
     }
 
-    override fun append(text: CharSequence): SpannableBuilder {
+    override fun append(text: CharSequence?): SpannableBuilder {
         super.append(text)
         return this
     }

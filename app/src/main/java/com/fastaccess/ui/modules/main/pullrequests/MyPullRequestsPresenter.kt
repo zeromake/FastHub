@@ -49,6 +49,7 @@ class MyPullRequestsPresenter internal constructor() : BasePresenter<MyPullReque
             sendToView { it.hideProgress() }
             return false
         }
+        currentPage = page
         makeRestCall(
             getPullRequestService(isEnterprise).getPullsWithCount(getUrl(parameter), page)
         ) { response ->

@@ -6,8 +6,11 @@ import com.fastaccess.helper.readAtCompat
 import com.fastaccess.helper.readBooleanCompat
 import com.fastaccess.helper.writeAtCompat
 import com.fastaccess.helper.writeBooleanCompat
-import io.objectbox.annotation.*
-import java.util.Date
+import io.objectbox.annotation.Entity
+import io.objectbox.annotation.Id
+import io.objectbox.annotation.Index
+import io.objectbox.annotation.NameInDb
+import java.util.*
 
 @Entity
 @NameInDb("user_table")
@@ -52,6 +55,7 @@ data class User(
     var date: Date? = null,
     var repoId: String? = null,
     var description: String? = null,
+    var twitter: String? = null,
 ) : Parcelable {
     val isOrganizationType: Boolean
         get() = type != null && type.equals("Organization", true)

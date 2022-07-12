@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.fastaccess"
     android:installLocation="auto">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="com.android.vending.BILLING" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
@@ -19,6 +18,10 @@
         tools:ignore="ProtectedPermissions" />
 
     <queries>
+        <package android:name="com.fastaccess.github" />
+        <package android:name="com.fastaccess.github.debug" />
+        <package android:name="com.fastaccess.github.revival" />
+        <package android:name="com.fastaccess.github.revival.debug" />
         <package android:name="com.dv.adm.pay" />
         <package android:name="com.dv.adm" />
         <package android:name="idm.internet.download.manager.plus" />
@@ -68,10 +71,6 @@
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
         </activity>
-        <activity
-            android:name=".ui.modules.main.donation.CheckPurchaseActivity"
-            android:configChanges="keyboard|orientation|screenSize"
-            android:theme="@style/ThemeTranslucent" />
         <activity
             android:name=".ui.modules.login.LoginActivity"
             android:configChanges="keyboard|orientation|screenSize"
@@ -234,10 +233,6 @@
             android:name=".ui.modules.theme.code.ThemeCodeActivity"
             android:label="@string/theme_title" />
         <activity
-            android:name=".ui.modules.main.donation.DonateActivity"
-            android:configChanges="keyboard|orientation|screenSize"
-            android:theme="@style/ThemeTranslucent" />
-        <activity
             android:name=".ui.modules.repos.wiki.WikiActivity"
             android:label="@string/gollum"
             android:parentActivityName=".ui.modules.repos.RepoPagerActivity">
@@ -280,7 +275,7 @@
                 android:value=".ui.modules.user.UserPagerActivity" />
         </activity>
 
-        <activity android:name=".ui.modules.main.playstore.PlayStoreWarningActivity" />
+        <activity android:name=".ui.modules.main.faq.FaqActivity" />
 
         <activity
             android:name=".ui.modules.repos.pull_requests.pull_request.details.files.fullscreen.FullScreenFileChangeActivity"
@@ -329,16 +324,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
-        <!--        <service-->
-        <!--            android:name=".provider.tasks.notification.NotificationSchedulerJobTask"-->
-        <!--            android:exported="false">-->
-        <!--            <intent-filter>-->
-        <!--                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>-->
-        <!--            </intent-filter>-->
-        <!--        </service>-->
+        <service
+            android:name=".provider.tasks.notification.NotificationSchedulerJobTask"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
         <service android:name=".provider.tasks.notification.ReadNotificationService" />
         <service android:name=".provider.tasks.git.GithubActionService" />
         <service android:name=".provider.tasks.git.ReactionService" />
+        <service android:name=".provider.tasks.version.CheckVersionService" />
     </application>
 </manifest>

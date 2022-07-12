@@ -1,7 +1,7 @@
 package com.fastaccess.data.dao.timeline
 
-import android.os.Parcelable
 import android.os.Parcel
+import android.os.Parcelable
 import com.fastaccess.data.entity.Commit
 import com.fastaccess.data.entity.Issue
 import com.fastaccess.data.entity.PullRequest

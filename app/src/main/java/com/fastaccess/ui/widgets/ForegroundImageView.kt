@@ -2,10 +2,9 @@ package com.fastaccess.ui.widgets
 
 import android.content.Context
 import android.util.AttributeSet
-import androidx.appcompat.widget.AppCompatImageView
-import kotlin.jvm.JvmOverloads
-import androidx.appcompat.widget.TooltipCompat
 import androidx.annotation.ColorInt
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.TooltipCompat
 import com.fastaccess.helper.ViewHelper
 
 class ForegroundImageView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :

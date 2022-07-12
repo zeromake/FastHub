@@ -435,8 +435,7 @@
         <h5>• Issues/PR 를 수정 하는데 문제가 있습니다.</h5>
         <p>공개 Organization 리포지토리를 수정하면, 여러분의 Organization에게 문의하여 Fasthub 권환을 받거나 최초 로그인시 엑세스 토큰으로 로그인하세요.</p>
         <h5>• 앱을 사용하는데 문제를 발견했어요! / 혹시 이러한 기능을 추가해주실 수 있나요?</h5>
-        <p>그럼요! https://github.com/k0shk0sh/FastHub/issues/new 로 간 후 새로운 티켓을 만드세요. 티켓을 만들기 전 먼저 전에 있었던 티켓 중 중복되는 것이 없는지 검색해 주세요. 중복시 티켓은 바로 닫힙니다. 또는 앱 드로어 (화면 왼쪽 끝에서 오른쪽으로 드래그) 에 있는 오류 보고를 클릭하여 보고하셔도 됩니다.</p>
-        <h5>기술적 문의는 이 앱의 개발자인 Kosh Sergani에게 해주시기 바랍니다. 본 번역이 FastHub 사용에 도움이 되셨기를 바랍니다. 감사합니다.</h5>
+        <p>그럼요! https://github.com/LightDestory/FastHub-RE/issues/new 로 간 후 새로운 티켓을 만드세요. 티켓을 만들기 전 먼저 전에 있었던 티켓 중 중복되는 것이 없는지 검색해 주세요. 중복시 티켓은 바로 닫힙니다. 또는 앱 드로어 (화면 왼쪽 끝에서 오른쪽으로 드래그) 에 있는 오류 보고를 클릭하여 보고하셔도 됩니다.</p>
 	]]></string>
     <string name="faq">자주 하는 질문 (FAQ)</string>
     <string name="comments_added_successfully">댓글을 성공적으로 추가하였습니다</string>

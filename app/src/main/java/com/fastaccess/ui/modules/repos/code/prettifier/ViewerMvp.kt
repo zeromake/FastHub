@@ -1,10 +1,10 @@
 package com.fastaccess.ui.modules.repos.code.prettifier
 
-import com.fastaccess.ui.base.mvp.BaseMvp.FAView
-import com.prettifier.pretty.PrettifyWebView.OnContentChangedListener
+import android.os.Bundle
 import androidx.annotation.StringRes
 import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
-import android.os.Bundle
+import com.fastaccess.ui.base.mvp.BaseMvp.FAView
+import com.prettifier.pretty.PrettifyWebView.OnContentChangedListener
 
 /**
  * Created by Kosh on 27 Nov 2016, 3:41 PM

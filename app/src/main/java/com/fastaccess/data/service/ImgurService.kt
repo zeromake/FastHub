@@ -1,10 +1,10 @@
 package com.fastaccess.data.service
 
-import retrofit2.http.POST
-import okhttp3.RequestBody
 import com.fastaccess.data.dao.ImgurReponseModel
 import io.reactivex.Observable
+import okhttp3.RequestBody
 import retrofit2.http.Body
+import retrofit2.http.POST
 import retrofit2.http.Query
 
 /**

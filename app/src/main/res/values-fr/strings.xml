@@ -446,7 +446,7 @@
         <p>Si vous ne pouvez pas éditer les tickets ou demandes de Pull, dans un répertoire d\'organisation publique, merci de contacter votre organisation pour donner l\'accès à FastHub. Autrement, vous pouvez vous connecter avec un jeton d\'accès.</p>
 
         <h5>• J\'ai des problèmes ! / Je veux vous suggérer quelque chose !</h5>
-        <p>Allez à https://github.com/k0shk0sh/FastHub/issues/new et créez un nouveau ticket pour chaque problème ou suggestion. Je vous encourage vraiment à
+        <p>Allez à https://github.com/LightDestory/FastHub-RE/issues/new et créez un nouveau ticket pour chaque problème ou suggestion. Je vous encourage vraiment à
         chercher des tickets similaires avant d\'en ouvrir un nouveau. Chaque ticket dupliqué sera labélisé en tant que dupliqué et fermé immédiatement.</p>
     ]]></string>
     <string name="faq">FAQ</string>

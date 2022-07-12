@@ -2,9 +2,9 @@ package com.fastaccess.data.dao
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.fastaccess.data.dao.types.IssueState
 import com.fastaccess.data.entity.Issue
 import com.fastaccess.data.entity.PullRequest
-import com.fastaccess.data.dao.types.IssueState
 import com.fastaccess.utils.ParcelUtil
 
 

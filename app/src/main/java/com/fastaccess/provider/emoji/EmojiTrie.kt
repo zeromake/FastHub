@@ -1,7 +1,5 @@
 package com.fastaccess.provider.emoji
 
-import java.util.HashMap
-
 class EmojiTrie(emojis: Collection<Emoji>) {
     private val root: Node = Node()
 

@@ -1,10 +1,8 @@
 package com.fastaccess.ui.modules.user
 
-import com.fastaccess.data.entity.Login
 import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.provider.rest.RestProvider
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
-import retrofit2.Response
 
 /**
  * Created by Kosh on 03 Dec 2016, 8:00 AM

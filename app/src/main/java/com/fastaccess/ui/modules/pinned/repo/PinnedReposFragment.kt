@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fastaccess.R
-import com.fastaccess.data.entity.dao.PinnedReposDao
 import com.fastaccess.data.entity.PinnedRepos
+import com.fastaccess.data.entity.dao.PinnedReposDao
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler
 import com.fastaccess.helper.RxHelper

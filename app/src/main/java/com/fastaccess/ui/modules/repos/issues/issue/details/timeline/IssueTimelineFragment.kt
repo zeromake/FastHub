@@ -14,10 +14,10 @@ import com.fastaccess.R
 import com.fastaccess.data.dao.TimelineModel
 import com.fastaccess.data.dao.TimelineModel.Companion.constructComment
 import com.fastaccess.data.dao.TimelineModel.Companion.constructHeader
+import com.fastaccess.data.dao.types.ReactionTypes
 import com.fastaccess.data.entity.Comment
 import com.fastaccess.data.entity.Issue
 import com.fastaccess.data.entity.User
-import com.fastaccess.data.dao.types.ReactionTypes
 import com.fastaccess.helper.ActivityHelper.startLauncher
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler.Companion.start
@@ -345,15 +345,13 @@ class IssueTimelineFragment : BaseFragment<IssueTimelineMvp.View, IssueTimelineP
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private val launcher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {
+    private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         val data = it.data
         if (it.resultCode == Activity.RESULT_OK) {
             if (data == null || data.extras == null) {
-                onRefresh()
-                return@registerForActivityResult
-            }
+                    onRefresh()
+                    return@registerForActivityResult
+                }
             val bundle = data.extras!!
             val isNew = bundle.getBoolean(BundleConstant.EXTRA)
             val commentsModel: Comment? = bundle.getParcelable(BundleConstant.ITEM)

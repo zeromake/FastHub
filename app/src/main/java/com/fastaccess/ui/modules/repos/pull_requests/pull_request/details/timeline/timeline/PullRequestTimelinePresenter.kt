@@ -9,11 +9,10 @@ import android.widget.PopupMenu
 import com.fastaccess.R
 import com.fastaccess.data.dao.*
 import com.fastaccess.data.dao.TimelineModel.Companion.constructComment
-import com.fastaccess.data.entity.Comment
-import com.fastaccess.data.entity.Login
-import com.fastaccess.data.entity.PullRequest
 import com.fastaccess.data.dao.types.IssueEventType
 import com.fastaccess.data.dao.types.ReactionTypes
+import com.fastaccess.data.entity.Comment
+import com.fastaccess.data.entity.PullRequest
 import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.helper.ActivityHelper
 import com.fastaccess.helper.BundleConstant

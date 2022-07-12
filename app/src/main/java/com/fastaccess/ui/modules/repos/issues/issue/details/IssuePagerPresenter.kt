@@ -7,11 +7,9 @@ import com.fastaccess.R
 import com.fastaccess.data.dao.*
 import com.fastaccess.data.dao.IssueRequestModel.Companion.clone
 import com.fastaccess.data.dao.PullsIssuesParser.Companion.getForIssue
-import com.fastaccess.data.entity.Issue
-import com.fastaccess.data.entity.Login
-import com.fastaccess.data.entity.PinnedIssues
-import com.fastaccess.data.entity.User
 import com.fastaccess.data.dao.types.IssueState
+import com.fastaccess.data.entity.Issue
+import com.fastaccess.data.entity.User
 import com.fastaccess.data.entity.dao.IssueDao
 import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.data.entity.dao.PinnedIssuesDao

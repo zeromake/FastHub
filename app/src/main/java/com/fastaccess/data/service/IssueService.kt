@@ -2,9 +2,9 @@ package com.fastaccess.data.service
 
 import com.fastaccess.data.dao.*
 import com.fastaccess.data.entity.Comment
+import com.fastaccess.data.entity.Issue
 import com.fastaccess.data.entity.IssueEvent
 import com.google.gson.JsonObject
-import com.fastaccess.data.entity.Issue
 import io.reactivex.Observable
 import retrofit2.Response
 import retrofit2.http.*

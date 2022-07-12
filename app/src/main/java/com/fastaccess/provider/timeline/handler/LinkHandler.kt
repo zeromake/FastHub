@@ -1,10 +1,10 @@
 package com.fastaccess.provider.timeline.handler
 
 import android.graphics.Color
-import net.nightwhistler.htmlspanner.TagNodeHandler
-import org.htmlcleaner.TagNode
 import android.text.SpannableStringBuilder
 import com.zzhoujay.markdown.style.LinkSpan
+import net.nightwhistler.htmlspanner.TagNodeHandler
+import org.htmlcleaner.TagNode
 
 /**
  * Created by Kosh on 10 May 2017, 8:46 PM

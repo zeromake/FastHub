@@ -1,25 +1,24 @@
 package com.fastaccess.ui.modules.repos.pull_requests.pull_request.details
 
 import android.content.Context
-import com.fastaccess.ui.base.mvp.BaseMvp.FAView
-import com.fastaccess.ui.modules.repos.extras.labels.LabelsMvp.SelectedLabelsListener
-import com.fastaccess.ui.modules.repos.extras.assignees.AssigneesMvp.SelectedAssigneesListener
-import com.fastaccess.ui.modules.repos.pull_requests.pull_request.merge.MergePullRequestMvp.MergeCallback
-import com.fastaccess.ui.modules.repos.issues.issue.details.IssuePagerMvp.IssuePrCallback
-import com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.files.PullRequestFilesMvp.PatchCallback
-import com.fastaccess.ui.modules.editor.comment.CommentEditorFragment.CommentListener
-import com.fastaccess.ui.modules.reviews.changes.ReviewChangesMvp.ReviewSubmissionCallback
-import com.fastaccess.ui.modules.repos.extras.locking.LockIssuePrCallback
-import com.fastaccess.data.dao.MilestoneModel
-import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
-import com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.files.PullRequestFilesMvp.CommitCommentCallback
 import android.content.Intent
 import android.os.Bundle
-import com.fastaccess.ui.widgets.SpannableBuilder
 import com.fastaccess.data.dao.LabelModel
+import com.fastaccess.data.dao.MilestoneModel
 import com.fastaccess.data.entity.PullRequest
 import com.fastaccess.data.entity.User
-import java.util.ArrayList
+import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
+import com.fastaccess.ui.base.mvp.BaseMvp.FAView
+import com.fastaccess.ui.modules.editor.comment.CommentEditorFragment.CommentListener
+import com.fastaccess.ui.modules.repos.extras.assignees.AssigneesMvp.SelectedAssigneesListener
+import com.fastaccess.ui.modules.repos.extras.labels.LabelsMvp.SelectedLabelsListener
+import com.fastaccess.ui.modules.repos.extras.locking.LockIssuePrCallback
+import com.fastaccess.ui.modules.repos.issues.issue.details.IssuePagerMvp.IssuePrCallback
+import com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.files.PullRequestFilesMvp.CommitCommentCallback
+import com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.files.PullRequestFilesMvp.PatchCallback
+import com.fastaccess.ui.modules.repos.pull_requests.pull_request.merge.MergePullRequestMvp.MergeCallback
+import com.fastaccess.ui.modules.reviews.changes.ReviewChangesMvp.ReviewSubmissionCallback
+import com.fastaccess.ui.widgets.SpannableBuilder
 
 /**
  * Created by Kosh on 10 Dec 2016, 9:21 AM

@@ -1,9 +1,7 @@
 package com.fastaccess.data.dao
 
-import android.os.Parcelable
 import android.os.Parcel
-import com.fastaccess.data.dao.CreateIssueModel
-import java.util.ArrayList
+import android.os.Parcelable
 
 /**
  * Created by Kosh on 19 Feb 2017, 12:13 PM

@@ -89,7 +89,7 @@ class GistsFragment : BaseFragment<GistsMvp.View, GistsPresenter>(), GistsMvp.Vi
     override val loadMore: OnLoadMore<Gist>
         get() {
             if (onLoadMore == null) {
-                onLoadMore = OnLoadMore((presenter as GistsPresenter))
+                onLoadMore = OnLoadMore(presenter)
             }
             return onLoadMore!!
         }

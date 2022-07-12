@@ -1,12 +1,11 @@
 package com.fastaccess.ui.modules.search
 
-import com.fastaccess.ui.base.mvp.BaseMvp.FAView
-import com.fastaccess.data.entity.SearchHistory
-import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
-import androidx.viewpager.widget.ViewPager
 import android.widget.AutoCompleteTextView
 import androidx.annotation.IntRange
-import java.util.ArrayList
+import androidx.viewpager.widget.ViewPager
+import com.fastaccess.data.entity.SearchHistory
+import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
+import com.fastaccess.ui.base.mvp.BaseMvp.FAView
 
 /**
  * Created by Kosh on 08 Dec 2016, 8:19 PM

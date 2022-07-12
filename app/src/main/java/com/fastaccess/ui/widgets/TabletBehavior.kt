@@ -4,10 +4,10 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.widget.Toolbar
-import it.sephiroth.android.library.bottomnavigation.VerticalScrollingBehavior
-import it.sephiroth.android.library.bottomnavigation.BottomNavigation
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.appbar.AppBarLayout
+import it.sephiroth.android.library.bottomnavigation.BottomNavigation
+import it.sephiroth.android.library.bottomnavigation.VerticalScrollingBehavior
 
 class TabletBehavior(context: Context, attrs: AttributeSet) :
     VerticalScrollingBehavior<BottomNavigation>(context, attrs) {
@@ -28,22 +28,6 @@ class TabletBehavior(context: Context, attrs: AttributeSet) :
         dependency: View
     ): Boolean {
         return true
-    }
-
-    override fun onDependentViewRemoved(
-        parent: CoordinatorLayout,
-        child: BottomNavigation,
-        dependency: View
-    ) {
-        super.onDependentViewRemoved(parent, child, dependency)
-    }
-
-    override fun onLayoutChild(
-        parent: CoordinatorLayout,
-        child: BottomNavigation,
-        layoutDirection: Int
-    ): Boolean {
-        return super.onLayoutChild(parent, child, layoutDirection)
     }
 
     override fun onNestedVerticalOverScroll(

@@ -16,7 +16,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.transition.TransitionManager
-import com.danielstone.materialaboutlibrary.ConvenienceBuilder
 import com.evernote.android.state.State
 import com.fastaccess.App
 import com.fastaccess.BuildConfig
@@ -84,7 +83,7 @@ class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresent
     @State
     var users = ArrayList<User>()
     private var alertDialog: AlertDialog? = null
-    private var savedText: CharSequence? = null
+    private var savedText: CharSequence = ""
     override fun onSetCode(charSequence: CharSequence) {
         savedText = charSequence
         setMdText(description!!, toString(savedText))
@@ -127,8 +126,6 @@ class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresent
     override fun onShowUpdate() {
         hideProgress()
         Toasty.error(App.getInstance(), getString(R.string.new_version)).show()
-        ConvenienceBuilder.createRateOnClickAction(this).onClick()
-        finish()
     }
 
     override fun onShowIssueMisc() {
@@ -234,8 +231,8 @@ class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresent
             }
         }
         presenter!!.checkAuthority(login!!, repoId!!)
-        if (isFeedback || "k0shk0sh".equals(login, ignoreCase = true) && repoId.equals(
-                "FastHub",
+        if (isFeedback || "LightDestory".equals(login, ignoreCase = true) && repoId.equals(
+                "FastHub-RE",
                 ignoreCase = true
             )
         ) {
@@ -252,7 +249,6 @@ class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresent
                 .setTitle("You are currently using a debug build")
                 .setMessage(
                     """
-    If you have found a bug, please report it on slack.
     Feature requests can be submitted here.
     Happy Testing
     """.trimIndent()
@@ -268,9 +264,7 @@ class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresent
         )
     }
 
-    private val launcher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {
+    private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         AppHelper.hideKeyboard(title!!)
         presenter!!.onActivityForResult(it.resultCode, BundleConstant.REQUEST_CODE, it.data)
     }
@@ -325,7 +319,7 @@ class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresent
     fun onClick() {
         presenter!!.onSubmit(
             toString(title),
-            savedText!!,
+            savedText,
             login!!,
             repoId!!,
             issue,
@@ -411,8 +405,8 @@ class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresent
                     .put(BundleConstant.ID, repoId)
                     .put(
                         BundleConstant.EXTRA_TWO,
-                        login.equals("k0shk0sh", ignoreCase = true) && repoId.equals(
-                            "FastHub",
+                        login.equals("LightDestory", ignoreCase = true) && repoId.equals(
+                            "FastHub-RE",
                             ignoreCase = true
                         )
                     )
@@ -500,8 +494,8 @@ class CreateIssueActivity : BaseActivity<CreateIssueMvp.View, CreateIssuePresent
         }
 
         fun startForResult(activity: Activity): Intent {
-            val login = "k0shk0sh" // FIXME: 23/02/2017 hardcoded
-            val repoId = "FastHub" // FIXME: 23/02/2017 hardcoded
+            val login = "LightDestory" // FIXME: 23/02/2017 hardcoded
+            val repoId = "FastHub-RE" // FIXME: 23/02/2017 hardcoded
             val intent = Intent(activity, CreateIssueActivity::class.java)
             intent.putExtras(
                 Bundler.start()

@@ -13,9 +13,9 @@ import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.TimelineModel
 import com.fastaccess.data.dao.TimelineModel.Companion.constructComment
+import com.fastaccess.data.dao.types.ReactionTypes
 import com.fastaccess.data.entity.Comment
 import com.fastaccess.data.entity.User
-import com.fastaccess.data.dao.types.ReactionTypes
 import com.fastaccess.helper.ActivityHelper.startLauncher
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler.Companion.start

@@ -1,17 +1,16 @@
 package com.prettifier.pretty
 
-import android.webkit.WebView
-import androidx.core.view.NestedScrollingChild
-import androidx.core.view.NestedScrollingChildHelper
-import kotlin.jvm.JvmOverloads
-import androidx.annotation.RequiresApi
-import android.os.Build
+import android.R
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.util.AttributeSet
 import android.view.MotionEvent
+import android.webkit.WebView
+import androidx.annotation.RequiresApi
+import androidx.core.view.NestedScrollingChild
+import androidx.core.view.NestedScrollingChildHelper
 import androidx.core.view.ViewCompat
-import android.R
 
 open class NestedWebView : WebView, NestedScrollingChild {
     private var mLastY = 0

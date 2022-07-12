@@ -1,13 +1,13 @@
 package com.fastaccess.ui.widgets
 
 import android.content.Context
-import androidx.core.widget.NestedScrollView
-import com.fastaccess.R
-import androidx.annotation.StringRes
 import android.os.Parcelable
 import android.util.AttributeSet
+import androidx.annotation.StringRes
+import androidx.core.widget.NestedScrollView
 import com.evernote.android.state.State
 import com.evernote.android.state.StateSaver
+import com.fastaccess.R
 import com.fastaccess.utils.setOnThrottleClickListener
 
 /**
@@ -16,7 +16,7 @@ import com.fastaccess.utils.setOnThrottleClickListener
 open class StateLayout : NestedScrollView {
     private var onReloadListener: OnClickListener? = null
 
-    lateinit var emptyText: FontTextView
+    private lateinit var emptyText: FontTextView
     lateinit var reload: FontButton
 
     @State
@@ -47,16 +47,14 @@ open class StateLayout : NestedScrollView {
         emptyText.freezesText = true
     }
 
-    constructor(context: Context?) : super(context!!) {}
+    constructor(context: Context?) : super(context!!)
     constructor(context: Context?, attrs: AttributeSet?) : super(
         context!!, attrs
-    ) {
-    }
+    )
 
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
         context!!, attrs, defStyleAttr
-    ) {
-    }
+    )
 
     fun showProgress() {
         layoutState = SHOW_PROGRESS_STATE
@@ -130,7 +128,7 @@ open class StateLayout : NestedScrollView {
         super.onDetachedFromWindow()
     }
 
-    public override fun onSaveInstanceState(): Parcelable? {
+    public override fun onSaveInstanceState(): Parcelable {
         return StateSaver.saveInstanceState(this, super.onSaveInstanceState())
     }
 

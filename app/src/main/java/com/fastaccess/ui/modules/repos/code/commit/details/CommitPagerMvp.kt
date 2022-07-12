@@ -1,11 +1,11 @@
 package com.fastaccess.ui.modules.repos.code.commit.details
 
-import com.fastaccess.ui.base.mvp.BaseMvp.FAView
-import com.fastaccess.ui.modules.editor.comment.CommentEditorFragment.CommentListener
-import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
 import android.content.Intent
 import com.fastaccess.data.entity.Comment
 import com.fastaccess.data.entity.Commit
+import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
+import com.fastaccess.ui.base.mvp.BaseMvp.FAView
+import com.fastaccess.ui.modules.editor.comment.CommentEditorFragment.CommentListener
 
 /**
  * Created by Kosh on 10 Dec 2016, 9:21 AM

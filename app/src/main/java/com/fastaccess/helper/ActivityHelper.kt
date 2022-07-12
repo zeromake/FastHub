@@ -133,7 +133,6 @@ object ActivityHelper {
         activity.startActivity(intent, options.toBundle())
     }
 
-
     @JvmStatic
     fun startLauncher(
         launcher: ActivityResultLauncher<Intent>,
@@ -151,7 +150,6 @@ object ActivityHelper {
             launcher.launch(intent)
         }
     }
-
 
     fun startReveal(activity: Activity, intent: Intent?, sharedElement: View) {
         if (!isAppAnimationDisabled) {

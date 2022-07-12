@@ -4,9 +4,9 @@ import android.content.Context
 import android.graphics.Color
 import android.text.style.BackgroundColorSpan
 import com.fastaccess.R
-import com.fastaccess.data.entity.User
 import com.fastaccess.data.dao.timeline.GenericEvent
 import com.fastaccess.data.dao.types.IssueEventType
+import com.fastaccess.data.entity.User
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.ParseDateFormat.Companion.getTimeAgo
 import com.fastaccess.helper.PrefGetter.themeType

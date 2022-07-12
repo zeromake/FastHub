@@ -1,9 +1,9 @@
 package com.fastaccess.ui.modules.user
 
+import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
 import com.fastaccess.ui.base.mvp.BaseMvp.FAView
 import com.fastaccess.ui.modules.profile.ProfilePagerMvp
 import com.fastaccess.ui.modules.repos.RepoPagerMvp.TabsBadgeListener
-import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
 
 /**
  * Created by Kosh on 04 Dec 2016, 1:11 PM

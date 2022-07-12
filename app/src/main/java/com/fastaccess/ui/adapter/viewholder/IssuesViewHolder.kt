@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import com.fastaccess.R
 import com.fastaccess.data.dao.PullsIssuesParser.Companion.getForIssue
-import com.fastaccess.data.entity.Issue
 import com.fastaccess.data.dao.types.IssueState
+import com.fastaccess.data.entity.Issue
 import com.fastaccess.helper.ParseDateFormat.Companion.getTimeAgo
 import com.fastaccess.provider.scheme.LinkParserHelper.isEnterprise
 import com.fastaccess.ui.adapter.IssuesAdapter

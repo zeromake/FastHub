@@ -1,11 +1,10 @@
 package com.fastaccess.ui.modules.gists.create
 
-import com.fastaccess.ui.base.mvp.BaseMvp.FAView
-import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
-import com.fastaccess.data.dao.FilesListModel
 import com.fastaccess.data.dao.CreateGistModel
+import com.fastaccess.data.dao.FilesListModel
 import com.fastaccess.data.entity.Gist
-import java.util.HashMap
+import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
+import com.fastaccess.ui.base.mvp.BaseMvp.FAView
 
 /**
  * Created by Kosh on 30 Nov 2016, 10:43 AM

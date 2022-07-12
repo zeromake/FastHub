@@ -1,10 +1,9 @@
 package com.fastaccess.data.dao
 
-import android.os.Parcelable
 import android.os.Parcel
+import android.os.Parcelable
 import com.fastaccess.utils.ParcelUtil
 import io.reactivex.Observable
-import java.util.ArrayList
 
 /**
  * Created by Kosh on 20 Jun 2017, 7:32 PM

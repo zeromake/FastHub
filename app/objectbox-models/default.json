@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:3624734634042719814",
-      "lastPropertyId": "37:1253022574388483389",
+      "lastPropertyId": "38:8585583188399221305",
       "name": "user_table",
       "properties": [
         {
@@ -195,6 +195,11 @@
           "id": "37:1253022574388483389",
           "name": "hasOrganizationProjects",
           "type": 1
+        },
+        {
+          "id": "38:8585583188399221305",
+          "name": "twitter",
+          "type": 9
         }
       ],
       "relations": []
@@ -2066,9 +2071,73 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "23:6605299837363955289",
+      "lastPropertyId": "11:4895489065312793125",
+      "name": "GitHubPackage",
+      "properties": [
+        {
+          "id": "1:305995249921543451",
+          "name": "id",
+          "type": 6,
+          "flags": 129
+        },
+        {
+          "id": "2:4842809087665311067",
+          "name": "owner",
+          "type": 9
+        },
+        {
+          "id": "3:5715304064031206815",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "4:3595922110633875815",
+          "name": "package_type",
+          "type": 9
+        },
+        {
+          "id": "5:1870142399727990486",
+          "name": "version_count",
+          "type": 5
+        },
+        {
+          "id": "6:376424567420812591",
+          "name": "visibility",
+          "type": 9
+        },
+        {
+          "id": "7:7114869504087548780",
+          "name": "url",
+          "type": 9
+        },
+        {
+          "id": "8:2935993561297658217",
+          "name": "htmlUrl",
+          "type": 9
+        },
+        {
+          "id": "9:5716181482638423634",
+          "name": "created_at",
+          "type": 10
+        },
+        {
+          "id": "10:1148294552916859266",
+          "name": "updated_at",
+          "type": 10
+        },
+        {
+          "id": "11:4895489065312793125",
+          "name": "description",
+          "type": 9
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "22:4603657846312523152",
+  "lastEntityId": "23:6605299837363955289",
   "lastIndexId": "5:8292330817543176396",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

@@ -1,11 +1,9 @@
 package com.fastaccess.data.dao
 
 import android.net.Uri
-import android.os.Parcelable
 import android.os.Parcel
-import com.fastaccess.data.dao.PullsIssuesParser
+import android.os.Parcelable
 import com.fastaccess.helper.InputHelper
-import java.lang.NumberFormatException
 
 /**
  * Created by Kosh on 17 Dec 2016, 12:17 AM

@@ -2,13 +2,13 @@ package com.fastaccess.provider.timeline.handler
 
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.text.style.MetricAffectingSpan
-import android.text.style.LeadingMarginSpan
-import android.text.style.LineBackgroundSpan
 import android.graphics.RectF
 import android.graphics.Typeface
 import android.text.Layout
 import android.text.TextPaint
+import android.text.style.LeadingMarginSpan
+import android.text.style.LineBackgroundSpan
+import android.text.style.MetricAffectingSpan
 
 class CodeBackgroundRoundedSpan internal constructor(private val color: Int) :
     MetricAffectingSpan(), LeadingMarginSpan, LineBackgroundSpan {

@@ -3,10 +3,10 @@ package com.fastaccess.data.entity.dao
 import com.fastaccess.data.db.ObjectBox
 import com.fastaccess.data.entity.RepoFile
 import com.fastaccess.data.entity.RepoFile_
-import com.fastaccess.utils.*
+import com.fastaccess.utils.equal
+import com.fastaccess.utils.toSingle
 import io.objectbox.Box
 import io.objectbox.kotlin.boxFor
-import io.reactivex.Observable
 import io.reactivex.Single
 
 class RepoFileDao {

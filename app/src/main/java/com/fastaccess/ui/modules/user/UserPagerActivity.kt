@@ -14,7 +14,6 @@ import com.fastaccess.R
 import com.fastaccess.data.dao.FragmentPagerAdapterModel.Companion.buildForOrg
 import com.fastaccess.data.dao.FragmentPagerAdapterModel.Companion.buildForProfile
 import com.fastaccess.data.dao.TabsCountStateModel
-import com.fastaccess.data.entity.Login
 import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.helper.*
 import com.fastaccess.provider.scheme.LinkParserHelper
@@ -166,11 +165,11 @@ class UserPagerActivity : BaseActivity<UserPagerMvp.View, UserPagerPresenter>(),
     }
 
     override fun onNavigateToFollowers() {
-        pager.currentItem = 5
+        pager.currentItem = 7
     }
 
     override fun onNavigateToFollowing() {
-        pager.currentItem = 6
+        pager.currentItem = 8
     }
 
     override fun onInitOrg(isMember: Boolean) {
@@ -245,7 +244,7 @@ class UserPagerActivity : BaseActivity<UserPagerMvp.View, UserPagerPresenter>(),
             fragment.onRepoFilterClicked()
         } else {
             val fragment = pager.adapter!!
-                .instantiateItem(pager, 2) as ProfileReposFragment
+                .instantiateItem(pager, 3) as ProfileReposFragment
             fragment.onRepoFilterClicked()
         }
     }
@@ -306,7 +305,7 @@ class UserPagerActivity : BaseActivity<UserPagerMvp.View, UserPagerPresenter>(),
                 }
             }
         } else {
-            if (position == 2) {
+            if (position == 3) {
                 fab.show()
             } else {
                 fab.hide()

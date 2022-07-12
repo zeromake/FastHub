@@ -154,13 +154,21 @@ class IssueDetailsViewHolder private constructor(
     }
 
     private fun bind(issueModel: Issue) {
-        setup(issueModel.user!!, issueModel.bodyHtml!!, issueModel.reactions)
+        setup(
+            issueModel.user!!,
+            if (issueModel.bodyHtml != null) issueModel.bodyHtml!! else "",
+            issueModel.reactions
+        )
         setupDate(issueModel.createdAt!!, issueModel.updatedAt!!)
         setupLabels(issueModel.labels!!.filterNotNull())
     }
 
     private fun bind(pullRequest: PullRequest) {
-        setup(pullRequest.user!!, pullRequest.bodyHtml!!, pullRequest.reactions)
+        setup(
+            pullRequest.user!!,
+            if (pullRequest.bodyHtml != null) pullRequest.bodyHtml!! else "",
+            pullRequest.reactions
+        )
         setupDate(pullRequest.createdAt!!, pullRequest.updatedAt!!)
         setupLabels(pullRequest.labels!!.filterNotNull())
     }

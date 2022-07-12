@@ -9,10 +9,9 @@ import com.fastaccess.R
 import com.fastaccess.data.dao.CommentRequestModel
 import com.fastaccess.data.dao.TimelineModel
 import com.fastaccess.data.dao.TimelineModel.Companion.constructComment
+import com.fastaccess.data.dao.types.ReactionTypes
 import com.fastaccess.data.entity.Comment
 import com.fastaccess.data.entity.Issue
-import com.fastaccess.data.entity.Login
-import com.fastaccess.data.dao.types.ReactionTypes
 import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.helper.ActivityHelper
 import com.fastaccess.helper.BundleConstant
@@ -27,7 +26,6 @@ import com.fastaccess.provider.timeline.ReactionsProvider.ReactionType
 import com.fastaccess.provider.timeline.TimelineConverter.convert
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 import com.fastaccess.ui.modules.filter.issues.FilterIssuesActivity
-import com.fastaccess.ui.modules.repos.issues.create.CreateIssueActivity
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
 

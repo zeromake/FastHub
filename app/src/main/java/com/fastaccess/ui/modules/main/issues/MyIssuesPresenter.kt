@@ -49,6 +49,7 @@ class MyIssuesPresenter internal constructor() : BasePresenter<MyIssuesMvp.View>
             sendToView { it.hideProgress() }
             return false
         }
+        currentPage = page
         makeRestCall(
             getIssueService(isEnterprise).getIssuesWithCount(getUrl(parameter), page)
         ) { issues ->

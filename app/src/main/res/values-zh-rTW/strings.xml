@@ -463,11 +463,8 @@ APP
         <p>如果你正在編輯一個公開組職的 Repo ，請聯絡你的組織以取得權限給 FastHub 或是使用 Access Token 來登入!</p>
 		
         <h5>• 我有困難/我想要有新功能!!</h5>
-        <p>前往 https://github.com/k0shk0sh/FastHub/issues/new 並創建一個 bug/feature requests 的 issue。
+        <p>前往 https://github.com/LightDestory/FastHub-RE/issues/new 並創建一個 bug/feature requests 的 issue。
 		我非常鼓勵你在發布某些東西前先搜尋有沒有重複的，否則會被馬上關閉。</p>
-
-        <h5>• 我要怎麼取得 PROMO CODE?</h5>
-        <p>這個方案已不再存在。</p>
     ]]></string>
     <string name="faq">FAQ</string>
     <string name="comments_added_successfully">評論新增成功</string>

@@ -50,15 +50,15 @@ class ProfileReposPresenter : BasePresenter<ProfileReposMvp.View>(),
         }
         val isProfile = TextUtils.equals(currentLoggedIn, username)
         filterOptions.setIsPersonalProfile(isProfile)
-        makeRestCall(
-            if (isProfile) getUserService(isEnterprise).getRepos(
-                filterOptions.getQueryMap(),
-                page
-            ) else getUserService(isEnterprise).getRepos(
-                parameter,
-                filterOptions.getQueryMap(),
-                page
-            )
+        currentPage = page
+        makeRestCall(if (isProfile) getUserService(isEnterprise).getRepos(
+            filterOptions.getQueryMap(),
+            page
+        ) else getUserService(isEnterprise).getRepos(
+            parameter,
+            filterOptions.getQueryMap(),
+            page
+        )
         ) { repoModelPageable ->
             lastPage = repoModelPageable.last
             if (currentPage == 1) {

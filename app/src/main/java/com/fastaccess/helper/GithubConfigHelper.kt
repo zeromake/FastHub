@@ -1,7 +1,6 @@
 package com.fastaccess.helper
 
 import com.fastaccess.BuildConfig
-import com.fastaccess.helper.GithubConfigHelper
 
 /**
  * Created by thermatk on 12.04.17.

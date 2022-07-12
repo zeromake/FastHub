@@ -13,30 +13,20 @@ import com.fastaccess.provider.colors.ColorsProvider
 import com.fastaccess.provider.crash.Report
 import com.fastaccess.provider.emoji.EmojiManager
 import com.fastaccess.provider.rest.DnsProvider
-import com.miguelbcr.io.rx_billing_service.RxBillingService
+import com.fastaccess.provider.tasks.notification.NotificationSchedulerJobTask
 import es.dmoral.toasty.Toasty
 
 /**
  * Created by Kosh on 03 Feb 2017, 12:07 AM
  */
 class App : Application() {
-//    val dataStore: ReactiveEntityStore<Persistable> by lazy {
-//        val model = Models.DEFAULT
-//        val source = DatabaseSource(this, model, "FastHub-DB", 18)
-//        val configuration = source.configuration
-//        if (BuildConfig.DEBUG) {
-//            source.setTableCreationMode(TableCreationMode.CREATE_NOT_EXISTS)
-//        }
-//        ReactiveSupport.toReactiveStore(EntityDataStore(configuration))
-//    }
-
     override fun onCreate() {
         super.onCreate()
         instance = this
         init()
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N_MR1)
+    @RequiresApi(Build.VERSION_CODES.N_MR1)
     private fun initShortcut() {
         val shortcutManager = this.applicationContext.getSystemService(
             ShortcutManager::class.java
@@ -48,10 +38,10 @@ class App : Application() {
         Report.init(applicationContext)
         ObjectBox.init(applicationContext)
         DnsProvider.instance.init(applicationContext)
-        RxBillingService.register(this)
         deleteDatabase("database.db")
         setupPreference()
         generateTypeface(this)
+        NotificationSchedulerJobTask.scheduleJob(this)
         if (BuildConfig.DEBUG) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                 initShortcut()

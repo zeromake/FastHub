@@ -1,17 +1,16 @@
 package com.fastaccess.ui.modules.repos.issues.create
 
-import com.fastaccess.ui.base.mvp.BaseMvp.FAView
-import com.fastaccess.ui.modules.repos.extras.labels.LabelsMvp.SelectedLabelsListener
-import com.fastaccess.ui.modules.repos.extras.assignees.AssigneesMvp.SelectedAssigneesListener
-import com.fastaccess.ui.modules.repos.extras.milestone.MilestoneMvp.OnMilestoneSelected
-import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
 import android.content.Intent
 import com.fastaccess.data.dao.LabelModel
 import com.fastaccess.data.dao.MilestoneModel
 import com.fastaccess.data.entity.Issue
 import com.fastaccess.data.entity.PullRequest
 import com.fastaccess.data.entity.User
-import java.util.ArrayList
+import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
+import com.fastaccess.ui.base.mvp.BaseMvp.FAView
+import com.fastaccess.ui.modules.repos.extras.assignees.AssigneesMvp.SelectedAssigneesListener
+import com.fastaccess.ui.modules.repos.extras.labels.LabelsMvp.SelectedLabelsListener
+import com.fastaccess.ui.modules.repos.extras.milestone.MilestoneMvp.OnMilestoneSelected
 
 /**
  * Created by Kosh on 19 Feb 2017, 12:12 PM

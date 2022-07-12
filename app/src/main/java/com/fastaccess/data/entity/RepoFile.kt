@@ -8,7 +8,6 @@ import com.google.gson.annotations.SerializedName
 import io.objectbox.annotation.Convert
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
-import io.objectbox.converter.PropertyConverter
 
 @Entity
 data class RepoFile(

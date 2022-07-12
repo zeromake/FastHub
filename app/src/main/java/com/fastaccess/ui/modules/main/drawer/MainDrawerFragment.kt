@@ -16,8 +16,7 @@ import com.fastaccess.ui.modules.about.FastHubAboutActivity
 import com.fastaccess.ui.modules.gists.GistsListActivity
 import com.fastaccess.ui.modules.main.MainActivity
 import com.fastaccess.ui.modules.main.MainMvp
-import com.fastaccess.ui.modules.main.donation.CheckPurchaseActivity
-import com.fastaccess.ui.modules.main.playstore.PlayStoreWarningActivity
+import com.fastaccess.ui.modules.main.faq.FaqActivity
 import com.fastaccess.ui.modules.notification.NotificationActivity
 import com.fastaccess.ui.modules.pinned.PinnedReposActivity
 import com.fastaccess.ui.modules.repos.RepoPagerActivity
@@ -73,13 +72,6 @@ class MainDrawerFragment :
                             0
                         )
                     }
-                    R.id.settings -> activity.onOpenSettings()
-                    R.id.about -> activity.startActivity(
-                        Intent(
-                            activity,
-                            FastHubAboutActivity::class.java
-                        )
-                    )
                     R.id.orgs -> activity.onOpenOrgsDialog()
                     R.id.notifications -> activity.startActivity(
                         Intent(
@@ -94,23 +86,19 @@ class MainDrawerFragment :
                         )
                     )
                     R.id.openFastHub -> activity.startActivity(
-                        RepoPagerActivity.createIntent(
-                            activity,
-                            "FastHub",
-                            "k0shk0sh",
-                            RepoPagerMvp.ISSUES
-                        )
+                        RepoPagerActivity.createIntent(activity, "FastHub-RE", "LightDestory", RepoPagerMvp.CODE)
                     )
                     R.id.faq -> activity.startActivity(
                         Intent(
                             activity,
-                            PlayStoreWarningActivity::class.java
+                            FaqActivity::class.java
                         )
                     )
-                    R.id.restorePurchase -> activity.startActivity(
+                    R.id.settings -> activity.onOpenSettings()
+                    R.id.about -> activity.startActivity(
                         Intent(
                             activity,
-                            CheckPurchaseActivity::class.java
+                            FastHubAboutActivity::class.java
                         )
                     )
                 }

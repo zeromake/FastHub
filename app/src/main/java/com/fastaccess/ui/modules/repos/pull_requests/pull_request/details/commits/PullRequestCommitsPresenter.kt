@@ -46,9 +46,9 @@ class PullRequestCommitsPresenter : BasePresenter<PullRequestCommitsMvp.View>(),
             return false
         }
         if (repoId == null || login == null) return false
-        makeRestCall(
-            RestProvider.getPullRequestService(isEnterprise)
-                .getPullRequestCommits(login!!, repoId!!, number, page)
+        currentPage = page
+        makeRestCall(RestProvider.getPullRequestService(isEnterprise)
+            .getPullRequestCommits(login!!, repoId!!, number, page)
         ) { response ->
             lastPage = response.last
             if (currentPage == 1) {

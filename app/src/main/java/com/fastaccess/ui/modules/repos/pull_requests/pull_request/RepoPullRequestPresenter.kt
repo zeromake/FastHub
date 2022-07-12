@@ -3,8 +3,8 @@ package com.fastaccess.ui.modules.repos.pull_requests.pull_request
 import android.os.Bundle
 import android.view.View
 import com.fastaccess.data.dao.PullsIssuesParser.Companion.getForPullRequest
-import com.fastaccess.data.entity.PullRequest
 import com.fastaccess.data.dao.types.IssueState
+import com.fastaccess.data.entity.PullRequest
 import com.fastaccess.data.entity.dao.PullRequestDao
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.InputHelper.isEmpty
@@ -54,6 +54,7 @@ class RepoPullRequestPresenter : BasePresenter<RepoPullRequestMvp.View>(),
             return false
         }
         if (repoId == null || login == null) return false
+        currentPage = page
         makeRestCall(
             getPullRequestService(isEnterprise).getPullRequests(
                 login!!, repoId!!, parameter.name, page

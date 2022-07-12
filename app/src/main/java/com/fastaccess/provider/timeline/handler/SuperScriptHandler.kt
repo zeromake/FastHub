@@ -1,10 +1,10 @@
 package com.fastaccess.provider.timeline.handler
 
+import android.text.SpannableStringBuilder
+import android.text.style.RelativeSizeSpan
+import android.text.style.SuperscriptSpan
 import net.nightwhistler.htmlspanner.TagNodeHandler
 import org.htmlcleaner.TagNode
-import android.text.SpannableStringBuilder
-import android.text.style.SuperscriptSpan
-import android.text.style.RelativeSizeSpan
 
 class SuperScriptHandler : TagNodeHandler() {
     override fun handleTagNode(

@@ -9,7 +9,6 @@ import android.view.MenuItem
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.CommitFileModel
-import com.fastaccess.helper.ActivityHelper.checkAndRequestReadWritePermission
 import com.fastaccess.helper.ActivityHelper.shareUrl
 import com.fastaccess.helper.AppHelper.copyToClipboard
 import com.fastaccess.helper.BundleConstant

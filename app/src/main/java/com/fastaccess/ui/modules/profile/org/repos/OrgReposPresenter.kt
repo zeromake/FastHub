@@ -43,12 +43,12 @@ class OrgReposPresenter : BasePresenter<OrgReposMvp.View>(), OrgReposMvp.Present
             return false
         }
         filterOptions.isOrg = true
-        makeRestCall(
-            getOrgService(isEnterprise).getOrgRepos(
-                parameter,
-                filterOptions.getQueryMap(),
-                page
-            )
+        currentPage = page
+        makeRestCall(getOrgService(isEnterprise).getOrgRepos(
+            parameter,
+            filterOptions.getQueryMap(),
+            page
+        )
         ) { repoModelPageable ->
             lastPage = repoModelPageable.last
             if (currentPage == 1) {

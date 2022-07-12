@@ -14,10 +14,10 @@ import com.fastaccess.data.dao.EditReviewCommentModel
 import com.fastaccess.data.dao.ReviewCommentModel
 import com.fastaccess.data.dao.TimelineModel
 import com.fastaccess.data.dao.TimelineModel.Companion.constructComment
+import com.fastaccess.data.dao.types.ReactionTypes
 import com.fastaccess.data.entity.Comment
 import com.fastaccess.data.entity.PullRequest
 import com.fastaccess.data.entity.User
-import com.fastaccess.data.dao.types.ReactionTypes
 import com.fastaccess.helper.ActivityHelper.startLauncher
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler.Companion.start
@@ -402,16 +402,13 @@ class PullRequestTimelineFragment :
         onSetHeader(TimelineModel(pullRequest))
     }
 
-    private val launcher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {
+    private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         val data = it.data
         if (it.resultCode == Activity.RESULT_OK) {
             if (data == null) {
                 onRefresh()
                 return@registerForActivityResult
             }
-
             data.extras?.let { bundle ->
                 val isNew = bundle.getBoolean(BundleConstant.EXTRA)
                 val commentsModel: Comment? = bundle.getParcelable(BundleConstant.ITEM)
@@ -436,10 +433,7 @@ class PullRequestTimelineFragment :
         }
     }
 
-
-    private val reviewLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {
+    private val reviewLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         val data = it.data
         if (it.resultCode == Activity.RESULT_OK) {
             if (data == null) {
@@ -456,18 +450,14 @@ class PullRequestTimelineFragment :
                 }
                 val timelineModel = adapter!!.getItem(commentModel.groupPosition)
                 if (isNew) {
-                    if (timelineModel!!.groupedReviewModel != null
-                        && timelineModel.groupedReviewModel!!.comments != null
-                    ) {
+                    if (timelineModel!!.groupedReviewModel != null && timelineModel.groupedReviewModel!!.comments != null) {
                         timelineModel.groupedReviewModel!!.comments!!.add(commentModel.commentModel!!)
                         adapter!!.notifyItemChanged(commentModel.groupPosition)
                     } else {
                         onRefresh()
                     }
                 } else {
-                    if (timelineModel!!.groupedReviewModel != null
-                        && timelineModel.groupedReviewModel!!.comments != null
-                    ) {
+                    if (timelineModel!!.groupedReviewModel != null && timelineModel.groupedReviewModel!!.comments != null) {
                         timelineModel.groupedReviewModel!!.comments!![commentModel.commentPosition] =
                             commentModel.commentModel!!
                         adapter!!.notifyItemChanged(commentModel.groupPosition)

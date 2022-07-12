@@ -1,7 +1,5 @@
 package com.fastaccess.provider.emoji
 
-import com.fastaccess.provider.emoji.Fitzpatrick
-import java.lang.IllegalArgumentException
 import java.util.*
 
 /**

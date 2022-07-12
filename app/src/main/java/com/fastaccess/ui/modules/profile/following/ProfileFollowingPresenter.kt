@@ -37,8 +37,8 @@ class ProfileFollowingPresenter : BasePresenter<ProfileFollowingMvp.View>(),
             sendToView { it.hideProgress() }
             return false
         }
-        makeRestCall(
-            getUserService(isEnterprise).getFollowing(parameter, page)
+        currentPage = page
+        makeRestCall(getUserService(isEnterprise).getFollowing(parameter, page)
         ) { response ->
             lastPage = response.last
             if (currentPage == 1) {

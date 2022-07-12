@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.View
 import com.fastaccess.data.dao.Pageable
 import com.fastaccess.data.dao.PullsIssuesParser.Companion.getForIssue
-import com.fastaccess.data.entity.Issue
 import com.fastaccess.data.dao.types.IssueState
+import com.fastaccess.data.entity.Issue
 import com.fastaccess.data.entity.dao.IssueDao
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.InputHelper.isEmpty

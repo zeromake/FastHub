@@ -9,15 +9,13 @@ import com.fastaccess.data.dao.CommentRequestModel
 import com.fastaccess.data.dao.TimelineModel
 import com.fastaccess.data.dao.TimelineModel.Companion.construct
 import com.fastaccess.data.dao.TimelineModel.Companion.constructComment
-import com.fastaccess.data.entity.Comment
-import com.fastaccess.data.entity.Login
 import com.fastaccess.data.dao.types.ReactionTypes
+import com.fastaccess.data.entity.Comment
 import com.fastaccess.data.entity.dao.CommentDao
 import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.helper.ActivityHelper.shareUrl
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.RxHelper.getObservable
-import com.fastaccess.helper.RxHelper.getSingle
 import com.fastaccess.provider.rest.RestProvider.getRepoService
 import com.fastaccess.provider.timeline.CommentsHelper.isOwner
 import com.fastaccess.provider.timeline.ReactionsProvider

@@ -1,22 +1,19 @@
 package com.fastaccess.ui.widgets.contributions
 
 import android.content.Context
-import com.fastaccess.ui.widgets.contributions.utils.DatesUtils.getWeekDayFromDate
-import com.fastaccess.ui.widgets.contributions.utils.ColorsUtils.calculateLevelColor
-import com.fastaccess.ui.widgets.contributions.utils.DatesUtils.isFirstDayOfWeek
-import com.fastaccess.ui.widgets.contributions.utils.DatesUtils.isFirstWeekOfMount
-import com.fastaccess.ui.widgets.contributions.utils.DatesUtils.getShortMonthName
-import android.view.WindowManager
 import android.content.res.TypedArray
 import android.graphics.*
 import android.os.Build
 import android.util.AttributeSet
-import android.view.Display
 import android.view.View
 import android.view.WindowInsets
+import android.view.WindowManager
 import com.fastaccess.R
-import java.lang.IllegalArgumentException
-import java.lang.RuntimeException
+import com.fastaccess.ui.widgets.contributions.utils.ColorsUtils.calculateLevelColor
+import com.fastaccess.ui.widgets.contributions.utils.DatesUtils.getShortMonthName
+import com.fastaccess.ui.widgets.contributions.utils.DatesUtils.getWeekDayFromDate
+import com.fastaccess.ui.widgets.contributions.utils.DatesUtils.isFirstDayOfWeek
+import com.fastaccess.ui.widgets.contributions.utils.DatesUtils.isFirstWeekOfMount
 
 /**
  * Copyright 2016 Javier González

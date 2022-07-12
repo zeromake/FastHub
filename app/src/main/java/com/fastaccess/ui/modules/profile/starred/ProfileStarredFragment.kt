@@ -115,7 +115,7 @@ class ProfileStarredFragment : BaseFragment<ProfileStarredMvp.View, ProfileStarr
 
     override fun onUpdateCount(starredCount: Int) {
         if (tabsBadgeListener != null) {
-            tabsBadgeListener!!.onSetBadge(3, starredCount)
+            tabsBadgeListener!!.onSetBadge(4, starredCount)
         }
     }
 

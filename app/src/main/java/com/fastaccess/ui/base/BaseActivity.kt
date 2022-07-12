@@ -47,9 +47,9 @@ import com.fastaccess.ui.modules.gists.gist.GistActivity
 import com.fastaccess.ui.modules.login.chooser.LoginChooserActivity
 import com.fastaccess.ui.modules.main.MainActivity
 import com.fastaccess.ui.modules.main.drawer.MainDrawerFragment
+import com.fastaccess.ui.modules.main.faq.FaqActivity
 import com.fastaccess.ui.modules.main.notifications.FastHubNotificationDialog.Companion.show
 import com.fastaccess.ui.modules.main.orgs.OrgListDialogFragment
-import com.fastaccess.ui.modules.main.playstore.PlayStoreWarningActivity
 import com.fastaccess.ui.modules.repos.code.commit.details.CommitPagerActivity
 import com.fastaccess.ui.modules.repos.issues.issue.details.IssuePagerActivity
 import com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.PullRequestPagerActivity
@@ -579,7 +579,7 @@ abstract class BaseActivity<V : FAView, P : BasePresenter<V>> : TiActivity<P, V>
     }
 
     private fun showChangelog() {
-        if (showWhatsNew() && this !is PlayStoreWarningActivity) {
+        if (showWhatsNew() && this !is FaqActivity) {
             ChangelogBottomSheetDialog().show(supportFragmentManager, "ChangelogBottomSheetDialog")
         }
     }

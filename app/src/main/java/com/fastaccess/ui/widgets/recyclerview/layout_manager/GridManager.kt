@@ -3,11 +3,9 @@ package com.fastaccess.ui.widgets.recyclerview.layout_manager
 import android.content.Context
 import android.util.AttributeSet
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView.Recycler
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.Recycler
 import com.fastaccess.provider.crash.Report
-import com.tencent.bugly.crashreport.CrashReport
-import java.lang.Exception
 
 /**
  * Created by Kosh on 17 May 2016, 10:02 PM

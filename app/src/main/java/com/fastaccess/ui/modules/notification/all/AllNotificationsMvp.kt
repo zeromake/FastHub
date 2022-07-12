@@ -1,12 +1,12 @@
 package com.fastaccess.ui.modules.notification.all
 
-import com.fastaccess.ui.base.mvp.BaseMvp.FAView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
-import net.grandcentrix.thirtyinch.callonmainthread.CallOnMainThread
 import com.fastaccess.data.dao.GroupedNotificationModel
 import com.fastaccess.data.entity.Notification
 import com.fastaccess.data.entity.Repo
 import com.fastaccess.ui.base.adapter.BaseViewHolder
+import com.fastaccess.ui.base.mvp.BaseMvp.FAView
+import net.grandcentrix.thirtyinch.callonmainthread.CallOnMainThread
 
 /**
  * Created by Kosh on 19 Feb 2017, 7:53 PM

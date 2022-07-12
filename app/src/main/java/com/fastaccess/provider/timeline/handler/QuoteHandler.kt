@@ -1,10 +1,10 @@
 package com.fastaccess.provider.timeline.handler
 
-import net.nightwhistler.htmlspanner.TagNodeHandler
-import androidx.annotation.ColorInt
-import org.htmlcleaner.TagNode
 import android.text.SpannableStringBuilder
+import androidx.annotation.ColorInt
 import com.zzhoujay.markdown.style.MarkDownQuoteSpan
+import net.nightwhistler.htmlspanner.TagNodeHandler
+import org.htmlcleaner.TagNode
 
 /**
  * Created by Kosh on 23 Apr 2017, 11:30 AM

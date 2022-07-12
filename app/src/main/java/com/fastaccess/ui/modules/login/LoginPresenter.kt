@@ -87,7 +87,7 @@ class LoginPresenter internal constructor() : BasePresenter<LoginMvp.View>(), Lo
             .appendPath("authorize")
             .appendQueryParameter("client_id", clientId)
             .appendQueryParameter("redirect_uri", redirectUrl)
-            .appendQueryParameter("scope", "user,repo,gist,notifications,read:org")
+            .appendQueryParameter("scope", "user,repo,gist,notifications,read:org,workflow,read:packages")
             .appendQueryParameter("state", BuildConfig.GITHUB_APP_ID)
             .build()
 

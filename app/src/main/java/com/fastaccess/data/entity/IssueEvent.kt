@@ -8,7 +8,10 @@ import com.fastaccess.data.dao.RenameModel
 import com.fastaccess.data.dao.TeamsModel
 import com.fastaccess.data.dao.types.IssueEventType
 import com.fastaccess.data.entity.converters.*
-import com.fastaccess.helper.*
+import com.fastaccess.helper.readAtCompat
+import com.fastaccess.helper.readEnum
+import com.fastaccess.helper.writeAtCompat
+import com.fastaccess.helper.writeEnum
 import io.objectbox.annotation.Convert
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id

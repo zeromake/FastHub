@@ -15,8 +15,6 @@ import androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener
 import com.fastaccess.R
 import com.fastaccess.data.dao.FragmentPagerAdapterModel.Companion.buildForGist
 import com.fastaccess.data.entity.Gist
-import com.fastaccess.data.entity.Login
-import com.fastaccess.data.entity.PinnedGists
 import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.data.entity.dao.PinnedGistsDao
 import com.fastaccess.helper.ActivityHelper

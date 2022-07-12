@@ -8,12 +8,10 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.net.ConnectivityManager
-import android.net.NetworkRequest
 import android.os.Build
 import android.provider.Settings
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.fastaccess.App
@@ -23,8 +21,6 @@ import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.PrefGetter.ThemeType
 import com.fastaccess.helper.PrefGetter.getAppLanguage
 import com.fastaccess.helper.PrefGetter.getThemeType
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GoogleApiAvailability
 import es.dmoral.toasty.Toasty
 import java.util.*
 
@@ -76,7 +72,7 @@ object AppHelper {
         val brand = if (!isEmulator) Build.BRAND else "Android Emulator"
         val model = if (!isEmulator) DeviceNameGetter.instance.deviceName else "Android Emulator"
         val builder = StringBuilder()
-            .append("**FastHub Version: ").append(BuildConfig.VERSION_NAME)
+            .append("**FastHub-RE Version: ").append(BuildConfig.VERSION_NAME)
             .append(if (enterprise) " Enterprise**" else "**").append("  \n")
             .append(if (!isInstalledFromPlaySore(App.getInstance())) "**APK Source: Unknown**  \n" else "")
             .append("**Android Version: ").append(Build.VERSION.RELEASE.toString())
@@ -165,12 +161,16 @@ object AppHelper {
                 || "google_sdk" == Build.PRODUCT)
 
     private fun isInstalledFromPlaySore(context: Context): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val sourceInfo = context.packageManager.getInstallSourceInfo(BuildConfig.GITHUB_APP_ID)
-            return !isEmpty(sourceInfo.installingPackageName)
-        } else {
-            val ipn = context.packageManager.getInstallerPackageName(BuildConfig.GITHUB_APP_ID)
+        return try {
+            val ipn: String? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                val sourceInfo = context.packageManager.getInstallSourceInfo(BuildConfig.GITHUB_APP_ID)
+                sourceInfo.installingPackageName
+            } else {
+                context.packageManager.getInstallerPackageName(BuildConfig.GITHUB_APP_ID)
+            }
             !isEmpty(ipn)
+        } catch (e: PackageManager.NameNotFoundException) {
+            false
         }
     }
 
@@ -181,8 +181,7 @@ object AppHelper {
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
         }
-        return applicationInfo != null && applicationInfo.enabled && GoogleApiAvailability.getInstance()
-            .isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS
+        return true
     }
 
     @JvmStatic

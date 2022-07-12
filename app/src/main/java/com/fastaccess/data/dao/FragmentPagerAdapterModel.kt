@@ -35,6 +35,7 @@ import com.fastaccess.ui.modules.profile.org.teams.OrgTeamFragment
 import com.fastaccess.ui.modules.profile.org.teams.details.members.TeamMembersFragment
 import com.fastaccess.ui.modules.profile.org.teams.details.repos.TeamReposFragment
 import com.fastaccess.ui.modules.profile.overview.ProfileOverviewFragment.Companion.newInstance
+import com.fastaccess.ui.modules.profile.packages.ProfilePackagesFragment
 import com.fastaccess.ui.modules.profile.repos.ProfileReposFragment
 import com.fastaccess.ui.modules.profile.starred.ProfileStarredFragment
 import com.fastaccess.ui.modules.repos.code.commit.RepoCommitsFragment
@@ -83,6 +84,8 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
         fun buildForProfile(context: Context, login: String): List<FragmentPagerAdapterModel> {
             return listOf(
                 FragmentPagerAdapterModel(context.getString(R.string.overview), newInstance(login)),
+                FragmentPagerAdapterModel(context.getString(R.string.readme),
+                    ViewerFragment.newInstance(String.format("https://api.github.com/repos/%s/%s", login, login), isRepo = true)),
                 FragmentPagerAdapterModel(
                     context.getString(R.string.feed),
                     FeedsFragment.newInstance(login, false)
@@ -94,6 +97,10 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
                 FragmentPagerAdapterModel(
                     context.getString(R.string.starred),
                     ProfileStarredFragment.newInstance(login)
+                ),
+                FragmentPagerAdapterModel(
+                    context.getString(R.string.packages),
+                    ProfilePackagesFragment.newInstance(login)
                 ),
                 FragmentPagerAdapterModel(
                     context.getString(R.string.gists),
@@ -364,6 +371,10 @@ class FragmentPagerAdapterModel(var title: String, var fragment: Fragment?, var 
                 FragmentPagerAdapterModel(
                     context.getString(R.string.repos),
                     OrgReposFragment.newInstance(login)
+                ),
+                FragmentPagerAdapterModel(
+                    context.getString(R.string.packages),
+                    ProfilePackagesFragment.newInstance(login, true)
                 ),
                 FragmentPagerAdapterModel(
                     context.getString(R.string.people),

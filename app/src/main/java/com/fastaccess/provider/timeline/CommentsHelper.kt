@@ -7,8 +7,8 @@ import androidx.annotation.IdRes
 import com.fastaccess.R
 import com.fastaccess.data.dao.ReactionsModel
 import com.fastaccess.data.dao.TimelineModel
-import com.fastaccess.data.entity.Comment
 import com.fastaccess.data.dao.types.ReactionTypes
+import com.fastaccess.data.entity.Comment
 import com.fastaccess.provider.tasks.git.ReactionService
 import com.fastaccess.ui.widgets.SpannableBuilder.Companion.builder
 

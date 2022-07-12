@@ -9,7 +9,10 @@ import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.NameParser
 import com.fastaccess.data.entity.dao.RepoDao
-import com.fastaccess.helper.*
+import com.fastaccess.helper.ActivityHelper
+import com.fastaccess.helper.AppHelper
+import com.fastaccess.helper.BundleConstant
+import com.fastaccess.helper.Bundler
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.provider.scheme.LinkParserHelper.isEnterprise
 import com.fastaccess.ui.base.BaseActivity

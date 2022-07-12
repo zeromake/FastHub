@@ -58,6 +58,7 @@ class RepoCommitsPresenter : BasePresenter<RepoCommitsMvp.View>(),
         ) else getRepoService(isEnterprise).getCommits(
             login!!, repoId!!, defaultBranch!!, path!!, page
         )
+        currentPage = page
         makeRestCall(observable) { response ->
             if (response?.items != null) {
                 lastPage = response.last

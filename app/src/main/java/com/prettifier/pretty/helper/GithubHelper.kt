@@ -7,10 +7,7 @@ import com.fastaccess.helper.PrefGetter
 import com.fastaccess.helper.PrefGetter.ThemeType
 import com.fastaccess.helper.ViewHelper
 import org.jsoup.Jsoup
-import retrofit2.http.Url
-import java.net.URL
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * Created by Kosh on 25 Dec 2016, 9:12 PM

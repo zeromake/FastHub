@@ -2,7 +2,6 @@ package com.fastaccess.ui.modules.pinned.issue
 
 import android.view.View
 import com.fastaccess.data.entity.Issue
-import com.fastaccess.data.entity.PinnedIssues
 import com.fastaccess.data.entity.dao.PinnedIssuesDao
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.RxHelper

@@ -3,7 +3,6 @@ package com.fastaccess.ui.modules.profile.followers
 import android.view.View
 import com.fastaccess.data.entity.User
 import com.fastaccess.data.entity.dao.UserDao
-import com.fastaccess.helper.RxHelper
 import com.fastaccess.helper.RxHelper.getSingle
 import com.fastaccess.provider.rest.RestProvider.getUserService
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
@@ -38,6 +37,7 @@ class ProfileFollowersPresenter : BasePresenter<ProfileFollowersMvp.View>(),
             sendToView { it.hideProgress() }
             return false
         }
+        currentPage = page
         makeRestCall(
             getUserService(isEnterprise).getFollowers(parameter, page)
         ) { response ->

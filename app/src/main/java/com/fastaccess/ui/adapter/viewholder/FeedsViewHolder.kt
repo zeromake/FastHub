@@ -6,8 +6,8 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import com.fastaccess.R
-import com.fastaccess.data.entity.Event
 import com.fastaccess.data.dao.types.EventsType
+import com.fastaccess.data.entity.Event
 import com.fastaccess.helper.ParseDateFormat.Companion.getTimeAgo
 import com.fastaccess.provider.markdown.MarkDownProvider.stripMdText
 import com.fastaccess.provider.scheme.LinkParserHelper.isEnterprise
