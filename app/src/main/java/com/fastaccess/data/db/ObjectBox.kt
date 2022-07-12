@@ -1,11 +1,8 @@
 package com.fastaccess.data.db
 
 import android.content.Context
-import android.util.Log
-import com.fastaccess.BuildConfig
 import com.fastaccess.data.entity.MyObjectBox
 import io.objectbox.BoxStore
-import io.objectbox.android.AndroidObjectBrowser
 
 
 class ObjectBox {
@@ -15,10 +12,10 @@ class ObjectBox {
             boxStore = MyObjectBox.builder()
                 .androidContext(context.applicationContext)
                 .build()
-            if (BuildConfig.DEBUG) {
-                val started = AndroidObjectBrowser(boxStore).start(context)
-                Log.i("ObjectBrowser", "Started: $started")
-            }
+//            if (BuildConfig.DEBUG) {
+//                val started = AndroidObjectBrowser(boxStore).start(context)
+//                Log.i("ObjectBrowser", "Started: $started")
+//            }
         }
     }
 }

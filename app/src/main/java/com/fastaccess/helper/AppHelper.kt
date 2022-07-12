@@ -1,5 +1,6 @@
 package com.fastaccess.helper
 
+import android.annotation.SuppressLint
 import android.app.NotificationManager
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -200,6 +201,7 @@ object AppHelper {
     }
 
     val isDataPlan: Boolean
+        @SuppressLint("MissingPermission")
         get() {
             val connectivityManager = App.getInstance()
                 .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
