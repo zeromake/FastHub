@@ -240,7 +240,7 @@ dependencies {
     implementation("io.objectbox:objectbox-kotlin:3.1.2")
     implementation("io.objectbox:objectbox-rxjava:3.1.2")
 //    debugImplementation("io.objectbox:objectbox-android-objectbrowser:3.1.2")
-    releaseImplementation("io.objectbox:objectbox-android:3.1.2")
+    implementation("io.objectbox:objectbox-android:3.1.2")
 
 
     // cache
@@ -256,7 +256,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 
     // 泄漏检测
-    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.8.1")
+//    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.8.1")
 }
 
 apply(plugin = "io.objectbox")
