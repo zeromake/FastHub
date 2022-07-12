@@ -1,6 +1,8 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Releases](https://img.shields.io/github/release/LightDestory/FastHub-RE.svg)](https://github.com/LightDestory/FastHub-RE/releases/latest)
 
+## This project is on hold due to no time to put on it. The project is not dead, just delayed. Meanwhile any PR and bug report will be still accepted and processed, release build will be available anytime if a important bug is addressed, just poke me. Let's hope for a better time to bring the app back from the death :)
+
 # FastHub-RE(vival)
 <p align="center"><img src=".github/assets/web_hi_res_512.png" width=256 alt="Logo"></p>
 
