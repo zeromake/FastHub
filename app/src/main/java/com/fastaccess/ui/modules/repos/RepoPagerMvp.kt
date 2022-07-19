@@ -3,7 +3,7 @@ package com.fastaccess.ui.modules.repos
 import androidx.annotation.IntDef
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.fastaccess.data.dao.model.Repo
+import com.fastaccess.data.entity.Repo
 import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
 import com.fastaccess.ui.base.mvp.BaseMvp.FAView
 import com.fastaccess.ui.modules.filter.chooser.FilterAddChooserListener

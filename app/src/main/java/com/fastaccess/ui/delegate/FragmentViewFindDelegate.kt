@@ -3,8 +3,6 @@ package com.fastaccess.ui.delegate
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 

@@ -4,10 +4,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.AbstractPinnedRepos
-import com.fastaccess.data.dao.model.PinnedRepos
+import com.fastaccess.data.entity.PinnedRepos
+import com.fastaccess.data.entity.dao.PinnedReposDao
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler
+import com.fastaccess.helper.RxHelper
 import com.fastaccess.ui.adapter.PinnedReposAdapter
 import com.fastaccess.ui.base.BaseFragment
 import com.fastaccess.ui.delegate.viewFind
@@ -71,8 +72,13 @@ class PinnedReposFragment : BaseFragment<PinnedReposMvp.View, PinnedReposPresent
         if (bundle != null && isOk) {
             val id = bundle.getLong(BundleConstant.ID)
             val position = bundle.getInt(BundleConstant.EXTRA)
-            AbstractPinnedRepos.delete(id)
-            adapter!!.removeItem(position)
+            presenter.manageObservable(
+                RxHelper.getObservable(
+                    PinnedReposDao.delete(id).toObservable()
+                )
+            ) {
+                adapter!!.removeItem(position)
+            }
         }
     }
 

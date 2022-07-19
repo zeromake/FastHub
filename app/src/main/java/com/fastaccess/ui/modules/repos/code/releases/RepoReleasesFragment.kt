@@ -6,7 +6,7 @@ import androidx.annotation.StringRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fastaccess.R
 import com.fastaccess.data.dao.SimpleUrlsModel
-import com.fastaccess.data.dao.model.Release
+import com.fastaccess.data.entity.Release
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler.Companion.start
 import com.fastaccess.helper.InputHelper.isEmpty
@@ -114,11 +114,11 @@ class RepoReleasesFragment : BaseFragment<RepoReleasesMvp.View, RepoReleasesPres
             val url = item.tarballUrl
             models.add(SimpleUrlsModel(getString(R.string.download_as_tar), url))
         }
-        if (item.assets != null && !item.assets.isEmpty()) {
-            val mapped = item.assets
-                .filter { value -> value?.browserDownloadUrl != null }
+        if (item.assets != null && !item.assets!!.isEmpty()) {
+            val mapped = item.assets!!
+                .filter { value -> value.browserDownloadUrl != null }
                 .map {
-                    val assetsModel = it!!
+                    val assetsModel = it
                     SimpleUrlsModel(
                         "${assetsModel.name} (${assetsModel.downloadCount})",
                         assetsModel.browserDownloadUrl
@@ -136,8 +136,10 @@ class RepoReleasesFragment : BaseFragment<RepoReleasesMvp.View, RepoReleasesPres
     override fun onShowDetails(item: Release) {
         if (!isEmpty(item.body)) {
             newInstance(
-                if (!isEmpty(item.name)) item.name else item.tagName,
-                item.body, isMarkDown = true, hideCancel = false
+                if (!isEmpty(item.name)) item.name!! else item.tagName!!,
+                item.body!!,
+                isMarkDown = true,
+                hideCancel = false
             ).show(childFragmentManager, MessageDialogView.TAG)
         } else {
             showErrorMessage(getString(R.string.no_body))

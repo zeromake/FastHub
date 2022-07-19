@@ -11,8 +11,8 @@ import androidx.core.view.GravityCompat
 import com.evernote.android.state.State
 import com.fastaccess.App
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.Login
-import com.fastaccess.data.dao.model.Notification
+import com.fastaccess.data.entity.dao.LoginDao
+import com.fastaccess.data.entity.dao.NotificationDao
 import com.fastaccess.helper.*
 import com.fastaccess.ui.base.BaseActivity
 import com.fastaccess.ui.modules.feeds.FeedsFragment
@@ -130,7 +130,7 @@ class MainActivity : BaseActivity<MainMvp.View, MainPresenter>(), MainMvp.View {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        if (isLoggedIn && Notification.hasUnreadNotifications()) {
+        if (isLoggedIn && NotificationDao.hasUnreadNotifications().blockingGet()) {
             ViewHelper.tintDrawable(
                 menu.findItem(R.id.notifications).setIcon(R.drawable.ic_ring).icon,
                 ViewHelper.getAccentColor(this)
@@ -164,7 +164,13 @@ class MainActivity : BaseActivity<MainMvp.View, MainPresenter>(), MainMvp.View {
     }
 
     override fun onOpenProfile() {
-        startActivity(this, Login.getUser().login, false, PrefGetter.isEnterprise, -1)
+        startActivity(
+            this,
+            LoginDao.getUser().blockingGet().or().login!!,
+            false,
+            PrefGetter.isEnterprise,
+            -1,
+        )
     }
 
     override fun onInvalidateNotification() {

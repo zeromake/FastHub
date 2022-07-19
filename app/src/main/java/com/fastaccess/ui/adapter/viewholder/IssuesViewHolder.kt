@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import com.fastaccess.R
 import com.fastaccess.data.dao.PullsIssuesParser.Companion.getForIssue
-import com.fastaccess.data.dao.model.Issue
 import com.fastaccess.data.dao.types.IssueState
+import com.fastaccess.data.entity.Issue
 import com.fastaccess.helper.ParseDateFormat.Companion.getTimeAgo
 import com.fastaccess.provider.scheme.LinkParserHelper.isEnterprise
 import com.fastaccess.ui.adapter.IssuesAdapter
@@ -30,7 +30,7 @@ class IssuesViewHolder private constructor(
     val avatarLayout: AvatarLayout? = itemView.findViewById(R.id.avatarLayout)
     val issueState: AppCompatImageView? = itemView.findViewById(R.id.issue_state)
     val details: FontTextView? = itemView.findViewById(R.id.details)
-    val commentsNo: FontTextView? = itemView.findViewById(R.id.commentsNo)
+    private val commentsNo: FontTextView? = itemView.findViewById(R.id.commentsNo)
     val by: String = itemView.context.resources.getString(R.string.by)
     override fun bind(t: Issue) {
         title!!.text = t.title
@@ -39,7 +39,7 @@ class IssuesViewHolder private constructor(
                 getTimeAgo(if (t.state === IssueState.open) t.createdAt else t.closedAt)
             val builder = builder()
             if (showRepoName) {
-                val parser = getForIssue(t.htmlUrl)
+                val parser = getForIssue(t.htmlUrl!!)
                 if (parser != null) builder.bold(parser.login!!)
                     .append("/")
                     .bold(parser.repoId!!)
@@ -56,18 +56,18 @@ class IssuesViewHolder private constructor(
                     } else {
                         builder.append("#")
                             .append(t.number.toString()).append(" ")
-                            .append(t.closedBy.login)
+                            .append(t.closedBy!!.login)
                             .append(" ")
                     }
                 } else {
                     builder.bold("#")
                         .bold(t.number.toString()).append(" ")
-                        .append(t.user.login)
+                        .append(t.user!!.login)
                         .append(" ")
                 }
             }
             details!!.text = builder
-                .append(itemView.resources.getString(t.state.status)
+                .append(itemView.resources.getString(t.state!!.status)
                     .lowercase(Locale.getDefault()))
                 .append(" ")
                 .append(data)
@@ -86,8 +86,8 @@ class IssuesViewHolder private constructor(
         }
         if (withAvatar && avatarLayout != null) {
             avatarLayout.setUrl(
-                t.user.avatarUrl, t.user.login, false,
-                isEnterprise(t.user.htmlUrl)
+                t.user!!.avatarUrl, t.user!!.login, false,
+                isEnterprise(t.user!!.htmlUrl)
             )
             avatarLayout.visibility = View.VISIBLE
         }

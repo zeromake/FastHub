@@ -1,11 +1,10 @@
 package com.fastaccess.ui.modules.repos.extras.labels
 
 import com.fastaccess.data.dao.LabelModel
-import com.fastaccess.ui.base.mvp.BaseMvp.FAView
-import com.fastaccess.ui.adapter.LabelsAdapter.OnSelectLabel
 import com.fastaccess.provider.rest.loadmore.OnLoadMore
+import com.fastaccess.ui.adapter.LabelsAdapter.OnSelectLabel
+import com.fastaccess.ui.base.mvp.BaseMvp.FAView
 import com.fastaccess.ui.base.mvp.BaseMvp.PaginationListener
-import java.util.ArrayList
 
 /**
  * Created by Kosh on 22 Feb 2017, 7:22 PM

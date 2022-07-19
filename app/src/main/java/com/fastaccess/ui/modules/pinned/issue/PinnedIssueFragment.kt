@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.Issue
-import com.fastaccess.data.dao.model.PinnedIssues
+import com.fastaccess.data.entity.Issue
+import com.fastaccess.data.entity.dao.PinnedIssuesDao
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler
 import com.fastaccess.ui.adapter.IssuesAdapter
@@ -49,7 +49,11 @@ class PinnedIssueFragment : BaseFragment<PinnedIssueMvp.View, PinnedIssuePresent
     }
 
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
-        adapter = IssuesAdapter(presenter!!.pinnedIssue, true, true, true)
+        adapter = IssuesAdapter(presenter!!.pinnedIssue,
+            withAvatar = true,
+            showRepoName = true,
+            showState = true
+        )
         adapter!!.listener = presenter
         stateLayout!!.setEmptyText(R.string.no_issues)
         recycler!!.setEmptyView(stateLayout!!, refresh)
@@ -72,7 +76,9 @@ class PinnedIssueFragment : BaseFragment<PinnedIssueMvp.View, PinnedIssuePresent
         if (bundle != null && isOk) {
             val id = bundle.getLong(BundleConstant.ID)
             val position = bundle.getInt(BundleConstant.EXTRA)
-            PinnedIssues.delete(id)
+            presenter.manageObservable(
+                PinnedIssuesDao.delete(id).toObservable()
+            )
             adapter!!.removeItem(position)
         }
     }

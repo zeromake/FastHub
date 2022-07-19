@@ -3,15 +3,15 @@ package com.fastaccess.ui.widgets
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.text.style.ReplacementSpan
-import android.text.TextPaint
 import android.graphics.Paint.FontMetricsInt
+import android.graphics.RectF
+import android.text.Spanned
+import android.text.TextPaint
+import android.text.TextUtils
+import android.text.style.CharacterStyle
+import android.text.style.ReplacementSpan
 import androidx.core.text.TextUtilsCompat
 import androidx.core.view.ViewCompat
-import android.text.style.CharacterStyle
-import android.text.Spanned
-import android.graphics.RectF
-import android.text.TextUtils
 import com.fastaccess.helper.ViewHelper
 import java.util.*
 

@@ -1,7 +1,7 @@
 package com.fastaccess.ui.adapter
 
 import android.view.ViewGroup
-import com.fastaccess.data.dao.model.Login
+import com.fastaccess.data.entity.Login
 import com.fastaccess.ui.adapter.viewholder.LoginViewHolder
 import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
 import com.fastaccess.ui.base.adapter.BaseViewHolder

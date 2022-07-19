@@ -13,9 +13,9 @@ import com.fastaccess.data.dao.LabelModel
 import com.fastaccess.data.dao.MilestoneModel
 import com.fastaccess.data.dao.PullsIssuesParser.Companion.getForIssue
 import com.fastaccess.data.dao.PullsIssuesParser.Companion.getForPullRequest
-import com.fastaccess.data.dao.model.Issue
-import com.fastaccess.data.dao.model.PullRequest
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.Issue
+import com.fastaccess.data.entity.PullRequest
+import com.fastaccess.data.entity.User
 import com.fastaccess.helper.AnimHelper.mimicFabVisibility
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler.Companion.start
@@ -165,32 +165,40 @@ class IssuePopupFragment :
     companion object {
         fun showPopup(manager: FragmentManager, issue: Issue) {
             val fragment = IssuePopupFragment()
-            var parser = getForIssue(issue.htmlUrl)
+            var parser = getForIssue(issue.htmlUrl!!)
             if (parser == null) {
-                parser = getForPullRequest(issue.htmlUrl)
+                parser = getForPullRequest(issue.htmlUrl!!)
             }
             if (parser == null) return
             fragment.arguments = getBundle(
-                parser.login!!, parser.repoId!!, issue.number, issue.title, issue.body, issue.user,
-                issue.assignee, issue.labels, issue.milestone, !issue.isLocked
+                parser.login!!,
+                parser.repoId!!,
+                issue.number,
+                issue.title!!,
+                issue.body!!,
+                issue.user!!,
+                issue.assignee,
+                issue.labels,
+                issue.milestone,
+                !issue.locked
             )
             fragment.show(manager, "")
         }
 
         fun showPopup(manager: FragmentManager, pullRequest: PullRequest) {
             val fragment = IssuePopupFragment()
-            val parser = getForPullRequest(pullRequest.htmlUrl) ?: return
+            val parser = getForPullRequest(pullRequest.htmlUrl!!) ?: return
             fragment.arguments = getBundle(
                 parser.login!!,
                 parser.repoId!!,
                 pullRequest.number,
-                pullRequest.title,
-                pullRequest.body,
-                pullRequest.user,
+                pullRequest.title!!,
+                pullRequest.body!!,
+                pullRequest.user!!,
                 pullRequest.assignee,
                 pullRequest.labels,
                 pullRequest.milestone,
-                !pullRequest.isLocked
+                !pullRequest.locked
             )
             fragment.show(manager, "")
         }

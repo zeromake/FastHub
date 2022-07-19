@@ -5,7 +5,7 @@ import android.view.View
 import androidx.annotation.StringRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.Gist
+import com.fastaccess.data.entity.Gist
 import com.fastaccess.provider.rest.loadmore.OnLoadMore
 import com.fastaccess.ui.adapter.GistsAdapter
 import com.fastaccess.ui.base.BaseFragment
@@ -89,7 +89,7 @@ class GistsFragment : BaseFragment<GistsMvp.View, GistsPresenter>(), GistsMvp.Vi
     override val loadMore: OnLoadMore<Gist>
         get() {
             if (onLoadMore == null) {
-                onLoadMore = OnLoadMore((presenter as GistsPresenter))
+                onLoadMore = OnLoadMore(presenter)
             }
             return onLoadMore!!
         }

@@ -14,7 +14,7 @@ import com.fastaccess.data.dao.CommentRequestModel
 import com.fastaccess.data.dao.CommitFileChanges
 import com.fastaccess.data.dao.CommitFileModel
 import com.fastaccess.data.dao.CommitLinesModel
-import com.fastaccess.data.dao.model.PullRequest
+import com.fastaccess.data.entity.PullRequest
 import com.fastaccess.helper.ActivityHelper
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler

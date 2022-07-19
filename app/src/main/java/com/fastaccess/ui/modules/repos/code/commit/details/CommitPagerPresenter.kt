@@ -3,10 +3,11 @@ package com.fastaccess.ui.modules.repos.code.commit.details
 import android.content.Intent
 import com.fastaccess.data.dao.CommentRequestModel
 import com.fastaccess.data.dao.MarkdownModel
-import com.fastaccess.data.dao.model.Commit
+import com.fastaccess.data.entity.Commit
+import com.fastaccess.data.entity.dao.CommitDao
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.InputHelper.isEmpty
-import com.fastaccess.helper.RxHelper.getObservable
+import com.fastaccess.helper.RxHelper.getSingle
 import com.fastaccess.provider.rest.RestProvider.getErrorCode
 import com.fastaccess.provider.rest.RestProvider.getRepoService
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
@@ -59,10 +60,10 @@ class CommitPagerPresenter : BasePresenter<CommitPagerMvp.View>(),
                     getRepoService(isEnterprise)
                         .getCommit(login!!, repoId!!, sha!!)
                         .flatMap({ commit: Commit ->
-                            if (commit.gitCommit != null && commit.gitCommit.message != null) {
+                            if (commit.gitCommit != null && commit.gitCommit!!.message != null) {
                                 val markdownModel = MarkdownModel()
                                 markdownModel.context = "$login/$repoId"
-                                markdownModel.text = commit.gitCommit.message
+                                markdownModel.text = commit.gitCommit!!.message
                                 return@flatMap getRepoService(isEnterprise).convertReadmeToHtml(
                                     markdownModel
                                 )
@@ -70,7 +71,7 @@ class CommitPagerPresenter : BasePresenter<CommitPagerMvp.View>(),
                             Observable.just(commit)
                         }) { commit: Commit, u: Any ->
                             if (!isEmpty(u.toString()) && u is String) {
-                                commit.gitCommit.message = u.toString()
+                                commit.gitCommit!!.message = u.toString()
                             }
                             commit
                         }) { commit: Commit? ->
@@ -78,7 +79,7 @@ class CommitPagerPresenter : BasePresenter<CommitPagerMvp.View>(),
                     commit!!.repoId = repoId
                     commit.login = login
                     sendToView { it.onSetup() }
-                    manageObservable(commit.save(this.commit).toObservable())
+                    manageObservable(CommitDao.save(this.commit!!).toObservable())
                 }
                 return
             }
@@ -88,9 +89,9 @@ class CommitPagerPresenter : BasePresenter<CommitPagerMvp.View>(),
 
     override fun onWorkOffline(sha: String, repoId: String, login: String) {
         manageDisposable(
-            getObservable(Commit.getCommit(sha, repoId, login))
+            getSingle(CommitDao.getCommit(sha, repoId, login))
                 .subscribe { commit ->
-                    this.commit = commit
+                    this.commit = commit.get()
                     sendToView { it.onSetup() }
                 })
     }

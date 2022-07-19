@@ -1,7 +1,7 @@
 package com.fastaccess.data.dao
 
-import android.os.Parcelable
 import android.os.Parcel
+import android.os.Parcelable
 
 /**
  * Created by Kosh on 01 Jan 2017, 1:15 PM

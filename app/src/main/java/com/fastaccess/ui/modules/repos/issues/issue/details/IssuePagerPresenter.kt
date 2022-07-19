@@ -7,11 +7,12 @@ import com.fastaccess.R
 import com.fastaccess.data.dao.*
 import com.fastaccess.data.dao.IssueRequestModel.Companion.clone
 import com.fastaccess.data.dao.PullsIssuesParser.Companion.getForIssue
-import com.fastaccess.data.dao.model.Issue
-import com.fastaccess.data.dao.model.Login
-import com.fastaccess.data.dao.model.PinnedIssues
-import com.fastaccess.data.dao.model.User
 import com.fastaccess.data.dao.types.IssueState
+import com.fastaccess.data.entity.Issue
+import com.fastaccess.data.entity.User
+import com.fastaccess.data.entity.dao.IssueDao
+import com.fastaccess.data.entity.dao.LoginDao
+import com.fastaccess.data.entity.dao.PinnedIssuesDao
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.Logger.e
@@ -83,11 +84,12 @@ class IssuePagerPresenter : BasePresenter<IssuePagerMvp.View>(), IssuePagerMvp.P
         if (issue == null) {
             manageDisposable(
                 getObservable(
-                    Issue.getIssueByNumber(
+                    IssueDao.getIssueByNumber(
                         issueNumber.toInt(), repoId, login
-                    )
+                    ).toObservable()
                 )
-                    .subscribe { issueModel1: Issue? ->
+                    .subscribe { issueModelOpt ->
+                        val issueModel1 = issueModelOpt.get()
                         if (issueModel1 != null) {
                             issue = issueModel1
                             sendToView { view ->
@@ -106,19 +108,19 @@ class IssuePagerPresenter : BasePresenter<IssuePagerMvp.View>(), IssuePagerMvp.P
         get() {
             if (issue == null) return false
             val userModel = if (issue != null) issue!!.user else null
-            val me = Login.getUser()
-            val parser = getForIssue(issue!!.htmlUrl)
+            val me = LoginDao.getUser().blockingGet().or()
+            val parser = getForIssue(issue!!.htmlUrl!!)
             return (userModel != null && userModel.login.equals(me.login, ignoreCase = true)
                     || parser != null && parser.login.equals(me.login, ignoreCase = true))
         }
     override val isRepoOwner: Boolean
         get() {
             if (issue == null) return false
-            val me = Login.getUser()
+            val me = LoginDao.getUser().blockingGet().or()
             return TextUtils.equals(login, me.login)
         }
     override val isLocked: Boolean
-        get() = issue != null && issue!!.isLocked
+        get() = issue != null && issue!!.locked
 
     override fun showToRepoBtn(): Boolean {
         return showToRepoBtn
@@ -190,7 +192,7 @@ class IssuePagerPresenter : BasePresenter<IssuePagerMvp.View>(), IssuePagerMvp.P
         ) { booleanResponse ->
             val code = booleanResponse.code()
             if (code == 204) {
-                issue!!.isLocked = !isLocked
+                issue!!.locked = !isLocked
                 sendToView { view -> view.onSetupIssue(true) }
             }
             sendToView { it.hideProgress() }
@@ -206,7 +208,7 @@ class IssuePagerPresenter : BasePresenter<IssuePagerMvp.View>(), IssuePagerMvp.P
             )
         ) { issue: Issue ->
             this.issue!!.milestone = issue.milestone
-            manageObservable(issue.save(this.issue).toObservable())
+            manageObservable(IssueDao.save(this.issue!!).toObservable())
             sendToView { view: IssuePagerMvp.View ->
                 updateTimeline(
                     view,
@@ -232,16 +234,16 @@ class IssuePagerPresenter : BasePresenter<IssuePagerMvp.View>(), IssuePagerMvp.P
             val listModel = LabelListModel()
             listModel.addAll(labels)
             issue!!.labels = listModel
-            manageObservable(issue!!.save(issue).toObservable())
+            manageObservable(IssueDao.save(issue!!).toObservable())
         }
     }
 
     override fun onPutAssignees(users: ArrayList<User>) {
         val assigneesRequestModel = AssigneesRequestModel()
         val assignees = ArrayList<String>()
-        users.forEach { userModel: User -> assignees.add(userModel.login) }
+        users.forEach { userModel: User -> assignees.add(userModel.login!!) }
         assigneesRequestModel.assignees = if (assignees.isEmpty())
-            issue!!.assignees.map { obj -> obj!!.login }.toList() else assignees
+            issue!!.assignees!!.map { obj -> obj.login!! }.toList() else assignees
         makeRestCall(
             if (assignees.isNotEmpty()) getIssueService(isEnterprise).putAssignees(
                 login!!, repoId!!, issueNumber, assigneesRequestModel
@@ -252,7 +254,7 @@ class IssuePagerPresenter : BasePresenter<IssuePagerMvp.View>(), IssuePagerMvp.P
             val assignee = UsersListModel()
             assignee.addAll(users)
             issue!!.assignees = assignee
-            manageObservable(issue.save(this.issue).toObservable())
+            manageObservable(IssueDao.save(this.issue!!).toObservable())
             sendToView { view: IssuePagerMvp.View ->
                 updateTimeline(
                     view,
@@ -268,7 +270,7 @@ class IssuePagerPresenter : BasePresenter<IssuePagerMvp.View>(), IssuePagerMvp.P
         this.issue!!.title = issueModel.title
         this.issue!!.login = login
         this.issue!!.repoId = repoId
-        manageObservable(issueModel.save(this.issue).toObservable())
+        manageObservable(IssueDao.save(this.issue!!).toObservable())
         sendToView { view -> view.onSetupIssue(true) }
     }
 
@@ -303,13 +305,14 @@ class IssuePagerPresenter : BasePresenter<IssuePagerMvp.View>(), IssuePagerMvp.P
 
     override fun onPinUnpinIssue() {
         if (issue == null) return
-        PinnedIssues.pinUpin(issue!!)
-        sendToView { it.onUpdateMenu() }
+        manageObservable(PinnedIssuesDao.pinUpin(issue!!).toObservable()) {
+            sendToView { it.onUpdateMenu() }
+        }
     }
 
     private val issueFromApi: Unit
         get() {
-            val loginUser = Login.getUser() ?: return
+            val loginUser = LoginDao.getUser().blockingGet().get() ?: return
             makeRestCall<Issue>(getObservable(
                 Observable.zip(
                     getIssueService(isEnterprise).getIssue(
@@ -318,7 +321,7 @@ class IssuePagerPresenter : BasePresenter<IssuePagerMvp.View>(), IssuePagerMvp.P
                     getRepoService(isEnterprise).isCollaborator(
                         login!!,
                         repoId!!,
-                        loginUser.login
+                        loginUser.login!!
                     )
                 ) { issue, booleanResponse ->
                     isCollaborator = booleanResponse.code() == 204
@@ -332,7 +335,7 @@ class IssuePagerPresenter : BasePresenter<IssuePagerMvp.View>(), IssuePagerMvp.P
         issue.repoId = repoId
         issue.login = login
         sendToView { view -> view.onSetupIssue(false) }
-        manageDisposable(PinnedIssues.updateEntry(issue.id))
+        manageObservable(PinnedIssuesDao.updateEntry(issue.id).toObservable())
     }
 
     private fun updateTimeline(view: IssuePagerMvp.View, assignee_added: Int) {

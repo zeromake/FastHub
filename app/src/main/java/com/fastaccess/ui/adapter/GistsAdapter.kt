@@ -1,7 +1,7 @@
 package com.fastaccess.ui.adapter
 
 import android.view.ViewGroup
-import com.fastaccess.data.dao.model.Gist
+import com.fastaccess.data.entity.Gist
 import com.fastaccess.ui.adapter.viewholder.GistsViewHolder
 import com.fastaccess.ui.adapter.viewholder.GistsViewHolder.Companion.newInstance
 import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter

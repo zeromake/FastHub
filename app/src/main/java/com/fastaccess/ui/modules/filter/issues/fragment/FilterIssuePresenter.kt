@@ -1,7 +1,7 @@
 package com.fastaccess.ui.modules.filter.issues.fragment
 
 import android.view.View
-import com.fastaccess.data.dao.model.Issue
+import com.fastaccess.data.entity.Issue
 import com.fastaccess.provider.rest.RestProvider.getSearchService
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 
@@ -32,6 +32,7 @@ class FilterIssuePresenter : BasePresenter<FilterIssuesMvp.View>(), FilterIssues
             sendToView { it.hideProgress() }
             return false
         }
+        currentPage = page
         makeRestCall(getSearchService(isEnterprise).searchIssues(parameter, page.toLong())
         ) { issues ->
             lastPage = issues.last

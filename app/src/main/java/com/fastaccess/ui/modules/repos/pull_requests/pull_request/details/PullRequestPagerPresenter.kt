@@ -8,11 +8,12 @@ import com.fastaccess.R
 import com.fastaccess.data.dao.*
 import com.fastaccess.data.dao.IssueRequestModel.Companion.clone
 import com.fastaccess.data.dao.PullsIssuesParser.Companion.getForIssue
-import com.fastaccess.data.dao.model.Login
-import com.fastaccess.data.dao.model.PinnedPullRequests
-import com.fastaccess.data.dao.model.PullRequest
-import com.fastaccess.data.dao.model.User
 import com.fastaccess.data.dao.types.IssueState
+import com.fastaccess.data.entity.PullRequest
+import com.fastaccess.data.entity.User
+import com.fastaccess.data.entity.dao.LoginDao
+import com.fastaccess.data.entity.dao.PinnedPullRequestsDao
+import com.fastaccess.data.entity.dao.PullRequestDao
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.RxHelper.getObservable
@@ -78,18 +79,19 @@ class PullRequestPagerPresenter : BasePresenter<PullRequestPagerMvp.View>(),
 
     override fun onWorkOffline() {
         if (pullRequest == null) {
-            manageDisposable(
-                PullRequest.getPullRequestByNumber(issueNumber, repoId!!, login!!)
-                    .subscribe { pullRequestModel: PullRequest? ->
-                        if (pullRequestModel != null) {
-                            pullRequest = pullRequestModel
-                            sendToView { view ->
-                                view.onSetupIssue(
-                                    false
-                                )
-                            }
-                        }
-                    })
+            manageObservable(
+                PullRequestDao.getPullRequestByNumber(issueNumber, repoId!!, login!!).toObservable()
+            ) { pullRequestModelOpt ->
+                val pullRequestModel = pullRequestModelOpt.get()
+                if (pullRequestModel != null) {
+                    pullRequest = pullRequestModel
+                    sendToView { view ->
+                        view.onSetupIssue(
+                            false
+                        )
+                    }
+                }
+            }
         }
     }
 
@@ -97,21 +99,21 @@ class PullRequestPagerPresenter : BasePresenter<PullRequestPagerMvp.View>(),
         get() {
             if (pullRequest == null) return false
             val userModel = if (pullRequest != null) pullRequest!!.user else null
-            val me = Login.getUser()
-            val parser = getForIssue(pullRequest!!.htmlUrl)
+            val me = LoginDao.getUser().blockingGet().or()
+            val parser = getForIssue(pullRequest!!.htmlUrl!!)
             return (userModel != null && userModel.login.equals(me.login, ignoreCase = true)
                     || parser != null && parser.login.equals(me.login, ignoreCase = true))
         }
     override val isRepoOwner: Boolean
         get() {
             if (pullRequest == null) return false
-            val me = Login.getUser()
+            val me = LoginDao.getUser().blockingGet().or()
             return TextUtils.equals(login, me.login)
         }
     override val isLocked: Boolean
-        get() = pullRequest != null && pullRequest!!.isLocked
+        get() = pullRequest != null && pullRequest!!.locked
     override val isMergeable: Boolean
-        get() = pullRequest != null && pullRequest!!.isMergeable && !pullRequest!!.isMerged
+        get() = pullRequest != null && pullRequest!!.mergeable && !pullRequest!!.merged
 
     override fun showToRepoBtn(): Boolean {
         return showToRepoBtn
@@ -146,7 +148,7 @@ class PullRequestPagerPresenter : BasePresenter<PullRequestPagerMvp.View>(),
         ) { booleanResponse ->
             val code = booleanResponse.code()
             if (code == 204) {
-                pullRequest!!.isLocked = !isLocked
+                pullRequest!!.locked = !isLocked
                 sendToView { view ->
                     view.onSetupIssue(
                         false
@@ -196,7 +198,7 @@ class PullRequestPagerPresenter : BasePresenter<PullRequestPagerMvp.View>(),
     }
 
     override fun getMergeBy(pullRequest: PullRequest, context: Context): SpannableBuilder {
-        return PullRequest.getMergeBy(pullRequest, context, false)
+        return PullRequestDao.getMergeBy(context, pullRequest, false)
     }
 
     override fun onPutLabels(labels: java.util.ArrayList<LabelModel>) {
@@ -215,7 +217,7 @@ class PullRequestPagerPresenter : BasePresenter<PullRequestPagerMvp.View>(),
             val listModel = LabelListModel()
             listModel.addAll(labels)
             pullRequest!!.labels = listModel
-            manageObservable(pullRequest!!.save(pullRequest).toObservable())
+            manageObservable(PullRequestDao.save(pullRequest!!).toObservable())
         }
     }
 
@@ -228,7 +230,7 @@ class PullRequestPagerPresenter : BasePresenter<PullRequestPagerMvp.View>(),
             )
         ) { pr: PullRequest ->
             pullRequest!!.milestone = pr.milestone
-            manageObservable(pr.save(pullRequest).toObservable())
+            manageObservable(PullRequestDao.save(pullRequest!!).toObservable())
             sendToView { view ->
                 updateTimeline(
                     view,
@@ -241,10 +243,12 @@ class PullRequestPagerPresenter : BasePresenter<PullRequestPagerMvp.View>(),
     override fun onPutAssignees(users: java.util.ArrayList<User>, isAssignee: Boolean) {
         val assigneesRequestModel = AssigneesRequestModel()
         val assignees = users
-            .map { obj: User -> obj.login }
+            .map { obj: User -> obj.login!! }
         if (isAssignee) {
             assigneesRequestModel.assignees =
-                assignees.ifEmpty { pullRequest!!.assignees.map { obj -> obj!!.login!! }.toList() }
+                assignees.ifEmpty {
+                    pullRequest!!.assignees!!.map { obj -> obj.login!! }
+                }
             makeRestCall(
                 if (assignees.isNotEmpty()) getIssueService(isEnterprise).putAssignees(
                     login!!, repoId!!, issueNumber, assigneesRequestModel
@@ -255,7 +259,7 @@ class PullRequestPagerPresenter : BasePresenter<PullRequestPagerMvp.View>(),
                 val usersListModel = UsersListModel()
                 usersListModel.addAll(users)
                 pullRequest!!.assignees = usersListModel
-                manageObservable(pullRequest!!.save(pullRequest).toObservable())
+                manageObservable(PullRequestDao.save(pullRequest!!).toObservable())
                 sendToView { view ->
                     updateTimeline(
                         view,
@@ -282,9 +286,9 @@ class PullRequestPagerPresenter : BasePresenter<PullRequestPagerMvp.View>(),
 
     override fun onMerge(s: String?, msg: String?) {
         if (isMergeable && (isCollaborator || isRepoOwner)) { //double the checking
-            if (pullRequest == null || pullRequest!!.head == null || pullRequest!!.head.sha == null) return
+            if (pullRequest == null || pullRequest!!.head == null || pullRequest!!.head!!.sha == null) return
             val mergeRequestModel = MergeRequestModel()
-            mergeRequestModel.sha = pullRequest!!.head.sha
+            mergeRequestModel.sha = pullRequest!!.head!!.sha
             mergeRequestModel.commitMessage = s
             mergeRequestModel.mergeMethod = msg?.lowercase() ?: ""
             manageDisposable(
@@ -302,7 +306,7 @@ class PullRequestPagerPresenter : BasePresenter<PullRequestPagerMvp.View>(),
                     }
                     .subscribe({ mergeResponseModel: MergeResponseModel ->
                         if (mergeResponseModel.isMerged) {
-                            pullRequest!!.isMerged = true
+                            pullRequest!!.merged = true
                             sendToView { view ->
                                 updateTimeline(
                                     view,
@@ -333,7 +337,7 @@ class PullRequestPagerPresenter : BasePresenter<PullRequestPagerMvp.View>(),
         pullRequest!!.bodyHtml = pullRequestModel.bodyHtml
         pullRequest!!.login = login
         pullRequest!!.repoId = repoId
-        manageObservable(pullRequest!!.save(pullRequest).toObservable())
+        manageObservable(PullRequestDao.save(pullRequest!!).toObservable())
         sendToView { view -> view.onSetupIssue(true) }
     }
 
@@ -343,8 +347,9 @@ class PullRequestPagerPresenter : BasePresenter<PullRequestPagerMvp.View>(),
 
     override fun onPinUnpinPullRequest() {
         if (pullRequest == null) return
-        PinnedPullRequests.pinUpin(pullRequest!!)
-        sendToView { it.onUpdateMenu() }
+        manageObservable(PinnedPullRequestsDao.pinUpin(pullRequest!!).toObservable()) {
+            sendToView { it.onUpdateMenu() }
+        }
     }
 
     override fun onAddComment(comment: CommentRequestModel) {
@@ -390,7 +395,7 @@ class PullRequestPagerPresenter : BasePresenter<PullRequestPagerMvp.View>(),
     }
 
     private fun callApi() {
-        val loggedInUser = Login.getUser() ?: return
+        val loggedInUser = LoginDao.getUser().blockingGet().get() ?: return
         makeRestCall(
             getObservable(
                 Observable.zip(
@@ -399,7 +404,7 @@ class PullRequestPagerPresenter : BasePresenter<PullRequestPagerMvp.View>(),
                     getRepoService(isEnterprise).isCollaborator(
                         login!!,
                         repoId!!,
-                        loggedInUser.login
+                        loggedInUser.login!!
                     ),
                     getIssueService(isEnterprise).getIssue(login!!, repoId!!, issueNumber)
                 ) { pullRequestModel, booleanResponse, issue ->
@@ -416,8 +421,8 @@ class PullRequestPagerPresenter : BasePresenter<PullRequestPagerMvp.View>(),
             )
         ) { pullRequest: PullRequest ->
             sendToView { view -> view.onSetupIssue(false) }
-            manageDisposable(PinnedPullRequests.updateEntry(pullRequest.id))
-            manageObservable(pullRequest.save(pullRequest).toObservable())
+            manageObservable(PinnedPullRequestsDao.updateEntry(pullRequest.id).toObservable())
+            manageObservable(PullRequestDao.save(pullRequest).toObservable())
         }
     }
 

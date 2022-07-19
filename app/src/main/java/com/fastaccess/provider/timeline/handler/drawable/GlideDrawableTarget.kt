@@ -2,10 +2,10 @@ package com.fastaccess.provider.timeline.handler.drawable
 
 import android.graphics.Rect
 import android.graphics.drawable.Animatable
-import android.widget.TextView
-import com.bumptech.glide.request.target.CustomTarget
 import android.graphics.drawable.Drawable
+import android.widget.TextView
 import com.bumptech.glide.load.resource.gif.GifDrawable
+import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.fastaccess.R
 import java.lang.ref.WeakReference

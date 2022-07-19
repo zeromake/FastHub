@@ -94,24 +94,24 @@ class TimelineCommentsViewHolder private constructor(
         val commentsModel = t.comment
         if (commentsModel!!.user != null) {
             avatar.setUrl(
-                commentsModel.user.avatarUrl, commentsModel.user.login,
+                commentsModel.user!!.avatarUrl, commentsModel.user!!.login,
                 false, isEnterprise(commentsModel.htmlUrl)
             )
-            name.text = if (commentsModel.user != null) commentsModel.user.login else "Anonymous"
+            name.text = if (commentsModel.user != null) commentsModel.user!!.login else "Anonymous"
             if (commentsModel.authorAssociation != null && !"none".equals(
                     commentsModel.authorAssociation,
                     ignoreCase = true
                 )
             ) {
-                owner.text = commentsModel.authorAssociation.lowercase(Locale.getDefault())
+                owner.text = commentsModel.authorAssociation!!.lowercase(Locale.getDefault())
                 owner.visibility = View.VISIBLE
             } else {
-                val isRepoOwner = TextUtils.equals(commentsModel.user.login, repoOwner)
+                val isRepoOwner = TextUtils.equals(commentsModel.user!!.login, repoOwner)
                 if (isRepoOwner) {
                     owner.visibility = View.VISIBLE
                     owner.setText(R.string.owner)
                 } else {
-                    val isPoster = TextUtils.equals(commentsModel.user.login, poster)
+                    val isPoster = TextUtils.equals(commentsModel.user!!.login, poster)
                     if (isPoster) {
                         owner.visibility = View.VISIBLE
                         owner.setText(R.string.original_poster)
@@ -136,13 +136,13 @@ class TimelineCommentsViewHolder private constructor(
             pathText.visibility = View.GONE
         }
         if (!isEmpty(commentsModel.bodyHtml)) {
-            val body = commentsModel.bodyHtml
+            val body = commentsModel.bodyHtml!!
             val width = adapter?.rowWidth ?: 0
             htmlIntoTextView(comment, body, if (width > 0) width else viewGroup.width)
         } else {
             comment.text = ""
         }
-        if (commentsModel.createdAt.before(commentsModel.updatedAt)) {
+        if (commentsModel.createdAt!!.before(commentsModel.updatedAt)) {
             date.text = String.format(
                 "%s %s", getTimeAgo(commentsModel.createdAt), itemView
                     .resources.getString(R.string.edited)
@@ -152,7 +152,7 @@ class TimelineCommentsViewHolder private constructor(
         }
         if (showEmojies) {
             if (commentsModel.reactions != null) {
-                val reaction = commentsModel.reactions
+                val reaction = commentsModel.reactions!!
                 appendEmojies(reaction)
             }
         }
@@ -175,7 +175,7 @@ class TimelineCommentsViewHolder private constructor(
                 reactionsCallback != null && reactionsCallback.isCallingApi(comment.id, v.id)
                 //                if (isCallingApi) return;
                 val reactionsModel =
-                    if (comment.reactions != null) comment.reactions else ReactionsModel()
+                    if (comment.reactions != null) comment.reactions!! else ReactionsModel()
                 when (v.id) {
                     R.id.heart, R.id.heartReaction -> reactionsModel.heart =
                         if (!isReacted) reactionsModel.heart + 1 else reactionsModel.heart - 1

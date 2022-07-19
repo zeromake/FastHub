@@ -9,8 +9,8 @@ import androidx.annotation.StringRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fastaccess.R
 import com.fastaccess.data.dao.PullsIssuesParser
-import com.fastaccess.data.dao.model.Issue
 import com.fastaccess.data.dao.types.IssueState
+import com.fastaccess.data.entity.Issue
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler
 import com.fastaccess.helper.InputHelper.isEmpty
@@ -98,18 +98,14 @@ class RepoOpenedIssuesFragment : BaseFragment<RepoIssuesMvp.View, RepoIssuesPres
         fastScroller!!.attachRecyclerView(recycler!!)
     }
 
-    private val launcher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {
+    private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == Activity.RESULT_OK) {
-            onRefresh()
-            if (pagerCallback != null) pagerCallback!!.setCurrentItem(0, false)
+                onRefresh()
+                if (pagerCallback != null) pagerCallback!!.setCurrentItem(0, false)
         }
     }
 
-    private val issueLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {
+    private val issueLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         val data = it.data
         if (it.resultCode == Activity.RESULT_OK && data != null) {
             val isClose = data.extras!!.getBoolean(BundleConstant.EXTRA)

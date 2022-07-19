@@ -1,14 +1,13 @@
 package com.fastaccess.ui.widgets
 
-import androidx.appcompat.widget.AppCompatEditText
-import android.view.inputmethod.EditorInfo
-import com.fastaccess.helper.TypeFaceHelper
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
-import java.lang.Exception
+import android.view.inputmethod.EditorInfo
+import androidx.appcompat.widget.AppCompatEditText
+import com.fastaccess.helper.TypeFaceHelper
+import com.fastaccess.provider.crash.Report
 
-//import com.crashlytics.android.Crashlytics;
 /**
  * Created by Kosh on 8/18/2015. copyrights are reserved
  */
@@ -48,7 +47,7 @@ open class FontEditText : AppCompatEditText {
     FastHub
     """.trimIndent()
             )
-            //            Crashlytics.logException(e);
+            Report.reportCatchException(e)
         }
     }
 }

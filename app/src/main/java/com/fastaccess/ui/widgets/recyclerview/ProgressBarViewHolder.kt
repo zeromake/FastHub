@@ -1,9 +1,9 @@
 package com.fastaccess.ui.widgets.recyclerview
 
 import android.view.View
-import com.fastaccess.ui.base.adapter.BaseViewHolder
 import android.view.ViewGroup
 import com.fastaccess.R
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 
 /**
  * Created by kosh on 03/08/2017.

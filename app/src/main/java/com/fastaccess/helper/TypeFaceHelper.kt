@@ -2,7 +2,6 @@ package com.fastaccess.helper
 
 import android.content.Context
 import android.graphics.Typeface
-import com.fastaccess.helper.TypeFaceHelper
 import android.widget.TextView
 
 /**

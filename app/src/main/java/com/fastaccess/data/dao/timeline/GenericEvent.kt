@@ -1,15 +1,15 @@
 package com.fastaccess.data.dao.timeline
 
+import android.os.Parcel
 import android.os.Parcelable
 import com.fastaccess.data.dao.LabelModel
-import com.fastaccess.data.dao.TeamsModel
 import com.fastaccess.data.dao.MilestoneModel
 import com.fastaccess.data.dao.RenameModel
+import com.fastaccess.data.dao.TeamsModel
 import com.fastaccess.data.dao.types.IssueEventType
-import android.os.Parcel
-import com.fastaccess.data.dao.model.Issue
-import com.fastaccess.data.dao.model.PullRequest
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.Issue
+import com.fastaccess.data.entity.PullRequest
+import com.fastaccess.data.entity.User
 import java.util.*
 
 /**

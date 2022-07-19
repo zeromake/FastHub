@@ -1,13 +1,12 @@
 package com.fastaccess.ui.widgets
 
-import androidx.viewpager.widget.ViewPager
 import android.R.attr
-import androidx.viewpager.widget.PagerAdapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
-import java.lang.IllegalArgumentException
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
 
 /**
  * Created by kosh20111 on 10/8/2015.
@@ -18,7 +17,7 @@ import java.lang.IllegalArgumentException
 class ViewPagerView : ViewPager {
     private var isEnabled = false
 
-    constructor(context: Context?) : super(context!!) {}
+    constructor(context: Context?) : super(context!!)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
         val attrsArray = intArrayOf(attr.enabled)
         val array = context.obtainStyledAttributes(attrs, attrsArray)

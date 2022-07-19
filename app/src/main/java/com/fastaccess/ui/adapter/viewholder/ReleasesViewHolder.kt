@@ -3,7 +3,7 @@ package com.fastaccess.ui.adapter.viewholder
 import android.view.View
 import android.view.ViewGroup
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.Release
+import com.fastaccess.data.entity.Release
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.ParseDateFormat.Companion.getTimeAgo
 import com.fastaccess.ui.adapter.ReleasesAdapter
@@ -26,12 +26,12 @@ class ReleasesViewHolder private constructor(
     var drafted: String = itemView.resources.getString(R.string.drafted)
     override fun bind(t: Release) {
         title!!.text = builder()
-            .bold(if (!isEmpty(t.name)) t.name else t.tagName)
+            .bold(if (!isEmpty(t.name)) t.name!! else t.tagName!!)
         if (t.author != null) {
             details!!.text = builder()
-                .append(t.author.login)
+                .append(t.author!!.login)
                 .append(" ")
-                .append(if (t.isDraft) drafted else released)
+                .append(if (t.draft) drafted else released)
                 .append(" ")
                 .append(getTimeAgo(t.createdAt))
         } else {

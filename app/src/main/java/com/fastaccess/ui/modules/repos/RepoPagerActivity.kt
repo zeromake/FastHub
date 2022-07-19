@@ -17,8 +17,8 @@ import androidx.transition.TransitionManager
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.NameParser
-import com.fastaccess.data.dao.model.AbstractPinnedRepos
-import com.fastaccess.data.dao.model.Login
+import com.fastaccess.data.entity.dao.LoginDao
+import com.fastaccess.data.entity.dao.PinnedReposDao
 import com.fastaccess.helper.*
 import com.fastaccess.helper.AnimHelper.mimicFabVisibility
 import com.fastaccess.helper.InputHelper.isEmpty
@@ -107,17 +107,17 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
     private var accentColor = 0
     private var iconColor = 0
 
-    fun onShowDateHint(): Boolean {
+    private fun onShowDateHint(): Boolean {
         showMessage(R.string.creation_date, R.string.creation_date_hint)
         return true
     }
 
-    fun onShowLastUpdateDateHint(): Boolean {
+    private fun onShowLastUpdateDateHint(): Boolean {
         showMessage(R.string.last_updated, R.string.last_updated_hint)
         return true
     }
 
-    fun onFabLongClick(): Boolean {
+    private fun onFabLongClick(): Boolean {
         if (navType == RepoPagerMvp.ISSUES) {
             onAddSelected()
             return true
@@ -125,7 +125,7 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
         return false
     }
 
-    fun onFabClicked() {
+    private fun onFabClicked() {
         if (navType == RepoPagerMvp.ISSUES) {
             fab!!.hide(object : OnVisibilityChangedListener() {
                 override fun onHidden(fab: FloatingActionButton) {
@@ -171,11 +171,11 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
         return super.dispatchTouchEvent(ev)
     }
 
-    fun onTitleClick() {
+    private fun onTitleClick() {
         val repoModel = presenter!!.repo
         if (repoModel != null && !isEmpty(repoModel.description)) {
             newInstance(
-                repoModel.fullName, repoModel.description,
+                repoModel.fullName!!, repoModel.description!!,
                 isMarkDown = false,
                 hideCancel = true
             )
@@ -183,7 +183,7 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
         }
     }
 
-    fun onTagsClick() {
+    private fun onTagsClick() {
         if (topicsList!!.adapter!!.itemCount > 0) {
             TransitionManager.beginDelayedTransition(topicsList!!)
             topicsList!!.visibility =
@@ -236,7 +236,7 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
                 wikiLayout!!
             )
             R.id.licenseLayout -> if (presenter!!.repo != null) {
-                val licenseModel = presenter!!.repo!!.license
+                val licenseModel = presenter!!.repo!!.license!!
                 val license =
                     if (!isEmpty(licenseModel.spdxId)) licenseModel.spdxId else licenseModel.name
                 newInstance(presenter!!.login(), presenter!!.repoId(), license!!)
@@ -425,36 +425,36 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
         showWhich = -1
         setTaskName(presenter!!.repo!!.fullName)
         val repoModel = presenter!!.repo
-        if (repoModel!!.isHasProjects) {
+        if (repoModel!!.hasProjects) {
             bottomNavigation!!.inflateMenu(R.menu.repo_with_project_bottom_nav_menu)
         }
         bottomNavigation!!.menuItemSelectionListener = presenter
-        if (repoModel.topics != null && !repoModel.topics.isEmpty()) {
+        if (repoModel.topics != null && !repoModel.topics!!.isEmpty()) {
             tagsIcon!!.visibility = View.VISIBLE
-            topicsList!!.adapter = TopicsAdapter(repoModel.topics.filterNotNull().toMutableList())
+            topicsList!!.adapter = TopicsAdapter(repoModel.topics!!.filterNotNull().toMutableList())
         } else {
             topicsList!!.visibility = View.GONE
         }
-        onRepoPinned(AbstractPinnedRepos.isPinned(repoModel.fullName))
-        wikiLayout!!.visibility = if (repoModel.isHasWiki) View.VISIBLE else View.GONE
+        onRepoPinned(PinnedReposDao.isPinned(repoModel.fullName!!).blockingGet())
+        wikiLayout!!.visibility = if (repoModel.hasWiki) View.VISIBLE else View.GONE
         pinText!!.setText(R.string.pin)
         detailsIcon!!.visibility = if (isEmpty(repoModel.description)) View.GONE else View.VISIBLE
         language!!.visibility = if (isEmpty(repoModel.language)) View.GONE else View.VISIBLE
         if (!isEmpty(repoModel.language)) {
             language!!.text = repoModel.language
-            language!!.setTextColor(getColorAsColor(repoModel.language, language!!.context))
+            language!!.setTextColor(getColorAsColor(repoModel.language!!, language!!.context))
         }
         forkRepo!!.text = numberFormat.format(repoModel.forksCount)
         starRepo!!.text = numberFormat.format(repoModel.stargazersCount)
         watchRepo!!.text = numberFormat.format(repoModel.subsCount.toLong())
         if (repoModel.owner != null) {
             avatarLayout!!.setUrl(
-                repoModel.owner.avatarUrl, repoModel.owner.login,
-                repoModel.owner.isOrganizationType, isEnterprise(repoModel.htmlUrl)
+                repoModel.owner!!.avatarUrl, repoModel.owner!!.login,
+                repoModel.owner!!.isOrganizationType, isEnterprise(repoModel.htmlUrl)
             )
         } else if (repoModel.organization != null) {
             avatarLayout!!.setUrl(
-                repoModel.organization.avatarUrl, repoModel.organization.login, true,
+                repoModel.organization!!.avatarUrl, repoModel.organization!!.login, true,
                 isEnterprise(repoModel.htmlUrl)
             )
         }
@@ -470,7 +470,7 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
         title!!.setTextColor(ViewHelper.getPrimaryTextColor(this))
         if (repoModel.license != null) {
             licenseLayout!!.visibility = View.VISIBLE
-            val licenseModel = repoModel.license
+            val licenseModel = repoModel.license!!
             license!!.text =
                 if (!isEmpty(licenseModel.spdxId)) licenseModel.spdxId else licenseModel.name
         }
@@ -550,7 +550,8 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
     }
 
     override fun openUserProfile() {
-        startActivity(this, Login.getUser().login, false, PrefGetter.isEnterprise, -1)
+        val login = LoginDao.getUser().blockingGet().or()
+        startActivity(this, login.login!!, false, PrefGetter.isEnterprise, -1)
     }
 
     override fun onScrolled(isUp: Boolean) {
@@ -575,10 +576,10 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         val repoModel = presenter!!.repo
-        if (repoModel != null && repoModel.isFork && repoModel.parent != null) {
+        if (repoModel != null && repoModel.fork && repoModel.parent != null) {
             val menuItem = menu.findItem(R.id.originalRepo)
             menuItem.isVisible = true
-            menuItem.title = repoModel.parent.fullName
+            menuItem.title = repoModel.parent!!.fullName
         }
         //        menu.findItem(R.id.deleteRepo).setVisible(getPresenter().isRepoOwner());
         if (menu.findItem(R.id.deleteRepo) != null) menu.findItem(R.id.deleteRepo).isVisible =
@@ -595,28 +596,28 @@ class RepoPagerActivity : BaseActivity<RepoPagerMvp.View, RepoPagerPresenter>(),
             R.id.share -> {
                 if (presenter!!.repo != null) ActivityHelper.shareUrl(
                     this, presenter!!.repo!!
-                        .htmlUrl
+                        .htmlUrl!!
                 )
                 return true
             }
             R.id.browser -> {
                 if (presenter!!.repo != null) ActivityHelper.startCustomTab(
                     this, presenter!!.repo!!
-                        .htmlUrl
+                        .htmlUrl!!
                 )
                 return true
             }
             R.id.copy -> {
                 if (presenter!!.repo != null) AppHelper.copyToClipboard(
                     this, presenter!!.repo!!
-                        .htmlUrl
+                        .htmlUrl!!
                 )
                 return true
             }
             R.id.originalRepo -> {
                 if (presenter!!.repo != null && presenter!!.repo!!.parent != null) {
-                    val parent = presenter!!.repo!!.parent
-                    launchUri(this, parent.htmlUrl)
+                    val parent = presenter!!.repo!!.parent!!
+                    launchUri(this, parent.htmlUrl!!)
                 }
                 return true
             }

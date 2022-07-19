@@ -1,9 +1,8 @@
 package com.fastaccess.data.dao
 
-import com.fastaccess.data.dao.model.Commit
-import java.util.ArrayList
+import com.fastaccess.data.entity.Commit
 
 /**
  * Created by Kosh on 12 Feb 2017, 12:10 AM
  */
-class CommitListModel : ArrayList<Commit?>()
+class CommitListModel : ArrayList<Commit>()

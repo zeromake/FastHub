@@ -2,7 +2,6 @@ package com.fastaccess.helper
 
 import android.util.Log
 import com.fastaccess.BuildConfig
-import timber.log.Timber
 
 /**
  * Created by Kosh on 04/12/15 11:52 PM. copyrights @

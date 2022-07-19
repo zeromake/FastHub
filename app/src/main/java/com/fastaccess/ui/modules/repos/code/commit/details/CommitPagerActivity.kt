@@ -12,8 +12,8 @@ import androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener
 import com.fastaccess.R
 import com.fastaccess.data.dao.FragmentPagerAdapterModel.Companion.buildForCommit
 import com.fastaccess.data.dao.NameParser
-import com.fastaccess.data.dao.model.Comment
-import com.fastaccess.data.dao.model.Commit
+import com.fastaccess.data.entity.Comment
+import com.fastaccess.data.entity.Commit
 import com.fastaccess.helper.ActivityHelper.shareUrl
 import com.fastaccess.helper.ActivityHelper.startCustomTab
 import com.fastaccess.helper.AppHelper.copyToClipboard
@@ -60,9 +60,9 @@ class CommitPagerActivity : BaseActivity<CommitPagerMvp.View, CommitPagerPresent
 
     private var commentEditorFragment: CommentEditorFragment? = null
     private fun onTitleClick() {
-        if (presenter!!.commit != null && !isEmpty(presenter!!.commit!!.gitCommit.message)) newInstance(
+        if (presenter!!.commit != null && !isEmpty(presenter!!.commit!!.gitCommit!!.message)) newInstance(
             String.format("%s/%s", presenter!!.login, presenter!!.repoId),
-            presenter!!.commit!!.gitCommit.message!!, isMarkDown = true, hideCancel = false
+            presenter!!.commit!!.gitCommit!!.message!!, isMarkDown = true, hideCancel = false
         )
             .show(supportFragmentManager, MessageDialogView.TAG)
     }
@@ -109,25 +109,26 @@ class CommitPagerActivity : BaseActivity<CommitPagerMvp.View, CommitPagerPresent
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val htmlUrl = presenter!!.commit!!.htmlUrl!!
         when (item.itemId) {
             android.R.id.home -> {
                 onNavToRepoClicked()
                 return true
             }
             R.id.share -> {
-                if (presenter!!.commit != null) shareUrl(this, presenter!!.commit!!.htmlUrl)
+                if (presenter!!.commit != null) shareUrl(this, htmlUrl)
                 return true
             }
             R.id.browser -> {
-                if (presenter!!.commit != null) startCustomTab(this, presenter!!.commit!!.htmlUrl)
+                if (presenter!!.commit != null) startCustomTab(this, htmlUrl)
                 return true
             }
             R.id.copyUrl -> {
-                if (presenter!!.commit != null) copyToClipboard(this, presenter!!.commit!!.htmlUrl)
+                if (presenter!!.commit != null) copyToClipboard(this, htmlUrl)
                 return true
             }
             R.id.copySha -> {
-                if (presenter!!.commit != null) copyToClipboard(this, presenter!!.commit!!.sha)
+                if (presenter!!.commit != null) copyToClipboard(this, presenter!!.commit!!.sha!!)
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
@@ -142,11 +143,11 @@ class CommitPagerActivity : BaseActivity<CommitPagerMvp.View, CommitPagerPresent
         invalidateOptionsMenu()
         val commit = presenter!!.commit
         val login =
-            if (commit!!.author != null) commit.author.login else commit.gitCommit.author!!.name
-        val avatar = if (commit.author != null) commit.author.avatarUrl else null
-        val dateValue = commit.gitCommit.author!!.date
-        htmlIntoTextView(title!!, commit.gitCommit.message!!, title!!.width)
-        setTaskName(commit.login + "/" + commit.repoId + " - Commit " + commit.sha.take(5))
+            if (commit!!.author != null) commit.author!!.login else commit.gitCommit!!.author!!.name
+        val avatar = if (commit.author != null) commit.author!!.avatarUrl else null
+        val dateValue = commit.gitCommit!!.author!!.date
+        htmlIntoTextView(title!!, commit.gitCommit!!.message!!, title!!.width)
+        setTaskName(commit.login + "/" + commit.repoId + " - Commit " + commit.sha!!.take(5))
         detailsIcon!!.visibility = View.VISIBLE
         size!!.visibility = View.GONE
         date!!.text = builder()
@@ -156,10 +157,10 @@ class CommitPagerActivity : BaseActivity<CommitPagerMvp.View, CommitPagerPresent
             .append(getTimeAgo(dateValue))
         avatarLayout!!.setUrl(avatar, login, false, isEnterprise(commit.htmlUrl))
         addition!!.text =
-            (if (commit.stats != null) commit.stats.additions.toString() else 0.toString())
+            (if (commit.stats != null) commit.stats!!.additions.toString() else 0.toString())
         deletion!!.text =
-            (if (commit.stats != null) commit.stats.deletions.toString() else 0.toString())
-        changes!!.text = (if (commit.files != null) commit.files.size.toString() else 0.toString())
+            (if (commit.stats != null) commit.stats!!.deletions.toString() else 0.toString())
+        changes!!.text = (if (commit.files != null) commit.files!!.size.toString() else 0.toString())
         pager!!.adapter =
             FragmentsPagerAdapter(supportFragmentManager, buildForCommit(this, commit))
         tabs!!.setupWithViewPager(pager)
@@ -173,10 +174,10 @@ class CommitPagerActivity : BaseActivity<CommitPagerMvp.View, CommitPagerPresent
         val tabOne = tabs!!.getTabAt(0)
         val tabTwo = tabs!!.getTabAt(1)
         if (tabOne != null && commit.files != null) {
-            tabOne.text = getString(R.string.files) + " (" + commit.files.size + ")"
+            tabOne.text = getString(R.string.files) + " (" + commit.files!!.size + ")"
         }
-        if (tabTwo != null && commit.gitCommit != null && commit.gitCommit.commentCount > 0) {
-            tabTwo.text = getString(R.string.comments) + " (" + commit.gitCommit.commentCount + ")"
+        if (tabTwo != null && commit.gitCommit != null && commit.gitCommit!!.commentCount > 0) {
+            tabTwo.text = getString(R.string.comments) + " (" + commit.gitCommit!!.commentCount + ")"
         }
         tabs!!.addOnTabSelectedListener(object : TabLayout.ViewPagerOnTabSelectedListener(pager) {
             override fun onTabReselected(tab: TabLayout.Tab) {

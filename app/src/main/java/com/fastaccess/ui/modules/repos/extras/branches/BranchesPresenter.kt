@@ -39,6 +39,7 @@ class BranchesPresenter : BasePresenter<BranchesMvp.View>(), BranchesMvp.Present
         val observable = if (!isBranch) RestProvider.getRepoService(isEnterprise)
             .getTags(login, repoId, page) else RestProvider.getRepoService(isEnterprise)
             .getBranches(login, repoId, page)
+        currentPage = page
         return makeRestCall(observable
             .flatMap { t: Pageable<BranchesModel>? ->
                 val list = ArrayList<BranchesModel>()

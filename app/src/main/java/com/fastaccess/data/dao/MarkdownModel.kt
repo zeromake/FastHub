@@ -1,8 +1,7 @@
 package com.fastaccess.data.dao
 
-import android.os.Parcelable
 import android.os.Parcel
-import com.fastaccess.data.dao.MarkdownModel
+import android.os.Parcelable
 
 /**
  * Created by Kosh on 18 Feb 2017, 7:20 PM

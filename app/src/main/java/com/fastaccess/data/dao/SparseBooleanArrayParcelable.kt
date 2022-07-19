@@ -1,9 +1,8 @@
 package com.fastaccess.data.dao
 
-import android.util.SparseBooleanArray
-import android.os.Parcelable
 import android.os.Parcel
-import com.fastaccess.data.dao.SparseBooleanArrayParcelable
+import android.os.Parcelable
+import android.util.SparseBooleanArray
 
 /**
  * Class from http://stackoverflow.com/a/16711258/1627904

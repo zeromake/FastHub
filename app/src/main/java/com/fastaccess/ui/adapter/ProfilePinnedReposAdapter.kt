@@ -1,10 +1,10 @@
 package com.fastaccess.ui.adapter
 
 import android.view.ViewGroup
+import com.fastaccess.github.GetPinnedReposQuery
 import com.fastaccess.ui.adapter.viewholder.ProfilePinnedReposViewHolder
 import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
 import com.fastaccess.ui.base.adapter.BaseViewHolder
-import com.fastaccess.github.GetPinnedReposQuery
 import java.text.NumberFormat
 
 /**

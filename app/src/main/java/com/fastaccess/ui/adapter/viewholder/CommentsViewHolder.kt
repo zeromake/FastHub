@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import androidx.appcompat.widget.AppCompatImageView
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.Comment
+import com.fastaccess.data.entity.Comment
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.ParseDateFormat.Companion.getTimeAgo
 import com.fastaccess.helper.ViewHelper.dpToPx
@@ -42,9 +42,12 @@ class CommentsViewHolder private constructor(
 
     override fun bind(t: Comment) {
         if (t.user != null) {
+            val user = t.user!!
             avatar!!.setUrl(
-                t.user.avatarUrl, t.user.login,
-                t.user.isOrganizationType, isEnterprise(t.user.htmlUrl)
+                user.avatarUrl,
+                user.login,
+                user.isOrganizationType,
+                isEnterprise(user.htmlUrl)
             )
         } else {
             avatar!!.setUrl(null, null, isOrg = false, isEnterprise = false)
@@ -53,14 +56,14 @@ class CommentsViewHolder private constructor(
             val width = adapter?.rowWidth ?: 0
             htmlIntoTextView(
                 comment!!,
-                t.bodyHtml,
+                t.bodyHtml!!,
                 if (width > 0) width else viewGroup.width
             )
         } else {
             comment!!.text = ""
         }
-        name!!.text = if (t.user != null) t.user.login else "Anonymous"
-        if (t.createdAt.before(t.updatedAt)) {
+        name!!.text = if (t.user != null) t.user!!.login else "Anonymous"
+        if (t.createdAt!!.before(t.updatedAt)) {
             date!!.text = String.format(
                 "%s %s", getTimeAgo(t.createdAt),
                 date!!.resources.getString(R.string.edited)

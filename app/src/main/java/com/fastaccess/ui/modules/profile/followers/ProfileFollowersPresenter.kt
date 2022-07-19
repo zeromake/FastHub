@@ -1,7 +1,8 @@
 package com.fastaccess.ui.modules.profile.followers
 
 import android.view.View
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.User
+import com.fastaccess.data.entity.dao.UserDao
 import com.fastaccess.helper.RxHelper.getSingle
 import com.fastaccess.provider.rest.RestProvider.getUserService
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
@@ -36,12 +37,15 @@ class ProfileFollowersPresenter : BasePresenter<ProfileFollowersMvp.View>(),
             sendToView { it.hideProgress() }
             return false
         }
+        currentPage = page
         makeRestCall(
             getUserService(isEnterprise).getFollowers(parameter, page)
         ) { response ->
             lastPage = response.last
             if (currentPage == 1) {
-                manageDisposable(User.saveUserFollowerList(response.items!!, parameter))
+                manageObservable(
+                    UserDao.saveUserFollowerList(response.items!!, parameter).toObservable()
+                )
             }
             sendToView { view ->
                 view.onNotifyAdapter(
@@ -55,14 +59,17 @@ class ProfileFollowersPresenter : BasePresenter<ProfileFollowersMvp.View>(),
 
     override fun onWorkOffline(login: String) {
         if (followers.isEmpty()) {
-            manageDisposable(getSingle(User.getUserFollowerList(login)).subscribe { userModels: List<User>? ->
+            val disposable = getSingle(
+                UserDao.getUserFollowerList(login).toList()
+            ).subscribe { userModels ->
                 sendToView { view ->
                     view.onNotifyAdapter(
-                        userModels!!,
+                        userModels,
                         1
                     )
                 }
-            })
+            }
+            manageDisposable(disposable)
         } else {
             sendToView { it.hideProgress() }
         }

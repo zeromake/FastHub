@@ -3,8 +3,9 @@ package com.fastaccess.ui.modules.repos.pull_requests.pull_request
 import android.os.Bundle
 import android.view.View
 import com.fastaccess.data.dao.PullsIssuesParser.Companion.getForPullRequest
-import com.fastaccess.data.dao.model.PullRequest
 import com.fastaccess.data.dao.types.IssueState
+import com.fastaccess.data.entity.PullRequest
+import com.fastaccess.data.entity.dao.PullRequestDao
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.RxHelper.getObservable
@@ -53,6 +54,7 @@ class RepoPullRequestPresenter : BasePresenter<RepoPullRequestMvp.View>(),
             return false
         }
         if (repoId == null || login == null) return false
+        currentPage = page
         makeRestCall(
             getPullRequestService(isEnterprise).getPullRequests(
                 login!!, repoId!!, parameter.name, page
@@ -60,7 +62,9 @@ class RepoPullRequestPresenter : BasePresenter<RepoPullRequestMvp.View>(),
         ) { response ->
             lastPage = response.last
             if (currentPage == 1) {
-                manageDisposable(PullRequest.save(response.items!!, login!!, repoId!!))
+                manageObservable(
+                    PullRequestDao.save(response.items!!, login!!, repoId!!).toObservable()
+                )
             }
             sendToView { view ->
                 view.onNotifyAdapter(
@@ -108,7 +112,7 @@ class RepoPullRequestPresenter : BasePresenter<RepoPullRequestMvp.View>(),
         if (pullRequests.isEmpty()) {
             manageDisposable(
                 getSingle(
-                    PullRequest.getPullRequests(
+                    PullRequestDao.getPullRequests(
                         repoId!!, login!!, issueState
                     )
                 )
@@ -124,7 +128,7 @@ class RepoPullRequestPresenter : BasePresenter<RepoPullRequestMvp.View>(),
     }
 
     override fun onItemClick(position: Int, v: View?, item: PullRequest) {
-        val parser = getForPullRequest(item.htmlUrl)
+        val parser = getForPullRequest(item.htmlUrl!!)
         if (parser != null && view != null) {
             view!!.onOpenPullRequest(parser)
         }

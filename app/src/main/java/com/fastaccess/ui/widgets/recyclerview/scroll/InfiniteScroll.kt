@@ -1,10 +1,10 @@
 package com.fastaccess.ui.widgets.recyclerview.scroll
 
-import androidx.recyclerview.widget.RecyclerView
-import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
 
 /**
  * Created by Kosh on 8/2/2015. copyrights are reserved @

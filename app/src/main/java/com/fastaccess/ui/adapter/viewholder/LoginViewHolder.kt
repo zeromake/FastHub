@@ -5,11 +5,11 @@ import android.net.Uri
 import android.view.View
 import android.view.ViewGroup
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.Login
-import com.fastaccess.ui.widgets.AvatarLayout
-import com.fastaccess.ui.widgets.FontTextView
+import com.fastaccess.data.entity.Login
 import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
 import com.fastaccess.ui.base.adapter.BaseViewHolder
+import com.fastaccess.ui.widgets.AvatarLayout
+import com.fastaccess.ui.widgets.FontTextView
 
 /**
  * Created by Kosh on 09 Jul 2017, 4:54 PM
@@ -23,8 +23,8 @@ class LoginViewHolder private constructor(itemView: View, adapter: BaseRecyclerA
 
     @SuppressLint("SetTextI18n")
     override fun bind(t: Login) {
-        avatarLayout?.setUrl(t.avatarUrl, null, false, false)
-        title.text = if (t.isIsEnterprise) {
+        avatarLayout?.setUrl(t.avatarUrl, null, isOrg = false, isEnterprise = false)
+        title.text = if (t.isEnterprise) {
             val uri: String? = Uri.parse(t.enterpriseUrl).authority
             "${t.login} ${if (uri.isNullOrBlank()) t.enterpriseUrl else uri}"
         } else {

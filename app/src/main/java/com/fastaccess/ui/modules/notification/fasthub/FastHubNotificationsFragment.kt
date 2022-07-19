@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.FastHubNotification
+import com.fastaccess.data.entity.FastHubNotification
 import com.fastaccess.ui.adapter.FastHubNotificationsAdapter
 import com.fastaccess.ui.base.BaseFragment
 import com.fastaccess.ui.delegate.viewFind
@@ -54,8 +54,12 @@ class FastHubNotificationsFragment :
         }
     }
 
-    override fun onItemClick(position: Int, v: View?, item: FastHubNotification) =
-        FastHubNotificationDialog.show(childFragmentManager, item)
+    override fun onItemClick(position: Int, v: View?, item: FastHubNotification) {
+        presenter.manageDisposable(
+            FastHubNotificationDialog.show(childFragmentManager, item)
+        )
+    }
+
 
     override fun onItemLongClick(position: Int, v: View?, item: FastHubNotification) {}
 }

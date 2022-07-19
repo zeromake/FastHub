@@ -6,7 +6,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.FilesListModel
-import com.fastaccess.helper.ActivityHelper
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler
 import com.fastaccess.helper.FileHelper
@@ -21,6 +20,7 @@ import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.code.CodeViewerActivity.Companion.startActivity
 import com.fastaccess.ui.modules.gists.create.dialog.AddGistBottomSheetDialog.Companion.TAG
 import com.fastaccess.ui.modules.gists.create.dialog.AddGistBottomSheetDialog.Companion.newInstance
+import com.fastaccess.ui.modules.gists.gist.GistFragmentHelper
 import com.fastaccess.ui.modules.main.premium.PremiumActivity.Companion.startActivity
 import com.fastaccess.ui.widgets.StateLayout
 import com.fastaccess.ui.widgets.dialog.MessageDialogView
@@ -165,7 +165,10 @@ class GistFilesListFragment : BaseFragment<GistFilesListMvp.View, GistFilesListP
 
     private fun canOpen(item: FilesListModel): Boolean {
         if (item.rawUrl == null) return false
-        if (item.size!! > FileHelper.ONE_MB && !isImage(item.rawUrl)) {
+        if (item.size!! < FileHelper.ONE_MB && isImage(item.rawUrl)) {
+            return true
+        }
+        if(!GistFragmentHelper.isTextMimeType(item)) {
             newInstance(
                 getString(R.string.big_file), getString(R.string.big_file_description),
                 isMarkDown = false,
@@ -185,8 +188,9 @@ class GistFilesListFragment : BaseFragment<GistFilesListMvp.View, GistFilesListP
             isOwner: Boolean
         ): GistFilesListFragment {
             val view = GistFilesListFragment()
+            val filtered: ArrayList<FilesListModel> = GistFragmentHelper.mapNonMarkdownFiles(files)
             view.arguments = Bundler.start()
-                .putParcelableArrayList(BundleConstant.ITEM, files)
+                .putParcelableArrayList(BundleConstant.ITEM, filtered)
                 .put(BundleConstant.EXTRA_TYPE, isOwner)
                 .end()
             return view

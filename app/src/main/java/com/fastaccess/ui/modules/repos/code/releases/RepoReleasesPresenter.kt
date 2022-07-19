@@ -4,7 +4,8 @@ import android.os.Bundle
 import android.view.View
 import com.fastaccess.R
 import com.fastaccess.data.dao.Pageable
-import com.fastaccess.data.dao.model.Release
+import com.fastaccess.data.entity.Release
+import com.fastaccess.data.entity.dao.ReleaseDao
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.RxHelper.getSingle
@@ -43,14 +44,16 @@ class RepoReleasesPresenter : BasePresenter<RepoReleasesMvp.View>(),
             return false
         }
         if (repoId == null || login == null) return false
+        currentPage = page
         makeRestCall(getRepoService(isEnterprise).getReleases(
             login!!, repoId!!, page
         )
         ) { response ->
             if (response.items == null || response.items!!.isEmpty()) {
-                makeRestCall(getRepoService(isEnterprise).getTagReleases(
-                    login!!, repoId!!, page
-                )
+                makeRestCall(
+                    getRepoService(isEnterprise).getTagReleases(
+                        login!!, repoId!!, page
+                    )
                 ) { pageable ->
                     onResponse(pageable)
                 }
@@ -100,7 +103,7 @@ class RepoReleasesPresenter : BasePresenter<RepoReleasesMvp.View>(),
         if (releases.isEmpty()) {
             manageDisposable(
                 getSingle(
-                    Release.get(
+                    ReleaseDao.get(
                         repoId!!, login!!
                     )
                 )
@@ -130,7 +133,13 @@ class RepoReleasesPresenter : BasePresenter<RepoReleasesMvp.View>(),
     private fun onResponse(response: Pageable<Release>) {
         lastPage = response.last
         if (currentPage == 1) {
-            manageDisposable(Release.save(response.items!!, repoId!!, login!!))
+            manageObservable(
+                ReleaseDao.save(
+                    response.items!!,
+                    repoId!!,
+                    login!!,
+                ).toObservable()
+            )
         }
         sendToView { view ->
             view.onNotifyAdapter(

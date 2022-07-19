@@ -1,7 +1,7 @@
 package com.fastaccess.ui.modules.editor
 
 import com.fastaccess.data.dao.EditReviewCommentModel
-import com.fastaccess.data.dao.model.Comment
+import com.fastaccess.data.entity.Comment
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.ui.base.mvp.BaseMvp
 import com.fastaccess.ui.modules.editor.emoji.EmojiMvp

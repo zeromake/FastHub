@@ -2,22 +2,25 @@ package com.fastaccess.ui.modules.main.notifications
 
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.FragmentManager
 import android.text.Html
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.AbstractFastHubNotification.NotificationType
-import com.fastaccess.data.dao.model.FastHubNotification
+import com.fastaccess.data.entity.FastHubNotification
+import com.fastaccess.data.entity.FastHubNotification.NotificationType
+import com.fastaccess.data.entity.dao.FastHubNotificationDao
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler
 import com.fastaccess.helper.PrefGetter
+import com.fastaccess.helper.RxHelper
 import com.fastaccess.ui.base.BaseDialogFragment
 import com.fastaccess.ui.base.mvp.BaseMvp
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 import com.fastaccess.ui.widgets.FontTextView
+import com.fastaccess.utils.Optional
 import com.fastaccess.utils.setOnThrottleClickListener
+import io.reactivex.Observable
+import io.reactivex.disposables.Disposable
 
 /**
  * Created by Kosh on 17.11.17.
@@ -30,7 +33,9 @@ class FastHubNotificationDialog :
         isCancelable = false
     }
 
-    private val model by lazy { arguments?.getParcelable<FastHubNotification>(BundleConstant.ITEM) }
+    private val model by lazy {
+        arguments?.getParcelable<FastHubNotification>(BundleConstant.ITEM)
+    }
 
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
         view.findViewById<View>(R.id.cancel).setOnThrottleClickListener {
@@ -45,8 +50,10 @@ class FastHubNotificationDialog :
             } else {
                 Html.fromHtml(it.body)
             }
-            it.isRead = true
-            FastHubNotification.update(it)
+            it.read = true
+            presenter.manageObservable(
+                FastHubNotificationDao.update(it).toObservable()
+            )
         } ?: dismiss()
     }
 
@@ -66,22 +73,36 @@ class FastHubNotificationDialog :
             return fragment
         }
 
-        fun show(fragmentManager: FragmentManager, model: FastHubNotification? = null) {
-            val notification = model ?: FastHubNotification.getLatest()
-            notification?.let {
-                if (it.type == NotificationType.PROMOTION || it.type == NotificationType.PURCHASE && model == null) {
-                    if (PrefGetter.isProEnabled) {
-                        it.isRead = true
-                        FastHubNotification.update(it)
-                        return
-                    }
-                }
-                newInstance(it).show(fragmentManager, TAG)
+        fun show(fragmentManager: FragmentManager, model: FastHubNotification? = null): Disposable {
+            val notificationObservable = if (model != null)
+                Observable.just(Optional.ofNullable(model)) else
+                FastHubNotificationDao.getLatest().toObservable()
+            val disposable = RxHelper.getObservable(
+                notificationObservable
+                    .flatMap {
+                        var observable = Observable.just(0L)
+                        if (!it.isEmpty()) {
+                            val notification = it.or()
+                            if (notification.type == NotificationType.PROMOTION || notification.type == NotificationType.PURCHASE && model == null) {
+                                if (PrefGetter.isProEnabled) {
+                                    notification.read = true
+                                    observable =
+                                        FastHubNotificationDao.update(notification).toObservable()
+                                }
+                            }
+                            newInstance(notification).show(fragmentManager, TAG)
+                        }
+                        observable
+                    }).subscribe({
+
+            }) { obj: Throwable ->
+                obj.printStackTrace()
             }
+            return disposable
         }
 
-        fun show(fragmentManager: FragmentManager) {
-            show(fragmentManager, null)
+        fun show(fragmentManager: FragmentManager): Disposable {
+            return show(fragmentManager, null)
         }
     }
 }

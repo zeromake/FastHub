@@ -2,7 +2,7 @@ package com.fastaccess.ui.modules.search.repos
 
 import android.view.View
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.Repo
+import com.fastaccess.data.entity.Repo
 import com.fastaccess.provider.rest.RestProvider.getSearchService
 import com.fastaccess.provider.scheme.SchemeParser.launchUri
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
@@ -45,7 +45,7 @@ class SearchReposPresenter : BasePresenter<SearchReposMvp.View>(),
     }
 
     override fun onItemClick(position: Int, v: View?, item: Repo) {
-        launchUri(v!!.context, item.htmlUrl)
+        launchUri(v!!.context, item.htmlUrl!!)
     }
 
     override fun onItemLongClick(position: Int, v: View?, item: Repo) {}

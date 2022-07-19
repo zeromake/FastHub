@@ -17,7 +17,7 @@ import com.fastaccess.App
 import com.fastaccess.R
 import com.fastaccess.data.dao.SettingsModel
 import com.fastaccess.data.dao.SettingsModel.SettingsType
-import com.fastaccess.data.dao.model.SearchHistory
+import com.fastaccess.data.entity.dao.SearchHistoryDao
 import com.fastaccess.helper.*
 import com.fastaccess.provider.crash.Report
 import com.fastaccess.provider.rest.DownloadProvider
@@ -241,7 +241,7 @@ class SettingsCategoryFragment : PreferenceFragmentCompat(), Preference.OnPrefer
         findPreference("clear_search").onPreferenceClickListener =
             Preference.OnPreferenceClickListener {
                 callback!!.showMessage(R.string.success, R.string.deleted)
-                SearchHistory.deleteAll()
+                SearchHistoryDao.deleteAll()
                 true
             }
         findPreference("clear_image_cache").onPreferenceClickListener =

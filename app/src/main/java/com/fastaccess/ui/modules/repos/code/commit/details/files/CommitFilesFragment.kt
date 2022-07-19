@@ -9,7 +9,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.*
-import com.fastaccess.data.dao.model.Comment
+import com.fastaccess.data.entity.Comment
 import com.fastaccess.helper.ActivityHelper.startCustomTab
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler.Companion.start

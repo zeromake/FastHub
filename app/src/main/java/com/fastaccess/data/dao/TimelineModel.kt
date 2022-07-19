@@ -1,13 +1,13 @@
 package com.fastaccess.data.dao
 
+import android.os.Parcel
 import android.os.Parcelable
-import com.fastaccess.data.dao.types.IssueEventType
 import com.fastaccess.data.dao.timeline.GenericEvent
 import com.fastaccess.data.dao.timeline.PullRequestCommitModel
-import android.os.Parcel
-import com.fastaccess.data.dao.model.Comment
-import com.fastaccess.data.dao.model.Issue
-import com.fastaccess.data.dao.model.PullRequest
+import com.fastaccess.data.dao.types.IssueEventType
+import com.fastaccess.data.entity.Comment
+import com.fastaccess.data.entity.Issue
+import com.fastaccess.data.entity.PullRequest
 import io.reactivex.Observable
 
 /**

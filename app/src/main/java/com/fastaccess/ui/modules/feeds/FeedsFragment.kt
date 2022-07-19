@@ -10,7 +10,7 @@ import com.fastaccess.R
 import com.fastaccess.data.dao.GitCommitModel
 import com.fastaccess.data.dao.NameParser
 import com.fastaccess.data.dao.SimpleUrlsModel
-import com.fastaccess.data.dao.model.Event
+import com.fastaccess.data.entity.Event
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler
 import com.fastaccess.helper.InputHelper.isEmpty

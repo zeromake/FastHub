@@ -27,8 +27,8 @@ import com.evernote.android.state.State
 import com.evernote.android.state.StateSaver
 import com.fastaccess.App
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.FastHubNotification
-import com.fastaccess.data.dao.model.Login
+import com.fastaccess.data.entity.dao.FastHubNotificationDao
+import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.helper.*
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.PrefGetter.isNavDrawerHintShowed
@@ -47,9 +47,9 @@ import com.fastaccess.ui.modules.gists.gist.GistActivity
 import com.fastaccess.ui.modules.login.chooser.LoginChooserActivity
 import com.fastaccess.ui.modules.main.MainActivity
 import com.fastaccess.ui.modules.main.drawer.MainDrawerFragment
+import com.fastaccess.ui.modules.main.faq.FaqActivity
 import com.fastaccess.ui.modules.main.notifications.FastHubNotificationDialog.Companion.show
 import com.fastaccess.ui.modules.main.orgs.OrgListDialogFragment
-import com.fastaccess.ui.modules.main.playstore.PlayStoreWarningActivity
 import com.fastaccess.ui.modules.repos.code.commit.details.CommitPagerActivity
 import com.fastaccess.ui.modules.repos.issues.issue.details.IssuePagerActivity
 import com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.PullRequestPagerActivity
@@ -144,7 +144,8 @@ abstract class BaseActivity<V : FAView, P : BasePresenter<V>> : TiActivity<P, V>
         if (!validateAuth()) return
         if (savedInstanceState == null) {
             if (showInAppNotifications()) {
-                show(supportFragmentManager)
+                // Todo disposable
+                val disposable = show(supportFragmentManager)
             }
         }
         showChangelog()
@@ -200,7 +201,7 @@ abstract class BaseActivity<V : FAView, P : BasePresenter<V>> : TiActivity<P, V>
     }
 
     override val isLoggedIn: Boolean
-        get() = Login.getUser() != null
+        get() = !LoginDao.getUser().blockingGet().isEmpty()
 
     override fun showProgress(@StringRes resId: Int) {
         showProgress(resId, true)
@@ -230,8 +231,7 @@ abstract class BaseActivity<V : FAView, P : BasePresenter<V>> : TiActivity<P, V>
             token = null
             otpCode = null
             resetEnterprise()
-            Login.logout()
-            true
+            LoginDao.logout().blockingGet()
         }).subscribe {
             glide.clearMemory()
             val intent = Intent(this, LoginChooserActivity::class.java)
@@ -579,13 +579,13 @@ abstract class BaseActivity<V : FAView, P : BasePresenter<V>> : TiActivity<P, V>
     }
 
     private fun showChangelog() {
-        if (showWhatsNew() && this !is PlayStoreWarningActivity) {
+        if (showWhatsNew() && this !is FaqActivity) {
             ChangelogBottomSheetDialog().show(supportFragmentManager, "ChangelogBottomSheetDialog")
         }
     }
 
     private fun showInAppNotifications(): Boolean {
-        return FastHubNotification.hasNotifications()
+        return FastHubNotificationDao.hasNotifications().blockingGet()
     }
 
 //    private val mainDrawerMenu: Menu?

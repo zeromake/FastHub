@@ -2,12 +2,12 @@ package com.fastaccess.ui.widgets
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.widget.RelativeLayout
-import android.graphics.drawable.Drawable
 import android.graphics.Canvas
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-import com.fastaccess.R
 import android.view.ViewOutlineProvider
+import android.widget.RelativeLayout
+import com.fastaccess.R
 
 /**
  * An extension to [RelativeLayout] which has a foreground drawable.

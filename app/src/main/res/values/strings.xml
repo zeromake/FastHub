@@ -1,8 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- DO NOT COPY!  -->
 
-    <string name="app_name" translatable="false">FastHub</string>
-    <string name="app_name_full" translatable="false">FastHub for Android</string>
+    <string name="app_name" translatable="false">FastHub-RE</string>
+    <string name="app_name_full" translatable="false">FastHub-RE for Android</string>
+    <string name="app_description" translatable="false">Revival attempt for FastHub the ultimate GitHub client for Android.</string>
+    <string name="original_app_name" translatable="false">FastHub</string>
+    <string name="original_app_state" translatable="false">[Abandoned] FastHub</string>
+    <string name="original_app_author" translatable="false">Kosh Sergani (k0shk0sh)</string>
     <string name="linear_layout_manager" translatable="false">com.fastaccess.ui.widgets.recyclerview.layout_manager.LinearManager</string>
     <string name="grid_layout_manager" translatable="false">com.fastaccess.ui.widgets.recyclerview.layout_manager.GridManager</string>
     <string name="staggered_layout_manager" translatable="false">com.fastaccess.ui.widgets.recyclerview.layout_manager.StaggeredManager</string>
@@ -11,7 +15,10 @@
     <string name="gists" translatable="false">Gists</string>
     <string name="readme" translatable="false">Readme</string>
     <string name="commits" translatable="false">Commits</string>
+    <string name="additions" translatable="false">Additions (%1$s) lines</string>
+    <string name="deletions" translatable="false">Deletions (%1$s) lines</string>
     <string name="repos" translatable="false">Repositories</string>
+    <string name="packages" translatable="false">Packages</string>
     <string name="forked" translatable="false">Forked</string>
     <string name="starred" translatable="false">Starred</string>
     <string name="icon_transition" translatable="false">profile_image_transition</string>
@@ -35,6 +42,7 @@
     <string name="gist" translatable="false">Gist</string>
     <string name="back_slash" translatable="false">/</string>
     <string name="fork_repo_hint" translatable="false">Fork repo</string>
+    <string name="open_repo_hint" translatable="false">Open Repository</string>
     <string name="bbn_fab_default_behavior" translatable="false">com.fastaccess.ui.widgets.FloatingActionButtonBehavior</string>
     <string name="created_gist" translatable="false">@string/gist</string>
     <string name="gollum" translatable="false">Wiki</string>
@@ -72,7 +80,8 @@
     <string name="amber_theme_mode" translatable="false">Amber</string>
     <string name="orange_theme_mode" translatable="false">Orange</string>
     <string name="deep_orange_theme_mode" translatable="false">Deep Orange</string>
-    <string name="logo_designer" formatted="true" translatable="false">Logo Designer (%s)</string>
+    <string name="current_logo_designer" formatted="true" translatable="false">Current Logo Designer (%s)</string>
+    <string name="old_logo_designer" formatted="true" translatable="false">Old Logo Designer (%s)</string>
     <string name="google_plus" translatable="false">Google+</string>
     <string name="twitter" translatable="false">Twitter</string>
     <string name="posting_reaction" formatted="true" translatable="false">Posting reaction %s</string>
@@ -84,6 +93,7 @@
     <string name="pull_request_reviews" translatable="false">Pull Request Reviews</string>
     <string name="review_changes" translatable="false">Review Changes</string>
     <string name="enterprise" translatable="false">Enterprise</string>
+    <string name="enterprise_note" translatable="false">Note for Enterprise use</string>
     <string name="endpoint_hint" translatable="false">example.com</string>
     <string name="no_branches" translatable="false">No Branches or Tags</string>
     <string name="pro_features" translatable="false">PRO Features</string>
@@ -124,9 +134,13 @@
     <string name="unlock" translatable="false">Unlock</string>
     <string name="unlock_everything" translatable="false">Unlock Everything</string>
     <string name="feeds" translatable="false">Feeds</string>
+    <string name="graph_timeline_text" translatable="false">%1$s - %2$s</string>
+    <string name="unlock_all" translatable="false">Unlock all features</string>
+    <string name="unlock_all_description" translatable="false">Please, do not forget to support the developers!</string>
     <!-- END OF DO NOT COPY, START COPYING FROM LINE BELOW -->
 
     <!--Please DO NOT translate github terms, such as Pull Request, Issues, Commits & etc.-->
+    <string name="original_app_author_desc" translatable="false">The original author of FastHub, now unmaintained</string>
     <string name="in_progress">Loading, please wait…</string>
     <string name="action">Action</string>
     <string name="settings">Settings</string>
@@ -309,6 +323,7 @@
     <string name="unknown">Unknown</string>
     <string name="commented_on_commit">Commented on commit</string>
     <string name="switch_branch">Switch branch</string>
+    <string name="switch_package_type">Package Type</string>
     <string name="assignees">Assignees</string>
     <string name="edit">Edit</string>
     <string name="edited">\u2022 edited</string>
@@ -356,6 +371,7 @@
     <string name="report_issue">Report an issue</string>
     <string name="report_issue_here">Having an issue? Report it here</string>
     <string name="about">About</string>
+    <string name="misc">Miscellaneous</string>
     <string name="notification_settings">Notifications</string>
     <string name="turn_off">Turn off</string>
     <string name="unauthorized_user">Unauthorized user</string>
@@ -369,6 +385,7 @@
     <string name="marking_as_read">Marking notification as read</string>
     <string name="forking_gist">Forking gist</string>
     <string name="login_using_your_default_browser">Login using your default browser (OAuth)</string>
+    <string name="login_using_your_PAT">Login using your Personal Access Token (Recommended)</string>
     <string name="or_character">OR</string>
     <string name="mark_notification_title">Disable Notification Read Status</string>
     <string name="mark_notification_summary">Disable marking as read upon clicking a notification.</string>
@@ -395,6 +412,7 @@
     <string name="no_followings">No followings</string>
     <string name="no_repos">No repositories</string>
     <string name="no_starred_repos">No starred repositories</string>
+    <string name="no_packages">No packages</string>
     <string name="no_commits">No commits</string>
     <string name="no_contributors">No contributors</string>
     <string name="no_releases">No releases</string>
@@ -456,6 +474,7 @@
     <string name="wrap_code_summary">Wrap code in code viewer by default</string>
     <string name="wrap_code_title">Wrap Code</string>
     <string name="open_source_libs">Open source libraries</string>
+    <string name="open_source_libs_desc">List of all the libraries used to make the app</string>
     <string name="enable_notification_sound_summary">Enable notification sound once a notification is received.</string>
     <string name="enable_notification_sound_title">Enable Notification Sound</string>
     <string name="enable_notification_title">Enable Notifications</string>
@@ -579,11 +598,8 @@
         <p>If you are unable to edit Issues/PRs in a Public Organization\'s repository, please contact your Organization to grant access to FastHub. Alternatively you can sign in with an Access Token.</p>
 
         <h5>• I\'m having problems! / I want to suggest you some things!</h5>
-        <p>Head to https://github.com/k0shk0sh/FastHub/issues/new and create a new issue for any bugs and feature requests. I really do encourage you to
+        <p>Head to https://github.com/LightDestory/FastHub-RE/issues/new and create a new issue for any bugs and feature requests. I really do encourage you to
         search for similar issues before opening a new one. Any duplicated ticket will be labeled as duplicated and closed immediately.</p>
-
-        <h5>• How can I get a PROMO CODE?</h5>
-        <p>This program no longer exists.</p>
     ]]></string>
     <string name="faq">FAQ</string>
     <string name="comments_added_successfully">Comments added successfully</string>
@@ -612,4 +628,6 @@
     <string name="default_downloader" translatable="false">default_browser</string>
     <string name="download_setting_dialog">Select downloader</string>
     <string name="download_setting_title">Set downloader</string>
+    <string name="show_contribution_graph">Show graph</string>
+    <string name="contributions_stats_text">Contribution\'s Statistics:</string>
 </resources>

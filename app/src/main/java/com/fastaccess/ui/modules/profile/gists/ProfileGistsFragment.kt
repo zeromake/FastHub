@@ -7,8 +7,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.Gist
-import com.fastaccess.data.dao.model.Login
+import com.fastaccess.data.entity.Gist
+import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler.Companion.start
 import com.fastaccess.provider.rest.loadmore.OnLoadMore
@@ -148,7 +148,7 @@ class ProfileGistsFragment : BaseFragment<ProfileGistsMvp.View, ProfileGistsPres
                 .put(BundleConstant.EXTRA, login)
                 .put(
                     BundleConstant.IS_ENTERPRISE,
-                    Login.getUser().login.equals(login, ignoreCase = true)
+                    LoginDao.getUser().blockingGet().or().login.equals(login, ignoreCase = true)
                 )
                 .end()
             return view

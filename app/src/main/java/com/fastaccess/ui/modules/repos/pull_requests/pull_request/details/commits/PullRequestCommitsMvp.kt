@@ -1,13 +1,11 @@
 package com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.commits
 
-import com.fastaccess.ui.base.mvp.BaseMvp.FAView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
-import com.fastaccess.provider.rest.loadmore.OnLoadMore
-import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
-import com.fastaccess.ui.base.adapter.BaseViewHolder
-import com.fastaccess.ui.base.mvp.BaseMvp.PaginationListener
 import android.os.Bundle
-import com.fastaccess.data.dao.model.Commit
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
+import com.fastaccess.data.entity.Commit
+import com.fastaccess.provider.rest.loadmore.OnLoadMore
+import com.fastaccess.ui.base.adapter.BaseViewHolder
+import com.fastaccess.ui.base.mvp.BaseMvp.*
 
 /**
  * Created by Kosh on 03 Dec 2016, 3:45 PM

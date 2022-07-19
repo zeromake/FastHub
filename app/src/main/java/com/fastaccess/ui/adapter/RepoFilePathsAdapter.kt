@@ -1,7 +1,7 @@
 package com.fastaccess.ui.adapter
 
 import android.view.ViewGroup
-import com.fastaccess.data.dao.model.RepoFile
+import com.fastaccess.data.entity.RepoFile
 import com.fastaccess.ui.adapter.viewholder.RepoFilePathsViewHolder
 import com.fastaccess.ui.adapter.viewholder.RepoFilePathsViewHolder.Companion.newInstance
 import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter

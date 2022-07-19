@@ -1,7 +1,7 @@
 package com.fastaccess.ui.adapter
 
 import android.view.ViewGroup
-import com.fastaccess.data.dao.model.Comment
+import com.fastaccess.data.entity.Comment
 import com.fastaccess.ui.adapter.callback.OnToggleView
 import com.fastaccess.ui.adapter.viewholder.CommitCommentsViewHolder
 import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter

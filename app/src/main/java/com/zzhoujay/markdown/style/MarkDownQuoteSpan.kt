@@ -4,7 +4,6 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.text.Layout
 import android.text.style.QuoteSpan
-import com.zzhoujay.markdown.style.MarkDownQuoteSpan
 
 /**
  * Created by zhou on 16-6-25.

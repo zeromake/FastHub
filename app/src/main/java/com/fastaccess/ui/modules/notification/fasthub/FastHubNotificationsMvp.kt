@@ -1,8 +1,8 @@
 package com.fastaccess.ui.modules.notification.fasthub
 
-import com.fastaccess.data.dao.model.FastHubNotification
-import com.fastaccess.ui.base.mvp.BaseMvp
+import com.fastaccess.data.entity.FastHubNotification
 import com.fastaccess.ui.base.adapter.BaseViewHolder
+import com.fastaccess.ui.base.mvp.BaseMvp
 
 /**
  * Created by Kosh on 19.11.17.

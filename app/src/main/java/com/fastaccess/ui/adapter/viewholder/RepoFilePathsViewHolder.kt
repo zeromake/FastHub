@@ -3,7 +3,7 @@ package com.fastaccess.ui.adapter.viewholder
 import android.view.View
 import android.view.ViewGroup
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.RepoFile
+import com.fastaccess.data.entity.RepoFile
 import com.fastaccess.ui.adapter.RepoFilePathsAdapter
 import com.fastaccess.ui.base.adapter.BaseViewHolder
 import com.fastaccess.ui.widgets.FontTextView

@@ -1,8 +1,7 @@
 package com.fastaccess.data.dao
 
-import android.os.Parcelable
 import android.os.Parcel
-import com.fastaccess.data.dao.GithubState
+import android.os.Parcelable
 
 /**
  * Created by Kosh on 08 Dec 2016, 8:57 PM

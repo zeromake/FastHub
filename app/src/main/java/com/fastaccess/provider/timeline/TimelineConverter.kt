@@ -1,10 +1,10 @@
 package com.fastaccess.provider.timeline
 
 import com.fastaccess.data.dao.*
-import com.fastaccess.data.dao.model.Comment
 import com.fastaccess.data.dao.timeline.GenericEvent
 import com.fastaccess.data.dao.timeline.PullRequestCommitModel
 import com.fastaccess.data.dao.types.IssueEventType
+import com.fastaccess.data.entity.Comment
 import com.fastaccess.helper.InputHelper
 import com.fastaccess.provider.rest.RestProvider
 import com.google.gson.Gson

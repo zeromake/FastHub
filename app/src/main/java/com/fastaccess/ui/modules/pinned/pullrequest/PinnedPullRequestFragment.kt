@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.PinnedPullRequests
-import com.fastaccess.data.dao.model.PullRequest
+import com.fastaccess.data.entity.PullRequest
+import com.fastaccess.data.entity.dao.PinnedPullRequestsDao
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler
 import com.fastaccess.ui.adapter.PullRequestAdapter
@@ -73,8 +73,11 @@ class PinnedPullRequestFragment :
         if (bundle != null && isOk) {
             val id = bundle.getLong(BundleConstant.ID)
             val position = bundle.getInt(BundleConstant.EXTRA)
-            PinnedPullRequests.delete(id)
-            adapter!!.removeItem(position)
+            presenter.manageObservable(
+                PinnedPullRequestsDao.delete(id).toObservable()
+            ) {
+                adapter!!.removeItem(position)
+            }
         }
     }
 

@@ -4,8 +4,8 @@ import androidx.annotation.StringDef
 import com.fastaccess.data.dao.NotificationSubscriptionBodyModel
 import com.fastaccess.data.dao.Pageable
 import com.fastaccess.data.dao.RepoSubscriptionModel
-import com.fastaccess.data.dao.model.Comment
-import com.fastaccess.data.dao.model.Notification
+import com.fastaccess.data.entity.Comment
+import com.fastaccess.data.entity.Notification
 import io.reactivex.Observable
 import retrofit2.Response
 import retrofit2.http.*

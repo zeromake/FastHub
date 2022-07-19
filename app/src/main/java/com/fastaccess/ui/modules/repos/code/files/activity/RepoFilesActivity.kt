@@ -8,8 +8,11 @@ import android.view.MenuItem
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.NameParser
-import com.fastaccess.data.dao.model.AbstractRepo
-import com.fastaccess.helper.*
+import com.fastaccess.data.entity.dao.RepoDao
+import com.fastaccess.helper.ActivityHelper
+import com.fastaccess.helper.AppHelper
+import com.fastaccess.helper.BundleConstant
+import com.fastaccess.helper.Bundler
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.provider.scheme.LinkParserHelper.isEnterprise
 import com.fastaccess.ui.base.BaseActivity
@@ -131,7 +134,7 @@ class RepoFilesActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FAV
                     uri.pathSegments[0].equals("repositories", ignoreCase = true) -> {
                         val id = uri.pathSegments[1].toLongOrNull()
                         if (id != null && id != 0L) {
-                            val repo = AbstractRepo.getRepo(id)
+                            val repo = RepoDao.getRepo(id).blockingGet().get()
                             if (repo != null) {
                                 val nameParser = NameParser(repo.htmlUrl)
                                 if (nameParser.username != null && nameParser.name != null) {

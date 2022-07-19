@@ -1,11 +1,10 @@
 package com.fastaccess.data.dao
 
-import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
 import android.os.Parcel
-import com.fastaccess.data.dao.model.User
+import android.os.Parcelable
+import com.fastaccess.data.entity.User
 import com.fastaccess.github.PullRequestTimelineQuery
-import java.util.ArrayList
+import com.google.gson.annotations.SerializedName
 
 /**
  * Created by Kosh on 28 Mar 2017, 9:15 PM

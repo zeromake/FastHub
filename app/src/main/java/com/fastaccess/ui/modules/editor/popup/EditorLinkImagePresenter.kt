@@ -1,9 +1,9 @@
 package com.fastaccess.ui.modules.editor.popup
 
-import com.fastaccess.ui.base.mvp.presenter.BasePresenter
-import okhttp3.RequestBody
 import com.fastaccess.provider.rest.ImgurProvider
+import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 

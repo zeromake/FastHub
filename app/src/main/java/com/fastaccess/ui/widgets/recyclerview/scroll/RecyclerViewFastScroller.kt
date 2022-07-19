@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
-import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,7 +22,6 @@ import it.sephiroth.android.library.bottomnavigation.BottomNavigation
 
 open class RecyclerViewFastScroller : FrameLayout {
     private var scrollerView: ImageView? = null
-    private val scrollTop: ImageButton? = null
     private var mHeight = 0
     private var recyclerView: RecyclerView? = null
     private var layoutManager: RecyclerView.LayoutManager? = null

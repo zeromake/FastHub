@@ -1,10 +1,10 @@
 package com.fastaccess.ui.modules.main.issues
 
 import android.view.View
-import com.fastaccess.data.dao.model.Issue
-import com.fastaccess.data.dao.model.Login
 import com.fastaccess.data.dao.types.IssueState
 import com.fastaccess.data.dao.types.MyIssuesType
+import com.fastaccess.data.entity.Issue
+import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.helper.PrefGetter
 import com.fastaccess.provider.rest.RepoQueryProvider
 import com.fastaccess.provider.rest.RestProvider.getIssueService
@@ -21,12 +21,12 @@ class MyIssuesPresenter internal constructor() : BasePresenter<MyIssuesMvp.View>
     override var previousTotal = 0
     private var lastPage = Int.MAX_VALUE
 
-    @JvmField
     @com.evernote.android.state.State
     var issuesType: MyIssuesType? = null
-    private val login = Login.getUser().login
+
+    private val login = LoginDao.getUser().blockingGet().or().login!!
     override fun onItemClick(position: Int, v: View?, item: Issue) {
-        launchUri(v!!.context, item.htmlUrl)
+        launchUri(v!!.context, item.htmlUrl!!)
     }
 
     override fun onItemLongClick(position: Int, v: View?, item: Issue) {
@@ -49,6 +49,7 @@ class MyIssuesPresenter internal constructor() : BasePresenter<MyIssuesMvp.View>
             sendToView { it.hideProgress() }
             return false
         }
+        currentPage = page
         makeRestCall(
             getIssueService(isEnterprise).getIssuesWithCount(getUrl(parameter), page)
         ) { issues ->

@@ -7,8 +7,8 @@ import androidx.annotation.IdRes
 import com.fastaccess.R
 import com.fastaccess.data.dao.ReactionsModel
 import com.fastaccess.data.dao.TimelineModel
-import com.fastaccess.data.dao.model.Comment
 import com.fastaccess.data.dao.types.ReactionTypes
+import com.fastaccess.data.entity.Comment
 import com.fastaccess.provider.tasks.git.ReactionService
 import com.fastaccess.ui.widgets.SpannableBuilder.Companion.builder
 
@@ -115,7 +115,7 @@ object CommentsHelper {
     @JvmStatic
     fun getUsers(comments: List<Comment>): ArrayList<String> {
         return comments.filter { it.user != null }
-            .map { comment: Comment -> comment.user.login }
+            .map { it.user!!.login!! }
             .distinct()
             .toMutableList() as ArrayList<String>
     }
@@ -124,7 +124,7 @@ object CommentsHelper {
     fun getUsersByTimeline(comments: List<TimelineModel>): ArrayList<String> {
         return comments
             .filter { timelineModel: TimelineModel -> timelineModel.comment != null && timelineModel.comment!!.user != null }
-            .map { comment: TimelineModel -> comment.comment!!.user.login }
+            .map { comment: TimelineModel -> comment.comment!!.user!!.login!! }
             .distinct()
             .toMutableList() as ArrayList<String>
     }

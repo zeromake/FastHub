@@ -19,7 +19,6 @@ import com.google.gson.GsonBuilder
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -29,7 +28,7 @@ import java.lang.reflect.Modifier
  * Created by Kosh on 08 Feb 2017, 8:37 PM
  */
 object RestProvider {
-    const val PAGE_SIZE = 10
+    const val PAGE_SIZE = 30
     private var okHttpClient: OkHttpClient? = null
 
     @JvmField

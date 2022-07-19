@@ -6,7 +6,7 @@ import android.view.View
 import androidx.annotation.StringRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.Repo
+import com.fastaccess.data.entity.Repo
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler.Companion.start
 import com.fastaccess.provider.rest.loadmore.OnLoadMore
@@ -115,7 +115,7 @@ class ProfileStarredFragment : BaseFragment<ProfileStarredMvp.View, ProfileStarr
 
     override fun onUpdateCount(starredCount: Int) {
         if (tabsBadgeListener != null) {
-            tabsBadgeListener!!.onSetBadge(3, starredCount)
+            tabsBadgeListener!!.onSetBadge(4, starredCount)
         }
     }
 

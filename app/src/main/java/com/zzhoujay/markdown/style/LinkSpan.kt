@@ -1,7 +1,7 @@
 package com.zzhoujay.markdown.style
 
-import android.text.style.URLSpan
 import android.text.TextPaint
+import android.text.style.URLSpan
 
 /**
  * Created by zhou on 16-7-2.

@@ -1,13 +1,12 @@
 package com.fastaccess.ui.widgets
 
 import android.content.Context
-import android.widget.FrameLayout
-import android.view.Gravity
-import androidx.core.view.GravityCompat
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.View
+import android.widget.FrameLayout
+import androidx.core.view.GravityCompat
 import com.fastaccess.R
-import java.util.ArrayList
 
 class AutoLinearLayout : FrameLayout {
     private var mOrientation = 0
@@ -158,7 +157,7 @@ class AutoLinearLayout : FrameLayout {
         }
         //plus last child width
         if (columnHeight != 0) {
-            maxColumnHeight = Math.max(maxColumnHeight, columnHeight)
+            maxColumnHeight = maxColumnHeight.coerceAtLeast(columnHeight)
             totalWidth += columnMaxWidth
         }
 

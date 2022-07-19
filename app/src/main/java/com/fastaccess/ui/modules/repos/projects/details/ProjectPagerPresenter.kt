@@ -4,7 +4,7 @@ import android.content.Intent
 import com.fastaccess.R
 import com.fastaccess.data.dao.Pageable
 import com.fastaccess.data.dao.ProjectColumnModel
-import com.fastaccess.data.dao.model.Login
+import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.provider.rest.RestProvider
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
@@ -18,12 +18,16 @@ import retrofit2.Response
 class ProjectPagerPresenter : BasePresenter<ProjectPagerMvp.View>(), ProjectPagerMvp.Presenter {
 
     private val columns = arrayListOf<ProjectColumnModel>()
+
     @com.evernote.android.state.State
     var projectId: Long = -1
+
     @com.evernote.android.state.State
     var repoId: String? = null
+
     @com.evernote.android.state.State
     var login: String = ""
+
     @com.evernote.android.state.State
     var viewerCanUpdate: Boolean = false
 
@@ -43,7 +47,11 @@ class ProjectPagerPresenter : BasePresenter<ProjectPagerMvp.View>(), ProjectPage
             makeRestCall(Observable.zip(RestProvider.getProjectsService(isEnterprise)
                 .getProjectColumns(projectId),
                 RestProvider.getRepoService(isEnterprise)
-                    .isCollaborator(login, repoId, Login.getUser().login),
+                    .isCollaborator(
+                        login,
+                        repoId,
+                        LoginDao.getUser().blockingGet().or().login!!
+                    ),
                 BiFunction { items: Pageable<ProjectColumnModel>, response: Response<Boolean> ->
                     viewerCanUpdate = response.code() == 204
                     return@BiFunction items

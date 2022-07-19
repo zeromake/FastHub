@@ -1,9 +1,10 @@
 package com.fastaccess.ui.modules.pinned.gist
 
 import android.view.View
-import com.fastaccess.data.dao.model.Gist
-import com.fastaccess.data.dao.model.PinnedGists
+import com.fastaccess.data.entity.Gist
+import com.fastaccess.data.entity.dao.PinnedGistsDao
 import com.fastaccess.helper.InputHelper.isEmpty
+import com.fastaccess.helper.RxHelper
 import com.fastaccess.provider.scheme.SchemeParser.launchUri
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 
@@ -20,16 +21,19 @@ class PinnedGistPresenter : BasePresenter<PinnedGistMvp.View>(), PinnedGistMvp.P
     }
 
     override fun onReload() {
-        manageDisposable(PinnedGists.getMyPinnedGists()
-            .subscribe({ repos ->
-                sendToView { view-> view.onNotifyAdapter(repos) }
-            }) {
-                sendToView { view -> view.onNotifyAdapter(null) }
-            })
+        manageDisposable(
+            RxHelper.getObservable(
+                PinnedGistsDao.getMyPinnedGists().toObservable()
+            )
+                .subscribe({ repos ->
+                    sendToView { view -> view.onNotifyAdapter(repos) }
+                }) {
+                    sendToView { view -> view.onNotifyAdapter(null) }
+                })
     }
 
     override fun onItemClick(position: Int, v: View?, item: Gist) {
-        launchUri(v!!.context, if (!isEmpty(item.htmlUrl)) item.htmlUrl else item.url)
+        launchUri(v!!.context, if (!isEmpty(item.htmlUrl)) item.htmlUrl!! else item.url!!)
     }
 
     override fun onItemLongClick(position: Int, v: View?, item: Gist) {

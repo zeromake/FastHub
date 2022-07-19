@@ -3,10 +3,12 @@ package com.fastaccess.ui.modules.repos.code.commit
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
-import com.fastaccess.data.dao.model.Commit
+import com.fastaccess.data.entity.Commit
+import com.fastaccess.data.entity.dao.CommitDao
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.RxHelper.getObservable
+import com.fastaccess.helper.RxHelper.getSingle
 import com.fastaccess.helper.RxHelper.safeObservable
 import com.fastaccess.provider.rest.RestProvider.getRepoService
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
@@ -56,11 +58,14 @@ class RepoCommitsPresenter : BasePresenter<RepoCommitsMvp.View>(),
         ) else getRepoService(isEnterprise).getCommits(
             login!!, repoId!!, defaultBranch!!, path!!, page
         )
+        currentPage = page
         makeRestCall(observable) { response ->
             if (response?.items != null) {
                 lastPage = response.last
                 if (currentPage == 1) {
-                    manageDisposable(Commit.save(response.items!!, repoId!!, login!!))
+                    manageObservable(
+                        CommitDao.save(response.items!!, repoId!!, login!!).toObservable()
+                    )
                 }
             }
             sendToView { view ->
@@ -88,10 +93,10 @@ class RepoCommitsPresenter : BasePresenter<RepoCommitsMvp.View>(),
     override fun onWorkOffline() {
         if (commits.isEmpty()) {
             manageDisposable(
-                getObservable(
-                    Commit.getCommits(
+                getSingle(
+                    CommitDao.getCommits(
                         repoId!!, login!!
-                    ).toObservable()
+                    )
                 )
                     .subscribe { models ->
                         sendToView { view ->

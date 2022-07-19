@@ -1,7 +1,7 @@
 package com.fastaccess.ui.modules.profile.org.teams.details.repos
 
 import android.view.View
-import com.fastaccess.data.dao.model.Repo
+import com.fastaccess.data.entity.Repo
 import com.fastaccess.provider.rest.RestProvider.getOrgService
 import com.fastaccess.provider.scheme.SchemeParser.launchUri
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
@@ -27,7 +27,8 @@ class TeamReposPresenter : BasePresenter<TeamReposMvp.View>(), TeamReposMvp.Pres
             sendToView { it.hideProgress() }
             return false
         }
-        makeRestCall(getOrgService(isEnterprise).getTeamRepos(parameter, page)
+        makeRestCall(
+            getOrgService(isEnterprise).getTeamRepos(parameter, page)
         ) { repoModelPageable ->
             lastPage = repoModelPageable.last
             sendToView { view ->
@@ -45,7 +46,7 @@ class TeamReposPresenter : BasePresenter<TeamReposMvp.View>(), TeamReposMvp.Pres
     }
 
     override fun onItemClick(position: Int, v: View?, item: Repo) {
-        launchUri(v!!.context, item.htmlUrl)
+        launchUri(v!!.context, item.htmlUrl!!)
     }
 
     override fun onItemLongClick(position: Int, v: View?, item: Repo) {}

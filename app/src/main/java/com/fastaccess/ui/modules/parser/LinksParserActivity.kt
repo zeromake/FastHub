@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.widget.Toast
 import com.fastaccess.App
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.Login
+import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.provider.scheme.SchemeParser.launchUri
 import com.fastaccess.ui.modules.login.chooser.LoginChooserActivity
@@ -18,7 +18,7 @@ import com.fastaccess.ui.modules.login.chooser.LoginChooserActivity
 class LinksParserActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (Login.getUser() == null) {
+        if (LoginDao.getUser().blockingGet().isEmpty()) {
             Toast.makeText(App.getInstance(), R.string.please_login, Toast.LENGTH_SHORT).show()
             startActivity(Intent(this, LoginChooserActivity::class.java))
             finish()

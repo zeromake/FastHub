@@ -9,9 +9,11 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.transition.TransitionManager
 import com.fastaccess.BuildConfig
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.Login
+import com.fastaccess.data.entity.Login
+import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.helper.Bundler
 import com.fastaccess.helper.PrefGetter
+import com.fastaccess.helper.RxHelper
 import com.fastaccess.ui.adapter.LoginAdapter
 import com.fastaccess.ui.base.BaseActivity
 import com.fastaccess.ui.modules.login.LoginActivity
@@ -55,9 +57,6 @@ class LoginChooserActivity : BaseActivity<LoginChooserMvp.View, LoginChooserPres
         multiAccLayout = root.findViewById(R.id.multiAccLayout)
         viewGroup = root.findViewById(R.id.viewGroup)
         toggleImage = root.findViewById(R.id.toggleImage)
-        root.findViewById<View>(R.id.basicAuth).setOnThrottleClickListener {
-            this.onBasicAuthClicked()
-        }
         root.findViewById<View>(R.id.accessToken).setOnThrottleClickListener {
             this.onAccessTokenClicked()
         }
@@ -84,16 +83,12 @@ class LoginChooserActivity : BaseActivity<LoginChooserMvp.View, LoginChooserPres
         }
     }
 
-    private fun onBasicAuthClicked() {
-        LoginActivity.start(this, true)
-    }
-
     internal fun onAccessTokenClicked() {
         LoginActivity.start(this, false)
     }
 
     internal fun onEnterpriseClicked() {
-        if (Login.hasNormalLogin()) {
+        if (LoginDao.hasNormalLogin().blockingGet()) {
             if (PrefGetter.isAllFeaturesUnlocked || PrefGetter.isEnterpriseEnabled) {
                 LoginActivity.start(this, isBasicAuth = true, isEnterprise = true)
             } else {
@@ -148,10 +143,17 @@ class LoginChooserActivity : BaseActivity<LoginChooserMvp.View, LoginChooserPres
     }
 
     override fun onItemClick(position: Int, v: View?, item: Login) {
-        presenter.manageViewDisposable(Login.onMultipleLogin(item, item.isIsEnterprise, false)
-            .doOnSubscribe { showProgress(0) }
-            .doOnComplete { this.hideProgress() }
-            .subscribe({ onRestartApp() }, ::println)
+        presenter.manageDisposable(
+            RxHelper.getObservable(
+                LoginDao.onMultipleLogin(
+                    item,
+                    item.isEnterprise,
+                    false,
+                ).toObservable()
+            )
+                .doOnSubscribe { showProgress(0) }
+                .doOnComplete { this.hideProgress() }
+                .subscribe({ onRestartApp() }, ::println)
         )
     }
 

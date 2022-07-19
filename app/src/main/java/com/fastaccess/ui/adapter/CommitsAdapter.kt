@@ -1,7 +1,7 @@
 package com.fastaccess.ui.adapter
 
 import android.view.ViewGroup
-import com.fastaccess.data.dao.model.Commit
+import com.fastaccess.data.entity.Commit
 import com.fastaccess.ui.adapter.viewholder.CommitsViewHolder
 import com.fastaccess.ui.adapter.viewholder.CommitsViewHolder.Companion.newInstance
 import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter

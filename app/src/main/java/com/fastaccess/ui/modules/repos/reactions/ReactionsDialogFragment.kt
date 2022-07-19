@@ -6,8 +6,8 @@ import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.User
 import com.fastaccess.data.dao.types.ReactionTypes
+import com.fastaccess.data.entity.User
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler.Companion.start
 import com.fastaccess.provider.rest.loadmore.OnLoadMore

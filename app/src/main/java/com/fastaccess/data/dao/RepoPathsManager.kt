@@ -1,7 +1,6 @@
 package com.fastaccess.data.dao
 
-import com.fastaccess.data.dao.model.RepoFile
-import java.util.HashMap
+import com.fastaccess.data.entity.RepoFile
 
 /**
  * Created by Kosh on 03 Mar 2017, 10:43 PM

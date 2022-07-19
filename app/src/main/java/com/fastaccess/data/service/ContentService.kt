@@ -3,9 +3,7 @@ package com.fastaccess.data.service
 import com.fastaccess.BuildConfig
 import com.fastaccess.data.dao.CommitRequestModel
 import com.fastaccess.data.dao.GitCommitModel
-import com.fastaccess.data.dao.GitHubStatusModel
 import com.fastaccess.data.dao.GithubStatusComponentsModel
-import com.fastaccess.data.dao.converters.GithubStatusComponentsConverter
 import io.reactivex.Observable
 import retrofit2.http.*
 

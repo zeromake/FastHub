@@ -2,8 +2,8 @@ package com.fastaccess.ui.widgets
 
 import android.content.Context
 import android.util.AttributeSet
-import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import android.view.inputmethod.EditorInfo
+import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import com.fastaccess.helper.TypeFaceHelper
 
 /**

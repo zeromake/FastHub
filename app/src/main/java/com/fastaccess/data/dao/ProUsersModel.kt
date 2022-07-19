@@ -1,8 +1,7 @@
 package com.fastaccess.data.dao
 
-import android.os.Parcelable
 import android.os.Parcel
-import com.fastaccess.data.dao.ProUsersModel
+import android.os.Parcelable
 
 /**
  * Created by Hashemsergani on 03.10.17.

@@ -1,9 +1,10 @@
 package com.fastaccess.ui.modules.pinned.pullrequest
 
 import android.view.View
-import com.fastaccess.data.dao.model.PinnedPullRequests
-import com.fastaccess.data.dao.model.PullRequest
+import com.fastaccess.data.entity.PullRequest
+import com.fastaccess.data.entity.dao.PinnedPullRequestsDao
 import com.fastaccess.helper.InputHelper.isEmpty
+import com.fastaccess.helper.RxHelper
 import com.fastaccess.provider.scheme.SchemeParser.launchUri
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 
@@ -21,16 +22,19 @@ class PinnedPullRequestPresenter : BasePresenter<PinnedPullRequestMvp.View>(),
     }
 
     override fun onReload() {
-        manageDisposable(PinnedPullRequests.getMyPinnedPullRequests()
-            .subscribe({ repos ->
-                sendToView { view -> view.onNotifyAdapter(repos) }
-            }) {
-                sendToView { view -> view.onNotifyAdapter(null) }
-            })
+        manageDisposable(
+            RxHelper.getObservable(
+                PinnedPullRequestsDao.getMyPinnedPullRequests().toObservable()
+            )
+                .subscribe({ repos ->
+                    sendToView { view -> view.onNotifyAdapter(repos) }
+                }) {
+                    sendToView { view -> view.onNotifyAdapter(null) }
+                })
     }
 
     override fun onItemClick(position: Int, v: View?, item: PullRequest) {
-        launchUri(v!!.context, if (!isEmpty(item.htmlUrl)) item.htmlUrl else item.url)
+        launchUri(v!!.context, if (!isEmpty(item.htmlUrl)) item.htmlUrl!! else item.url!!)
     }
 
     override fun onItemLongClick(position: Int, v: View?, item: PullRequest) {

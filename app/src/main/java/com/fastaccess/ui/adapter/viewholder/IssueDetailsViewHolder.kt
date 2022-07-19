@@ -11,9 +11,9 @@ import com.fastaccess.R
 import com.fastaccess.data.dao.LabelModel
 import com.fastaccess.data.dao.ReactionsModel
 import com.fastaccess.data.dao.TimelineModel
-import com.fastaccess.data.dao.model.Issue
-import com.fastaccess.data.dao.model.PullRequest
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.Issue
+import com.fastaccess.data.entity.PullRequest
+import com.fastaccess.data.entity.User
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.ParseDateFormat.Companion.getTimeAgo
 import com.fastaccess.helper.ViewHelper.dpToPx
@@ -154,15 +154,23 @@ class IssueDetailsViewHolder private constructor(
     }
 
     private fun bind(issueModel: Issue) {
-        setup(issueModel.user, issueModel.bodyHtml, issueModel.reactions)
-        setupDate(issueModel.createdAt, issueModel.updatedAt)
-        setupLabels(issueModel.labels.filterNotNull())
+        setup(
+            issueModel.user!!,
+            if (issueModel.bodyHtml != null) issueModel.bodyHtml!! else "",
+            issueModel.reactions
+        )
+        setupDate(issueModel.createdAt!!, issueModel.updatedAt!!)
+        setupLabels(issueModel.labels!!.filterNotNull())
     }
 
     private fun bind(pullRequest: PullRequest) {
-        setup(pullRequest.user, pullRequest.bodyHtml, pullRequest.reactions)
-        setupDate(pullRequest.createdAt, pullRequest.updatedAt)
-        setupLabels(pullRequest.labels.filterNotNull())
+        setup(
+            pullRequest.user!!,
+            if (pullRequest.bodyHtml != null) pullRequest.bodyHtml!! else "",
+            pullRequest.reactions
+        )
+        setupDate(pullRequest.createdAt!!, pullRequest.updatedAt!!)
+        setupLabels(pullRequest.labels!!.filterNotNull())
     }
 
     private fun setup(user: User, description: String, reactionsModel: ReactionsModel?) {

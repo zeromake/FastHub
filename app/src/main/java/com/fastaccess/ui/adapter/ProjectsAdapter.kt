@@ -1,10 +1,10 @@
 package com.fastaccess.ui.adapter
 
 import android.view.ViewGroup
+import com.fastaccess.github.RepoProjectsOpenQuery
 import com.fastaccess.ui.adapter.viewholder.ProjectViewHolder
 import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
 import com.fastaccess.ui.base.adapter.BaseViewHolder
-import com.fastaccess.github.RepoProjectsOpenQuery
 
 /**
  * Created by kosh on 09/09/2017.

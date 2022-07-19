@@ -1,10 +1,10 @@
 package com.fastaccess.ui.adapter.viewholder
 
 import android.view.View
+import com.fastaccess.R
 import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
 import com.fastaccess.ui.base.adapter.BaseViewHolder
 import com.fastaccess.ui.widgets.FontTextView
-import com.fastaccess.R
 
 /**
  * Created by Kosh on 31 Dec 2016, 3:12 PM

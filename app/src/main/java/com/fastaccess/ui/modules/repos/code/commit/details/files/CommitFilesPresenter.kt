@@ -9,7 +9,6 @@ import com.fastaccess.data.dao.CommentRequestModel
 import com.fastaccess.data.dao.CommitFileChanges
 import com.fastaccess.data.dao.CommitLinesModel
 import com.fastaccess.data.dao.NameParser
-import com.fastaccess.helper.ActivityHelper.checkAndRequestReadWritePermission
 import com.fastaccess.helper.ActivityHelper.getActivity
 import com.fastaccess.helper.ActivityHelper.shareUrl
 import com.fastaccess.helper.AppHelper.copyToClipboard

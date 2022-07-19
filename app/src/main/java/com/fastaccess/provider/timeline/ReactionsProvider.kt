@@ -10,8 +10,6 @@ import com.fastaccess.helper.RxHelper
 import com.fastaccess.provider.rest.RestProvider
 import io.reactivex.Observable
 import retrofit2.Response
-import kotlin.collections.LinkedHashMap
-import kotlin.collections.MutableMap
 import kotlin.collections.set
 
 /**

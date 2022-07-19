@@ -6,7 +6,8 @@ import com.fastaccess.BuildConfig
 import com.fastaccess.R
 import com.fastaccess.data.dao.AccessTokenModel
 import com.fastaccess.data.dao.AuthModel
-import com.fastaccess.data.dao.model.Login
+import com.fastaccess.data.entity.Login
+import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.helper.GithubConfigHelper.clientId
 import com.fastaccess.helper.GithubConfigHelper.redirectUrl
 import com.fastaccess.helper.GithubConfigHelper.secret
@@ -86,7 +87,7 @@ class LoginPresenter internal constructor() : BasePresenter<LoginMvp.View>(), Lo
             .appendPath("authorize")
             .appendQueryParameter("client_id", clientId)
             .appendQueryParameter("redirect_uri", redirectUrl)
-            .appendQueryParameter("scope", "user,repo,gist,notifications,read:org")
+            .appendQueryParameter("scope", "user,repo,gist,notifications,read:org,workflow,read:packages")
             .appendQueryParameter("state", BuildConfig.GITHUB_APP_ID)
             .build()
 
@@ -117,14 +118,17 @@ class LoginPresenter internal constructor() : BasePresenter<LoginMvp.View>(), Lo
 
     override fun onUserResponse(response: Login?) {
         if (response != null) {
-            manageObservable(Login.onMultipleLogin(response, isEnterprise, true)
-                .doOnComplete {
-                    sendToView { view ->
-                        view.onSuccessfullyLoggedIn(
-                            isEnterprise
-                        )
-                    }
-                })
+            manageObservable(
+                LoginDao
+                    .onMultipleLogin(response, isEnterprise, true)
+                    .toObservable()
+                    .doOnComplete {
+                        sendToView { view ->
+                            view.onSuccessfullyLoggedIn(
+                                isEnterprise
+                            )
+                        }
+                    })
             return
         }
         sendToView { view: LoginMvp.View ->

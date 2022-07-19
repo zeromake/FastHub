@@ -1,17 +1,14 @@
 package com.fastaccess.helper
 
 import android.content.Context
+import android.media.RingtoneManager
+import android.net.Uri
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import com.fastaccess.R
-import android.media.RingtoneManager
-import android.net.Uri
-import android.os.Environment
 import com.fastaccess.data.dao.NotificationSoundModel
 import com.fastaccess.provider.crash.Report
 import java.io.File
-import java.lang.Exception
-import java.util.ArrayList
 
 /**
  * Created by kosh20111 on 10/7/2015. CopyRights @

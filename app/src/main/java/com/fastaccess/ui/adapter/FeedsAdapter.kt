@@ -1,11 +1,10 @@
 package com.fastaccess.ui.adapter
 
-import kotlin.jvm.JvmOverloads
-import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
-import com.fastaccess.ui.adapter.viewholder.FeedsViewHolder
-import com.fastaccess.ui.base.adapter.BaseViewHolder
 import android.view.ViewGroup
-import com.fastaccess.data.dao.model.Event
+import com.fastaccess.data.entity.Event
+import com.fastaccess.ui.adapter.viewholder.FeedsViewHolder
+import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 
 /**
  * Created by Kosh on 11 Nov 2016, 2:07 PM

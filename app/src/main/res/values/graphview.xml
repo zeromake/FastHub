@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="GraphView">
+        <attr name="graphTextColor" format="color" />
+        <attr name="graphColor" format="color" />
+        <attr name="graphLineColor" format="color" />
+        <attr name="graphLineThickness" format="dimension" />
+        <attr name="graphCommitTextSize" format="dimension" />
+        <attr name="graphTimelineTextSize" format="dimension" />
+    </declare-styleable>
+</resources>

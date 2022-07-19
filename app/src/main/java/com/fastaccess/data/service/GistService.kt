@@ -1,10 +1,10 @@
 package com.fastaccess.data.service
 
-import com.fastaccess.data.dao.CreateGistModel
 import com.fastaccess.data.dao.CommentRequestModel
+import com.fastaccess.data.dao.CreateGistModel
 import com.fastaccess.data.dao.Pageable
-import com.fastaccess.data.dao.model.Comment
-import com.fastaccess.data.dao.model.Gist
+import com.fastaccess.data.entity.Comment
+import com.fastaccess.data.entity.Gist
 import io.reactivex.Observable
 import retrofit2.Response
 import retrofit2.http.*

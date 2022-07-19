@@ -1,22 +1,19 @@
 package com.fastaccess.ui.modules.repos.issues.issue.details.timeline
 
-import com.fastaccess.ui.base.mvp.BaseMvp.FAView
+import android.os.Bundle
+import androidx.annotation.IdRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
+import com.fastaccess.data.dao.TimelineModel
+import com.fastaccess.data.dao.types.ReactionTypes
+import com.fastaccess.data.entity.Comment
+import com.fastaccess.data.entity.Issue
+import com.fastaccess.data.entity.User
+import com.fastaccess.provider.rest.loadmore.OnLoadMore
+import com.fastaccess.provider.timeline.ReactionsProvider.ReactionType
 import com.fastaccess.ui.adapter.callback.OnToggleView
 import com.fastaccess.ui.adapter.callback.ReactionsCallback
-import com.fastaccess.data.dao.TimelineModel
-import com.fastaccess.provider.rest.loadmore.OnLoadMore
-import com.fastaccess.data.dao.types.ReactionTypes
-import android.os.Bundle
-import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
-import com.fastaccess.ui.base.mvp.BaseMvp.PaginationListener
-import androidx.annotation.IdRes
-import com.fastaccess.data.dao.model.Comment
-import com.fastaccess.data.dao.model.Issue
-import com.fastaccess.data.dao.model.User
-import com.fastaccess.provider.timeline.ReactionsProvider.ReactionType
 import com.fastaccess.ui.base.adapter.BaseViewHolder
-import java.util.ArrayList
+import com.fastaccess.ui.base.mvp.BaseMvp.*
 
 /**
  * Created by Kosh on 31 Mar 2017, 7:15 PM

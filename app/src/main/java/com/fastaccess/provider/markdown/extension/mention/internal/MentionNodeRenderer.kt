@@ -1,10 +1,10 @@
 package com.fastaccess.provider.markdown.extension.mention.internal
 
-import org.commonmark.renderer.html.HtmlNodeRendererContext
-import org.commonmark.renderer.NodeRenderer
-import org.commonmark.renderer.html.HtmlWriter
 import com.fastaccess.provider.markdown.extension.mention.Mention
 import org.commonmark.node.Node
+import org.commonmark.renderer.NodeRenderer
+import org.commonmark.renderer.html.HtmlNodeRendererContext
+import org.commonmark.renderer.html.HtmlWriter
 
 class MentionNodeRenderer(private val context: HtmlNodeRendererContext) : NodeRenderer {
     private val html: HtmlWriter = context.writer

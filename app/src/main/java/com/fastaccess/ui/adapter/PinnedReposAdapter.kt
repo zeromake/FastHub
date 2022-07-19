@@ -1,7 +1,7 @@
 package com.fastaccess.ui.adapter
 
 import android.view.ViewGroup
-import com.fastaccess.data.dao.model.PinnedRepos
+import com.fastaccess.data.entity.PinnedRepos
 import com.fastaccess.ui.adapter.viewholder.PinnedReposViewHolder
 import com.fastaccess.ui.adapter.viewholder.PinnedReposViewHolder.Companion.newInstance
 import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter

@@ -1,9 +1,9 @@
 package com.fastaccess.ui.modules.search.repos.files
 
-import com.fastaccess.ui.base.mvp.BaseMvp.FAView
-import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
-import com.fastaccess.ui.widgets.FontEditText
 import android.os.Bundle
+import com.fastaccess.ui.base.mvp.BaseMvp.FAPresenter
+import com.fastaccess.ui.base.mvp.BaseMvp.FAView
+import com.fastaccess.ui.widgets.FontEditText
 
 interface SearchFileMvp {
     interface View : FAView {

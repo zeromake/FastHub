@@ -8,8 +8,8 @@ import androidx.annotation.StringRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.evernote.android.state.State
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.Issue
 import com.fastaccess.data.dao.types.IssueState
+import com.fastaccess.data.entity.Issue
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.provider.rest.loadmore.OnLoadMore
 import com.fastaccess.provider.scheme.SchemeParser.launchUri
@@ -129,7 +129,7 @@ class FilterIssueFragment : BaseFragment<FilterIssuesMvp.View, FilterIssuePresen
     }
 
     override fun onItemClicked(item: Issue) {
-        launchUri(requireContext(), item.htmlUrl)
+        launchUri(requireContext(), item.htmlUrl!!)
     }
 
     override fun fragmentLayout(): Int {

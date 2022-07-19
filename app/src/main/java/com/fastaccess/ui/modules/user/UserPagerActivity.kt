@@ -14,7 +14,7 @@ import com.fastaccess.R
 import com.fastaccess.data.dao.FragmentPagerAdapterModel.Companion.buildForOrg
 import com.fastaccess.data.dao.FragmentPagerAdapterModel.Companion.buildForProfile
 import com.fastaccess.data.dao.TabsCountStateModel
-import com.fastaccess.data.dao.model.Login
+import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.helper.*
 import com.fastaccess.provider.scheme.LinkParserHelper
 import com.fastaccess.ui.adapter.FragmentsPagerAdapter
@@ -76,7 +76,7 @@ class UserPagerActivity : BaseActivity<UserPagerMvp.View, UserPagerPresenter>(),
             this.onRepoFilterClicked()
         }
 
-        val currentUser = Login.getUser()
+        val currentUser = LoginDao.getUser().blockingGet().get()
         if (currentUser == null) {
             onRequireLogin()
             return
@@ -90,7 +90,7 @@ class UserPagerActivity : BaseActivity<UserPagerMvp.View, UserPagerPresenter>(),
                     if (isOrg) {
                         presenter!!.checkOrgMembership(login!!)
                     } else {
-                        if (!Login.getUser().login.equals(
+                        if (!currentUser.login.equals(
                                 login,
                                 ignoreCase = true
                             )
@@ -100,7 +100,7 @@ class UserPagerActivity : BaseActivity<UserPagerMvp.View, UserPagerPresenter>(),
                     }
                 }
             } else {
-                val user = Login.getUser()
+                val user = LoginDao.getUser().blockingGet().get()
                 if (user == null) {
                     onRequireLogin()
                     return
@@ -165,11 +165,11 @@ class UserPagerActivity : BaseActivity<UserPagerMvp.View, UserPagerPresenter>(),
     }
 
     override fun onNavigateToFollowers() {
-        pager.currentItem = 5
+        pager.currentItem = 7
     }
 
     override fun onNavigateToFollowing() {
-        pager.currentItem = 6
+        pager.currentItem = 8
     }
 
     override fun onInitOrg(isMember: Boolean) {
@@ -244,7 +244,7 @@ class UserPagerActivity : BaseActivity<UserPagerMvp.View, UserPagerPresenter>(),
             fragment.onRepoFilterClicked()
         } else {
             val fragment = pager.adapter!!
-                .instantiateItem(pager, 2) as ProfileReposFragment
+                .instantiateItem(pager, 3) as ProfileReposFragment
             fragment.onRepoFilterClicked()
         }
     }
@@ -272,7 +272,7 @@ class UserPagerActivity : BaseActivity<UserPagerMvp.View, UserPagerPresenter>(),
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         Logger.e(presenter!!.isUserBlockedRequested, presenter!!.isUserBlocked)
         if (presenter!!.isUserBlockedRequested) {
-            val login = Login.getUser()
+            val login = LoginDao.getUser().blockingGet().get()
             if (login != null && !isOrg) {
                 val username = login.login
                 if (!username.equals(this.login, ignoreCase = true)) {
@@ -305,7 +305,7 @@ class UserPagerActivity : BaseActivity<UserPagerMvp.View, UserPagerPresenter>(),
                 }
             }
         } else {
-            if (position == 2) {
+            if (position == 3) {
                 fab.show()
             } else {
                 fab.hide()

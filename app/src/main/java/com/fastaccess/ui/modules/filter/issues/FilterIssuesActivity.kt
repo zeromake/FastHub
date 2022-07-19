@@ -19,7 +19,7 @@ import com.fastaccess.App
 import com.fastaccess.R
 import com.fastaccess.data.dao.LabelModel
 import com.fastaccess.data.dao.MilestoneModel
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.User
 import com.fastaccess.helper.*
 import com.fastaccess.helper.AnimHelper.animateVisibility
 import com.fastaccess.helper.AnimHelper.revealPopupWindow

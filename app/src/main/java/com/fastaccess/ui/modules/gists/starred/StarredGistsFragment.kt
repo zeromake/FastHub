@@ -7,7 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.Gist
+import com.fastaccess.data.entity.Gist
 import com.fastaccess.helper.ActivityHelper
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.provider.rest.loadmore.OnLoadMore

@@ -6,8 +6,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.Login
-import com.fastaccess.data.dao.model.Notification
+import com.fastaccess.data.entity.dao.LoginDao
+import com.fastaccess.data.entity.dao.NotificationDao
 import com.fastaccess.helper.ActivityHelper
 import com.fastaccess.helper.AppHelper
 import com.fastaccess.helper.ParseDateFormat.Companion.lastWeekDate
@@ -21,7 +21,6 @@ import com.fastaccess.ui.modules.feeds.FeedsFragment.Companion.newInstance
 import com.fastaccess.ui.modules.main.MainMvp.NavigationType
 import com.fastaccess.ui.modules.main.issues.pager.MyIssuesPagerFragment
 import com.fastaccess.ui.modules.main.pullrequests.pager.MyPullsPagerFragment
-import io.reactivex.Single
 
 /**
  * Created by Kosh on 09 Nov 2016, 7:53 PM
@@ -105,16 +104,16 @@ class MainPresenter internal constructor() : BasePresenter<MainMvp.View>(), Main
     init {
         isEnterprise = PrefGetter.isEnterprise
         manageDisposable(RxHelper.getObservable(getUserService(isEnterprise).user)
-            .flatMap { login: Login ->
-                val current = Login.getUser()
+            .flatMap { login ->
+                val current = LoginDao.getUser().blockingGet().or()
                 current.login = login.login
                 current.name = login.name
                 current.avatarUrl = login.avatarUrl
                 current.email = login.email
                 current.bio = login.bio
                 current.blog = login.blog
-                current.company = current.company
-                login.update(current)
+                current.company = login.company
+                LoginDao.update(current).toObservable()
             }
             .flatMap {
                 RxHelper.getObservable(
@@ -123,12 +122,11 @@ class MainPresenter internal constructor() : BasePresenter<MainMvp.View>(), Main
                 )
             }
             .flatMapSingle { notificationPageable ->
-                if (notificationPageable.items != null && notificationPageable.items!!.isNotEmpty()) {
-                    return@flatMapSingle Notification.saveAsSingle(notificationPageable.items)
+                return@flatMapSingle if (notificationPageable.items != null && notificationPageable.items!!.isNotEmpty()) {
+                    NotificationDao.saveAsSingle(notificationPageable.items!!)
                 } else {
-                    Notification.deleteAll()
+                    NotificationDao.deleteAll()
                 }
-                Single.just(true)
             }
             .subscribe({ }, { obj: Throwable -> obj.printStackTrace() }) {
                 sendToView { view: MainMvp.View ->

@@ -2,7 +2,8 @@ package com.fastaccess.ui.modules.profile.gists
 
 import android.view.View
 import com.fastaccess.data.dao.Pageable
-import com.fastaccess.data.dao.model.Gist
+import com.fastaccess.data.entity.Gist
+import com.fastaccess.data.entity.dao.GistDao
 import com.fastaccess.helper.RxHelper.getObservable
 import com.fastaccess.provider.rest.RestProvider.getGistService
 import com.fastaccess.provider.scheme.SchemeParser.launchUri
@@ -48,7 +49,7 @@ class ProfileGistsPresenter : BasePresenter<ProfileGistsMvp.View>(),
                     page
                 )
             }
-            manageDisposable(Gist.save(listResponse.items!!, parameter))
+            manageObservable(GistDao.save(listResponse.items!!, parameter).toObservable())
         }
         return true
     }
@@ -57,7 +58,7 @@ class ProfileGistsPresenter : BasePresenter<ProfileGistsMvp.View>(),
         if (gists.isEmpty()) {
             manageDisposable(
                 getObservable(
-                    Gist.getMyGists(login).toObservable()
+                    GistDao.getMyGists(login).toObservable()
                 ).subscribe { gistsModels1 ->
                     sendToView { view ->
                         view.onNotifyAdapter(
@@ -72,7 +73,7 @@ class ProfileGistsPresenter : BasePresenter<ProfileGistsMvp.View>(),
     }
 
     override fun onItemClick(position: Int, v: View?, item: Gist) {
-        launchUri(v!!.context, item.htmlUrl)
+        launchUri(v!!.context, item.htmlUrl!!)
     }
 
     override fun onItemLongClick(position: Int, v: View?, item: Gist) {}

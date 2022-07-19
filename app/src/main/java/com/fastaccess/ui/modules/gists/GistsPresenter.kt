@@ -1,15 +1,13 @@
 package com.fastaccess.ui.modules.gists
 
 import android.view.View
-import com.fastaccess.data.dao.Pageable
-import com.fastaccess.data.dao.model.Gist
+import com.fastaccess.data.entity.Gist
+import com.fastaccess.data.entity.dao.GistDao
 import com.fastaccess.helper.RxHelper
 import com.fastaccess.provider.rest.RestProvider
 import com.fastaccess.provider.rest.RestProvider.getGistService
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 import com.fastaccess.ui.modules.gists.gist.GistActivity.Companion.createIntent
-import io.reactivex.functions.Consumer
-import net.grandcentrix.thirtyinch.ViewAction
 
 /**
  * Created by Kosh on 11 Nov 2016, 12:36 PM
@@ -34,6 +32,7 @@ class GistsPresenter : BasePresenter<GistsMvp.View>(), GistsMvp.Presenter {
             sendToView { it.hideProgress() }
             return false
         }
+        currentPage = page
         makeRestCall(getGistService(isEnterprise).getPublicGists(RestProvider.PAGE_SIZE, page)
         ) { listResponse ->
             lastPage = listResponse.last
@@ -49,7 +48,7 @@ class GistsPresenter : BasePresenter<GistsMvp.View>(), GistsMvp.Presenter {
 
     override fun onWorkOffline() {
         if (gists.isEmpty()) {
-            manageDisposable(RxHelper.getObservable(Gist.getGists().toObservable())
+            manageDisposable(RxHelper.getObservable(GistDao.getGists().toObservable())
                 .subscribe { gists ->
                     sendToView { view: GistsMvp.View -> view.onNotifyAdapter(gists, 1) }
                 })
@@ -59,7 +58,7 @@ class GistsPresenter : BasePresenter<GistsMvp.View>(), GistsMvp.Presenter {
     }
 
     override fun onItemClick(position: Int, v: View?, item: Gist) {
-        v!!.context.startActivity(createIntent(v.context, item.gistId, isEnterprise))
+        v!!.context.startActivity(createIntent(v.context, item.gistId!!, isEnterprise))
     }
 
     override fun onItemLongClick(position: Int, v: View?, item: Gist) {}

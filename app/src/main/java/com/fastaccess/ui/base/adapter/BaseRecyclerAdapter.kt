@@ -17,15 +17,6 @@ import kotlin.math.abs
  */
 abstract class BaseRecyclerAdapter<M, VH : BaseViewHolder<M>, P : BaseViewHolder.OnItemClickListener<M>> :
     RecyclerView.Adapter<VH> {
-//    constructor(list: List<M>) {
-//        this.data.addAll(list)
-//    }
-//
-//    constructor(list: List<M>, listener: P?) {
-//        this.data.addAll(list)
-//        this.listener = listener
-//    }
-
 
     @Suppress("UNCHECKED_CAST")
     constructor(list: List<M>) {

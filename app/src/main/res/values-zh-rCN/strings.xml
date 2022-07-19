@@ -486,10 +486,7 @@ CaptainTF @ Github 提议：
         <p>若您无法编辑 Public Organization\'s repository 的 Issues/PRs, 请联系您的 Organization 为 FastHub 授予权限. 或者您可以使用 Access Token 登录.</p>
 
         <h5>• 我有一些问题! / 我想向您提议!</h5>
-        <p>前往 https://github.com/k0shk0sh/FastHub/issues/new 为 Bug 和新功能请求创建 Issue. 但我希望您能在这之前查询一下类似的 Issue, 然后再打开一个新的. 任何重复的 Ticket 就将会标记为重复并被立即关闭.</p>
-
-        <h5>• 我怎么才能获取到促销码?</h5>
-        <p>此计划已被取消.</p>
+        <p>前往 https://github.com/LightDestory/FastHub-RE/issues/new 为 Bug 和新功能请求创建 Issue. 但我希望您能在这之前查询一下类似的 Issue, 然后再打开一个新的. 任何重复的 Ticket 就将会标记为重复并被立即关闭.</p>
     ]]></string>
     <string name="comments_added_successfully">成功添加评论</string>
     <string name="clear_search_keywords">清除搜索历史</string>

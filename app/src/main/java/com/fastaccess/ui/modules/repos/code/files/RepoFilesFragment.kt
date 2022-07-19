@@ -12,9 +12,10 @@ import androidx.annotation.StringRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fastaccess.R
 import com.fastaccess.data.dao.EditRepoFileModel
-import com.fastaccess.data.dao.model.Login
-import com.fastaccess.data.dao.model.RepoFile
 import com.fastaccess.data.dao.types.FilesType
+import com.fastaccess.data.entity.Login
+import com.fastaccess.data.entity.RepoFile
+import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.helper.ActivityHelper.shareUrl
 import com.fastaccess.helper.AppHelper.copyToClipboard
 import com.fastaccess.helper.BundleConstant
@@ -29,7 +30,6 @@ import com.fastaccess.provider.rest.RestProvider.downloadFile
 import com.fastaccess.ui.adapter.RepoFilesAdapter
 import com.fastaccess.ui.base.BaseFragment
 import com.fastaccess.ui.delegate.viewFind
-import com.fastaccess.ui.modules.code.CodeViewerActivity
 import com.fastaccess.ui.modules.code.CodeViewerActivity.Companion.startActivity
 import com.fastaccess.ui.modules.main.premium.PremiumActivity.Companion.startActivity
 import com.fastaccess.ui.modules.repos.RepoPagerMvp
@@ -79,9 +79,9 @@ class RepoFilesFragment : BaseFragment<RepoFilesMvp.View, RepoFilesPresenter>(),
 
     override fun onNotifyFile(f: RepoFile) {
         hideProgress()
-        val url = if (isEmpty(f.downloadUrl)) f.url else f.downloadUrl
+        val url = if (isEmpty(f.downloadUrl)) f.url!! else f.downloadUrl!!
         if (isEmpty(url)) return
-        startActivity(requireContext(), url, f.htmlUrl)
+        startActivity(requireContext(), url, f.htmlUrl!!)
     }
 
     override fun onItemClicked(model: RepoFile) {
@@ -92,9 +92,9 @@ class RepoFilesFragment : BaseFragment<RepoFilesMvp.View, RepoFilesPresenter>(),
             }
         } else {
             if (model.size == 0L && isEmpty(model.downloadUrl) && !isEmpty(model.gitUrl)) {
-                startActivity(requireContext(), model.gitUrl.replace("trees/", ""), isEnterprise)
+                startActivity(requireContext(), model.gitUrl!!.replace("trees/", ""), isEnterprise)
             } else {
-                val url = if (isEmpty(model.downloadUrl)) model.url else model.downloadUrl
+                val url = if (isEmpty(model.downloadUrl)) model.url!! else model.downloadUrl!!
                 if (isEmpty(url)) return
                 if (model.size > FileHelper.ONE_MB && !isImage(url)) {
                     newInstance(
@@ -106,7 +106,7 @@ class RepoFilesFragment : BaseFragment<RepoFilesMvp.View, RepoFilesPresenter>(),
                     )
                         .show(childFragmentManager, "MessageDialogView")
                 } else {
-                    startActivity(requireContext(), url, model.htmlUrl)
+                    startActivity(requireContext(), url, model.htmlUrl!!)
                 }
             }
         }
@@ -114,7 +114,7 @@ class RepoFilesFragment : BaseFragment<RepoFilesMvp.View, RepoFilesPresenter>(),
 
     override fun onMenuClicked(position: Int, model: RepoFile, v: View?) {
         if (login == null) {
-            login = Login.getUser()
+            login = LoginDao.getUser().blockingGet().get()
         }
         if (refresh!!.isRefreshing) return
         val isOwner =
@@ -130,12 +130,12 @@ class RepoFilesFragment : BaseFragment<RepoFilesMvp.View, RepoFilesPresenter>(),
         popup.setOnMenuItemClickListener { item1: MenuItem ->
             when (item1.itemId) {
                 R.id.share -> shareUrl(
-                    v!!.context, model.htmlUrl
+                    v!!.context, model.htmlUrl!!
                 )
-                R.id.download -> downloadFile(requireContext(), model.downloadUrl)
+                R.id.download -> downloadFile(requireContext(), model.downloadUrl!!)
                 R.id.copy -> copyToClipboard(
                     v!!.context,
-                    if (!isEmpty(model.htmlUrl)) model.htmlUrl else model.url
+                    if (!isEmpty(model.htmlUrl)) model.htmlUrl!! else model.url!!
                 )
                 R.id.editFile -> if (isProEnabled || isAllFeaturesUnlocked) {
                     if (canOpen) {
@@ -155,7 +155,7 @@ class RepoFilesFragment : BaseFragment<RepoFilesMvp.View, RepoFilesPresenter>(),
                     startActivity(requireContext())
                 }
                 R.id.deleteFile -> if (isProEnabled || isAllFeaturesUnlocked) {
-                    newInstance(position, model.name)
+                    newInstance(position, model.name!!)
                         .show(
                             childFragmentManager,
                             DeleteFileBottomSheetFragment::class.java.simpleName

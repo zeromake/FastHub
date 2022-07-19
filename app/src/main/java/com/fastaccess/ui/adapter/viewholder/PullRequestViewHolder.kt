@@ -3,7 +3,8 @@ package com.fastaccess.ui.adapter.viewholder
 import android.view.View
 import android.view.ViewGroup
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.PullRequest
+import com.fastaccess.data.entity.PullRequest
+import com.fastaccess.data.entity.dao.PullRequestDao
 import com.fastaccess.provider.scheme.LinkParserHelper.isEnterprise
 import com.fastaccess.ui.adapter.PullRequestAdapter
 import com.fastaccess.ui.base.adapter.BaseViewHolder
@@ -22,13 +23,13 @@ class PullRequestViewHolder private constructor(
     val title: FontTextView = itemView.findViewById(R.id.title)
     val avatarLayout: AvatarLayout? = itemView.findViewById(R.id.avatarLayout)
     val details: FontTextView = itemView.findViewById(R.id.details)
-    val commentsNo: FontTextView = itemView.findViewById(R.id.commentsNo)
+    private val commentsNo: FontTextView = itemView.findViewById(R.id.commentsNo)
     val by: String = itemView.context.resources.getString(R.string.by)
     override fun bind(t: PullRequest) {
         title.text = t.title
-        details.text = PullRequest.getMergeBy(
-            t,
+        details.text = PullRequestDao.getMergeBy(
             details.context,
+            t,
             showRepoName
         )
         if (t.comments > 0) {
@@ -39,7 +40,7 @@ class PullRequestViewHolder private constructor(
         }
         if (withAvatar && avatarLayout != null) {
             avatarLayout.setUrl(
-                t.user.avatarUrl, t.user.login,
+                t.user!!.avatarUrl, t.user!!.login,
                 false, isEnterprise(t.htmlUrl)
             )
             avatarLayout.visibility = View.VISIBLE

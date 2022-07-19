@@ -23,10 +23,10 @@ import java.io.InputStreamReader
  */
 object ColorsProvider {
     private val POPULAR_LANG = listOf(
-        "Java", "Kotlin",
-        "JavaScript", "Python",
-        "CSS", "PHP",
-        "Ruby", "C++", "C", "Go", "Swift"
+        "Python", "JavaScript", "Java", "TypeScript",
+        "Go", "C++", "Ruby", "PHP",
+        "C#", "C", "Kotlin", "Rust",
+        "Lua", "CSS", "Dart", "Swift"
     ) //predefined languages.
     private val colors: MutableMap<String, LanguageColorModel> = LinkedHashMap()
 

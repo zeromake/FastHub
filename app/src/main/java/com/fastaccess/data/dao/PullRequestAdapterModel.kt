@@ -1,10 +1,9 @@
 package com.fastaccess.data.dao
 
-import android.os.Parcelable
-import com.fastaccess.data.dao.model.IssueEvent
 import android.os.Parcel
-import com.fastaccess.data.dao.model.PullRequest
-import java.util.ArrayList
+import android.os.Parcelable
+import com.fastaccess.data.entity.IssueEvent
+import com.fastaccess.data.entity.PullRequest
 
 /**
  * Created by Kosh on 10 Dec 2016, 3:34 PM

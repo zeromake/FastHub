@@ -1,14 +1,13 @@
 package com.fastaccess.provider.timeline.handler
 
 import android.graphics.*
-import net.nightwhistler.htmlspanner.TagNodeHandler
-import org.htmlcleaner.TagNode
-import android.text.style.ImageSpan
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.text.*
 import android.text.style.AlignmentSpan
-import java.util.ArrayList
+import android.text.style.ImageSpan
+import net.nightwhistler.htmlspanner.TagNodeHandler
+import org.htmlcleaner.TagNode
 
 /**
  * Handles simple HTML tables.

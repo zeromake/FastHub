@@ -2,7 +2,6 @@ package com.fastaccess.ui.modules.profile.org
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,7 @@ import androidx.annotation.StringRes
 import androidx.transition.TransitionManager
 import com.evernote.android.state.State
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.User
+import com.fastaccess.data.entity.User
 import com.fastaccess.helper.ActivityHelper.startCustomTab
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler.Companion.start
@@ -45,7 +44,7 @@ class OrgProfileOverviewFragment :
     var userModel: User? = null
 
     private fun onOpenAvatar() {
-        if (userModel != null) startCustomTab(requireActivity(), userModel!!.avatarUrl)
+        if (userModel != null) startCustomTab(requireActivity(), userModel!!.avatarUrl!!)
     }
 
     private fun onOpenProjects() {
@@ -63,7 +62,7 @@ class OrgProfileOverviewFragment :
         this.userModel = userModel
         username!!.text = if (isEmpty(userModel.name)) userModel.login else userModel.name
         if (userModel.description != null) {
-            description!!.text = parseToUnicode(userModel.description)
+            description!!.text = parseToUnicode(userModel.description!!)
             description!!.visibility = View.VISIBLE
         } else {
             description!!.visibility = View.GONE
@@ -72,7 +71,7 @@ class OrgProfileOverviewFragment :
         avatarLayout!!.findViewById<View>(R.id.avatar)
             .setOnTouchListener { _, event ->
                 if (event.action == MotionEvent.ACTION_UP) {
-                    startCustomTab(requireActivity(), userModel.avatarUrl)
+                    startCustomTab(requireActivity(), userModel.avatarUrl!!)
                     return@setOnTouchListener true
                 }
                 false
@@ -93,7 +92,7 @@ class OrgProfileOverviewFragment :
             joined!!.visibility = View.VISIBLE
             joined!!.text = getTimeAgo(userModel.createdAt)
         }
-        projects!!.visibility = if (userModel.isHasOrganizationProjects) View.VISIBLE else View.GONE
+        projects!!.visibility = if (userModel.hasOrganizationProjects) View.VISIBLE else View.GONE
     }
 
     override fun fragmentLayout(): Int {

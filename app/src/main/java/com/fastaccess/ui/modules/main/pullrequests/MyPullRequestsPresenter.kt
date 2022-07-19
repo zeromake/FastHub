@@ -1,10 +1,10 @@
 package com.fastaccess.ui.modules.main.pullrequests
 
 import android.view.View
-import com.fastaccess.data.dao.model.Login
-import com.fastaccess.data.dao.model.PullRequest
 import com.fastaccess.data.dao.types.IssueState
 import com.fastaccess.data.dao.types.MyIssuesType
+import com.fastaccess.data.entity.PullRequest
+import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.helper.PrefGetter
 import com.fastaccess.provider.rest.RepoQueryProvider
 import com.fastaccess.provider.rest.RestProvider.getPullRequestService
@@ -24,9 +24,9 @@ class MyPullRequestsPresenter internal constructor() : BasePresenter<MyPullReque
     @JvmField
     @com.evernote.android.state.State
     var issuesType: MyIssuesType? = null
-    private val login = Login.getUser().login
+    private val login = LoginDao.getUser().blockingGet().or().login!!
     override fun onItemClick(position: Int, v: View?, item: PullRequest) {
-        launchUri(v!!.context, item.htmlUrl)
+        launchUri(v!!.context, item.htmlUrl!!)
     }
 
     override fun onItemLongClick(position: Int, v: View?, item: PullRequest) {
@@ -49,6 +49,7 @@ class MyPullRequestsPresenter internal constructor() : BasePresenter<MyPullReque
             sendToView { it.hideProgress() }
             return false
         }
+        currentPage = page
         makeRestCall(
             getPullRequestService(isEnterprise).getPullsWithCount(getUrl(parameter), page)
         ) { response ->

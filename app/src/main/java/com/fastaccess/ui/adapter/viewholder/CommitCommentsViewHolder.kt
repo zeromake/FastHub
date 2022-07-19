@@ -1,13 +1,14 @@
 package com.fastaccess.ui.adapter.viewholder
 
-import androidx.transition.ChangeBounds
-import androidx.transition.TransitionManager
+import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.TextView
+import androidx.transition.ChangeBounds
+import androidx.transition.TransitionManager
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.Comment
+import com.fastaccess.data.entity.Comment
 import com.fastaccess.helper.InputHelper
 import com.fastaccess.helper.ParseDateFormat
 import com.fastaccess.helper.ViewHelper
@@ -16,11 +17,10 @@ import com.fastaccess.provider.scheme.LinkParserHelper
 import com.fastaccess.provider.timeline.handler.drawable.DrawableGetter
 import com.fastaccess.ui.adapter.CommitCommentsAdapter
 import com.fastaccess.ui.adapter.callback.OnToggleView
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 import com.fastaccess.ui.widgets.AvatarLayout
 import com.fastaccess.ui.widgets.FontTextView
 import com.fastaccess.ui.widgets.ForegroundImageView
-import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
-import com.fastaccess.ui.base.adapter.BaseViewHolder
 import java.util.*
 
 /**
@@ -71,6 +71,7 @@ class CommitCommentsViewHolder private constructor(
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun bind(t: Comment) {
         val author3 = t.user
         if (author3 != null) {
@@ -82,7 +83,7 @@ class CommitCommentsViewHolder private constructor(
             )
             name.text = author3.login
         } else {
-            avatar.setUrl(null, null, false, false)
+            avatar.setUrl(null, null, isOrg = false, isEnterprise = false)
             name.text = ""
         }
         if (!InputHelper.isEmpty(t.body)) {
@@ -96,7 +97,7 @@ class CommitCommentsViewHolder private constructor(
             comment.text = ""
         }
         if (t.authorAssociation != null && !"none".equals(t.authorAssociation, ignoreCase = true)) {
-            owner.text = t.authorAssociation.lowercase(Locale.getDefault())
+            owner.text = t.authorAssociation!!.lowercase(Locale.getDefault())
             owner.visibility = View.VISIBLE
         } else {
             owner.visibility = View.GONE

@@ -1,6 +1,6 @@
-# Contributing to FastHub
+# Contributing to FastHub-RE
 
-**Updated: 19 Jan 2018**
+**Updated: 19 April 2022**
 
 ## Table of contents
 
@@ -24,22 +24,9 @@
 - Make sure you are running latest version (to check it out withing the FastHub head to About and tap on the section with application's version).
 - Make sure the included template is filled in (submitting an Issue within FastHub will do it automatically).
 
-## How to contribute. Importing and assembling
-
-If you have any questions, feel free to join our public [Slack](http://rebrand.ly/fasthub) channel.
-
-### Custom keys *(optional)*
-
-- Please update `debug_gradle.properties` file if you want to use your own keys:
-  - `github_client_id=` -- your GitHub clientId;
-  - `github_secret=` -- your GitHub secret;
-  - `redirect_url=` -- the url defined in `AndroidManifest` under `LoginView`.
-
 ### Before importation
 
-- Make sure you are running *Android Studio 3.0 C4* or above;
-- Import *Android Studio Settings* (to follow project's code style) from [this file](https://raw.githubusercontent.com/k0shk0sh/FastHub/master/fasthub_as_settings.jar);
-- Install *Lombok Plugin* from Android Studio Plugins and enable Annotations Processors in Android Studio Preferences.
+- Make sure you are running *Android Studio 2021* or above;
 
 ### Importing Android Studio project
 
@@ -83,7 +70,3 @@ If you have any questions, feel free to join our public [Slack](http://rebrand.l
 1. Once you finished translating, add new files to the Git index using `git add values-??/strings.xml` command and commit the changes using `git commit -m '<commit message>'`, where `<commit message>` is a short description of changes you made.
 1. Push your local changes into your forked repository by typing `git push origin <new branch>`.
 1. Finally, create a Pull Request from your Branch to our main Branch *development*.
-
-## Translations Contributors
-
-- *See [README.md](https://github.com/k0shk0sh/FastHub#language-contributors)*

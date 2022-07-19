@@ -9,11 +9,11 @@ import android.widget.PopupMenu
 import com.fastaccess.R
 import com.fastaccess.data.dao.*
 import com.fastaccess.data.dao.TimelineModel.Companion.constructComment
-import com.fastaccess.data.dao.model.Comment
-import com.fastaccess.data.dao.model.Login
-import com.fastaccess.data.dao.model.PullRequest
 import com.fastaccess.data.dao.types.IssueEventType
 import com.fastaccess.data.dao.types.ReactionTypes
+import com.fastaccess.data.entity.Comment
+import com.fastaccess.data.entity.PullRequest
+import com.fastaccess.data.entity.dao.LoginDao
 import com.fastaccess.helper.ActivityHelper
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.InputHelper.isEmpty
@@ -60,9 +60,14 @@ class PullRequestTimelinePresenter : BasePresenter<PullRequestTimelineMvp.View>(
                 if (v!!.id == R.id.commentMenu) {
                     val popupMenu = PopupMenu(v.context, v)
                     popupMenu.inflate(R.menu.comments_menu)
-                    val username = Login.getUser().login
-                    val isOwner = (isOwner(username, pullRequest.login, item.comment!!.user.login)
-                            || isCollaborator)
+                    val username = LoginDao.getUser().blockingGet().or().login
+                    val isOwner =
+                        (isOwner(
+                            username!!,
+                            pullRequest.login!!,
+                            item.comment!!.user!!.login!!
+                        )
+                                || isCollaborator)
                     popupMenu.menu.findItem(R.id.delete).isVisible = isOwner
                     popupMenu.menu.findItem(R.id.edit).isVisible = isOwner
                     popupMenu.setOnMenuItemClickListener { item1: MenuItem ->
@@ -78,7 +83,7 @@ class PullRequestTimelinePresenter : BasePresenter<PullRequestTimelineMvp.View>(
                                 view!!.onEditComment(item.comment!!)
                             }
                             R.id.share -> {
-                                ActivityHelper.shareUrl(v.context, item.comment!!.htmlUrl)
+                                ActivityHelper.shareUrl(v.context, item.comment!!.htmlUrl!!)
                             }
                         }
                         true
@@ -94,8 +99,8 @@ class PullRequestTimelinePresenter : BasePresenter<PullRequestTimelineMvp.View>(
                 } else if (issueEventModel.label != null) {
                     FilterIssuesActivity.startActivity(
                         v!!,
-                        pullRequest.login,
-                        pullRequest.repoId,
+                        pullRequest.login!!,
+                        pullRequest.repoId!!,
                         isIssue = false,
                         isOpen = true,
                         isEnterprise = isEnterprise,
@@ -104,8 +109,8 @@ class PullRequestTimelinePresenter : BasePresenter<PullRequestTimelineMvp.View>(
                 } else if (issueEventModel.milestone != null) {
                     FilterIssuesActivity.startActivity(
                         v!!,
-                        pullRequest.login,
-                        pullRequest.repoId,
+                        pullRequest.login!!,
+                        pullRequest.repoId!!,
                         isIssue = false,
                         isOpen = true,
                         isEnterprise = isEnterprise,
@@ -114,8 +119,8 @@ class PullRequestTimelinePresenter : BasePresenter<PullRequestTimelineMvp.View>(
                 } else if (issueEventModel.assignee != null) {
                     FilterIssuesActivity.startActivity(
                         v!!,
-                        pullRequest.login,
-                        pullRequest.repoId,
+                        pullRequest.login!!,
+                        pullRequest.repoId!!,
                         false,
                         isOpen = true,
                         isEnterprise = isEnterprise,
@@ -128,16 +133,16 @@ class PullRequestTimelinePresenter : BasePresenter<PullRequestTimelineMvp.View>(
                     if (sourceModel != null) {
                         when {
                             sourceModel.commit != null -> {
-                                launchUri(v!!.context, sourceModel.commit!!.url)
+                                launchUri(v!!.context, sourceModel.commit!!.url!!)
                             }
                             sourceModel.pullRequest != null -> {
-                                launchUri(v!!.context, sourceModel.pullRequest!!.url)
+                                launchUri(v!!.context, sourceModel.pullRequest!!.url!!)
                             }
                             sourceModel.issue != null -> {
-                                launchUri(v!!.context, sourceModel.issue!!.htmlUrl)
+                                launchUri(v!!.context, sourceModel.issue!!.htmlUrl!!)
                             }
                             sourceModel.repository != null -> {
-                                launchUri(v!!.context, sourceModel.repository!!.url)
+                                launchUri(v!!.context, sourceModel.repository!!.url!!)
                             }
                         }
                     }
@@ -146,10 +151,11 @@ class PullRequestTimelinePresenter : BasePresenter<PullRequestTimelineMvp.View>(
                 if (v!!.id == R.id.commentMenu) {
                     val popupMenu = PopupMenu(v.context, v)
                     popupMenu.inflate(R.menu.comments_menu)
-                    val username = Login.getUser().login
+                    val username = LoginDao.getUser().blockingGet().or().login
                     val isOwner = isOwner(
-                        username, item.pullRequest!!.login,
-                        item.pullRequest!!.user.login
+                        username!!,
+                        item.pullRequest!!.login!!,
+                        item.pullRequest!!.user!!.login!!
                     ) || isCollaborator
                     popupMenu.menu.findItem(R.id.edit).isVisible = isOwner
                     popupMenu.setOnMenuItemClickListener { item1: MenuItem ->
@@ -164,7 +170,10 @@ class PullRequestTimelinePresenter : BasePresenter<PullRequestTimelineMvp.View>(
                                 }
                             }
                             R.id.share -> {
-                                ActivityHelper.shareUrl(v.context, item.pullRequest!!.htmlUrl)
+                                ActivityHelper.shareUrl(
+                                    v.context,
+                                    item.pullRequest!!.htmlUrl!!
+                                )
                             }
                         }
                         true
@@ -208,16 +217,16 @@ class PullRequestTimelinePresenter : BasePresenter<PullRequestTimelineMvp.View>(
                         if (item.type == TimelineModel.HEADER) {
                             view!!.showReactionsPopup(
                                 type,
-                                login,
-                                repoId,
+                                login!!,
+                                repoId!!,
                                 item.pullRequest!!.number.toLong(),
                                 ReactionsProvider.HEADER
                             )
                         } else {
                             view!!.showReactionsPopup(
                                 type,
-                                login,
-                                repoId,
+                                login!!,
+                                repoId!!,
                                 item.comment!!.id,
                                 ReactionsProvider.COMMENT
                             )
@@ -250,8 +259,8 @@ class PullRequestTimelinePresenter : BasePresenter<PullRequestTimelineMvp.View>(
             if (commId != 0L && !isReviewComment) {
                 makeRestCall(
                     getIssueService(isEnterprise).deleteIssueComment(
-                        login,
-                        repoId,
+                        login!!,
+                        repoId!!,
                         commId
                     )
                 ) { booleanResponse ->
@@ -272,7 +281,7 @@ class PullRequestTimelinePresenter : BasePresenter<PullRequestTimelineMvp.View>(
                 val groupPosition = bundle.getInt(BundleConstant.EXTRA_TWO)
                 val commentPosition = bundle.getInt(BundleConstant.EXTRA_THREE)
                 makeRestCall(
-                    getReviewService(isEnterprise).deleteComment(login, repoId, commId)
+                    getReviewService(isEnterprise).deleteComment(login!!, repoId!!, commId)
                 ) { booleanResponse ->
                     sendToView { view ->
                         if (booleanResponse.code() == 204) {
@@ -307,7 +316,7 @@ class PullRequestTimelinePresenter : BasePresenter<PullRequestTimelineMvp.View>(
 
     override fun isMerged(pullRequest: PullRequest?): Boolean {
         return pullRequest != null
-                && (pullRequest.isMerged
+                && (pullRequest.merged
                 || !isEmpty(pullRequest.mergedAt))
     }
 
@@ -324,8 +333,10 @@ class PullRequestTimelinePresenter : BasePresenter<PullRequestTimelineMvp.View>(
                 commentRequestModel.body = text
                 manageDisposable(RxHelper.getObservable(
                     getIssueService(isEnterprise).createIssueComment(
-                        pullRequest.login,
-                        pullRequest.repoId, pullRequest.number, commentRequestModel
+                        pullRequest.login!!,
+                        pullRequest.repoId!!,
+                        pullRequest.number,
+                        commentRequestModel
                     )
                 )
                     .doOnSubscribe {
@@ -365,10 +376,11 @@ class PullRequestTimelinePresenter : BasePresenter<PullRequestTimelineMvp.View>(
         if (v.id == R.id.commentMenu) {
             val popupMenu = PopupMenu(v.context, v)
             popupMenu.inflate(R.menu.comments_menu)
-            val username = Login.getUser().login
+            val username = LoginDao.getUser().blockingGet().or().login
             val isOwner = isOwner(
-                username, view!!.pullRequest!!
-                    .login, comment.user!!.login
+                username!!,
+                view!!.pullRequest!!.login!!,
+                comment.user!!.login!!
             ) || isCollaborator
             popupMenu.menu.findItem(R.id.delete).isVisible = isOwner
             popupMenu.menu.findItem(R.id.edit).isVisible = isOwner
@@ -421,8 +433,8 @@ class PullRequestTimelinePresenter : BasePresenter<PullRequestTimelineMvp.View>(
             if (type != null) {
                 view!!.showReactionsPopup(
                     type,
-                    login,
-                    repoId,
+                    login!!,
+                    repoId!!,
                     comment.id,
                     ReactionsProvider.REVIEW_COMMENT
                 )
@@ -437,8 +449,8 @@ class PullRequestTimelinePresenter : BasePresenter<PullRequestTimelineMvp.View>(
             sendToView { it.hideProgress() }
             return false
         }
-        val login = parameter.login
-        val repoId = parameter.repoId
+        val login = parameter.login!!
+        val repoId = parameter.repoId!!
         val number = parameter.number
         if (page <= 1) {
             lastPage = Int.MAX_VALUE
@@ -451,8 +463,9 @@ class PullRequestTimelinePresenter : BasePresenter<PullRequestTimelineMvp.View>(
         }
         if (page == 1) {
             manageObservable(getRepoService(isEnterprise).isCollaborator(
-                login, repoId,
-                Login.getUser().login
+                login,
+                repoId,
+                LoginDao.getUser().blockingGet().or().login!!
             )
                 .doOnNext { booleanResponse ->
                     isCollaborator = booleanResponse.code() == 204
@@ -462,7 +475,12 @@ class PullRequestTimelinePresenter : BasePresenter<PullRequestTimelineMvp.View>(
         if (parameter.head != null) {
             val observable: Observable<List<TimelineModel>> =
                 Observable.zip(
-                    getIssueService(isEnterprise).getTimeline(login, repoId, number, page),
+                    getIssueService(isEnterprise).getTimeline(
+                        login,
+                        repoId,
+                        number,
+                        page,
+                    ),
                     getReviewService(isEnterprise).getPrReviewComments(
                         login,
                         repoId,
@@ -471,19 +489,19 @@ class PullRequestTimelinePresenter : BasePresenter<PullRequestTimelineMvp.View>(
                     getPullRequestService(isEnterprise).getPullStatus(
                         login,
                         repoId,
-                        parameter.head.sha
+                        parameter.head!!.sha!!
                     )
                         .onErrorReturn {
                             getPullRequestService(isEnterprise).getPullStatus(
                                 login, repoId,
-                                parameter.base.sha
+                                parameter.base!!.sha!!
                             ).blockingFirst(PullRequestStatusModel())
                         }
                 ) { response, comments, status ->
                     lastPage = response.last
                     val models = convert(response.items, comments).toMutableList()
                     if (page == 1) {
-                        status.isMergable = parameter.isMergeable
+                        status.isMergable = parameter.mergeable
                         status.mergeableState = parameter.mergeableState
                         if (status.state != null) {
                             models.add(0, TimelineModel(status))

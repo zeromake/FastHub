@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.Repo
+import com.fastaccess.data.entity.Repo
 import com.fastaccess.helper.InputHelper.isEmpty
 import com.fastaccess.helper.ParseDateFormat.Companion.getTimeAgo
 import com.fastaccess.provider.colors.ColorsProvider.getColorAsColor
@@ -42,23 +42,23 @@ class ReposViewHolder private constructor(
     private val isStarred: Boolean
     private val withImage: Boolean
     override fun bind(t: Repo) {
-        if (t.isFork && !isStarred) {
+        if (t.fork && !isStarred) {
             title.text = builder()
                 .append(" $forked ", LabelSpan(forkColor))
                 .append(" ")
-                .append(t.name, LabelSpan(Color.TRANSPARENT))
-        } else if (t.isPrivateX) {
+                .append(t.name!!, LabelSpan(Color.TRANSPARENT))
+        } else if (t.privateX) {
             title.text = builder()
                 .append(" $privateRepo ", LabelSpan(privateColor))
                 .append(" ")
-                .append(t.name, LabelSpan(Color.TRANSPARENT))
+                .append(t.name!!, LabelSpan(Color.TRANSPARENT))
         } else {
             title.text = if (!isStarred) t.name else t.fullName
         }
         if (withImage) {
-            val avatar = if (t.owner != null) t.owner.avatarUrl else null
-            val login = if (t.owner != null) t.owner.login else null
-            val isOrg = t.owner != null && t.owner.isOrganizationType
+            val avatar = if (t.owner != null) t.owner!!.avatarUrl else null
+            val login = if (t.owner != null) t.owner!!.login else null
+            val isOrg = t.owner != null && t.owner!!.isOrganizationType
             if (avatarLayout != null) {
                 avatarLayout!!.visibility = View.VISIBLE
                 avatarLayout!!.setUrl(avatar, login, isOrg, isEnterprise(t.htmlUrl))
@@ -72,7 +72,7 @@ class ReposViewHolder private constructor(
         date.text = getTimeAgo(t.updatedAt)
         if (!isEmpty(t.language)) {
             language.text = t.language
-            language.setTextColor(getColorAsColor(t.language, language.context))
+            language.setTextColor(getColorAsColor(t.language!!, language.context))
             language.visibility = View.VISIBLE
         } else {
             language.setTextColor(Color.BLACK)

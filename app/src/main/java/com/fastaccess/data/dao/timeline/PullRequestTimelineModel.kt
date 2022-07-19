@@ -1,8 +1,8 @@
 package com.fastaccess.data.dao.timeline
 
-import com.fastaccess.data.dao.timeline.PullRequestReviewModel.Companion.build
 import com.fastaccess.data.dao.ReactionsModel
-import com.fastaccess.data.dao.model.PullRequest
+import com.fastaccess.data.dao.timeline.PullRequestReviewModel.Companion.build
+import com.fastaccess.data.entity.PullRequest
 import com.fastaccess.github.PullRequestTimelineQuery
 
 /**
