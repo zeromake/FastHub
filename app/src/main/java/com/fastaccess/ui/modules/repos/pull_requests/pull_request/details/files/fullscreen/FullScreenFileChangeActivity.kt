@@ -1,16 +1,16 @@
 package com.fastaccess.ui.modules.repos.pull_requests.pull_request.details.files.fullscreen
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.widget.SwipeRefreshLayout
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
-import butterknife.BindView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fastaccess.R
 import com.fastaccess.data.dao.CommentRequestModel
 import com.fastaccess.data.dao.CommitFileChanges
@@ -30,15 +30,16 @@ import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
  * Created by Hashemsergani on 24.09.17.
  */
 
-class FullScreenFileChangeActivity : BaseActivity<FullScreenFileChangeMvp.View, FullScreenFileChangePresenter>(), FullScreenFileChangeMvp.View {
-
-    @BindView(R.id.recycler) lateinit var recycler: DynamicRecyclerView
-    @BindView(R.id.refresh) lateinit var refresh: SwipeRefreshLayout
-    @BindView(R.id.stateLayout) lateinit var stateLayout: StateLayout
-    @BindView(R.id.fastScroller) lateinit var fastScroller: RecyclerViewFastScroller
-    @BindView(R.id.changes) lateinit var changes: TextView
-    @BindView(R.id.deletion) lateinit var deletion: TextView
-    @BindView(R.id.addition) lateinit var addition: TextView
+class FullScreenFileChangeActivity :
+    BaseActivity<FullScreenFileChangeMvp.View, FullScreenFileChangePresenter>(),
+    FullScreenFileChangeMvp.View {
+    val recycler: DynamicRecyclerView by lazy { viewFind(R.id.recycler)!! }
+    val refresh: SwipeRefreshLayout by lazy { viewFind(R.id.refresh)!! }
+    val stateLayout: StateLayout by lazy { viewFind(R.id.stateLayout)!! }
+    val fastScroller: RecyclerViewFastScroller by lazy { viewFind(R.id.fastScroller)!! }
+    val changes: TextView by lazy { viewFind(R.id.changes)!! }
+    val deletion: TextView by lazy { viewFind(R.id.deletion)!! }
+    val addition: TextView by lazy { viewFind(R.id.addition)!! }
 
     val commentList = arrayListOf<CommentRequestModel>()
 
@@ -46,11 +47,11 @@ class FullScreenFileChangeActivity : BaseActivity<FullScreenFileChangeMvp.View, 
 
     override fun layout(): Int = R.layout.full_screen_file_changes_layout
 
-    override fun isTransparent(): Boolean = false
+    override val isTransparent: Boolean = false
 
     override fun canBack(): Boolean = true
 
-    override fun isSecured(): Boolean = false
+    override val isSecured: Boolean = false
 
     override fun providePresenter(): FullScreenFileChangePresenter = FullScreenFileChangePresenter()
 
@@ -92,21 +93,21 @@ class FullScreenFileChangeActivity : BaseActivity<FullScreenFileChangeMvp.View, 
         fastScroller.attachRecyclerView(recycler)
         presenter.onLoad(intent)
         presenter.model?.let { model ->
-            title = Uri.parse(model.commitFileModel.filename).lastPathSegment
+            title = Uri.parse(model.commitFileModel?.filename).lastPathSegment
             addition.text = model.commitFileModel?.additions.toString()
             deletion.text = model.commitFileModel?.deletions.toString()
             changes.text = model.commitFileModel?.changes.toString()
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.done_menu, menu)
-        menu?.findItem(R.id.submit)?.setIcon(R.drawable.ic_done)
+        menu.findItem(R.id.submit)?.setIcon(R.drawable.ic_done)
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
             R.id.submit -> {
                 sendResult()
                 true
@@ -115,22 +116,24 @@ class FullScreenFileChangeActivity : BaseActivity<FullScreenFileChangeMvp.View, 
         }
     }
 
-    override fun onItemClick(position: Int, v: View, item: CommitLinesModel) {
-        if (item.text.startsWith("@@")) return
+    override fun onItemClick(position: Int, v: View?, item: CommitLinesModel) {
+        if (item.text?.startsWith("@@")!!) return
         val commit = presenter.model?.commitFileModel ?: return
-        if (PrefGetter.isProEnabled()) {
-            AddReviewDialogFragment.newInstance(item, Bundler.start()
+        if (PrefGetter.isProEnabled) {
+            AddReviewDialogFragment.newInstance(
+                item, Bundler.start()
                     .put(BundleConstant.ITEM, commit.filename)
                     .put(BundleConstant.EXTRA_TWO, presenter.position)
                     .put(BundleConstant.EXTRA_THREE, position)
-                    .end())
-                    .show(supportFragmentManager, "AddReviewDialogFragment")
+                    .end()
+            )
+                .show(supportFragmentManager, "AddReviewDialogFragment")
         } else {
             PremiumActivity.startActivity(this)
         }
     }
 
-    override fun onItemLongClick(position: Int, v: View?, item: CommitLinesModel?) {
+    override fun onItemLongClick(position: Int, v: View?, item: CommitLinesModel) {
 
     }
 
@@ -156,22 +159,31 @@ class FullScreenFileChangeActivity : BaseActivity<FullScreenFileChangeMvp.View, 
 
     private fun sendResult() {
         val intent = Intent()
-        intent.putExtras(Bundler.start().putParcelableArrayList(BundleConstant.ITEM, commentList).end())
+        intent.putExtras(
+            Bundler.start().putParcelableArrayList(BundleConstant.ITEM, commentList).end()
+        )
         setResult(Activity.RESULT_OK, intent)
         finish()
     }
 
 
     companion object {
-        val FOR_RESULT_CODE = 1002
-        fun startActivityForResult(fragment: Fragment, model: CommitFileChanges, position: Int, isCommit: Boolean = false) {
-            val intent = Intent(fragment.context, FullScreenFileChangeActivity::class.java)
-            intent.putExtras(Bundler.start()
+        fun startLauncherForResult(
+            context: Context,
+            launcher: ActivityResultLauncher<Intent>,
+            model: CommitFileChanges,
+            position: Int,
+            isCommit: Boolean = false,
+        ) {
+            val intent = Intent(context, FullScreenFileChangeActivity::class.java)
+            intent.putExtras(
+                Bundler.start()
                     .put(BundleConstant.EXTRA, model)
                     .put(BundleConstant.ITEM, position)
                     .put(BundleConstant.YES_NO_EXTRA, isCommit)
-                    .end())
-            fragment.startActivityForResult(intent, FOR_RESULT_CODE)
+                    .end()
+            )
+            launcher.launch(intent)
         }
     }
 }

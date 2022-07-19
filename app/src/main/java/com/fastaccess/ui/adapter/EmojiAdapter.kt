@@ -5,8 +5,9 @@ import android.widget.Filter
 import android.widget.Filterable
 import com.fastaccess.provider.emoji.Emoji
 import com.fastaccess.ui.adapter.viewholder.EmojiViewHolder
-import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
+import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
+import com.fastaccess.ui.base.adapter.BaseViewHolder
+import java.util.*
 
 /**
  * Created by kosh on 17/08/2017.
@@ -21,23 +22,22 @@ class EmojiAdapter(listener: BaseViewHolder.OnItemClickListener<Emoji>)
     }
 
     override fun onBindView(holder: EmojiViewHolder, position: Int) {
-        holder.bind(data[position])
+        holder.bind(data[position]!!)
     }
 
     override fun getFilter(): Filter {
         return object : Filter() {
-            override fun performFiltering(constraint: CharSequence): Filter.FilterResults {
+            override fun performFiltering(constraint: CharSequence): FilterResults {
                 if (copiedList.isEmpty()) {
-                    copiedList.addAll(data)
+                    copiedList.addAll(data.filterNotNull())
                 }
-                val text = constraint.toString().toLowerCase()
+                val text = constraint.toString().lowercase(Locale.getDefault())
                 val filteredResults: List<Emoji> = if (text.isNotBlank()) {
-                    val data = data.filter {
+                    val data = data.filterNotNull().filter {
                         text in it.tags || it.description.contains(text) ||
                                 it.unicode.contains(text) || text in it.aliases
                     }
-                    if (data.isNotEmpty()) data
-                    else copiedList
+                    data.ifEmpty { copiedList }
                 } else {
                     copiedList
                 }
@@ -48,7 +48,7 @@ class EmojiAdapter(listener: BaseViewHolder.OnItemClickListener<Emoji>)
             }
 
             @Suppress("UNCHECKED_CAST")
-            override fun publishResults(var1: CharSequence, results: Filter.FilterResults) {
+            override fun publishResults(var1: CharSequence, results: FilterResults) {
                 results.values?.let {
                     insertItems(it as List<Emoji>)
                 }

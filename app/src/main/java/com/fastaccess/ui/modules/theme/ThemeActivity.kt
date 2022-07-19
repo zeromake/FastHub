@@ -6,8 +6,6 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewAnimationUtils
-import butterknife.BindView
-import butterknife.OnClick
 import com.fastaccess.R
 import com.fastaccess.data.dao.FragmentPagerAdapterModel
 import com.fastaccess.helper.PrefGetter
@@ -19,28 +17,31 @@ import com.fastaccess.ui.modules.main.premium.PremiumActivity
 import com.fastaccess.ui.modules.theme.fragment.ThemeFragmentMvp
 import com.fastaccess.ui.widgets.CardsPagerTransformerBasic
 import com.fastaccess.ui.widgets.ViewPagerView
+import com.fastaccess.utils.setOnThrottleClickListener
+import kotlin.math.hypot
 
 
 /**
  * Created by Kosh on 08 Jun 2017, 10:34 PM
  */
 
-class ThemeActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FAView>>(), ThemeFragmentMvp.ThemeListener {
+class ThemeActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FAView>>(),
+    ThemeFragmentMvp.ThemeListener {
 
-    @BindView(R.id.pager) lateinit var pager: ViewPagerView
-    @BindView(R.id.parentLayout) lateinit var parentLayout: View
+    val pager: ViewPagerView by lazy { viewFind(R.id.pager)!! }
+    val parentLayout: View by lazy { viewFind(R.id.parentLayout)!! }
 
-    @OnClick(R.id.premium) fun onOpenPremium() {
+    fun onOpenPremium() {
         PremiumActivity.startActivity(this)
     }
 
     override fun layout(): Int = R.layout.theme_viewpager
 
-    override fun isTransparent(): Boolean = false
+    override val isTransparent: Boolean = false
 
     override fun canBack(): Boolean = true
 
-    override fun isSecured(): Boolean = false
+    override val isSecured: Boolean = false
 
     override fun providePresenter(): BasePresenter<BaseMvp.FAView> {
         return BasePresenter()
@@ -48,7 +49,11 @@ class ThemeActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FAView>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        pager.adapter = FragmentsPagerAdapter(supportFragmentManager, FragmentPagerAdapterModel.buildForTheme())
+        viewFind<View>(R.id.premium)!!.setOnThrottleClickListener {
+            onOpenPremium()
+        }
+        pager.adapter =
+            FragmentsPagerAdapter(supportFragmentManager, FragmentPagerAdapterModel.buildForTheme())
         pager.clipToPadding = false
         val partialWidth = resources.getDimensionPixelSize(R.dimen.spacing_s_large)
         val pageMargin = resources.getDimensionPixelSize(R.dimen.spacing_normal)
@@ -65,14 +70,16 @@ class ThemeActivity : BaseActivity<BaseMvp.FAView, BasePresenter<BaseMvp.FAView>
     override fun onChangePrimaryDarkColor(color: Int, darkIcons: Boolean) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val view = window.decorView
-            view.systemUiVisibility = if (darkIcons) View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR else view.systemUiVisibility and View
+            view.systemUiVisibility =
+                if (darkIcons) View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR else view.systemUiVisibility and View
                     .SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
         }
         val cx = parentLayout.width / 2
         val cy = parentLayout.height / 2
         if (parentLayout.isAttachedToWindow) {
-            val finalRadius = Math.hypot(cx.toDouble(), cy.toDouble()).toFloat()
-            val anim = ViewAnimationUtils.createCircularReveal(parentLayout, cx, cy, 0f, finalRadius)
+            val finalRadius = hypot(cx.toDouble(), cy.toDouble()).toFloat()
+            val anim =
+                ViewAnimationUtils.createCircularReveal(parentLayout, cx, cy, 0f, finalRadius)
             anim.addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator?) {
                     super.onAnimationEnd(animation)

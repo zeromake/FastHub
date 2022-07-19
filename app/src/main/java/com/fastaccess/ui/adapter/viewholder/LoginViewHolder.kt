@@ -4,38 +4,37 @@ import android.annotation.SuppressLint
 import android.net.Uri
 import android.view.View
 import android.view.ViewGroup
-import butterknife.BindView
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.Login
+import com.fastaccess.data.entity.Login
+import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 import com.fastaccess.ui.widgets.AvatarLayout
 import com.fastaccess.ui.widgets.FontTextView
-import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
 
 /**
  * Created by Kosh on 09 Jul 2017, 4:54 PM
  */
 
-class LoginViewHolder private constructor(itemView: View, adapter: BaseRecyclerAdapter<*, *, *>?) :
+class LoginViewHolder private constructor(itemView: View, adapter: BaseRecyclerAdapter<Login, LoginViewHolder, OnItemClickListener<Login>>) :
         BaseViewHolder<Login>(itemView, adapter) {
 
-    val avatarLayout: AvatarLayout? by lazy { itemView.findViewById<AvatarLayout>(R.id.avatarLayout) }
-    @BindView(R.id.title) lateinit var title: FontTextView
+    val avatarLayout: AvatarLayout? by lazy { itemView.findViewById(R.id.avatarLayout) }
+    val title: FontTextView by lazy { itemView.findViewById(R.id.title) }
 
     @SuppressLint("SetTextI18n")
-    override fun bind(login: Login) {
-        avatarLayout?.setUrl(login.avatarUrl, null, false, false)
-        title.text = if (login.isIsEnterprise) {
-            val uri: String? = Uri.parse(login.enterpriseUrl).authority
-            "${login.login} ${if (uri.isNullOrBlank()) login.enterpriseUrl else uri}"
+    override fun bind(t: Login) {
+        avatarLayout?.setUrl(t.avatarUrl, null, isOrg = false, isEnterprise = false)
+        title.text = if (t.isEnterprise) {
+            val uri: String? = Uri.parse(t.enterpriseUrl).authority
+            "${t.login} ${if (uri.isNullOrBlank()) t.enterpriseUrl else uri}"
         } else {
-            login.login
+            t.login
         }
     }
 
     companion object {
-        fun newInstance(parent: ViewGroup, adapter: BaseRecyclerAdapter<*, *, *>, small: Boolean): LoginViewHolder {
-            return LoginViewHolder(BaseViewHolder.getView(parent, if (small) R.layout.login_row_item_menu else R.layout.login_row_item), adapter)
+        fun newInstance(parent: ViewGroup, adapter: BaseRecyclerAdapter<Login, LoginViewHolder, OnItemClickListener<Login>>, small: Boolean): LoginViewHolder {
+            return LoginViewHolder(getView(parent, if (small) R.layout.login_row_item_menu else R.layout.login_row_item), adapter)
         }
     }
 }

@@ -1,25 +1,40 @@
 query getPinnedRepos($login: String!) {
   user(login: $login) {
-    pinnedRepositories(first: 100) {
+    pinnedItems(first: 100) {
       edges {
         node {
-          name
-          url
-          issues(states: OPEN) {
-            totalCount
-          }
-          pullRequests(states: OPEN) {
-            totalCount
-          }
-          stargazers {
-            totalCount
-          }
-          forks {
-            totalCount
-          }
-          primaryLanguage {
+          ... on Repository {
             name
-            color
+            url
+            issues(states: [OPEN]) {
+              totalCount
+            }
+            pullRequests(states: [OPEN]) {
+              totalCount
+            }
+            stargazers {
+              totalCount
+            }
+            forks {
+              totalCount
+            }
+            primaryLanguage {
+              name
+              color
+            }
+          }
+          ... on Gist {
+            name
+            url
+            stargazers {
+              totalCount
+            }
+            forks {
+              totalCount
+            }
+            comments {
+              totalCount
+            }
           }
         }
       }

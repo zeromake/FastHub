@@ -243,6 +243,7 @@ CaptainTF @ Github 提议：
     <string name="back_button_title">返回键直接退出</string>
     <string name="restore">恢复</string>
     <string name="backup">备份</string>
+    <string name="restore_up">恢复成功!</string>
     <string name="backed_up">备份成功!</string>
     <string name="select_backup">选择要还原的备份</string>
     <string name="permission_failed">没有权限.</string>
@@ -461,7 +462,7 @@ CaptainTF @ Github 提议：
     <string name="projects">项目</string>
     <string name="no_projects">无项目</string>
     <string name="no_cards">无卡片</string>
-    <string name="card_added_by">%s 于 %s 新增</string>
+    <string name="card_added_by" formatted="false">%s 于 %s 新增</string>
     <string name="too_large_changes">更改内容过多. 请在浏览器中查看.</string>
     <string name="project">项目</string>
     <string name="faq">常见问题</string>
@@ -485,10 +486,7 @@ CaptainTF @ Github 提议：
         <p>若您无法编辑 Public Organization\'s repository 的 Issues/PRs, 请联系您的 Organization 为 FastHub 授予权限. 或者您可以使用 Access Token 登录.</p>
 
         <h5>• 我有一些问题! / 我想向您提议!</h5>
-        <p>前往 https://github.com/k0shk0sh/FastHub/issues/new 为 Bug 和新功能请求创建 Issue. 但我希望您能在这之前查询一下类似的 Issue, 然后再打开一个新的. 任何重复的 Ticket 就将会标记为重复并被立即关闭.</p>
-
-        <h5>• 我怎么才能获取到促销码?</h5>
-        <p>此计划已被取消.</p>
+        <p>前往 https://github.com/LightDestory/FastHub-RE/issues/new 为 Bug 和新功能请求创建 Issue. 但我希望您能在这之前查询一下类似的 Issue, 然后再打开一个新的. 任何重复的 Ticket 就将会标记为重复并被立即关闭.</p>
     ]]></string>
     <string name="comments_added_successfully">成功添加评论</string>
     <string name="clear_search_keywords">清除搜索历史</string>
@@ -505,4 +503,7 @@ CaptainTF @ Github 提议：
     <string name="user_unblocked">已取消阻止该用户</string>
     <string name="clear_image_cache">清除图片缓存</string>
     <string name="restart_app_message">请重启应用</string>
+    <string name="auth_null_or_blank">没有找到上次的认证信息</string>
+    <string name="download_setting_dialog">选择需要下载器</string>
+    <string name="download_setting_title">设置下载器</string>
 </resources>

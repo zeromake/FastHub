@@ -250,12 +250,9 @@
     <string name="no_starred_repos">Keine favorisierten Repos</string>
     <string name="no_commits">Keine Commits</string>
     <string name="no_contributors">Keine Mitwirkenden</string>
-    <string name="no_releases">Keine Releases</string>
-    <string name="no_closed_issues">Keine geschlossenen Issues</string>
-    <string name="no_opened_issues">Keine geöffneten Issues</string>								   
+    <string name="no_releases">Keine Releases</string>							   
     <string name="no_events">Keine Ereignisse</string>
-    <string name="no_pull_requests">Keine Pull Requests</string>
-    <string name="no_closed_pull_request">Keine geschlossenen Pull Requests</string>																				
+    <string name="no_pull_requests">Keine Pull Requests</string>																				
     <string name="no_search_results">Keine Suchergebnisse</string>
     <string name="read_write_permission_explanation">Bitte erlaube FastHub Zugriff auf die SD-Karte, um Dateien abzuspeichern.</string>
     <string name="public_gists">Öffentliche Gists</string>
@@ -403,7 +400,7 @@
     <string name="projects">Projekte</string>
     <string name="no_projects">Keine Projekte</string>
     <string name="no_cards">Keine Karten</string>
-    <string name="card_added_by">Hinzugefügt von %s %s</string>
+    <string name="card_added_by" formatted="false">Hinzugefügt von %s %s</string>
     <string name="too_large_changes">Zu viele Unterschiede zur Anzeige. Bitte über den Browser ansehen!</string>
     <string name="project">Projekt</string>
     <string name="please_read">BITTE LESEN!</string>
@@ -428,7 +425,7 @@
         <p>Wenn du ein öffentliches Organisations-Repo bearbeiten willst, wende dich bitte an deine Organisation, um den Zugang für FastHub genehmigen zu lassen oder verwende den entsprechenden Access Token!.</p>
 
         <h5>• Ich habe einen Fehler gefunden oder habe Verbesserungsvorschläge!</h5>
-        <p>Gehe zu https://github.com/k0shk0sh/FastHub/issues/new und erstelle ein neues Issue für Bugmeldungen oder Feature Requests. Bitte suche aber vor dem Erstellen nach bereits existierenden Tickets. Jede doppelte Anfrage wird sofort als Duplikat markiert und geschlossen.</p>
+        <p>Gehe zu https://github.com/LightDestory/FastHub-RE/issues/new und erstelle ein neues Issue für Bugmeldungen oder Feature Requests. Bitte suche aber vor dem Erstellen nach bereits existierenden Tickets. Jede doppelte Anfrage wird sofort als Duplikat markiert und geschlossen.</p>
     ]]></string>
     <string name="faq">FAQ</string>
     <string name="comments_added_successfully">Kommentare erfolgreich hinzugefügt</string>
@@ -468,5 +465,3 @@
     <string name="send_feedback">Feedback senden</string>
     <string name="commit_file_required">Keine Dateien geändert</string>
 </resources>
-
-

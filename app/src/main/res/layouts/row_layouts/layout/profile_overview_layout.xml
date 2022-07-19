@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
+<androidx.core.widget.NestedScrollView
     android:id="@+id/parentView"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="?card_background"
@@ -89,7 +89,6 @@
 
                     <include layout="@layout/profile_follow_action_layout"/>
 
-
                     <LinearLayout
                         android:id="@+id/section_container"
                         android:layout_width="match_parent"
@@ -102,7 +101,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:drawablePadding="@dimen/spacing_xs_large"
-                            android:drawableStart="@drawable/ic_group"
+                            android:drawableStart="@drawable/ic_baseline_business"
                             android:gravity="center|start"
                             android:paddingBottom="@dimen/spacing_xs_large"
                             android:paddingTop="@dimen/spacing_xs_large"
@@ -144,7 +143,21 @@
                             android:autoLink="web"
                             android:background="@drawable/top_border"
                             android:drawablePadding="@dimen/spacing_xs_large"
-                            android:drawableStart="@drawable/ic_insert_link"
+                            android:drawableStart="@drawable/ic_baseline_web"
+                            android:gravity="center|start"
+                            android:paddingBottom="@dimen/spacing_xs_large"
+                            android:paddingTop="@dimen/spacing_xs_large"
+                            tools:text="Cum classis nocere"/>
+
+                        <com.fastaccess.ui.widgets.FontTextView
+                            android:id="@+id/twitter_link"
+                            style="@style/Base.TextAppearance.AppCompat.Subhead"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:autoLink="web"
+                            android:background="@drawable/top_border"
+                            android:drawablePadding="@dimen/spacing_xs_large"
+                            android:drawableStart="@drawable/ic_twitter"
                             android:gravity="center|start"
                             android:paddingBottom="@dimen/spacing_xs_large"
                             android:paddingTop="@dimen/spacing_xs_large"
@@ -165,7 +178,7 @@
                     </LinearLayout>
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
             <com.fastaccess.ui.widgets.FontTextView
                 android:id="@+id/organizationsCaption"
@@ -180,7 +193,7 @@
                 android:visibility="gone"
                 tools:visibility="visible"/>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/orgsCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -203,7 +216,7 @@
                     app:spanCount="3"
                     tools:listitem="@layout/profile_org_row_item"/>
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
             <com.fastaccess.ui.widgets.FontTextView
                 android:id="@+id/pinnedReposTextView"
@@ -218,7 +231,7 @@
                 android:visibility="gone"
                 tools:visibility="visible"/>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/pinnedReposCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -240,7 +253,7 @@
                     app:layoutManager="@string/grid_layout_manager"
                     app:spanCount="@integer/small_spans"/>
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
             <com.fastaccess.ui.widgets.FontTextView
                 android:id="@+id/contributionsCaption"
@@ -255,7 +268,7 @@
                 android:visibility="gone"
                 tools:visibility="visible"/>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/contributionCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -280,7 +293,7 @@
                     app:lastWeeks="53"
                     app:textColor="?android:textColorPrimary"/>
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 
@@ -300,4 +313,4 @@
     </FrameLayout>
 
 
-</android.support.v4.widget.NestedScrollView>
+</androidx.core.widget.NestedScrollView>

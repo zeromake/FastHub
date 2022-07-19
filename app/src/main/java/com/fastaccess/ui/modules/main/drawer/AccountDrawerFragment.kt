@@ -3,9 +3,13 @@ package com.fastaccess.ui.modules.main.drawer
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.FrameLayout
+import android.widget.LinearLayout
 import com.fastaccess.R
-import com.fastaccess.data.dao.model.Login
-import com.fastaccess.data.dao.model.PinnedRepos
+import com.fastaccess.data.entity.Login
+import com.fastaccess.data.entity.PinnedRepos
+import com.fastaccess.data.entity.dao.LoginDao
+import com.fastaccess.data.entity.dao.PinnedReposDao
 import com.fastaccess.helper.PrefGetter
 import com.fastaccess.helper.RxHelper
 import com.fastaccess.provider.scheme.SchemeParser
@@ -13,41 +17,66 @@ import com.fastaccess.ui.adapter.LoginAdapter
 import com.fastaccess.ui.adapter.PinnedReposAdapter
 import com.fastaccess.ui.base.BaseActivity
 import com.fastaccess.ui.base.BaseFragment
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
 import com.fastaccess.ui.modules.login.chooser.LoginChooserActivity
 import com.fastaccess.ui.modules.main.MainMvp
 import com.fastaccess.ui.modules.main.premium.PremiumActivity
 import com.fastaccess.ui.modules.pinned.PinnedReposActivity
 import com.fastaccess.ui.modules.user.UserPagerActivity
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
-import kotlinx.android.synthetic.main.accounts_menu_layout.*
+import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
 
 /**
  * Created by Kosh on 25.03.18.
  */
 class AccountDrawerFragment : BaseFragment<MainMvp.View, BasePresenter<MainMvp.View>>(),
-        BaseViewHolder.OnItemClickListener<PinnedRepos> {
+    BaseViewHolder.OnItemClickListener<PinnedRepos> {
 
     private val pinnedListAdapter = PinnedReposAdapter(true)
     private val adapter = LoginAdapter(true)
-    private val userModel by lazy { Login.getUser() }
+    private val userModel by lazy { LoginDao.getUser().blockingGet().or() }
+    private lateinit var pinnedList: DynamicRecyclerView
+    private lateinit var accLists: DynamicRecyclerView
+    private lateinit var logout: FrameLayout
+    private lateinit var togglePinned: FrameLayout
+    private lateinit var addAccLayout: FrameLayout
+    private lateinit var repos: FrameLayout
+    private lateinit var starred: FrameLayout
+    private lateinit var toggleAccountsLayout: LinearLayout
 
     override fun fragmentLayout() = R.layout.accounts_menu_layout
 
     override fun providePresenter() = BasePresenter<MainMvp.View>()
 
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
+        pinnedList = view.findViewById(R.id.pinnedList)
+        accLists = view.findViewById(R.id.accLists)
+        logout = view.findViewById(R.id.logout)
+        togglePinned = view.findViewById(R.id.togglePinned)
+        addAccLayout = view.findViewById(R.id.addAccLayout)
+        repos = view.findViewById(R.id.repos)
+        toggleAccountsLayout = view.findViewById(R.id.toggleAccountsLayout)
+        starred = view.findViewById(R.id.starred)
+
         pinnedListAdapter.listener = this
         pinnedList.adapter = pinnedListAdapter
-
         adapter.listener = object : BaseViewHolder.OnItemClickListener<Login> {
-            override fun onItemLongClick(position: Int, v: View?, item: Login?) {}
-
+            override fun onItemLongClick(position: Int, v: View?, item: Login) {}
             override fun onItemClick(position: Int, v: View?, item: Login) {
-                presenter.manageViewDisposable(RxHelper.getObservable(Login.onMultipleLogin(item, item.isIsEnterprise, false))
-                        .doOnSubscribe { showProgress(0) }
-                        .doOnComplete { hideProgress() }
-                        .subscribe({ (activity as? BaseActivity<*, *>?)?.onRestartApp() }, ::println))
+                presenter.manageViewDisposable(RxHelper.getObservable(
+                    LoginDao.onMultipleLogin(
+                        item,
+                        item.isEnterprise,
+                        false
+                    ).toObservable()
+                )
+                    .doOnSubscribe { showProgress(0) }
+                    .doOnComplete { hideProgress() }
+                    .subscribe(
+                        { (activity as? BaseActivity<*, *>?)?.onRestartApp() },
+                        ::println
+                    )
+                )
             }
         }
         accLists.adapter = adapter
@@ -59,12 +88,12 @@ class AccountDrawerFragment : BaseFragment<MainMvp.View, BasePresenter<MainMvp.V
                 }
             }
         }
-        togglePinned?.setOnClickListener {
+        togglePinned.setOnClickListener {
             postDelayedAndClose { PinnedReposActivity.startActivity(it.context) }
         }
         addAccLayout.setOnClickListener {
             postDelayedAndClose {
-                if (PrefGetter.isProEnabled() || PrefGetter.isEnterpriseEnabled()) {
+                if (PrefGetter.isProEnabled || PrefGetter.isEnterpriseEnabled) {
                     val intent = Intent(it.context, LoginChooserActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                     startActivity(intent)
@@ -75,12 +104,24 @@ class AccountDrawerFragment : BaseFragment<MainMvp.View, BasePresenter<MainMvp.V
         }
         repos.setOnClickListener {
             postDelayedAndClose {
-                UserPagerActivity.startActivity(it.context, userModel.login, false, PrefGetter.isEnterprise(), 2)
+                UserPagerActivity.startActivity(
+                    it.context,
+                    userModel.login!!,
+                    false,
+                    PrefGetter.isEnterprise,
+                    3
+                )
             }
         }
         starred.setOnClickListener {
             postDelayedAndClose {
-                UserPagerActivity.startActivity(it.context, userModel.login, false, PrefGetter.isEnterprise(), 3)
+                UserPagerActivity.startActivity(
+                    it.context,
+                    userModel.login!!,
+                    false,
+                    PrefGetter.isEnterprise,
+                    4
+                )
             }
         }
 
@@ -88,13 +129,13 @@ class AccountDrawerFragment : BaseFragment<MainMvp.View, BasePresenter<MainMvp.V
         loadPinned()
     }
 
-    override fun onItemClick(position: Int, v: View?, item: PinnedRepos?) {
-        if (v != null && item != null) {
-            postDelayedAndClose { SchemeParser.launchUri(v.context, item.pinnedRepo.htmlUrl) }
+    override fun onItemClick(position: Int, v: View?, item: PinnedRepos) {
+        if (v != null) {
+            postDelayedAndClose { SchemeParser.launchUri(v.context, item.pinnedRepo!!.htmlUrl!!) }
         }
     }
 
-    override fun onItemLongClick(position: Int, v: View?, item: PinnedRepos?) = Unit
+    override fun onItemLongClick(position: Int, v: View?, item: PinnedRepos) = Unit
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
@@ -104,7 +145,10 @@ class AccountDrawerFragment : BaseFragment<MainMvp.View, BasePresenter<MainMvp.V
     }
 
     private fun loadAccount() {
-        presenter.manageViewDisposable(Login.getAccounts()
+        presenter.manageViewDisposable(
+            RxHelper.getObservable(
+                LoginDao.getAccounts().toObservable()
+            )
                 .doOnComplete {
                     if (!adapter.isEmpty) {
                         toggleAccountsLayout.visibility = View.VISIBLE
@@ -112,12 +156,20 @@ class AccountDrawerFragment : BaseFragment<MainMvp.View, BasePresenter<MainMvp.V
                         toggleAccountsLayout.visibility = View.GONE
                     }
                 }
-                .subscribe({ adapter.addItem(it) }, ::print))
+                .toList()
+                .subscribe({
+                    adapter.addItems(it)
+                }, ::print)
+        )
     }
 
     private fun loadPinned() {
-        presenter?.manageViewDisposable(PinnedRepos.getMenuRepos()
-                .subscribe({ pinnedListAdapter.insertItems(it) }, ::println))
+        presenter?.manageViewDisposable(
+            RxHelper.getObservable(
+                PinnedReposDao.getMenuRepos()
+            )
+                .subscribe({ pinnedListAdapter.insertItems(it) }, ::println)
+        )
     }
 
     private fun closeDrawer() {

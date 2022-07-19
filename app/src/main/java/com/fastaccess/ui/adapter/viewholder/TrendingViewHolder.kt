@@ -1,30 +1,30 @@
 package com.fastaccess.ui.adapter.viewholder
 
 import android.view.View
-import butterknife.BindView
 import com.fastaccess.R
 import com.fastaccess.data.dao.TrendingModel
 import com.fastaccess.helper.Logger
 import com.fastaccess.provider.colors.ColorsProvider
 import com.fastaccess.provider.emoji.EmojiParser
+import com.fastaccess.ui.base.adapter.BaseRecyclerAdapter
+import com.fastaccess.ui.base.adapter.BaseViewHolder
 import com.fastaccess.ui.widgets.FontTextView
-import com.fastaccess.ui.widgets.recyclerview.BaseRecyclerAdapter
-import com.fastaccess.ui.widgets.recyclerview.BaseViewHolder
 
 /**
  * Created: FontTextView by Kosh on 02 Jun 2017, 1:27 PM
  */
 
-open class TrendingViewHolder(itemView: View, adapter: BaseRecyclerAdapter<TrendingModel,
-        TrendingViewHolder, OnItemClickListener<TrendingModel>>) : BaseViewHolder<TrendingModel>(itemView, adapter) {
+open class TrendingViewHolder(
+    itemView: View,
+    adapter: BaseRecyclerAdapter<TrendingModel, TrendingViewHolder, OnItemClickListener<TrendingModel>>
+) : BaseViewHolder<TrendingModel>(itemView, adapter) {
 
-    @BindView(R.id.title) lateinit var title: FontTextView
-    @BindView(R.id.description) lateinit var description: FontTextView
-    @BindView(R.id.todayStars) lateinit var todayStars: FontTextView
-    @BindView(R.id.stars) lateinit var stars: FontTextView
-    @BindView(R.id.forks) lateinit var fork: FontTextView
-    @BindView(R.id.language) lateinit var lang: FontTextView
-
+    val title: FontTextView = itemView.findViewById(R.id.title)
+    val description: FontTextView = itemView.findViewById(R.id.description)
+    private val todayStars: FontTextView = itemView.findViewById(R.id.todayStars)
+    val stars: FontTextView = itemView.findViewById(R.id.stars)
+    val fork: FontTextView = itemView.findViewById(R.id.forks)
+    val lang: FontTextView = itemView.findViewById(R.id.language)
 
     override fun bind(t: TrendingModel) {
         title.text = t.title
@@ -42,7 +42,7 @@ open class TrendingViewHolder(itemView: View, adapter: BaseRecyclerAdapter<Trend
             lang.visibility = View.GONE
             lang.text = ""
         } else {
-            val color = ColorsProvider.getColorAsColor(t.language!!, itemView.context)
+            val color = ColorsProvider.getColorAsColor(t.language, itemView.context)
             Logger.e(color, t.language)
             lang.tintDrawables(color)
             lang.setTextColor(color)

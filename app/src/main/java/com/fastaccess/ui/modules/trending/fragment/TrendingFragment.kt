@@ -1,14 +1,14 @@
 package com.fastaccess.ui.modules.trending.fragment
 
 import android.os.Bundle
-import android.support.v4.widget.SwipeRefreshLayout
 import android.view.View
-import butterknife.BindView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.evernote.android.state.State
 import com.fastaccess.R
 import com.fastaccess.data.dao.TrendingModel
 import com.fastaccess.ui.adapter.TrendingAdapter
 import com.fastaccess.ui.base.BaseFragment
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.widgets.StateLayout
 import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
 import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
@@ -17,17 +17,20 @@ import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
  * Created by Kosh on 30 May 2017, 11:37 PM
  */
 
-class TrendingFragment : BaseFragment<TrendingFragmentMvp.View, TrendingFragmentPresenter>(), TrendingFragmentMvp.View {
-
-    @BindView(R.id.recycler) lateinit var recycler: DynamicRecyclerView
-    @BindView(R.id.refresh) lateinit var refresh: SwipeRefreshLayout
-    @BindView(R.id.stateLayout) lateinit var stateLayout: StateLayout
-    @BindView(R.id.fastScroller) lateinit var fastScroller: RecyclerViewFastScroller
+class TrendingFragment : BaseFragment<TrendingFragmentMvp.View, TrendingFragmentPresenter>(),
+    TrendingFragmentMvp.View {
+    val recycler: DynamicRecyclerView by viewFind(R.id.recycler)
+    val refresh: SwipeRefreshLayout by viewFind(R.id.refresh)
+    val stateLayout: StateLayout by viewFind(R.id.stateLayout)
+    val fastScroller: RecyclerViewFastScroller by viewFind(R.id.fastScroller)
 
     private val adapter by lazy { TrendingAdapter(presenter.getTendingList()) }
 
-    @State var lang: String = ""
-    @State var since: String = ""
+    @State
+    var lang: String = ""
+
+    @State
+    var since: String = ""
 
     override fun providePresenter(): TrendingFragmentPresenter = TrendingFragmentPresenter()
 
@@ -43,8 +46,8 @@ class TrendingFragment : BaseFragment<TrendingFragmentMvp.View, TrendingFragment
         fastScroller.attachRecyclerView(recycler)
     }
 
-    override fun onNotifyAdapter(items: TrendingModel) {
-        adapter.addItem(items)
+    override fun onNotifyAdapter(items: List<TrendingModel>) {
+        adapter.insertItems(items)
     }
 
     override fun onSetQuery(lang: String, since: String) {

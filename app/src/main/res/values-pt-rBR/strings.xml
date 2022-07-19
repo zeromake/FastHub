@@ -427,7 +427,7 @@
     <string name="projects">Projetos</string>
     <string name="no_projects">Sem Projetos</string>
     <string name="no_cards">Sem Cartões</string>
-    <string name="card_added_by">Adicionado por %s %s</string>
+    <string name="card_added_by" formatted="false">Adicionado por %s %s</string>
     <string name="too_large_changes">Muitas diferenças para exibir. Por favor, veja-os via navegador</string>
     <string name="project">Projeto</string>
     <string name="please_read">POR FAVOR LEIA!</string>
@@ -446,10 +446,8 @@
         <h5>• Por que estou tendo problemas ao editar Issues/Pull Requests (PRs)?</h5>
         <p>Se você não consegue editar Issues/PRs em um repositório de Organização Pública, por favor contate sua Organização para conceder acesso ao FastHub. De forma alternativa você pode entrar com um Token de Acesso.</p>
         <h5>• Estou com problemas! / Quero sugerir algumas mudanças!</h5>
-        <p>Vá para https://github.com/k0shk0sh/FastHub/issues/new e crie um novo issue para qualquer bug e pedido de recurso. Eu realmente encorajo você a
+        <p>Vá para https://github.com/LightDestory/FastHub-RE/issues/new e crie um novo issue para qualquer bug e pedido de recurso. Eu realmente encorajo você a
         procurar por issues similares antes de abrir um novo. Qualquer ticket duplicado será rotulado como duplicado e será fechado imediatamente.</p>
-        <h5>• Como consigo um PROMO CODE?</h5>
-        <p>Este programa não existe mais.</p>
     ]]></string>
     <string name="faq">FAQ</string>
     <string name="comments_added_successfully">Comentários adicionados com sucesso</string>

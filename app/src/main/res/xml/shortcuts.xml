@@ -1,0 +1,54 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_app_shortcut_issues"
+        android:shortcutDisabledMessage="@string/static_disabled_message"
+        android:shortcutId="myIssues"
+        android:shortcutShortLabel="@string/issues">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="fasthub://myIssues"
+            android:targetClass="com.fastaccess.ui.modules.main.MainActivity"
+            android:targetPackage="com.fastaccess.github.revival" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_app_shortcut_pull_requests"
+        android:shortcutDisabledMessage="@string/static_disabled_message"
+        android:shortcutId="myPulls"
+        android:shortcutShortLabel="@string/pull_requests">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="fasthub://myPulls"
+            android:targetClass="com.fastaccess.ui.modules.main.MainActivity"
+            android:targetPackage="com.fastaccess.github.revival" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_app_shortcut_profile"
+        android:shortcutDisabledMessage="@string/static_disabled_message"
+        android:shortcutId="profile"
+        android:shortcutShortLabel="@string/profile">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="fasthub://profile"
+            android:targetClass="com.fastaccess.ui.modules.user.UserPagerActivity"
+            android:targetPackage="com.fastaccess.github.revival" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_app_shortcut_pinned"
+        android:shortcutDisabledMessage="@string/static_disabled_message"
+        android:shortcutId="pinned"
+        android:shortcutShortLabel="@string/pinned">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="fasthub://pinned"
+            android:targetClass="com.fastaccess.ui.modules.pinned.PinnedReposActivity"
+            android:targetPackage="com.fastaccess.github.revival" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+</shortcuts>

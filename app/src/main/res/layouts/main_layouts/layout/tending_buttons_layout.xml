@@ -81,9 +81,9 @@
             android:id="@+id/fastScroller"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_alignBottom="@+id/recycler"
+            android:layout_alignBottom="@id/languageList"
             android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/recycler"
+            android:layout_alignTop="@id/languageList"
             android:layout_centerHorizontal="true"/>
     </RelativeLayout>
 

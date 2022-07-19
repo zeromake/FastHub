@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -102,16 +102,6 @@
                             android:layout_marginStart="@dimen/spacing_normal"
                             android:gravity="end"
                             android:orientation="horizontal">
-
-                            <com.fastaccess.ui.widgets.ForegroundImageView
-                                android:id="@+id/unsubsribe"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="?selectableItemBackgroundBorderless"
-                                android:contentDescription="@string/un_subscribe"
-                                android:padding="@dimen/spacing_micro"
-                                android:src="@drawable/ic_unsubscribe"/>
-
                             <com.fastaccess.ui.widgets.ForegroundImageView
                                 android:id="@+id/markAsRead"
                                 android:layout_width="wrap_content"
@@ -131,4 +121,4 @@
         </LinearLayout>
     </LinearLayout>
 
-</android.support.v7.widget.CardView>
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,68 @@
+name: Android CI Workflow
+
+on:
+  pull_request:
+  push:
+    branches:
+    - master
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  debug:
+    name: Generate Debug APK
+    if: ${{ (github.ref_type != 'tag') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: 11
+      - name: Build APK
+        run: bash ./gradlew assembleDebug --stacktrace
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Debug_Artifact_File
+          path: app/build/outputs/apk/debug/app-debug.apk
+  release:
+    name: Generate Release APK
+    if: ${{ (github.ref_type == 'tag') && (github.event_name == 'push') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: 11
+      - name: Decode secrets
+        run: |
+          echo -n ${{ secrets.SECRETS_FILE }} | base64 --decode > app/secrets.properties &&
+          echo -n ${{ secrets.SECRETS_KEYS }} | base64 --decode > app/keys_release.jks
+      - name: Build APK
+        run: bash ./gradlew assembleRelease --stacktrace
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: Upload Release APK
+        id: upload_release_asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: app/build/outputs/apk/release/app-release.apk
+          asset_name: FastHub-RE_${{ github.ref_name }}.apk
+          asset_content_type: application/vnd.android.package-archive

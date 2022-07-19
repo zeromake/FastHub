@@ -2,9 +2,8 @@ package com.fastaccess.ui.modules.editor
 
 import com.fastaccess.data.dao.CommentRequestModel
 import com.fastaccess.data.dao.EditReviewCommentModel
-import com.fastaccess.data.dao.model.Comment
+import com.fastaccess.data.entity.Comment
 import com.fastaccess.helper.BundleConstant
-import com.fastaccess.helper.BundleConstant.ExtraType.*
 import com.fastaccess.helper.InputHelper
 import com.fastaccess.provider.rest.RestProvider
 import com.fastaccess.ui.base.mvp.presenter.BasePresenter
@@ -40,50 +39,50 @@ class EditorPresenter : BasePresenter<EditorMvp.View>(), EditorMvp.Presenter {
             throw NullPointerException("extraType  is null")
         }
         when (extraType) {
-            EDIT_GIST_COMMENT_EXTRA -> {
+            BundleConstant.ExtraType.EDIT_GIST_COMMENT_EXTRA -> {
                 if (itemId == null) {
                     throw NullPointerException("itemId is null")
                 }
                 onEditGistComment(id, savedText, itemId)
             }
-            NEW_GIST_COMMENT_EXTRA -> {
+            BundleConstant.ExtraType.NEW_GIST_COMMENT_EXTRA -> {
                 if (itemId == null) {
                     throw NullPointerException("itemId is null")
                 }
                 onSubmitGistComment(savedText, itemId)
             }
-            FOR_RESULT_EXTRA -> sendToView({ it.onSendMarkDownResult() })
-            EDIT_ISSUE_COMMENT_EXTRA -> {
+            BundleConstant.ExtraType.FOR_RESULT_EXTRA -> sendToView { it.onSendMarkDownResult() }
+            BundleConstant.ExtraType.EDIT_ISSUE_COMMENT_EXTRA -> {
                 if (itemId == null || login == null) {
                     throw NullPointerException("itemId or login is null")
                 }
                 onEditIssueComment(savedText!!, itemId, id, login, issueNumber)
             }
-            NEW_ISSUE_COMMENT_EXTRA -> {
+            BundleConstant.ExtraType.NEW_ISSUE_COMMENT_EXTRA -> {
                 if (itemId == null || login == null) {
                     throw NullPointerException("itemId or login is null")
                 }
                 onSubmitIssueComment(savedText!!, itemId, login, issueNumber)
             }
-            NEW_COMMIT_COMMENT_EXTRA -> {
+            BundleConstant.ExtraType.NEW_COMMIT_COMMENT_EXTRA -> {
                 if (itemId == null || login == null || sha == null) {
                     throw NullPointerException("itemId or login is null")
                 }
                 onSubmitCommitComment(savedText!!, itemId, login, sha)
             }
-            EDIT_COMMIT_COMMENT_EXTRA -> {
+            BundleConstant.ExtraType.EDIT_COMMIT_COMMENT_EXTRA -> {
                 if (itemId == null || login == null) {
                     throw NullPointerException("itemId or login is null")
                 }
                 onEditCommitComment(savedText!!, itemId, login, id)
             }
-            NEW_REVIEW_COMMENT_EXTRA -> {
+            BundleConstant.ExtraType.NEW_REVIEW_COMMENT_EXTRA -> {
                 if (reviewComment == null || itemId == null || login == null || savedText == null) {
                     throw NullPointerException("reviewComment null")
                 }
                 onSubmitReviewComment(reviewComment, savedText, itemId, login, issueNumber)
             }
-            EDIT_REVIEW_COMMENT_EXTRA -> {
+            BundleConstant.ExtraType.EDIT_REVIEW_COMMENT_EXTRA -> {
                 if (reviewComment == null || itemId == null || login == null || savedText == null) {
                     throw NullPointerException("reviewComment null")
                 }

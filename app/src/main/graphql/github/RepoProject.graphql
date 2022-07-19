@@ -1,6 +1,6 @@
 query repoProjectsOpen($owner: String!, $name: String!, $page: String) {
-repository(owner: $owner, name: $name) {
-    projects(first: 30, states: OPEN, after: $page, orderBy: {field: CREATED_AT, direction: DESC}) {
+  repository(owner: $owner, name: $name) {
+    projects(first: 30, states: [OPEN], after: $page, orderBy: {field: CREATED_AT, direction: DESC}) {
       totalCount
       edges {
         cursor
@@ -26,8 +26,8 @@ repository(owner: $owner, name: $name) {
   }
 }
 query repoProjectsClosed($owner: String!, $name: String!, $page: String) {
-repository(owner: $owner, name: $name) {
-    projects(first: 30, states: CLOSED, after: $page, orderBy: {field: CREATED_AT, direction: DESC}) {
+  repository(owner: $owner, name: $name) {
+    projects(first: 30, states: [CLOSED], after: $page, orderBy: {field: CREATED_AT, direction: DESC}) {
       totalCount
       edges {
         cursor
@@ -54,8 +54,8 @@ repository(owner: $owner, name: $name) {
 }
 
 query orgProjectsOpen($owner: String!, $page: String) {
-organization(login: $owner) {
-    projects(first: 30, states: OPEN, after: $page, orderBy: {field: CREATED_AT, direction: DESC}) {
+  organization(login: $owner) {
+    projects(first: 30, states: [OPEN], after: $page, orderBy: {field: CREATED_AT, direction: DESC}) {
       totalCount
       edges {
         cursor
@@ -81,8 +81,8 @@ organization(login: $owner) {
   }
 }
 query orgProjectsClosed($owner: String!, $page: String) {
-organization(login: $owner) {
-    projects(first: 30, states: CLOSED, after: $page, orderBy: {field: CREATED_AT, direction: DESC}) {
+  organization(login: $owner) {
+    projects(first: 30, states: [CLOSED], after: $page, orderBy: {field: CREATED_AT, direction: DESC}) {
       totalCount
       edges {
         cursor
@@ -109,49 +109,49 @@ organization(login: $owner) {
 }
 
 query getColumns($owner: String!, $name:String!,$number:Int!) {
-repository(owner: $owner, name: $name) {
+  repository(owner: $owner, name: $name) {
     project(number: $number) {
       name
       viewerCanUpdate
-        columns(first: 100) {
-          nodes {
-            name
-            createdAt
-            id
-            cards(first: 100) {
-              nodes {
-                note
-                createdAt
-                url
-                content {
-                  ... on Node {
-                    __typename
-                  }
-                  ... on Issue {
-                    title
+      columns(first: 100) {
+        nodes {
+          name
+          createdAt
+          id
+          cards(first: 100) {
+            nodes {
+              note
+              createdAt
+              url
+              content {
+                ... on Node {
+                  __typename
+                }
+                ... on Issue {
+                  title
+                  url
+                  number
+                  issueState: state
+                }
+                ... on PullRequest {
+                  title
+                  url
+                  number
+                  prState: state
+                }
+                ... on Comment {
+                  body
+                  author {
+                    login
+                    avatarUrl
                     url
-                    number
-                    issueState: state
-                  }
-                  ... on PullRequest {
-                    title
-                    url
-                    number
-                    PrState: state
-                  }
-                  ... on Comment {
-                    body
-                    author {
-                      login
-                      avatarUrl
-                      url
-                    }
                   }
                 }
               }
             }
           }
         }
+      }
     }
   }
 }

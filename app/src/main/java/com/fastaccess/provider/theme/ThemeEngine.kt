@@ -2,8 +2,10 @@ package com.fastaccess.provider.theme
 
 import android.app.Activity
 import android.app.ActivityManager
+import android.app.Application
 import android.graphics.BitmapFactory
-import android.support.annotation.StyleRes
+import android.os.Build
+import androidx.annotation.StyleRes
 import com.danielstone.materialaboutlibrary.MaterialAboutActivity
 import com.fastaccess.R
 import com.fastaccess.helper.Logger
@@ -12,7 +14,6 @@ import com.fastaccess.helper.ViewHelper
 import com.fastaccess.ui.base.BaseActivity
 import com.fastaccess.ui.modules.login.LoginActivity
 import com.fastaccess.ui.modules.login.chooser.LoginChooserActivity
-import com.fastaccess.ui.modules.main.donation.DonateActivity
 
 /**
  * Created by Kosh on 07 Jun 2017, 6:52 PM
@@ -20,7 +21,8 @@ import com.fastaccess.ui.modules.main.donation.DonateActivity
 
 object ThemeEngine {
 
-    fun apply(activity: BaseActivity<*, *>) {
+    @JvmStatic
+    fun apply(activity: Activity) {
         if (hasTheme(activity)) {
             return
         }
@@ -31,15 +33,22 @@ object ThemeEngine {
         applyNavBarColor(activity)
     }
 
+    @JvmStatic
+    fun applyApplication(app: Application) {
+        val context = app.applicationContext
+        val themeMode = PrefGetter.getThemeType(context)
+        val themeColor = PrefGetter.getThemeColor(context)
+        app.setTheme(getTheme(themeMode, themeColor))
+    }
+
     private fun applyNavBarColor(activity: Activity) {
-        if (!PrefGetter.isNavBarTintingDisabled() && PrefGetter.getThemeType() != PrefGetter.LIGHT) {
+        if (!PrefGetter.isNavBarTintingDisabled && PrefGetter.themeType != PrefGetter.LIGHT) {
             activity.window.navigationBarColor = ViewHelper.getPrimaryColor(activity)
         }
     }
 
     fun applyForAbout(activity: MaterialAboutActivity) {
-        val themeMode = PrefGetter.getThemeType(activity)
-        when (themeMode) {
+        when (PrefGetter.getThemeType(activity)) {
             PrefGetter.LIGHT -> activity.setTheme(R.style.AppTheme_AboutActivity_Light)
             PrefGetter.DARK -> activity.setTheme(R.style.AppTheme_AboutActivity_Dark)
             PrefGetter.AMLOD -> activity.setTheme(R.style.AppTheme_AboutActivity_Amlod)
@@ -56,7 +65,8 @@ object ThemeEngine {
         setTaskDescription(activity)
     }
 
-    @StyleRes private fun getTheme(themeMode: Int, themeColor: Int): Int {
+    @StyleRes
+    private fun getTheme(themeMode: Int, themeColor: Int): Int {
         Logger.e(themeMode, themeColor)
         // I wish if I could simplify this :'( too many cases for the love of god.
         when (themeMode) {
@@ -159,7 +169,8 @@ object ThemeEngine {
         return R.style.ThemeLight
     }
 
-    @StyleRes private fun getDialogTheme(themeMode: Int, themeColor: Int): Int {
+    @StyleRes
+    private fun getDialogTheme(themeMode: Int, themeColor: Int): Int {
         when (themeMode) {
             PrefGetter.LIGHT -> when (themeColor) {
                 PrefGetter.RED -> return R.style.DialogThemeLight_Red
@@ -261,10 +272,23 @@ object ThemeEngine {
     }
 
     private fun setTaskDescription(activity: Activity) {
-        activity.setTaskDescription(ActivityManager.TaskDescription(activity.getString(R.string.app_name),
-                BitmapFactory.decodeResource(activity.resources, R.mipmap.ic_launcher), ViewHelper.getPrimaryColor(activity)))
+        val desc: ActivityManager.TaskDescription =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                ActivityManager.TaskDescription(
+                    activity.getString(R.string.app_name),
+                    R.mipmap.ic_launcher,
+                    ViewHelper.getPrimaryColor(activity),
+                )
+            } else {
+                ActivityManager.TaskDescription(
+                    activity.getString(R.string.app_name),
+                    BitmapFactory.decodeResource(activity.resources, R.mipmap.ic_launcher),
+                    ViewHelper.getPrimaryColor(activity)
+                )
+            }
+        activity.setTaskDescription(desc)
     }
 
-    private fun hasTheme(activity: BaseActivity<*, *>) = (activity is LoginChooserActivity || activity is LoginActivity ||
-            activity is DonateActivity)
+    private fun hasTheme(activity: Activity) =
+        (activity is LoginChooserActivity || activity is LoginActivity)
 }

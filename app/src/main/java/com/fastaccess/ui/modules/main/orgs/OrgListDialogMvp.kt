@@ -1,0 +1,18 @@
+package com.fastaccess.ui.modules.main.orgs
+
+import com.fastaccess.data.entity.User
+import com.fastaccess.ui.base.mvp.BaseMvp.FAView
+
+/**
+ * Created by Kosh on 15 Apr 2017, 1:53 PM
+ */
+interface OrgListDialogMvp {
+    interface View : FAView {
+        fun onNotifyAdapter(items: List<User>?)
+    }
+
+    interface Presenter {
+        fun onLoadOrgs()
+        val orgs: ArrayList<User>
+    }
+}

@@ -2,38 +2,38 @@ package com.fastaccess.ui.modules.repos.projects.list
 
 import android.content.Context
 import android.os.Bundle
-import android.support.annotation.StringRes
-import android.support.v4.widget.SwipeRefreshLayout
 import android.view.View
-import butterknife.BindView
+import androidx.annotation.StringRes
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fastaccess.R
 import com.fastaccess.data.dao.types.IssueState
+import com.fastaccess.github.RepoProjectsOpenQuery
 import com.fastaccess.helper.BundleConstant
 import com.fastaccess.helper.Bundler
 import com.fastaccess.provider.rest.loadmore.OnLoadMore
 import com.fastaccess.ui.adapter.ProjectsAdapter
 import com.fastaccess.ui.base.BaseFragment
+import com.fastaccess.ui.delegate.viewFind
 import com.fastaccess.ui.modules.repos.RepoPagerMvp
 import com.fastaccess.ui.widgets.StateLayout
 import com.fastaccess.ui.widgets.recyclerview.DynamicRecyclerView
 import com.fastaccess.ui.widgets.recyclerview.scroll.RecyclerViewFastScroller
-import github.RepoProjectsOpenQuery
 
 /**
  * Created by kosh on 09/09/2017.
  */
 
-class RepoProjectFragment : BaseFragment<RepoProjectMvp.View, RepoProjectPresenter>(), RepoProjectMvp.View {
-
-    @BindView(R.id.recycler) lateinit var recycler: DynamicRecyclerView
-    @BindView(R.id.refresh) lateinit var refresh: SwipeRefreshLayout
-    @BindView(R.id.stateLayout) lateinit var stateLayout: StateLayout
-    @BindView(R.id.fastScroller) lateinit var fastScroller: RecyclerViewFastScroller
+class RepoProjectFragment : BaseFragment<RepoProjectMvp.View, RepoProjectPresenter>(),
+    RepoProjectMvp.View {
+    val recycler: DynamicRecyclerView by viewFind(R.id.recycler)
+    val refresh: SwipeRefreshLayout by viewFind(R.id.refresh)
+    val stateLayout: StateLayout by viewFind(R.id.stateLayout)
+    val fastScroller: RecyclerViewFastScroller by viewFind(R.id.fastScroller)
     private var onLoadMore: OnLoadMore<IssueState>? = null
     private val adapter by lazy { ProjectsAdapter(presenter.getProjects()) }
     private var badgeListener: RepoPagerMvp.TabsBadgeListener? = null
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         if (parentFragment is RepoPagerMvp.TabsBadgeListener) {
             badgeListener = parentFragment as RepoPagerMvp.TabsBadgeListener
@@ -68,7 +68,7 @@ class RepoProjectFragment : BaseFragment<RepoProjectMvp.View, RepoProjectPresent
 
     override fun getLoadMore(): OnLoadMore<IssueState> {
         if (onLoadMore == null) {
-            onLoadMore = OnLoadMore<IssueState>(presenter)
+            onLoadMore = OnLoadMore(presenter)
         }
         onLoadMore!!.parameter = getState()
         return onLoadMore!!
@@ -78,11 +78,13 @@ class RepoProjectFragment : BaseFragment<RepoProjectMvp.View, RepoProjectPresent
 
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
         stateLayout.setEmptyText(R.string.no_projects)
-        stateLayout.setOnReloadListener({ presenter.onCallApi(1, getState()) })
-        refresh.setOnRefreshListener({ presenter.onCallApi(1, getState()) })
+        stateLayout.setOnReloadListener { presenter.onCallApi(1, getState()) }
+        refresh.setOnRefreshListener { presenter.onCallApi(1, getState()) }
         recycler.setEmptyView(stateLayout, refresh)
-        getLoadMore().initialize(presenter.currentPage, presenter
-                .previousTotal)
+        getLoadMore().initialize(
+            presenter.currentPage, presenter
+                .previousTotal
+        )
         adapter.listener = presenter
         recycler.adapter = adapter
         recycler.addDivider()
@@ -104,9 +106,9 @@ class RepoProjectFragment : BaseFragment<RepoProjectMvp.View, RepoProjectPresent
         stateLayout.hideProgress()
     }
 
-    override fun showErrorMessage(message: String) {
+    override fun showErrorMessage(msgRes: String) {
         showReload()
-        super.showErrorMessage(message)
+        super.showErrorMessage(msgRes)
     }
 
     override fun showMessage(titleRes: Int, msgRes: Int) {
@@ -116,7 +118,7 @@ class RepoProjectFragment : BaseFragment<RepoProjectMvp.View, RepoProjectPresent
 
     override fun onScrollTop(index: Int) {
         super.onScrollTop(index)
-        recycler?.scrollToPosition(0)
+        recycler.scrollToPosition(0)
     }
 
     override fun onDestroyView() {
@@ -129,16 +131,21 @@ class RepoProjectFragment : BaseFragment<RepoProjectMvp.View, RepoProjectPresent
         stateLayout.showReload(adapter.itemCount)
     }
 
-    private fun getState(): IssueState = arguments!!.getSerializable(BundleConstant.EXTRA_TYPE) as IssueState
+    private fun getState(): IssueState =
+        requireArguments().getSerializable(BundleConstant.EXTRA_TYPE) as IssueState
 
     companion object {
-        fun newInstance(login: String, repoId: String? = null, state: IssueState): RepoProjectFragment {
+        fun newInstance(
+            login: String,
+            repoId: String? = null,
+            state: IssueState
+        ): RepoProjectFragment {
             val fragment = RepoProjectFragment()
             fragment.arguments = Bundler.start()
-                    .put(BundleConstant.ID, repoId)
-                    .put(BundleConstant.EXTRA, login)
-                    .put(BundleConstant.EXTRA_TYPE, state)
-                    .end()
+                .put(BundleConstant.ID, repoId)
+                .put(BundleConstant.EXTRA, login)
+                .put(BundleConstant.EXTRA_TYPE, state)
+                .end()
             return fragment
         }
     }

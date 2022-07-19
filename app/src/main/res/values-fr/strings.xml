@@ -328,9 +328,9 @@
     <string name="login_with_personal_token">Se connecter avec un jeton personnel</string>
     <string name="personal_token">Jeton personnel</string>
     <string name="basic_login">Se connecter via l\'authentification simple</string>
-    <string name="no_orgs_description">Si vous êtes actuellement lié à une organisation et que vous ne pouvez pas la voir ici,
+    <string name="no_orgs_description" formatted="false">Si vous êtes actuellement lié à une organisation et que vous ne pouvez pas la voir ici,
         veuillez suivre le lien ci-dessous.\nhttps://help.github.com/articles/about-third-party-application-restrictions\nPS: Vous pouvez
-        utiliser le token Access pour vous connecter, ce qui permettra à FastHub d'accéder à la liste de vos organisations\nVous pouvez
+        utiliser le token Access pour vous connecter, ce qui permettra à FastHub d\'accéder à la liste de vos organisations\nVous pouvez
         aussi ouvrir https://github.com/settings/applications et chercher FastHub. Ouvrez le puis faites défiler jusqu\'à Accès aux organisations
         et cliquez sur le bouton Accorder.</string> 
     <string name="insert">Insérer</string>
@@ -422,7 +422,7 @@
     <string name="projects">Projets</string>
     <string name="no_projects">Aucun projet</string>
     <string name="no_cards">Aucune carte</string>
-    <string name="card_added_by">Ajouté par %s %s</string>
+    <string name="card_added_by" formatted="false">Ajouté par %s %s</string>
     <string name="too_large_changes">Trop de différences à afficher. Merci de les afficher via le navigateur</string>
     <string name="project">Projet</string>
     <string name="please_read">MERCI DE LIRE !</string>
@@ -446,12 +446,12 @@
         <p>Si vous ne pouvez pas éditer les tickets ou demandes de Pull, dans un répertoire d\'organisation publique, merci de contacter votre organisation pour donner l\'accès à FastHub. Autrement, vous pouvez vous connecter avec un jeton d\'accès.</p>
 
         <h5>• J\'ai des problèmes ! / Je veux vous suggérer quelque chose !</h5>
-        <p>Allez à https://github.com/k0shk0sh/FastHub/issues/new et créez un nouveau ticket pour chaque problème ou suggestion. Je vous encourage vraiment à
+        <p>Allez à https://github.com/LightDestory/FastHub-RE/issues/new et créez un nouveau ticket pour chaque problème ou suggestion. Je vous encourage vraiment à
         chercher des tickets similaires avant d\'en ouvrir un nouveau. Chaque ticket dupliqué sera labélisé en tant que dupliqué et fermé immédiatement.</p>
     ]]></string>
     <string name="faq">FAQ</string>
     <string name="comments_added_successfully">Commentaires ajoutés avec succès</string>
-    <string name="clear_search_keywords">Vider l'historique de recherche</string>
+    <string name="clear_search_keywords" formatted="false">Vider l\'historique de recherche</string>
     <string name="restore_purchases">Restorer les achats</string>
     <string name="include_forks">Inclure les Forks</string>
     <string name="comment_is_too_far_to_paginate">Le commentaire est trop loin pour être trouvé</string>
